@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://chinalhr.github.io/tags/catalogue/</loc>
+    <lastmod>2017-12-27T13:22:23+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/tags/java2/</loc>
     <lastmod>2017-12-27T13:12:13+08:00</lastmod>
   </url>
@@ -40,7 +45,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2017-12-27T13:12:13+08:00</lastmod>
+    <lastmod>2017-12-27T13:22:23+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -63,7 +68,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/tags/</loc>
-    <lastmod>2017-12-27T13:12:13+08:00</lastmod>
+    <lastmod>2017-12-27T13:22:23+08:00</lastmod>
     <priority>0</priority>
   </url>
   
