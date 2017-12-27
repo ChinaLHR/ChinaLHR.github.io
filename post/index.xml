@@ -6,19 +6,10 @@
     <description>Recent content in Posts on ChinLHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Dec 2017 20:48:29 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 26 Dec 2017 19:54:40 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Tags</title>
-      <link>https://chinalhr.github.io/post/tags/</link>
-      <pubDate>Tue, 26 Dec 2017 20:48:29 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/tags/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>About</title>
@@ -26,8 +17,13 @@
       <pubDate>Tue, 26 Dec 2017 19:54:40 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/about/</guid>
-      <description>关于博客 本博客基于Github Pages,Hugo搭建,使用了hyde主题，感谢开源平台与开源软件开发者。 本博客主要用于记录软件开发过程中的分析与总结。  关于我 小小Java开发工程师一枚。 主语言Java，也在尝试与学习C，Python，Scala，Go等编程语言。 方向为后端开发，也在尝试与学习Android开发，分布式服务，区块链技术... 热爱编程，电影，音乐，运动。  Github https://github.com/ChinaLHR
-没有人可以明哲保身，生活操了所有人！</description>
+      <description>&lt;h3 id=&#34;关于博客&#34;&gt;关于博客&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;本博客基于Github Pages,Hugo搭建,使用了hyde主题，感谢开源平台与开源软件开发者。
+本博客主要用于记录软件开发过程中的分析与总结。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>
