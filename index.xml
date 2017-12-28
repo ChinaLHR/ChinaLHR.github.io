@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ChinLHR</title>
+    <title>LHR</title>
     <link>https://chinalhr.github.io/</link>
-    <description>Recent content on ChinLHR</description>
+    <description>Recent content on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 27 Dec 2017 13:22:23 +0800</lastBuildDate>
@@ -17,42 +17,6 @@
       <pubDate>Wed, 27 Dec 2017 13:22:23 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/tags/catalogue/</guid>
-      <description> Java C++  </description>
-    </item>
-    
-    <item>
-      <title>Java2</title>
-      <link>https://chinalhr.github.io/tags/java2/</link>
-      <pubDate>Wed, 27 Dec 2017 13:12:13 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/java2/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Java1</title>
-      <link>https://chinalhr.github.io/tags/java1/</link>
-      <pubDate>Wed, 27 Dec 2017 13:12:10 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/java1/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>C&#43;&#43;2</title>
-      <link>https://chinalhr.github.io/tags/c&#43;&#43;2/</link>
-      <pubDate>Wed, 27 Dec 2017 13:12:04 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/c&#43;&#43;2/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>C&#43;&#43;1</title>
-      <link>https://chinalhr.github.io/tags/c&#43;&#43;1/</link>
-      <pubDate>Wed, 27 Dec 2017 13:11:59 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/c&#43;&#43;1/</guid>
       <description></description>
     </item>
     
