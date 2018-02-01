@@ -49,6 +49,219 @@
   <h1>Java异步编程-CompletableFuture</h1>
   <span class="post-date">Fri, Feb 2, 2018</span>
   
+
+<h2 id="异步编程优势">异步编程优势</h2>
+
+<pre><code>异步对应的是并发，目的在于避免等待远程服务的返回等操作阻塞线程的执行
+充分利用单核CPU的性能，意在单个CPU上执行几个松耦合的任务
+</code></pre>
+
+<h2 id="future接口">Future接口</h2>
+
+<h3 id="设计">设计</h3>
+
+<pre><code>Future设计是某一时刻会发生的结果进行建模，调用一个函数方法的时候，可以让被调用者立即返回，
+然后再后台慢慢处理这个请求。对于调用者来说,则可以先处理一些其他任务，在真正需要获取数据的场合再去尝试获取需要的数据
+</code></pre>
+
+<h3 id="future接口局限性">Future接口局限性</h3>
+
+<pre><code>使用Future接口很难表述Future结果之间的依赖性，例如Future的组合计算，通知合并等...
+CompletableFuture利用Lambda表达式以声明式的API提供了一种机制，能够用最有效的方式，非常容易地将多个以同步或异步方式执行复杂操作的任务结合到一起。
+</code></pre>
+
+<h2 id="使用completablefuture构建组合式异步应用">使用CompletableFuture构建组合式异步应用</h2>
+
+<h3 id="基本操作">基本操作</h3>
+
+<pre><code class="language-Java">public class Shop {
+	
+	private String shopName;
+	
+	public Shop(String shopName) {
+		this.shopName = shopName;
+	}
+
+	
+	public String getShopName() {
+		return shopName;
+	}
+
+
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
+	
+	/**
+	 * 实时价格查看：同步
+	 * @param product
+	 * @return
+	 */
+	public Double getPrice(String product){
+		return calculatePrice(product);
+	}
+
+	/**
+	 * 实时价格查看：异步
+	 * @param product
+	 * @return
+	 */
+	public Future&lt;Double&gt; getPriceAsync(String product){
+		CompletableFuture&lt;Double&gt; futurePrice = new CompletableFuture&lt;&gt;();
+		//在异步线程中进行计算
+		new Thread(()-&gt;{
+			try {
+				double price = calculatePrice(product);
+				futurePrice.complete(price);
+			} catch (Exception e) {
+				futurePrice.completeExceptionally(e);//抛出错误异常
+			}
+		}).start();
+		return futurePrice;
+	}
+	
+	/**
+	 * 实时价格查看：采用工厂方法supplyAsync
+	 * 输入一个生产者，由ForkJoinPool池中的某个执行线程（Executor）运行
+	 * @param product
+	 * @return
+	 */
+	public Future&lt;Double&gt; getPricesupplyAsync(String product){
+		return CompletableFuture.supplyAsync(()-&gt;calculatePrice(product));
+	}
+	
+	/**
+	 * 模拟耗时操作,实时计算商品价格
+	 * @param product
+	 * @return
+	 */
+	private double calculatePrice(String product) {
+		try {
+			//模拟耗时操作
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		Random random = new Random();
+		return random.nextDouble() * product.charAt(0) + product.charAt(1);
+	}
+	
+}
+
+</code></pre>
+
+<h3 id="在多个异步任务情况下对比同步-异步-并行执行">在多个异步任务情况下对比同步，异步，并行执行</h3>
+
+<pre><code class="language-Java">public class Client {
+	
+	List&lt;Shop&gt; shops = Arrays.asList(new Shop(&quot;美宜佳&quot;),new Shop(&quot;天天鲜&quot;),new Shop(&quot;沃尔玛&quot;),new Shop(&quot;卜蜂莲花&quot;),new Shop(&quot;福德隆&quot;));
+	
+	public static void main(String[] args) {
+		Client client = new Client();
+		long startTime=System.currentTimeMillis();
+		List&lt;String&gt; list = client.findPrices(&quot;火龙果&quot;);
+		long endTime = System.currentTimeMillis();
+		System.out.println(&quot;程序运行时间： &quot;+(endTime-startTime)+&quot;ms&quot;);
+	}
+	
+	/**
+	 * 顺序查询
+	 * 分析：耗时最久
+	 * @param product
+	 * @return 
+	 * @return
+	 */
+	private List&lt;String&gt; findPrices(String product){
+		return shops.stream()
+				.map(shop-&gt;String.format(&quot;%s price is %.2f&quot;,shop.getShopName(), shop.getPrice(product)))
+				.collect(Collectors.toList());
+	}
+	
+	/**
+	 * 使用并行的方式查询
+	 * 分析：计算密集型适用
+	 * @param product
+	 * @return
+	 */
+	private List&lt;String&gt; findPricesByParallel(String product){
+		return shops.parallelStream()
+				.map(shop-&gt;String.format(&quot;%s price is %.2f&quot;,shop.getShopName(), shop.getPrice(product)))
+				.collect(Collectors.toList());
+	}
+	
+	/**
+	 * 使用 CompletableFuture 发起异步请求
+	 * 缺陷：使用的是默认线程池，可以自定义优化
+	 * @param product
+	 * @return
+	 */
+	private List&lt;String&gt; findPricesByAsyn(String product){
+		//以异步的方式计算每种商品的价格	
+		List&lt;CompletableFuture&lt;String&gt;&gt; priceFuture = shops.stream()
+			.map(shop-&gt;CompletableFuture.supplyAsync(
+			()-&gt;String.format(&quot;%s price is %.2f&quot;,shop.getShopName(), shop.getPrice(product))))
+			.collect(Collectors.toList());
+			
+			//join：等待所有异步操作结束
+			return priceFuture.stream()
+					.map(CompletableFuture::join)
+					.collect(Collectors.toList());
+	}
+	
+	/**
+	 * 使用自定义线程池的方式发起异步请求
+	 * 分析：适用于I/O密集型（网络远程调用）
+	 * @param product
+	 * @return
+	 */
+	private List&lt;String&gt; findPricesByDiyAsyn(String product){
+		//以异步的方式计算每种商品的价格	
+		List&lt;CompletableFuture&lt;String&gt;&gt; priceFuture = shops.stream()
+			.map(shop-&gt;CompletableFuture.supplyAsync(
+			()-&gt;String.format(&quot;%s price is %.2f&quot;,shop.getShopName(), shop.getPrice(product)),executor))
+			.collect(Collectors.toList());
+			
+			//join：等待所有异步操作结束
+			return priceFuture.stream()
+					.map(CompletableFuture::join)
+					.collect(Collectors.toList());
+	}
+	
+	/**
+	 * 定制执行器
+	 * 线程池：Fixed固定线程，取商店个数与100之间的最小值
+	 * 守护线程：只要当前JVM实例中尚存任何一个非守护线程没有结束，守护线程就全部工作
+	 */
+	private final Executor executor = Executors.newFixedThreadPool(Math.min(shops.size(), 100),new ThreadFactory() {
+		
+		@Override
+		public Thread newThread(Runnable r) {
+			Thread t = new Thread(r);
+			t.setDaemon(true);//守护线程
+			return t;
+		}
+	});
+		
+}
+</code></pre>
+
+<h3 id="对多个异步任务进行流水线组合操作">对多个异步任务进行流水线组合操作</h3>
+
+<pre><code class="language-Java">	public List&lt;String&gt; findPrices(String product) {
+		List&lt;CompletableFuture&lt;String&gt;&gt; priceFutures =
+				shops.stream()
+				//异步获取原始价格（耗时）
+				.map(shop -&gt; CompletableFuture.supplyAsync(() -&gt; shop.getPrice(product), executor))
+				//对返回值进行转换
+				.map(future -&gt; future.thenApply(Quote::parse))
+				//另一个异步任务中进行申请折扣（耗时）
+				//thenCompose：用于串联异步操作
+				.map(future -&gt; future.thenCompose(quote -&gt;
+				CompletableFuture.supplyAsync(() -&gt; Discount.applyDiscount(quote), executor))).collect(toList());
+		return priceFutures.stream().map(CompletableFuture::join).collect(toList());
+		}
+</code></pre>
+
 </div>
 
 
