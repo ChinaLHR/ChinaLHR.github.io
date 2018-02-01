@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://chinalhr.github.io/tags/java_completablefuture/</loc>
+    <lastmod>2018-02-02T00:42:49+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/tags/2017_summary/</loc>
     <lastmod>2018-01-01T12:47:02+08:00</lastmod>
   </url>
@@ -23,8 +28,14 @@
   </url>
   
   <url>
+    <loc>https://chinalhr.github.io/tags/java/</loc>
+    <lastmod>2018-02-02T00:42:49+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2018-01-01T12:47:02+08:00</lastmod>
+    <lastmod>2018-02-02T00:42:49+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -47,13 +58,13 @@
   
   <url>
     <loc>https://chinalhr.github.io/tags/</loc>
-    <lastmod>2018-01-01T12:47:02+08:00</lastmod>
+    <lastmod>2018-02-02T00:42:49+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://chinalhr.github.io/tags/</loc>
-    <lastmod>2018-01-01T12:47:02+08:00</lastmod>
+    <lastmod>2018-02-02T00:42:49+08:00</lastmod>
     <priority>0</priority>
   </url>
   
