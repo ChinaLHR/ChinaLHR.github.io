@@ -51,7 +51,7 @@
     <a href="https://chinalhr.github.io/tags/java_completablefuture/">Java异步编程-CompletableFuture</a>
   </h1>
   <span class="post-date">Fri, Feb 2, 2018</span>
-  异步编程优势 异步对应的是并发，目的在于避免等待远程服务的返回等操作阻塞线程的执行 充分利用单核CPU的性能，意在单个CPU上执行几个松耦合的任务  Future接口 设计 Future设计是某一时刻会发生的结果进行建模，调用一个函数方法的时候，可以让被调用者立即返回， 然后再后台慢慢处理这个请求。对于调用者来说,则可以先处理一些其他任务，在真正需要获取数据的场合再去尝试获取需要的数据  Future接口局限性 使用Future接口很难表述Future结果之间的依赖性，例如Future的组合计算，通知合并等... CompletableFuture利用Lambda表达式以声明式的API提供了一种机制，能够用最有效的方式，非常容易地将多个以同步或异步方式执行复杂操作的任务结合到一起。  使用CompletableFuture构建组合式异步应用 基本操作 public class Shop { private String shopName; public Shop(String shopName) { this.shopName = shopName; } public String getShopName() { return shopName; } public void setShopName(String shopName) { this.shopName = shopName; } /** * 实时价格查看：同步 * @param product * @return */ public Double getPrice(String product){ return calculatePrice(product); } /** * 实时价格查看：异步 * @param product * @return */ public Future&lt;Double&gt; getPriceAsync(String product){ CompletableFuture&lt;Double&gt; futurePrice = new CompletableFuture&lt;&gt;(); //在异步线程中进行计算 new Thread(()-&gt;{ try { double price = calculatePrice(product); futurePrice.
+  <p></p>
   
   <div class="read-more-link">
     <a href="/tags/java_completablefuture/">Read More…</a>
