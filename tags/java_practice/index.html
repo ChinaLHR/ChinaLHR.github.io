@@ -95,24 +95,27 @@
 <li>Optional.ofNullable(obj) ——&gt;可接受null的Optional</li>
 </ul>
 
-<pre><code>				person.flatMap(Person::getCar)
-				 	  .flatMap(Car::getInsurance)
-				 	  .filter(i-&gt;i.getName().length()&gt;=3)
-				 	  .map(Insurance::getName)
-				 	  .orElse(&quot;Unknown&quot;);`
+<pre><code>	person.flatMap(Person::getCar)
+		.flatMap(Car::getInsurance)
+		.filter(i-&gt;i.getName().length()&gt;=3)
+		.map(Insurance::getName)
+		.orElse(&quot;Unknown&quot;);`
 </code></pre>
 
 <ul>
-<li>使用Optional对类型转换异常返回的非法值进行返回
-<code>
-	public static Optional&lt;Integer&gt; stringToInt(String s) {
+<li>使用Optional对类型转换异常返回的非法值进行返回</li>
+</ul>
+
+<pre><code>	public static Optional&lt;Integer&gt; stringToInt(String s) {
 	 	try {
 	 		return Optional.of(Integer.parseInt(s));
 	 	} catch (NumberFormatException e) {
 	 		return Optional.empty();
 	 	}
 	}
-</code></li>
+</code></pre>
+
+<ul>
 <li>缺陷：Optional没有实现Serializale接口，域模型中使用Optional实现序列化功能</li>
 </ul>
 
