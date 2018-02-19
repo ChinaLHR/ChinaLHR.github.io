@@ -6,10 +6,23 @@
     <description>Recent content in Java on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 02 Feb 2018 00:42:49 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 19 Feb 2018 14:31:45 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>基于SSM项目的个人编码规范</title>
+      <link>https://chinalhr.github.io/tags/java_practice/</link>
+      <pubDate>Mon, 19 Feb 2018 14:31:45 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/java_practice/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;仅记录一个多月实习过程的个人编码规范&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Java异步编程-CompletableFuture</title>
