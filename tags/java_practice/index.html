@@ -49,7 +49,7 @@
   <h1>基于SSM项目的个人编码规范</h1>
   <span class="post-date">Mon, Feb 19, 2018</span>
   <blockquote>
-<p>仅记录一个多月实习过程的个人编码规范</p>
+<p>仅记录一个多月野蛮生长过程的个人编码规范</p>
 </blockquote>
 
 <p></p>
@@ -59,11 +59,7 @@
 <ul>
 <li>统一返回格式为一个ResultBean，使用状态码对请求的状态做出响应</li>
 <li>ResultBean为Controller专用，不能由Service层或者Dao层上传</li>
-
-<li><p>在Controller层进行aop切面，（或者使用行为参数化传递代码并用lamdba进行内部类的简化书写）对业务进行统一处理</p>
-
-<p>业务层异常捕获处理并返回，减少Controller的try-catch代码块
-统一的日志打印</p></li>
+<li>在Controller层进行aop切面，（或者使用行为参数化传递代码并用lamdba进行内部类的简化书写）对业务进行统一处理业务层异常捕获处理并返回，减少Controller的try-catch代码块统一的日志打印</li>
 </ul>
 
 <h2 id="异常处理">异常处理</h2>
