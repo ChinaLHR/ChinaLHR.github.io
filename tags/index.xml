@@ -6,7 +6,7 @@
     <description>Recent content in Tags on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 19 Feb 2018 14:31:45 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 19 Jun 2018 23:36:28 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Java</title>
       <link>https://chinalhr.github.io/tags/java/</link>
-      <pubDate>Mon, 19 Feb 2018 14:31:45 +0800</pubDate>
+      <pubDate>Tue, 19 Jun 2018 23:36:28 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/tags/java/</guid>
       <description></description>
@@ -27,32 +27,6 @@
       
       <guid>https://chinalhr.github.io/tags/summary/</guid>
       <description></description>
-    </item>
-    
-  </channel>
-</rss>/tags/java_completablefuture/</link>
-      <pubDate>Fri, 02 Feb 2018 00:42:49 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/java_completablefuture/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>2017年度总结</title>
-      <link>https://chinalhr.github.io/tags/2017_summary/</link>
-      <pubDate>Mon, 01 Jan 2018 12:47:02 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/2017_summary/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Catalogue</title>
-      <link>https://chinalhr.github.io/tags/catalogue/</link>
-      <pubDate>Wed, 27 Dec 2017 13:22:23 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/catalogue/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>
