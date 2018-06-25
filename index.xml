@@ -6,10 +6,21 @@
     <description>Recent content on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 24 Jun 2018 20:53:59 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 25 Jun 2018 12:07:03 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java项目中的系统结构分层</title>
+      <link>https://chinalhr.github.io/tags/java_system_structure/</link>
+      <pubDate>Mon, 25 Jun 2018 12:07:03 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/java_system_structure/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;记录公司Java的分层结构
+&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Spring Boot组件-Retry|Scheduled</title>

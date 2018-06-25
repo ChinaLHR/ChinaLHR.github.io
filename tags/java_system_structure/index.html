@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <title>Tags &middot; LHR</title>
+  <title>Java项目中的系统结构分层 &middot; LHR</title>
 
   
   <link rel="stylesheet" href="https://chinalhr.github.io/css/print.css" media="print">
@@ -22,7 +22,7 @@
   <link rel="shortcut icon" href="/favicon.png">
 
   
-  <link href="https://chinalhr.github.io/tags/index.xml" rel="alternate" type="application/rss+xml" title="LHR" />
+  <link href="" rel="alternate" type="application/rss+xml" title="LHR" />
 </head>
 
   <body class="theme-base-0d ">
@@ -45,21 +45,35 @@
 </div>
 
     <div class="content container">
-    <ul class="posts">
-<li>
-    <span><a href="https://chinalhr.github.io/tags/java_system_structure/">Java项目中的系统结构分层</a> <time class="pull-right post-list">Mon, Jun 25, 2018</time></span>
-  </li><li>
-    <span><a href="https://chinalhr.github.io/tags/java_springboot_component1/">Spring Boot组件-Retry|Scheduled</a> <time class="pull-right post-list">Sun, Jun 24, 2018</time></span>
-  </li><li>
-    <span><a href="https://chinalhr.github.io/tags/java_practice/">基于SSM项目的个人编码规范</a> <time class="pull-right post-list">Mon, Feb 19, 2018</time></span>
-  </li><li>
-    <span><a href="https://chinalhr.github.io/tags/java_completablefuture/">Java异步编程-CompletableFuture</a> <time class="pull-right post-list">Fri, Feb 2, 2018</time></span>
-  </li><li>
-    <span><a href="https://chinalhr.github.io/tags/2017_summary/">2017年度总结</a> <time class="pull-right post-list">Mon, Jan 1, 2018</time></span>
-  </li><li>
-    <span><a href="https://chinalhr.github.io/tags/catalogue/">Catalogue</a> <time class="pull-right post-list">Wed, Dec 27, 2017</time></span>
-  </li>
+    <div class="post">
+  <h1>Java项目中的系统结构分层</h1>
+  <span class="post-date">Mon, Jun 25, 2018</span>
+  <blockquote>
+<p>记录公司Java的分层结构
+</p>
+
+<h2 id="分层结构">分层结构</h2>
+
+<ul>
+<li>common 公用组件，包括config,exception,filter</li>
+<li>dao 管理数据源, 包括mysql,redis(Dao接口，Mapper)</li>
+<li>service 操作实体数据, 严禁service间相互调用</li>
+<li>biz 业务层, 向下调用service，一般一个biz向下调用多个Service</li>
+<li>task 异步调用，定时任务层(Mq,Task)</li>
+<li>web web入口</li>
 </ul>
+</blockquote>
+
+<h2 id="领域模型">领域模型</h2>
+
+<ul>
+<li>dao层对象：xxxDO，xxx即为数据表名。查询对象一般用Param后缀</li>
+<li>service/biz层对象：xxxDTO，xxx为业务领域相关的名称。 查询对象一般用 Req后缀</li>
+<li>web对象：xxxVO，xxx一般为网页名称。</li>
+</ul>
+</div>
+
+
     </div>
 
     
