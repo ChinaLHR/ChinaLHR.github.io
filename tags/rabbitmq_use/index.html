@@ -49,6 +49,24 @@
   <h1>使用RabbitMQ</h1>
   <span class="post-date">Tue, Jun 26, 2018</span>
   <p></p>
+
+<h1 id="rabbitmq">RabbitMQ</h1>
+
+<h2 id="exchange类型">Exchange类型</h2>
+
+<ul>
+<li>Direct(根据Binding指定的Routing Key,将符合Key的消息发送到Binding的Queue)</li>
+<li>Fanout(广播,将同一个Message发送到所有同该Exchange binding的Queue)</li>
+<li>Topic(将路由键和某模式进行匹配,#匹配一个到多个词,*匹配一个词)</li>
+<li>default exchange(默认,用空字符串表示,是direct exchange类型)</li>
+</ul>
+
+<h2 id="模式">模式</h2>
+
+<ul>
+<li>Work模式(任务分发)</li>
+<li></li>
+</ul>
 </div>
 
 
