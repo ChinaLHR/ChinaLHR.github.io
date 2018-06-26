@@ -50,7 +50,41 @@
   <span class="post-date">Tue, Jun 26, 2018</span>
   <p></p>
 
-<h1 id="rabbitmq">RabbitMQ</h1>
+<h2 id="关于rabbit">关于Rabbit</h2>
+
+<p>RabbitMQ是一个由erlang开发的AMQP（Advanced Message Queue ）的开源实现。MQ在生产环境中的作用主要是解耦，异步消息，流量削峰以实现高性能，高可用，可伸缩和最终一致性架构。</p>
+
+<h2 id="rabbit架构">Rabbit架构</h2>
+
+<p><img src="https://img-blog.csdn.net/20140220173559828" alt="" /></p>
+
+<ul>
+<li>RabbitMQ Server：维护一条从Producer到Consumer的路线</li>
+<li>Client A &amp; B： Producer，数据的发送方</li>
+<li>Client 1，2，3：Consumer，数据的接收方。</li>
+<li>Exchanges:生产者发布信息的地方</li>
+<li>Queues:消息最终被消费者接收的地方</li>
+<li>Bindings:消息如何从Exchanges路由到Queues的方式</li>
+<li>Connection:Producer和Consumer通过TCP连接到RabbitMQ Server</li>
+<li>Channels:建立在Connection中,数据流动都是在Channel中进行的</li>
+</ul>
+
+<h2 id="应用场景">应用场景</h2>
+
+<ol>
+<li>异步处理[提高响应速度]<br/>
+<img src="https://images2015.cnblogs.com/blog/270324/201607/270324-20160730141236169-1140938329.png" alt="" /></li>
+<li>应用解耦[避免某个应用的错误影响其他应用]<br/>
+<img src="https://images2015.cnblogs.com/blog/270324/201607/270324-20160730143228325-953675504.png" alt="" /></li>
+<li>流量削锋[缓解短时间内高流量压垮应用]<br/>
+<img src="https://images2015.cnblogs.com/blog/270324/201607/270324-20160730151710106-2043115158.png" alt="" /></li>
+<li>日志处理[解决大量日志传输的问题]<br/>
+<img src="https://images2015.cnblogs.com/blog/270324/201607/270324-20160730152810934-1818295010.png" alt="" /></li>
+<li>消息通信<br/>
+<img src="https://images2015.cnblogs.com/blog/270324/201607/270324-20160730153544294-1894255488.png" alt="" /></li>
+<li>中间件使用<br/>
+<img src="https://images2015.cnblogs.com/blog/270324/201608/270324-20160801102300309-25949110.jpg" alt="" /></li>
+</ol>
 
 <h2 id="exchange类型">Exchange类型</h2>
 
@@ -64,8 +98,12 @@
 <h2 id="模式">模式</h2>
 
 <ul>
-<li>Work模式(任务分发)</li>
-<li></li>
+<li>Work模式(任务分发)</br>
+<img src="https://img-blog.csdn.net/20170520023910195?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMzQwMjE3MTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" /></li>
+<li>订阅模式</br>
+<img src="https://img-blog.csdn.net/20170520024318598?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMzQwMjE3MTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" /></li>
+<li>路由模式</br>
+<img src="https://img-blog.csdn.net/20170520024621429?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMzQwMjE3MTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" /></li>
 </ul>
 </div>
 
