@@ -6,10 +6,19 @@
     <description>Recent content on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 25 Jun 2018 12:07:03 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 26 Jun 2018 21:44:54 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>使用RabbitMQ</title>
+      <link>https://chinalhr.github.io/tags/rabbitmq_use/</link>
+      <pubDate>Tue, 26 Jun 2018 21:44:54 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/rabbitmq_use/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Java项目中的系统结构分层</title>
