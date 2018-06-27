@@ -74,7 +74,18 @@
 <li>备库读取中继日志中的事件，重放到备库数据之上。</li>
 </ol>
 
-<p><img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/MySql/%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%8E%9F%E7%90%86.jpg" alt="" /></p>
+<p><br/>
+<img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/MySql/%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%8E%9F%E7%90%86.jpg" alt="" />
+<br/>
+<strong>架构优点:实现了获取事件和重放事件的解耦，两个过程异步执行，I/O线程能够独立于SQL线程之外工作。</strong></p>
+
+<h2 id="配置步骤">配置步骤</h2>
+
+<ol>
+<li>在每台服务器上创建复制账号</li>
+<li>配置主库和备库</li>
+<li>通知备库连接到主库并从主库复制数据</li>
+</ol>
 </div>
 
 
