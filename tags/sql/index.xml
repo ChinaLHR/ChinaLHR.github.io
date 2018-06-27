@@ -26,7 +26,7 @@
       <pubDate>Wed, 27 Jun 2018 15:54:50 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/tags/mysql_proxy/</guid>
-      <description> 解决的问题  数据分布 负载均衡 备份|故障切换  mysql支持的复制类型  基于语句的复制(在服务器上执行sql语句，在从服务器上执行同样的语句)[Default] 基于行的复制(把改变的内容复制过去) 混合类型的复制(默认采用基于语句的复制，一旦发现基于语句无法精确复制时，就会采用基于行的复制)  复制工作原理  从主库上把数据更新到二进制日志(Binary Log)中。 备库将主库上的日志复制到自己的中继日志(Relay Log)中。 备库读取中继日志中的事件，重放到备库数据之上。  </description>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>
