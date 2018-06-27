@@ -6,76 +6,36 @@
     <description>Recent content in Tags on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Jun 2018 21:44:54 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 25 Jun 2018 12:07:03 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>使用RabbitMQ</title>
-      <link>https://chinalhr.github.io/tags/rabbitmq_use/</link>
-      <pubDate>Tue, 26 Jun 2018 21:44:54 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/rabbitmq_use/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Java项目中的系统结构分层</title>
-      <link>https://chinalhr.github.io/tags/java_system_structure/</link>
+      <title>Java</title>
+      <link>https://chinalhr.github.io/tags/java/</link>
       <pubDate>Mon, 25 Jun 2018 12:07:03 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/java_system_structure/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <guid>https://chinalhr.github.io/tags/java/</guid>
+      <description></description>
     </item>
     
     <item>
-      <title>Spring Boot组件-Retry|Scheduled</title>
-      <link>https://chinalhr.github.io/tags/java_springboot_component1/</link>
-      <pubDate>Sun, 24 Jun 2018 20:53:59 +0800</pubDate>
+      <title>Middleware</title>
+      <link>https://chinalhr.github.io/tags/middleware/</link>
+      <pubDate>Tue, 26 Jun 2018 21:44:54 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/java_springboot_component1/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <guid>https://chinalhr.github.io/tags/middleware/</guid>
+      <description></description>
     </item>
     
     <item>
-      <title>基于SSM项目的个人编码规范</title>
-      <link>https://chinalhr.github.io/tags/java_practice/</link>
-      <pubDate>Mon, 19 Feb 2018 14:31:45 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/java_practice/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;仅记录一个多月野蛮生长过程的个人编码规范&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Java异步编程-CompletableFuture</title>
-      <link>https://chinalhr.github.io/tags/java_completablefuture/</link>
-      <pubDate>Fri, 02 Feb 2018 00:42:49 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/java_completablefuture/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>2017年度总结</title>
-      <link>https://chinalhr.github.io/tags/2017_summary/</link>
+      <title>Summary</title>
+      <link>https://chinalhr.github.io/tags/summary/</link>
       <pubDate>Mon, 01 Jan 2018 12:47:02 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/2017_summary/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Catalogue</title>
-      <link>https://chinalhr.github.io/tags/catalogue/</link>
-      <pubDate>Wed, 27 Dec 2017 13:22:23 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/catalogue/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <guid>https://chinalhr.github.io/tags/summary/</guid>
+      <description></description>
     </item>
     
   </channel>
