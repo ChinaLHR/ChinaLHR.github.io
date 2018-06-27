@@ -6,19 +6,10 @@
     <description>Recent content in Java on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 27 Jun 2018 11:10:33 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 25 Jun 2018 12:07:03 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Spring Boot组件-RabbitMQ使用</title>
-      <link>https://chinalhr.github.io/tags/java_springboot_component2/</link>
-      <pubDate>Wed, 27 Jun 2018 11:10:33 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/java_springboot_component2/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
-    </item>
     
     <item>
       <title>Java项目中的系统结构分层</title>
