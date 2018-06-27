@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <title>Catalogue &middot; LHR</title>
+  <title>MySql读写分离 &middot; LHR</title>
 
   
   <link rel="stylesheet" href="https://chinalhr.github.io/css/print.css" media="print">
@@ -46,16 +46,33 @@
 
     <div class="content container">
     <div class="post">
-  <h1>Catalogue</h1>
-  <span class="post-date">Wed, Dec 27, 2017</span>
+  <h1>MySql读写分离</h1>
+  <span class="post-date">Wed, Jun 27, 2018</span>
   <p></p>
 
-<ul>
-<li><a href="https://chinalhr.github.io/tags/java/">Java</a></li>
-<li><a href="https://chinalhr.github.io/tags/middleware/">中间件</a></li>
-<li><a href="https://chinalhr.github.io/tags/sql/">数据库</a></li>
-<li><a href="https://chinalhr.github.io/tags/summary/">年度总结</a></li>
-</ul>
+<h3 id="关于">关于</h3>
+
+<p>读写分离，基本的原理是让主数据库处理事务性增、改、删操作（INSERT、UPDATE、DELETE），而从数据库处理SELECT查询操作。数据库复制被用来把事务性操作导致的变更同步到集群中的从数据库。</p>
+
+<h3 id="原因">原因</h3>
+
+<p>避免对数据库的写入影响了查询的效率。</p>
+
+<h3 id="场景">场景</h3>
+
+<p>如果程序使用数据库较多时，而更新少，查询多的情况下会考虑使用，利用数据库 主从同步 。可以减少数据库压力，提高性能。</p>
+
+<h3 id="读写分离与主从复制的关系">读写分离与主从复制的关系</h3>
+
+<p>通过对数据库进行主从复制的方式来同步数据，实现对主数据进行写操作，对从数据库进行读操作，达到读写分离的目的。</p>
+
+<h3 id="实现">实现</h3>
+
+<p>读写分离就是在主服务器上修改，数据会同步到从服务器，从服务器只能提供读取数据，不能写入，实现备份的同时也实现了数据库性能的优化，以及提升了服务器安全。
+- 基于程序代码内部控制,在代码中根据select 、insert进行路由分类
+- 基于中间代理层实现,代理数据库服务器接收到应用服务器的请求后根据判断后转发到后端数据库(mysql_proxy|Atlas|Amoeba)
+<br/>
+<img src="url" alt="" /></p>
 </div>
 
 

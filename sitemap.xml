@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://chinalhr.github.io/tags/mysql_replicationon/</loc>
+    <lastmod>2018-06-27T15:55:01+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/mysql_proxy/</loc>
+    <lastmod>2018-06-27T15:54:50+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/tags/rabbitmq_use/</loc>
     <lastmod>2018-06-26T21:44:54+08:00</lastmod>
   </url>
@@ -55,7 +65,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2018-06-26T21:44:54+08:00</lastmod>
+    <lastmod>2018-06-27T15:55:01+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -77,6 +87,12 @@
   </url>
   
   <url>
+    <loc>https://chinalhr.github.io/tags/sql/</loc>
+    <lastmod>2018-06-27T15:55:01+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/tags/summary/</loc>
     <lastmod>2018-01-01T12:47:02+08:00</lastmod>
     <priority>0</priority>
@@ -84,7 +100,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/tags/</loc>
-    <lastmod>2018-06-26T21:44:54+08:00</lastmod>
+    <lastmod>2018-06-27T15:55:01+08:00</lastmod>
     <priority>0</priority>
   </url>
   
