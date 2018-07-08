@@ -51,9 +51,11 @@
     <a href="https://chinalhr.github.io/tags/mysql_alter/">Mysql对存有大数据表添加字段需要注意的问题</a>
   </h1>
   <span class="post-date">Sun, Jul 8, 2018</span>
-  MySql对大数据表进行alter操作导致的问题 Mysql执行DDL直接修改表结构的过程中可能会锁表，导致无法写数据，出现生产事故。
-MySql各版本执行DDL方式  Copy Table(5.5之前)：通过临时表拷贝的方式实现的:新建一个带有新结构的临时表，将原表数据全部拷贝到临时表，然后Rename。【过程原表可读不可写】 Inplace(5.5)：直接在原表上执行DDL，但仅支持添加、删除索引两种方式。【过程原表可读不可写】 Online(5.6)：通过全量+增量的方式实现，直接在原表上执行DDL。  【如添加普通列|不存在全文索引时可读可写】 【修改列类型DDL|添加auto_increment列|修改字符集|存在全文索引时可读不可写】 【存在慢SQL或者较大的结果集的SQL在运行|存在一个事务在操作表可读不可写】   详细参见： https://www.cnblogs.com/mysql-dba/p/6192897.html http://www.cnblogs.com/cchust/p/4639397.html
-方案1：创建新表进行alter并复制数据  首先创建新的临时表，表结构通过命令ALTAR TABLE新定义的结构 然后把原表中数据导入到临时表  记录最后一条更新数据的索引,统计更新数量 使用脚本对之前的数据进行小数据批量分批复制到临时表 更新完成,对之前更新数据索引后增加的数据进行复制(transaction)  删除原表 最后把临时表重命名为原来的表名  方案2：新建一个表与旧表进行字段关联 略&hellip;
+  <p></p>
+  
+  <div class="read-more-link">
+    <a href="/tags/mysql_alter/">Read More…</a>
+  </div>
   
 </div><div class="post">
   <h1 class="post-title">
