@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.31.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Mysql对存有大数据表添加字段需要注意的问题 &middot; LHR</title>
+
+  
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/print.css" media="print">
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/poole.css">
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/syntax.css">
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/hyde.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="LHR" />
+</head>
+
+  <body class="theme-base-0d ">
+  <div class="sidebar">
+  <div class="container">
+    <div class="sidebar-about">
+      <a href="https://chinalhr.github.io/"><h1>LHR</h1></a>
+      <p class="lead">
+       Read the fucking source code 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://chinalhr.github.io/">Home</a> </li>
+      <li><a href="/post/about/"> About </a></li><li><a href="/tags/catalogue/"> Catalogue </a></li>
+    </ul>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>Mysql对存有大数据表添加字段需要注意的问题</h1>
+  <span class="post-date">Sun, Jul 8, 2018</span>
+  
+
+<h2 id="mysql对大数据表进行alter操作导致的问题">MySql对大数据表进行alter操作导致的问题</h2>
+
+<p>Mysql执行DDL直接修改表结构的过程中可能会锁表，导致无法写数据，出现生产事故。</p>
+
+<h3 id="mysql各版本执行ddl方式">MySql各版本执行DDL方式</h3>
+
+<ul>
+<li>Copy Table(5.5之前)：通过临时表拷贝的方式实现的:新建一个带有新结构的临时表，将原表数据全部拷贝到临时表，然后Rename。【过程原表可读不可写】</li>
+<li>Inplace(5.5)：直接在原表上执行DDL，但仅支持添加、删除索引两种方式。【过程原表可读不可写】</li>
+<li>Online(5.6)：通过全量+增量的方式实现，直接在原表上执行DDL。
+
+<ul>
+<li>【如添加普通列|不存在全文索引时可读可写】</li>
+<li>【修改列类型DDL|添加auto_increment列|修改字符集|存在全文索引时可读不可写】</li>
+<li>【存在慢SQL或者较大的结果集的SQL在运行|存在一个事务在操作表可读不可写】</li>
+</ul></li>
+</ul>
+
+<p>详细参见：<br/>
+<a href="https://www.cnblogs.com/mysql-dba/p/6192897.html">https://www.cnblogs.com/mysql-dba/p/6192897.html</a><br/>
+<a href="http://www.cnblogs.com/cchust/p/4639397.html">http://www.cnblogs.com/cchust/p/4639397.html</a></p>
+
+<h2 id="方案1-创建新表进行alter并复制数据">方案1：创建新表进行alter并复制数据</h2>
+
+<ol>
+<li>首先创建新的临时表，表结构通过命令ALTAR TABLE新定义的结构</li>
+<li>然后把原表中数据导入到临时表
+
+<ul>
+<li>记录最后一条更新数据的索引,统计更新数量</li>
+<li>使用脚本对之前的数据进行小数据批量分批复制到临时表</li>
+<li>更新完成,对之前更新数据索引后增加的数据进行复制(transaction)</li>
+</ul></li>
+<li>删除原表</li>
+<li>最后把临时表重命名为原来的表名</li>
+</ol>
+
+<h2 id="方案2-新建一个表与旧表进行字段关联">方案2：新建一个表与旧表进行字段关联</h2>
+
+<p>略&hellip;</p>
+
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>

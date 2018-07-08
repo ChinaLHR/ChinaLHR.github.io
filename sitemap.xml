@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://chinalhr.github.io/tags/mysql_alter/</loc>
+    <lastmod>2018-07-08T17:56:21+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/tags/git_basic/</loc>
     <lastmod>2018-07-08T15:49:09+08:00</lastmod>
   </url>
@@ -76,7 +81,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2018-07-08T15:49:09+08:00</lastmod>
+    <lastmod>2018-07-08T17:56:21+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -99,7 +104,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/tags/sql/</loc>
-    <lastmod>2018-06-27T15:55:01+08:00</lastmod>
+    <lastmod>2018-07-08T17:56:21+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -111,7 +116,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/tags/</loc>
-    <lastmod>2018-07-08T15:49:09+08:00</lastmod>
+    <lastmod>2018-07-08T17:56:21+08:00</lastmod>
     <priority>0</priority>
   </url>
   
