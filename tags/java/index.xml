@@ -6,10 +6,19 @@
     <description>Recent content in Java on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 25 Jun 2018 12:07:03 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 11 Jul 2018 21:19:59 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>函数式接口-Supplier|Predicate|Consumer</title>
+      <link>https://chinalhr.github.io/tags/java_supplier_predicate_consumer/</link>
+      <pubDate>Wed, 11 Jul 2018 21:19:59 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/java_supplier_predicate_consumer/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Java项目中的系统结构分层</title>

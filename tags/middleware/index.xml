@@ -18,7 +18,7 @@
       
       <guid>https://chinalhr.github.io/tags/redisdomqbuff/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;系统由于引入了大量的mq消息,导致mq的qps过高，带来的性能隐患。采用Redis作为MQ的缓存中间层与合并MQ消息，使用Task定时读取缓存发送MQ消息，将MQ的发送压力迁移到 task中。&lt;/p&gt;
+&lt;p&gt;系统由于引入了大量的mq消息,导致mq的qps过高，带来的性能隐患。采用Redis作为MQ的缓存中间层与合并MQ消息，使用Task定时读取缓存发送MQ消息，将MQ的发送压力迁移到 task模块中。&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>

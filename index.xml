@@ -6,10 +6,19 @@
     <description>Recent content on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 10 Jul 2018 22:01:41 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 11 Jul 2018 21:19:59 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>函数式接口-Supplier|Predicate|Consumer</title>
+      <link>https://chinalhr.github.io/tags/java_supplier_predicate_consumer/</link>
+      <pubDate>Wed, 11 Jul 2018 21:19:59 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/java_supplier_predicate_consumer/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>消息队列QPS优化(使用Redis做MQ的Buff)</title>
@@ -18,7 +27,7 @@
       
       <guid>https://chinalhr.github.io/tags/redisdomqbuff/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;系统由于引入了大量的mq消息,导致mq的qps过高，带来的性能隐患。采用Redis作为MQ的缓存中间层与合并MQ消息，使用Task定时读取缓存发送MQ消息，将MQ的发送压力迁移到 task中。&lt;/p&gt;
+&lt;p&gt;系统由于引入了大量的mq消息,导致mq的qps过高，带来的性能隐患。采用Redis作为MQ的缓存中间层与合并MQ消息，使用Task定时读取缓存发送MQ消息，将MQ的发送压力迁移到 task模块中。&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
