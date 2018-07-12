@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <title>函数式接口-Supplier|Predicate|Consumer &middot; LHR</title>
+  <title>函数式接口-Supplier|Predicate|Consumer|Function &middot; LHR</title>
 
   
   <link rel="stylesheet" href="https://chinalhr.github.io/css/print.css" media="print">
@@ -46,14 +46,14 @@
 
     <div class="content container">
     <div class="post">
-  <h1>函数式接口-Supplier|Predicate|Consumer</h1>
+  <h1>函数式接口-Supplier|Predicate|Consumer|Function</h1>
   <span class="post-date">Wed, Jul 11, 2018</span>
   <p></p>
 
 <h2 id="supplier">Supplier</h2>
 
 <ul>
-<li>Supplier<T>接口没有入参，通过调用get返回一个T类型的对象</li>
+<li>Supplier<T>接口没有入参，通过调用T get()返回一个T类型的对象</li>
 <li>开发中通过supplier实时获取配置(配置使用json写在数据库中)</li>
 </ul>
 
@@ -73,7 +73,7 @@
 <h2 id="predicate">Predicate</h2>
 
 <ul>
-<li>Predicate函数式接口的主要作用就是提供一个test方法(断言)，接受一个参数返回一个布尔类型</li>
+<li>Predicate函数式接口的主要作用就是提供一个boolean test(T t)方法(断言)，接受一个参数返回一个布尔类型</li>
 <li>开发中使用Predicate进行StreamFilter</li>
 </ul>
 
@@ -95,13 +95,27 @@
 <h2 id="consumer">Consumer</h2>
 
 <ul>
-<li>Consumer函数式接口的主要作用就是提供一个accept方法(进行消费)，执行带有副作用的操作。forEach源码使用的Consumer接口。</li>
+<li>Consumer函数式接口的主要作用就是提供一个void accept(T t)方法(进行消费)，执行带有副作用的操作。forEach源码使用的Consumer接口。</li>
 </ul>
 
 <pre><code>Consumer&lt;String&gt; printString = s -&gt; System.out.println(s);
         printString.accept(&quot;helloWorld!&quot;);
         //控制台输出 helloWorld!
 </code></pre>
+
+<h2 id="function">Function</h2>
+
+<ul>
+<li>Function函数式接口主要作用是提供一个R apply(T t)方法(进行计算并返回结果)。
+<code>
+System.out.println(validInput(name, inputStr -&gt; inputStr.isEmpty() ? &quot;名字不能为空&quot;:inputStr));
+System.out.println(validInput(name1, inputStr -&gt; inputStr.length() &gt; 3 ? &quot;名字过长&quot;:inputStr));
+//抽象方法
+public static String validInput(String name,Function&lt;String,String&gt; function) {
+    return function.apply(name);
+}
+</code></li>
+</ul>
 </div>
 
 
