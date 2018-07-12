@@ -106,16 +106,16 @@
 <h2 id="function">Function</h2>
 
 <ul>
-<li>Function函数式接口主要作用是提供一个R apply(T t)方法(进行计算并返回结果)。
-<code>
-System.out.println(validInput(name, inputStr -&gt; inputStr.isEmpty() ? &quot;名字不能为空&quot;:inputStr));
+<li>Function函数式接口主要作用是提供一个R apply(T t)方法(进行计算并返回结果)</li>
+</ul>
+
+<pre><code>System.out.println(validInput(name, inputStr -&gt; inputStr.isEmpty() ? &quot;名字不能为空&quot;:inputStr));
 System.out.println(validInput(name1, inputStr -&gt; inputStr.length() &gt; 3 ? &quot;名字过长&quot;:inputStr));
 //抽象方法
 public static String validInput(String name,Function&lt;String,String&gt; function) {
-    return function.apply(name);
+        return function.apply(name);
 }
-</code></li>
-</ul>
+</code></pre>
 </div>
 
 
