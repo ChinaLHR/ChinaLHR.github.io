@@ -48,12 +48,14 @@
     <div class="posts">
 <div class="post">
   <h1 class="post-title">
-    <a href="https://chinalhr.github.io/tags/redistemplate_problem/">RedisTemplate_Problem</a>
+    <a href="https://chinalhr.github.io/tags/redistemplate_problem/">RedisTemplate问题</a>
   </h1>
   <span class="post-date">Fri, Jul 13, 2018</span>
-  RedisTemplate事务问题  RedisTemplate事务使用 采用RedisTemplate的SesionCallback  SessionCallback&lt;Object&gt; sessionCallback=new SessionCallback&lt;Object&gt;(){ @Override public Object execute(RedisOperations operations) throws DataAccessException{ operations.multi(); //常规操作... Object val=operations.exec(); return val; } } StringRedisTemplate.execute(sessionCallback);   UnsupportedOperationException 在Pipline和Transaction中不支持多个字段操作   RedisTemple序列化问题 使用redisTemplate 存储时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&hellip;,会有导致序列化失败，类型转换异常风险。
-解决：使用Number存储
-优秀博文链接 https://www.jianshu.com/p/7bf5dc61ca06
+  <p></p>
+  
+  <div class="read-more-link">
+    <a href="/tags/redistemplate_problem/">Read More…</a>
+  </div>
   
 </div><div class="post">
   <h1 class="post-title">
