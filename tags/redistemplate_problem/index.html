@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <title>Java &middot; LHR</title>
+  <title>RedisTemplate_Problem &middot; LHR</title>
 
   
   <link rel="stylesheet" href="https://chinalhr.github.io/css/print.css" media="print">
@@ -22,7 +22,7 @@
   <link rel="shortcut icon" href="/favicon.png">
 
   
-  <link href="https://chinalhr.github.io/tags/java/index.xml" rel="alternate" type="application/rss+xml" title="LHR" />
+  <link href="" rel="alternate" type="application/rss+xml" title="LHR" />
 </head>
 
   <body class="theme-base-0d ">
@@ -45,21 +45,49 @@
 </div>
 
     <div class="content container">
-    <ul class="posts">
-<li>
-    <span><a href="https://chinalhr.github.io/tags/redistemplate_problem/">RedisTemplate_Problem</a> <time class="pull-right post-list">Fri, Jul 13, 2018</time></span>
-  </li><li>
-    <span><a href="https://chinalhr.github.io/tags/java_supplier_predicate_consumer/">函数式接口-Supplier|Predicate|Consumer|Function</a> <time class="pull-right post-list">Wed, Jul 11, 2018</time></span>
-  </li><li>
-    <span><a href="https://chinalhr.github.io/tags/java_system_structure/">Java项目中的系统结构分层</a> <time class="pull-right post-list">Mon, Jun 25, 2018</time></span>
-  </li><li>
-    <span><a href="https://chinalhr.github.io/tags/java_springboot_component1/">Spring Boot组件-Retry|Scheduled</a> <time class="pull-right post-list">Sun, Jun 24, 2018</time></span>
-  </li><li>
-    <span><a href="https://chinalhr.github.io/tags/java_practice/">基于SSM项目的个人编码规范</a> <time class="pull-right post-list">Mon, Feb 19, 2018</time></span>
-  </li><li>
-    <span><a href="https://chinalhr.github.io/tags/java_completablefuture/">Java异步编程-CompletableFuture</a> <time class="pull-right post-list">Fri, Feb 2, 2018</time></span>
-  </li>
+    <div class="post">
+  <h1>RedisTemplate_Problem</h1>
+  <span class="post-date">Fri, Jul 13, 2018</span>
+  
+
+<h2 id="redistemplate事务问题">RedisTemplate事务问题</h2>
+
+<ul>
+<li>RedisTemplate事务使用
+采用RedisTemplate的SesionCallback</li>
 </ul>
+
+<pre><code>SessionCallback&lt;Object&gt; sessionCallback=new SessionCallback&lt;Object&gt;(){
+  @Override
+   public Object execute(RedisOperations operations) throws DataAccessException{
+		operations.multi();
+		//常规操作...
+		Object val=operations.exec();
+		return val;
+	}
+}
+StringRedisTemplate.execute(sessionCallback);
+</code></pre>
+
+<ul>
+<li>UnsupportedOperationException
+在Pipline和Transaction中不支持多个字段操作
+<img src="https://s1.ax1x.com/2018/07/13/PK0ASI.png" alt="" /></li>
+</ul>
+
+<h2 id="redistemple序列化问题">RedisTemple序列化问题</h2>
+
+<p>使用redisTemplate 存储时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&hellip;,会有导致序列化失败，类型转换异常风险。</p>
+
+<p>解决：使用Number存储</p>
+
+<h2 id="优秀博文链接">优秀博文链接</h2>
+
+<p><a href="https://www.jianshu.com/p/7bf5dc61ca06">https://www.jianshu.com/p/7bf5dc61ca06</a></p>
+
+</div>
+
+
     </div>
 
     

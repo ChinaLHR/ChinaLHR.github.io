@@ -6,10 +6,21 @@
     <description>Recent content in Java on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 11 Jul 2018 21:19:59 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 13 Jul 2018 22:17:22 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>RedisTemplate_Problem</title>
+      <link>https://chinalhr.github.io/tags/redistemplate_problem/</link>
+      <pubDate>Fri, 13 Jul 2018 22:17:22 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/redistemplate_problem/</guid>
+      <description>RedisTemplate事务问题  RedisTemplate事务使用 采用RedisTemplate的SesionCallback  SessionCallback&amp;lt;Object&amp;gt; sessionCallback=new SessionCallback&amp;lt;Object&amp;gt;(){ @Override public Object execute(RedisOperations operations) throws DataAccessException{ operations.multi(); //常规操作... Object val=operations.exec(); return val; } } StringRedisTemplate.execute(sessionCallback);   UnsupportedOperationException 在Pipline和Transaction中不支持多个字段操作   RedisTemple序列化问题 使用redisTemplate 存储时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&amp;hellip;,会有导致序列化失败，类型转换异常风险。
+解决：使用Number存储
+优秀博文链接 https://www.jianshu.com/p/7bf5dc61ca06</description>
+    </item>
     
     <item>
       <title>函数式接口-Supplier|Predicate|Consumer|Function</title>
