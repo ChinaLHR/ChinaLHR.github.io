@@ -77,7 +77,7 @@ StringRedisTemplate.execute(sessionCallback);
 
 <h2 id="redistemple序列化问题">RedisTemple序列化问题</h2>
 
-<p>使用redisTemplate 存储时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&hellip;,会有导致序列化失败，类型转换异常风险。</p>
+<p>使用redisTemplate jackson序列化时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&hellip;,会有导致序列化失败，类型转换异常风险。</p>
 
 <p>解决：使用Number存储</p>
 
