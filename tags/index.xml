@@ -6,10 +6,19 @@
     <description>Recent content in Tags on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 08 Jul 2018 15:49:09 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 15 Jul 2018 18:38:26 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Distributed</title>
+      <link>https://chinalhr.github.io/tags/distributed/</link>
+      <pubDate>Sun, 15 Jul 2018 18:38:26 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/distributed/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Git</title>

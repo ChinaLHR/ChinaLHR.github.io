@@ -6,10 +6,19 @@
     <description>Recent content on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 13 Jul 2018 22:17:22 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 15 Jul 2018 18:38:26 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>分布式锁实现(基于Redis|Zookeeper)</title>
+      <link>https://chinalhr.github.io/tags/distributedlocks/</link>
+      <pubDate>Sun, 15 Jul 2018 18:38:26 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/distributedlocks/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>RedisTemplate问题</title>
