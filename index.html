@@ -51,13 +51,11 @@
     <a href="https://chinalhr.github.io/tags/mysql_paging/">MySql大数据量表分页</a>
   </h1>
   <span class="post-date">Thu, Jul 19, 2018</span>
-   Limit不适用于大数量表的分页查询 select * from table limit 3000000,10; //mysql会读取300w+10条数据，再取最后的10条数据  大数据量表的分页方式 方式一  不允许查看靠后的数据,例如百度   方式二  使用id进行分页操作，在查询下一页时把上一页的最后一个id传给服务器(客户端无页码分页查询)
-select * from table where id&gt;lastid limit 10;
- 针对自增的id并且中间没有删除和断点
-select * from table where id&gt;420*10 limit 10; //查询第420页的数据
-  方式三  延迟关联，利用对id进行limit查询有索引的优势，先查询对应分页的id值再对查询的id进行关联查询
-SELECT d.* FROM dynamic d INNER JOIN (SELECT id FROM dynamic LIMIT 100000,10) tem on d.id = tem.id
+  <p></p>
   
+  <div class="read-more-link">
+    <a href="/tags/mysql_paging/">Read More…</a>
+  </div>
   
 </div><div class="post">
   <h1 class="post-title">
