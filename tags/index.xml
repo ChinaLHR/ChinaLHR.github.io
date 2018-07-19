@@ -6,71 +6,175 @@
     <description>Recent content in Tags on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 15 Jul 2018 18:38:26 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 19 Jul 2018 23:37:55 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Distributed</title>
-      <link>https://chinalhr.github.io/tags/distributed/</link>
+      <title>MySql大数据量表分页</title>
+      <link>https://chinalhr.github.io/tags/mysql_paging/</link>
+      <pubDate>Thu, 19 Jul 2018 23:37:55 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/mysql_paging/</guid>
+      <description> Limit不适用于大数量表的分页查询 select * from table limit 3000000,10; //mysql会读取300w+10条数据，再取最后的10条数据  大数据量表的分页方式 方式一  不允许查看靠后的数据,例如百度   方式二  使用id进行分页操作，在查询下一页时把上一页的最后一个id传给服务器(客户端无页码分页查询)
+select * from table where id&amp;gt;lastid limit 10;
+ 针对自增的id并且中间没有删除和断点
+select * from table where id&amp;gt;420*10 limit 10; //查询第420页的数据
+  方式三  延迟关联，利用对id进行limit查询有索引的优势，先查询对应分页的id值再对查询的id进行关联查询
+SELECT d.* FROM dynamic d INNER JOIN (SELECT id FROM dynamic LIMIT 100000,10) tem on d.id = tem.id
+  </description>
+    </item>
+    
+    <item>
+      <title>分布式锁实现(基于Redis|Zookeeper)</title>
+      <link>https://chinalhr.github.io/tags/distributedlocks/</link>
       <pubDate>Sun, 15 Jul 2018 18:38:26 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/distributed/</guid>
-      <description></description>
+      <guid>https://chinalhr.github.io/tags/distributedlocks/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>Git</title>
-      <link>https://chinalhr.github.io/tags/git/</link>
-      <pubDate>Sun, 08 Jul 2018 15:49:09 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/git/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Java</title>
-      <link>https://chinalhr.github.io/tags/java/</link>
+      <title>RedisTemplate问题</title>
+      <link>https://chinalhr.github.io/tags/redistemplate_problem/</link>
       <pubDate>Fri, 13 Jul 2018 22:17:22 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/java/</guid>
-      <description></description>
+      <guid>https://chinalhr.github.io/tags/redistemplate_problem/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>Jenkins</title>
-      <link>https://chinalhr.github.io/tags/jenkins/</link>
-      <pubDate>Mon, 09 Jul 2018 21:24:11 +0800</pubDate>
+      <title>函数式接口-Supplier|Predicate|Consumer|Function</title>
+      <link>https://chinalhr.github.io/tags/java_supplier_predicate_consumer/</link>
+      <pubDate>Wed, 11 Jul 2018 21:19:59 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/jenkins/</guid>
-      <description></description>
+      <guid>https://chinalhr.github.io/tags/java_supplier_predicate_consumer/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>Middleware</title>
-      <link>https://chinalhr.github.io/tags/middleware/</link>
+      <title>消息队列QPS优化(使用Redis做MQ的Buff)</title>
+      <link>https://chinalhr.github.io/tags/redisdomqbuff/</link>
       <pubDate>Tue, 10 Jul 2018 22:01:41 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/middleware/</guid>
-      <description></description>
+      <guid>https://chinalhr.github.io/tags/redisdomqbuff/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>Sql</title>
-      <link>https://chinalhr.github.io/tags/sql/</link>
+      <title>Jenkins部署优化与发布优化</title>
+      <link>https://chinalhr.github.io/tags/jenkins_job_optimize/</link>
+      <pubDate>Mon, 09 Jul 2018 21:24:11 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/jenkins_job_optimize/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Jenkins是基于Java开发的一种持续集成工具,是一款自动化运维的工具。可用于软件构建自动化，构建可持续的自动化检查，构建可持续的自动化测试&amp;hellip;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Mysql对存有大数据表进行结构修改需要注意的问题</title>
+      <link>https://chinalhr.github.io/tags/mysql_alter/</link>
       <pubDate>Sun, 08 Jul 2018 17:56:21 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/sql/</guid>
-      <description></description>
+      <guid>https://chinalhr.github.io/tags/mysql_alter/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>Summary</title>
-      <link>https://chinalhr.github.io/tags/summary/</link>
+      <title>Git记录</title>
+      <link>https://chinalhr.github.io/tags/git_basic/</link>
+      <pubDate>Sun, 08 Jul 2018 15:49:09 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/git_basic/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>MySql读写分离</title>
+      <link>https://chinalhr.github.io/tags/mysql_replicationon/</link>
+      <pubDate>Wed, 27 Jun 2018 15:55:01 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/mysql_replicationon/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Mysql主从复制</title>
+      <link>https://chinalhr.github.io/tags/mysql_proxy/</link>
+      <pubDate>Wed, 27 Jun 2018 15:54:50 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/mysql_proxy/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>使用RabbitMQ</title>
+      <link>https://chinalhr.github.io/tags/rabbitmq_use/</link>
+      <pubDate>Tue, 26 Jun 2018 21:44:54 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/rabbitmq_use/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Java项目中的系统结构分层</title>
+      <link>https://chinalhr.github.io/tags/java_system_structure/</link>
+      <pubDate>Mon, 25 Jun 2018 12:07:03 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/java_system_structure/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Spring Boot组件-Retry|Scheduled</title>
+      <link>https://chinalhr.github.io/tags/java_springboot_component1/</link>
+      <pubDate>Sun, 24 Jun 2018 20:53:59 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/java_springboot_component1/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>基于SSM项目的个人编码规范</title>
+      <link>https://chinalhr.github.io/tags/java_practice/</link>
+      <pubDate>Mon, 19 Feb 2018 14:31:45 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/java_practice/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;仅记录一个多月野蛮生长过程的个人编码规范&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Java异步编程-CompletableFuture</title>
+      <link>https://chinalhr.github.io/tags/java_completablefuture/</link>
+      <pubDate>Fri, 02 Feb 2018 00:42:49 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/java_completablefuture/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>2017年度总结</title>
+      <link>https://chinalhr.github.io/tags/2017_summary/</link>
       <pubDate>Mon, 01 Jan 2018 12:47:02 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/summary/</guid>
+      <guid>https://chinalhr.github.io/tags/2017_summary/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Catalogue</title>
+      <link>https://chinalhr.github.io/tags/catalogue/</link>
+      <pubDate>Wed, 27 Dec 2017 13:22:23 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/catalogue/</guid>
       <description></description>
     </item>
     

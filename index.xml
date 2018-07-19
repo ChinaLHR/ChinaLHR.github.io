@@ -6,10 +6,25 @@
     <description>Recent content on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 15 Jul 2018 18:38:26 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 19 Jul 2018 23:37:55 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>MySql大数据量表分页</title>
+      <link>https://chinalhr.github.io/tags/mysql_paging/</link>
+      <pubDate>Thu, 19 Jul 2018 23:37:55 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/mysql_paging/</guid>
+      <description> Limit不适用于大数量表的分页查询 select * from table limit 3000000,10; //mysql会读取300w+10条数据，再取最后的10条数据  大数据量表的分页方式 方式一  不允许查看靠后的数据,例如百度   方式二  使用id进行分页操作，在查询下一页时把上一页的最后一个id传给服务器(客户端无页码分页查询)
+select * from table where id&amp;gt;lastid limit 10;
+ 针对自增的id并且中间没有删除和断点
+select * from table where id&amp;gt;420*10 limit 10; //查询第420页的数据
+  方式三  延迟关联，利用对id进行limit查询有索引的优势，先查询对应分页的id值再对查询的id进行关联查询
+SELECT d.* FROM dynamic d INNER JOIN (SELECT id FROM dynamic LIMIT 100000,10) tem on d.id = tem.id
+  </description>
+    </item>
     
     <item>
       <title>分布式锁实现(基于Redis|Zookeeper)</title>
@@ -160,7 +175,7 @@
       <pubDate>Wed, 27 Dec 2017 13:22:23 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/tags/catalogue/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description></description>
     </item>
     
     <item>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <title>分布式锁实现(基于Redis|Zookeeper) &middot; LHR</title>
+  <title>MySql大数据量表分页 &middot; LHR</title>
 
   
   <link rel="stylesheet" href="https://chinalhr.github.io/css/print.css" media="print">
@@ -46,30 +46,46 @@
 
     <div class="content container">
     <div class="post">
-  <h1>分布式锁实现(基于Redis|Zookeeper)</h1>
-  <span class="post-date">Sun, Jul 15, 2018</span>
-  <p></p>
+  <h1>MySql大数据量表分页</h1>
+  <span class="post-date">Thu, Jul 19, 2018</span>
+  
 
-<h2 id="分布式锁">分布式锁</h2>
+<h2 id="limit不适用于大数量表的分页查询">Limit不适用于大数量表的分页查询</h2>
+
+<pre><code>select * from table limit 3000000,10;
+//mysql会读取300w+10条数据，再取最后的10条数据
+</code></pre>
+
+<h2 id="大数据量表的分页方式">大数据量表的分页方式</h2>
+
+<h3 id="方式一">方式一</h3>
 
 <ul>
-<li>关于： 当多个进程(集群)不在同一个系统中，用分布式锁控制多个进程对资源的访问</li>
-<li>分布式锁对比线程锁：线程锁可以利用共享堆内存标记存储位置达到目的；分布式锁因为进程不在同一台机器上，需要采取对所有进程可见的中间件标记存储位置达到目的</li>
-<li>问题：需要考虑锁对所有进程可见，锁与进程间网络问题</li>
-<li>实现：基于数据库，缓存，分布式协调中间件(Zookeeper|Chubby)</li>
+<li>不允许查看靠后的数据,例如百度
+<img src="https://images2015.cnblogs.com/blog/713671/201702/713671-20170212191531854-1457994545.png" alt="" /></li>
 </ul>
 
-<h2 id="设计">设计</h2>
+<h3 id="方式二">方式二</h3>
 
 <ul>
-<li>可以保证在分布式部署的应用集群中，同一个方法在同一时间只能被一台机器上的一个线程执行</li>
-<li>设计为可重入锁，避免死锁</li>
-<li>阻塞与非阻塞获取锁方式</li>
+<li><p>使用id进行分页操作，在查询下一页时把上一页的最后一个id传给服务器(客户端无页码分页查询)</p>
+
+<p>select * from table where id&gt;lastid limit 10;</p></li>
+
+<li><p>针对自增的id并且中间没有删除和断点</p>
+
+<p>select * from table where id&gt;420*10 limit 10;
+//查询第420页的数据</p></li>
 </ul>
 
-<h2 id="基于redis实现">基于Redis实现</h2>
+<h3 id="方式三">方式三</h3>
 
-<h2 id="基于zookeeper实现">基于Zookeeper实现</h2>
+<ul>
+<li><p>延迟关联，利用对id进行limit查询有索引的优势，先查询对应分页的id值再对查询的id进行关联查询</p>
+
+<p>SELECT d.* FROM dynamic d INNER JOIN (SELECT id FROM dynamic LIMIT  100000,10) tem on d.id = tem.id</p></li>
+</ul>
+
 </div>
 
 
