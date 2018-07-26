@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <title>Java在Lambda中处理异常 &middot; LHR</title>
+  <title>Java在Stream中异常处理问题 &middot; LHR</title>
 
   
   <link rel="stylesheet" href="https://chinalhr.github.io/css/print.css" media="print">
@@ -46,12 +46,12 @@
 
     <div class="content container">
     <div class="post">
-  <h1>Java在Lambda中处理异常</h1>
+  <h1>Java在Stream中异常处理问题</h1>
   <span class="post-date">Wed, Jul 25, 2018</span>
   <p></p>
 
 <ul>
-<li>问题：Java在 Lamdba与Stream中只能使用TryCatch处理check异常，无法throw处理</li>
+<li>问题：Java在Stream中只能使用TryCatch处理check异常，无法throw处理</li>
 </ul>
 
 <pre><code>    //在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理
