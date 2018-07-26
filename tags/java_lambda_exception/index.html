@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.31.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Java在Lambda中处理异常 &middot; LHR</title>
+
+  
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/print.css" media="print">
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/poole.css">
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/syntax.css">
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/hyde.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="LHR" />
+</head>
+
+  <body class="theme-base-0d ">
+  <div class="sidebar">
+  <div class="container">
+    <div class="sidebar-about">
+      <a href="https://chinalhr.github.io/"><h1>LHR</h1></a>
+      <p class="lead">
+       Read the fucking source code 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://chinalhr.github.io/">Home</a> </li>
+      <li><a href="/post/about/"> About </a></li><li><a href="/tags/catalogue/"> Catalogue </a></li>
+    </ul>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>Java在Lambda中处理异常</h1>
+  <span class="post-date">Wed, Jul 25, 2018</span>
+  <p></p>
+
+<ul>
+<li>问题：Java在 Lamdba与Stream中只能使用TryCatch处理check异常，无法throw处理</li>
+</ul>
+
+<pre><code>    //在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理
+    public List&lt;Class&gt; getClazz(List&lt;String&gt; names) {
+        return names.stream()
+                .map(className -&gt; {
+                            try {
+                                return Class.forName(className);
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                                return getClass();
+                            }
+                        }
+                )
+                .collect(Collectors.toList());
+    }
+</code></pre>
+
+<ul>
+<li>解决：定义Fun接口与lambda包装方法，利用泛型throw出原始异常</li>
+</ul>
+
+<pre><code> @FunctionalInterface
+    interface ExceptionFunction&lt;T, R, E extends Exception&gt; {
+        R apply(T t) throws E;
+    }
+
+    /**
+     * 包装异常
+     */
+    public static &lt;T, R, E extends Exception&gt; Function&lt;T, R&gt; wrap(ExceptionFunction&lt;T, R, E&gt; f) throws E {
+        return t -&gt; {
+            try {
+                return f.apply(t);
+            } catch (Exception e) {
+                throwUnCheckException(e);
+                return null;
+            }
+        };
+    }
+
+    /**
+     * 利用泛型擦除机制将unCheck——&gt;Exception
+     */
+    public static &lt;E extends Exception&gt; void throwUnCheckException(Exception e) throws E {
+        throw (E) e;
+    }
+
+</code></pre>
+
+<pre><code>//完美throws原始check异常
+    public static List&lt;Class&gt; findClasses(List&lt;String&gt; names) throws ClassNotFoundException {
+        return names.stream()
+                .map(LambdaCheckedUtils.wrap(Class::forName))
+                .collect(Collectors.toList());
+    }
+</code></pre>
+
+<ul>
+<li>原问题与工具类链接
+<a href="https://stackoverflow.com/questions/27644361/how-can-i-throw-checked-exceptions-from-inside-java-8-streams">https://stackoverflow.com/questions/27644361/how-can-i-throw-checked-exceptions-from-inside-java-8-streams</a></li>
+</ul>
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>
