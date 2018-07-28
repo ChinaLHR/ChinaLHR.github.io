@@ -74,7 +74,7 @@ CompletableFuture利用Lambda表达式以声明式的API提供了一种机制，
 
 <h3 id="基本操作">基本操作</h3>
 
-<pre><code class="language-Java">public class Shop {
+<pre><code class="language-java">public class Shop {
 
 private String shopName;
 
@@ -247,7 +247,7 @@ private final Executor executor = Executors.newFixedThreadPool(Math.min(shops.si
 
 <h3 id="对多个异步任务进行流水线组合操作">对多个异步任务进行流水线组合操作</h3>
 
-<pre><code class="language-Java">public List&lt;String&gt; findPrices(String product) {
+<pre><code class="language-java">public List&lt;String&gt; findPrices(String product) {
 	List&lt;CompletableFuture&lt;String&gt;&gt; priceFutures =
 	shops.stream()
 		//异步获取原始价格（耗时）
