@@ -69,6 +69,25 @@
 
 <h2 id="基于redis实现">基于Redis实现</h2>
 
+<ul>
+<li>思路
+
+<ul>
+<li>加锁： 使用set命令(key，value，time，NX)</li>
+<li>释放锁:使用del(key)</li>
+</ul></li>
+<li>问题
+
+<ul>
+<li>线程a执行时间超过锁wait时间，导致锁自动释放，①线程b获取了锁和线程a并发访问代码块，②线程a执行结束释放了线程b的锁：
+
+<ul>
+<li>①避免并发问题：给获取锁的线程开启一个守护线程，给快超时的锁增加wait时间</li>
+<li>②避免锁误删：加锁的时候把当前的线程ID当做value，并在删除之前验证key对应的value是不是自己线程的ID(使用lua脚本确保判断和释放锁的原子性)</li>
+</ul></li>
+</ul></li>
+</ul>
+
 <h2 id="基于zookeeper实现">基于Zookeeper实现</h2>
 </div>
 
