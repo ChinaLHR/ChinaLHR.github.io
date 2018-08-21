@@ -17,8 +17,7 @@
       <pubDate>Tue, 21 Aug 2018 21:08:18 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/tags/findbugs/</guid>
-      <description>原文链接 https://www.cnblogs.com/java-zone/articles/3118592.html
-FindBugs错误修改指南  EC_UNRELATED_TYPES Bug: Call to equals() comparing different types Pattern id: EC_UNRELATED_TYPES, type: EC, category: CORRECTNESS 解释： 两个不同类型的对象调用equals方法，如果equals方法没有被重写，那么调用object的==，永远不会相等；如果equals方法被重写，而且含有instanceof逻辑，那么还是不会相等。 解决方法： 应该改为str.toString()  IM_BAD_CHECK_FOR_ODD Bug: Check for oddness that won&amp;rsquo;t work for negative numbers Pattern id: IM_BAD_CHECK_FOR_ODD, type: IM, category: STYLE 解释： 如果row是负奇数，那么row % 2 == -1， 解决方法： 考虑使用x &amp;amp; 1 == 1或者x % 2 != 0 NP_ALWAYS_NULL Pattern: Null pointer dereference id: NP_ALWAYS_NULL, type: NP, category: CORRECTNESS A null pointer is dereferenced here.</description>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
