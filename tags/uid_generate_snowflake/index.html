@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.31.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>基于SnowFlake算法的分布式UID生成服务 &middot; LHR</title>
+
+  
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/print.css" media="print">
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/poole.css">
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/syntax.css">
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/hyde.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="LHR" />
+</head>
+
+  <body class="theme-base-0d ">
+  <div class="sidebar">
+  <div class="container">
+    <div class="sidebar-about">
+      <a href="https://chinalhr.github.io/"><h1>LHR</h1></a>
+      <p class="lead">
+       Read the fucking source code 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://chinalhr.github.io/">Home</a> </li>
+      <li><a href="/post/about/"> About </a></li><li><a href="/tags/catalogue/"> Catalogue </a></li>
+    </ul>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>基于SnowFlake算法的分布式UID生成服务</h1>
+  <span class="post-date">Sat, Sep 8, 2018</span>
+  <p></p>
+
+<h2 id="背景">背景</h2>
+
+<p>公司原本订单ID的生成是基于Java Random与Hash算法的单机UID生成策略，但是后端系统的生成环境是基于SLB，Nginx与Java多进程的分布式环境，导致出现了UID 碰撞,产生线上问题。现准备基于Twitter的SnowFlake，将UID生成独立出来做一个统一的全局ID生成服务。</p>
+
+<h2 id="snowflake概述">SnowFlake概述</h2>
+
+<p>SnowFlake算法用来生成64位的ID，刚好可以用long整型存储，能够用于分布式系统中生产唯一的ID， 并且生成的ID有大致的顺序。 生成的64位ID可以分成5个部分：</p>
+
+<pre><code>0 - 41位时间戳 - 5位数据中心标识 - 5位机器标识 - 12位序列号
+</code></pre>
+
+<p>5位数据中心标识跟5位机器标识这样的分配仅仅是当前实现中分配的，可以按其它的分配比例分配，如10位机器标识，不需要数据中心标识&hellip;</p>
+
+<ul>
+<li>1位标识部分，在java中由于long的最高位是符号位，正数是0，负数是1，一般生成的ID为正数，所以为0</li>
+<li>41位时间戳部分，这个是毫秒级的时间，一般实现上不会存储当前的时间戳，而是时间戳的差值（当前时间-固定的开始时间），这样可以使产生的ID从更小值开始；41位的时间戳可以使用69年，41位可以表示241−1个毫秒的值，转化成单位年则是(241−1)/(1000∗60∗60∗24∗365)=69年</li>
+<li>10位节点部分，Twitter实现中使用前5位作为数据中心标识，后5位作为机器标识，可以部署1024个节点(5位可支持2^5 = 0~31整型,32*32=1024节点)；</li>
+<li>12位序列号部分，支持同一毫秒内同一个节点可以生成4096个ID(2^12=4096)；</li>
+</ul>
+
+<h2 id="简单实现">简单实现</h2>
+
+<h3 id="结构">结构</h3>
+
+<pre><code>0 - 41位时间戳 - 10位机器标识 - 12位序列号
+</code></pre>
+
+<h3 id="集群环境下机器标识获取">集群环境下机器标识获取</h3>
+
+<pre><code>1.启动系统的时候获取IP地址的后三位(0~255),作为Key存入Redis中，Value从0自增作为当前服务的机器标识，并设置超时时间
+2.在服务运行过程中使用ScheduleThreadPool或者DeamonThread为当前服务的Redis Key续时,避免其他服务获取到相同的机器标识
+</code></pre>
+
+<h3 id="基于netty的分布式uid生成服务">基于Netty的分布式UID生成服务</h3>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+<li><a href="http://www.wolfbe.com/detail/201701/386.html">http://www.wolfbe.com/detail/201701/386.html</a></li>
+<li><a href="http://www.wolfbe.com/detail/201611/381.html">http://www.wolfbe.com/detail/201611/381.html</a></li>
+<li><a href="https://segmentfault.com/a/1190000011282426">https://segmentfault.com/a/1190000011282426</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzU5MjUwNzk1NQ==&amp;mid=2247483701&amp;idx=1&amp;sn=bd9f481548becc03172e6ad8efd851c0&amp;chksm=fe1fe469c9686d7fae7479196503c290b21681808d29fb6012f32044ff4af3314eda66b1b4e1&amp;mpshare=1&amp;scene=23&amp;srcid=0525pb3uU48fqQwUh0PSIBNU#rd">https://mp.weixin.qq.com/京东版本</a></li>
+</ul>
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>
