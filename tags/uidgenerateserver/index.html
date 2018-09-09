@@ -79,7 +79,7 @@
 
 <h3 id="集群环境下机器标识获取">集群环境下机器标识获取</h3>
 
-<pre><code>1.启动系统的时候获取IP地址的后三位(0~255),作为Key存入Redis中，Value从0自增作为当前服务的机器标识，并设置超时时间
+<pre><code>1.启动系统的时候获取IP地址(或者截取IP后三位),作为Key存入Redis中，Value从0自增作为当前服务的机器标识，并设置超时时间
 2.在服务运行过程中使用ScheduleThreadPool或者DeamonThread为当前服务的Redis Key续时,避免其他服务获取到相同的机器标识
 </code></pre>
 
