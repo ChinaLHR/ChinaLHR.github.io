@@ -79,9 +79,17 @@
 
 <h3 id="集群环境下机器标识获取">集群环境下机器标识获取</h3>
 
-<pre><code>1.启动系统的时候获取IP地址(或者截取IP后三位),作为Key存入Redis中，Value从0自增作为当前服务的机器标识，并设置超时时间
-2.在服务运行过程中使用ScheduleThreadPool或者DeamonThread为当前服务的Redis Key续时,避免其他服务获取到相同的机器标识
-</code></pre>
+<ol>
+<li><p>IP后三位</p>
+
+<p>启动系统的时候获取IP地址(或者截取IP后三位)作为机器标识(0~255)。缺陷：会浪费256~1024位的机器标识</p></li>
+
+<li><p>Redis Set</p>
+
+<p>①在服务启动时通过Redis setnx <key:机器标识 value:ip地址>,for 1024对机器标识进行获取，如果Key不存在则设置当前IP地址，并使用key作为当前服务的机器标识。</p>
+
+<p>②在服务运行过程中使用ScheduleThreadPool或者DeamonThread为当前服务的Redis Key续时,避免其他服务获取到相同的机器标识</p></li>
+</ol>
 
 <h3 id="其他">其他</h3>
 
