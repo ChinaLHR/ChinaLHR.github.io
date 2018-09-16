@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <title>Catalogue &middot; LHR</title>
+  <title>使用Apache ab进行压力测试 &middot; LHR</title>
 
   
   <link rel="stylesheet" href="https://chinalhr.github.io/css/print.css" media="print">
@@ -46,20 +46,36 @@
 
     <div class="content container">
     <div class="post">
-  <h1>Catalogue</h1>
-  <span class="post-date">Wed, Dec 27, 2017</span>
-  <p></p>
+  <h1>使用Apache ab进行压力测试</h1>
+  <span class="post-date">Sun, Sep 16, 2018</span>
+  
+
+<h2 id="术语">术语</h2>
 
 <ul>
-<li><a href="https://chinalhr.github.io/tags/java/">Java</a></li>
-<li><a href="https://chinalhr.github.io/tags/git/">git</a></li>
-<li><a href="https://chinalhr.github.io/tags/middleware/">中间件</a></li>
-<li><a href="https://chinalhr.github.io/tags/sql/">数据库</a></li>
-<li><a href="https://chinalhr.github.io/tags/jenkins/">Jenkins</a></li>
-<li><a href="https://chinalhr.github.io/tags/test/">测试</a></li>
-<li><a href="https://chinalhr.github.io/tags/distributed/">分布式</a></li>
-<li><a href="https://chinalhr.github.io/tags/summary/">年度总结</a></li>
+<li>吞吐率：单位是reqs/s，指的是某个并发用户数下单位时间内处理的请求数</li>
+<li>并发连接数:服务器一个会话所接受的请求数目。</li>
+<li>用户平均请求等待时间：处理完成所有请求数所花费的时间/ （总请求数 / 并发用户数）</li>
+<li>服务器平均请求等待时间:处理完成所有请求数所花费的时间 / 总请求数</li>
 </ul>
+
+<p>正常情况下主要关注吞吐量与用户平均请求等待时间。</p>
+
+<h2 id="使用">使用</h2>
+
+<p>apache ab是apache服务器所携带的压力测试工具。</p>
+
+<h3 id="压力测试">压力测试</h3>
+
+<p>QPS:50/s 请求数：10000(－n表示请求数，－c表示并发数)</p>
+
+<pre><code>ab -n 10000 -c 50 http:....
+</code></pre>
+
+<h3 id="结果分析">结果分析</h3>
+
+<p><img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/test/apache_ab_report.png" alt="" /></p>
+
 </div>
 
 
