@@ -115,6 +115,59 @@ ProxyFactory是Spring的AOP织入器，接受Pointcut/Advice返回织入了横�
 本质上是一个用来生产Proxy的FactoryBean，AOP与IOC的融合。
 （如果容器中某个对象依赖于ProxyFactoryBean ，他将会使用到ProxyFactoryBean的getObject()方法返回的内容）</li>
 </ul>
+
+<h2 id="aop核心实现">aop核心实现</h2>
+
+<p>将AOP融入Bean的创建过程,AspectJ方式织入的核心，是一个BeanPostProcess（会扫描所有的Pointcut并对Bean进行织入）</p>
+
+<pre><code>public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor, BeanFactoryAware {
+
+	private AbstractBeanFactory beanFactory;
+
+	@Override
+	public Object postProcessBeforeInitialization(Object bean, String beanName) throws Exception {
+		return bean;
+	}
+
+
+	//在Bean创建之后对Bean进行AOP处理
+	@Override
+	public Object postProcessAfterInitialization(Object bean, String beanName) throws Exception {
+		if (bean instanceof AspectJExpressionPointcutAdvisor) {
+			return bean;
+		}
+        if (bean instanceof MethodInterceptor) {
+            return bean;
+        }
+
+        //获取所有Pointcut，进行切面处理，返回完成Aop的Proxy
+		List&lt;AspectJExpressionPointcutAdvisor&gt; advisors = beanFactory
+				.getBeansForType(AspectJExpressionPointcutAdvisor.class);
+		for (AspectJExpressionPointcutAdvisor advisor : advisors) {
+			if (advisor.getPointcut().getClassFilter().matches(bean.getClass())) {
+				// 1. 设置被代理对象(Joinpoint)
+				AdvisedSupport advisedSupport = new AdvisedSupport();
+				TargetSource targetSource = new TargetSource(bean, bean.getClass().getInterfaces());
+				advisedSupport.setTargetSource(targetSource);
+				// 2. 设置拦截器(Advice)
+				advisedSupport.setMethodInterceptor((MethodInterceptor) advisor.getAdvice());
+				advisedSupport.setMethodMatcher(advisor.getPointcut().getMethodMatcher());
+
+
+				// 3. 创建代理(Proxy)
+				return new JdkDynamicAopProxy(advisedSupport).getProxy();
+			}
+		}
+		return bean;
+	}
+
+	@Override
+	public void setBeanFactory(BeanFactory beanFactory) throws Exception {
+		this.beanFactory = (AbstractBeanFactory) beanFactory;
+	}
+}
+
+</code></pre>
 </div>
 
 
