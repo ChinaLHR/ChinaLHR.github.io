@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <title>Spring Aop &middot; LHR</title>
+  <title>Spring Aop分析 &middot; LHR</title>
 
   
   <link rel="stylesheet" href="https://chinalhr.github.io/css/print.css" media="print">
@@ -46,7 +46,7 @@
 
     <div class="content container">
     <div class="post">
-  <h1>Spring Aop</h1>
+  <h1>Spring Aop分析</h1>
   <span class="post-date">Mon, Sep 24, 2018</span>
   <p></p>
 
@@ -65,8 +65,8 @@ PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的�
 <li>MethodMatcher 两个实现类
 
 <ul>
-<li>StaticMethodMatcher：不在运行时检测参数</li>
-<li>DynamicMethodMatcher：DynamicMethodMatcher要在运行时实时检测参数</li>
+<li>StaticMethodMatcher：不在运行时检测Joinpoint的参数(可以利用框架内缓存，性能高)</li>
+<li>DynamicMethodMatcher：DynamicMethodMatcher要在运行时实时检测Joinpoint的参数</li>
 </ul></li>
 </ul>
 
@@ -97,15 +97,15 @@ AbstractGenericPointcutAdvisor 指定了Advice，除了Introduction之外的类�
 <img src="https://images.gitee.com/uploads/images/2018/0924/152829_e6fb6706_558165.png" alt="输入图片说明" title="屏幕截图.png" />
 * ProxyConfig</p>
 
-<pre><code>private boolean proxyTargetClass = false;//true,使用CGLIB,false,使用原生
-
-private boolean optimize = false;//是否进行优化
-
-boolean opaque = false;//是否强制转化为advised
-
-boolean exposeProxy = false;//AOP生成对象时，绑定到ThreadLocal, 可以通过AopContext获取
-
-private boolean frozen = false;//代理信息一旦设置，是否允许改变
+<pre><code>	private boolean proxyTargetClass = false;//true,使用CGLIB,false,使用原生
+	
+	private boolean optimize = false;//是否进行优化
+	
+	boolean opaque = false;//是否强制转化为advised
+	
+	boolean exposeProxy = false;//AOP生成对象时，绑定到ThreadLocal, 可以通过AopContext获取
+	
+	private boolean frozen = false;//代理信息一旦设置，是否允许改变
 </code></pre>
 
 <ul>
@@ -116,9 +116,9 @@ ProxyFactory是Spring的AOP织入器，接受Pointcut/Advice返回织入了横�
 （如果容器中某个对象依赖于ProxyFactoryBean ，他将会使用到ProxyFactoryBean的getObject()方法返回的内容）</li>
 </ul>
 
-<h2 id="aop核心实现">aop核心实现</h2>
+<h2 id="aop核心实现-weaving织入器">aop核心实现(Weaving织入器)</h2>
 
-<p>将AOP融入Bean的创建过程,AspectJ方式织入的核心，是一个BeanPostProcess（会扫描所有的Pointcut并对Bean进行织入）</p>
+<p>将AOP融入Bean的创建过程,AspectJ方式织入的核心，是一个BeanPostProcess（会扫描所有的Pointcut与遍历所有Bean,并对需要的Bean进行织入-自动代理，当对象实例化的时候，为其生成代理对象并返回）</p>
 
 <pre><code>public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor, BeanFactoryAware {
 
