@@ -52,9 +52,152 @@
 
 <h2 id="问题">问题</h2>
 
+<p>Spring Cache 和 Apache Shiro 整合时，自定义的shiroRealm中引用了service，会导致service的Cache相关注解作用失效</p>
+
+<h2 id="分析">分析</h2>
+
+<h3 id="关于beanpostprocessor">关于BeanPostProcessor</h3>
+
+<ul>
+<li>BeanPostProcessor:构建Bean的时候调用，会处理所有符合条件的对象实例(扫描所有Bean进行处理,Aop实现就是通过BeanPostProcessor找到匹配的Pointcut进行自动代理)</li>
+</ul>
+
+<p><a href="https://postimg.cc/hQLLNrD8"><img src="https://i.postimg.cc/x876JxBZ/image.jpg" alt="image.jpg" /></a></p>
+
+<ul>
+<li>提供了postProcessBeforeInitialization与postProcessAfterInitialization方法，对所有实现了InitializingBean的Bean的afterPropertiesSet方法前后执行。</li>
+<li>BeanPostProcessor本身也是一个Bean，一般而言其实例化时机要早过普通的Bean，但是BeanPostProcessor也会依赖一些Bean，这就导致了一些Bean的实例化早于BeanPostProcessor，由此会导致一些问题。</li>
+</ul>
+
+<h3 id="beanpostprocessor启动阶段对其依赖的bean造成的影响">BeanPostProcessor启动阶段对其依赖的Bean造成的影响</h3>
+
+<ul>
+<li>AbstractApplicationContext refresh是Spring IOC容器的核心方法，这个方法的作用是创建加载Spring容器配置(包括.xml配置,property文件和数据库模式等)</li>
+<li>AbstractApplicationContext refresh()——&gt;registerBeanPostProcessors(beanFactory)方法会注册BeanPostProcessors：</li>
+</ul>
+
+<pre><code>public static void registerBeanPostProcessors(
+            ConfigurableListableBeanFactory beanFactory, AbstractApplicationContext applicationContext) {
+
+        String[] postProcessorNames = beanFactory.getBeanNamesForType(BeanPostProcessor.class, true, false);
+
+        // 注册BeanPostProcessorChecker
+        // 检查可在当前Bean上起作用的BeanPostProcessor个数与总的BeanPostProcessor个数，如果起作用的个数少于总数打印：//xxx is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for //auto-proxying)
+        int beanProcessorTargetCount = beanFactory.getBeanPostProcessorCount() + 1 + postProcessorNames.length;
+        beanFactory.addBeanPostProcessor(new BeanPostProcessorChecker(beanFactory, beanProcessorTargetCount));
+
+        // Separate between BeanPostProcessors that implement PriorityOrdered,
+        // Ordered, and the rest.
+        List&lt;BeanPostProcessor&gt; priorityOrderedPostProcessors = new ArrayList&lt;BeanPostProcessor&gt;();
+        List&lt;BeanPostProcessor&gt; internalPostProcessors = new ArrayList&lt;BeanPostProcessor&gt;();
+        List&lt;String&gt; orderedPostProcessorNames = new ArrayList&lt;String&gt;();
+        List&lt;String&gt; nonOrderedPostProcessorNames = new ArrayList&lt;String&gt;();
+        for (String ppName : postProcessorNames) {
+            if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {
+                BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
+                priorityOrderedPostProcessors.add(pp);
+                if (pp instanceof MergedBeanDefinitionPostProcessor) {
+                    internalPostProcessors.add(pp);
+                }
+            }
+            else if (beanFactory.isTypeMatch(ppName, Ordered.class)) {
+                orderedPostProcessorNames.add(ppName);
+            }
+            else {
+                nonOrderedPostProcessorNames.add(ppName);
+            }
+        }
+
+        // 1，注册实现 PriorityOrdered BeanPostProcessors
+        sortPostProcessors(beanFactory, priorityOrderedPostProcessors);
+        registerBeanPostProcessors(beanFactory, priorityOrderedPostProcessors);
+
+        // 2，注册实现 Ordered BeanPostProcessors
+        List&lt;BeanPostProcessor&gt; orderedPostProcessors = new ArrayList&lt;BeanPostProcessor&gt;();
+        for (String ppName : orderedPostProcessorNames) {
+            BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
+            orderedPostProcessors.add(pp);
+            if (pp instanceof MergedBeanDefinitionPostProcessor) {
+                internalPostProcessors.add(pp);
+            }
+        }
+        sortPostProcessors(beanFactory, orderedPostProcessors);
+        registerBeanPostProcessors(beanFactory, orderedPostProcessors);
+
+        // 3，注册所有无序(没有实现Ordered/ PriorityOrdered) BeanPostProcessors.
+        List&lt;BeanPostProcessor&gt; nonOrderedPostProcessors = new ArrayList&lt;BeanPostProcessor&gt;();
+        for (String ppName : nonOrderedPostProcessorNames) {
+            BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
+            nonOrderedPostProcessors.add(pp);
+            if (pp instanceof MergedBeanDefinitionPostProcessor) {
+                internalPostProcessors.add(pp);
+            }
+        }
+        registerBeanPostProcessors(beanFactory, nonOrderedPostProcessors);
+
+        // 4, 注册所有内部(MergedBeanDefinitionPostProcessor) BeanPostProcessors.
+        sortPostProcessors(beanFactory, internalPostProcessors);
+        registerBeanPostProcessors(beanFactory, internalPostProcessors);
+
+        // Re-register post-processor for detecting inner beans as ApplicationListeners,
+        // moving it to the end of the processor chain (for picking up proxies etc).
+        beanFactory.addBeanPostProcessor(new ApplicationListenerDetector(applicationContext));
+    }
+</code></pre>
+
+<p>BeanPostProcessor执行顺序如下：</p>
+
+<ol>
+<li>实现了PriorityOrdered接口的BeanPostProcessor</li>
+<li>实现了Ordered接口的BeanPostProcessor</li>
+<li>注册无实现任何接口的BeanPostProcessor</li>
+<li>实现了MergedBeanDefinitionPostProcessor接口的BeanPostProcessor</li>
+</ol>
+
+<h3 id="关于priorityordered">关于PriorityOrdered</h3>
+
+<p><a href="https://postimg.cc/p5FKbtvn"><img src="https://i.postimg.cc/rshj48Yg/20181007202702.png" alt="20181007202702.png" /></a></p>
+
+<p>实现了PriorityOrdered的BeanPostProcessor先于其他BeanPostProcessor，并会影响到其他BeanPostProcessor的autowiring behavior</p>
+
+<h3 id="spring的一些beanpostprocessor">Spring的一些BeanPostProcessor</h3>
+
+<ul>
+<li>ScheduledAnnotationBeanPostProcessor:实现了Ordered</li>
+<li>AsyncAnnotationBeanPostProcessor:实现了Ordered</li>
+<li>AbstractAutoProxyCreator (Transactional|Cache):实现了Ordered</li>
+</ul>
+
+<h3 id="shiro-lifecyclebeanpostprocessor导致的问题">Shiro LifecycleBeanPostProcessor导致的问题</h3>
+
+<p>Spring整合shiro的系统中，需要在配置bean的时候加入LifecycleBeanPostProcessor(Shiro提供的一个BeanPostProcessor类),用来管理shiro一些bean的生命周期。</p>
+
+<pre><code>public class LifecycleBeanPostProcessor implements DestructionAwareBeanPostProcessor, PriorityOrdered 
+</code></pre>
+
+<p>LifecycleBeanPostProcessor实现了BeanPostProcessor与PriorityOrdered，postProcessBeforeInitialization方法,调用了自定义Realm（AuthorizingRealm）中实现了的 init() 方法，自定义Realm中依赖的一些Bean被提前初始化了，导致Spring某些BeanPostProcessor（Ordered级别下）不能拦截到这些Bean，造成依赖功能的失效(如Transaction ,Async,Cache&hellip;)</p>
+
+<p><a href="https://postimg.cc/2LRdHJD8"><img src="https://i.postimg.cc/yxWfN4p9/20181005215754.jpg" alt="20181005215754.jpg" /></a></p>
+
+<ul>
+<li>通过Debug查看registerBeanPostProcessors</li>
+</ul>
+
+<p><a href="https://postimg.cc/mhcbfyz4"><img src="https://i.postimg.cc/RCdqtPvW/20181007220305.png" alt="20181007220305.png" /></a></p>
+
 <h2 id="解决">解决</h2>
 
-<h2 id="对其他切面的影响">对其他切面的影响</h2>
+<p>通过对自定义Realm中依赖的Bean加上@Lazy，使其延迟加载。</p>
+
+<p><a href="https://postimg.cc/ykknTWbv"><img src="https://i.postimg.cc/HstKdy4D/20181007223112.png" alt="20181007223112.png" /></a></p>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+<li><a href="http://stackoverflow.com/questions/21512791/spring-service-with-cacheable-methods-gets-initialized-without-cache-when-autowi">http://stackoverflow.com/questions/21512791/spring-service-with-cacheable-methods-gets-initialized-without-cache-when-autowi</a></li>
+<li>《Spring揭秘》</li>
+<li>《深入分析Java Web技术内幕》</li>
+</ul>
 </div>
 
 
