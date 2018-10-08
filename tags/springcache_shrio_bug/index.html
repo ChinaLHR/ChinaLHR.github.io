@@ -94,6 +94,7 @@
         List&lt;String&gt; nonOrderedPostProcessorNames = new ArrayList&lt;String&gt;();
         for (String ppName : postProcessorNames) {
             if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {
+                //getBean PriorityOrdered类型的BeanPostProcessor会预初始化
                 BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
                 priorityOrderedPostProcessors.add(pp);
                 if (pp instanceof MergedBeanDefinitionPostProcessor) {
