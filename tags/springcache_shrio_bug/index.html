@@ -175,7 +175,23 @@
 <pre><code>public class LifecycleBeanPostProcessor implements DestructionAwareBeanPostProcessor, PriorityOrdered 
 </code></pre>
 
-<p>LifecycleBeanPostProcessor实现了BeanPostProcessor与PriorityOrdered，postProcessBeforeInitialization方法,调用了自定义Realm（AuthorizingRealm）中实现了的 init() 方法，自定义Realm中依赖的一些Bean被提前初始化了，导致Spring某些BeanPostProcessor（Ordered级别下）不能拦截到这些Bean，造成依赖功能的失效(如Transaction ,Async,Cache&hellip;)</p>
+<p>LifecycleBeanPostProcessor实现了BeanPostProcessor与PriorityOrdered，postProcessBeforeInitialization方法,调用了自定义Realm（AuthorizingRealm）中实现了的 init() 方法初始化授权缓存，自定义Realm中依赖的一些Bean被提前初始化了，导致Spring某些BeanPostProcessor（Ordered级别下）不能拦截到这些Bean，造成依赖功能的失效(如Transaction ,Async,Cache&hellip;)</p>
+
+<pre><code> protected void onInit() {
+        super.onInit();
+        //trigger obtaining the authorization cache if possible
+        getAvailableAuthorizationCache();
+    }
+
+
+ private Cache&lt;Object, AuthorizationInfo&gt; getAvailableAuthorizationCache() {
+        Cache&lt;Object, AuthorizationInfo&gt; cache = getAuthorizationCache();
+        if (cache == null &amp;&amp; isAuthorizationCachingEnabled()) {
+            cache = getAuthorizationCacheLazy();
+        }
+        return cache;
+    }
+</code></pre>
 
 <p><a href="https://postimg.cc/2LRdHJD8"><img src="https://i.postimg.cc/yxWfN4p9/20181005215754.jpg" alt="20181005215754.jpg" /></a></p>
 
@@ -184,6 +200,43 @@
 </ul>
 
 <p><a href="https://postimg.cc/mhcbfyz4"><img src="https://i.postimg.cc/RCdqtPvW/20181007220305.png" alt="20181007220305.png" /></a></p>
+
+<h3 id="lazy">@Lazy</h3>
+
+<p>@Lazy修饰Spring Bean类,用于指定该Bean是否取消预初始化。
+容器初始化方法在AbstractApplicationContext的refresh()——&gt;finishBeanFactoryInitialization(beanFactory)——&gt;preInstantiateSingletons()</p>
+
+<pre><code>for (String beanName : beanNames) {
+			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
+			//单例并且非Lazy类型的才会在容器初始化的时候被注入
+			if (!bd.isAbstract() &amp;&amp; bd.isSingleton() &amp;&amp; !bd.isLazyInit()) {
+				if (isFactoryBean(beanName)) {
+					final FactoryBean&lt;?&gt; factory = (FactoryBean&lt;?&gt;) getBean(FACTORY_BEAN_PREFIX + beanName);
+					boolean isEagerInit;
+					if (System.getSecurityManager() != null &amp;&amp; factory instanceof SmartFactoryBean) {
+						isEagerInit = AccessController.doPrivileged(new PrivilegedAction&lt;Boolean&gt;() {
+							@Override
+							public Boolean run() {
+								return ((SmartFactoryBean&lt;?&gt;) factory).isEagerInit();
+							}
+						}, getAccessControlContext());
+					}
+					else {
+						isEagerInit = (factory instanceof SmartFactoryBean &amp;&amp;
+								((SmartFactoryBean&lt;?&gt;) factory).isEagerInit());
+					}
+					if (isEagerInit) {
+						getBean(beanName);
+					}
+				}
+				else {
+					getBean(beanName);
+				}
+			}
+		}
+</code></pre>
+
+<p>添加了@Lazy注解的Bean在容器初始化的过程中不会进行依赖注入，只有当第一个getBean的时候才会实例化Bean。</p>
 
 <h2 id="解决">解决</h2>
 
