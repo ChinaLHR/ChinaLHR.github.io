@@ -193,8 +193,11 @@ PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的�
 
 <h2 id="advice-通知-增强">Advice（通知/增强）</h2>
 
-<p>通知是指拦截到 Joinpoint 之后所要做的事情就是通知。通知分为【前置通知】, 【后置通知】,【异常通知】,【最终通知】, 【环绕通知】(切面要完成的功能)
-* per-class类型的Advice（可以在目标对象类的所有实例之间共享，通常只提供方法拦截功能，不会对目标对象保存任何状态或添加新功能）</p>
+<p>通知是指拦截到 Joinpoint 之后所要做的事情就是通知。通知分为【前置通知】, 【后置通知】,【异常通知】,【最终通知】, 【环绕通知】(切面要完成的功能)</p>
+
+<ul>
+<li>per-class类型的Advice（可以在目标对象类的所有实例之间共享，通常只提供方法拦截功能，不会对目标对象保存任何状态或添加新功能）</li>
+</ul>
 
 <p><img src="https://images.gitee.com/uploads/images/2018/0924/151710_ec13557c_558165.png" alt="输入图片说明" title="屏幕截图.png" /></p>
 
