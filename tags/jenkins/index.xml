@@ -13,10 +13,10 @@
     
     <item>
       <title>Jenkins部署优化与发布优化</title>
-      <link>https://chinalhr.github.io/tags/jenkins_job_optimize/</link>
+      <link>https://chinalhr.github.io/post/jenkins_job_optimize/</link>
       <pubDate>Mon, 09 Jul 2018 21:24:11 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/jenkins_job_optimize/</guid>
+      <guid>https://chinalhr.github.io/post/jenkins_job_optimize/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Jenkins是基于Java开发的一种持续集成工具,是一款自动化运维的工具。可用于软件构建自动化，构建可持续的自动化检查，构建可持续的自动化测试&amp;hellip;&lt;/p&gt;
 &lt;/blockquote&gt;

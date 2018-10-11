@@ -13,127 +13,127 @@
     
     <item>
       <title>Joda DateTime记录</title>
-      <link>https://chinalhr.github.io/tags/joda_datetime_record/</link>
+      <link>https://chinalhr.github.io/post/joda_datetime_record/</link>
       <pubDate>Thu, 04 Oct 2018 23:40:13 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/joda_datetime_record/</guid>
+      <guid>https://chinalhr.github.io/post/joda_datetime_record/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Spring Aop分析</title>
-      <link>https://chinalhr.github.io/tags/spring_aop/</link>
+      <link>https://chinalhr.github.io/post/spring_aop/</link>
       <pubDate>Mon, 24 Sep 2018 15:56:35 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/spring_aop/</guid>
+      <guid>https://chinalhr.github.io/post/spring_aop/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Shrio导致SpringCache缓存失效原因分析</title>
-      <link>https://chinalhr.github.io/tags/springcache_shrio_bug/</link>
+      <link>https://chinalhr.github.io/post/springcache_shrio_bug/</link>
       <pubDate>Sat, 22 Sep 2018 23:10:00 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/springcache_shrio_bug/</guid>
+      <guid>https://chinalhr.github.io/post/springcache_shrio_bug/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>使用Apache ab进行压力测试</title>
-      <link>https://chinalhr.github.io/tags/apache_ab_use/</link>
+      <link>https://chinalhr.github.io/post/apache_ab_use/</link>
       <pubDate>Sun, 16 Sep 2018 23:07:30 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/apache_ab_use/</guid>
+      <guid>https://chinalhr.github.io/post/apache_ab_use/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>基于SnowFlake的分布式UID生成服务</title>
-      <link>https://chinalhr.github.io/tags/uidgenerateserver/</link>
+      <link>https://chinalhr.github.io/post/uidgenerateserver/</link>
       <pubDate>Sat, 08 Sep 2018 23:02:55 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/uidgenerateserver/</guid>
+      <guid>https://chinalhr.github.io/post/uidgenerateserver/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>FindBug错误修改指南</title>
-      <link>https://chinalhr.github.io/tags/findbugs/</link>
+      <link>https://chinalhr.github.io/post/findbugs/</link>
       <pubDate>Tue, 21 Aug 2018 21:08:18 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/findbugs/</guid>
+      <guid>https://chinalhr.github.io/post/findbugs/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>阿里支付与微信支付</title>
-      <link>https://chinalhr.github.io/tags/alipayandwxpay/</link>
+      <link>https://chinalhr.github.io/post/alipayandwxpay/</link>
       <pubDate>Sun, 12 Aug 2018 22:05:10 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/alipayandwxpay/</guid>
+      <guid>https://chinalhr.github.io/post/alipayandwxpay/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Java在Stream中异常处理问题</title>
-      <link>https://chinalhr.github.io/tags/java_lambda_exception/</link>
+      <link>https://chinalhr.github.io/post/java_lambda_exception/</link>
       <pubDate>Wed, 25 Jul 2018 23:20:01 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/java_lambda_exception/</guid>
+      <guid>https://chinalhr.github.io/post/java_lambda_exception/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>MySql大数据量表分页</title>
-      <link>https://chinalhr.github.io/tags/mysql_paging/</link>
+      <link>https://chinalhr.github.io/post/mysql_paging/</link>
       <pubDate>Thu, 19 Jul 2018 23:37:55 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/mysql_paging/</guid>
+      <guid>https://chinalhr.github.io/post/mysql_paging/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>分布式锁实现(基于Redis|Zookeeper)</title>
-      <link>https://chinalhr.github.io/tags/distributedlocks/</link>
+      <link>https://chinalhr.github.io/post/distributedlocks/</link>
       <pubDate>Sun, 15 Jul 2018 18:38:26 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/distributedlocks/</guid>
+      <guid>https://chinalhr.github.io/post/distributedlocks/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>RedisTemplate问题</title>
-      <link>https://chinalhr.github.io/tags/redistemplate_problem/</link>
+      <link>https://chinalhr.github.io/post/redistemplate_problem/</link>
       <pubDate>Fri, 13 Jul 2018 22:17:22 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/redistemplate_problem/</guid>
+      <guid>https://chinalhr.github.io/post/redistemplate_problem/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>函数式接口-Supplier|Predicate|Consumer|Function</title>
-      <link>https://chinalhr.github.io/tags/java_supplier_predicate_consumer/</link>
+      <link>https://chinalhr.github.io/post/java_supplier_predicate_consumer/</link>
       <pubDate>Wed, 11 Jul 2018 21:19:59 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/java_supplier_predicate_consumer/</guid>
+      <guid>https://chinalhr.github.io/post/java_supplier_predicate_consumer/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>消息队列QPS优化(使用Redis做MQ的Buff)</title>
-      <link>https://chinalhr.github.io/tags/redisdomqbuff/</link>
+      <link>https://chinalhr.github.io/post/redisdomqbuff/</link>
       <pubDate>Tue, 10 Jul 2018 22:01:41 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/redisdomqbuff/</guid>
+      <guid>https://chinalhr.github.io/post/redisdomqbuff/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Jenkins部署优化与发布优化</title>
-      <link>https://chinalhr.github.io/tags/jenkins_job_optimize/</link>
+      <link>https://chinalhr.github.io/post/jenkins_job_optimize/</link>
       <pubDate>Mon, 09 Jul 2018 21:24:11 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/jenkins_job_optimize/</guid>
+      <guid>https://chinalhr.github.io/post/jenkins_job_optimize/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Jenkins是基于Java开发的一种持续集成工具,是一款自动化运维的工具。可用于软件构建自动化，构建可持续的自动化检查，构建可持续的自动化测试&amp;hellip;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -143,73 +143,73 @@
     
     <item>
       <title>Mysql对存有大数据表进行结构修改需要注意的问题</title>
-      <link>https://chinalhr.github.io/tags/mysql_alter/</link>
+      <link>https://chinalhr.github.io/post/mysql_alter/</link>
       <pubDate>Sun, 08 Jul 2018 17:56:21 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/mysql_alter/</guid>
+      <guid>https://chinalhr.github.io/post/mysql_alter/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Git记录</title>
-      <link>https://chinalhr.github.io/tags/git_basic/</link>
+      <link>https://chinalhr.github.io/post/git_basic/</link>
       <pubDate>Sun, 08 Jul 2018 15:49:09 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/git_basic/</guid>
+      <guid>https://chinalhr.github.io/post/git_basic/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>MySql读写分离</title>
-      <link>https://chinalhr.github.io/tags/mysql_replicationon/</link>
+      <link>https://chinalhr.github.io/post/mysql_replicationon/</link>
       <pubDate>Wed, 27 Jun 2018 15:55:01 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/mysql_replicationon/</guid>
+      <guid>https://chinalhr.github.io/post/mysql_replicationon/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Mysql主从复制</title>
-      <link>https://chinalhr.github.io/tags/mysql_proxy/</link>
+      <link>https://chinalhr.github.io/post/mysql_proxy/</link>
       <pubDate>Wed, 27 Jun 2018 15:54:50 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/mysql_proxy/</guid>
+      <guid>https://chinalhr.github.io/post/mysql_proxy/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>使用RabbitMQ</title>
-      <link>https://chinalhr.github.io/tags/rabbitmq_use/</link>
+      <link>https://chinalhr.github.io/post/rabbitmq_use/</link>
       <pubDate>Tue, 26 Jun 2018 21:44:54 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/rabbitmq_use/</guid>
+      <guid>https://chinalhr.github.io/post/rabbitmq_use/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Java项目中的系统结构分层</title>
-      <link>https://chinalhr.github.io/tags/java_system_structure/</link>
+      <link>https://chinalhr.github.io/post/java_system_structure/</link>
       <pubDate>Mon, 25 Jun 2018 12:07:03 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/java_system_structure/</guid>
+      <guid>https://chinalhr.github.io/post/java_system_structure/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Spring Boot组件-Retry|Scheduled</title>
-      <link>https://chinalhr.github.io/tags/java_springboot_component1/</link>
+      <link>https://chinalhr.github.io/post/java_springboot_component1/</link>
       <pubDate>Sun, 24 Jun 2018 20:53:59 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/java_springboot_component1/</guid>
+      <guid>https://chinalhr.github.io/post/java_springboot_component1/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>基于SSM项目的个人编码规范</title>
-      <link>https://chinalhr.github.io/tags/java_practice/</link>
+      <link>https://chinalhr.github.io/post/java_practice/</link>
       <pubDate>Mon, 19 Feb 2018 14:31:45 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/java_practice/</guid>
+      <guid>https://chinalhr.github.io/post/java_practice/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;仅记录一个多月野蛮生长过程的个人编码规范&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -219,28 +219,19 @@
     
     <item>
       <title>Java异步编程-CompletableFuture</title>
-      <link>https://chinalhr.github.io/tags/java_completablefuture/</link>
+      <link>https://chinalhr.github.io/post/java_completablefuture/</link>
       <pubDate>Fri, 02 Feb 2018 00:42:49 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/java_completablefuture/</guid>
+      <guid>https://chinalhr.github.io/post/java_completablefuture/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>2017年度总结</title>
-      <link>https://chinalhr.github.io/tags/2017_summary/</link>
+      <link>https://chinalhr.github.io/post/2017_summary/</link>
       <pubDate>Mon, 01 Jan 2018 12:47:02 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/2017_summary/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Catalogue</title>
-      <link>https://chinalhr.github.io/tags/catalogue/</link>
-      <pubDate>Wed, 27 Dec 2017 13:22:23 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/catalogue/</guid>
+      <guid>https://chinalhr.github.io/post/2017_summary/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
