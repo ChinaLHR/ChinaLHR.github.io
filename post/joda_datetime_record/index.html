@@ -187,13 +187,13 @@
 
 <p></p>
 
-<pre><code>	//获取X时间前 minusDays/minusHours/minusMillis...
-	DateTime.now().minusDays(15).toDate();
+<pre><code>    //获取X时间前 minusDays/minusHours/minusMillis...
+    DateTime.now().minusDays(15).toDate();
 
-	//获取X时间后 plusDays/plusHours/plusMillis
-	DateTime.now().plusDays(15).toDate();
+    //获取X时间后 plusDays/plusHours/plusMillis
+    DateTime.now().plusDays(15).toDate();
 
- 	/**
+    /**
      * 获取DateTime今日零点
      *
      * @return
@@ -237,7 +237,7 @@
                 .toDate();
     }
 
-	/**
+    /**
      * 获取上月一号零点
      * @param dateTime
      * @return
@@ -258,19 +258,18 @@
                 .withTime(23, 59, 59, 0).toDate();
     }
 
-	//获取两个DateTime相隔的时间
-	int between = new Period(start, end, PeriodType.days()).getDays();
+    //获取两个DateTime相隔的时间
+    int between = new Period(start, end, PeriodType.days()).getDays();
 
-	//时间解析
-	DateTimeFormatter format = DateTimeFormat .forPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;); 
+    //时间解析
+    DateTimeFormatter format = DateTimeFormat .forPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;); 
 　　DateTime d = DateTime.parse(&quot;2017-10-17 20:06:05&quot;,format) ;
 
-	//得到某一日期的年与日时分秒
-	DateTime time = new DateTime() ;
-　　time.getYear();
-　　time.getMonthOfYear();
-　　time.getDayOfMonth();...
-
+    //得到某一日期的年与日时分秒
+    DateTime time = new DateTime() ;
+    time.getYear();
+    time.getMonthOfYear();
+    time.getDayOfMonth();...
 </code></pre>
 
         
