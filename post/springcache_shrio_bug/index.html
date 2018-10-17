@@ -329,33 +329,33 @@
 容器初始化方法在AbstractApplicationContext的refresh()——&gt;finishBeanFactoryInitialization(beanFactory)——&gt;preInstantiateSingletons()</p>
 
 <pre><code>for (String beanName : beanNames) {
-			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
-			//单例并且非Lazy类型的才会在容器初始化的时候被注入
-			if (!bd.isAbstract() &amp;&amp; bd.isSingleton() &amp;&amp; !bd.isLazyInit()) {
-				if (isFactoryBean(beanName)) {
-					final FactoryBean&lt;?&gt; factory = (FactoryBean&lt;?&gt;) getBean(FACTORY_BEAN_PREFIX + beanName);
-					boolean isEagerInit;
-					if (System.getSecurityManager() != null &amp;&amp; factory instanceof SmartFactoryBean) {
-						isEagerInit = AccessController.doPrivileged(new PrivilegedAction&lt;Boolean&gt;() {
-							@Override
-							public Boolean run() {
-								return ((SmartFactoryBean&lt;?&gt;) factory).isEagerInit();
-							}
-						}, getAccessControlContext());
-					}
-					else {
-						isEagerInit = (factory instanceof SmartFactoryBean &amp;&amp;
-								((SmartFactoryBean&lt;?&gt;) factory).isEagerInit());
-					}
-					if (isEagerInit) {
-						getBean(beanName);
-					}
-				}
-				else {
-					getBean(beanName);
-				}
-			}
-		}
+            RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
+            //单例并且非Lazy类型的才会在容器初始化的时候被注入
+            if (!bd.isAbstract() &amp;&amp; bd.isSingleton() &amp;&amp; !bd.isLazyInit()) {
+                if (isFactoryBean(beanName)) {
+                    final FactoryBean&lt;?&gt; factory = (FactoryBean&lt;?&gt;) getBean(FACTORY_BEAN_PREFIX + beanName);
+                    boolean isEagerInit;
+                    if (System.getSecurityManager() != null &amp;&amp; factory instanceof SmartFactoryBean) {
+                        isEagerInit = AccessController.doPrivileged(new PrivilegedAction&lt;Boolean&gt;() {
+                            @Override
+                            public Boolean run() {
+                                return ((SmartFactoryBean&lt;?&gt;) factory).isEagerInit();
+                            }
+                        }, getAccessControlContext());
+                    }
+                    else {
+                        isEagerInit = (factory instanceof SmartFactoryBean &amp;&amp;
+                                ((SmartFactoryBean&lt;?&gt;) factory).isEagerInit());
+                    }
+                    if (isEagerInit) {
+                        getBean(beanName);
+                    }
+                }
+                else {
+                    getBean(beanName);
+                }
+            }
+        }
 </code></pre>
 
 <p>添加了@Lazy注解的Bean在容器初始化的过程中不会进行依赖注入，只有当第一个getBean的时候才会实例化Bean。</p>
