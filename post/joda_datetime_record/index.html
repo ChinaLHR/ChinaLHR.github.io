@@ -8,9 +8,21 @@
   <title>Joda DateTime记录</title>
   <meta property="og:title" content="Joda DateTime记录" />
   <meta name="twitter:title" content="Joda DateTime记录" />
-  <meta name="description" content="">
-  <meta property="og:description" content="">
-  <meta name="twitter:description" content="">
+  <meta name="description" content="
+用来记录joda DateTime工具类使用
+
+
+">
+  <meta property="og:description" content="
+用来记录joda DateTime工具类使用
+
+
+">
+  <meta name="twitter:description" content="
+用来记录joda DateTime工具类使用
+
+
+">
   <meta name="author" content=""/>
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://chinalhr.github.io/post/joda_datetime_record/" />
@@ -169,7 +181,97 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        <p></p>
+        <blockquote>
+<p>用来记录joda DateTime工具类使用</p>
+</blockquote>
+
+<p></p>
+
+<pre><code>	//获取X时间前 minusDays/minusHours/minusMillis...
+	DateTime.now().minusDays(15).toDate();
+
+	//获取X时间后 plusDays/plusHours/plusMillis
+	DateTime.now().plusDays(15).toDate();
+
+ 	/**
+     * 获取DateTime今日零点
+     *
+     * @return
+     */
+    public static Date getStartOfToday(DateTime dateTime) {
+        return dateTime.withMillisOfDay(0).toDate();
+    }
+
+    /**
+     * 获取DateTime昨日零点
+     *
+     * @return
+     */
+    public static Date getStartOfYesterday(DateTime dateTime) {
+        return dateTime.plusDays(-1).withMillisOfDay(0).toDate();
+    }
+
+    /**
+     * 获取上周一零点
+     *
+     * @param dateTime
+     * @return
+     */
+    public static Date getLastMonday(DateTime dateTime) {
+        return dateTime.minusWeeks(1)
+                .withDayOfWeek(1)
+                .withTimeAtStartOfDay()
+                .toDate();
+    }
+
+    /**
+     * 获取上周日零点
+     *
+     * @param dateTime
+     * @return
+     */
+    public static Date getLastSunday(DateTime dateTime) {
+        return dateTime
+                .minusDays(dateTime.getDayOfWeek())
+                .withTime(23, 59, 59, 0)
+                .toDate();
+    }
+
+	/**
+     * 获取上月一号零点
+     * @param dateTime
+     * @return
+     */
+    public static Date getLastMonthStratTime(DateTime dateTime) {
+        return dateTime.minusMonths(1)
+                .withDayOfMonth(1)
+                .withTimeAtStartOfDay().toDate();
+    }
+
+    /**
+     * 获取上月底零点
+     * @param dateTime
+     * @return
+     */
+    public static Date getLastMonthEndTime(DateTime dateTime) {
+        return dateTime.minusDays(dateTime.getDayOfMonth())
+                .withTime(23, 59, 59, 0).toDate();
+    }
+
+	//获取两个DateTime相隔的时间
+	int between = new Period(start, end, PeriodType.days()).getDays();
+
+	//时间解析
+	DateTimeFormatter format = DateTimeFormat .forPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;); 
+　　DateTime d = DateTime.parse(&quot;2017-10-17 20:06:05&quot;,format) ;
+
+	//得到某一日期的年与日时分秒
+	DateTime time = new DateTime() ;
+　　time.getYear();
+　　time.getMonthOfYear();
+　　time.getDayOfMonth();...
+
+</code></pre>
 
         
           <div class="blog-tags">
