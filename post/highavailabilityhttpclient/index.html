@@ -8,6 +8,15 @@
   <title>高可用的HttpClient</title>
   <meta property="og:title" content="高可用的HttpClient" />
   <meta name="twitter:title" content="高可用的HttpClient" />
+  <meta name="description" content="
+对HttpClient的优化，基于HttpClient4.4&#43;的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。
+">
+  <meta property="og:description" content="
+对HttpClient的优化，基于HttpClient4.4&#43;的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。
+">
+  <meta name="twitter:description" content="
+对HttpClient的优化，基于HttpClient4.4&#43;的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。
+">
   <meta name="author" content=""/>
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://chinalhr.github.io/post/highavailabilityhttpclient/" />
@@ -166,8 +175,10 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        <p>
-&gt; 对HttpClient的优化，基于HttpClient4.4+的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。</p>
+        <blockquote>
+<p>对HttpClient的优化，基于HttpClient4.4+的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。
+</p>
+</blockquote>
 
 <h3 id="httpclient优化点">HttpClient优化点</h3>
 
@@ -183,7 +194,7 @@
 <ol>
 <li><p>配置PoolingHttpClientConnectionManager连接池</p>
 
-<p>public static CloseableHttpClient getCloseableHttpClient(boolean isRetry) {
+<pre><code> public static CloseableHttpClient getCloseableHttpClient(boolean isRetry) {
     // 长连接保持30秒
     PoolingHttpClientConnectionManager pollingConnectionManager = new PoolingHttpClientConnectionManager(30, TimeUnit.SECONDS);
     // 总连接数
@@ -199,19 +210,18 @@
         httpClientBuilder.setRetryHandler(new DefaultHttpRequestRetryHandler(0, false));
     }
     // 保持长连接配置，需要在头添加Keep-Alive
-    httpClientBuilder.setKeepAliveStrategy(DefaultConnectionKeepAliveStrategy.INSTANCE);</p>
+    httpClientBuilder.setKeepAliveStrategy(DefaultConnectionKeepAliveStrategy.INSTANCE);
 
-<pre><code>CloseableHttpClient httpClient = httpClientBuilder.build();
+    CloseableHttpClient httpClient = httpClientBuilder.build();
 
-runIdleConnectionMonitor(pollingConnectionManager);
-return httpClient;
-</code></pre>
-
-<p>}</p></li>
+    runIdleConnectionMonitor(pollingConnectionManager);
+    return httpClient;
+}   
+</code></pre></li>
 
 <li><p>自定义keepAliveStrategy</p>
 
-<p>private static ConnectionKeepAliveStrategy getConnectionKeepAliveStrategy(){
+<pre><code>private static ConnectionKeepAliveStrategy getConnectionKeepAliveStrategy(){
     return (response, context) -&gt; {
         HeaderElementIterator it = new BasicHeaderElementIterator
                 (response.headerIterator(HTTP.CONN_KEEP_ALIVE));
@@ -220,19 +230,20 @@ return httpClient;
             String param = he.getName();
             String value = he.getValue();
             if (value != null &amp;&amp; param.equalsIgnoreCase
-                    (&ldquo;timeout&rdquo;)) {
+                    (&quot;timeout&quot;)) {
                 return Long.parseLong(value) * 1000;
             }
         }
         return 60 * 1000;//如果没有约定，则默认定义时长为60s
     };
-}</p></li>
+}
+</code></pre></li>
 
 <li><p>定时监控清理实现连接关闭</p>
 
-<p>private static void runIdleConnectionMonitor(HttpClientConnectionManager clientConnectionManager) {
+<pre><code>private static void runIdleConnectionMonitor(HttpClientConnectionManager clientConnectionManager) {
     FixedRateSchedule schedule = new FixedRateScheduleImpl();
-    schedule.setPoolTag(&ldquo;IDLE_CONNECTION_MONITOR_POOL&rdquo;);
+    schedule.setPoolTag(&quot;IDLE_CONNECTION_MONITOR_POOL&quot;);
     schedule.init();
     schedule.schedule(() -&gt; {
         //关闭过期的链接
@@ -240,7 +251,8 @@ return httpClient;
         //关闭闲置超过30s的链接
         clientConnectionManager.closeIdleConnections(30, TimeUnit.SECONDS);
     }, IDLE_INITIALDELAY, IDLE_PERIOD, TimeUnit.MILLISECONDS);
-}</p></li>
+}
+</code></pre></li>
 
 <li><p>代码</p></li>
 </ol>
