@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://chinalhr.github.io/post/codeoptimize1/</loc>
+    <lastmod>2018-11-03T21:44:31+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/post/highavailabilityhttpclient/</loc>
     <lastmod>2018-10-17T22:48:08+08:00</lastmod>
   </url>
@@ -157,7 +162,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2018-10-17T22:48:08+08:00</lastmod>
+    <lastmod>2018-11-03T21:44:31+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -169,7 +174,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/post/</loc>
-    <lastmod>2018-10-17T22:48:08+08:00</lastmod>
+    <lastmod>2018-11-03T21:44:31+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -231,6 +236,12 @@
   <url>
     <loc>https://chinalhr.github.io/tags/%E6%B5%8B%E8%AF%95/</loc>
     <lastmod>2018-09-16T23:07:30+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/%E7%BC%96%E7%A0%81%E6%8A%80%E5%B7%A7/</loc>
+    <lastmod>2018-11-03T21:44:31+08:00</lastmod>
     <priority>0</priority>
   </url>
   
