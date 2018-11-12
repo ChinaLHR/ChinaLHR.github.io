@@ -5,20 +5,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Mybatis动态表名：# 与 $ 区别</title>
-  <meta property="og:title" content="Mybatis动态表名：# 与 $ 区别" />
-  <meta name="twitter:title" content="Mybatis动态表名：# 与 $ 区别" />
+  <title>Mybatis自定义分表Plug</title>
+  <meta property="og:title" content="Mybatis自定义分表Plug" />
+  <meta name="twitter:title" content="Mybatis自定义分表Plug" />
   <meta name="description" content="">
   <meta property="og:description" content="">
   <meta name="twitter:description" content="">
   <meta name="author" content=""/>
   <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://chinalhr.github.io/post/mybatis_sql_precompile/" />
+  <meta property="og:url" content="https://chinalhr.github.io/post/mybatisshardplug/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
   <meta name="generator" content="Hugo 0.31.1" />
-  <link rel="canonical" href="https://chinalhr.github.io/post/mybatis_sql_precompile/" />
+  <link rel="canonical" href="https://chinalhr.github.io/post/mybatisshardplug/" />
   <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -140,7 +140,7 @@
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="post-heading">
               
-                <h1>Mybatis动态表名：# 与 $ 区别</h1>
+                <h1>Mybatis自定义分表Plug</h1>
               
               
               
@@ -171,42 +171,149 @@
       <article role="main" class="blog-post">
         <p></p>
 
-<h2 id="mybatis中-与-区别">MyBatis中#与$区别</h2>
+<h2 id="mybatis-interceptor">MyBatis Interceptor</h2>
 
-<p>动态SQL：mybatis在对sql语句进行预编译之前，会对sql进行动态解析，解析为一个BoundSql对象，也是在此处对动态sql进行处理。</p>
+<h3 id="mybatis-允许你在已映射语句执行过程中的某一点使用插件来拦截-包括">MyBatis 允许你在已映射语句执行过程中的某一点使用插件来拦截,包括：</h3>
 
-<pre><code>select * from customer where id = #{id};
-↓
-select * from customer where id = ?;
-
-select * from customer where id = ${id};
-↓——传入参数为12589时
-select * from customer where id = 12589;
+<pre><code>Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)[拦截执行器的方法]
+ParameterHandler (getParameterObject, setParameters)[拦截参数的处理]
+ResultSetHandler (handleResultSets, handleOutputParameters)[拦截结果集的处理]
+StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法构建的处理]
 </code></pre>
 
-<ul>
-<li><p>$与#的区别</p>
+<h3 id="interceptor接口">Interceptor接口</h3>
 
-<ol>
-<li>${ } 的变量的替换阶段是在动态 SQL 解析阶段，而 #{ }的变量的替换是在 DBMS 中。</li>
-<li>${ } 在预编译之前已经被变量替换了，存在 sql 注入问题</li>
-<li>#{}将传入的参数当成一个字符串（会给传入的参数加一个单引号)
-${}将传入的参数直接显示生成在sql中，不会添加引号</li>
-</ol></li>
-</ul>
+<pre><code>public interface Interceptor {
+  //进行拦截的时候要执行的方法
+  Object intercept(Invocation invocation) throws Throwable;
+  //决定是否要进行拦截进而决定要返回一个什么样的目标对象
+  Object plugin(Object target);
+  //Mybatis配置文件中指定一些属性
+  void setProperties(Properties properties);
 
-<h2 id="mybatis动态表名">MyBatis动态表名</h2>
-
-<p>MyBatis使用中，表名作为变量时，必须使用 ${ }。因为使用#{}会带上单引号 &ldquo;，这会导致 sql 语法错误。</p>
-
-<p>示例(添加statementType=&ldquo;STATEMENT&rdquo;禁止预编译)：</p>
-
-<pre><code> &lt;select id=&quot;selectByCustomerId&quot; resultMap=&quot;BaseResultMap&quot; statementType=&quot;STATEMENT&quot;&gt;
- select
- &lt;include refid=&quot;Base_Column_List&quot;/&gt;
- from ${tableName}
- where customer_id = ${customerId}
+}
 </code></pre>
+
+<h3 id="intercepts">@Intercepts</h3>
+
+<pre><code>@Intercepts用于表明当前的对象是一个Interceptor，而@Signature则表明要拦截的接口、方法以及对应的参数类型。
+
+@Intercepts( {  
+   @Signature(method = &quot;query&quot;, type = Executor.class, args = {  
+          MappedStatement.class, Object.class, RowBounds.class,  
+          ResultHandler.class }),  
+   @Signature(method = &quot;prepare&quot;, type = StatementHandler.class, args = { Connection.class }) })  
+</code></pre>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/48355299-a2931600-e6ce-11e8-8a6f-540c9cd5f3f8.png" alt="image" /></p>
+
+<h2 id="利用interceptor实现自定义分表原理">利用Interceptor实现自定义分表原理</h2>
+
+<p>利用JDBC对数据库进行操作就必须要有一个对应的Statement对象，Mybatis在执行Sql语句前也会产生一个包含Sql语句的Statement对象，Sql语句生成的时机是在Statement之前的，利用Interceptor可以在Sql语句成为Statement之前对Sql语句进行修改。</p>
+
+<p>Mybatis中Statement语句是通过RoutingStatementHandler对象的 prepare方法生成的。使用Interceptor对StatementHandler的prepare方法进行拦截即可获得原始Sql。</p>
+
+<p>获取原始Sql后，可以解析出根表名，再通过一系列的策略获取到实际的分表表名，对其原始Sql进行表名替换。</p>
+
+<h2 id="示例">示例:</h2>
+
+<pre><code>@Intercepts({@Signature(type = StatementHandler.class, method = &quot;prepare&quot;, args = {Connection.class, Integer.class})})
+public class CustomerIdShardInterceptor implements Interceptor {
+    private static final ObjectFactory DEFAULT_OBJECT_FACTORY = new DefaultObjectFactory();
+    private static final ObjectWrapperFactory DEFAULT_OBJECT_WRAPPER_FACTORY = new DefaultObjectWrapperFactory();
+    private static final ReflectorFactory DEFAULT_REFLECTOR_FACTORY = new DefaultReflectorFactory();
+
+
+    @Override
+    public Object intercept(Invocation invocation) throws Throwable {
+        StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
+        // 保存会话信息
+        MetaObject metaStatementHandler = MetaObject.forObject(statementHandler,
+                DEFAULT_OBJECT_FACTORY, DEFAULT_OBJECT_WRAPPER_FACTORY, DEFAULT_REFLECTOR_FACTORY);
+        // 获取原sql
+        BoundSql boundSql = (BoundSql) metaStatementHandler.getValue(&quot;delegate.boundSql&quot;);
+        //修改原有Sql数据         
+        String modifiedSql = modifySql(boundSql);
+        //将修改后的Sql设置到metaStatementHandler中
+        metaStatementHandler.setValue(&quot;delegate.boundSql.sql&quot;, modifiedSql);
+        return invocation.proceed();
+    }
+
+    @Override
+    public Object plugin(Object o) {
+        //对应类型进行封装
+        if (o instanceof StatementHandler) {
+            return Plugin.wrap(o, this);
+        } else {
+            return o;
+        }
+    }
+
+    @Override
+    public void setProperties(Properties properties) {
+
+    }
+
+    private String modifySql(BoundSql boundSql) {
+        String targetSql = boundSql.getSql().trim().toLowerCase();
+        String tableName = getTableName(targetSql);
+        // 对targetSql进行表名修改
+        ...
+        return targetSql;
+
+    }
+
+    /**
+     * 根据sql获取表名
+     *
+     * @param sql
+     * @return
+     */
+    private String getTableName(String sql) {
+        String[] sqls = sql.split(&quot;\\s+&quot;);
+        switch (sqls[0]) {
+            case &quot;select&quot;: {
+                // select tableName
+                for (int i = 0; i &lt; sqls.length; i++) {
+                    if (sqls[i].equals(&quot;from&quot;)) {
+                        return sqls[i + 1];
+                    }
+                }
+                break;
+            }
+            case &quot;update&quot;: {
+                // update tableName
+                return sqls[1];
+            }
+            case &quot;insert&quot;: {
+                // insert into tableName
+                return sqls[2];
+            }
+            case &quot;delete&quot;: {
+                // delete tableName
+                return sqls[1];
+            }
+        }
+        return StringUtils.EMPTY;
+    }
+</code></pre>
+
+<p>}</p>
+
+<h2 id="关于分表策略">关于分表策略</h2>
+
+<h3 id="取模">取模</h3>
+
+<pre><code>1.可以维护一个根symbols表用来存储插入表的自增的id代表固定业务id，使用id取模进行分表(存储分表table_suffix = table_(id%i),i的大小取决于数据量的大小),由此策略可分table_0~table_i-1个分表进行数据存储。
+2.插入时根据symbols表的自增业务id进行取模对对应表进行插入。
+3.查询时从symbols对查询业务id进行取模,决定去哪个分表查询
+</code></pre>
+
+<h2 id="参考">参考</h2>
+
+<p><a href="http://elim.iteye.com/blog/1851081">http://elim.iteye.com/blog/1851081</a></p>
+
+<p><a href="https://zhuanlan.zhihu.com/p/35483580">https://zhuanlan.zhihu.com/p/35483580</a></p>
 
         
           <div class="blog-tags">
@@ -223,13 +330,9 @@ ${}将传入的参数直接显示生成在sql中，不会添加引号</li>
         <ul class="pager blog-pager">
           
             <li class="previous">
-              <a href="https://chinalhr.github.io/post/codeoptimize1/" data-toggle="tooltip" data-placement="top" title="编码技巧：防御性编程|表驱动法">&larr; Previous Post</a>
+              <a href="https://chinalhr.github.io/post/mybatis_sql_precompile/" data-toggle="tooltip" data-placement="top" title="Mybatis动态表名：# 与 $ 区别">&larr; Previous Post</a>
             </li>
           
-          
-            <li class="next">
-              <a href="https://chinalhr.github.io/post/mybatisshardplug/" data-toggle="tooltip" data-placement="top" title="Mybatis自定义分表Plug">Next Post &rarr;</a>
-            </li>
           
         </ul>
       
