@@ -5,18 +5,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Java</title>
-  <meta property="og:title" content="Java" />
-  <meta name="twitter:title" content="Java" />
+  <title>Mybatis动态表名：# 与 $ 区别</title>
+  <meta property="og:title" content="Mybatis动态表名：# 与 $ 区别" />
+  <meta name="twitter:title" content="Mybatis动态表名：# 与 $ 区别" />
+  <meta name="description" content="">
+  <meta property="og:description" content="">
+  <meta name="twitter:description" content="">
   <meta name="author" content=""/>
   <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://chinalhr.github.io/tags/java/" />
+  <meta property="og:url" content="https://chinalhr.github.io/post/mybatis_sql_precompile/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
   <meta name="generator" content="Hugo 0.31.1" />
-  <link rel="canonical" href="https://chinalhr.github.io/tags/java/" />
-  <link rel="alternate" href="https://chinalhr.github.io/tags/java/index.xml" type="application/rss+xml" title="LHR">
+  <link rel="canonical" href="https://chinalhr.github.io/post/mybatis_sql_precompile/" />
+  <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -135,14 +138,23 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <div class="tags-heading">
+            <div class="post-heading">
               
-                <h1>Java</h1>
-              
-              
-                <hr class="small">
+                <h1>Mybatis动态表名：# 与 $ 区别</h1>
               
               
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on November 12, 2018
+  
+  
+  
+</span>
+
+
               
             </div>
           </div>
@@ -153,174 +165,77 @@
 
 
     
-  <div class="container" role="main">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p></p>
+
+<h2 id="mybatis中-与-区别">MyBatis中#与$区别</h2>
+
+<p>动态SQL：mybatis在对sql语句进行预编译之前，会对sql进行动态解析，解析为一个BoundSql对象，也是在此处对动态sql进行处理。</p>
+
+<pre><code>select * from customer where id = #{id};
+↓
+select * from customer where id = ?;
+
+select * from customer where id = ${id};
+↓——传入参数为12589时
+select * from customer where id = 12589;
+</code></pre>
+
+<ul>
+<li><p>$与#的区别</p>
+
+<ol>
+<li>${ } 的变量的替换阶段是在动态 SQL 解析阶段，而 #{ }的变量的替换是在 DBMS 中。</li>
+<li>${ } 在预编译之前已经被变量替换了，存在 sql 注入问题</li>
+<li>#{}将传入的参数当成一个字符串（会给传入的参数加一个单引号)
+${}将传入的参数直接显示生成在sql中，不会添加引号</li>
+</ol></li>
+</ul>
+
+<h2 id="mybatis动态表名">MyBatis动态表名</h2>
+
+<p>MyBatis使用中，表名作为变量时，必须使用 ${ }。因为使用#{}会带上单引号 &ldquo;，这会导致 sql 语法错误。</p>
+
+<p>示例(添加statementType=&ldquo;STATEMENT&rdquo;禁止预编译)：</p>
+
+<pre><code> &lt;select id=&quot;selectByCustomerId&quot; resultMap=&quot;BaseResultMap&quot; statementType=&quot;STATEMENT&quot;&gt;
+ select
+ &lt;include refid=&quot;Base_Column_List&quot;/&gt;
+ from ${tableName}
+ where customer_id = ${customerId}
+</code></pre>
+
         
-        <div class="posts-list">
-          
-            <article class="post-preview">
-              <a href="https://chinalhr.github.io/post/java_system_structure/">
-                <h2 class="post-title">Java项目中的系统结构分层</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on June 25, 2018
-  
-  
-  
-</span>
-
-
-              </p>
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/java_system_structure/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <div class="blog-tags">
-                  
-                    <a href="https://chinalhr.github.io//tags/java/">Java</a>&nbsp;
-                  
-                </div>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://chinalhr.github.io/post/java_springboot_component1/">
-                <h2 class="post-title">Spring Boot组件-Retry|Scheduled</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on June 24, 2018
-  
-  
-  
-</span>
-
-
-              </p>
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/java_springboot_component1/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <div class="blog-tags">
-                  
-                    <a href="https://chinalhr.github.io//tags/java/">Java</a>&nbsp;
-                  
-                </div>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://chinalhr.github.io/post/java_practice/">
-                <h2 class="post-title">基于SSM项目的个人编码规范</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on February 19, 2018
-  
-  
-  
-</span>
-
-
-              </p>
-              <div class="post-entry">
-                
-                  <blockquote>
-<p>仅记录一个多月野蛮生长过程的个人编码规范</p>
-</blockquote>
-
-<p></p>
-                  <a href="https://chinalhr.github.io/post/java_practice/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <div class="blog-tags">
-                  
-                    <a href="https://chinalhr.github.io//tags/java/">Java</a>&nbsp;
-                  
-                </div>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://chinalhr.github.io/post/java_completablefuture/">
-                <h2 class="post-title">Java异步编程-CompletableFuture</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on February 2, 2018
-  
-  
-  
-</span>
-
-
-              </p>
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/java_completablefuture/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <div class="blog-tags">
-                  
-                    <a href="https://chinalhr.github.io//tags/java/">Java</a>&nbsp;
-                  
-                </div>
-              
-
-            </article>
-          
-        </div>
+          <div class="blog-tags">
+            
+              <a href="https://chinalhr.github.io//tags/java/">Java</a>&nbsp;
+            
+          </div>
         
-          <ul class="pager main-pager">
-            
-              <li class="previous">
-                <a href="/tags/java/page/1/">&larr; Newer Posts</a>
-              </li>
-            
-            
-          </ul>
+
         
-      </div>
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://chinalhr.github.io/post/codeoptimize1/" data-toggle="tooltip" data-placement="top" title="编码技巧：防御性编程|表驱动法">&larr; Previous Post</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+
     </div>
   </div>
+</div>
 
     <footer>
   <div class="container">
