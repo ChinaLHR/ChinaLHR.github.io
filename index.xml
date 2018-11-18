@@ -146,7 +146,8 @@ FindBugs错误修改指南  EC_UNRELATED_TYPES Bug: Call to equals() comparing d
       <pubDate>Sun, 12 Aug 2018 22:05:10 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/alipayandwxpay/</guid>
-      <description>阿里支付  链接：https://docs.open.alipay.com/203  微信支付  链接：https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=15_1 </description>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -355,8 +356,9 @@ Rabbit架构  RabbitMQ Server：维护一条从Producer到Consumer的路线 Clie
       <pubDate>Tue, 26 Dec 2017 19:54:40 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/about/</guid>
-      <description>关于博客 本博客基于Github Pages,Hugo搭建,使用了hyde主题，感谢开源平台与开源软件开发者。 本博客主要用于记录软件开发过程中的分析与总结。  关于我 Java后端开发工程师  技术关键字  后端开发 分布式系统 Android 主语言Java  Github https://github.com/ChinaLHR
-为学日益,为道日损。损之又损,以至于无为。无为而无不为矣。  ——老子《道德经》</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;关于本博客&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
   </channel>
