@@ -104,11 +104,9 @@
       <pubDate>Sun, 16 Sep 2018 23:07:30 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/apache_ab_use/</guid>
-      <description> 学习Apache ab进行压力测试
- 术语  吞吐率：单位是reqs/s，指的是某个并发用户数下单位时间内处理的请求数 并发连接数:服务器一个会话所接受的请求数目。 用户平均请求等待时间：处理完成所有请求数所花费的时间/ （总请求数 / 并发用户数） 服务器平均请求等待时间:处理完成所有请求数所花费的时间 / 总请求数  正常情况下主要关注吞吐量与用户平均请求等待时间。
-使用 apache ab是apache服务器所携带的压力测试工具。
-压力测试 QPS:50/s 请求数：10000(－n表示请求数，－c表示并发数)
-ab -n 10000 -c 50 http:....  结果分析 </description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;学习Apache ab进行压力测试&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -169,8 +167,9 @@ ab -n 10000 -c 50 http:....  结果分析 </description>
       <pubDate>Sun, 15 Jul 2018 18:38:26 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/distributedlocks/</guid>
-      <description> 学习分布式锁实现
- 分布式锁  关于： 当多个进程(集群)不在同一个系统中，用分布式锁控制多个进程对资源的访问 分布式锁对比线程锁：线程锁可以利用共享堆内存标记存储位置达到目的；分布式锁因为进程不在同一台机器上，需要采取对所有进程可见的中间件标记存储位置达到目的 问题：需要考虑锁对所有进程可见，锁与进程间网络问题 实现：基于数据库，缓存，分布式协调中间件(Zookeeper|Chubby)  设计  可以保证在分布式部署的应用集群中，同一个方法在同一时间只能被一台机器上的一个线程执行 设计为可重入锁，避免死锁 阻塞与非阻塞获取锁方式  基于Redis实现  思路  加锁： 使用set命令(key，value，time，NX) 释放锁:使用del(key)  问题  线程a执行时间超过锁wait时间，导致锁自动释放，①线程b获取了锁和线程a并发访问代码块，②线程a执行结束释放了线程b的锁：  ①避免并发问题：给获取锁的线程开启一个守护线程，给快超时的锁增加wait时间 ②避免锁误删：加锁的时候把当前的线程ID当做value，并在删除之前验证key对应的value是不是自己线程的ID(使用lua脚本确保判断和释放锁的原子性)    基于Zookeeper实现</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;学习分布式锁实现&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -306,8 +305,9 @@ ab -n 10000 -c 50 http:....  结果分析 </description>
       <pubDate>Fri, 02 Feb 2018 00:42:49 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/java_completablefuture/</guid>
-      <description>学习CompletableFuture
- 异步编程优势 异步对应的是并发，目的在于避免等待远程服务的返回等操作阻塞线程的执行 充分利用单核CPU的性能，意在单个CPU上执行几个松耦合的任务  Future接口 设计 Future设计是某一时刻会发生的结果进行建模，调用一个函数方法的时候，可以让被调用者立即返回， 然后再后台慢慢处理这个请求。对于调用者来说,则可以先处理一些其他任务，在真正需要获取数据的场合再去尝试获取需要的数据  Future接口局限性 使用Future接口很难表述Future结果之间的依赖性，例如Future的组合计算，通知合并等... CompletableFuture利用Lambda表达式以声明式的API提供了一种机制，能够用最有效的方式，非常容易地将多个以同步或异步方式执行复杂操作的任务结合到一起。  使用CompletableFuture构建组合式异步应用 基本操作 public class Shop { private String shopName; public Shop(String shopName) { this.shopName = shopName; } public String getShopName() { return shopName; } public void setShopName(String shopName) { this.shopName = shopName; } /** * 实时价格查看：同步 * @param product * @return */ public Double getPrice(String product){ return calculatePrice(product); } /** * 实时价格查看：异步 * @param product * @return */ public Future&amp;lt;Double&amp;gt; getPriceAsync(String product){ CompletableFuture&amp;lt;Double&amp;gt; futurePrice = new CompletableFuture&amp;lt;&amp;gt;(); //在异步线程中进行计算 new Thread(()-&amp;gt;{ try { double price = calculatePrice(product); futurePrice.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;学习CompletableFuture&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
