@@ -17,7 +17,9 @@
       <pubDate>Mon, 12 Nov 2018 22:51:04 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/mybatisshardplug/</guid>
-      <description>MyBatis Interceptor MyBatis 允许你在已映射语句执行过程中的某一点使用插件来拦截,包括： Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)[拦截执行器的方法] ParameterHandler (getParameterObject, setParameters)[拦截参数的处理] ResultSetHandler (handleResultSets, handleOutputParameters)[拦截结果集的处理] StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法构建的处理]  Interceptor接口 public interface Interceptor { //进行拦截的时候要执行的方法 Object intercept(Invocation invocation) throws Throwable; //决定是否要进行拦截进而决定要返回一个什么样的目标对象 Object plugin(Object target); //Mybatis配置文件中指定一些属性 void setProperties(Properties properties); }  @Intercepts @Intercepts用于表明当前的对象是一个Interceptor，而@Signature则表明要拦截的接口、方法以及对应的参数类型。 @Intercepts( { @Signature(method = &amp;quot;query&amp;quot;, type = Executor.class, args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }), @Signature(method = &amp;quot;prepare&amp;quot;, type = StatementHandler.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;工作中需要用到MyBatis进行分表操作，简单记录实现过程&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -26,11 +28,9 @@
       <pubDate>Mon, 12 Nov 2018 21:30:50 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/mybatis_sql_precompile/</guid>
-      <description>MyBatis中#与$区别 动态SQL：mybatis在对sql语句进行预编译之前，会对sql进行动态解析，解析为一个BoundSql对象，也是在此处对动态sql进行处理。
-select * from customer where id = #{id}; ↓ select * from customer where id = ?; select * from customer where id = ${id}; ↓——传入参数为12589时 select * from customer where id = 12589;   $与#的区别
- ${ } 的变量的替换阶段是在动态 SQL 解析阶段，而 #{ }的变量的替换是在 DBMS 中。 ${ } 在预编译之前已经被变量替换了，存在 sql 注入问题 #{}将传入的参数当成一个字符串（会给传入的参数加一个单引号) ${}将传入的参数直接显示生成在sql中，不会添加引号   MyBatis动态表名 MyBatis使用中，表名作为变量时，必须使用 ${ }。因为使用#{}会带上单引号 &amp;ldquo;，这会导致 sql 语法错误。
-示例(添加statementType=&amp;ldquo;STATEMENT&amp;rdquo;禁止预编译)：
- &amp;lt;select id=&amp;quot;selectByCustomerId&amp;quot; resultMap=&amp;quot;BaseResultMap&amp;quot; statementType=&amp;quot;STATEMENT&amp;quot;&amp;gt; select &amp;lt;include refid=&amp;quot;Base_Column_List&amp;quot;/&amp;gt; from ${tableName} where customer_id = ${customerId} </description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;学习Mybatis# 与 $ 机制&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -61,11 +61,8 @@ select * from customer where id = #{id}; ↓ select * from customer where id = ?
       <pubDate>Mon, 24 Sep 2018 15:56:35 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/spring_aop/</guid>
-      <description>Joinpoint（连接点） 连接点是指那些被拦截到的点。在 Spring 中,这些点指的是方法,因为 Spring 只支持方法类型的连接点。
-Pointcut(切入点) 所谓切入点是指我们要对哪些 Joinpoint 进行拦截的定义。 PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的类，MethodMatcher 指定特定的函数,能实现函数级别的AOP。
- MethodMatcher 两个实现类  StaticMethodMatcher：不在运行时检测Joinpoint的参数(可以利用框架内缓存，性能高) DynamicMethodMatcher：DynamicMethodMatcher要在运行时实时检测Joinpoint的参数   Advice（通知/增强） 通知是指拦截到 Joinpoint 之后所要做的事情就是通知。通知分为【前置通知】, 【后置通知】,【异常通知】,【最终通知】, 【环绕通知】(切面要完成的功能)
- per-class类型的Advice（可以在目标对象类的所有实例之间共享，通常只提供方法拦截功能，不会对目标对象保存任何状态或添加新功能）   per-instance类型的Advice（不会在目标类所有实例之间共享，而是会为不同的实例对象保存他们各自的状态以及相关逻辑）Introduction可以在不改变目标类的定义的情况下，为对象添加新的属性与行为  Advisor/Aspect(切面) Advisor/Aspect是切入点和通知（引介）的结合。 * Spring AOP的PointcutAdvisor AbstractPointcutAdvisor 实现了Ordered,为多个Advice指定顺序，顺序为Int类型，越小优先级越高, AbstractGenericPointcutAdvisor 指定了Advice，除了Introduction之外的类型 Proxy(代理) 一个类被 AOP 织入增强后，就产生一个结果代理类。 * ProxyConfig
-	private boolean proxyTargetClass = false;//true,使用CGLIB,false,使用原生 private boolean optimize = false;//是否进行优化 boolean opaque = false;//是否强制转化为advised boolean exposeProxy = false;//AOP生成对象时，绑定到ThreadLocal, 可以通过AopContext获取 private boolean frozen = false;//代理信息一旦设置，是否允许改变   ProxyFactory ProxyFactory是Spring的AOP织入器，接受Pointcut/Advice返回织入了横切逻辑的目标对象代理。 ProxyFactoryBean 本质上是一个用来生产Proxy的FactoryBean，AOP与IOC的融合。 （如果容器中某个对象依赖于ProxyFactoryBean ，他将会使用到ProxyFactoryBean的getObject()方法返回的内容）  aop核心实现(Weaving织入器) 将AOP融入Bean的创建过程,AspectJ方式织入的核心，是一个BeanPostProcess（会扫描所有的Pointcut与遍历所有Bean,并对需要的Bean进行织入-自动代理，当对象实例化的时候，为其生成代理对象并返回）</description>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -74,8 +71,9 @@ Pointcut(切入点) 所谓切入点是指我们要对哪些 Joinpoint 进行拦�
       <pubDate>Sat, 22 Sep 2018 23:10:00 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/springcache_shrio_bug/</guid>
-      <description>问题 Spring Cache 和 Apache Shiro 整合时，自定义的shiroRealm中引用了service，会导致service的Cache相关注解作用失效
-分析 关于BeanPostProcessor  BeanPostProcessor:构建Bean的时候调用，会处理所有符合条件的对象实例(扫描所有Bean进行处理,Aop实现就是通过BeanPostProcessor找到匹配的Pointcut进行自动代理)   提供了postProcessBeforeInitialization与postProcessAfterInitialization方法，对所有实现了InitializingBean的Bean的afterPropertiesSet方法前后执行。 BeanPostProcessor本身也是一个Bean，一般而言其实例化时机要早过普通的Bean，但是BeanPostProcessor也会依赖一些Bean，这就导致了一些Bean的实例化早于BeanPostProcessor，由此会导致一些问题。  BeanPostProcessor启动阶段对其依赖的Bean造成的影响  AbstractApplicationContext refresh是Spring IOC容器的核心方法，这个方法的作用是创建加载Spring容器配置(包括.xml配置,property文件和数据库模式等) AbstractApplicationContext refresh()——&amp;gt;registerBeanPostProcessors(beanFactory)方法会注册BeanPostProcessors：  public static void registerBeanPostProcessors( ConfigurableListableBeanFactory beanFactory, AbstractApplicationContext applicationContext) { String[] postProcessorNames = beanFactory.getBeanNamesForType(BeanPostProcessor.class, true, false); // 注册BeanPostProcessorChecker // 检查可在当前Bean上起作用的BeanPostProcessor个数与总的BeanPostProcessor个数，如果起作用的个数少于总数打印：//xxx is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for //auto-proxying) int beanProcessorTargetCount = beanFactory.getBeanPostProcessorCount() + 1 + postProcessorNames.length; beanFactory.addBeanPostProcessor(new BeanPostProcessorChecker(beanFactory, beanProcessorTargetCount)); // Separate between BeanPostProcessors that implement PriorityOrdered, // Ordered, and the rest.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;记录Shrio与SpringCache使用过程遇到的问题&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -84,8 +82,9 @@ Pointcut(切入点) 所谓切入点是指我们要对哪些 Joinpoint 进行拦�
       <pubDate>Tue, 21 Aug 2018 21:08:18 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/findbugs/</guid>
-      <description>原文链接 https://www.cnblogs.com/java-zone/articles/3118592.html
-FindBugs错误修改指南  EC_UNRELATED_TYPES Bug: Call to equals() comparing different types Pattern id: EC_UNRELATED_TYPES, type: EC, category: CORRECTNESS 解释： 两个不同类型的对象调用equals方法，如果equals方法没有被重写，那么调用object的==，永远不会相等；如果equals方法被重写，而且含有instanceof逻辑，那么还是不会相等。 解决方法： 应该改为str.toString()  IM_BAD_CHECK_FOR_ODD Bug: Check for oddness that won&amp;rsquo;t work for negative numbers Pattern id: IM_BAD_CHECK_FOR_ODD, type: IM, category: STYLE 解释： 如果row是负奇数，那么row % 2 == -1， 解决方法： 考虑使用x &amp;amp; 1 == 1或者x % 2 != 0 NP_ALWAYS_NULL Pattern: Null pointer dereference id: NP_ALWAYS_NULL, type: NP, category: CORRECTNESS A null pointer is dereferenced here.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;转载&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -104,7 +103,9 @@ FindBugs错误修改指南  EC_UNRELATED_TYPES Bug: Call to equals() comparing d
       <pubDate>Wed, 25 Jul 2018 23:20:01 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/java_lambda_exception/</guid>
-      <description>问题：Java在Stream中只能使用TryCatch处理check异常，无法throw处理   //在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理 public List&amp;lt;Class&amp;gt; getClazz(List&amp;lt;String&amp;gt; names) { return names.stream() .map(className -&amp;gt; { try { return Class.forName(className); } catch (ClassNotFoundException e) { e.printStackTrace(); return getClass(); } } ) .collect(Collectors.toList()); }   解决：定义Fun接口与lambda包装方法，利用泛型throw出原始异常   @FunctionalInterface interface ExceptionFunction&amp;lt;T, R, E extends Exception&amp;gt; { R apply(T t) throws E; } /** * 包装异常 */ public static &amp;lt;T, R, E extends Exception&amp;gt; Function&amp;lt;T, R&amp;gt; wrap(ExceptionFunction&amp;lt;T, R, E&amp;gt; f) throws E { return t -&amp;gt; { try { return f.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Java Lamdba Api缺陷&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -113,9 +114,9 @@ FindBugs错误修改指南  EC_UNRELATED_TYPES Bug: Call to equals() comparing d
       <pubDate>Fri, 13 Jul 2018 22:17:22 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/redistemplate_problem/</guid>
-      <description>RedisTemplate事务问题  RedisTemplate事务使用 采用RedisTemplate的SesionCallback  SessionCallback&amp;lt;Object&amp;gt; sessionCallback=new SessionCallback&amp;lt;Object&amp;gt;(){ @Override public Object execute(RedisOperations operations) throws DataAccessException{ operations.multi(); //常规操作... Object val=operations.exec(); return val; } } StringRedisTemplate.execute(sessionCallback);   UnsupportedOperationException 在Pipline和Transaction中不支持多个字段操作   RedisTemple序列化问题 使用redisTemplate jackson序列化时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&amp;hellip;,会有导致序列化失败，类型转换异常风险。
-解决：使用Number存储
-优秀博文链接 https://www.jianshu.com/p/7bf5dc61ca06</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;记录RedisTemplate使用过程的问题&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -124,7 +125,8 @@ FindBugs错误修改指南  EC_UNRELATED_TYPES Bug: Call to equals() comparing d
       <pubDate>Wed, 11 Jul 2018 21:19:59 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/java_supplier_predicate_consumer/</guid>
-      <description>Supplier  Supplier接口没有入参，通过调用T get()返回一个T类型的对象 开发中通过supplier实时获取配置(配置使用json写在数据库中)   //设置Supplier获取函数为从数据库获取 zSetRedisConsumer.setBatchProcessSize(() -&amp;gt; hkConfigService.findRedisBuffConfig().getBatchProcessSize()); private Supplier&amp;lt;Long&amp;gt; fixDelayMilliseconds; @Override public RedisConsumer setFixDelayMilliseconds(Supplier&amp;lt;Long&amp;gt; fixDelayMilliseconds) { this.fixDelayMilliseconds = fixDelayMilliseconds; return this; } //通过调用batchProcessSize.get()实时获取配置  Predicate  Predicate函数式接口的主要作用就是提供一个boolean test(T t)方法(断言)，接受一个参数返回一个布尔类型 开发中使用Predicate进行StreamFilter  public class PredicateDemo { public static void main(String[] args) { List&amp;lt;Integer&amp;gt; list = Arrays.asList(...); PredicateTest predicateTest = new PredicateTest(); //输出大于5的数字 List&amp;lt;Integer&amp;gt; result = predicateTest.conditionFilter(list, integer -&amp;gt; integer &amp;gt; 5); result.forEach(System.out::println); } //抽象方法 public List&amp;lt;Integer&amp;gt; conditionFilter(List&amp;lt;Integer&amp;gt; list, Predicate&amp;lt;Integer&amp;gt; predicate){ return list.</description>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -133,7 +135,8 @@ FindBugs错误修改指南  EC_UNRELATED_TYPES Bug: Call to equals() comparing d
       <pubDate>Mon, 25 Jun 2018 12:07:03 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/java_system_structure/</guid>
-      <description>分层结构  common 公用组件，包括config,exception,filter dao 管理数据源, 包括mysql,redis(Dao接口，Mapper) service 操作实体数据, 严禁service间相互调用 biz 业务层, 向下调用service，一般一个biz向下调用多个Service task 异步调用，定时任务层(Mq,Task) web web入口   领域模型  dao层对象：xxxDO，xxx即为数据表名。查询对象一般用Param后缀 service/biz层对象：xxxDTO，xxx为业务领域相关的名称。 查询对象一般用 Req后缀 web对象：xxxVO，xxx一般为网页名称。 </description>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -142,13 +145,9 @@ FindBugs错误修改指南  EC_UNRELATED_TYPES Bug: Call to equals() comparing d
       <pubDate>Sun, 24 Jun 2018 20:53:59 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/java_springboot_component1/</guid>
-      <description>Spring Boot Retry(重试机制) 配置 pom文件中添加依赖
- &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.retry&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-retry&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.aspectj&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;aspectjweaver&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt;  在Application类中增加@EnableRetry注解启用
-使用 在需要重试的方法上面加入@Retryable注解
- @Retryable(value = Exception.class,maxAttempts = 3,backoff = @Backoff(delay = 2000,multiplier = 1.5)) 1.value：哪些异常出现的时候触发重试 2.maxAttempts：最大重试次数 3.delay：重试延迟时间 4.multiplier：上一次延时时间是这一次的倍数（1.5 第一次2s，第二次3s...）  重试到最后一次失败的时候会抛出异常或者执行在同一个类里@Recover注解了的回调方法
-@Recover public int recover(Exception e){ //执行回调 }  Spring Boot Scheduled(定时任务) 配置 在Application类中增加@EnableScheduling注解启用
-使用 在需要定时调用的方法上面加入@Scheduled注解
-/** * 使用cron表达式实现每5秒打印一次 */ @Scheduled(cron=&amp;quot;0/5 * * * * ? &amp;quot;) public void cronPrintTask(){ System.out.println(&amp;quot;cronPrintTask ：&amp;quot;+new Date(System.currentTimeMillis())); } /** * fixedRate含义是上一个调用开始后再次调用的延时（不用等待上一次调用完成） * 这样就会存在重复执行的问题与时间不准确问题 */ @Scheduled(fixedRate = 1000 * 1) public void fixedRatePrintTask(){ //执行方法 } /** * fixedDelay与fixedRate则是相反的， * 配置了该属性后会等到方法执行完成后延迟配置的时间再次执行该方法 */ @Scheduled(fixedDelay = 1000 * 1) public void fixedDelay() throws InterruptedException { //执行方法 } /** * initialDelay表示第一次执行延迟时间，只是做延迟的设定，并不会控制其他逻辑 * 需要配合fixedDelay.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Spring Retry与Scheduled使用记录&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -168,7 +167,8 @@ FindBugs错误修改指南  EC_UNRELATED_TYPES Bug: Call to equals() comparing d
       <pubDate>Fri, 02 Feb 2018 00:42:49 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/java_completablefuture/</guid>
-      <description>异步编程优势 异步对应的是并发，目的在于避免等待远程服务的返回等操作阻塞线程的执行 充分利用单核CPU的性能，意在单个CPU上执行几个松耦合的任务  Future接口 设计 Future设计是某一时刻会发生的结果进行建模，调用一个函数方法的时候，可以让被调用者立即返回， 然后再后台慢慢处理这个请求。对于调用者来说,则可以先处理一些其他任务，在真正需要获取数据的场合再去尝试获取需要的数据  Future接口局限性 使用Future接口很难表述Future结果之间的依赖性，例如Future的组合计算，通知合并等... CompletableFuture利用Lambda表达式以声明式的API提供了一种机制，能够用最有效的方式，非常容易地将多个以同步或异步方式执行复杂操作的任务结合到一起。  使用CompletableFuture构建组合式异步应用 基本操作 public class Shop { private String shopName; public Shop(String shopName) { this.shopName = shopName; } public String getShopName() { return shopName; } public void setShopName(String shopName) { this.shopName = shopName; } /** * 实时价格查看：同步 * @param product * @return */ public Double getPrice(String product){ return calculatePrice(product); } /** * 实时价格查看：异步 * @param product * @return */ public Future&amp;lt;Double&amp;gt; getPriceAsync(String product){ CompletableFuture&amp;lt;Double&amp;gt; futurePrice = new CompletableFuture&amp;lt;&amp;gt;(); //在异步线程中进行计算 new Thread(()-&amp;gt;{ try { double price = calculatePrice(product); futurePrice.</description>
+      <description>学习CompletableFuture
+ 异步编程优势 异步对应的是并发，目的在于避免等待远程服务的返回等操作阻塞线程的执行 充分利用单核CPU的性能，意在单个CPU上执行几个松耦合的任务  Future接口 设计 Future设计是某一时刻会发生的结果进行建模，调用一个函数方法的时候，可以让被调用者立即返回， 然后再后台慢慢处理这个请求。对于调用者来说,则可以先处理一些其他任务，在真正需要获取数据的场合再去尝试获取需要的数据  Future接口局限性 使用Future接口很难表述Future结果之间的依赖性，例如Future的组合计算，通知合并等... CompletableFuture利用Lambda表达式以声明式的API提供了一种机制，能够用最有效的方式，非常容易地将多个以同步或异步方式执行复杂操作的任务结合到一起。  使用CompletableFuture构建组合式异步应用 基本操作 public class Shop { private String shopName; public Shop(String shopName) { this.shopName = shopName; } public String getShopName() { return shopName; } public void setShopName(String shopName) { this.shopName = shopName; } /** * 实时价格查看：同步 * @param product * @return */ public Double getPrice(String product){ return calculatePrice(product); } /** * 实时价格查看：异步 * @param product * @return */ public Future&amp;lt;Double&amp;gt; getPriceAsync(String product){ CompletableFuture&amp;lt;Double&amp;gt; futurePrice = new CompletableFuture&amp;lt;&amp;gt;(); //在异步线程中进行计算 new Thread(()-&amp;gt;{ try { double price = calculatePrice(product); futurePrice.</description>
     </item>
     
   </channel>

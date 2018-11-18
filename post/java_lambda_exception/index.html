@@ -8,9 +8,15 @@
   <title>Java在Stream中异常处理问题</title>
   <meta property="og:title" content="Java在Stream中异常处理问题" />
   <meta name="twitter:title" content="Java在Stream中异常处理问题" />
-  <meta name="description" content="问题：Java在Stream中只能使用TryCatch处理check异常，无法throw处理   //在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理 public List&lt;Class&gt; getClazz(List&lt;String&gt; names) { return names.stream() .map(className -&gt; { try { return Class.forName(className); } catch (ClassNotFoundException e) { e.printStackTrace(); return getClass(); } } ) .collect(Collectors.toList()); }   解决：定义Fun接口与lambda包装方法，利用泛型throw出原始异常   @FunctionalInterface interface ExceptionFunction&lt;T, R, E extends Exception&gt; { R apply(T t) throws E; } /** * 包装异常 */ public static &lt;T, R, E extends Exception&gt; Function&lt;T, R&gt; wrap(ExceptionFunction&lt;T, R, E&gt; f) throws E { return t -&gt; { try { return f.">
-  <meta property="og:description" content="问题：Java在Stream中只能使用TryCatch处理check异常，无法throw处理   //在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理 public List&lt;Class&gt; getClazz(List&lt;String&gt; names) { return names.stream() .map(className -&gt; { try { return Class.forName(className); } catch (ClassNotFoundException e) { e.printStackTrace(); return getClass(); } } ) .collect(Collectors.toList()); }   解决：定义Fun接口与lambda包装方法，利用泛型throw出原始异常   @FunctionalInterface interface ExceptionFunction&lt;T, R, E extends Exception&gt; { R apply(T t) throws E; } /** * 包装异常 */ public static &lt;T, R, E extends Exception&gt; Function&lt;T, R&gt; wrap(ExceptionFunction&lt;T, R, E&gt; f) throws E { return t -&gt; { try { return f.">
-  <meta name="twitter:description" content="问题：Java在Stream中只能使用TryCatch处理check异常，无法throw处理   //在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理 public List&lt;Class&gt; getClazz(List&lt;String&gt; names) { return names.stream() …">
+  <meta name="description" content="
+Java Lamdba Api缺陷
+">
+  <meta property="og:description" content="
+Java Lamdba Api缺陷
+">
+  <meta name="twitter:description" content="
+Java Lamdba Api缺陷
+">
   <meta name="author" content=""/>
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://chinalhr.github.io/post/java_lambda_exception/" />
@@ -169,12 +175,16 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        <ul>
+        <blockquote>
+<p>Java Lamdba Api缺陷</p>
+</blockquote>
+
+<ul>
 <li>问题：Java在Stream中只能使用TryCatch处理check异常，无法throw处理</li>
 </ul>
 
-<pre><code>    //在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理
-    public List&lt;Class&gt; getClazz(List&lt;String&gt; names) {
+<pre><code>	//在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理
+	public List&lt;Class&gt; getClazz(List&lt;String&gt; names) {
         return names.stream()
                 .map(className -&gt; {
                             try {

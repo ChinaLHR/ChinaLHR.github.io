@@ -8,12 +8,12 @@
   <title>使用RabbitMQ</title>
   <meta property="og:title" content="使用RabbitMQ" />
   <meta name="twitter:title" content="使用RabbitMQ" />
-  <meta name="description" content="关于Rabbit RabbitMQ是一个由erlang开发的AMQP（Advanced Message Queue ）的开源实现。MQ在生产环境中的作用主要是解耦，异步消息，流量削峰以实现高性能，高可用，可伸缩和最终一致性架构。
-Rabbit架构  RabbitMQ Server：维护一条从Producer到Consumer的路线 Client A &amp; B： Producer，数据的发送方 Client 1，2，3：Consumer，数据的接收方。 Exchanges:生产者发布信息的地方 Queues:消息最终被消费者接收的地方 Bindings:消息如何从Exchanges路由到Queues的方式 Connection:Producer和Consumer通过TCP连接到RabbitMQ Server Channels:建立在Connection中,数据流动都是在Channel中进行的  应用场景  异步处理[提高响应速度]  应用解耦[避免某个应用的错误影响其他应用]  流量削锋[缓解短时间内高流量压垮应用]  日志处理[解决大量日志传输的问题]  消息通信  中间件使用   Exchange类型  Direct(根据Binding指定的Routing Key,将符合Key的消息发送到Binding的Queue) Fanout(广播,将同一个Message发送到所有同该Exchange binding的Queue) Topic(将路由键和某模式进行匹配,#匹配零个到多个单词,*匹配一任意个单词) default exchange(默认,用空字符串表示,是direct exchange类型)  消息持久化  Exchange持久化(在声明时指定durable=&gt;1) Queue持久化(在声明时指定durable=&gt;1) 消息持久化(在投递时指定delivery_mode=&gt;2)  模式  Work模式(任务分发)  订阅模式  路由模式  通配符模式  ">
-  <meta property="og:description" content="关于Rabbit RabbitMQ是一个由erlang开发的AMQP（Advanced Message Queue ）的开源实现。MQ在生产环境中的作用主要是解耦，异步消息，流量削峰以实现高性能，高可用，可伸缩和最终一致性架构。
-Rabbit架构  RabbitMQ Server：维护一条从Producer到Consumer的路线 Client A &amp; B： Producer，数据的发送方 Client 1，2，3：Consumer，数据的接收方。 Exchanges:生产者发布信息的地方 Queues:消息最终被消费者接收的地方 Bindings:消息如何从Exchanges路由到Queues的方式 Connection:Producer和Consumer通过TCP连接到RabbitMQ Server Channels:建立在Connection中,数据流动都是在Channel中进行的  应用场景  异步处理[提高响应速度]  应用解耦[避免某个应用的错误影响其他应用]  流量削锋[缓解短时间内高流量压垮应用]  日志处理[解决大量日志传输的问题]  消息通信  中间件使用   Exchange类型  Direct(根据Binding指定的Routing Key,将符合Key的消息发送到Binding的Queue) Fanout(广播,将同一个Message发送到所有同该Exchange binding的Queue) Topic(将路由键和某模式进行匹配,#匹配零个到多个单词,*匹配一任意个单词) default exchange(默认,用空字符串表示,是direct exchange类型)  消息持久化  Exchange持久化(在声明时指定durable=&gt;1) Queue持久化(在声明时指定durable=&gt;1) 消息持久化(在投递时指定delivery_mode=&gt;2)  模式  Work模式(任务分发)  订阅模式  路由模式  通配符模式  ">
-  <meta name="twitter:description" content="关于Rabbit RabbitMQ是一个由erlang开发的AMQP（Advanced Message Queue ）的开源实现。MQ在生产环境中的作用主要是解耦，异步消息，流量削峰以实现高性能，高可用，可伸缩和最终一致性架构。
-Rabbit架构  RabbitMQ Server：维护一条从Producer到Consumer的路线 Client A &amp; B： Producer， …">
+  <meta name="description" content="
+">
+  <meta property="og:description" content="
+">
+  <meta name="twitter:description" content="
+">
   <meta name="author" content=""/>
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://chinalhr.github.io/post/rabbitmq_use/" />
@@ -172,7 +172,10 @@ Rabbit架构  RabbitMQ Server：维护一条从Producer到Consumer的路线 Clie
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        <h2 id="关于rabbit">关于Rabbit</h2>
+        <blockquote>
+</blockquote>
+
+<h2 id="关于rabbit">关于Rabbit</h2>
 
 <p>RabbitMQ是一个由erlang开发的AMQP（Advanced Message Queue ）的开源实现。MQ在生产环境中的作用主要是解耦，异步消息，流量削峰以实现高性能，高可用，可伸缩和最终一致性架构。</p>
 

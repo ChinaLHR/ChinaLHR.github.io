@@ -8,9 +8,12 @@
   <title>函数式接口-Supplier|Predicate|Consumer|Function</title>
   <meta property="og:title" content="函数式接口-Supplier|Predicate|Consumer|Function" />
   <meta name="twitter:title" content="函数式接口-Supplier|Predicate|Consumer|Function" />
-  <meta name="description" content="Supplier  Supplier接口没有入参，通过调用T get()返回一个T类型的对象 开发中通过supplier实时获取配置(配置使用json写在数据库中)   //设置Supplier获取函数为从数据库获取 zSetRedisConsumer.setBatchProcessSize(() -&gt; hkConfigService.findRedisBuffConfig().getBatchProcessSize()); private Supplier&lt;Long&gt; fixDelayMilliseconds; @Override public RedisConsumer setFixDelayMilliseconds(Supplier&lt;Long&gt; fixDelayMilliseconds) { this.fixDelayMilliseconds = fixDelayMilliseconds; return this; } //通过调用batchProcessSize.get()实时获取配置  Predicate  Predicate函数式接口的主要作用就是提供一个boolean test(T t)方法(断言)，接受一个参数返回一个布尔类型 开发中使用Predicate进行StreamFilter  public class PredicateDemo { public static void main(String[] args) { List&lt;Integer&gt; list = Arrays.asList(...); PredicateTest predicateTest = new PredicateTest(); //输出大于5的数字 List&lt;Integer&gt; result = predicateTest.conditionFilter(list, integer -&gt; integer &gt; 5); result.forEach(System.out::println); } //抽象方法 public List&lt;Integer&gt; conditionFilter(List&lt;Integer&gt; list, Predicate&lt;Integer&gt; predicate){ return list.">
-  <meta property="og:description" content="Supplier  Supplier接口没有入参，通过调用T get()返回一个T类型的对象 开发中通过supplier实时获取配置(配置使用json写在数据库中)   //设置Supplier获取函数为从数据库获取 zSetRedisConsumer.setBatchProcessSize(() -&gt; hkConfigService.findRedisBuffConfig().getBatchProcessSize()); private Supplier&lt;Long&gt; fixDelayMilliseconds; @Override public RedisConsumer setFixDelayMilliseconds(Supplier&lt;Long&gt; fixDelayMilliseconds) { this.fixDelayMilliseconds = fixDelayMilliseconds; return this; } //通过调用batchProcessSize.get()实时获取配置  Predicate  Predicate函数式接口的主要作用就是提供一个boolean test(T t)方法(断言)，接受一个参数返回一个布尔类型 开发中使用Predicate进行StreamFilter  public class PredicateDemo { public static void main(String[] args) { List&lt;Integer&gt; list = Arrays.asList(...); PredicateTest predicateTest = new PredicateTest(); //输出大于5的数字 List&lt;Integer&gt; result = predicateTest.conditionFilter(list, integer -&gt; integer &gt; 5); result.forEach(System.out::println); } //抽象方法 public List&lt;Integer&gt; conditionFilter(List&lt;Integer&gt; list, Predicate&lt;Integer&gt; predicate){ return list.">
-  <meta name="twitter:description" content="Supplier  Supplier接口没有入参，通过调用T get()返回一个T类型的对象 开发中通过supplier实时获取配置(配置使用json写在数据库中)   //设置Supplier获取函数为从数据库获取 zSetRedisConsumer.setBatchProcessSize(() -&gt; …">
+  <meta name="description" content="
+">
+  <meta property="og:description" content="
+">
+  <meta name="twitter:description" content="
+">
   <meta name="author" content=""/>
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://chinalhr.github.io/post/java_supplier_predicate_consumer/" />
@@ -169,23 +172,26 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        <h2 id="supplier">Supplier</h2>
+        <blockquote>
+</blockquote>
+
+<h2 id="supplier">Supplier</h2>
 
 <ul>
 <li>Supplier<T>接口没有入参，通过调用T get()返回一个T类型的对象</li>
 <li>开发中通过supplier实时获取配置(配置使用json写在数据库中)</li>
 </ul>
 
-<pre><code>    //设置Supplier获取函数为从数据库获取
-    zSetRedisConsumer.setBatchProcessSize(() -&gt; hkConfigService.findRedisBuffConfig().getBatchProcessSize());
+<pre><code>	//设置Supplier获取函数为从数据库获取
+	zSetRedisConsumer.setBatchProcessSize(() -&gt; hkConfigService.findRedisBuffConfig().getBatchProcessSize());
 
-    private Supplier&lt;Long&gt; fixDelayMilliseconds;
-    @Override
+	private Supplier&lt;Long&gt; fixDelayMilliseconds;
+	@Override
     public RedisConsumer setFixDelayMilliseconds(Supplier&lt;Long&gt; fixDelayMilliseconds) {
         this.fixDelayMilliseconds = fixDelayMilliseconds;
         return this;
     }
-    //通过调用batchProcessSize.get()实时获取配置
+	//通过调用batchProcessSize.get()实时获取配置
 
 </code></pre>
 
@@ -232,7 +238,7 @@
 System.out.println(validInput(name1, inputStr -&gt; inputStr.length() &gt; 3 ? &quot;名字过长&quot;:inputStr));
 //抽象方法
 public static String validInput(String name,Function&lt;String,String&gt; function) {
-        return function.apply(name);
+		return function.apply(name);
 }
 </code></pre>
 

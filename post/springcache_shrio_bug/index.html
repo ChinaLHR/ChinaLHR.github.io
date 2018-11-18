@@ -8,12 +8,15 @@
   <title>Shrio导致SpringCache缓存失效原因分析</title>
   <meta property="og:title" content="Shrio导致SpringCache缓存失效原因分析" />
   <meta name="twitter:title" content="Shrio导致SpringCache缓存失效原因分析" />
-  <meta name="description" content="问题 Spring Cache 和 Apache Shiro 整合时，自定义的shiroRealm中引用了service，会导致service的Cache相关注解作用失效
-分析 关于BeanPostProcessor  BeanPostProcessor:构建Bean的时候调用，会处理所有符合条件的对象实例(扫描所有Bean进行处理,Aop实现就是通过BeanPostProcessor找到匹配的Pointcut进行自动代理)   提供了postProcessBeforeInitialization与postProcessAfterInitialization方法，对所有实现了InitializingBean的Bean的afterPropertiesSet方法前后执行。 BeanPostProcessor本身也是一个Bean，一般而言其实例化时机要早过普通的Bean，但是BeanPostProcessor也会依赖一些Bean，这就导致了一些Bean的实例化早于BeanPostProcessor，由此会导致一些问题。  BeanPostProcessor启动阶段对其依赖的Bean造成的影响  AbstractApplicationContext refresh是Spring IOC容器的核心方法，这个方法的作用是创建加载Spring容器配置(包括.xml配置,property文件和数据库模式等) AbstractApplicationContext refresh()——&gt;registerBeanPostProcessors(beanFactory)方法会注册BeanPostProcessors：  public static void registerBeanPostProcessors( ConfigurableListableBeanFactory beanFactory, AbstractApplicationContext applicationContext) { String[] postProcessorNames = beanFactory.getBeanNamesForType(BeanPostProcessor.class, true, false); // 注册BeanPostProcessorChecker // 检查可在当前Bean上起作用的BeanPostProcessor个数与总的BeanPostProcessor个数，如果起作用的个数少于总数打印：//xxx is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for //auto-proxying) int beanProcessorTargetCount = beanFactory.getBeanPostProcessorCount() &#43; 1 &#43; postProcessorNames.length; beanFactory.addBeanPostProcessor(new BeanPostProcessorChecker(beanFactory, beanProcessorTargetCount)); // Separate between BeanPostProcessors that implement PriorityOrdered, // Ordered, and the rest.">
-  <meta property="og:description" content="问题 Spring Cache 和 Apache Shiro 整合时，自定义的shiroRealm中引用了service，会导致service的Cache相关注解作用失效
-分析 关于BeanPostProcessor  BeanPostProcessor:构建Bean的时候调用，会处理所有符合条件的对象实例(扫描所有Bean进行处理,Aop实现就是通过BeanPostProcessor找到匹配的Pointcut进行自动代理)   提供了postProcessBeforeInitialization与postProcessAfterInitialization方法，对所有实现了InitializingBean的Bean的afterPropertiesSet方法前后执行。 BeanPostProcessor本身也是一个Bean，一般而言其实例化时机要早过普通的Bean，但是BeanPostProcessor也会依赖一些Bean，这就导致了一些Bean的实例化早于BeanPostProcessor，由此会导致一些问题。  BeanPostProcessor启动阶段对其依赖的Bean造成的影响  AbstractApplicationContext refresh是Spring IOC容器的核心方法，这个方法的作用是创建加载Spring容器配置(包括.xml配置,property文件和数据库模式等) AbstractApplicationContext refresh()——&gt;registerBeanPostProcessors(beanFactory)方法会注册BeanPostProcessors：  public static void registerBeanPostProcessors( ConfigurableListableBeanFactory beanFactory, AbstractApplicationContext applicationContext) { String[] postProcessorNames = beanFactory.getBeanNamesForType(BeanPostProcessor.class, true, false); // 注册BeanPostProcessorChecker // 检查可在当前Bean上起作用的BeanPostProcessor个数与总的BeanPostProcessor个数，如果起作用的个数少于总数打印：//xxx is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for //auto-proxying) int beanProcessorTargetCount = beanFactory.getBeanPostProcessorCount() &#43; 1 &#43; postProcessorNames.length; beanFactory.addBeanPostProcessor(new BeanPostProcessorChecker(beanFactory, beanProcessorTargetCount)); // Separate between BeanPostProcessors that implement PriorityOrdered, // Ordered, and the rest.">
-  <meta name="twitter:description" content="问题 Spring Cache 和 Apache Shiro 整合时，自定义的shiroRealm中引用了service，会导致service的Cache相关注解作用失效
-分析 关于BeanPostProcessor  BeanPostProcessor:构建Bean的时候调用，会处理所有符合条件的对象实例(扫描所有Bean进行处理,Aop实现就是通过BeanPostProcessor找到匹配 …">
+  <meta name="description" content="
+记录Shrio与SpringCache使用过程遇到的问题
+">
+  <meta property="og:description" content="
+记录Shrio与SpringCache使用过程遇到的问题
+">
+  <meta name="twitter:description" content="
+记录Shrio与SpringCache使用过程遇到的问题
+">
   <meta name="author" content=""/>
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://chinalhr.github.io/post/springcache_shrio_bug/" />
@@ -172,7 +175,11 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        <h2 id="问题">问题</h2>
+        <blockquote>
+<p>记录Shrio与SpringCache使用过程遇到的问题</p>
+</blockquote>
+
+<h2 id="问题">问题</h2>
 
 <p>Spring Cache 和 Apache Shiro 整合时，自定义的shiroRealm中引用了service，会导致service的Cache相关注解作用失效</p>
 

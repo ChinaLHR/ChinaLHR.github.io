@@ -8,16 +8,19 @@
   <title>使用Apache ab进行压力测试</title>
   <meta property="og:title" content="使用Apache ab进行压力测试" />
   <meta name="twitter:title" content="使用Apache ab进行压力测试" />
-  <meta name="description" content="术语  吞吐率：单位是reqs/s，指的是某个并发用户数下单位时间内处理的请求数 并发连接数:服务器一个会话所接受的请求数目。 用户平均请求等待时间：处理完成所有请求数所花费的时间/ （总请求数 / 并发用户数） 服务器平均请求等待时间:处理完成所有请求数所花费的时间 / 总请求数  正常情况下主要关注吞吐量与用户平均请求等待时间。
+  <meta name="description" content=" 学习Apache ab进行压力测试
+ 术语  吞吐率：单位是reqs/s，指的是某个并发用户数下单位时间内处理的请求数 并发连接数:服务器一个会话所接受的请求数目。 用户平均请求等待时间：处理完成所有请求数所花费的时间/ （总请求数 / 并发用户数） 服务器平均请求等待时间:处理完成所有请求数所花费的时间 / 总请求数  正常情况下主要关注吞吐量与用户平均请求等待时间。
 使用 apache ab是apache服务器所携带的压力测试工具。
 压力测试 QPS:50/s 请求数：10000(－n表示请求数，－c表示并发数)
 ab -n 10000 -c 50 http:....  结果分析 ">
-  <meta property="og:description" content="术语  吞吐率：单位是reqs/s，指的是某个并发用户数下单位时间内处理的请求数 并发连接数:服务器一个会话所接受的请求数目。 用户平均请求等待时间：处理完成所有请求数所花费的时间/ （总请求数 / 并发用户数） 服务器平均请求等待时间:处理完成所有请求数所花费的时间 / 总请求数  正常情况下主要关注吞吐量与用户平均请求等待时间。
+  <meta property="og:description" content=" 学习Apache ab进行压力测试
+ 术语  吞吐率：单位是reqs/s，指的是某个并发用户数下单位时间内处理的请求数 并发连接数:服务器一个会话所接受的请求数目。 用户平均请求等待时间：处理完成所有请求数所花费的时间/ （总请求数 / 并发用户数） 服务器平均请求等待时间:处理完成所有请求数所花费的时间 / 总请求数  正常情况下主要关注吞吐量与用户平均请求等待时间。
 使用 apache ab是apache服务器所携带的压力测试工具。
 压力测试 QPS:50/s 请求数：10000(－n表示请求数，－c表示并发数)
 ab -n 10000 -c 50 http:....  结果分析 ">
-  <meta name="twitter:description" content="术语  吞吐率：单位是reqs/s，指的是某个并发用户数下单位时间内处理的请求数 并发连接数:服务器一个会话所接受的请求数目。 用户平均请求等待时间：处理完成所有请求数所花费的时间/ （总请求数 / 并发用户数） 服务器平均请求等待时间:处理完成所有请求数所花费的时间 / 总请求数  正常情况下主要关注吞吐量与用户平均请求等待时间。
-使用 apache ab是apache服务器所携带的压力测试工 …">
+  <meta name="twitter:description" content=" 学习Apache ab进行压力测试
+ 术语  吞吐率：单位是reqs/s，指的是某个并发用户数下单位时间内处理的请求数 并发连接数:服务器一个会话所接受的请求数目。 用户平均请求等待时间：处理完成所有请求数所花费的时间/ （总请求数 / 并发用户数） 服务器平均请求等待时间:处理完成所有请求数所花费的时间 / 总请求数  正常情况下主要关注吞吐量与用户平均请求等待时间。
+使用 apache ab …">
   <meta name="author" content=""/>
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://chinalhr.github.io/post/apache_ab_use/" />
@@ -176,7 +179,11 @@ ab -n 10000 -c 50 http:....  结果分析 ">
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        <h2 id="术语">术语</h2>
+        <blockquote>
+<p>学习Apache ab进行压力测试</p>
+</blockquote>
+
+<h2 id="术语">术语</h2>
 
 <ul>
 <li>吞吐率：单位是reqs/s，指的是某个并发用户数下单位时间内处理的请求数</li>
