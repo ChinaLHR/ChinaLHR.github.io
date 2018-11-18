@@ -14,7 +14,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
-  <meta name="generator" content="Hugo 0.31.1" />
+  <meta name="generator" content="Hugo 0.51" />
   <link rel="canonical" href="https://chinalhr.github.io/tags/redis/" />
   <link rel="alternate" href="https://chinalhr.github.io/tags/redis/index.xml" type="application/rss+xml" title="LHR">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -180,8 +180,50 @@
               </p>
               <div class="post-entry">
                 
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/redisdomqbuff/" class="post-read-more">[Read More]</a>
+                  <h2 id="设计">设计</h2>
+
+<ul>
+<li>场景：每次用户消费，api模块发送MQ消息(变更账户信息)到Bill模块，进行elasticsearch的索引更新。</li>
+<li>问题：api模块由于引入了大量的mq消息的发送,导致mq的qps过高，带来的性能隐患。</li>
+<li>解决：采用Redis作为MQ的缓存中间层与合并MQ消息，使用Task定时读取缓存发送MQ消息，将MQ的发送压力从api模块迁移到 task模块中。</li>
+</ul>
+
+<h2 id="redis存储结构">Redis存储结构</h2>
+
+<ul>
+<li>使用zSet结构，value为订单id，score为创建时间</li>
+<li>优点：
+
+<ul>
+<li>①基于时间排序，实现先进先出的数据结构(伪队列)</li>
+<li>②使用Set可以合并多个订单修改的消息，达到合并消息，节省资源，优化速度的目的
+<br /></li>
+</ul></li>
+</ul>
+
+<h2 id="流程">流程</h2>
+
+<p>原本api模块需要发送账单MQ消息时，将账单id存入Redis，task模块定时(ScheduledExecutorService)从redis中取出账单信息，进行MQ消息发送。</p>
+
+<h2 id="细节">细节</h2>
+
+<ul>
+<li>task调度Scheduled的时间估算</li>
+<li>task模块异步执行MQ线程池参数估算<a href="https://www.zhihu.com/question/38128980">https://www.zhihu.com/question/38128980</a></li>
+<li>分布式环境下的避免Poll竞争：
+
+<ul>
+<li>使用分布式锁(基于Redis|Zookeeper)避免不同的机器消费相同的zSet</li>
+</ul></li>
+<li>根据业务估算ZSet的批处理数量，使用Redis事务保证一致性</li>
+<li>补偿机制：定时对超时任务进行处理</li>
+</ul>
+
+<h2 id="简单流程图">简单流程图</h2>
+
+<p><img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/Redis/RedisDoMqBuff.png" alt="" /></p>
+
+<h2 id="jmeter进行性能测试">Jmeter进行性能测试</h2>
                 
               </div>
 
@@ -224,7 +266,7 @@
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.31.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

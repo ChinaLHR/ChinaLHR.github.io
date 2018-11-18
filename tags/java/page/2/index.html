@@ -14,7 +14,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
-  <meta name="generator" content="Hugo 0.31.1" />
+  <meta name="generator" content="Hugo 0.51" />
   <link rel="canonical" href="https://chinalhr.github.io/tags/java/" />
   <link rel="alternate" href="https://chinalhr.github.io/tags/java/index.xml" type="application/rss+xml" title="LHR">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -180,7 +180,7 @@
               </p>
               <div class="post-entry">
                 
-                  <p></p>
+                  Supplier  Supplier接口没有入参，通过调用T get()返回一个T类型的对象 开发中通过supplier实时获取配置(配置使用json写在数据库中)   //设置Supplier获取函数为从数据库获取 zSetRedisConsumer.setBatchProcessSize(() -&gt; hkConfigService.findRedisBuffConfig().getBatchProcessSize()); private Supplier&lt;Long&gt; fixDelayMilliseconds; @Override public RedisConsumer setFixDelayMilliseconds(Supplier&lt;Long&gt; fixDelayMilliseconds) { this.fixDelayMilliseconds = fixDelayMilliseconds; return this; } //通过调用batchProcessSize.get()实时获取配置  Predicate  Predicate函数式接口的主要作用就是提供一个boolean test(T t)方法(断言)，接受一个参数返回一个布尔类型 开发中使用Predicate进行StreamFilter  public class PredicateDemo { public static void main(String[] args) { List&lt;Integer&gt; list = Arrays.asList(...); PredicateTest predicateTest = new PredicateTest(); //输出大于5的数字 List&lt;Integer&gt; result = predicateTest.conditionFilter(list, integer -&gt; integer &gt; 5); result.forEach(System.out::println); } //抽象方法 public List&lt;Integer&gt; conditionFilter(List&lt;Integer&gt; list, Predicate&lt;Integer&gt; predicate){ return list.
                   <a href="https://chinalhr.github.io/post/java_supplier_predicate_consumer/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -216,8 +216,25 @@
               </p>
               <div class="post-entry">
                 
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/java_system_structure/" class="post-read-more">[Read More]</a>
+                  <h2 id="分层结构">分层结构</h2>
+
+<ul>
+<li>common 公用组件，包括config,exception,filter</li>
+<li>dao 管理数据源, 包括mysql,redis(Dao接口，Mapper)</li>
+<li>service 操作实体数据, 严禁service间相互调用</li>
+<li>biz 业务层, 向下调用service，一般一个biz向下调用多个Service</li>
+<li>task 异步调用，定时任务层(Mq,Task)</li>
+<li>web web入口
+<br /></li>
+</ul>
+
+<h2 id="领域模型">领域模型</h2>
+
+<ul>
+<li>dao层对象：xxxDO，xxx即为数据表名。查询对象一般用Param后缀</li>
+<li>service/biz层对象：xxxDTO，xxx为业务领域相关的名称。 查询对象一般用 Req后缀</li>
+<li>web对象：xxxVO，xxx一般为网页名称。</li>
+</ul>
                 
               </div>
 
@@ -252,7 +269,13 @@
               </p>
               <div class="post-entry">
                 
-                  <p></p>
+                  Spring Boot Retry(重试机制) 配置 pom文件中添加依赖
+ &lt;dependency&gt; &lt;groupId&gt;org.springframework.retry&lt;/groupId&gt; &lt;artifactId&gt;spring-retry&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.aspectj&lt;/groupId&gt; &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt; &lt;/dependency&gt;  在Application类中增加@EnableRetry注解启用
+使用 在需要重试的方法上面加入@Retryable注解
+ @Retryable(value = Exception.class,maxAttempts = 3,backoff = @Backoff(delay = 2000,multiplier = 1.5)) 1.value：哪些异常出现的时候触发重试 2.maxAttempts：最大重试次数 3.delay：重试延迟时间 4.multiplier：上一次延时时间是这一次的倍数（1.5 第一次2s，第二次3s...）  重试到最后一次失败的时候会抛出异常或者执行在同一个类里@Recover注解了的回调方法
+@Recover public int recover(Exception e){ //执行回调 }  Spring Boot Scheduled(定时任务) 配置 在Application类中增加@EnableScheduling注解启用
+使用 在需要定时调用的方法上面加入@Scheduled注解
+/** * 使用cron表达式实现每5秒打印一次 */ @Scheduled(cron=&quot;0/5 * * * * ? &quot;) public void cronPrintTask(){ System.out.println(&quot;cronPrintTask ：&quot;+new Date(System.currentTimeMillis())); } /** * fixedRate含义是上一个调用开始后再次调用的延时（不用等待上一次调用完成） * 这样就会存在重复执行的问题与时间不准确问题 */ @Scheduled(fixedRate = 1000 * 1) public void fixedRatePrintTask(){ //执行方法 } /** * fixedDelay与fixedRate则是相反的， * 配置了该属性后会等到方法执行完成后延迟配置的时间再次执行该方法 */ @Scheduled(fixedDelay = 1000 * 1) public void fixedDelay() throws InterruptedException { //执行方法 } /** * initialDelay表示第一次执行延迟时间，只是做延迟的设定，并不会控制其他逻辑 * 需要配合fixedDelay.
                   <a href="https://chinalhr.github.io/post/java_springboot_component1/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -291,8 +314,6 @@
                   <blockquote>
 <p>仅记录一个多月野蛮生长过程的个人编码规范</p>
 </blockquote>
-
-<p></p>
                   <a href="https://chinalhr.github.io/post/java_practice/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -328,7 +349,7 @@
               </p>
               <div class="post-entry">
                 
-                  <p></p>
+                  异步编程优势 异步对应的是并发，目的在于避免等待远程服务的返回等操作阻塞线程的执行 充分利用单核CPU的性能，意在单个CPU上执行几个松耦合的任务  Future接口 设计 Future设计是某一时刻会发生的结果进行建模，调用一个函数方法的时候，可以让被调用者立即返回， 然后再后台慢慢处理这个请求。对于调用者来说,则可以先处理一些其他任务，在真正需要获取数据的场合再去尝试获取需要的数据  Future接口局限性 使用Future接口很难表述Future结果之间的依赖性，例如Future的组合计算，通知合并等... CompletableFuture利用Lambda表达式以声明式的API提供了一种机制，能够用最有效的方式，非常容易地将多个以同步或异步方式执行复杂操作的任务结合到一起。  使用CompletableFuture构建组合式异步应用 基本操作 public class Shop { private String shopName; public Shop(String shopName) { this.shopName = shopName; } public String getShopName() { return shopName; } public void setShopName(String shopName) { this.shopName = shopName; } /** * 实时价格查看：同步 * @param product * @return */ public Double getPrice(String product){ return calculatePrice(product); } /** * 实时价格查看：异步 * @param product * @return */ public Future&lt;Double&gt; getPriceAsync(String product){ CompletableFuture&lt;Double&gt; futurePrice = new CompletableFuture&lt;&gt;(); //在异步线程中进行计算 new Thread(()-&gt;{ try { double price = calculatePrice(product); futurePrice.
                   <a href="https://chinalhr.github.io/post/java_completablefuture/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -379,7 +400,7 @@
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.31.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

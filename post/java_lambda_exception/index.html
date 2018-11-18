@@ -8,16 +8,16 @@
   <title>Java在Stream中异常处理问题</title>
   <meta property="og:title" content="Java在Stream中异常处理问题" />
   <meta name="twitter:title" content="Java在Stream中异常处理问题" />
-  <meta name="description" content="">
-  <meta property="og:description" content="">
-  <meta name="twitter:description" content="">
+  <meta name="description" content="问题：Java在Stream中只能使用TryCatch处理check异常，无法throw处理   //在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理 public List&lt;Class&gt; getClazz(List&lt;String&gt; names) { return names.stream() .map(className -&gt; { try { return Class.forName(className); } catch (ClassNotFoundException e) { e.printStackTrace(); return getClass(); } } ) .collect(Collectors.toList()); }   解决：定义Fun接口与lambda包装方法，利用泛型throw出原始异常   @FunctionalInterface interface ExceptionFunction&lt;T, R, E extends Exception&gt; { R apply(T t) throws E; } /** * 包装异常 */ public static &lt;T, R, E extends Exception&gt; Function&lt;T, R&gt; wrap(ExceptionFunction&lt;T, R, E&gt; f) throws E { return t -&gt; { try { return f.">
+  <meta property="og:description" content="问题：Java在Stream中只能使用TryCatch处理check异常，无法throw处理   //在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理 public List&lt;Class&gt; getClazz(List&lt;String&gt; names) { return names.stream() .map(className -&gt; { try { return Class.forName(className); } catch (ClassNotFoundException e) { e.printStackTrace(); return getClass(); } } ) .collect(Collectors.toList()); }   解决：定义Fun接口与lambda包装方法，利用泛型throw出原始异常   @FunctionalInterface interface ExceptionFunction&lt;T, R, E extends Exception&gt; { R apply(T t) throws E; } /** * 包装异常 */ public static &lt;T, R, E extends Exception&gt; Function&lt;T, R&gt; wrap(ExceptionFunction&lt;T, R, E&gt; f) throws E { return t -&gt; { try { return f.">
+  <meta name="twitter:description" content="问题：Java在Stream中只能使用TryCatch处理check异常，无法throw处理   //在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理 public List&lt;Class&gt; getClazz(List&lt;String&gt; names) { return names.stream() …">
   <meta name="author" content=""/>
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://chinalhr.github.io/post/java_lambda_exception/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
-  <meta name="generator" content="Hugo 0.31.1" />
+  <meta name="generator" content="Hugo 0.51" />
   <link rel="canonical" href="https://chinalhr.github.io/post/java_lambda_exception/" />
   <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -169,9 +169,7 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        <p></p>
-
-<ul>
+        <ul>
 <li>问题：Java在Stream中只能使用TryCatch处理check异常，无法throw处理</li>
 </ul>
 
@@ -290,7 +288,7 @@
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.31.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

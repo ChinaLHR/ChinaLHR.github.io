@@ -17,7 +17,8 @@
       <pubDate>Tue, 10 Jul 2018 22:01:41 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/redisdomqbuff/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>设计  场景：每次用户消费，api模块发送MQ消息(变更账户信息)到Bill模块，进行elasticsearch的索引更新。 问题：api模块由于引入了大量的mq消息的发送,导致mq的qps过高，带来的性能隐患。 解决：采用Redis作为MQ的缓存中间层与合并MQ消息，使用Task定时读取缓存发送MQ消息，将MQ的发送压力从api模块迁移到 task模块中。  Redis存储结构  使用zSet结构，value为订单id，score为创建时间 优点：  ①基于时间排序，实现先进先出的数据结构(伪队列) ②使用Set可以合并多个订单修改的消息，达到合并消息，节省资源，优化速度的目的    流程 原本api模块需要发送账单MQ消息时，将账单id存入Redis，task模块定时(ScheduledExecutorService)从redis中取出账单信息，进行MQ消息发送。
+细节  task调度Scheduled的时间估算 task模块异步执行MQ线程池参数估算https://www.zhihu.com/question/38128980 分布式环境下的避免Poll竞争：  使用分布式锁(基于Redis|Zookeeper)避免不同的机器消费相同的zSet  根据业务估算ZSet的批处理数量，使用Redis事务保证一致性 补偿机制：定时对超时任务进行处理  简单流程图 Jmeter进行性能测试</description>
     </item>
     
     <item>
@@ -26,7 +27,8 @@
       <pubDate>Tue, 26 Jun 2018 21:44:54 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/rabbitmq_use/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>关于Rabbit RabbitMQ是一个由erlang开发的AMQP（Advanced Message Queue ）的开源实现。MQ在生产环境中的作用主要是解耦，异步消息，流量削峰以实现高性能，高可用，可伸缩和最终一致性架构。
+Rabbit架构  RabbitMQ Server：维护一条从Producer到Consumer的路线 Client A &amp;amp; B： Producer，数据的发送方 Client 1，2，3：Consumer，数据的接收方。 Exchanges:生产者发布信息的地方 Queues:消息最终被消费者接收的地方 Bindings:消息如何从Exchanges路由到Queues的方式 Connection:Producer和Consumer通过TCP连接到RabbitMQ Server Channels:建立在Connection中,数据流动都是在Channel中进行的  应用场景  异步处理[提高响应速度]  应用解耦[避免某个应用的错误影响其他应用]  流量削锋[缓解短时间内高流量压垮应用]  日志处理[解决大量日志传输的问题]  消息通信  中间件使用   Exchange类型  Direct(根据Binding指定的Routing Key,将符合Key的消息发送到Binding的Queue) Fanout(广播,将同一个Message发送到所有同该Exchange binding的Queue) Topic(将路由键和某模式进行匹配,#匹配零个到多个单词,*匹配一任意个单词) default exchange(默认,用空字符串表示,是direct exchange类型)  消息持久化  Exchange持久化(在声明时指定durable=&amp;gt;1) Queue持久化(在声明时指定durable=&amp;gt;1) 消息持久化(在投递时指定delivery_mode=&amp;gt;2)  模式  Work模式(任务分发)  订阅模式  路由模式  通配符模式  </description>
     </item>
     
   </channel>

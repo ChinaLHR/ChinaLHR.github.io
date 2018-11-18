@@ -8,16 +8,20 @@
   <title>RedisTemplate问题</title>
   <meta property="og:title" content="RedisTemplate问题" />
   <meta name="twitter:title" content="RedisTemplate问题" />
-  <meta name="description" content="">
-  <meta property="og:description" content="">
-  <meta name="twitter:description" content="">
+  <meta name="description" content="RedisTemplate事务问题  RedisTemplate事务使用 采用RedisTemplate的SesionCallback  SessionCallback&lt;Object&gt; sessionCallback=new SessionCallback&lt;Object&gt;(){ @Override public Object execute(RedisOperations operations) throws DataAccessException{ operations.multi(); //常规操作... Object val=operations.exec(); return val; } } StringRedisTemplate.execute(sessionCallback);   UnsupportedOperationException 在Pipline和Transaction中不支持多个字段操作   RedisTemple序列化问题 使用redisTemplate jackson序列化时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&hellip;,会有导致序列化失败，类型转换异常风险。
+解决：使用Number存储
+优秀博文链接 https://www.jianshu.com/p/7bf5dc61ca06">
+  <meta property="og:description" content="RedisTemplate事务问题  RedisTemplate事务使用 采用RedisTemplate的SesionCallback  SessionCallback&lt;Object&gt; sessionCallback=new SessionCallback&lt;Object&gt;(){ @Override public Object execute(RedisOperations operations) throws DataAccessException{ operations.multi(); //常规操作... Object val=operations.exec(); return val; } } StringRedisTemplate.execute(sessionCallback);   UnsupportedOperationException 在Pipline和Transaction中不支持多个字段操作   RedisTemple序列化问题 使用redisTemplate jackson序列化时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&hellip;,会有导致序列化失败，类型转换异常风险。
+解决：使用Number存储
+优秀博文链接 https://www.jianshu.com/p/7bf5dc61ca06">
+  <meta name="twitter:description" content="RedisTemplate事务问题  RedisTemplate事务使用 采用RedisTemplate的SesionCallback  SessionCallback&lt;Object&gt; sessionCallback=new SessionCallback&lt;Object&gt;(){ @Override public Object execute(RedisOperations …">
   <meta name="author" content=""/>
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://chinalhr.github.io/post/redistemplate_problem/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
-  <meta name="generator" content="Hugo 0.31.1" />
+  <meta name="generator" content="Hugo 0.51" />
   <link rel="canonical" href="https://chinalhr.github.io/post/redistemplate_problem/" />
   <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -169,9 +173,7 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        <p></p>
-
-<h2 id="redistemplate事务问题">RedisTemplate事务问题</h2>
+        <h2 id="redistemplate事务问题">RedisTemplate事务问题</h2>
 
 <ul>
 <li>RedisTemplate事务使用
@@ -260,7 +262,7 @@ StringRedisTemplate.execute(sessionCallback);
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.31.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

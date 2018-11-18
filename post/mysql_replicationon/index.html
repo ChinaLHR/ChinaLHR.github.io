@@ -8,16 +8,28 @@
   <title>MySql读写分离</title>
   <meta property="og:title" content="MySql读写分离" />
   <meta name="twitter:title" content="MySql读写分离" />
-  <meta name="description" content="">
-  <meta property="og:description" content="">
-  <meta name="twitter:description" content="">
+  <meta name="description" content="关于 读写分离，基本的原理是让主数据库处理事务性增、改、删操作（INSERT、UPDATE、DELETE），而从数据库处理SELECT查询操作。数据库复制被用来把事务性操作导致的变更同步到集群中的从数据库。
+原因 避免对数据库的写入影响了查询的效率。
+场景 如果程序使用数据库较多时，而更新少，查询多的情况下会考虑使用，利用数据库 主从同步 。可以减少数据库压力，提高性能。
+读写分离与主从复制的关系 通过对数据库进行主从复制的方式来同步数据，实现对主数据进行写操作，对从数据库进行读操作，达到读写分离的目的。
+实现 读写分离就是在主服务器上修改，数据会同步到从服务器，从服务器只能提供读取数据，不能写入，实现备份的同时也实现了数据库性能的优化，以及提升了服务器安全。
+ 基于程序代码内部控制,在代码中根据select 、insert进行路由分类 基于中间代理层实现,代理数据库服务器接收到应用服务器的请求后根据判断后转发到后端数据库(mysql_proxy|Atlas|Amoeba)   ">
+  <meta property="og:description" content="关于 读写分离，基本的原理是让主数据库处理事务性增、改、删操作（INSERT、UPDATE、DELETE），而从数据库处理SELECT查询操作。数据库复制被用来把事务性操作导致的变更同步到集群中的从数据库。
+原因 避免对数据库的写入影响了查询的效率。
+场景 如果程序使用数据库较多时，而更新少，查询多的情况下会考虑使用，利用数据库 主从同步 。可以减少数据库压力，提高性能。
+读写分离与主从复制的关系 通过对数据库进行主从复制的方式来同步数据，实现对主数据进行写操作，对从数据库进行读操作，达到读写分离的目的。
+实现 读写分离就是在主服务器上修改，数据会同步到从服务器，从服务器只能提供读取数据，不能写入，实现备份的同时也实现了数据库性能的优化，以及提升了服务器安全。
+ 基于程序代码内部控制,在代码中根据select 、insert进行路由分类 基于中间代理层实现,代理数据库服务器接收到应用服务器的请求后根据判断后转发到后端数据库(mysql_proxy|Atlas|Amoeba)   ">
+  <meta name="twitter:description" content="关于 读写分离，基本的原理是让主数据库处理事务性增、改、删操作（INSERT、UPDATE、DELETE），而从数据库处理SELECT查询操作。数据库复制被用来把事务性操作导致的变更同步到集群中的从数据库。
+原因 避免对数据库的写入影响了查询的效率。
+场景 如果程序使用数据库较多时，而更新少，查询多的情况下会考虑使用，利用数据库 主从同步 。可以减少数据库压力，提高性能。 …">
   <meta name="author" content=""/>
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://chinalhr.github.io/post/mysql_replicationon/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
-  <meta name="generator" content="Hugo 0.31.1" />
+  <meta name="generator" content="Hugo 0.51" />
   <link rel="canonical" href="https://chinalhr.github.io/post/mysql_replicationon/" />
   <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -169,9 +181,7 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        <p></p>
-
-<h3 id="关于">关于</h3>
+        <h3 id="关于">关于</h3>
 
 <p>读写分离，基本的原理是让主数据库处理事务性增、改、删操作（INSERT、UPDATE、DELETE），而从数据库处理SELECT查询操作。数据库复制被用来把事务性操作导致的变更同步到集群中的从数据库。</p>
 
@@ -252,7 +262,7 @@
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.31.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

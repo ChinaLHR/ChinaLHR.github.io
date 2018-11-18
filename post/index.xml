@@ -6,10 +6,21 @@
     <description>Recent content in Posts on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 12 Nov 2018 22:51:04 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 15 Nov 2018 22:30:30 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>操作系统-进程</title>
+      <link>https://chinalhr.github.io/post/osheartprocess/</link>
+      <pubDate>Thu, 15 Nov 2018 22:30:30 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/osheartprocess/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;读《计算机的心智》,另一个角度看操作系统&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Mybatis自定义分表Plug</title>
@@ -17,7 +28,7 @@
       <pubDate>Mon, 12 Nov 2018 22:51:04 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/mybatisshardplug/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>MyBatis Interceptor MyBatis 允许你在已映射语句执行过程中的某一点使用插件来拦截,包括： Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)[拦截执行器的方法] ParameterHandler (getParameterObject, setParameters)[拦截参数的处理] ResultSetHandler (handleResultSets, handleOutputParameters)[拦截结果集的处理] StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法构建的处理]  Interceptor接口 public interface Interceptor { //进行拦截的时候要执行的方法 Object intercept(Invocation invocation) throws Throwable; //决定是否要进行拦截进而决定要返回一个什么样的目标对象 Object plugin(Object target); //Mybatis配置文件中指定一些属性 void setProperties(Properties properties); }  @Intercepts @Intercepts用于表明当前的对象是一个Interceptor，而@Signature则表明要拦截的接口、方法以及对应的参数类型。 @Intercepts( { @Signature(method = &amp;quot;query&amp;quot;, type = Executor.class, args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }), @Signature(method = &amp;quot;prepare&amp;quot;, type = StatementHandler.</description>
     </item>
     
     <item>
@@ -26,7 +37,11 @@
       <pubDate>Mon, 12 Nov 2018 21:30:50 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/mybatis_sql_precompile/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>MyBatis中#与$区别 动态SQL：mybatis在对sql语句进行预编译之前，会对sql进行动态解析，解析为一个BoundSql对象，也是在此处对动态sql进行处理。
+select * from customer where id = #{id}; ↓ select * from customer where id = ?; select * from customer where id = ${id}; ↓——传入参数为12589时 select * from customer where id = 12589;   $与#的区别
+ ${ } 的变量的替换阶段是在动态 SQL 解析阶段，而 #{ }的变量的替换是在 DBMS 中。 ${ } 在预编译之前已经被变量替换了，存在 sql 注入问题 #{}将传入的参数当成一个字符串（会给传入的参数加一个单引号) ${}将传入的参数直接显示生成在sql中，不会添加引号   MyBatis动态表名 MyBatis使用中，表名作为变量时，必须使用 ${ }。因为使用#{}会带上单引号 &amp;ldquo;，这会导致 sql 语法错误。
+示例(添加statementType=&amp;ldquo;STATEMENT&amp;rdquo;禁止预编译)：
+ &amp;lt;select id=&amp;quot;selectByCustomerId&amp;quot; resultMap=&amp;quot;BaseResultMap&amp;quot; statementType=&amp;quot;STATEMENT&amp;quot;&amp;gt; select &amp;lt;include refid=&amp;quot;Base_Column_List&amp;quot;/&amp;gt; from ${tableName} where customer_id = ${customerId} </description>
     </item>
     
     <item>
@@ -37,9 +52,7 @@
       <guid>https://chinalhr.github.io/post/codeoptimize1/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;&amp;lt;代码大全&amp;gt;记录&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -49,8 +62,8 @@
       
       <guid>https://chinalhr.github.io/post/highavailabilityhttpclient/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;对HttpClient的优化，基于HttpClient4.4+的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。
-&lt;/p&gt;</description>
+&lt;p&gt;对HttpClient的优化，基于HttpClient4.4+的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -61,9 +74,7 @@
       <guid>https://chinalhr.github.io/post/joda_datetime_record/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;用来记录joda DateTime工具类使用&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -72,7 +83,11 @@
       <pubDate>Mon, 24 Sep 2018 15:56:35 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/spring_aop/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>Joinpoint（连接点） 连接点是指那些被拦截到的点。在 Spring 中,这些点指的是方法,因为 Spring 只支持方法类型的连接点。
+Pointcut(切入点) 所谓切入点是指我们要对哪些 Joinpoint 进行拦截的定义。 PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的类，MethodMatcher 指定特定的函数,能实现函数级别的AOP。
+ MethodMatcher 两个实现类  StaticMethodMatcher：不在运行时检测Joinpoint的参数(可以利用框架内缓存，性能高) DynamicMethodMatcher：DynamicMethodMatcher要在运行时实时检测Joinpoint的参数   Advice（通知/增强） 通知是指拦截到 Joinpoint 之后所要做的事情就是通知。通知分为【前置通知】, 【后置通知】,【异常通知】,【最终通知】, 【环绕通知】(切面要完成的功能)
+ per-class类型的Advice（可以在目标对象类的所有实例之间共享，通常只提供方法拦截功能，不会对目标对象保存任何状态或添加新功能）   per-instance类型的Advice（不会在目标类所有实例之间共享，而是会为不同的实例对象保存他们各自的状态以及相关逻辑）Introduction可以在不改变目标类的定义的情况下，为对象添加新的属性与行为  Advisor/Aspect(切面) Advisor/Aspect是切入点和通知（引介）的结合。 * Spring AOP的PointcutAdvisor AbstractPointcutAdvisor 实现了Ordered,为多个Advice指定顺序，顺序为Int类型，越小优先级越高, AbstractGenericPointcutAdvisor 指定了Advice，除了Introduction之外的类型 Proxy(代理) 一个类被 AOP 织入增强后，就产生一个结果代理类。 * ProxyConfig
+	private boolean proxyTargetClass = false;//true,使用CGLIB,false,使用原生 private boolean optimize = false;//是否进行优化 boolean opaque = false;//是否强制转化为advised boolean exposeProxy = false;//AOP生成对象时，绑定到ThreadLocal, 可以通过AopContext获取 private boolean frozen = false;//代理信息一旦设置，是否允许改变   ProxyFactory ProxyFactory是Spring的AOP织入器，接受Pointcut/Advice返回织入了横切逻辑的目标对象代理。 ProxyFactoryBean 本质上是一个用来生产Proxy的FactoryBean，AOP与IOC的融合。 （如果容器中某个对象依赖于ProxyFactoryBean ，他将会使用到ProxyFactoryBean的getObject()方法返回的内容）  aop核心实现(Weaving织入器) 将AOP融入Bean的创建过程,AspectJ方式织入的核心，是一个BeanPostProcess（会扫描所有的Pointcut与遍历所有Bean,并对需要的Bean进行织入-自动代理，当对象实例化的时候，为其生成代理对象并返回）</description>
     </item>
     
     <item>
@@ -81,7 +96,8 @@
       <pubDate>Sat, 22 Sep 2018 23:10:00 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/springcache_shrio_bug/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>问题 Spring Cache 和 Apache Shiro 整合时，自定义的shiroRealm中引用了service，会导致service的Cache相关注解作用失效
+分析 关于BeanPostProcessor  BeanPostProcessor:构建Bean的时候调用，会处理所有符合条件的对象实例(扫描所有Bean进行处理,Aop实现就是通过BeanPostProcessor找到匹配的Pointcut进行自动代理)   提供了postProcessBeforeInitialization与postProcessAfterInitialization方法，对所有实现了InitializingBean的Bean的afterPropertiesSet方法前后执行。 BeanPostProcessor本身也是一个Bean，一般而言其实例化时机要早过普通的Bean，但是BeanPostProcessor也会依赖一些Bean，这就导致了一些Bean的实例化早于BeanPostProcessor，由此会导致一些问题。  BeanPostProcessor启动阶段对其依赖的Bean造成的影响  AbstractApplicationContext refresh是Spring IOC容器的核心方法，这个方法的作用是创建加载Spring容器配置(包括.xml配置,property文件和数据库模式等) AbstractApplicationContext refresh()——&amp;gt;registerBeanPostProcessors(beanFactory)方法会注册BeanPostProcessors：  public static void registerBeanPostProcessors( ConfigurableListableBeanFactory beanFactory, AbstractApplicationContext applicationContext) { String[] postProcessorNames = beanFactory.getBeanNamesForType(BeanPostProcessor.class, true, false); // 注册BeanPostProcessorChecker // 检查可在当前Bean上起作用的BeanPostProcessor个数与总的BeanPostProcessor个数，如果起作用的个数少于总数打印：//xxx is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for //auto-proxying) int beanProcessorTargetCount = beanFactory.getBeanPostProcessorCount() + 1 + postProcessorNames.length; beanFactory.addBeanPostProcessor(new BeanPostProcessorChecker(beanFactory, beanProcessorTargetCount)); // Separate between BeanPostProcessors that implement PriorityOrdered, // Ordered, and the rest.</description>
     </item>
     
     <item>
@@ -90,7 +106,10 @@
       <pubDate>Sun, 16 Sep 2018 23:07:30 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/apache_ab_use/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>术语  吞吐率：单位是reqs/s，指的是某个并发用户数下单位时间内处理的请求数 并发连接数:服务器一个会话所接受的请求数目。 用户平均请求等待时间：处理完成所有请求数所花费的时间/ （总请求数 / 并发用户数） 服务器平均请求等待时间:处理完成所有请求数所花费的时间 / 总请求数  正常情况下主要关注吞吐量与用户平均请求等待时间。
+使用 apache ab是apache服务器所携带的压力测试工具。
+压力测试 QPS:50/s 请求数：10000(－n表示请求数，－c表示并发数)
+ab -n 10000 -c 50 http:....  结果分析 </description>
     </item>
     
     <item>
@@ -99,7 +118,16 @@
       <pubDate>Sat, 08 Sep 2018 23:02:55 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/uidgenerateserver/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>背景 公司原本订单ID的生成是基于Java Random与Hash算法的单机UID生成策略，但是后端系统的生成环境是基于SLB，Nginx与Java多进程的分布式环境，导致出现了UID 碰撞,产生线上问题。现准备基于Twitter的SnowFlake，将UID生成独立出来做一个统一的全局ID生成服务。
+SnowFlake概述 SnowFlake算法用来生成64位的ID，刚好可以用long整型存储，能够用于分布式系统中生产唯一的ID， 并且生成的ID有大致的顺序。 生成的64位ID可以分成5个部分：
+0 - 41位时间戳 - 5位数据中心标识 - 5位机器标识 - 12位序列号  5位数据中心标识跟5位机器标识这样的分配仅仅是当前实现中分配的，可以按其它的分配比例分配，如10位机器标识，不需要数据中心标识&amp;hellip;
+ 1位标识部分，在java中由于long的最高位是符号位，正数是0，负数是1，一般生成的ID为正数，所以为0 41位时间戳部分，这个是毫秒级的时间，一般实现上不会存储当前的时间戳，而是时间戳的差值（当前时间-固定的开始时间），这样可以使产生的ID从更小值开始；41位的时间戳可以使用69年，41位可以表示241−1个毫秒的值，转化成单位年则是(241−1)/(1000∗60∗60∗24∗365)=69年 10位节点部分，Twitter实现中使用前5位作为数据中心标识，后5位作为机器标识，可以部署1024个节点(5位可支持2^5 = 0~31整型,32*32=1024节点)； 12位序列号部分，支持同一毫秒内同一个节点可以生成4096个ID(2^12=4096)；  简单实现 结构 0 - 41位时间戳 - 10位机器标识 - 12位序列号  集群环境下机器标识获取  IP后三位
+启动系统的时候获取IP地址(或者截取IP后三位)作为机器标识(0~255)。缺陷：会浪费256~1024位的机器标识
+ Redis Set
+①在服务启动时通过Redis setnx ,for 1024对机器标识进行获取，如果Key不存在则设置当前IP地址，并使用key作为当前服务的机器标识。
+②在服务运行过程中使用ScheduleThreadPool或者DeamonThread为当前服务的Redis Key续时,避免其他服务获取到相同的机器标识
+  其他 1. 服务鉴权|IP白名单 2. 服务限流  基于Netty的分布式UID生成服务 https://github.com/ChinaLHR/Gungnir/tree/master/gungnir-uid-generate
+参考  http://www.wolfbe.com/detail/201701/386.html http://www.wolfbe.com/detail/201611/381.html https://segmentfault.com/a/1190000011282426 </description>
     </item>
     
     <item>
@@ -108,7 +136,8 @@
       <pubDate>Tue, 21 Aug 2018 21:08:18 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/findbugs/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>原文链接 https://www.cnblogs.com/java-zone/articles/3118592.html
+FindBugs错误修改指南  EC_UNRELATED_TYPES Bug: Call to equals() comparing different types Pattern id: EC_UNRELATED_TYPES, type: EC, category: CORRECTNESS 解释： 两个不同类型的对象调用equals方法，如果equals方法没有被重写，那么调用object的==，永远不会相等；如果equals方法被重写，而且含有instanceof逻辑，那么还是不会相等。 解决方法： 应该改为str.toString()  IM_BAD_CHECK_FOR_ODD Bug: Check for oddness that won&amp;rsquo;t work for negative numbers Pattern id: IM_BAD_CHECK_FOR_ODD, type: IM, category: STYLE 解释： 如果row是负奇数，那么row % 2 == -1， 解决方法： 考虑使用x &amp;amp; 1 == 1或者x % 2 != 0 NP_ALWAYS_NULL Pattern: Null pointer dereference id: NP_ALWAYS_NULL, type: NP, category: CORRECTNESS A null pointer is dereferenced here.</description>
     </item>
     
     <item>
@@ -117,7 +146,7 @@
       <pubDate>Sun, 12 Aug 2018 22:05:10 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/alipayandwxpay/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>阿里支付  链接：https://docs.open.alipay.com/203  微信支付  链接：https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=15_1 </description>
     </item>
     
     <item>
@@ -126,7 +155,7 @@
       <pubDate>Wed, 25 Jul 2018 23:20:01 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/java_lambda_exception/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>问题：Java在Stream中只能使用TryCatch处理check异常，无法throw处理   //在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理 public List&amp;lt;Class&amp;gt; getClazz(List&amp;lt;String&amp;gt; names) { return names.stream() .map(className -&amp;gt; { try { return Class.forName(className); } catch (ClassNotFoundException e) { e.printStackTrace(); return getClass(); } } ) .collect(Collectors.toList()); }   解决：定义Fun接口与lambda包装方法，利用泛型throw出原始异常   @FunctionalInterface interface ExceptionFunction&amp;lt;T, R, E extends Exception&amp;gt; { R apply(T t) throws E; } /** * 包装异常 */ public static &amp;lt;T, R, E extends Exception&amp;gt; Function&amp;lt;T, R&amp;gt; wrap(ExceptionFunction&amp;lt;T, R, E&amp;gt; f) throws E { return t -&amp;gt; { try { return f.</description>
     </item>
     
     <item>
@@ -135,7 +164,13 @@
       <pubDate>Thu, 19 Jul 2018 23:37:55 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/mysql_paging/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>Limit不适用于大数量表的分页查询 select * from table limit 3000000,10; //mysql会读取300w+10条数据，再取最后的10条数据  大数据量表的分页方式 方式一  不允许查看靠后的数据,例如百度  方式二  使用id进行分页操作，在查询下一页时把上一页的最后一个id传给服务器(客户端无页码分页查询)
+select * from table where id&amp;gt;lastid limit 10;
+ 针对自增的id并且中间没有删除和断点
+select * from table where id&amp;gt;420*10 limit 10; //查询第420页的数据
+  方式三  延迟关联，利用对id进行limit查询有索引的优势，先查询对应分页的id值再对查询的id进行关联查询
+SELECT d.* FROM dynamic d INNER JOIN (SELECT id FROM dynamic LIMIT 100000,10) tem on d.id = tem.id
+ </description>
     </item>
     
     <item>
@@ -144,7 +179,7 @@
       <pubDate>Sun, 15 Jul 2018 18:38:26 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/distributedlocks/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>分布式锁  关于： 当多个进程(集群)不在同一个系统中，用分布式锁控制多个进程对资源的访问 分布式锁对比线程锁：线程锁可以利用共享堆内存标记存储位置达到目的；分布式锁因为进程不在同一台机器上，需要采取对所有进程可见的中间件标记存储位置达到目的 问题：需要考虑锁对所有进程可见，锁与进程间网络问题 实现：基于数据库，缓存，分布式协调中间件(Zookeeper|Chubby)  设计  可以保证在分布式部署的应用集群中，同一个方法在同一时间只能被一台机器上的一个线程执行 设计为可重入锁，避免死锁 阻塞与非阻塞获取锁方式  基于Redis实现  思路  加锁： 使用set命令(key，value，time，NX) 释放锁:使用del(key)  问题  线程a执行时间超过锁wait时间，导致锁自动释放，①线程b获取了锁和线程a并发访问代码块，②线程a执行结束释放了线程b的锁：  ①避免并发问题：给获取锁的线程开启一个守护线程，给快超时的锁增加wait时间 ②避免锁误删：加锁的时候把当前的线程ID当做value，并在删除之前验证key对应的value是不是自己线程的ID(使用lua脚本确保判断和释放锁的原子性)    基于Zookeeper实现</description>
     </item>
     
     <item>
@@ -153,7 +188,9 @@
       <pubDate>Fri, 13 Jul 2018 22:17:22 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/redistemplate_problem/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>RedisTemplate事务问题  RedisTemplate事务使用 采用RedisTemplate的SesionCallback  SessionCallback&amp;lt;Object&amp;gt; sessionCallback=new SessionCallback&amp;lt;Object&amp;gt;(){ @Override public Object execute(RedisOperations operations) throws DataAccessException{ operations.multi(); //常规操作... Object val=operations.exec(); return val; } } StringRedisTemplate.execute(sessionCallback);   UnsupportedOperationException 在Pipline和Transaction中不支持多个字段操作   RedisTemple序列化问题 使用redisTemplate jackson序列化时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&amp;hellip;,会有导致序列化失败，类型转换异常风险。
+解决：使用Number存储
+优秀博文链接 https://www.jianshu.com/p/7bf5dc61ca06</description>
     </item>
     
     <item>
@@ -162,7 +199,7 @@
       <pubDate>Wed, 11 Jul 2018 21:19:59 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/java_supplier_predicate_consumer/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>Supplier  Supplier接口没有入参，通过调用T get()返回一个T类型的对象 开发中通过supplier实时获取配置(配置使用json写在数据库中)   //设置Supplier获取函数为从数据库获取 zSetRedisConsumer.setBatchProcessSize(() -&amp;gt; hkConfigService.findRedisBuffConfig().getBatchProcessSize()); private Supplier&amp;lt;Long&amp;gt; fixDelayMilliseconds; @Override public RedisConsumer setFixDelayMilliseconds(Supplier&amp;lt;Long&amp;gt; fixDelayMilliseconds) { this.fixDelayMilliseconds = fixDelayMilliseconds; return this; } //通过调用batchProcessSize.get()实时获取配置  Predicate  Predicate函数式接口的主要作用就是提供一个boolean test(T t)方法(断言)，接受一个参数返回一个布尔类型 开发中使用Predicate进行StreamFilter  public class PredicateDemo { public static void main(String[] args) { List&amp;lt;Integer&amp;gt; list = Arrays.asList(...); PredicateTest predicateTest = new PredicateTest(); //输出大于5的数字 List&amp;lt;Integer&amp;gt; result = predicateTest.conditionFilter(list, integer -&amp;gt; integer &amp;gt; 5); result.forEach(System.out::println); } //抽象方法 public List&amp;lt;Integer&amp;gt; conditionFilter(List&amp;lt;Integer&amp;gt; list, Predicate&amp;lt;Integer&amp;gt; predicate){ return list.</description>
     </item>
     
     <item>
@@ -171,7 +208,8 @@
       <pubDate>Tue, 10 Jul 2018 22:01:41 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/redisdomqbuff/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>设计  场景：每次用户消费，api模块发送MQ消息(变更账户信息)到Bill模块，进行elasticsearch的索引更新。 问题：api模块由于引入了大量的mq消息的发送,导致mq的qps过高，带来的性能隐患。 解决：采用Redis作为MQ的缓存中间层与合并MQ消息，使用Task定时读取缓存发送MQ消息，将MQ的发送压力从api模块迁移到 task模块中。  Redis存储结构  使用zSet结构，value为订单id，score为创建时间 优点：  ①基于时间排序，实现先进先出的数据结构(伪队列) ②使用Set可以合并多个订单修改的消息，达到合并消息，节省资源，优化速度的目的    流程 原本api模块需要发送账单MQ消息时，将账单id存入Redis，task模块定时(ScheduledExecutorService)从redis中取出账单信息，进行MQ消息发送。
+细节  task调度Scheduled的时间估算 task模块异步执行MQ线程池参数估算https://www.zhihu.com/question/38128980 分布式环境下的避免Poll竞争：  使用分布式锁(基于Redis|Zookeeper)避免不同的机器消费相同的zSet  根据业务估算ZSet的批处理数量，使用Redis事务保证一致性 补偿机制：定时对超时任务进行处理  简单流程图 Jmeter进行性能测试</description>
     </item>
     
     <item>
@@ -182,9 +220,7 @@
       <guid>https://chinalhr.github.io/post/jenkins_job_optimize/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Jenkins是基于Java开发的一种持续集成工具,是一款自动化运维的工具。可用于软件构建自动化，构建可持续的自动化检查，构建可持续的自动化测试&amp;hellip;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -193,7 +229,17 @@
       <pubDate>Sun, 08 Jul 2018 17:56:21 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/mysql_alter/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>MySql对大数据表进行alter操作导致的问题 Mysql执行DDL直接修改表结构的过程中可能会锁表，导致无法写数据，出现生产事故。
+MySql各版本执行DDL方式  Copy Table(5.5之前)：通过临时表拷贝的方式实现的:新建一个带有新结构的临时表，将原表数据全部拷贝到临时表，然后Rename。【过程原表可读不可写】 Inplace(5.5)：直接在原表上执行DDL，但仅支持添加、删除索引两种方式。【过程原表可读不可写】 Online(5.6)：通过全量+增量的方式实现，直接在原表上执行DDL。  【如添加普通列|不存在全文索引时可读可写】 【修改列类型DDL|添加auto_increment列|修改字符集|存在全文索引时可读不可写】 【存在慢SQL或者较大的结果集的SQL在运行|存在一个事务在操作表可读不可写】   详细参见： https://www.cnblogs.com/mysql-dba/p/6192897.html http://www.cnblogs.com/cchust/p/4639397.html
+方案1：创建新表进行alter并复制数据 [选择在凌晨3-4时更新]
+ 首先创建新的临时表，表结构通过命令ALTAR TABLE新定义的结构,索引 然后把原表中数据导入到临时表  记录最后一条更新数据的索引,统计更新数量 使用脚本对之前的数据进行小数据批量分批复制到临时表（走task或者脚本，记得复制id） 更新完成,对之前更新数据索引后增加的数据进行复制(transaction)  删除原表 最后把临时表重命名为原来的表名  方案2：新建一个表与旧表进行字段关联 略&amp;hellip;
+注意点 如果项目使用了Hibernate，需要关闭hibernate ddl(删掉hibernate.hbm2ddl.auto)。hibernate.cfg.xml 中hibernate.hbm2ddl.auto配置节点：
+&amp;lt;property name=&amp;quot;hibernate.hbm2ddl.auto&amp;quot; value=&amp;quot;create&amp;quot; /&amp;gt;   hibernate.hbm2ddl.auto参数的作用主要用于：自动创建|更新|验证数据库表结构
+ create   每次加载hibernate时都会删除上一次的生成的表，然后根据你的model类再重新来生成新表
+ create-drop  每次加载hibernate时根据model类生成表，但是sessionFactory一关闭,表就自动删除。
+ update  第一次加载hibernate时根据model类会自动建立起表的结构（前提是先建立好数据库），以后加载hibernate时根据 model类自动更新表结构，即使表结构改变了但表中的行仍然存在不会删除以前的行。
+ validate  每次加载hibernate时，验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，但是会插入新值。
+ </description>
     </item>
     
     <item>
@@ -202,7 +248,7 @@
       <pubDate>Sun, 08 Jul 2018 15:49:09 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/git_basic/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>git创建分支并提交到远程  git branch -r [命令查看远端库的分支情况] git checkout -b name [从已有的分支创建名为name的分支] git push origin name [推送新的本地分支到远程]  git回退commit版本  git reset &amp;ndash;hard HEAD^ [回退到上一个版本] git reset &amp;ndash;hard HEAD^^ [回退到上上个版本] git reset &amp;ndash;hard HEAD~100 [回退到上100个版本] git reset &amp;ndash;hard commitID [回退到指定commit版本]  git恢复commit版本  git reflog [恢复到之前commit的版本]  pull远程分支到本地  git pull origin master [更新master分支代码]  IntelliJ IDEA 对比当前分支代码与远程master分支代码  IDEA右下角选择当前分支，点击Remote Branches下的origin/master,选择Comparing With进行对比  IntelliJ IDEA Merge master到当前分支  IDEA右下角选择当前分支，点击Remote Branches下的origin/master,选择 Merge into Current  合并操作  add与commit合并：git commit -am &amp;ldquo;合并提交&amp;rdquo;  </description>
     </item>
     
     <item>
@@ -211,7 +257,12 @@
       <pubDate>Wed, 27 Jun 2018 15:55:01 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/mysql_replicationon/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>关于 读写分离，基本的原理是让主数据库处理事务性增、改、删操作（INSERT、UPDATE、DELETE），而从数据库处理SELECT查询操作。数据库复制被用来把事务性操作导致的变更同步到集群中的从数据库。
+原因 避免对数据库的写入影响了查询的效率。
+场景 如果程序使用数据库较多时，而更新少，查询多的情况下会考虑使用，利用数据库 主从同步 。可以减少数据库压力，提高性能。
+读写分离与主从复制的关系 通过对数据库进行主从复制的方式来同步数据，实现对主数据进行写操作，对从数据库进行读操作，达到读写分离的目的。
+实现 读写分离就是在主服务器上修改，数据会同步到从服务器，从服务器只能提供读取数据，不能写入，实现备份的同时也实现了数据库性能的优化，以及提升了服务器安全。
+ 基于程序代码内部控制,在代码中根据select 、insert进行路由分类 基于中间代理层实现,代理数据库服务器接收到应用服务器的请求后根据判断后转发到后端数据库(mysql_proxy|Atlas|Amoeba)   </description>
     </item>
     
     <item>
@@ -220,7 +271,17 @@
       <pubDate>Wed, 27 Jun 2018 15:54:50 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/mysql_proxy/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>解决的问题  数据分布 负载均衡 备份|故障切换  复制工作原理  从主库上把数据更新到二进制日志(Binary Log)中。 备库将主库上的日志复制到自己的中继日志(Relay Log)中。 备库读取中继日志中的事件，重放到备库数据之上。    架构优点:实现了获取事件和重放事件的解耦，两个过程异步执行，I/O线程能够独立于SQL线程之外工作。
+mysql支持的复制类型  基于语句的复制(在服务器上执行sql语句，在从服务器上执行同样的语句)[Default] 基于行的复制(把改变的内容复制过去) 混合类型的复制(默认采用基于语句的复制，一旦发现基于语句无法精确复制时，就会采用基于行的复制)  复制用到的文件  二进制日志文件，中继日志文件 mysql-bin.index:用于记录磁盘上的二进制日志文件的文件名 mysql-relay-bin-index：用于记录磁盘上的中继日志文件的文件名 master.info:保存备库连接到主库所需要的信息 relay-log.info:保存当前备库复制的二进制日志和中继日志坐标  配置步骤  在每台服务器上创建复制账号 配置主库和备库 通知备库连接到主库并从主库复制数据  让备库变成其他服务器的主库 log_slave_updates选项可以让备库变成其他服务器的主库  复制拓扑  一主库多备库
+一台主库对应堕胎备库 适用场景：少量写，大量读。
+ 主-主复制(主动模式)
+两台服务器，每一台都配置成对方的主库和备库。 适用场景：特殊目的，需要双写场景，会产生冲突。
+ 主-主复制(被动模式)
+两台服务器，每一台都配置成对方的主库和备库，配置其中一台为只读的被动服务器。 解决了主-主复制冲突的问题
+ 拥有备库的主-主复制
+ 环形复制
+三个或者更多的主库，每个服务器都是他之前的服务器的备库，之后的服务器的主库。
+ </description>
     </item>
     
     <item>
@@ -229,7 +290,8 @@
       <pubDate>Tue, 26 Jun 2018 21:44:54 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/rabbitmq_use/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>关于Rabbit RabbitMQ是一个由erlang开发的AMQP（Advanced Message Queue ）的开源实现。MQ在生产环境中的作用主要是解耦，异步消息，流量削峰以实现高性能，高可用，可伸缩和最终一致性架构。
+Rabbit架构  RabbitMQ Server：维护一条从Producer到Consumer的路线 Client A &amp;amp; B： Producer，数据的发送方 Client 1，2，3：Consumer，数据的接收方。 Exchanges:生产者发布信息的地方 Queues:消息最终被消费者接收的地方 Bindings:消息如何从Exchanges路由到Queues的方式 Connection:Producer和Consumer通过TCP连接到RabbitMQ Server Channels:建立在Connection中,数据流动都是在Channel中进行的  应用场景  异步处理[提高响应速度]  应用解耦[避免某个应用的错误影响其他应用]  流量削锋[缓解短时间内高流量压垮应用]  日志处理[解决大量日志传输的问题]  消息通信  中间件使用   Exchange类型  Direct(根据Binding指定的Routing Key,将符合Key的消息发送到Binding的Queue) Fanout(广播,将同一个Message发送到所有同该Exchange binding的Queue) Topic(将路由键和某模式进行匹配,#匹配零个到多个单词,*匹配一任意个单词) default exchange(默认,用空字符串表示,是direct exchange类型)  消息持久化  Exchange持久化(在声明时指定durable=&amp;gt;1) Queue持久化(在声明时指定durable=&amp;gt;1) 消息持久化(在投递时指定delivery_mode=&amp;gt;2)  模式  Work模式(任务分发)  订阅模式  路由模式  通配符模式  </description>
     </item>
     
     <item>
@@ -238,7 +300,7 @@
       <pubDate>Mon, 25 Jun 2018 12:07:03 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/java_system_structure/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>分层结构  common 公用组件，包括config,exception,filter dao 管理数据源, 包括mysql,redis(Dao接口，Mapper) service 操作实体数据, 严禁service间相互调用 biz 业务层, 向下调用service，一般一个biz向下调用多个Service task 异步调用，定时任务层(Mq,Task) web web入口   领域模型  dao层对象：xxxDO，xxx即为数据表名。查询对象一般用Param后缀 service/biz层对象：xxxDTO，xxx为业务领域相关的名称。 查询对象一般用 Req后缀 web对象：xxxVO，xxx一般为网页名称。 </description>
     </item>
     
     <item>
@@ -247,7 +309,13 @@
       <pubDate>Sun, 24 Jun 2018 20:53:59 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/java_springboot_component1/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>Spring Boot Retry(重试机制) 配置 pom文件中添加依赖
+ &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.retry&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-retry&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.aspectj&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;aspectjweaver&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt;  在Application类中增加@EnableRetry注解启用
+使用 在需要重试的方法上面加入@Retryable注解
+ @Retryable(value = Exception.class,maxAttempts = 3,backoff = @Backoff(delay = 2000,multiplier = 1.5)) 1.value：哪些异常出现的时候触发重试 2.maxAttempts：最大重试次数 3.delay：重试延迟时间 4.multiplier：上一次延时时间是这一次的倍数（1.5 第一次2s，第二次3s...）  重试到最后一次失败的时候会抛出异常或者执行在同一个类里@Recover注解了的回调方法
+@Recover public int recover(Exception e){ //执行回调 }  Spring Boot Scheduled(定时任务) 配置 在Application类中增加@EnableScheduling注解启用
+使用 在需要定时调用的方法上面加入@Scheduled注解
+/** * 使用cron表达式实现每5秒打印一次 */ @Scheduled(cron=&amp;quot;0/5 * * * * ? &amp;quot;) public void cronPrintTask(){ System.out.println(&amp;quot;cronPrintTask ：&amp;quot;+new Date(System.currentTimeMillis())); } /** * fixedRate含义是上一个调用开始后再次调用的延时（不用等待上一次调用完成） * 这样就会存在重复执行的问题与时间不准确问题 */ @Scheduled(fixedRate = 1000 * 1) public void fixedRatePrintTask(){ //执行方法 } /** * fixedDelay与fixedRate则是相反的， * 配置了该属性后会等到方法执行完成后延迟配置的时间再次执行该方法 */ @Scheduled(fixedDelay = 1000 * 1) public void fixedDelay() throws InterruptedException { //执行方法 } /** * initialDelay表示第一次执行延迟时间，只是做延迟的设定，并不会控制其他逻辑 * 需要配合fixedDelay.</description>
     </item>
     
     <item>
@@ -258,9 +326,7 @@
       <guid>https://chinalhr.github.io/post/java_practice/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;仅记录一个多月野蛮生长过程的个人编码规范&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -269,7 +335,7 @@
       <pubDate>Fri, 02 Feb 2018 00:42:49 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/java_completablefuture/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>异步编程优势 异步对应的是并发，目的在于避免等待远程服务的返回等操作阻塞线程的执行 充分利用单核CPU的性能，意在单个CPU上执行几个松耦合的任务  Future接口 设计 Future设计是某一时刻会发生的结果进行建模，调用一个函数方法的时候，可以让被调用者立即返回， 然后再后台慢慢处理这个请求。对于调用者来说,则可以先处理一些其他任务，在真正需要获取数据的场合再去尝试获取需要的数据  Future接口局限性 使用Future接口很难表述Future结果之间的依赖性，例如Future的组合计算，通知合并等... CompletableFuture利用Lambda表达式以声明式的API提供了一种机制，能够用最有效的方式，非常容易地将多个以同步或异步方式执行复杂操作的任务结合到一起。  使用CompletableFuture构建组合式异步应用 基本操作 public class Shop { private String shopName; public Shop(String shopName) { this.shopName = shopName; } public String getShopName() { return shopName; } public void setShopName(String shopName) { this.shopName = shopName; } /** * 实时价格查看：同步 * @param product * @return */ public Double getPrice(String product){ return calculatePrice(product); } /** * 实时价格查看：异步 * @param product * @return */ public Future&amp;lt;Double&amp;gt; getPriceAsync(String product){ CompletableFuture&amp;lt;Double&amp;gt; futurePrice = new CompletableFuture&amp;lt;&amp;gt;(); //在异步线程中进行计算 new Thread(()-&amp;gt;{ try { double price = calculatePrice(product); futurePrice.</description>
     </item>
     
     <item>
@@ -278,7 +344,7 @@
       <pubDate>Mon, 01 Jan 2018 12:47:02 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/2017_summary/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>编程方面 从大二上学期到大三上学期的总结： 大二开始初识Android开发，期间通过阅读书籍，官方教程等,阅读博客以及参考视频学习Android开发基础与开发Android小项目， 利用期末与寒假时间学习并利用RxJava，Retrofit与Glide，通过豆瓣开放API独立开发完成一个豆瓣Material design风格的客户端。 大二下学期开始学习JavaWeb开发，通过阅读书籍，文档与视频的方式，期间通过视频学习并完成了基于SSH的OA项目，基于SSM，Solr， Redis的分布式商城项目。开始系统地学数据结构与算法，参加了蓝桥杯省赛(一轮游)，期间深入学习Java基础，对并发编程，网络编程，NIO， JVM，Java Lamdba，Stream等有了新的认识，深入学习MySql，HTTP与TCP协议，也利用期末到暑假的时间独立设计与开发了一个基于Springboot的社区系统。 大三开始对Spring Framework，分布式服务，RPC，Netty进行深度学习与探索，对自身计算机科学体系的不足开始补充，从数据结构与算法开始， 对计算机网络，计算机组成原理，操作系统，编译原理等一系列的基础知识开启补完计划，希望自己能坚持下去。  技术书籍 Java  《Java并发编程的艺术》 《实战Java高并发程序设计》 《Java8实战》 《Java NIO》 《实战JAVA虚拟机 JVM故障诊断与性能优化》 《Spring技术内幕》 《架构探险 从零开始写javaweb框架》 《深入剖析Tomcat》 《JavaWeb技术内幕》 《Springboot实战》 《Netty权威指南》  C  《C语言程序设计》  SQL  《深入浅出MySQL数据库开发、优化与管理维护第》 《SQL必知必会》 《Redis实战》  Android  《Android编程权威指南》 《第一行代码》  分布式  《分布式服务框架的原理与实现》 《Spring Cloud 微服务实战》  数据结构与算法  《算法 第四版》 《大话数据结构》 《剑指Offer》  计算机网络  《图解HTTP》 《图解TCP/IP》  设计模式  《设计模式的艺术软件开发人员内功修炼之道》  电影&amp;amp;连续剧  关键字：科幻，战争，纪录片</description>
     </item>
     
     <item>
@@ -287,7 +353,8 @@
       <pubDate>Tue, 26 Dec 2017 19:54:40 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/about/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <description>关于博客 本博客基于Github Pages,Hugo搭建,使用了hyde主题，感谢开源平台与开源软件开发者。 本博客主要用于记录软件开发过程中的分析与总结。  关于我 Java后端开发工程师  技术关键字  后端开发 分布式系统 Android 主语言Java  Github https://github.com/ChinaLHR
+为学日益,为道日损。损之又损,以至于无为。无为而无不为矣。  ——老子《道德经》</description>
     </item>
     
   </channel>

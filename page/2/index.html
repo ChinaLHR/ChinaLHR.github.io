@@ -14,7 +14,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
-  <meta name="generator" content="Hugo 0.31.1" />
+  <meta name="generator" content="Hugo 0.51" />
   <link rel="canonical" href="https://chinalhr.github.io/" />
   <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -162,6 +162,40 @@
           
           
             <article class="post-preview">
+              <a href="https://chinalhr.github.io/post/findbugs/">
+                <h2 class="post-title">FindBug错误修改指南</h2>
+                
+                
+              </a>
+
+              <span class="post-meta">
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on August 21, 2018
+  
+  
+  
+</span>
+
+
+              <div class="post-entry">
+                
+                  原文链接 https://www.cnblogs.com/java-zone/articles/3118592.html
+FindBugs错误修改指南  EC_UNRELATED_TYPES Bug: Call to equals() comparing different types Pattern id: EC_UNRELATED_TYPES, type: EC, category: CORRECTNESS 解释： 两个不同类型的对象调用equals方法，如果equals方法没有被重写，那么调用object的==，永远不会相等；如果equals方法被重写，而且含有instanceof逻辑，那么还是不会相等。 解决方法： 应该改为str.toString()  IM_BAD_CHECK_FOR_ODD Bug: Check for oddness that won&rsquo;t work for negative numbers Pattern id: IM_BAD_CHECK_FOR_ODD, type: IM, category: STYLE 解释： 如果row是负奇数，那么row % 2 == -1， 解决方法： 考虑使用x &amp; 1 == 1或者x % 2 != 0 NP_ALWAYS_NULL Pattern: Null pointer dereference id: NP_ALWAYS_NULL, type: NP, category: CORRECTNESS A null pointer is dereferenced here.
+                  <a href="https://chinalhr.github.io/post/findbugs/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <div class="blog-tags">
+                  
+                    <a href="https://chinalhr.github.io//tags/java/">Java</a>&nbsp;
+                  
+                </div>
+              
+            </article>
+          
+            <article class="post-preview">
               <a href="https://chinalhr.github.io/post/alipayandwxpay/">
                 <h2 class="post-title">阿里支付与微信支付</h2>
                 
@@ -180,8 +214,17 @@
 
               <div class="post-entry">
                 
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/alipayandwxpay/" class="post-read-more">[Read More]</a>
+                  <h2 id="阿里支付">阿里支付</h2>
+
+<ul>
+<li>链接：<a href="https://docs.open.alipay.com/203">https://docs.open.alipay.com/203</a></li>
+</ul>
+
+<h2 id="微信支付">微信支付</h2>
+
+<ul>
+<li>链接：<a href="https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=15_1">https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=15_1</a></li>
+</ul>
                 
               </div>
 
@@ -213,7 +256,7 @@
 
               <div class="post-entry">
                 
-                  <p></p>
+                  问题：Java在Stream中只能使用TryCatch处理check异常，无法throw处理   //在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理 public List&lt;Class&gt; getClazz(List&lt;String&gt; names) { return names.stream() .map(className -&gt; { try { return Class.forName(className); } catch (ClassNotFoundException e) { e.printStackTrace(); return getClass(); } } ) .collect(Collectors.toList()); }   解决：定义Fun接口与lambda包装方法，利用泛型throw出原始异常   @FunctionalInterface interface ExceptionFunction&lt;T, R, E extends Exception&gt; { R apply(T t) throws E; } /** * 包装异常 */ public static &lt;T, R, E extends Exception&gt; Function&lt;T, R&gt; wrap(ExceptionFunction&lt;T, R, E&gt; f) throws E { return t -&gt; { try { return f.
                   <a href="https://chinalhr.github.io/post/java_lambda_exception/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -246,8 +289,40 @@
 
               <div class="post-entry">
                 
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/mysql_paging/" class="post-read-more">[Read More]</a>
+                  <h2 id="limit不适用于大数量表的分页查询">Limit不适用于大数量表的分页查询</h2>
+
+<pre><code>select * from table limit 3000000,10;
+//mysql会读取300w+10条数据，再取最后的10条数据
+</code></pre>
+
+<h2 id="大数据量表的分页方式">大数据量表的分页方式</h2>
+
+<h3 id="方式一">方式一</h3>
+
+<ul>
+<li>不允许查看靠后的数据,例如百度</li>
+</ul>
+
+<h3 id="方式二">方式二</h3>
+
+<ul>
+<li><p>使用id进行分页操作，在查询下一页时把上一页的最后一个id传给服务器(客户端无页码分页查询)</p>
+
+<p>select * from table where id&gt;lastid limit 10;</p></li>
+
+<li><p>针对自增的id并且中间没有删除和断点</p>
+
+<p>select * from table where id&gt;420*10 limit 10;
+//查询第420页的数据</p></li>
+</ul>
+
+<h3 id="方式三">方式三</h3>
+
+<ul>
+<li><p>延迟关联，利用对id进行limit查询有索引的优势，先查询对应分页的id值再对查询的id进行关联查询</p>
+
+<p>SELECT d.* FROM dynamic d INNER JOIN (SELECT id FROM dynamic LIMIT  100000,10) tem on d.id = tem.id</p></li>
+</ul>
                 
               </div>
 
@@ -279,8 +354,45 @@
 
               <div class="post-entry">
                 
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/distributedlocks/" class="post-read-more">[Read More]</a>
+                  <h2 id="分布式锁">分布式锁</h2>
+
+<ul>
+<li>关于： 当多个进程(集群)不在同一个系统中，用分布式锁控制多个进程对资源的访问</li>
+<li>分布式锁对比线程锁：线程锁可以利用共享堆内存标记存储位置达到目的；分布式锁因为进程不在同一台机器上，需要采取对所有进程可见的中间件标记存储位置达到目的</li>
+<li>问题：需要考虑锁对所有进程可见，锁与进程间网络问题</li>
+<li>实现：基于数据库，缓存，分布式协调中间件(Zookeeper|Chubby)</li>
+</ul>
+
+<h2 id="设计">设计</h2>
+
+<ul>
+<li>可以保证在分布式部署的应用集群中，同一个方法在同一时间只能被一台机器上的一个线程执行</li>
+<li>设计为可重入锁，避免死锁</li>
+<li>阻塞与非阻塞获取锁方式</li>
+</ul>
+
+<h2 id="基于redis实现">基于Redis实现</h2>
+
+<ul>
+<li>思路
+
+<ul>
+<li>加锁： 使用set命令(key，value，time，NX)</li>
+<li>释放锁:使用del(key)</li>
+</ul></li>
+<li>问题
+
+<ul>
+<li>线程a执行时间超过锁wait时间，导致锁自动释放，①线程b获取了锁和线程a并发访问代码块，②线程a执行结束释放了线程b的锁：
+
+<ul>
+<li>①避免并发问题：给获取锁的线程开启一个守护线程，给快超时的锁增加wait时间</li>
+<li>②避免锁误删：加锁的时候把当前的线程ID当做value，并在删除之前验证key对应的value是不是自己线程的ID(使用lua脚本确保判断和释放锁的原子性)</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h2 id="基于zookeeper实现">基于Zookeeper实现</h2>
                 
               </div>
 
@@ -312,8 +424,40 @@
 
               <div class="post-entry">
                 
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/redistemplate_problem/" class="post-read-more">[Read More]</a>
+                  <h2 id="redistemplate事务问题">RedisTemplate事务问题</h2>
+
+<ul>
+<li>RedisTemplate事务使用
+采用RedisTemplate的SesionCallback</li>
+</ul>
+
+<pre><code>SessionCallback&lt;Object&gt; sessionCallback=new SessionCallback&lt;Object&gt;(){
+  @Override
+   public Object execute(RedisOperations operations) throws DataAccessException{
+		operations.multi();
+		//常规操作...
+		Object val=operations.exec();
+		return val;
+	}
+}
+StringRedisTemplate.execute(sessionCallback);
+</code></pre>
+
+<ul>
+<li>UnsupportedOperationException
+在Pipline和Transaction中不支持多个字段操作
+<img src="https://s1.ax1x.com/2018/07/13/PK0ASI.png" alt="" /></li>
+</ul>
+
+<h2 id="redistemple序列化问题">RedisTemple序列化问题</h2>
+
+<p>使用redisTemplate jackson序列化时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&hellip;,会有导致序列化失败，类型转换异常风险。</p>
+
+<p>解决：使用Number存储</p>
+
+<h2 id="优秀博文链接">优秀博文链接</h2>
+
+<p><a href="https://www.jianshu.com/p/7bf5dc61ca06">https://www.jianshu.com/p/7bf5dc61ca06</a></p>
                 
               </div>
 
@@ -345,7 +489,7 @@
 
               <div class="post-entry">
                 
-                  <p></p>
+                  Supplier  Supplier接口没有入参，通过调用T get()返回一个T类型的对象 开发中通过supplier实时获取配置(配置使用json写在数据库中)   //设置Supplier获取函数为从数据库获取 zSetRedisConsumer.setBatchProcessSize(() -&gt; hkConfigService.findRedisBuffConfig().getBatchProcessSize()); private Supplier&lt;Long&gt; fixDelayMilliseconds; @Override public RedisConsumer setFixDelayMilliseconds(Supplier&lt;Long&gt; fixDelayMilliseconds) { this.fixDelayMilliseconds = fixDelayMilliseconds; return this; } //通过调用batchProcessSize.get()实时获取配置  Predicate  Predicate函数式接口的主要作用就是提供一个boolean test(T t)方法(断言)，接受一个参数返回一个布尔类型 开发中使用Predicate进行StreamFilter  public class PredicateDemo { public static void main(String[] args) { List&lt;Integer&gt; list = Arrays.asList(...); PredicateTest predicateTest = new PredicateTest(); //输出大于5的数字 List&lt;Integer&gt; result = predicateTest.conditionFilter(list, integer -&gt; integer &gt; 5); result.forEach(System.out::println); } //抽象方法 public List&lt;Integer&gt; conditionFilter(List&lt;Integer&gt; list, Predicate&lt;Integer&gt; predicate){ return list.
                   <a href="https://chinalhr.github.io/post/java_supplier_predicate_consumer/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -378,8 +522,50 @@
 
               <div class="post-entry">
                 
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/redisdomqbuff/" class="post-read-more">[Read More]</a>
+                  <h2 id="设计">设计</h2>
+
+<ul>
+<li>场景：每次用户消费，api模块发送MQ消息(变更账户信息)到Bill模块，进行elasticsearch的索引更新。</li>
+<li>问题：api模块由于引入了大量的mq消息的发送,导致mq的qps过高，带来的性能隐患。</li>
+<li>解决：采用Redis作为MQ的缓存中间层与合并MQ消息，使用Task定时读取缓存发送MQ消息，将MQ的发送压力从api模块迁移到 task模块中。</li>
+</ul>
+
+<h2 id="redis存储结构">Redis存储结构</h2>
+
+<ul>
+<li>使用zSet结构，value为订单id，score为创建时间</li>
+<li>优点：
+
+<ul>
+<li>①基于时间排序，实现先进先出的数据结构(伪队列)</li>
+<li>②使用Set可以合并多个订单修改的消息，达到合并消息，节省资源，优化速度的目的
+<br /></li>
+</ul></li>
+</ul>
+
+<h2 id="流程">流程</h2>
+
+<p>原本api模块需要发送账单MQ消息时，将账单id存入Redis，task模块定时(ScheduledExecutorService)从redis中取出账单信息，进行MQ消息发送。</p>
+
+<h2 id="细节">细节</h2>
+
+<ul>
+<li>task调度Scheduled的时间估算</li>
+<li>task模块异步执行MQ线程池参数估算<a href="https://www.zhihu.com/question/38128980">https://www.zhihu.com/question/38128980</a></li>
+<li>分布式环境下的避免Poll竞争：
+
+<ul>
+<li>使用分布式锁(基于Redis|Zookeeper)避免不同的机器消费相同的zSet</li>
+</ul></li>
+<li>根据业务估算ZSet的批处理数量，使用Redis事务保证一致性</li>
+<li>补偿机制：定时对超时任务进行处理</li>
+</ul>
+
+<h2 id="简单流程图">简单流程图</h2>
+
+<p><img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/Redis/RedisDoMqBuff.png" alt="" /></p>
+
+<h2 id="jmeter进行性能测试">Jmeter进行性能测试</h2>
                 
               </div>
 
@@ -416,8 +602,6 @@
                   <blockquote>
 <p>Jenkins是基于Java开发的一种持续集成工具,是一款自动化运维的工具。可用于软件构建自动化，构建可持续的自动化检查，构建可持续的自动化测试&hellip;</p>
 </blockquote>
-
-<p></p>
                   <a href="https://chinalhr.github.io/post/jenkins_job_optimize/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -450,8 +634,84 @@
 
               <div class="post-entry">
                 
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/mysql_alter/" class="post-read-more">[Read More]</a>
+                  <h2 id="mysql对大数据表进行alter操作导致的问题">MySql对大数据表进行alter操作导致的问题</h2>
+
+<p>Mysql执行DDL直接修改表结构的过程中可能会锁表，导致无法写数据，出现生产事故。</p>
+
+<h3 id="mysql各版本执行ddl方式">MySql各版本执行DDL方式</h3>
+
+<ul>
+<li>Copy Table(5.5之前)：通过临时表拷贝的方式实现的:新建一个带有新结构的临时表，将原表数据全部拷贝到临时表，然后Rename。【过程原表可读不可写】</li>
+<li>Inplace(5.5)：直接在原表上执行DDL，但仅支持添加、删除索引两种方式。【过程原表可读不可写】</li>
+<li>Online(5.6)：通过全量+增量的方式实现，直接在原表上执行DDL。
+
+<ul>
+<li>【如添加普通列|不存在全文索引时可读可写】</li>
+<li>【修改列类型DDL|添加auto_increment列|修改字符集|存在全文索引时可读不可写】</li>
+<li>【存在慢SQL或者较大的结果集的SQL在运行|存在一个事务在操作表可读不可写】</li>
+</ul></li>
+</ul>
+
+<p>详细参见：<br/>
+<a href="https://www.cnblogs.com/mysql-dba/p/6192897.html">https://www.cnblogs.com/mysql-dba/p/6192897.html</a><br/>
+<a href="http://www.cnblogs.com/cchust/p/4639397.html">http://www.cnblogs.com/cchust/p/4639397.html</a></p>
+
+<h2 id="方案1-创建新表进行alter并复制数据">方案1：创建新表进行alter并复制数据</h2>
+
+<p>[选择在凌晨3-4时更新]</p>
+
+<ol>
+<li>首先创建新的临时表，表结构通过命令ALTAR TABLE新定义的结构,索引</li>
+<li>然后把原表中数据导入到临时表
+
+<ul>
+<li>记录最后一条更新数据的索引,统计更新数量</li>
+<li>使用脚本对之前的数据进行小数据批量分批复制到临时表（走task或者脚本，记得复制id）</li>
+<li>更新完成,对之前更新数据索引后增加的数据进行复制(transaction)</li>
+</ul></li>
+<li>删除原表</li>
+<li>最后把临时表重命名为原来的表名</li>
+</ol>
+
+<h2 id="方案2-新建一个表与旧表进行字段关联">方案2：新建一个表与旧表进行字段关联</h2>
+
+<p>略&hellip;</p>
+
+<h2 id="注意点">注意点</h2>
+
+<p>如果项目使用了Hibernate，需要关闭hibernate ddl(删掉hibernate.hbm2ddl.auto)。hibernate.cfg.xml 中hibernate.hbm2ddl.auto配置节点：</p>
+
+<pre><code>&lt;property name=&quot;hibernate.hbm2ddl.auto&quot; value=&quot;create&quot; /&gt;
+</code></pre>
+
+<ul>
+<li><p>hibernate.hbm2ddl.auto参数的作用主要用于：自动创建|更新|验证数据库表结构</p>
+
+<ul>
+<li>create
+<br /></li>
+</ul>
+
+<p>每次加载hibernate时都会删除上一次的生成的表，然后根据你的model类再重新来生成新表</p>
+
+<ul>
+<li>create-drop</li>
+</ul>
+
+<p>每次加载hibernate时根据model类生成表，但是sessionFactory一关闭,表就自动删除。</p>
+
+<ul>
+<li>update</li>
+</ul>
+
+<p>第一次加载hibernate时根据model类会自动建立起表的结构（前提是先建立好数据库），以后加载hibernate时根据 model类自动更新表结构，即使表结构改变了但表中的行仍然存在不会删除以前的行。</p>
+
+<ul>
+<li>validate</li>
+</ul>
+
+<p>每次加载hibernate时，验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，但是会插入新值。</p></li>
+</ul>
                 
               </div>
 
@@ -459,39 +719,6 @@
                 <div class="blog-tags">
                   
                     <a href="https://chinalhr.github.io//tags/sql/">sql</a>&nbsp;
-                  
-                </div>
-              
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://chinalhr.github.io/post/git_basic/">
-                <h2 class="post-title">Git记录</h2>
-                
-                
-              </a>
-
-              <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on July 8, 2018
-  
-  
-  
-</span>
-
-
-              <div class="post-entry">
-                
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/git_basic/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <div class="blog-tags">
-                  
-                    <a href="https://chinalhr.github.io//tags/git/">git</a>&nbsp;
                   
                 </div>
               
@@ -538,7 +765,7 @@
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.31.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

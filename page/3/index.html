@@ -14,7 +14,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
-  <meta name="generator" content="Hugo 0.31.1" />
+  <meta name="generator" content="Hugo 0.51" />
   <link rel="canonical" href="https://chinalhr.github.io/" />
   <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -162,6 +162,84 @@
           
           
             <article class="post-preview">
+              <a href="https://chinalhr.github.io/post/git_basic/">
+                <h2 class="post-title">Git记录</h2>
+                
+                
+              </a>
+
+              <span class="post-meta">
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on July 8, 2018
+  
+  
+  
+</span>
+
+
+              <div class="post-entry">
+                
+                  <h2 id="git创建分支并提交到远程">git创建分支并提交到远程</h2>
+
+<ol>
+<li>git branch -r [命令查看远端库的分支情况]</li>
+<li>git checkout -b name [从已有的分支创建名为name的分支]</li>
+<li>git push origin name [推送新的本地分支到远程]</li>
+</ol>
+
+<h2 id="git回退commit版本">git回退commit版本</h2>
+
+<ol>
+<li>git reset &ndash;hard HEAD^ [回退到上一个版本]</li>
+<li>git reset &ndash;hard HEAD^^ [回退到上上个版本]</li>
+<li>git reset &ndash;hard HEAD~100 [回退到上100个版本]</li>
+<li>git reset &ndash;hard commitID [回退到指定commit版本]</li>
+</ol>
+
+<h2 id="git恢复commit版本">git恢复commit版本</h2>
+
+<ol>
+<li>git reflog [恢复到之前commit的版本]</li>
+</ol>
+
+<h2 id="pull远程分支到本地">pull远程分支到本地</h2>
+
+<ol>
+<li>git pull origin master [更新master分支代码]</li>
+</ol>
+
+<h2 id="intellij-idea-对比当前分支代码与远程master分支代码">IntelliJ IDEA 对比当前分支代码与远程master分支代码</h2>
+
+<ol>
+<li>IDEA右下角选择当前分支，点击Remote Branches下的origin/master,选择Comparing With进行对比</li>
+</ol>
+
+<h2 id="intellij-idea-merge-master到当前分支">IntelliJ IDEA Merge master到当前分支</h2>
+
+<ol>
+<li>IDEA右下角选择当前分支，点击Remote Branches下的origin/master,选择 Merge into Current</li>
+</ol>
+
+<h2 id="合并操作">合并操作</h2>
+
+<ol>
+<li>add与commit合并：git commit -am &ldquo;合并提交&rdquo;</li>
+<li></li>
+</ol>
+                
+              </div>
+
+              
+                <div class="blog-tags">
+                  
+                    <a href="https://chinalhr.github.io//tags/git/">git</a>&nbsp;
+                  
+                </div>
+              
+            </article>
+          
+            <article class="post-preview">
               <a href="https://chinalhr.github.io/post/mysql_replicationon/">
                 <h2 class="post-title">MySql读写分离</h2>
                 
@@ -180,8 +258,32 @@
 
               <div class="post-entry">
                 
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/mysql_replicationon/" class="post-read-more">[Read More]</a>
+                  <h3 id="关于">关于</h3>
+
+<p>读写分离，基本的原理是让主数据库处理事务性增、改、删操作（INSERT、UPDATE、DELETE），而从数据库处理SELECT查询操作。数据库复制被用来把事务性操作导致的变更同步到集群中的从数据库。</p>
+
+<h3 id="原因">原因</h3>
+
+<p>避免对数据库的写入影响了查询的效率。</p>
+
+<h3 id="场景">场景</h3>
+
+<p>如果程序使用数据库较多时，而更新少，查询多的情况下会考虑使用，利用数据库 主从同步 。可以减少数据库压力，提高性能。</p>
+
+<h3 id="读写分离与主从复制的关系">读写分离与主从复制的关系</h3>
+
+<p>通过对数据库进行主从复制的方式来同步数据，实现对主数据进行写操作，对从数据库进行读操作，达到读写分离的目的。</p>
+
+<h3 id="实现">实现</h3>
+
+<p>读写分离就是在主服务器上修改，数据会同步到从服务器，从服务器只能提供读取数据，不能写入，实现备份的同时也实现了数据库性能的优化，以及提升了服务器安全。</p>
+
+<ul>
+<li>基于程序代码内部控制,在代码中根据select 、insert进行路由分类</li>
+<li>基于中间代理层实现,代理数据库服务器接收到应用服务器的请求后根据判断后转发到后端数据库(mysql_proxy|Atlas|Amoeba)
+<br/>
+<img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/MySql/MySql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB.png" alt="" /></li>
+</ul>
                 
               </div>
 
@@ -213,8 +315,83 @@
 
               <div class="post-entry">
                 
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/mysql_proxy/" class="post-read-more">[Read More]</a>
+                  <h2 id="解决的问题">解决的问题</h2>
+
+<ul>
+<li>数据分布</li>
+<li>负载均衡</li>
+<li>备份|故障切换</li>
+</ul>
+
+<h2 id="复制工作原理">复制工作原理</h2>
+
+<ol>
+<li>从主库上把数据更新到二进制日志(Binary Log)中。</li>
+<li>备库将主库上的日志复制到自己的中继日志(Relay Log)中。</li>
+<li>备库读取中继日志中的事件，重放到备库数据之上。</li>
+</ol>
+
+<p><br/>
+<img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/MySql/%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%8E%9F%E7%90%86.jpg" alt="" />
+<br/>
+<strong>架构优点:实现了获取事件和重放事件的解耦，两个过程异步执行，I/O线程能够独立于SQL线程之外工作。</strong></p>
+
+<h3 id="mysql支持的复制类型">mysql支持的复制类型</h3>
+
+<ol>
+<li>基于语句的复制(在服务器上执行sql语句，在从服务器上执行同样的语句)[Default]</li>
+<li>基于行的复制(把改变的内容复制过去)</li>
+<li>混合类型的复制(默认采用基于语句的复制，一旦发现基于语句无法精确复制时，就会采用基于行的复制)</li>
+</ol>
+
+<h3 id="复制用到的文件">复制用到的文件</h3>
+
+<ul>
+<li>二进制日志文件，中继日志文件</li>
+<li>mysql-bin.index:用于记录磁盘上的二进制日志文件的文件名</li>
+<li>mysql-relay-bin-index：用于记录磁盘上的中继日志文件的文件名</li>
+<li>master.info:保存备库连接到主库所需要的信息</li>
+<li>relay-log.info:保存当前备库复制的二进制日志和中继日志坐标</li>
+</ul>
+
+<h3 id="配置步骤">配置步骤</h3>
+
+<ol>
+<li>在每台服务器上创建复制账号</li>
+<li>配置主库和备库</li>
+<li>通知备库连接到主库并从主库复制数据</li>
+</ol>
+
+<h3 id="让备库变成其他服务器的主库">让备库变成其他服务器的主库</h3>
+
+<p>log_slave_updates选项可以让备库变成其他服务器的主库
+<br/>
+<img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/MySql/MySql主从复制_发送复制事件.JPG" alt="" /></p>
+
+<h2 id="复制拓扑">复制拓扑</h2>
+
+<ol>
+<li><p>一主库多备库</p>
+
+<p>一台主库对应堕胎备库
+适用场景：少量写，大量读。</p></li>
+
+<li><p>主-主复制(主动模式)</p>
+
+<p>两台服务器，每一台都配置成对方的主库和备库。
+适用场景：特殊目的，需要双写场景，会产生冲突。</p></li>
+
+<li><p>主-主复制(被动模式)</p>
+
+<p>两台服务器，每一台都配置成对方的主库和备库，配置其中一台为只读的被动服务器。
+解决了主-主复制冲突的问题</p></li>
+
+<li><p>拥有备库的主-主复制</p></li>
+
+<li><p>环形复制</p>
+
+<p>三个或者更多的主库，每个服务器都是他之前的服务器的备库，之后的服务器的主库。</p></li>
+</ol>
                 
               </div>
 
@@ -246,8 +423,71 @@
 
               <div class="post-entry">
                 
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/rabbitmq_use/" class="post-read-more">[Read More]</a>
+                  <h2 id="关于rabbit">关于Rabbit</h2>
+
+<p>RabbitMQ是一个由erlang开发的AMQP（Advanced Message Queue ）的开源实现。MQ在生产环境中的作用主要是解耦，异步消息，流量削峰以实现高性能，高可用，可伸缩和最终一致性架构。</p>
+
+<h2 id="rabbit架构">Rabbit架构</h2>
+
+<p><img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/rabbitMQ/rabbit%E6%9E%B6%E6%9E%84.png" alt="" /></p>
+
+<ul>
+<li>RabbitMQ Server：维护一条从Producer到Consumer的路线</li>
+<li>Client A &amp; B： Producer，数据的发送方</li>
+<li>Client 1，2，3：Consumer，数据的接收方。</li>
+<li>Exchanges:生产者发布信息的地方</li>
+<li>Queues:消息最终被消费者接收的地方</li>
+<li>Bindings:消息如何从Exchanges路由到Queues的方式</li>
+<li>Connection:Producer和Consumer通过TCP连接到RabbitMQ Server</li>
+<li>Channels:建立在Connection中,数据流动都是在Channel中进行的</li>
+</ul>
+
+<h2 id="应用场景">应用场景</h2>
+
+<ul>
+<li>异步处理[提高响应速度]<br/>
+<img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/rabbitMQ/%E5%BC%82%E6%AD%A5%E6%B6%88%E6%81%AF.png" alt="" /></li>
+<li>应用解耦[避免某个应用的错误影响其他应用]<br/>
+<img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/rabbitMQ/%E5%BA%94%E7%94%A8%E8%A7%A3%E8%80%A6.png" alt="" /></li>
+<li>流量削锋[缓解短时间内高流量压垮应用]<br/>
+<img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/rabbitMQ/%E6%B5%81%E9%87%8F%E5%89%8A%E5%B3%B0.png" alt="" /></li>
+<li>日志处理[解决大量日志传输的问题]<br/>
+<img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/rabbitMQ/%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86.png" alt="" /></li>
+<li>消息通信<br/>
+<img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/rabbitMQ/%E6%B6%88%E6%81%AF%E9%80%9A%E8%AE%AF.png" alt="" /></li>
+<li>中间件使用<br/>
+<img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/rabbitMQ/%E4%B8%AD%E9%97%B4%E4%BB%B6%E4%BD%BF%E7%94%A8.jpg" alt="" /></li>
+</ul>
+
+<h2 id="exchange类型">Exchange类型</h2>
+
+<ul>
+<li>Direct(根据Binding指定的Routing Key,将符合Key的消息发送到Binding的Queue)</li>
+<li>Fanout(广播,将同一个Message发送到所有同该Exchange binding的Queue)</li>
+<li>Topic(将路由键和某模式进行匹配,#匹配零个到多个单词,*匹配一任意个单词)</li>
+<li>default exchange(默认,用空字符串表示,是direct exchange类型)</li>
+</ul>
+
+<h2 id="消息持久化">消息持久化</h2>
+
+<ul>
+<li>Exchange持久化(在声明时指定durable=&gt;1)</li>
+<li>Queue持久化(在声明时指定durable=&gt;1)</li>
+<li>消息持久化(在投递时指定delivery_mode=&gt;2)</li>
+</ul>
+
+<h2 id="模式">模式</h2>
+
+<ul>
+<li>Work模式(任务分发)</br>
+<img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/rabbitMQ/work%E6%A8%A1%E5%BC%8F.png" alt="" /></li>
+<li>订阅模式</br>
+<img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/rabbitMQ/%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F.png" alt="" /></li>
+<li>路由模式</br>
+<img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/rabbitMQ/%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F.png" alt="" /></li>
+<li>通配符模式</br>
+<img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/rabbitMQ/%E9%80%9A%E9%85%8D%E7%AC%A6%E6%A8%A1%E5%BC%8F.png" alt="" /></li>
+</ul>
                 
               </div>
 
@@ -279,8 +519,25 @@
 
               <div class="post-entry">
                 
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/java_system_structure/" class="post-read-more">[Read More]</a>
+                  <h2 id="分层结构">分层结构</h2>
+
+<ul>
+<li>common 公用组件，包括config,exception,filter</li>
+<li>dao 管理数据源, 包括mysql,redis(Dao接口，Mapper)</li>
+<li>service 操作实体数据, 严禁service间相互调用</li>
+<li>biz 业务层, 向下调用service，一般一个biz向下调用多个Service</li>
+<li>task 异步调用，定时任务层(Mq,Task)</li>
+<li>web web入口
+<br /></li>
+</ul>
+
+<h2 id="领域模型">领域模型</h2>
+
+<ul>
+<li>dao层对象：xxxDO，xxx即为数据表名。查询对象一般用Param后缀</li>
+<li>service/biz层对象：xxxDTO，xxx为业务领域相关的名称。 查询对象一般用 Req后缀</li>
+<li>web对象：xxxVO，xxx一般为网页名称。</li>
+</ul>
                 
               </div>
 
@@ -312,7 +569,13 @@
 
               <div class="post-entry">
                 
-                  <p></p>
+                  Spring Boot Retry(重试机制) 配置 pom文件中添加依赖
+ &lt;dependency&gt; &lt;groupId&gt;org.springframework.retry&lt;/groupId&gt; &lt;artifactId&gt;spring-retry&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.aspectj&lt;/groupId&gt; &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt; &lt;/dependency&gt;  在Application类中增加@EnableRetry注解启用
+使用 在需要重试的方法上面加入@Retryable注解
+ @Retryable(value = Exception.class,maxAttempts = 3,backoff = @Backoff(delay = 2000,multiplier = 1.5)) 1.value：哪些异常出现的时候触发重试 2.maxAttempts：最大重试次数 3.delay：重试延迟时间 4.multiplier：上一次延时时间是这一次的倍数（1.5 第一次2s，第二次3s...）  重试到最后一次失败的时候会抛出异常或者执行在同一个类里@Recover注解了的回调方法
+@Recover public int recover(Exception e){ //执行回调 }  Spring Boot Scheduled(定时任务) 配置 在Application类中增加@EnableScheduling注解启用
+使用 在需要定时调用的方法上面加入@Scheduled注解
+/** * 使用cron表达式实现每5秒打印一次 */ @Scheduled(cron=&quot;0/5 * * * * ? &quot;) public void cronPrintTask(){ System.out.println(&quot;cronPrintTask ：&quot;+new Date(System.currentTimeMillis())); } /** * fixedRate含义是上一个调用开始后再次调用的延时（不用等待上一次调用完成） * 这样就会存在重复执行的问题与时间不准确问题 */ @Scheduled(fixedRate = 1000 * 1) public void fixedRatePrintTask(){ //执行方法 } /** * fixedDelay与fixedRate则是相反的， * 配置了该属性后会等到方法执行完成后延迟配置的时间再次执行该方法 */ @Scheduled(fixedDelay = 1000 * 1) public void fixedDelay() throws InterruptedException { //执行方法 } /** * initialDelay表示第一次执行延迟时间，只是做延迟的设定，并不会控制其他逻辑 * 需要配合fixedDelay.
                   <a href="https://chinalhr.github.io/post/java_springboot_component1/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -348,8 +611,6 @@
                   <blockquote>
 <p>仅记录一个多月野蛮生长过程的个人编码规范</p>
 </blockquote>
-
-<p></p>
                   <a href="https://chinalhr.github.io/post/java_practice/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -382,7 +643,7 @@
 
               <div class="post-entry">
                 
-                  <p></p>
+                  异步编程优势 异步对应的是并发，目的在于避免等待远程服务的返回等操作阻塞线程的执行 充分利用单核CPU的性能，意在单个CPU上执行几个松耦合的任务  Future接口 设计 Future设计是某一时刻会发生的结果进行建模，调用一个函数方法的时候，可以让被调用者立即返回， 然后再后台慢慢处理这个请求。对于调用者来说,则可以先处理一些其他任务，在真正需要获取数据的场合再去尝试获取需要的数据  Future接口局限性 使用Future接口很难表述Future结果之间的依赖性，例如Future的组合计算，通知合并等... CompletableFuture利用Lambda表达式以声明式的API提供了一种机制，能够用最有效的方式，非常容易地将多个以同步或异步方式执行复杂操作的任务结合到一起。  使用CompletableFuture构建组合式异步应用 基本操作 public class Shop { private String shopName; public Shop(String shopName) { this.shopName = shopName; } public String getShopName() { return shopName; } public void setShopName(String shopName) { this.shopName = shopName; } /** * 实时价格查看：同步 * @param product * @return */ public Double getPrice(String product){ return calculatePrice(product); } /** * 实时价格查看：异步 * @param product * @return */ public Future&lt;Double&gt; getPriceAsync(String product){ CompletableFuture&lt;Double&gt; futurePrice = new CompletableFuture&lt;&gt;(); //在异步线程中进行计算 new Thread(()-&gt;{ try { double price = calculatePrice(product); futurePrice.
                   <a href="https://chinalhr.github.io/post/java_completablefuture/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -415,7 +676,7 @@
 
               <div class="post-entry">
                 
-                  <p></p>
+                  编程方面 从大二上学期到大三上学期的总结： 大二开始初识Android开发，期间通过阅读书籍，官方教程等,阅读博客以及参考视频学习Android开发基础与开发Android小项目， 利用期末与寒假时间学习并利用RxJava，Retrofit与Glide，通过豆瓣开放API独立开发完成一个豆瓣Material design风格的客户端。 大二下学期开始学习JavaWeb开发，通过阅读书籍，文档与视频的方式，期间通过视频学习并完成了基于SSH的OA项目，基于SSM，Solr， Redis的分布式商城项目。开始系统地学数据结构与算法，参加了蓝桥杯省赛(一轮游)，期间深入学习Java基础，对并发编程，网络编程，NIO， JVM，Java Lamdba，Stream等有了新的认识，深入学习MySql，HTTP与TCP协议，也利用期末到暑假的时间独立设计与开发了一个基于Springboot的社区系统。 大三开始对Spring Framework，分布式服务，RPC，Netty进行深度学习与探索，对自身计算机科学体系的不足开始补充，从数据结构与算法开始， 对计算机网络，计算机组成原理，操作系统，编译原理等一系列的基础知识开启补完计划，希望自己能坚持下去。  技术书籍 Java  《Java并发编程的艺术》 《实战Java高并发程序设计》 《Java8实战》 《Java NIO》 《实战JAVA虚拟机 JVM故障诊断与性能优化》 《Spring技术内幕》 《架构探险 从零开始写javaweb框架》 《深入剖析Tomcat》 《JavaWeb技术内幕》 《Springboot实战》 《Netty权威指南》  C  《C语言程序设计》  SQL  《深入浅出MySQL数据库开发、优化与管理维护第》 《SQL必知必会》 《Redis实战》  Android  《Android编程权威指南》 《第一行代码》  分布式  《分布式服务框架的原理与实现》 《Spring Cloud 微服务实战》  数据结构与算法  《算法 第四版》 《大话数据结构》 《剑指Offer》  计算机网络  《图解HTTP》 《图解TCP/IP》  设计模式  《设计模式的艺术软件开发人员内功修炼之道》  电影&amp;连续剧  关键字：科幻，战争，纪录片
                   <a href="https://chinalhr.github.io/post/2017_summary/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -448,8 +709,35 @@
 
               <div class="post-entry">
                 
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/about/" class="post-read-more">[Read More]</a>
+                  <h3 id="关于博客">关于博客</h3>
+
+<pre><code>本博客基于Github Pages,Hugo搭建,使用了hyde主题，感谢开源平台与开源软件开发者。
+本博客主要用于记录软件开发过程中的分析与总结。
+</code></pre>
+
+<h3 id="关于我">关于我</h3>
+
+<pre><code>Java后端开发工程师
+</code></pre>
+
+<h3 id="技术关键字">技术关键字</h3>
+
+<ul>
+<li>后端开发</li>
+<li>分布式系统</li>
+<li>Android</li>
+<li>主语言Java</li>
+</ul>
+
+<h3 id="github">Github</h3>
+
+<p><a href="https://github.com/ChinaLHR" title="ChinaLHR">https://github.com/ChinaLHR</a></p>
+
+<p><img src="https://avatars0.githubusercontent.com/u/19829495?s=460&v=4" width = "500" height = "500" alt="icon" align=center /></p>
+
+<p><em>为学日益,为道日损。损之又损,以至于无为。无为而无不为矣。</em>
+<br/>
+<em>——老子《道德经》</em></p>
                 
               </div>
 
@@ -493,7 +781,7 @@
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.31.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

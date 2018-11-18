@@ -8,16 +8,29 @@
   <title>Spring Boot组件-Retry|Scheduled</title>
   <meta property="og:title" content="Spring Boot组件-Retry|Scheduled" />
   <meta name="twitter:title" content="Spring Boot组件-Retry|Scheduled" />
-  <meta name="description" content="">
-  <meta property="og:description" content="">
-  <meta name="twitter:description" content="">
+  <meta name="description" content="Spring Boot Retry(重试机制) 配置 pom文件中添加依赖
+ &lt;dependency&gt; &lt;groupId&gt;org.springframework.retry&lt;/groupId&gt; &lt;artifactId&gt;spring-retry&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.aspectj&lt;/groupId&gt; &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt; &lt;/dependency&gt;  在Application类中增加@EnableRetry注解启用
+使用 在需要重试的方法上面加入@Retryable注解
+ @Retryable(value = Exception.class,maxAttempts = 3,backoff = @Backoff(delay = 2000,multiplier = 1.5)) 1.value：哪些异常出现的时候触发重试 2.maxAttempts：最大重试次数 3.delay：重试延迟时间 4.multiplier：上一次延时时间是这一次的倍数（1.5 第一次2s，第二次3s...）  重试到最后一次失败的时候会抛出异常或者执行在同一个类里@Recover注解了的回调方法
+@Recover public int recover(Exception e){ //执行回调 }  Spring Boot Scheduled(定时任务) 配置 在Application类中增加@EnableScheduling注解启用
+使用 在需要定时调用的方法上面加入@Scheduled注解
+/** * 使用cron表达式实现每5秒打印一次 */ @Scheduled(cron=&quot;0/5 * * * * ? &quot;) public void cronPrintTask(){ System.out.println(&quot;cronPrintTask ：&quot;&#43;new Date(System.currentTimeMillis())); } /** * fixedRate含义是上一个调用开始后再次调用的延时（不用等待上一次调用完成） * 这样就会存在重复执行的问题与时间不准确问题 */ @Scheduled(fixedRate = 1000 * 1) public void fixedRatePrintTask(){ //执行方法 } /** * fixedDelay与fixedRate则是相反的， * 配置了该属性后会等到方法执行完成后延迟配置的时间再次执行该方法 */ @Scheduled(fixedDelay = 1000 * 1) public void fixedDelay() throws InterruptedException { //执行方法 } /** * initialDelay表示第一次执行延迟时间，只是做延迟的设定，并不会控制其他逻辑 * 需要配合fixedDelay.">
+  <meta property="og:description" content="Spring Boot Retry(重试机制) 配置 pom文件中添加依赖
+ &lt;dependency&gt; &lt;groupId&gt;org.springframework.retry&lt;/groupId&gt; &lt;artifactId&gt;spring-retry&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.aspectj&lt;/groupId&gt; &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt; &lt;/dependency&gt;  在Application类中增加@EnableRetry注解启用
+使用 在需要重试的方法上面加入@Retryable注解
+ @Retryable(value = Exception.class,maxAttempts = 3,backoff = @Backoff(delay = 2000,multiplier = 1.5)) 1.value：哪些异常出现的时候触发重试 2.maxAttempts：最大重试次数 3.delay：重试延迟时间 4.multiplier：上一次延时时间是这一次的倍数（1.5 第一次2s，第二次3s...）  重试到最后一次失败的时候会抛出异常或者执行在同一个类里@Recover注解了的回调方法
+@Recover public int recover(Exception e){ //执行回调 }  Spring Boot Scheduled(定时任务) 配置 在Application类中增加@EnableScheduling注解启用
+使用 在需要定时调用的方法上面加入@Scheduled注解
+/** * 使用cron表达式实现每5秒打印一次 */ @Scheduled(cron=&quot;0/5 * * * * ? &quot;) public void cronPrintTask(){ System.out.println(&quot;cronPrintTask ：&quot;&#43;new Date(System.currentTimeMillis())); } /** * fixedRate含义是上一个调用开始后再次调用的延时（不用等待上一次调用完成） * 这样就会存在重复执行的问题与时间不准确问题 */ @Scheduled(fixedRate = 1000 * 1) public void fixedRatePrintTask(){ //执行方法 } /** * fixedDelay与fixedRate则是相反的， * 配置了该属性后会等到方法执行完成后延迟配置的时间再次执行该方法 */ @Scheduled(fixedDelay = 1000 * 1) public void fixedDelay() throws InterruptedException { //执行方法 } /** * initialDelay表示第一次执行延迟时间，只是做延迟的设定，并不会控制其他逻辑 * 需要配合fixedDelay.">
+  <meta name="twitter:description" content="Spring Boot Retry(重试机制) 配置 pom文件中添加依赖
+ &lt;dependency&gt; &lt;groupId&gt;org.springframework.retry&lt;/groupId&gt; &lt;artifactId&gt;spring-retry&lt;/artifactId&gt; &lt;/dependency&gt; …">
   <meta name="author" content=""/>
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://chinalhr.github.io/post/java_springboot_component1/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
-  <meta name="generator" content="Hugo 0.31.1" />
+  <meta name="generator" content="Hugo 0.51" />
   <link rel="canonical" href="https://chinalhr.github.io/post/java_springboot_component1/" />
   <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -169,9 +182,7 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        <p></p>
-
-<h2 id="spring-boot-retry-重试机制">Spring Boot Retry(重试机制)</h2>
+        <h2 id="spring-boot-retry-重试机制">Spring Boot Retry(重试机制)</h2>
 
 <h3 id="配置">配置</h3>
 
@@ -312,7 +323,7 @@ public void initialDelayPrintTask(){
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.31.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

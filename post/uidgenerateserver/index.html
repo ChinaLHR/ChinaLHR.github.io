@@ -8,16 +8,35 @@
   <title>基于SnowFlake的分布式UID生成服务</title>
   <meta property="og:title" content="基于SnowFlake的分布式UID生成服务" />
   <meta name="twitter:title" content="基于SnowFlake的分布式UID生成服务" />
-  <meta name="description" content="">
-  <meta property="og:description" content="">
-  <meta name="twitter:description" content="">
+  <meta name="description" content="背景 公司原本订单ID的生成是基于Java Random与Hash算法的单机UID生成策略，但是后端系统的生成环境是基于SLB，Nginx与Java多进程的分布式环境，导致出现了UID 碰撞,产生线上问题。现准备基于Twitter的SnowFlake，将UID生成独立出来做一个统一的全局ID生成服务。
+SnowFlake概述 SnowFlake算法用来生成64位的ID，刚好可以用long整型存储，能够用于分布式系统中生产唯一的ID， 并且生成的ID有大致的顺序。 生成的64位ID可以分成5个部分：
+0 - 41位时间戳 - 5位数据中心标识 - 5位机器标识 - 12位序列号  5位数据中心标识跟5位机器标识这样的分配仅仅是当前实现中分配的，可以按其它的分配比例分配，如10位机器标识，不需要数据中心标识&hellip;
+ 1位标识部分，在java中由于long的最高位是符号位，正数是0，负数是1，一般生成的ID为正数，所以为0 41位时间戳部分，这个是毫秒级的时间，一般实现上不会存储当前的时间戳，而是时间戳的差值（当前时间-固定的开始时间），这样可以使产生的ID从更小值开始；41位的时间戳可以使用69年，41位可以表示241−1个毫秒的值，转化成单位年则是(241−1)/(1000∗60∗60∗24∗365)=69年 10位节点部分，Twitter实现中使用前5位作为数据中心标识，后5位作为机器标识，可以部署1024个节点(5位可支持2^5 = 0~31整型,32*32=1024节点)； 12位序列号部分，支持同一毫秒内同一个节点可以生成4096个ID(2^12=4096)；  简单实现 结构 0 - 41位时间戳 - 10位机器标识 - 12位序列号  集群环境下机器标识获取  IP后三位
+启动系统的时候获取IP地址(或者截取IP后三位)作为机器标识(0~255)。缺陷：会浪费256~1024位的机器标识
+ Redis Set
+①在服务启动时通过Redis setnx ,for 1024对机器标识进行获取，如果Key不存在则设置当前IP地址，并使用key作为当前服务的机器标识。
+②在服务运行过程中使用ScheduleThreadPool或者DeamonThread为当前服务的Redis Key续时,避免其他服务获取到相同的机器标识
+  其他 1. 服务鉴权|IP白名单 2. 服务限流  基于Netty的分布式UID生成服务 https://github.com/ChinaLHR/Gungnir/tree/master/gungnir-uid-generate
+参考  http://www.wolfbe.com/detail/201701/386.html http://www.wolfbe.com/detail/201611/381.html https://segmentfault.com/a/1190000011282426 ">
+  <meta property="og:description" content="背景 公司原本订单ID的生成是基于Java Random与Hash算法的单机UID生成策略，但是后端系统的生成环境是基于SLB，Nginx与Java多进程的分布式环境，导致出现了UID 碰撞,产生线上问题。现准备基于Twitter的SnowFlake，将UID生成独立出来做一个统一的全局ID生成服务。
+SnowFlake概述 SnowFlake算法用来生成64位的ID，刚好可以用long整型存储，能够用于分布式系统中生产唯一的ID， 并且生成的ID有大致的顺序。 生成的64位ID可以分成5个部分：
+0 - 41位时间戳 - 5位数据中心标识 - 5位机器标识 - 12位序列号  5位数据中心标识跟5位机器标识这样的分配仅仅是当前实现中分配的，可以按其它的分配比例分配，如10位机器标识，不需要数据中心标识&hellip;
+ 1位标识部分，在java中由于long的最高位是符号位，正数是0，负数是1，一般生成的ID为正数，所以为0 41位时间戳部分，这个是毫秒级的时间，一般实现上不会存储当前的时间戳，而是时间戳的差值（当前时间-固定的开始时间），这样可以使产生的ID从更小值开始；41位的时间戳可以使用69年，41位可以表示241−1个毫秒的值，转化成单位年则是(241−1)/(1000∗60∗60∗24∗365)=69年 10位节点部分，Twitter实现中使用前5位作为数据中心标识，后5位作为机器标识，可以部署1024个节点(5位可支持2^5 = 0~31整型,32*32=1024节点)； 12位序列号部分，支持同一毫秒内同一个节点可以生成4096个ID(2^12=4096)；  简单实现 结构 0 - 41位时间戳 - 10位机器标识 - 12位序列号  集群环境下机器标识获取  IP后三位
+启动系统的时候获取IP地址(或者截取IP后三位)作为机器标识(0~255)。缺陷：会浪费256~1024位的机器标识
+ Redis Set
+①在服务启动时通过Redis setnx ,for 1024对机器标识进行获取，如果Key不存在则设置当前IP地址，并使用key作为当前服务的机器标识。
+②在服务运行过程中使用ScheduleThreadPool或者DeamonThread为当前服务的Redis Key续时,避免其他服务获取到相同的机器标识
+  其他 1. 服务鉴权|IP白名单 2. 服务限流  基于Netty的分布式UID生成服务 https://github.com/ChinaLHR/Gungnir/tree/master/gungnir-uid-generate
+参考  http://www.wolfbe.com/detail/201701/386.html http://www.wolfbe.com/detail/201611/381.html https://segmentfault.com/a/1190000011282426 ">
+  <meta name="twitter:description" content="背景 公司原本订单ID的生成是基于Java Random与Hash算法的单机UID生成策略，但是后端系统的生成环境是基于SLB，Nginx与Java多进程的分布式环境，导致出现了UID 碰撞,产生线上问题。现准备基于Twitter的SnowFlake，将UID生成独立出来做一个统一的全局ID生成服务。
+SnowFlake概述 SnowFlake算法用来生成64位的ID，刚好可以用long整型存储， …">
   <meta name="author" content=""/>
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://chinalhr.github.io/post/uidgenerateserver/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
-  <meta name="generator" content="Hugo 0.31.1" />
+  <meta name="generator" content="Hugo 0.51" />
   <link rel="canonical" href="https://chinalhr.github.io/post/uidgenerateserver/" />
   <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -169,9 +188,7 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        <p></p>
-
-<h2 id="背景">背景</h2>
+        <h2 id="背景">背景</h2>
 
 <p>公司原本订单ID的生成是基于Java Random与Hash算法的单机UID生成策略，但是后端系统的生成环境是基于SLB，Nginx与Java多进程的分布式环境，导致出现了UID 碰撞,产生线上问题。现准备基于Twitter的SnowFlake，将UID生成独立出来做一个统一的全局ID生成服务。</p>
 
@@ -284,7 +301,7 @@
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.31.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

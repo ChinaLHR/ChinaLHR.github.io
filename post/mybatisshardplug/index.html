@@ -8,16 +8,16 @@
   <title>Mybatis自定义分表Plug</title>
   <meta property="og:title" content="Mybatis自定义分表Plug" />
   <meta name="twitter:title" content="Mybatis自定义分表Plug" />
-  <meta name="description" content="">
-  <meta property="og:description" content="">
-  <meta name="twitter:description" content="">
+  <meta name="description" content="MyBatis Interceptor MyBatis 允许你在已映射语句执行过程中的某一点使用插件来拦截,包括： Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)[拦截执行器的方法] ParameterHandler (getParameterObject, setParameters)[拦截参数的处理] ResultSetHandler (handleResultSets, handleOutputParameters)[拦截结果集的处理] StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法构建的处理]  Interceptor接口 public interface Interceptor { //进行拦截的时候要执行的方法 Object intercept(Invocation invocation) throws Throwable; //决定是否要进行拦截进而决定要返回一个什么样的目标对象 Object plugin(Object target); //Mybatis配置文件中指定一些属性 void setProperties(Properties properties); }  @Intercepts @Intercepts用于表明当前的对象是一个Interceptor，而@Signature则表明要拦截的接口、方法以及对应的参数类型。 @Intercepts( { @Signature(method = &quot;query&quot;, type = Executor.class, args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }), @Signature(method = &quot;prepare&quot;, type = StatementHandler.">
+  <meta property="og:description" content="MyBatis Interceptor MyBatis 允许你在已映射语句执行过程中的某一点使用插件来拦截,包括： Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)[拦截执行器的方法] ParameterHandler (getParameterObject, setParameters)[拦截参数的处理] ResultSetHandler (handleResultSets, handleOutputParameters)[拦截结果集的处理] StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法构建的处理]  Interceptor接口 public interface Interceptor { //进行拦截的时候要执行的方法 Object intercept(Invocation invocation) throws Throwable; //决定是否要进行拦截进而决定要返回一个什么样的目标对象 Object plugin(Object target); //Mybatis配置文件中指定一些属性 void setProperties(Properties properties); }  @Intercepts @Intercepts用于表明当前的对象是一个Interceptor，而@Signature则表明要拦截的接口、方法以及对应的参数类型。 @Intercepts( { @Signature(method = &quot;query&quot;, type = Executor.class, args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }), @Signature(method = &quot;prepare&quot;, type = StatementHandler.">
+  <meta name="twitter:description" content="MyBatis Interceptor MyBatis 允许你在已映射语句执行过程中的某一点使用插件来拦截,包括： Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)[拦截执行器的方法] ParameterHandler (getParameterObject, …">
   <meta name="author" content=""/>
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://chinalhr.github.io/post/mybatisshardplug/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
-  <meta name="generator" content="Hugo 0.31.1" />
+  <meta name="generator" content="Hugo 0.51" />
   <link rel="canonical" href="https://chinalhr.github.io/post/mybatisshardplug/" />
   <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -169,9 +169,7 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        <p></p>
-
-<h2 id="mybatis-interceptor">MyBatis Interceptor</h2>
+        <h2 id="mybatis-interceptor">MyBatis Interceptor</h2>
 
 <h3 id="mybatis-允许你在已映射语句执行过程中的某一点使用插件来拦截-包括">MyBatis 允许你在已映射语句执行过程中的某一点使用插件来拦截,包括：</h3>
 
@@ -334,6 +332,10 @@ public class CustomerIdShardInterceptor implements Interceptor {
             </li>
           
           
+            <li class="next">
+              <a href="https://chinalhr.github.io/post/osheartprocess/" data-toggle="tooltip" data-placement="top" title="操作系统-进程">Next Post &rarr;</a>
+            </li>
+          
         </ul>
       
 
@@ -365,7 +367,7 @@ public class CustomerIdShardInterceptor implements Interceptor {
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.31.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

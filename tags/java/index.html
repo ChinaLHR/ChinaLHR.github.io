@@ -14,7 +14,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
-  <meta name="generator" content="Hugo 0.31.1" />
+  <meta name="generator" content="Hugo 0.51" />
   <link rel="canonical" href="https://chinalhr.github.io/tags/java/" />
   <link rel="alternate" href="https://chinalhr.github.io/tags/java/index.xml" type="application/rss+xml" title="LHR">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -180,7 +180,7 @@
               </p>
               <div class="post-entry">
                 
-                  <p></p>
+                  MyBatis Interceptor MyBatis 允许你在已映射语句执行过程中的某一点使用插件来拦截,包括： Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)[拦截执行器的方法] ParameterHandler (getParameterObject, setParameters)[拦截参数的处理] ResultSetHandler (handleResultSets, handleOutputParameters)[拦截结果集的处理] StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法构建的处理]  Interceptor接口 public interface Interceptor { //进行拦截的时候要执行的方法 Object intercept(Invocation invocation) throws Throwable; //决定是否要进行拦截进而决定要返回一个什么样的目标对象 Object plugin(Object target); //Mybatis配置文件中指定一些属性 void setProperties(Properties properties); }  @Intercepts @Intercepts用于表明当前的对象是一个Interceptor，而@Signature则表明要拦截的接口、方法以及对应的参数类型。 @Intercepts( { @Signature(method = &quot;query&quot;, type = Executor.class, args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }), @Signature(method = &quot;prepare&quot;, type = StatementHandler.
                   <a href="https://chinalhr.github.io/post/mybatisshardplug/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -216,8 +216,42 @@
               </p>
               <div class="post-entry">
                 
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/mybatis_sql_precompile/" class="post-read-more">[Read More]</a>
+                  <h2 id="mybatis中-与-区别">MyBatis中#与$区别</h2>
+
+<p>动态SQL：mybatis在对sql语句进行预编译之前，会对sql进行动态解析，解析为一个BoundSql对象，也是在此处对动态sql进行处理。</p>
+
+<pre><code>select * from customer where id = #{id};
+↓
+select * from customer where id = ?;
+
+select * from customer where id = ${id};
+↓——传入参数为12589时
+select * from customer where id = 12589;
+</code></pre>
+
+<ul>
+<li><p>$与#的区别</p>
+
+<ol>
+<li>${ } 的变量的替换阶段是在动态 SQL 解析阶段，而 #{ }的变量的替换是在 DBMS 中。</li>
+<li>${ } 在预编译之前已经被变量替换了，存在 sql 注入问题</li>
+<li>#{}将传入的参数当成一个字符串（会给传入的参数加一个单引号)
+${}将传入的参数直接显示生成在sql中，不会添加引号</li>
+</ol></li>
+</ul>
+
+<h2 id="mybatis动态表名">MyBatis动态表名</h2>
+
+<p>MyBatis使用中，表名作为变量时，必须使用 ${ }。因为使用#{}会带上单引号 &ldquo;，这会导致 sql 语法错误。</p>
+
+<p>示例(添加statementType=&ldquo;STATEMENT&rdquo;禁止预编译)：</p>
+
+<pre><code> &lt;select id=&quot;selectByCustomerId&quot; resultMap=&quot;BaseResultMap&quot; statementType=&quot;STATEMENT&quot;&gt;
+ select
+ &lt;include refid=&quot;Base_Column_List&quot;/&gt;
+ from ${tableName}
+ where customer_id = ${customerId}
+</code></pre>
                 
               </div>
 
@@ -253,8 +287,8 @@
               <div class="post-entry">
                 
                   <blockquote>
-<p>对HttpClient的优化，基于HttpClient4.4+的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。
-</p>
+<p>对HttpClient的优化，基于HttpClient4.4+的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。</p>
+</blockquote>
                   <a href="https://chinalhr.github.io/post/highavailabilityhttpclient/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -293,8 +327,6 @@
                   <blockquote>
 <p>用来记录joda DateTime工具类使用</p>
 </blockquote>
-
-<p></p>
                   <a href="https://chinalhr.github.io/post/joda_datetime_record/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -330,7 +362,11 @@
               </p>
               <div class="post-entry">
                 
-                  <p></p>
+                  Joinpoint（连接点） 连接点是指那些被拦截到的点。在 Spring 中,这些点指的是方法,因为 Spring 只支持方法类型的连接点。
+Pointcut(切入点) 所谓切入点是指我们要对哪些 Joinpoint 进行拦截的定义。 PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的类，MethodMatcher 指定特定的函数,能实现函数级别的AOP。
+ MethodMatcher 两个实现类  StaticMethodMatcher：不在运行时检测Joinpoint的参数(可以利用框架内缓存，性能高) DynamicMethodMatcher：DynamicMethodMatcher要在运行时实时检测Joinpoint的参数   Advice（通知/增强） 通知是指拦截到 Joinpoint 之后所要做的事情就是通知。通知分为【前置通知】, 【后置通知】,【异常通知】,【最终通知】, 【环绕通知】(切面要完成的功能)
+ per-class类型的Advice（可以在目标对象类的所有实例之间共享，通常只提供方法拦截功能，不会对目标对象保存任何状态或添加新功能）   per-instance类型的Advice（不会在目标类所有实例之间共享，而是会为不同的实例对象保存他们各自的状态以及相关逻辑）Introduction可以在不改变目标类的定义的情况下，为对象添加新的属性与行为  Advisor/Aspect(切面) Advisor/Aspect是切入点和通知（引介）的结合。 * Spring AOP的PointcutAdvisor AbstractPointcutAdvisor 实现了Ordered,为多个Advice指定顺序，顺序为Int类型，越小优先级越高, AbstractGenericPointcutAdvisor 指定了Advice，除了Introduction之外的类型 Proxy(代理) 一个类被 AOP 织入增强后，就产生一个结果代理类。 * ProxyConfig
+	private boolean proxyTargetClass = false;//true,使用CGLIB,false,使用原生 private boolean optimize = false;//是否进行优化 boolean opaque = false;//是否强制转化为advised boolean exposeProxy = false;//AOP生成对象时，绑定到ThreadLocal, 可以通过AopContext获取 private boolean frozen = false;//代理信息一旦设置，是否允许改变   ProxyFactory ProxyFactory是Spring的AOP织入器，接受Pointcut/Advice返回织入了横切逻辑的目标对象代理。 ProxyFactoryBean 本质上是一个用来生产Proxy的FactoryBean，AOP与IOC的融合。 （如果容器中某个对象依赖于ProxyFactoryBean ，他将会使用到ProxyFactoryBean的getObject()方法返回的内容）  aop核心实现(Weaving织入器) 将AOP融入Bean的创建过程,AspectJ方式织入的核心，是一个BeanPostProcess（会扫描所有的Pointcut与遍历所有Bean,并对需要的Bean进行织入-自动代理，当对象实例化的时候，为其生成代理对象并返回）
                   <a href="https://chinalhr.github.io/post/spring_aop/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -366,7 +402,8 @@
               </p>
               <div class="post-entry">
                 
-                  <p></p>
+                  问题 Spring Cache 和 Apache Shiro 整合时，自定义的shiroRealm中引用了service，会导致service的Cache相关注解作用失效
+分析 关于BeanPostProcessor  BeanPostProcessor:构建Bean的时候调用，会处理所有符合条件的对象实例(扫描所有Bean进行处理,Aop实现就是通过BeanPostProcessor找到匹配的Pointcut进行自动代理)   提供了postProcessBeforeInitialization与postProcessAfterInitialization方法，对所有实现了InitializingBean的Bean的afterPropertiesSet方法前后执行。 BeanPostProcessor本身也是一个Bean，一般而言其实例化时机要早过普通的Bean，但是BeanPostProcessor也会依赖一些Bean，这就导致了一些Bean的实例化早于BeanPostProcessor，由此会导致一些问题。  BeanPostProcessor启动阶段对其依赖的Bean造成的影响  AbstractApplicationContext refresh是Spring IOC容器的核心方法，这个方法的作用是创建加载Spring容器配置(包括.xml配置,property文件和数据库模式等) AbstractApplicationContext refresh()——&gt;registerBeanPostProcessors(beanFactory)方法会注册BeanPostProcessors：  public static void registerBeanPostProcessors( ConfigurableListableBeanFactory beanFactory, AbstractApplicationContext applicationContext) { String[] postProcessorNames = beanFactory.getBeanNamesForType(BeanPostProcessor.class, true, false); // 注册BeanPostProcessorChecker // 检查可在当前Bean上起作用的BeanPostProcessor个数与总的BeanPostProcessor个数，如果起作用的个数少于总数打印：//xxx is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for //auto-proxying) int beanProcessorTargetCount = beanFactory.getBeanPostProcessorCount() + 1 + postProcessorNames.length; beanFactory.addBeanPostProcessor(new BeanPostProcessorChecker(beanFactory, beanProcessorTargetCount)); // Separate between BeanPostProcessors that implement PriorityOrdered, // Ordered, and the rest.
                   <a href="https://chinalhr.github.io/post/springcache_shrio_bug/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -402,7 +439,8 @@
               </p>
               <div class="post-entry">
                 
-                  <p></p>
+                  原文链接 https://www.cnblogs.com/java-zone/articles/3118592.html
+FindBugs错误修改指南  EC_UNRELATED_TYPES Bug: Call to equals() comparing different types Pattern id: EC_UNRELATED_TYPES, type: EC, category: CORRECTNESS 解释： 两个不同类型的对象调用equals方法，如果equals方法没有被重写，那么调用object的==，永远不会相等；如果equals方法被重写，而且含有instanceof逻辑，那么还是不会相等。 解决方法： 应该改为str.toString()  IM_BAD_CHECK_FOR_ODD Bug: Check for oddness that won&rsquo;t work for negative numbers Pattern id: IM_BAD_CHECK_FOR_ODD, type: IM, category: STYLE 解释： 如果row是负奇数，那么row % 2 == -1， 解决方法： 考虑使用x &amp; 1 == 1或者x % 2 != 0 NP_ALWAYS_NULL Pattern: Null pointer dereference id: NP_ALWAYS_NULL, type: NP, category: CORRECTNESS A null pointer is dereferenced here.
                   <a href="https://chinalhr.github.io/post/findbugs/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -438,8 +476,17 @@
               </p>
               <div class="post-entry">
                 
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/alipayandwxpay/" class="post-read-more">[Read More]</a>
+                  <h2 id="阿里支付">阿里支付</h2>
+
+<ul>
+<li>链接：<a href="https://docs.open.alipay.com/203">https://docs.open.alipay.com/203</a></li>
+</ul>
+
+<h2 id="微信支付">微信支付</h2>
+
+<ul>
+<li>链接：<a href="https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=15_1">https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=15_1</a></li>
+</ul>
                 
               </div>
 
@@ -474,7 +521,7 @@
               </p>
               <div class="post-entry">
                 
-                  <p></p>
+                  问题：Java在Stream中只能使用TryCatch处理check异常，无法throw处理   //在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理 public List&lt;Class&gt; getClazz(List&lt;String&gt; names) { return names.stream() .map(className -&gt; { try { return Class.forName(className); } catch (ClassNotFoundException e) { e.printStackTrace(); return getClass(); } } ) .collect(Collectors.toList()); }   解决：定义Fun接口与lambda包装方法，利用泛型throw出原始异常   @FunctionalInterface interface ExceptionFunction&lt;T, R, E extends Exception&gt; { R apply(T t) throws E; } /** * 包装异常 */ public static &lt;T, R, E extends Exception&gt; Function&lt;T, R&gt; wrap(ExceptionFunction&lt;T, R, E&gt; f) throws E { return t -&gt; { try { return f.
                   <a href="https://chinalhr.github.io/post/java_lambda_exception/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -510,8 +557,40 @@
               </p>
               <div class="post-entry">
                 
-                  <p></p>
-                  <a href="https://chinalhr.github.io/post/redistemplate_problem/" class="post-read-more">[Read More]</a>
+                  <h2 id="redistemplate事务问题">RedisTemplate事务问题</h2>
+
+<ul>
+<li>RedisTemplate事务使用
+采用RedisTemplate的SesionCallback</li>
+</ul>
+
+<pre><code>SessionCallback&lt;Object&gt; sessionCallback=new SessionCallback&lt;Object&gt;(){
+  @Override
+   public Object execute(RedisOperations operations) throws DataAccessException{
+		operations.multi();
+		//常规操作...
+		Object val=operations.exec();
+		return val;
+	}
+}
+StringRedisTemplate.execute(sessionCallback);
+</code></pre>
+
+<ul>
+<li>UnsupportedOperationException
+在Pipline和Transaction中不支持多个字段操作
+<img src="https://s1.ax1x.com/2018/07/13/PK0ASI.png" alt="" /></li>
+</ul>
+
+<h2 id="redistemple序列化问题">RedisTemple序列化问题</h2>
+
+<p>使用redisTemplate jackson序列化时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&hellip;,会有导致序列化失败，类型转换异常风险。</p>
+
+<p>解决：使用Number存储</p>
+
+<h2 id="优秀博文链接">优秀博文链接</h2>
+
+<p><a href="https://www.jianshu.com/p/7bf5dc61ca06">https://www.jianshu.com/p/7bf5dc61ca06</a></p>
                 
               </div>
 
@@ -561,7 +640,7 @@
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.31.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>
