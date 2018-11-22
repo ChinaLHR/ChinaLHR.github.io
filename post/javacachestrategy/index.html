@@ -186,14 +186,17 @@
 <ol>
 <li>失效：应用程序先从cache取数据，没有得到，则从数据库中取数据，成功后，放到缓存中。</li>
 <li>命中：应用程序从cache中取数据，取到后返回。</li>
-<li>更新：先把数据存到数据库中，成功后，再让缓存失效。
-缺陷：并发查询(没命中缓存在SQL中查到老数据)与更新会导致缓存存在脏数据</li>
+<li>更新：先把数据存到数据库中，成功后，再让缓存失效。</li>
 </ol>
+
+<p>缺陷：并发查询(没命中缓存在SQL中查到老数据)与更新会导致缓存存在脏数据</p>
 
 <h3 id="read-write-through-pattern">Read/Write Through Pattern</h3>
 
-<p>Read Through：在查询操作中更新缓存
-Write Through：在更新操作的时候更新缓存,再去更新数据</p>
+<ol>
+<li>Read Through：在查询操作中更新缓存</li>
+<li>Write Through：在更新操作的时候更新缓存,再去更新数据</li>
+</ol>
 
 <p>缺陷：如上</p>
 
@@ -205,21 +208,75 @@ Write Through：在更新操作的时候更新缓存,再去更新数据</p>
 
 <h2 id="java系统中缓存与事务带来的问题">Java系统中缓存与事务带来的问题</h2>
 
-<p>Spring Transaction与Spring Cache使用时，当事务回滚，缓存中的数据依旧是回滚之前的数据。</p>
+<ol>
+<li>Spring Transaction与Spring Cache使用时，当外层事务回滚，这时候缓存中的数据可能已经更新，是回滚之前的数据。</li>
+<li>可能外层事务还没有提交， 其他线程缓存就把刷新了，缓存中会存在脏数据</li>
+</ol>
 
-<h2 id="一种分布式缓存更新的方案">一种分布式缓存更新的方案</h2>
+<h2 id="两种分布式缓存更新的方案">两种分布式缓存更新的方案</h2>
+
+<h3 id="基于阿里云dts进行缓存刷新">基于阿里云DTS进行缓存刷新</h3>
 
 <ol>
 <li>缓存更新：对目标数据查询的时候，没有命中缓存则对数据进行缓存，存储到Redis中</li>
 <li>缓存删除：利用阿里云数据传输DTS服务监控数据库目标数据表，对进行UPDATE操作的数据进行缓存删除。</li>
 <li>规避风险：利用DTS服务，隔离事务与缓存，确保数据入库后再对数据进行缓存删除，确保缓存更新的时候拿到的是最新的数据。</li>
+<li>避免DTS单点故障：&hellip;</li>
 </ol>
 
 <p><img src="https://user-images.githubusercontent.com/19829495/48850494-cb5c8f00-ede3-11e8-9d8b-29974822c634.png" alt="image" /></p>
 
+<h3 id="基于spring-transaction后置处理机制">基于Spring Transaction后置处理机制</h3>
+
+<ol>
+<li><p>关于TransactionSynchronizationAdapter</p>
+
+<p>public abstract class TransactionSynchronizationAdapter implements TransactionSynchronization, Ordered {</p>
+
+<p>@Override
+public int getOrder() {
+return Ordered.LOWEST_PRECEDENCE;
+}</p>
+
+<p>@Override
+public void suspend() {
+}</p>
+
+<p>@Override
+public void resume() {
+}</p>
+
+<p>@Override
+public void flush() {
+}</p>
+
+<p>@Override
+public void beforeCommit(boolean readOnly) {
+}</p>
+
+<p>@Override
+public void beforeCompletion() {
+}</p>
+
+<p>@Override
+public void afterCommit() {
+}
+     //完成事务后进行回调操作
+@Override
+public void afterCompletion(int status) {
+}</p>
+
+<p>}</p></li>
+
+<li><p>缓存更新：对目标数据查询的时候，没有命中缓存则对数据进行缓存，存储到Redis中</p></li>
+
+<li><p>缓存删除：创建AfterTransactionService实现TransactionSynchronizationAdapter,对完成后的事务进行缓存清除操作</p></li>
+</ol>
+
 <h2 id="参考">参考</h2>
 
-<p><a href="https://coolshell.cn/articles/17416.html">https://coolshell.cn/articles/17416.html</a></p>
+<p><a href="https://coolshell.cn/articles/17416.html">https://coolshell.cn/articles/17416.html</a>
+<a href="https://zhuanlan.zhihu.com/p/37643608">https://zhuanlan.zhihu.com/p/37643608</a></p>
 
         
           <div class="blog-tags">
