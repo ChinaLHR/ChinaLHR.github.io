@@ -185,14 +185,27 @@
 
 <h4 id="进程的三种典型状态">进程的三种典型状态</h4>
 
-<p><p align="center">
+<p align="center">
     <img src="https://user-images.githubusercontent.com/19829495/48848073-0c51a500-edde-11e8-9779-6f82ec240dfd.png" width="60%">
     <br />
-</p></p>
+</p>
 
-<h4 id="进程与地址">进程与地址</h4>
+<h4 id="进程的创建过程">进程的创建过程</h4>
 
-<p>地址空间(进程空间)</p>
+<ol>
+<li>分配进程控制块</li>
+<li>初始化机器寄存器</li>
+<li>初始化页表</li>
+<li>将程序代码从磁盘读取到内存</li>
+<li>将处理器状态设置为用户态</li>
+<li>跳转到程序的起始地址(设置程序计数器)</li>
+</ol>
+
+<p>UNIX 创建进程:1.fork[创建一个与自己完全一样的新进程] 2.exec[新进程的地址空间用另一个程序覆盖，跳转到新进程的起始地址完成启动]</p>
+
+<p>Window CreateProcess函数:CreateProcess[传递进来新的程序名称，创建新的页表]</p>
+
+<h3 id="进程调度">进程调度</h3>
 
         
           <div class="blog-tags">

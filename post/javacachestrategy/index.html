@@ -231,42 +231,43 @@
 <ol>
 <li><p>关于TransactionSynchronizationAdapter</p>
 
-<p>public abstract class TransactionSynchronizationAdapter implements TransactionSynchronization, Ordered {</p>
+<pre><code>public abstract class TransactionSynchronizationAdapter implements TransactionSynchronization, Ordered {
 
-<p>@Override
+@Override
 public int getOrder() {
 return Ordered.LOWEST_PRECEDENCE;
-}</p>
+}
 
-<p>@Override
+@Override
 public void suspend() {
-}</p>
+}
 
-<p>@Override
+@Override
 public void resume() {
-}</p>
+}
 
-<p>@Override
+@Override
 public void flush() {
-}</p>
+}
 
-<p>@Override
+@Override
 public void beforeCommit(boolean readOnly) {
-}</p>
+}
 
-<p>@Override
+@Override
 public void beforeCompletion() {
-}</p>
+}
 
-<p>@Override
+@Override
 public void afterCommit() {
 }
      //完成事务后进行回调操作
 @Override
 public void afterCompletion(int status) {
-}</p>
+}
 
-<p>}</p></li>
+}
+</code></pre></li>
 
 <li><p>缓存更新：对目标数据查询的时候，没有命中缓存则对数据进行缓存，存储到Redis中</p></li>
 
@@ -275,8 +276,9 @@ public void afterCompletion(int status) {
 
 <h2 id="参考">参考</h2>
 
-<p><a href="https://coolshell.cn/articles/17416.html">https://coolshell.cn/articles/17416.html</a>
-<a href="https://zhuanlan.zhihu.com/p/37643608">https://zhuanlan.zhihu.com/p/37643608</a></p>
+<p><a href="https://coolshell.cn/articles/17416.html">https://coolshell.cn/articles/17416.html</a></p>
+
+<p><a href="https://zhuanlan.zhihu.com/p/37643608">https://zhuanlan.zhihu.com/p/37643608</a></p>
 
         
           <div class="blog-tags">
