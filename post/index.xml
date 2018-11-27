@@ -6,10 +6,21 @@
     <description>Recent content in Posts on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 21 Nov 2018 23:20:52 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 25 Nov 2018 01:11:32 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>函数式编程思想</title>
+      <link>https://chinalhr.github.io/post/functionalprogramming1/</link>
+      <pubDate>Sun, 25 Nov 2018 01:11:32 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/functionalprogramming1/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Functional Programming学习记录&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>缓存更新策略</title>

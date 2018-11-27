@@ -219,7 +219,7 @@
 
 <ol>
 <li>缓存更新：对目标数据查询的时候，没有命中缓存则对数据进行缓存，存储到Redis中</li>
-<li>缓存删除：利用阿里云数据传输DTS服务监控数据库目标数据表，对进行UPDATE操作的数据进行缓存删除。</li>
+<li>缓存删除：利用阿里云数据传输DTS服务数据库订阅监控，监控数据库目标数据表，对进行UPDATE操作的数据进行缓存删除。</li>
 <li>规避风险：利用DTS服务，隔离事务与缓存，确保数据入库后再对数据进行缓存删除，确保缓存更新的时候拿到的是最新的数据。</li>
 <li>避免DTS单点故障：&hellip;</li>
 </ol>
@@ -298,6 +298,10 @@ public void afterCompletion(int status) {
               <a href="https://chinalhr.github.io/post/osheartprocess/" data-toggle="tooltip" data-placement="top" title="操作系统-进程">&larr; Previous Post</a>
             </li>
           
+          
+            <li class="next">
+              <a href="https://chinalhr.github.io/post/functionalprogramming1/" data-toggle="tooltip" data-placement="top" title="函数式编程思想">Next Post &rarr;</a>
+            </li>
           
         </ul>
       

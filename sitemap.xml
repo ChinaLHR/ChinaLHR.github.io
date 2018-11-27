@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://chinalhr.github.io/post/functionalprogramming1/</loc>
+    <lastmod>2018-11-25T01:11:32+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/post/javacachestrategy/</loc>
     <lastmod>2018-11-21T23:20:52+08:00</lastmod>
   </url>
@@ -182,7 +187,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2018-11-21T23:20:52+08:00</lastmod>
+    <lastmod>2018-11-25T01:11:32+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -194,7 +199,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/post/</loc>
-    <lastmod>2018-11-21T23:20:52+08:00</lastmod>
+    <lastmod>2018-11-25T01:11:32+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -268,6 +273,12 @@
   <url>
     <loc>https://chinalhr.github.io/tags/%E7%BC%96%E7%A0%81%E6%8A%80%E5%B7%A7/</loc>
     <lastmod>2018-11-03T21:44:31+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/%E7%BC%96%E7%A8%8B%E8%8C%83%E5%BC%8F/</loc>
+    <lastmod>2018-11-25T01:11:32+08:00</lastmod>
     <priority>0</priority>
   </url>
   
