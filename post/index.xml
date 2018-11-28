@@ -6,10 +6,21 @@
     <description>Recent content in Posts on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 25 Nov 2018 01:11:32 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 28 Nov 2018 21:58:07 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux Fork,Pipe,消息队列</title>
+      <link>https://chinalhr.github.io/post/forkandpipe/</link>
+      <pubDate>Wed, 28 Nov 2018 21:58:07 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/forkandpipe/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Linux进程相关,Fork函数,Pipe函数,消息队列&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>函数式编程思想</title>

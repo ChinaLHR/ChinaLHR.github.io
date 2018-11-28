@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on LHR</title>
+    <link>https://chinalhr.github.io/tags/linux/</link>
+    <description>Recent content in Linux on LHR</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 28 Nov 2018 21:58:07 +0800</lastBuildDate>
+    
+	<atom:link href="https://chinalhr.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux Fork,Pipe,消息队列</title>
+      <link>https://chinalhr.github.io/post/forkandpipe/</link>
+      <pubDate>Wed, 28 Nov 2018 21:58:07 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/forkandpipe/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Linux进程相关,Fork函数,Pipe函数,消息队列&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
