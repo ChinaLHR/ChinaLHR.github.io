@@ -218,6 +218,93 @@
 <li>最后把临时表重命名为原来的表名</li>
 </ol>
 
+<h3 id="实践代码">实践代码：</h3>
+
+<pre><code>-- 1. 要修改结构的大数据表
+DROP TABLE
+IF EXISTS USER;
+
+CREATE TABLE `user` (
+    `id` INT (11) NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR (32) NOT NULL DEFAULT '',
+    `age` INT (11) NOT NULL DEFAULT '-1',
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '视频记录表';
+
+-- 2. 新表结构
+DROP TABLE
+IF EXISTS user_tmp;
+
+CREATE TABLE `user_tmp` (
+    `id` INT (11) NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR (32) NOT NULL DEFAULT '',
+    `age` INT (11) NOT NULL DEFAULT '-1',
+    PRIMARY KEY (`id`),
+    INDEX `index_username_age` (`username`, `age`)
+) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '视频记录表';
+
+-- 3.创建存储过程 max_id为 去最近更新的一条数据的id 11265265
+DELIMITER $$
+
+
+DROP PROCEDURE
+IF EXISTS copy_data ; CREATE PROCEDURE copy_data ()
+BEGIN
+
+DECLARE limitSize BIGINT ;
+DECLARE beginId BIGINT ;
+DECLARE endId BIGINT ;
+DECLARE maxId BIGINT ;
+SET limitSize = 5000 ;
+SET beginId = 0 ;
+SET endId = limitSize ;
+SET maxId = 11265265 ;
+WHILE beginId &lt; maxId DO
+
+IF endId &gt; maxId THEN
+
+SET endId = maxId ;
+END
+IF ; INSERT INTO user_tmp (`id`, `username`, `age`) SELECT
+    `id`,
+    `username`,
+    `age`
+FROM
+    USER
+WHERE
+    id &gt;= beginId
+AND id &lt; endId ;
+SET beginId = endId ;
+SET endId = endId + limitSize ;
+END
+WHILE ;
+END ;$$
+
+DELIMITER ;
+
+
+-- 4.执行存储过程
+CALL copy_data ();
+
+-- 5. 同步剩下的数据，并修改表名称，将临时表修改为新表
+START TRANSACTION;
+
+INSERT INTO user_tmp (`id`, `username`, `age`) SELECT
+    `id`,
+    `username`,
+    `age`
+FROM
+    USER
+WHERE
+    id &gt;= 1265265;
+
+ALTER TABLE USER RENAME user_old;
+
+ALTER TABLE user_tmp RENAME USER;
+
+COMMIT;
+</code></pre>
+
 <h2 id="方案2-新建一个表与旧表进行字段关联">方案2：新建一个表与旧表进行字段关联</h2>
 
 <p>略&hellip;</p>

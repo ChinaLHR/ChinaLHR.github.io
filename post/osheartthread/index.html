@@ -5,18 +5,27 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>C</title>
-  <meta property="og:title" content="C" />
-  <meta name="twitter:title" content="C" />
+  <title>操作系统-线程</title>
+  <meta property="og:title" content="操作系统-线程" />
+  <meta name="twitter:title" content="操作系统-线程" />
+  <meta name="description" content="
+读《计算机的心智》,另一个角度看操作系统
+">
+  <meta property="og:description" content="
+读《计算机的心智》,另一个角度看操作系统
+">
+  <meta name="twitter:description" content="
+读《计算机的心智》,另一个角度看操作系统
+">
   <meta name="author" content=""/>
   <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://chinalhr.github.io/tags/c/" />
+  <meta property="og:url" content="https://chinalhr.github.io/post/osheartthread/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
   <meta name="generator" content="Hugo 0.51" />
-  <link rel="canonical" href="https://chinalhr.github.io/tags/c/" />
-  <link rel="alternate" href="https://chinalhr.github.io/tags/c/index.xml" type="application/rss+xml" title="LHR">
+  <link rel="canonical" href="https://chinalhr.github.io/post/osheartthread/" />
+  <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -135,14 +144,23 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <div class="tags-heading">
+            <div class="post-heading">
               
-                <h1>C</h1>
-              
-              
-                <hr class="small">
+                <h1>操作系统-线程</h1>
               
               
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on November 29, 2018
+  
+  
+  
+</span>
+
+
               
             </div>
           </div>
@@ -153,56 +171,52 @@
 
 
     
-  <div class="container" role="main">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        
-        <div class="posts-list">
-          
-            <article class="post-preview">
-              <a href="https://chinalhr.github.io/post/forkandpipe/">
-                <h2 class="post-title">Linux Fork,进程通信</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on November 28, 2018
-  
-  
-  
-</span>
-
-
-              </p>
-              <div class="post-entry">
-                
-                  <blockquote>
-<p>Linux进程相关,Fork函数,Pipe函数,进程通信</p>
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <blockquote>
+<p>读《计算机的心智》,另一个角度看操作系统</p>
 </blockquote>
-                
-              </div>
 
-              
-                <div class="blog-tags">
-                  
-                    <a href="https://chinalhr.github.io//tags/c/">C</a>&nbsp;
-                  
-                    <a href="https://chinalhr.github.io//tags/linux/">Linux</a>&nbsp;
-                  
-                </div>
-              
+<h3 id="关于线程">关于线程</h3>
 
-            </article>
-          
-        </div>
+<p>线程模式:一个进程至少包含一个线程，也可以包含多个线程。</p>
+
+<p>线程提高多核CPU利用率：让不同的线程运行在不同的处理器上，提高进程的执行速度。</p>
+
+<p>线程管理:线程控制表维护线程的各种信息。同一进程内的线程共享一块内存空间。</p>
+
+<hr />
+
         
-      </div>
+          <div class="blog-tags">
+            
+              <a href="https://chinalhr.github.io//tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>&nbsp;
+            
+          </div>
+        
+
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://chinalhr.github.io/post/forkandpipe/" data-toggle="tooltip" data-placement="top" title="Linux Fork,进程通信">&larr; Previous Post</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+
     </div>
   </div>
+</div>
 
     <footer>
   <div class="container">
