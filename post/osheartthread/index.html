@@ -297,14 +297,109 @@
 <li>如果别人持有锁，必须等待</li>
 </ol>
 
+<p>缺陷:循环等待</p>
+
 <p><strong>Wait-Notify</strong></p>
 
 <p>sleep原语：进入睡眠，释放CPU
 wakeup原语:发送信号给指定进程</p>
 
+<p>伪代码：</p>
+
+<pre><code>define N 100
+int count = 0;
+void producer(void){
+   while(true){
+    if(count==N) sleep();
+    //生产商品
+    count = count + 1;
+    if(count == 1)wakeup(consumer);
+    }
+}
+
+void consumer(void){
+    while(true){
+        if(count==0) sleep();
+        //获取商品
+        count = count - 1;
+        if(count == N -1 ) wakeup(producer);
+    }
+}
+</code></pre>
+
+<p>缺陷：
+1. 如果消费者先获取商品，获取不到sleep，但是在sleep语句之前CPU切换，生产者生产商品，发送wakeup给消费者(此时消费者还没进入sleep）,当生产者生产完成，进入sleep之后，CPU切换为消费者，此时消费者继续进程Sleep，导致死锁。</p>
+
+<p>2.count变量没有保护，会发生竞争</p>
+
 <p><strong>信号量-semphore</strong></p>
 
-<p>semphore原语：</p>
+<p>信号量是一个计数器，其取值为当前累积的信号数量，支持两个操作，加法操作up，减法操作down</p>
+
+<ul>
+<li><p>up(一组原子操作):</p>
+
+<ol>
+<li>将信号量的值加1,唤醒一个在该信号量上面等待的线程</li>
+<li>程序继续执行</li>
+</ol></li>
+
+<li><p>down(一组原子操作):</p>
+
+<ol>
+<li>判断信号量的取值是否大于等于1</li>
+<li>true 将信号量的值减去1，继续执行</li>
+<li>false 在该信号量上等待</li>
+</ol></li>
+</ul>
+
+<p>如果将信号量的取值限制为0和1，等效于锁。因为二元信号量是原子的，等效于锁+Wait-Notify</p>
+
+<p>例子(进程B执行完再执行进程A)：
+    - 进程A         进程B
+    - down()        doSomeThing
+    - doSomeThing   up()</p>
+
+<p>伪代码：</p>
+
+<pre><code>define N 100
+typedef int semphore;//定义信号量类型
+semphore mutex = 1;//互斥信号量
+semphore empty = N;//缓存区计数信号量,空位数量
+semphore full = 0;//缓存区计数信号量,商品数量
+
+void producer(void){
+   while(true){
+    down(empty);
+    down(mutex);
+    //生产商品
+    up(mutex);
+    up(full);
+    }
+}
+
+void consumer(void){
+    while(true){
+        down(full);
+        down(mutex);
+        //获取商品
+        up(mutex);
+        up(empty);
+    }
+}
+</code></pre>
+
+<p>缺陷：程序效率低下</p>
+
+<p><strong>管道monitor(监视器)</strong></p>
+
+<h4 id="原语进化之路">原语进化之路</h4>
+
+<ol>
+<li>锁解决了同步问题，带来了循环等待</li>
+<li>Wait-Notify解决了循环等待，带来了死锁</li>
+<li>semphore解决了死锁问题，却效率低</li>
+</ol>
 
         
           <div class="blog-tags">
