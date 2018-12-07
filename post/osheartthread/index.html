@@ -288,8 +288,9 @@
 
 <p>如果使用抢占式调度的多线程系统，那么每个线程将由系统来分配执行时间，线程的切换不由线程本身来决定（在Java中，Thread.yield（）可以让出执行时间，但是要获取执行时间的话，线程本身是没有什么办法的）。在这种实现线程调度的方式下，线程的执行时间是系统可控的，也不会有一个线程导致整个进程阻塞的问题。</p>
 
-<p><strong>Java的线程优先级</strong>
-Java语言一共设置了10个级别的线程优先级（Thread.MIN_PRIORITY至Thread.MAX_PRIORITY），在两个线程同时处于Ready状态时，优先级越高的线程越容易被系统选择执行。Java的线程是通过映射到系统的原生线程上来实现的，所以线程调度最终还是取决于操作系统，操作系统的
+<p><strong>Java的线程优先级</strong></p>
+
+<p>Java语言一共设置了10个级别的线程优先级（Thread.MIN_PRIORITY至Thread.MAX_PRIORITY），在两个线程同时处于Ready状态时，优先级越高的线程越容易被系统选择执行。Java的线程是通过映射到系统的原生线程上来实现的，所以线程调度最终还是取决于操作系统，操作系统的
 优先级不一定和Java的会一一对应(Linux 1~99,Window 7种)，导致Java线程优先级不一定可靠。</p>
 
 <p><strong>Java线程状态转换</strong></p>
@@ -372,8 +373,11 @@ void consumer(void){
 }
 </code></pre>
 
-<p>缺陷：
-1. 如果消费者先获取商品，获取不到sleep，但是在sleep语句之前CPU切换，生产者生产商品，发送wakeup给消费者(此时消费者还没进入sleep）,当生产者生产完成，进入sleep之后，CPU切换为消费者，此时消费者继续进程Sleep，导致死锁。</p>
+<p>缺陷：</p>
+
+<ol>
+<li>如果消费者先获取商品，获取不到sleep，但是在sleep语句之前CPU切换，生产者生产商品，发送wakeup给消费者(此时消费者还没进入sleep）,当生产者生产完成，进入sleep之后，CPU切换为消费者，此时消费者继续进程Sleep，导致死锁。</li>
+</ol>
 
 <p>2.count变量没有保护，会发生竞争</p>
 
@@ -400,10 +404,12 @@ void consumer(void){
 
 <p>如果将信号量的取值限制为0和1，等效于锁。因为二元信号量是原子的，等效于锁+Wait-Notify</p>
 
-<p>例子(进程B执行完再执行进程A)：
-    - 进程A         进程B
+<p>例子(进程B执行完再执行进程A)：</p>
+
+<pre><code>    - 进程A         进程B
     - down()        doSomeThing
-    - doSomeThing   up()</p>
+    - doSomeThing   up()
+</code></pre>
 
 <p>伪代码：</p>
 
