@@ -446,7 +446,8 @@ void consumer(void){
 
 <p>管程是一个程序语言级别的构造，它的正确运行由编译器保证。（Java Synchronized）</p>
 
-<p>把需要同步的代码使用管程的构造框起来，即将需要保护的代码置于begin monitor 和 end monitor之间。编译器在识别到monitor包裹的代码块时，在翻译成低级代码时就会将需要的操作系统原语添加上去，使两个线程不能同时活跃在同一个管程内。</p>
+<p>把需要同步的代码使用管程的构造框起来，即将需要保护的代码置于begin monitor 和 end monitor之间。编译器在识别到monitor包裹的代码块时，在翻译成低级代码时就会将需要的操作系统原语添加上去，
+使两个线程不能同时活跃在同一个管程内。</p>
 
 <p>管程的同步机制：锁(互斥) | 条件变量(控制执行的顺序)</p>
 
@@ -454,7 +455,49 @@ void consumer(void){
 
 <hr />
 
-<h3 id="死锁">死锁</h3>
+<h3 id="锁的实现">锁的实现</h3>
+
+<p><strong>线程上下文切换(切换线程)方式</strong></p>
+
+<h4 id="中断启用和禁止来实现锁-繁忙等待">中断启用和禁止来实现锁(繁忙等待)</h4>
+
+<ol>
+<li>线程自愿放弃CPU(yield之类的操作系统调用)</li>
+<li>线程被强制放弃CPU而失去控制权(中断实现)</li>
+</ol>
+
+<p>操作系统主要通过周期性时钟中断来获得CPU控制权。要想让一组操作变成原子操作，可以通过禁止中断，并且不自动调用yield之类让出CPU，防止进行切换，将一组操作变为原子操作。</p>
+
+<p><strong>unlock实现</strong></p>
+
+<pre><code>unlock(){
+    disable interrupts;//启用中断
+    value = FREE;//value设置为FREE
+    enable interrupts;//禁止中断
+}
+</code></pre>
+
+<h4 id="测试与设置指令来实现锁-繁忙等待">测试与设置指令来实现锁(繁忙等待)</h4>
+
+<p><strong>测试与设置(test&amp;set)指令 &ldquo;读——修改——写&rdquo;</strong></p>
+
+<ol>
+<li>设置操作：将x写入指定内存单元</li>
+<li>读取操作：返回指定内存单元原来的值(写入x之前的值)</li>
+</ol>
+
+<p><strong>lock/unlock实现</strong></p>
+
+<pre><code>//value原始值=0
+lock(){
+    while(test_and_set(value) == 1){
+    }
+}
+
+unlock(){
+    value = 0    
+}
+</code></pre>
 
         
           <div class="blog-tags">
