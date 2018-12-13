@@ -6,10 +6,21 @@
     <description>Recent content on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 29 Nov 2018 21:56:04 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 11 Dec 2018 22:12:39 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>操作系统-内存</title>
+      <link>https://chinalhr.github.io/post/osheartmemory/</link>
+      <pubDate>Tue, 11 Dec 2018 22:12:39 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/osheartmemory/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;读《计算机的心智》,另一个角度看操作系统&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>操作系统-线程</title>
