@@ -56,17 +56,6 @@
     </item>
     
     <item>
-      <title>Linux Fork,Pipe,进程通信</title>
-      <link>https://chinalhr.github.io/post/forkandpipe/</link>
-      <pubDate>Wed, 28 Nov 2018 21:58:07 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/forkandpipe/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Linux进程相关,Fork函数,Pipe函数,进程通信&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
       <title>操作系统-进程</title>
       <link>https://chinalhr.github.io/post/osheartprocess/</link>
       <pubDate>Thu, 15 Nov 2018 22:30:30 +0800</pubDate>
