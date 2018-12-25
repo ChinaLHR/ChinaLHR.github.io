@@ -88,27 +88,6 @@
     </item>
     
     <item>
-      <title>FindBug错误修改指南</title>
-      <link>https://chinalhr.github.io/post/findbugs/</link>
-      <pubDate>Tue, 21 Aug 2018 21:08:18 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/findbugs/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;转载&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>阿里支付与微信支付</title>
-      <link>https://chinalhr.github.io/post/alipayandwxpay/</link>
-      <pubDate>Sun, 12 Aug 2018 22:05:10 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/alipayandwxpay/</guid>
-      <description>&lt;blockquote&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
       <title>Java在Stream中异常处理问题</title>
       <link>https://chinalhr.github.io/post/java_lambda_exception/</link>
       <pubDate>Wed, 25 Jul 2018 23:20:01 +0800</pubDate>
