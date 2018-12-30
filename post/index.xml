@@ -6,10 +6,29 @@
     <description>Recent content in Posts on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 20 Dec 2018 23:12:24 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 28 Dec 2018 22:07:30 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>响应式编程与Reactor</title>
+      <link>https://chinalhr.github.io/post/reactiveprogrammingandreactor/</link>
+      <pubDate>Fri, 28 Dec 2018 22:07:30 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/reactiveprogrammingandreactor/</guid>
+      <description> 响应式编程 关于响应式编程 响应式编程是一种关注于数据流（datastreams）和变化传递（propagation of change）的异步编程方式。可以用既有的编程语言表达静态（如数组）或动态（如事件源）的数据流。
+响应式编程通常作为面向对象编程中的“观察者模式”（Observer design pattern）的一种扩展。
+reactive streams 与 Iterator design pattern 关系  Iterator:
+ 基于Pull模式(拉取)，Iterable角色 提供访问元素的方法，但是什么时候执行next()获取元素取决于开发者。 命令式编程，详细的命令机器怎么（How）去处理数据以达到你想要的结果（What）。  Reactive:
+ 基于Push模式(推送)，Publisher(发布者)-Subscriber(订阅者)角色提供获取元素的方法。当有新的值到来的时候，Publisher通知Subscriber。 声明式编程，开发者通过描述“控制流程”来定义对数据流的处理逻辑。   阻塞与异步  阻塞式（blocking）编码造成浪费资源，当一个程序面临延迟（通常是I/O方面， 比如数据库读写请求或网络调用），所在线程需要进入 idle 状态等待数据，从而浪费资源。
+ 异步非阻塞编码， （任务发起异步调用后）执行过程会切换到另一个 使用同样底层资源 的活跃任务，然后等异步调用返回结果再去处理，避免资源浪费。
+ Java的异步
+ Callback：类似于观察者模式，异步方法没有返回值，而是采用一个 callback 作为参数，当结果出来后回调这个 callback。
+ Futures:异步方法 立即 返回一个Future，该异步方法要返回结果的是 T 类型,线程实际处理结束时可以拿到结果。
+ 缺陷：容易写出回调地狱（Callback Hell）
+   响应式库目标  可编排性（Composability）以及可读性（Readability）使用丰富的操作符 来处理形如流的数据 在订阅（subscribe）之前什么都不会发生 背压（backpressure）具体来说即消费者能够反向告知生产者生产内容的速度的能力 高层次 （同时也是有高价值的）的抽象，从而达到 并发无关 的效果 JVM 异步方式缺陷  </description>
+    </item>
     
     <item>
       <title>操作系统-多核心</title>
