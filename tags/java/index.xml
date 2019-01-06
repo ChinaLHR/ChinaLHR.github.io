@@ -6,20 +6,10 @@
     <description>Recent content in Java on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 28 Dec 2018 22:07:30 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 21 Nov 2018 23:20:52 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>响应式编程与Reactor</title>
-      <link>https://chinalhr.github.io/post/reactiveprogrammingandreactor/</link>
-      <pubDate>Fri, 28 Dec 2018 22:07:30 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/reactiveprogrammingandreactor/</guid>
-      <description>&lt;blockquote&gt;
-&lt;/blockquote&gt;</description>
-    </item>
     
     <item>
       <title>缓存更新策略</title>
