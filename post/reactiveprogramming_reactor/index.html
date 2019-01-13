@@ -185,7 +185,59 @@
         <blockquote>
 </blockquote>
 
-<h3 id="基本操作">基本操作</h3>
+<h3 id="响应式流规范">响应式流规范</h3>
+
+<p>相关链接： <a href="https://github.com/reactive-streams/reactive-streams-jvm">https://github.com/reactive-streams/reactive-streams-jvm</a></p>
+
+<p>Reactive Streams是JVM的面向流的库的标准和规范，目的是实现</p>
+
+<ul>
+<li>具有处理无限数量的元素的能力；</li>
+<li>按序处理；</li>
+<li>异步地传递元素；</li>
+<li>必须实现非阻塞的回压（backpressure）。</li>
+</ul>
+
+<h4 id="响应式流接口">响应式流接口</h4>
+
+<ul>
+<li><p>Publisher(发布者,发出元素)</p>
+
+<pre><code>public interface Publisher&lt;T&gt; {
+public void subscribe(Subscriber&lt;? super T&gt; s);
+}
+</code></pre></li>
+
+<li><p>Subscriber(订阅者,接收元素并做出响应的)</p>
+
+<pre><code>public interface Subscriber&lt;T&gt; {
+    public void onSubscribe(Subscription s);
+    public void onNext(T t);
+    public void onError(Throwable t);
+    public void onComplete();
+}
+</code></pre></li>
+
+<li><p>Subscription</p>
+
+<pre><code>public interface Subscription {
+    public void request(long n);
+    public void cancel();
+}
+</code></pre></li>
+
+<li><p>Processor(集合Publisher和Subscriber)</p>
+
+<pre><code>public interface Processor&lt;T, R&gt; extends             Subscriber&lt;T&gt;, Publisher&lt;R&gt; {
+}
+</code></pre></li>
+</ul>
+
+<p>当执行subscribe方法时，发布者会回调订阅者的onSubscribe方法，订阅者借助传入的Subscription的request方法向发布者请求n个数据。发布者通过不断调用订阅者的onNext方法向订阅者发出最多n个数据。如果数据全部发完，则会调用onComplete告知订阅者流已经发完；如果有错误发生，则通过onError发出错误数据，同样也会终止流。</p>
+
+<p>简单实现：<a href="https://github.com/ChinaLHR/reactor-stream">https://github.com/ChinaLHR/reactor-stream</a></p>
+
+<h3 id="reactor">Reactor</h3>
 
 <h4 id="flux与mono">Flux与Mono</h4>
 
@@ -319,7 +371,7 @@ doFinally
                 }
 
                 @Override
-                protected void hookOnNext(Integer value) {  // 6
+                protected void hookOnNext(Integer value) {  
                     //hookOnNext定义每次在收到一个元素的时候的操作，每次处理完1个元素后再请求1个。
                     request(1);
                 }
