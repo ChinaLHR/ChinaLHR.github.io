@@ -326,6 +326,8 @@ public static &lt;T, S&gt; Flux&lt;T&gt; generate(Callable&lt;S&gt; stateSupplie
 
 <h4 id="operator-操作符">Operator(操作符)</h4>
 
+<p>操作符选择器：<a href="https://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html#which.create">https://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html#which.create</a></p>
+
 <ul>
 <li>map - 元素映射为新元素</li>
 <li>flatMap - 元素映射为流</li>
@@ -372,11 +374,12 @@ public static &lt;T1, T2&gt; Mono&lt;Tuple2&lt;T1, T2&gt;&gt; zip(Mono&lt;? exte
 
 <li><p>示例：</p>
 
-<p>// 基于Callable的Mono
- Mono.fromCallable(() -&gt; getStringSync())<br />
+<pre><code> // 基于Callable的Mono
+ Mono.fromCallable(() -&gt; getStringSync())   
  // 使用subscribeOn将任务调度到Schedulers内置的弹性线程池执行
-        .subscribeOn(Schedulers.elastic())
-        .subscribe(System.out::println);</p></li>
+        .subscribeOn(Schedulers.elastic()) 
+        .subscribe(System.out::println);
+</code></pre></li>
 
 <li><p>publishOn与subscribeOn：</p>
 

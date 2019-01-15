@@ -18,7 +18,7 @@
       
       <guid>https://chinalhr.github.io/post/redisdomqbuff/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;使用Redis做阿里MQ发送的缓存，一种控制QPS的方案&lt;/p&gt;
+&lt;p&gt;使用Redis做阿里MQ发送的缓存，一种控制MQ发送QPS的方案&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
