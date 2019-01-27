@@ -6,10 +6,26 @@
     <description>Recent content in Sql on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 19 Jul 2018 23:37:55 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 23 Jan 2019 21:31:57 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/sql/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>MySql大数据表优化</title>
+      <link>https://chinalhr.github.io/post/mysqlbigdataoptimization/</link>
+      <pubDate>Wed, 23 Jan 2019 21:31:57 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/mysqlbigdataoptimization/</guid>
+      <description>公司数据库账单单表存储过亿,急需优化
+ 优化现有MySql 表设计  表字段避免null值出现，null值很难查询优化，占用额外的索引空 如果非负则加上UNSIGNED 尽量使用TIMESTAMP而非DATETIME
+TIMESTAMP:它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。 DATETIME:不做任何改变，基本上是原样输入和输出。  索引建立
+在WHERE和ORDER BY命令上涉及的列建立索引,利用最左前缀原则： 值分布很稀少的字段不适合建索引 字符字段只建前缀索引 多个单列索引在多条件查询时只会生效第一个索引,所以多条件联合查询时最好建联合索引 离散度大（不同的值多）的列，放在联合索引前面。 ...   外层优化  通过Redis进行热点缓存 通过Elasticsearch进行api对外查询的读写分离  分区  关于分区
+ 分区表底层是由多个物理子表组成，对应用是透明的，对分区表的请求会通过句柄对象转化为对存储引擎的接口调用。 MySql的分区表索引按照分区的子表定义，没有全局索引。 查询优化：优化器根据分区函数过滤分区，让查询扫描更少的数据。用户的SQL语句是需要针对分区表做优化，SQL条件中要带上分区条件的列，从而使查询定位到少量的分区上，否则就会扫描全部分区 避免分区表存在NULL值(NULL值会使分区过滤无效) 对于原生的RANGE分区，LIST分区，HASH分区，分区对象返回的只能是整数值 explain partitions 查看分区执行计划   分区类型
+ 范围分区（RANGE）
+允许将数据划分不同范围(从属于一个连续区间值的集合)[非null列] PARTITION BY RANGE(YEAR(separated))( PARTITION p0 VALUES LESS THAN(1995), PARTITION p1 VALUES LESS THAN(2000), PARTITION p2 VALUES LESS THAN(2005) );  列表分区（LIST）
+允许将数据划分不同范围(从属于一个枚举列表值的集合)[非null列] LIST分区只支持整形，非整形字段需要通过函数转换成整形. PARTITION BY LIST(category)( PARTITION P0 VALUES IN (3,5), PARTITION P1 VALUES IN (1,10), PARTITION P2 VALUES IN (4,9), PARTITION P3 VALUES IN (2), PARTITION P4 VALUES IN (6) );  哈希分区（HASH）</description>
+    </item>
     
     <item>
       <title>MySql大数据量表分页</title>

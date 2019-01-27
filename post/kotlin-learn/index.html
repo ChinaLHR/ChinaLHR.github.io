@@ -245,7 +245,27 @@ when (e) {
 }
 </code></pre></li>
 
-<li><p>while与for</p></li>
+<li><p>for:Kotlin没有Java的for-i概念，多出来区间与数列</p>
+
+<ul>
+<li><p>区间</p>
+
+<pre><code>for (i in 1..100) {
+    println(&quot;current：$i&quot;)
+}
+</code></pre></li>
+
+<li><p>downTo step until</p>
+
+<pre><code>//从100 到 1 打印偶数 步长2 向下到1
+for (i in 100 downTo 1 step 2) {
+    println(&quot;current：$i&quot;)
+}
+</code></pre></li>
+</ul></li>
+
+<li><p>异常
+Kotlin 中 throw 结构是一个表达式，不必使用 new 关键字来创建异常实例</p></li>
 </ul>
 
         
@@ -266,6 +286,10 @@ when (e) {
               <a href="https://chinalhr.github.io/post/reactiveprogramming_reactor/" data-toggle="tooltip" data-placement="top" title="响应式编程库-Reactor">&larr; Previous Post</a>
             </li>
           
+          
+            <li class="next">
+              <a href="https://chinalhr.github.io/post/mysqlbigdataoptimization/" data-toggle="tooltip" data-placement="top" title="MySql大数据表优化">Next Post &rarr;</a>
+            </li>
           
         </ul>
       
