@@ -5,28 +5,25 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>MySql大数据表优化</title>
-  <meta property="og:title" content="MySql大数据表优化" />
-  <meta name="twitter:title" content="MySql大数据表优化" />
+  <title>Bit-map算法及应用</title>
+  <meta property="og:title" content="Bit-map算法及应用" />
+  <meta name="twitter:title" content="Bit-map算法及应用" />
   <meta name="description" content="
-公司数据库账单单表存储过亿,急需优化
 ">
   <meta property="og:description" content="
-公司数据库账单单表存储过亿,急需优化
 ">
   <meta name="twitter:description" content="
-公司数据库账单单表存储过亿,急需优化
 ">
   <meta name="author" content=""/>
   <meta property="og:image" content="https://avatars0.githubusercontent.com/u/19829495" />
   <meta name="twitter:image" content="https://avatars0.githubusercontent.com/u/19829495" />
   <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://chinalhr.github.io/post/mysqlbigdataoptimization/" />
+  <meta property="og:url" content="https://chinalhr.github.io/post/bitmap/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
   <meta name="generator" content="Hugo 0.51" />
-  <link rel="canonical" href="https://chinalhr.github.io/post/mysqlbigdataoptimization/" />
+  <link rel="canonical" href="https://chinalhr.github.io/post/bitmap/" />
   <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -156,7 +153,7 @@
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="post-heading">
               
-                <h1>MySql大数据表优化</h1>
+                <h1>Bit-map算法及应用</h1>
               
               
               
@@ -164,7 +161,7 @@
                 <span class="post-meta">
   
   
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on January 23, 2019
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on January 27, 2019
   
   
   
@@ -186,167 +183,97 @@
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
         <blockquote>
-<p>公司数据库账单单表存储过亿,急需优化</p>
 </blockquote>
 
-<h3 id="优化现有mysql">优化现有MySql</h3>
+<h4 id="little-endian和big-endian">little-endian和big-endian</h4>
 
-<h4 id="表设计">表设计</h4>
+<p>Big endian 认为第一个字节是最高位字节（按照从低地址到高地址的顺序存放数据的高位字节到低位字节）；而 Little endian 则相反，它认为第一个字节是最低位字节（按照从低地址到高地址的顺序存放据的低位字节到高位字节）。</p>
 
-<ul>
-<li>表字段避免null值出现，null值很难查询优化，占用额外的索引空</li>
-<li>如果非负则加上UNSIGNED</li>
+<h4 id="关于bit-map">关于Bit-map</h4>
 
-<li><p>尽量使用TIMESTAMP而非DATETIME</p>
+<p>用一个bit位来标记某个元素对应的Value， key0|1表示该元素是否存在(类似于桶排序算法)，由于采用了Bit为单位来存储数据，因此在存储空间方面，可以大大节省。</p>
 
-<pre><code>TIMESTAMP:它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。
-DATETIME:不做任何改变，基本上是原样输入和输出。
+<p>假设我们要对0-7内的6个不重复元素排序，开辟一个8个Bit(1Bytes)的内存空间，此时所有的bit位为0，遍历6个元素，将对应下标的bit位置为1 (采用big-endian)。处理完所有元素后，对Bytes区域进行遍历，将该位是一的位的编号输出，达到排序的目的。对于更多的元素排序，可以扩展为Bytes数组进行存储排序。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/52029742-8bd2c180-254f-11e9-9311-e17415452373.png" alt="image" /></p>
+
+<h4 id="思想">思想</h4>
+
+<p>使用bit数组来表示某些元素是否存在，达到节省空间的目的。</p>
+
+<h4 id="算法实现-java">算法实现[Java]</h4>
+
+<pre><code>public class BitmapTest {
+
+    //保存数据的
+    private byte[] bitArray;
+
+    //能够存储多少bit数据
+    private int capacity;
+
+    public BitmapTest(int capacity) {
+        this.capacity = capacity;
+        this.bitArray = new byte[(capacity &gt;&gt;3 )+1];
+    }
+
+    /**
+     * byte[index] ——&gt; Index(N) = N/8 = N &gt;&gt; 3;
+     * bit位Position ——&gt; Position(N) = N%8 = N &amp; 0x07;
+     */
+    public void add(int num){
+        // byte[]的index
+        int arrayIndex = num &gt;&gt; 3;
+
+        // byte[index]的Position位置
+        int position = num &amp; 0x07;
+
+        //将1左移position后，Position位置置为1，然后和byte里的数据做|操作，byte数据里的position为1。
+        bitArray[arrayIndex] |= 1 &lt;&lt; position;
+    }
+
+    public void clear(int num){
+        // byte[]的index
+        int arrayIndex = num &gt;&gt; 3;
+
+        // byte[index]的Position位置
+        int position = num &amp; 0x07;
+
+        //将1左移position后，Position位置置为1，然后对取反，再与byte里的数据做&amp;操作，即可清除当前的位置了.
+        bitArray[arrayIndex] &amp;= ~(1 &lt;&lt; position);
+    }
+
+    public boolean contain(int num){
+        // num/8得到byte[]的index
+        int arrayIndex = num &gt;&gt; 3;
+
+        // num%8得到在byte[index]的Position位置
+        int position = num &amp; 0x07;
+
+        //将1左移position后，Position位置置为1，然后与byte里的数据做&amp;，判断是否为0即可
+        return (bitArray[arrayIndex] &amp; (1 &lt;&lt; position)) !=0;
+    }
+
+}
+</code></pre>
+
+<h4 id="常见实例">常见实例😮</h4>
+
+<ol>
+<li><p>给40亿个不重复的unsigned int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？</p>
+
+<pre><code>Bitmap的方法，申请512M的内存，一个bit位代表一个unsigned int值。读入40亿个数，设置相应的bit位，读入要查询的数，查看相应bit位是否为1，为1表示存在，为0表示不存在。
 </code></pre></li>
 
-<li><p>索引建立</p>
+<li><p>在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数</p>
 
-<pre><code>在WHERE和ORDER BY命令上涉及的列建立索引,利用最左前缀原则：
-值分布很稀少的字段不适合建索引
-字符字段只建前缀索引
-多个单列索引在多条件查询时只会生效第一个索引,所以多条件联合查询时最好建联合索引
-离散度大（不同的值多）的列，放在联合索引前面。
-...
+<pre><code>采用2-Bitmap（每个数分配2bit，00表示不存在，01表示出现一次，10表示多次，11无意义）进行，共需内存2^32 * 2 bit=1 GB内存。扫描这2.5亿个整数，查看Bitmap中相对应位，如果是00变01，01变10，10保持不变。所描完事后，查看bitmap，把对应位是01的整数输出即可。
 </code></pre></li>
-</ul>
-
-<h4 id="外层优化">外层优化</h4>
-
-<ul>
-<li>通过Redis进行热点缓存</li>
-<li>通过Elasticsearch进行api对外查询的读写分离</li>
-</ul>
-
-<h4 id="分区">分区</h4>
-
-<ul>
-<li><p>关于分区</p>
-
-<ul>
-<li>分区表底层是由多个物理子表组成，对应用是透明的，对分区表的请求会通过句柄对象转化为对存储引擎的接口调用。</li>
-<li>MySql的分区表索引按照分区的子表定义，没有全局索引。</li>
-<li>查询优化：优化器根据分区函数过滤分区，让查询扫描更少的数据。用户的SQL语句是需要针对分区表做优化，SQL条件中要带上分区条件的列，从而使查询定位到少量的分区上，否则就会扫描全部分区</li>
-<li>避免分区表存在NULL值(NULL值会使分区过滤无效)</li>
-<li>对于原生的RANGE分区，LIST分区，HASH分区，分区对象返回的只能是整数值</li>
-<li>explain partitions 查看分区执行计划
-<br /></li>
-</ul></li>
-
-<li><p>分区类型</p>
-
-<ul>
-<li><p>范围分区（RANGE）</p>
-
-<pre><code>允许将数据划分不同范围(从属于一个连续区间值的集合)[非null列]
-
-PARTITION BY RANGE(YEAR(separated))(
-    PARTITION p0 VALUES LESS THAN(1995),
-    PARTITION p1 VALUES LESS THAN(2000),
-    PARTITION p2 VALUES LESS THAN(2005)
-);
-</code></pre></li>
-
-<li><p>列表分区（LIST）</p>
-
-<pre><code>允许将数据划分不同范围(从属于一个枚举列表值的集合)[非null列]
-LIST分区只支持整形，非整形字段需要通过函数转换成整形.
-PARTITION BY LIST(category)(
-    PARTITION P0 VALUES IN (3,5),
-    PARTITION P1 VALUES IN (1,10),
-    PARTITION P2 VALUES IN (4,9),
-    PARTITION P3 VALUES IN (2),
-    PARTITION P4 VALUES IN (6)
-);
-</code></pre></li>
-
-<li><p>哈希分区（HASH）</p>
-
-<pre><code>基于给定的分区个数，将数据散列到不同的分区(HASH分区的底层实现基于MOD取余函数)
-只能针对整数进行HASH，对于非整形的字段只能通过表达式将其转换成整数
-
-PARTITION BY HASH(id)
-PARTITIONS 4; -- 分区数
-</code></pre></li>
-
-<li><p>哈希分区（LINEAR HASH）</p>
-
-<pre><code>HASH分区的特殊类型，基于Power-of-Two算法...
-</code></pre></li>
-
-<li><p>KEY分区</p>
-
-<pre><code>基于给定的分区个数，将数据散列到不同的分区(KEY分区的底层实现基于列的MD5算法)
-KEY分区对象必须为列，
-PARTITION BY KEY(id)
-PARTITIONS 2;
-</code></pre></li>
-</ul></li>
-</ul>
-
-<h4 id="分库分表">分库分表</h4>
-
-<ul>
-<li><p>垂直拆分表
-垂直拆分是指数据表列的拆分，把一张列比较多的表拆分为多张表，建议在数据表设计之初就执行垂直拆分</p>
-
-<pre><code>把不常用的字段单独放在一张表;
-把text，blob等大字段拆分出来放在附表中;
-经常组合查询的列放在一张表中;
-</code></pre></li>
-</ul>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/51801801-6444d600-227d-11e9-9c24-cb5a31e13b72.png" alt="image" /></p>
-
-<ul>
-<li><p>水平拆分表
-水平拆分是指数据表行的拆分，把一张的表的数据拆成多张表来存放。</p>
-
-<pre><code>通常情况下，我们使用取模的方式来进行表的拆分，在insert时还需要一张临时表uid_temp来提供自增的ID,该表的唯一用处就是提供自增的ID;
-</code></pre></li>
-</ul>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/51801833-e3d2a500-227d-11e9-91e1-9f77733df944.png" alt="image" /></p>
-
-<ul>
-<li><p>client模式和proxy模式</p>
-
-<ul>
-<li><p>client模式
-<img src="https://user-images.githubusercontent.com/19829495/51801960-95bea100-227f-11e9-844a-efb957ac1ee1.png" alt="image" /></p></li>
-
-<li><p>proxy模式
-<img src="https://user-images.githubusercontent.com/19829495/51801968-aff87f00-227f-11e9-8694-879bfc4355a8.png" alt="image" /></p></li>
-</ul></li>
-</ul>
-
-<p>无论是client模式，还是proxy模式，几个核心的步骤是一样的：SQL解析，重写，路由，执行，结果归并。
-采用client模式，架构简单，性能损耗也比较小，运维成本低。如果在项目中引入mycat或者cobar，他们的单机模式无法保证可靠性，一旦宕机则服务就变得不可用，你又不得不引入其他中间件(HAProxy)来实现它的高可用集群部署方案</p>
-
-<h3 id="存储升级">存储升级</h3>
-
-<h4 id="升级mysql">升级MySql</h4>
-
-<ul>
-<li>阿里云POLARDB
-关系型分布式云原生数据库，100%兼容MySQL，存储容量最高可达 100T，性能最高提升至 MySQL 的 6 倍。
-参考：<a href="https://yq.aliyun.com/articles/173291">https://yq.aliyun.com/articles/173291</a></li>
-</ul>
-
-<h3 id="参考">参考</h3>
-
-<ul>
-<li>&lt;高性能MySql&gt;</li>
-<li><a href="https://zhuanlan.zhihu.com/p/54594681">https://zhuanlan.zhihu.com/p/54594681</a></li>
-</ul>
+</ol>
 
         
           <div class="blog-tags">
             
-              <a href="https://chinalhr.github.io//tags/sql/">Sql</a>&nbsp;
+              <a href="https://chinalhr.github.io//tags/%E7%AE%97%E6%B3%95/">算法</a>&nbsp;
             
           </div>
         
@@ -358,13 +285,9 @@ PARTITIONS 2;
         <ul class="pager blog-pager">
           
             <li class="previous">
-              <a href="https://chinalhr.github.io/post/kotlin-learn/" data-toggle="tooltip" data-placement="top" title="Kotlin-Record">&larr; Previous Post</a>
+              <a href="https://chinalhr.github.io/post/mysqlbigdataoptimization/" data-toggle="tooltip" data-placement="top" title="MySql大数据表优化">&larr; Previous Post</a>
             </li>
           
-          
-            <li class="next">
-              <a href="https://chinalhr.github.io/post/bitmap/" data-toggle="tooltip" data-placement="top" title="Bit-map算法及应用">Next Post &rarr;</a>
-            </li>
           
         </ul>
       
