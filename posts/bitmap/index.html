@@ -35,6 +35,19 @@
   
 
 
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?a77a851169447cff35f5d1a2599e06e6";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<link rel="stylesheet" href="https://chinalhr.github.io/css/prism.css" />
+
+
 
 
 
@@ -220,57 +233,57 @@
 
 <h4 id="算法实现-java">算法实现[Java]</h4>
 
-<pre><code>    public class BitmapTest {
-    
-        //保存数据的
-        private byte[] bitArray;
-    
-        //能够存储多少bit数据
-        private int capacity;
-    
-        public BitmapTest(int capacity) {
-            this.capacity = capacity;
-            this.bitArray = new byte[(capacity &gt;&gt;3 )+1];
-        }
-    
-        /**
-         * byte[index] ——&gt; Index(N) = N/8 = N &gt;&gt; 3;
-         * bit位Position ——&gt; Position(N) = N%8 = N &amp; 0x07;
-         */
-        public void add(int num){
-            // byte[]的index
-            int arrayIndex = num &gt;&gt; 3;
-    
-            // byte[index]的Position位置
-            int position = num &amp; 0x07;
-    
-            //将1左移position后，Position位置置为1，然后和byte里的数据做|操作，byte数据里的position为1。
-            bitArray[arrayIndex] |= 1 &lt;&lt; position;
-        }
-    
-        public void clear(int num){
-            // byte[]的index
-            int arrayIndex = num &gt;&gt; 3;
-    
-            // byte[index]的Position位置
-            int position = num &amp; 0x07;
-    
-            //将1左移position后，Position位置置为1，然后对取反，再与byte里的数据做&amp;操作，即可清除当前的位置了.
-            bitArray[arrayIndex] &amp;= ~(1 &lt;&lt; position);
-        }
-    
-        public boolean contain(int num){
-            // num/8得到byte[]的index
-            int arrayIndex = num &gt;&gt; 3;
-    
-            // num%8得到在byte[index]的Position位置
-        	int position = num &amp; 0x07;
-    
-            //将1左移position后，Position位置置为1，然后与byte里的数据做&amp;，判断是否为0即可
-            return (bitArray[arrayIndex] &amp; (1 &lt;&lt; position)) !=0;
-        }
-    
+<pre><code>public class BitmapTest {
+
+    //保存数据的
+    private byte[] bitArray;
+
+    //能够存储多少bit数据
+    private int capacity;
+
+    public BitmapTest(int capacity) {
+        this.capacity = capacity;
+        this.bitArray = new byte[(capacity &gt;&gt;3 )+1];
     }
+
+    /**
+     * byte[index] ——&gt; Index(N) = N/8 = N &gt;&gt; 3;
+     * bit位Position ——&gt; Position(N) = N%8 = N &amp; 0x07;
+     */
+    public void add(int num){
+        // byte[]的index
+        int arrayIndex = num &gt;&gt; 3;
+
+        // byte[index]的Position位置
+        int position = num &amp; 0x07;
+
+        //将1左移position后，Position位置置为1，然后和byte里的数据做|操作，byte数据里的position为1。
+        bitArray[arrayIndex] |= 1 &lt;&lt; position;
+    }
+
+    public void clear(int num){
+        // byte[]的index
+        int arrayIndex = num &gt;&gt; 3;
+
+        // byte[index]的Position位置
+        int position = num &amp; 0x07;
+
+        //将1左移position后，Position位置置为1，然后对取反，再与byte里的数据做&amp;操作，即可清除当前的位置了.
+        bitArray[arrayIndex] &amp;= ~(1 &lt;&lt; position);
+    }
+
+    public boolean contain(int num){
+        // num/8得到byte[]的index
+        int arrayIndex = num &gt;&gt; 3;
+
+        // num%8得到在byte[index]的Position位置
+    	int position = num &amp; 0x07;
+
+        //将1左移position后，Position位置置为1，然后与byte里的数据做&amp;，判断是否为0即可
+        return (bitArray[arrayIndex] &amp; (1 &lt;&lt; position)) !=0;
+    }
+
+}
 </code></pre>
 
 <h4 id="常见实例">常见实例😮</h4>
@@ -329,6 +342,15 @@
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <ul class="list-inline text-center footer-links">
           
+          
+          <li>
+            <a href="https://chinalhr.github.io/index.xml" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
           
         </ul>
         <p class="credits copyright text-muted">
