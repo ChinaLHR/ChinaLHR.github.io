@@ -5,7 +5,9 @@
     <link>https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/</link>
     <description>Recent content in 分布式 on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en</language>
+    <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
+    <webMaster>13435500980@163.com (lihanrong)</webMaster>
     <lastBuildDate>Sat, 08 Sep 2018 23:02:55 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
@@ -15,7 +17,7 @@
       <title>基于SnowFlake的分布式UID生成服务</title>
       <link>https://chinalhr.github.io/posts/uidgenerateserver/</link>
       <pubDate>Sat, 08 Sep 2018 23:02:55 +0800</pubDate>
-      
+      <author>13435500980@163.com (lihanrong)</author>
       <guid>https://chinalhr.github.io/posts/uidgenerateserver/</guid>
       <description>&lt;blockquote&gt;
 &lt;/blockquote&gt;</description>
@@ -25,7 +27,7 @@
       <title>分布式锁实现(基于Redis|Zookeeper)</title>
       <link>https://chinalhr.github.io/posts/distributedlocks/</link>
       <pubDate>Sun, 15 Jul 2018 18:38:26 +0800</pubDate>
-      
+      <author>13435500980@163.com (lihanrong)</author>
       <guid>https://chinalhr.github.io/posts/distributedlocks/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;学习分布式锁实现&lt;/p&gt;

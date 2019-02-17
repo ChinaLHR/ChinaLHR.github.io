@@ -5,7 +5,9 @@
     <link>https://chinalhr.github.io/tags/git/</link>
     <description>Recent content in Git on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en</language>
+    <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
+    <webMaster>13435500980@163.com (lihanrong)</webMaster>
     <lastBuildDate>Sun, 08 Jul 2018 15:49:09 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/git/index.xml" rel="self" type="application/rss+xml" />
@@ -15,7 +17,7 @@
       <title>Git记录</title>
       <link>https://chinalhr.github.io/posts/git_basic/</link>
       <pubDate>Sun, 08 Jul 2018 15:49:09 +0800</pubDate>
-      
+      <author>13435500980@163.com (lihanrong)</author>
       <guid>https://chinalhr.github.io/posts/git_basic/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记录Git操作&lt;/p&gt;

@@ -5,7 +5,9 @@
     <link>https://chinalhr.github.io/tags/mq/</link>
     <description>Recent content in Mq on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en</language>
+    <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
+    <webMaster>13435500980@163.com (lihanrong)</webMaster>
     <lastBuildDate>Tue, 10 Jul 2018 22:01:41 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/mq/index.xml" rel="self" type="application/rss+xml" />
@@ -15,7 +17,7 @@
       <title>消息队列QPS优化(使用Redis做MQ的Buff)</title>
       <link>https://chinalhr.github.io/posts/redisdomqbuff/</link>
       <pubDate>Tue, 10 Jul 2018 22:01:41 +0800</pubDate>
-      
+      <author>13435500980@163.com (lihanrong)</author>
       <guid>https://chinalhr.github.io/posts/redisdomqbuff/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;使用Redis做阿里MQ发送的缓存，一种控制MQ发送QPS的方案&lt;/p&gt;
@@ -26,7 +28,7 @@
       <title>使用RabbitMQ</title>
       <link>https://chinalhr.github.io/posts/rabbitmq_use/</link>
       <pubDate>Tue, 26 Jun 2018 21:44:54 +0800</pubDate>
-      
+      <author>13435500980@163.com (lihanrong)</author>
       <guid>https://chinalhr.github.io/posts/rabbitmq_use/</guid>
       <description>&lt;blockquote&gt;
 &lt;/blockquote&gt;</description>

@@ -5,7 +5,9 @@
     <link>https://chinalhr.github.io/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/</link>
     <description>Recent content in 响应式编程 on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en</language>
+    <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
+    <webMaster>13435500980@163.com (lihanrong)</webMaster>
     <lastBuildDate>Sun, 06 Jan 2019 22:30:19 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
@@ -15,7 +17,7 @@
       <title>响应式编程库-Reactor</title>
       <link>https://chinalhr.github.io/posts/reactiveprogramming_reactor/</link>
       <pubDate>Sun, 06 Jan 2019 22:30:19 +0800</pubDate>
-      
+      <author>13435500980@163.com (lihanrong)</author>
       <guid>https://chinalhr.github.io/posts/reactiveprogramming_reactor/</guid>
       <description>&lt;blockquote&gt;
 &lt;/blockquote&gt;</description>
@@ -25,7 +27,7 @@
       <title>响应式编程</title>
       <link>https://chinalhr.github.io/posts/reactiveprogramming/</link>
       <pubDate>Fri, 28 Dec 2018 22:07:30 +0800</pubDate>
-      
+      <author>13435500980@163.com (lihanrong)</author>
       <guid>https://chinalhr.github.io/posts/reactiveprogramming/</guid>
       <description>&lt;blockquote&gt;
 &lt;/blockquote&gt;</description>

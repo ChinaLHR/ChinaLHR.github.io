@@ -5,7 +5,9 @@
     <link>https://chinalhr.github.io/tags/kotlin/</link>
     <description>Recent content in Kotlin on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en</language>
+    <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
+    <webMaster>13435500980@163.com (lihanrong)</webMaster>
     <lastBuildDate>Sun, 13 Jan 2019 23:02:40 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/kotlin/index.xml" rel="self" type="application/rss+xml" />
@@ -15,7 +17,7 @@
       <title>Kotlin-Record</title>
       <link>https://chinalhr.github.io/posts/kotlin-learn/</link>
       <pubDate>Sun, 13 Jan 2019 23:02:40 +0800</pubDate>
-      
+      <author>13435500980@163.com (lihanrong)</author>
       <guid>https://chinalhr.github.io/posts/kotlin-learn/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Kotlin学习记录&lt;/p&gt;

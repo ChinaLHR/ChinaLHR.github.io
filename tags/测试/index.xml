@@ -5,7 +5,9 @@
     <link>https://chinalhr.github.io/tags/%E6%B5%8B%E8%AF%95/</link>
     <description>Recent content in 测试 on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en</language>
+    <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
+    <webMaster>13435500980@163.com (lihanrong)</webMaster>
     <lastBuildDate>Sun, 16 Sep 2018 23:07:30 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/%E6%B5%8B%E8%AF%95/index.xml" rel="self" type="application/rss+xml" />
@@ -15,7 +17,7 @@
       <title>使用Apache ab进行压力测试</title>
       <link>https://chinalhr.github.io/posts/apache_ab_use/</link>
       <pubDate>Sun, 16 Sep 2018 23:07:30 +0800</pubDate>
-      
+      <author>13435500980@163.com (lihanrong)</author>
       <guid>https://chinalhr.github.io/posts/apache_ab_use/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;学习Apache ab进行压力测试&lt;/p&gt;

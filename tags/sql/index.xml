@@ -5,7 +5,9 @@
     <link>https://chinalhr.github.io/tags/sql/</link>
     <description>Recent content in Sql on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en</language>
+    <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
+    <webMaster>13435500980@163.com (lihanrong)</webMaster>
     <lastBuildDate>Wed, 23 Jan 2019 21:31:57 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/sql/index.xml" rel="self" type="application/rss+xml" />
@@ -15,7 +17,7 @@
       <title>MySql大数据表优化</title>
       <link>https://chinalhr.github.io/posts/mysqlbigdataoptimization/</link>
       <pubDate>Wed, 23 Jan 2019 21:31:57 +0800</pubDate>
-      
+      <author>13435500980@163.com (lihanrong)</author>
       <guid>https://chinalhr.github.io/posts/mysqlbigdataoptimization/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;公司数据库账单单表存储过亿,急需优化&lt;/p&gt;
@@ -26,7 +28,7 @@
       <title>MySql大数据量表分页</title>
       <link>https://chinalhr.github.io/posts/mysql_paging/</link>
       <pubDate>Thu, 19 Jul 2018 23:37:55 +0800</pubDate>
-      
+      <author>13435500980@163.com (lihanrong)</author>
       <guid>https://chinalhr.github.io/posts/mysql_paging/</guid>
       <description>&lt;blockquote&gt;
 &lt;/blockquote&gt;</description>
@@ -36,7 +38,7 @@
       <title>Mysql对存有大数据表进行结构修改需要注意的问题</title>
       <link>https://chinalhr.github.io/posts/mysql_alter/</link>
       <pubDate>Sun, 08 Jul 2018 17:56:21 +0800</pubDate>
-      
+      <author>13435500980@163.com (lihanrong)</author>
       <guid>https://chinalhr.github.io/posts/mysql_alter/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记录生产中遇到的问题&lt;/p&gt;
@@ -47,7 +49,7 @@
       <title>MySql读写分离</title>
       <link>https://chinalhr.github.io/posts/mysql_replicationon/</link>
       <pubDate>Wed, 27 Jun 2018 15:55:01 +0800</pubDate>
-      
+      <author>13435500980@163.com (lihanrong)</author>
       <guid>https://chinalhr.github.io/posts/mysql_replicationon/</guid>
       <description>&lt;blockquote&gt;
 &lt;/blockquote&gt;</description>
@@ -57,7 +59,7 @@
       <title>Mysql主从复制</title>
       <link>https://chinalhr.github.io/posts/mysql_proxy/</link>
       <pubDate>Wed, 27 Jun 2018 15:54:50 +0800</pubDate>
-      
+      <author>13435500980@163.com (lihanrong)</author>
       <guid>https://chinalhr.github.io/posts/mysql_proxy/</guid>
       <description>&lt;blockquote&gt;
 &lt;/blockquote&gt;</description>
