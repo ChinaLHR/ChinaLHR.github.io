@@ -13,10 +13,10 @@
     
     <item>
       <title>使用Apache ab进行压力测试</title>
-      <link>https://chinalhr.github.io/post/apache_ab_use/</link>
+      <link>https://chinalhr.github.io/posts/apache_ab_use/</link>
       <pubDate>Sun, 16 Sep 2018 23:07:30 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/apache_ab_use/</guid>
+      <guid>https://chinalhr.github.io/posts/apache_ab_use/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;学习Apache ab进行压力测试&lt;/p&gt;
 &lt;/blockquote&gt;</description>

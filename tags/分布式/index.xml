@@ -13,20 +13,20 @@
     
     <item>
       <title>基于SnowFlake的分布式UID生成服务</title>
-      <link>https://chinalhr.github.io/post/uidgenerateserver/</link>
+      <link>https://chinalhr.github.io/posts/uidgenerateserver/</link>
       <pubDate>Sat, 08 Sep 2018 23:02:55 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/uidgenerateserver/</guid>
+      <guid>https://chinalhr.github.io/posts/uidgenerateserver/</guid>
       <description>&lt;blockquote&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
     <item>
       <title>分布式锁实现(基于Redis|Zookeeper)</title>
-      <link>https://chinalhr.github.io/post/distributedlocks/</link>
+      <link>https://chinalhr.github.io/posts/distributedlocks/</link>
       <pubDate>Sun, 15 Jul 2018 18:38:26 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/distributedlocks/</guid>
+      <guid>https://chinalhr.github.io/posts/distributedlocks/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;学习分布式锁实现&lt;/p&gt;
 &lt;/blockquote&gt;</description>

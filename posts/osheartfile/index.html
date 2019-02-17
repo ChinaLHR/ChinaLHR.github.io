@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title> 操作系统-文件 - Read the fucking source code</title>
+  <meta name="description" content="Read the fucking source code" />
+  <meta property="og:title" content="操作系统-文件" />
+  <meta name="twitter:title" content="操作系统-文件" />
+  <meta name="description" content="
+读《计算机的心智》,另一个角度看操作系统
+">
+  <meta property="og:description" content="
+读《计算机的心智》,另一个角度看操作系统
+">
+  <meta name="twitter:description" content="
+读《计算机的心智》,另一个角度看操作系统
+">
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://chinalhr.github.io/posts/osheartfile/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LHR" />
+
+  <meta name="generator" content="Hugo 0.51" />
+  <link rel="canonical" href="https://chinalhr.github.io/posts/osheartfile/" />
+  <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
+  <script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/jquery-1.12.4.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  
+  
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/main.css" />
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/search.css" />
+  
+  
+
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://chinalhr.github.io/">LHR</a>
+    </div>
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+              
+              
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/posts/about/">About</a>
+              
+              
+            </li>
+          
+        
+
+        
+
+        
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="LHR" href="https://chinalhr.github.io/">
+            <img class="avatar-img" src="https://avatars0.githubusercontent.com/u/19829495" alt="LHR" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-md-offset-0">
+            <div class="posts-heading">
+                <h1 align="center">操作系统-文件</h1>
+                
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main" itemscope itemtype="http://schema.org/Article">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            
+            
+            
+<div>
+    <section id="datecount">
+        <h4 id="date"> Sun Dec 16, 2018</h4>
+    </section>
+    <h5 id="wc">200 Words|Read in about 1 Min</h5>
+    <h5 id="tags">Tags: 
+        
+        <a href="https://chinalhr.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a> &nbsp;
+    </h5>
+</div>
+
+            
+            <article role="main" class="blog-post" itemprop="articleBody" id="content">
+                
+  
+
+
+                <blockquote>
+<p>读《计算机的心智》,另一个角度看操作系统</p>
+</blockquote>
+
+<h3 id="文件系统">文件系统</h3>
+
+<p><strong>关于文件系统</strong></p>
+
+<p>文件系统时操作系统提供的抽象，将用户从数据存放的细节中解放出来。</p>
+
+<p><strong>目标</strong></p>
+
+<p>文件系统目的是达到地址独立(目录)与地址保护(权限)。</p>
+
+<p><strong>文件的基本信息</strong></p>
+
+<p>文件命名：操作系统负责根据文件名找到文件存放磁盘的数据块。（磁盘扇面）</p>
+
+<p>扩展名：文件类型</p>
+
+<p>内容寻址：通过内容寻址存储系统查找</p>
+
+<p>文件内容组织：关系导向型组织与非关系导向型组织</p>
+
+<p>文件类型：目录|一般文件|块文件(关于输入输出的文件)</p>
+
+<p>文件格式：例如Unix下的可执行文件，归档文件
+<img src="https://user-images.githubusercontent.com/19829495/50162077-662f8700-0318-11e9-84b4-166f2a646871.png" alt="image" /></p>
+
+<p>文件访问：随机访问(任意顺序读取数据记录)</p>
+
+<p>文件属性：创建者，拥有者，只读标志，隐藏标志，文件大小尺寸,修改时间&hellip;</p>
+
+<p>文件操作：创建，删除，打开，关闭，重命名，读写&hellip;</p>
+
+<h4 id="文件夹-目录-folder-地址独立实现机制">文件夹(目录)Folder(地址独立实现机制)</h4>
+
+<p>文件夹用来保存的是文件及文件系统的信息，文件夹本身也是文件，存放文件到文件在磁盘的地址映射(文件名——&gt;文件在磁盘的地址)。</p>
+
+<ul>
+<li>文件夹结构
+<br /></li>
+</ul>
+
+<p>文件夹是层级结构，顶端是根文件夹，称为根目录。根目录是文件系统的起点，操作系统启动的时候就加载到内存。
+Shell的ls与Window的dir：读取文件夹的内容(数组)展示。</p>
+
+<ul>
+<li>根据文件名找到所在磁盘地址</li>
+</ul>
+
+<p>/book/dart/file.pdf /代表根目录(根目录存放book文件夹的磁盘地址)——&gt;book文件夹存放dart文件夹的磁盘地址—&gt;&hellip;</p>
+
+<ul>
+<li>共享与链接</li>
+</ul>
+
+<p>链接：操作系统的Link调用(为访问不同目录的文件建立链接，直接访问不同目录下的文件)</p>
+
+<h4 id="内存映射的文件访问">内存映射的文件访问</h4>
+
+<p>内存映射：解决系统调用读取文件效率(每次需要陷如内核)低下核心思想是把磁盘访问变成内存访问。</p>
+
+<p>原理：把需要访问的文件映射到一个进程的虚拟地址，访问虚拟地址就相当于访问文件。把磁盘访问编程内存访问，不需要系统调用来访问。映射到多个进程上可以实现文件共享。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/50224939-1f09ca80-03da-11e9-9332-f70894f255c0.png" alt="image" /></p>
+
+<hr />
+
+<h3 id="文件的物理结构">文件的物理结构</h3>
+
+<h4 id="顺序文件">顺序文件</h4>
+
+<p>文件中的物理记录按其在文件中的逻辑记录顺序依次存入存储介质而建立的。顺序文件中物理记录的顺序和逻辑记录的顺序是一致的。</p>
+
+<ul>
+<li>连续结构文件
+把逻辑上连续的文件信息依次存放在连续编号的物理块中。即次序相继的两个物理记录在存储介质上的位置是相邻的。</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/50346533-a2a7f080-056d-11e9-9147-7cde996478ac.png" alt="image" /></p>
+
+<p>结构简单，顺序访问速度快，但不能动态增长，外存容易存在碎片。</p>
+
+<ul>
+<li>链式结构文件</li>
+</ul>
+
+<p>链结构将逻辑上连续的文件信息分散存放在若干不连续的物理块中，其中每个物理块设有一个指针，指向其后续连接的另一个物理块。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/50346688-15b16700-056e-11e9-9bd5-6bb8fa163aab.png" alt="image" /></p>
+
+<p>提高了磁盘空间利用率，解决了磁盘碎片问题，便于文件的插入和删除操作与动态增长,但不适宜随机存取访问</p>
+
+<ul>
+<li><p>索引文件</p>
+
+<ul>
+<li>索引文件
+建立一张逻辑记录和物理记录之间对应关系的索引表。</li>
+<li>索引顺序文件和索引非顺序文件
+
+<ul>
+<li>索引顺序文件(Indexed Sequential File)：主文件按主关键字有序的文件称索引顺序文件。
+　 在索引顺序文件中，可对一组记录建立一个索引项。这种索引表称为稀疏索引。</li>
+<li>索引非顺序文件(Indexed NonSequentail File)：主文件按主关键字无序得文件称索引非顺序文件。
+　 在索引非顺序文件中，必须为每个记录建立一个索引项，这样建立的索引表称为稠密索引。</li>
+</ul></li>
+</ul></li>
+
+<li><p>多级索引</p></li>
+</ul>
+
+<p>对索引表建立的索引，称为查找表。查找表的建立可以为占据多个页块的索引表的查阅减少外存访问次数。当查找表中项目仍很多，可建立更高一级的索引。通常最高可达四级索引。 多级索引是一种静态索引，各级索引均为顺序表，结构简单，修改很不方便(需要重组索引)</p>
+
+<ul>
+<li><p>动态索引
+当数据文件在使用过程中记录变动较多时，利用二叉排序树(或AVL树)、B-树(或其变型)等树表结构建立的索引，为动态索引。特点是插入、删除方便，无需多级索引，建立索引=树排序。</p></li>
+
+<li><p>ISAM文件(索引顺序存取方法)</p></li>
+</ul>
+
+<p>是一种专为磁盘存取设计的文件组织方法，采用静态索引结构。 由于磁盘是以盘组、柱面和磁道三级地址存取的设备，ISAM对磁盘上的数据文件建立盘组、柱面和磁道三级索引。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/50347532-cfa9d280-0570-11e9-8d30-e53e67251a02.png" alt="image" /></p>
+
+<ul>
+<li><p>检索过程</p>
+
+<pre><code>1.从主索引出发，找到相应的柱面索引；
+2.从柱面索引找到记录所在柱面的磁道索引；
+3.从磁道索引找到记录所在磁道的起始地址，由此出发在该磁道上进行顺序查找，直到找到为止。
+</code></pre></li>
+
+<li><p>VSAM文件
+基于B+树,文件是利用操作系统中提供的虚拟存储器的功能组织的文件，免除了用户为读/写记录时直接对外存进行的操作，对用户而言，文件只有控制区间和控制区域等逻辑存储单位。</p></li>
+</ul>
+
+<p>VSAM文件的结构由三部分组成:索引集，顺序集，数据集</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/50347725-9756c400-0571-11e9-8d1a-b5de501fac0b.png" alt="image" /></p>
+
+<p>VSAM的优势是能保持较高的查找效率，查找一个后插入记录和查找一个原有记录具有相同的速度；动态地分配和释放存储空间，可以保持平均75％的存储利用率；而且永远不必对文件进行再组织。</p>
+
+<hr />
+
+<h3 id="文件系统实现">文件系统实现</h3>
+
+<h4 id="文件系统-1">文件系统</h4>
+
+<ul>
+<li>操作系统的启动</li>
+</ul>
+
+<p>磁盘包括一个个扇面，第0个扇面存放MBR(Master Boot Record)主引导记录，用于启动计算机与记录磁盘分区表(给出磁盘所有分区的开启终结地址)。计算机启动时，主板ROM里面的BIOS程序首先运行，随后将磁盘0扇面进行读操作，将MBR程序加载到内存运行，MBR程序根据磁盘分区表找到主分区，将主分区的Boot Record程序加载，Boot Record负责找到操作系统映像加载到内存并启动。</p>
+
+<h4 id="文件实现">文件实现</h4>
+
+<ul>
+<li><p>数据在磁盘的存放方式</p>
+
+<ul>
+<li><p>连续空间存放
+例如数据库</p></li>
+
+<li><p>非连续空间存放
+链表存放实现(每个数据块留出一个指针空间存放下一个数据块地址，使用文件分配表FAT存储数据库指针)</p></li>
+</ul></li>
+
+<li><p>FAT文件系统</p></li>
+</ul>
+
+<p>FAT12,FAT16,FAT32等(表示用12,16,28位表示磁盘地址)。
+索引数据块(I-NODE):将每个文件的所有数据块的磁盘地址收集起来，每次打开文件就把目标文件的数据块磁盘地址从I-NODE加载到内存，依据索引获取物理磁盘地址。I-NODE还存有文件创建时间，修改时间，类型等信息。</p>
+
+<p>I-NODE是非连续组织方式，基于链表增长灵活</p>
+
+<p><strong>非对称多级索引组织(解决I-NODE范围增长)</strong></p>
+
+<p>多级I-NODE，有顶级次级I-NODE用于索引大文件
+单级I-NODE用于索引小文件(因为小文件使用的数据块不会超过I-NODE指针数，避免浪费I-NODE空间，降低访问磁盘次数)</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/50289941-31046f80-04a5-11e9-9cb3-d81dadfe5c92.png" alt="image" /></p>
+
+<h4 id="文件夹-目录-实现">文件夹(目录)实现</h4>
+
+<p>如果使用的是 I-NODE 组织形式，我们只需要知道文件对应的顶级 I-NODE 地址即可。文件的数据块地址可以从I-NODE 里面获得。这种情况下文件夹里面存放的映射是到I-NODE 编号。</p>
+
+<ul>
+<li>文件共享
+操作系统的Link调用(为访问不同目录的文件建立链接，直接访问不同目录下的文件)</li>
+</ul>
+
+<p>硬链接：在某个文件夹Link调用创建目标文件链接时，该文件夹会增加目标文件到文件地址的映射。删除的时候(逻辑或者物理删除)，如果链接数不为0只是将文件对应I-NODE里面的链接计数减一，如果链接数为0则删除。会存在文件创建者删除文件，但因为被链接而没有被物理删除的问题。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/50291007-4c24ae80-04a8-11e9-9896-d7259b3c4bde.png" alt="image" /></p>
+
+<p>软链接：在某个文件夹Link调用创建目标文件链接时，该文件夹会增加目标文件的路径名。从链接访问文件需要从原始路径访问。原始文件删除后链接断开无法访问文件。(WINDOW快捷方式)</p>
+
+<ul>
+<li>文件系统挂载
+挂载是将一个文件系统并入另一个文件系统(修改被挂载文件系统的根目录和挂载点 U盘，光盘)</li>
+</ul>
+            </article>
+
+            <ul class="pager blog-pager">
+                
+                <li class="previous">
+                    <a href="https://chinalhr.github.io/posts/osheartmemory/" data-toggle="tooltip" data-placement="top" title="操作系统-内存">&larr; Previous Post</a>
+                </li>
+                 
+                <li class="next">
+                    <a href="https://chinalhr.github.io/posts/osheartmulticpu/" data-toggle="tooltip" data-placement="top" title="操作系统-多核心">Next Post &rarr;</a>
+                </li>
+                
+            </ul>
+            
+            <div>
+                 
+                <h2>See Also</h2>
+                <ul>
+                    
+                    <li><a href="/posts/osheartmemory/">操作系统-内存</a></li>
+                    
+                    <li><a href="/posts/osheartthread/">操作系统-线程</a></li>
+                    
+                    <li><a href="/posts/osheartprocess/">操作系统-进程</a></li>
+                    
+                </ul>
+                
+            </div>
+            
+            
+            
+            
+<div>
+    <section id="datecount">
+        <h4 id="date"> Sun Dec 16, 2018</h4>
+    </section>
+    <h5 id="wc">200 Words|Read in about 1 Min</h5>
+    <h5 id="tags">Tags: 
+        
+        <a href="https://chinalhr.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a> &nbsp;
+    </h5>
+</div>
+
+            
+            </div>
+            
+            
+        </div>
+    </div>
+    </section>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+        </ul>
+        <p class="credits copyright text-muted">
+        &copy;2017-2018
+          
+          
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://chinalhr.github.io/">LHR</a>
+          
+        </p>
+
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/rootsongjc/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/bootstrap.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe-ui-default.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/auto-render.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/main.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/prism.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/katex.min.js"></script>
+<script> renderMathInElement(document.body); </script>
+
+
+
+
+
+
+
+  </body>
+</html>
+

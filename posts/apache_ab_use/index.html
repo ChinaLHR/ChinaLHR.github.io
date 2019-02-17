@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title> 使用Apache ab进行压力测试 - Read the fucking source code</title>
+  <meta name="description" content="Read the fucking source code" />
+  <meta property="og:title" content="使用Apache ab进行压力测试" />
+  <meta name="twitter:title" content="使用Apache ab进行压力测试" />
+  <meta name="description" content="
+学习Apache ab进行压力测试
+">
+  <meta property="og:description" content="
+学习Apache ab进行压力测试
+">
+  <meta name="twitter:description" content="
+学习Apache ab进行压力测试
+">
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://chinalhr.github.io/posts/apache_ab_use/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LHR" />
+
+  <meta name="generator" content="Hugo 0.51" />
+  <link rel="canonical" href="https://chinalhr.github.io/posts/apache_ab_use/" />
+  <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
+  <script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/jquery-1.12.4.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  
+  
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/main.css" />
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/search.css" />
+  
+  
+
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://chinalhr.github.io/">LHR</a>
+    </div>
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+              
+              
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/posts/about/">About</a>
+              
+              
+            </li>
+          
+        
+
+        
+
+        
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="LHR" href="https://chinalhr.github.io/">
+            <img class="avatar-img" src="https://avatars0.githubusercontent.com/u/19829495" alt="LHR" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-md-offset-0">
+            <div class="posts-heading">
+                <h1 align="center">使用Apache ab进行压力测试</h1>
+                
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main" itemscope itemtype="http://schema.org/Article">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            
+            
+            
+<div>
+    <section id="datecount">
+        <h4 id="date"> Sun Sep 16, 2018</h4>
+    </section>
+    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="tags">Tags: 
+        
+        <a href="https://chinalhr.github.io/tags/%E6%B5%8B%E8%AF%95/">测试</a> &nbsp;
+    </h5>
+</div>
+
+            
+            <article role="main" class="blog-post" itemprop="articleBody" id="content">
+                
+  
+
+
+                <blockquote>
+<p>学习Apache ab进行压力测试</p>
+</blockquote>
+
+<h2 id="术语">术语</h2>
+
+<ul>
+<li>吞吐率：单位是reqs/s，指的是某个并发用户数下单位时间内处理的请求数</li>
+<li>并发连接数:服务器一个会话所接受的请求数目。</li>
+<li>用户平均请求等待时间：处理完成所有请求数所花费的时间/ （总请求数 / 并发用户数）</li>
+<li>服务器平均请求等待时间:处理完成所有请求数所花费的时间 / 总请求数</li>
+</ul>
+
+<p>正常情况下主要关注吞吐量与用户平均请求等待时间。</p>
+
+<h2 id="使用">使用</h2>
+
+<p>apache ab是apache服务器所携带的压力测试工具。</p>
+
+<h3 id="压力测试">压力测试</h3>
+
+<p>QPS:50/s 请求数：10000(－n表示请求数，－c表示并发数)</p>
+
+<pre><code>ab -n 10000 -c 50 http:....
+</code></pre>
+
+<h3 id="结果分析">结果分析</h3>
+
+<p><img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/test/apache_ab_report.png" alt="" /></p>
+            </article>
+
+            <ul class="pager blog-pager">
+                
+                <li class="previous">
+                    <a href="https://chinalhr.github.io/posts/uidgenerateserver/" data-toggle="tooltip" data-placement="top" title="基于SnowFlake的分布式UID生成服务">&larr; Previous Post</a>
+                </li>
+                 
+                <li class="next">
+                    <a href="https://chinalhr.github.io/posts/springcache_shrio_bug/" data-toggle="tooltip" data-placement="top" title="Shrio导致SpringCache缓存失效原因分析">Next Post &rarr;</a>
+                </li>
+                
+            </ul>
+            
+            <div>
+                 
+            </div>
+            
+            
+            
+            
+<div>
+    <section id="datecount">
+        <h4 id="date"> Sun Sep 16, 2018</h4>
+    </section>
+    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="tags">Tags: 
+        
+        <a href="https://chinalhr.github.io/tags/%E6%B5%8B%E8%AF%95/">测试</a> &nbsp;
+    </h5>
+</div>
+
+            
+            </div>
+            
+            
+        </div>
+    </div>
+    </section>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+        </ul>
+        <p class="credits copyright text-muted">
+        &copy;2017-2018
+          
+          
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://chinalhr.github.io/">LHR</a>
+          
+        </p>
+
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/rootsongjc/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/bootstrap.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe-ui-default.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/auto-render.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/main.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/prism.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/katex.min.js"></script>
+<script> renderMathInElement(document.body); </script>
+
+
+
+
+
+
+
+  </body>
+</html>
+

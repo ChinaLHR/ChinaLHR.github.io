@@ -13,10 +13,10 @@
     
     <item>
       <title>消息队列QPS优化(使用Redis做MQ的Buff)</title>
-      <link>https://chinalhr.github.io/post/redisdomqbuff/</link>
+      <link>https://chinalhr.github.io/posts/redisdomqbuff/</link>
       <pubDate>Tue, 10 Jul 2018 22:01:41 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/redisdomqbuff/</guid>
+      <guid>https://chinalhr.github.io/posts/redisdomqbuff/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;使用Redis做阿里MQ发送的缓存，一种控制MQ发送QPS的方案&lt;/p&gt;
 &lt;/blockquote&gt;</description>

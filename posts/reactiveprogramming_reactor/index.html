@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title> 响应式编程库-Reactor - Read the fucking source code</title>
+  <meta name="description" content="Read the fucking source code" />
+  <meta property="og:title" content="响应式编程库-Reactor" />
+  <meta name="twitter:title" content="响应式编程库-Reactor" />
+  <meta name="description" content="
+">
+  <meta property="og:description" content="
+">
+  <meta name="twitter:description" content="
+">
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://chinalhr.github.io/posts/reactiveprogramming_reactor/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LHR" />
+
+  <meta name="generator" content="Hugo 0.51" />
+  <link rel="canonical" href="https://chinalhr.github.io/posts/reactiveprogramming_reactor/" />
+  <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
+  <script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/jquery-1.12.4.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  
+  
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/main.css" />
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/search.css" />
+  
+  
+
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://chinalhr.github.io/">LHR</a>
+    </div>
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+              
+              
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/posts/about/">About</a>
+              
+              
+            </li>
+          
+        
+
+        
+
+        
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="LHR" href="https://chinalhr.github.io/">
+            <img class="avatar-img" src="https://avatars0.githubusercontent.com/u/19829495" alt="LHR" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-md-offset-0">
+            <div class="posts-heading">
+                <h1 align="center">响应式编程库-Reactor</h1>
+                
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main" itemscope itemtype="http://schema.org/Article">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            
+            
+            
+<div>
+    <section id="datecount">
+        <h4 id="date"> Sun Jan 6, 2019</h4>
+    </section>
+    <h5 id="wc">400 Words|Read in about 2 Min</h5>
+    <h5 id="tags">Tags: 
+        
+        <a href="https://chinalhr.github.io/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/">响应式编程</a> &nbsp;
+        
+        <a href="https://chinalhr.github.io/tags/java/">Java</a> &nbsp;
+    </h5>
+</div>
+
+            
+            <article role="main" class="blog-post" itemprop="articleBody" id="content">
+                
+  
+
+
+                <blockquote>
+</blockquote>
+
+<h3 id="响应式流规范">响应式流规范</h3>
+
+<p>相关链接： <a href="https://github.com/reactive-streams/reactive-streams-jvm">https://github.com/reactive-streams/reactive-streams-jvm</a></p>
+
+<p>Reactive Streams是JVM的面向流的库的标准和规范，目的是实现</p>
+
+<ul>
+<li>具有处理无限数量的元素的能力；</li>
+<li>按序处理；</li>
+<li>异步地传递元素；</li>
+<li>必须实现非阻塞的回压（backpressure）。</li>
+</ul>
+
+<h4 id="响应式流接口">响应式流接口</h4>
+
+<ul>
+<li><p>Publisher(发布者,发出元素)</p>
+
+<pre><code>public interface Publisher&lt;T&gt; {
+public void subscribe(Subscriber&lt;? super T&gt; s);
+}
+</code></pre></li>
+
+<li><p>Subscriber(订阅者,接收元素并做出响应的)</p>
+
+<pre><code>public interface Subscriber&lt;T&gt; {
+    public void onSubscribe(Subscription s);
+    public void onNext(T t);
+    public void onError(Throwable t);
+    public void onComplete();
+}
+</code></pre></li>
+
+<li><p>Subscription</p>
+
+<pre><code>public interface Subscription {
+    public void request(long n);
+    public void cancel();
+}
+</code></pre></li>
+
+<li><p>Processor(集合Publisher和Subscriber)</p>
+
+<pre><code>public interface Processor&lt;T, R&gt; extends             Subscriber&lt;T&gt;, Publisher&lt;R&gt; {
+}
+</code></pre></li>
+</ul>
+
+<p>当执行subscribe方法时，发布者会回调订阅者的onSubscribe方法，订阅者借助传入的Subscription的request方法向发布者请求n个数据。发布者通过不断调用订阅者的onNext方法向订阅者发出最多n个数据。如果数据全部发完，则会调用onComplete告知订阅者流已经发完；如果有错误发生，则通过onError发出错误数据，同样也会终止流。</p>
+
+<p>简单实现：<a href="https://github.com/ChinaLHR/reactor-stream">https://github.com/ChinaLHR/reactor-stream</a></p>
+
+<h3 id="reactor">Reactor</h3>
+
+<h4 id="flux与mono">Flux与Mono</h4>
+
+<p>发布者（Publisher）,一个Flux对象代表一个包含0..N个元素的响应式序列，而一个Mono对象代表一个包含零/一个（0..1）元素的结果。</p>
+
+<ul>
+<li><p>创建数据流</p>
+
+<pre><code>Flux.fromArray(array);
+Flux.fromIterable(list);
+Flux.fromStream(stream);
+Flux.just(...);
+</code></pre></li>
+
+<li><p>订阅</p>
+
+<pre><code>// 订阅并触发数据流
+subscribe(); 
+// 订阅并指定对正常数据元素如何处理
+subscribe(Consumer&lt;? super T&gt; consumer); 
+// 订阅并定义对正常数据元素和错误信号的处理
+subscribe(Consumer&lt;? super T&gt; consumer,
+          Consumer&lt;? super Throwable&gt; errorConsumer); 
+// 订阅并定义对正常数据元素、错误信号和完成信号的处理
+subscribe(Consumer&lt;? super T&gt; consumer,
+          Consumer&lt;? super Throwable&gt; errorConsumer,
+          Runnable completeConsumer); 
+// 订阅并定义对正常数据元素、错误信号和完成信号的处理，以及订阅发生时的处理逻辑
+subscribe(Consumer&lt;? super T&gt; consumer,
+          Consumer&lt;? super Throwable&gt; errorConsumer,
+          Runnable completeConsumer,
+          Consumer&lt;? super Subscription&gt; subscriptionConsumer);
+</code></pre></li>
+
+<li><p>自定义数据流-generate</p></li>
+</ul>
+
+<p>generate是一种同步地，逐个地发出数据的方法。因为它提供的sink是一个SynchronousSink， 而且其next()方法在每次回调的时候最多只能被调用一次。</p>
+
+<pre><code>public static &lt;T&gt; Flux&lt;T&gt; generate(Consumer&lt;SynchronousSink&lt;T&gt;&gt; generator)
+
+public static &lt;T, S&gt; Flux&lt;T&gt; generate(Callable&lt;S&gt; stateSupplier, BiFunction&lt;S, SynchronousSink&lt;T&gt;, S&gt; generator) 
+
+public static &lt;T, S&gt; Flux&lt;T&gt; generate(Callable&lt;S&gt; stateSupplier, BiFunction&lt;S, SynchronousSink&lt;T&gt;, S&gt; generator, Consumer&lt;? super S&gt; stateConsumer)
+</code></pre>
+
+<ul>
+<li>自定义数据流-create</li>
+</ul>
+
+<p>高级的创建Flux的方法，其生成数据流的方式既可以是同步的，也可以是异步的，并且还可以每次发出多个元素。(create 常用的场景就是将现有的 API 转为响应式，比如监听器的异步方法)</p>
+
+<pre><code>MyEventSource eventSource = new MyEventSource();    
+    Flux.create(sink -&gt; {
+                //向事件源注册用匿名内部类创建的监听器
+                eventSource.register(new MyEventListener() {    
+                    @Override
+                    public void onNewEvent(MyEventSource.MyEvent event) {
+                        //监听器在收到事件回调的时候通过sink将事件再发出
+                        sink.next(event);
+                    }
+
+                    @Override
+                    public void onEventStopped() {
+                        //监听器在收到事件源停止的回调的时候通过sink发出完成信号
+                        sink.complete();        
+                    }
+                });
+            }
+    ).subscribe(System.out::println);
+</code></pre>
+
+<h4 id="调试">调试</h4>
+
+<ul>
+<li>单元测试工具StepVerifier</li>
+</ul>
+
+<p>expectNext用于测试下一个期望的数据元素，expectErrorMessage用于校验下一个元素是否为错误信号，expectComplete用于测试下一个元素是否为完成信号。</p>
+
+<pre><code>    StepVerifier.create(...)
+        .expectNext(1, 2, 3, 4, 5, 6)
+        .expectComplete()
+        .verify();
+</code></pre>
+
+<h4 id="operator-操作符">Operator(操作符)</h4>
+
+<p>操作符选择器：<a href="https://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html#which.create">https://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html#which.create</a></p>
+
+<ul>
+<li>map - 元素映射为新元素</li>
+<li>flatMap - 元素映射为流</li>
+<li>filter - 过滤</li>
+
+<li><p>zip - 一对一合并:对两个Flux/Mono流每次各取一个元素，合并为一个二元组（Tuple2）</p>
+
+<pre><code>public static &lt;T1,T2&gt; Flux&lt;Tuple2&lt;T1,T2&gt;&gt; zip(Publisher&lt;? extends T1&gt; source1,Publisher&lt;? extends T2&gt; source2)
+public static &lt;T1, T2&gt; Mono&lt;Tuple2&lt;T1, T2&gt;&gt; zip(Mono&lt;? extends T1&gt; p1, Mono&lt;? extends T2&gt; p2)
+</code></pre></li>
+
+<li><p>transform - 可以将一段操作链打包为一个函数式
+    //将filter和map操作符进行了打包
+     Function<Flux<String>, Flux<String>&gt; filterAndMap =
+            f -&gt; f.filter(color -&gt; !color.equals(&ldquo;orange&rdquo;))
+                    .map(String::toUpperCase);</p>
+
+<pre><code>Flux.fromIterable(Arrays.asList(&quot;blue&quot;, &quot;green&quot;, &quot;orange&quot;, &quot;purple&quot;))
+        .doOnNext(System.out::println)
+        //将包装的函数拼装到操作链
+        .transform(filterAndMap)
+        .subscribe(d -&gt; System.out.println(&quot;Subscriber to Transformed MapAndFilter: &quot;+d));
+</code></pre></li>
+
+<li><p>compose - 与 transform类似，将几个操作符封装到一个函数式中。区别是，这个函数式是针对每一个订阅者起作用的。对每一个subscription可以生成不同的操作链。</p>
+
+<pre><code>  Flux&lt;String&gt; composedFlux =
+        Flux.fromIterable(Arrays.asList(&quot;blue&quot;, &quot;green&quot;, &quot;orange&quot;, &quot;purple&quot;))
+                .doOnNext(System.out::println)
+                .compose(filterAndMap);
+</code></pre></li>
+</ul>
+
+<h4 id="调度器-线程模型">调度器&amp;线程模型</h4>
+
+<ul>
+<li><p>Schedulers工具类</p>
+
+<p>当前线程（Schedulers.immediate()）；
+可重用的单线程（Schedulers.single()）。注意，这个方法对所有调用者都提供同一个线程来使用，直到该调度器被废弃。Schedulers.newSingle()使用独占的线程；
+弹性线程池（Schedulers.elastic()）。它根据需要创建一个线程池，重用空闲线程。线程池如果空闲时间过长 （默认为 60s）就会被废弃。对于 I/O 阻塞的场景比较适用。Schedulers.elastic()能够方便地给一个阻塞 的任务分配它自己的线程，从而不会妨碍其他任务和资源；
+固定大小线程池（Schedulers.parallel()），所创建线程池的大小与CPU个数等同；
+自定义线程池（Schedulers.fromExecutorService(ExecutorService)）基于自定义的ExecutorService创建 Scheduler</p></li>
+
+<li><p>示例：</p>
+
+<pre><code> // 基于Callable的Mono
+ Mono.fromCallable(() -&gt; getStringSync())   
+ // 使用subscribeOn将任务调度到Schedulers内置的弹性线程池执行
+        .subscribeOn(Schedulers.elastic()) 
+        .subscribe(System.out::println);
+</code></pre></li>
+
+<li><p>publishOn与subscribeOn：</p>
+
+<p>publishOn会影响链中其后的操作符
+subscribeOn无论出现在什么位置，都只影响源头的执行环境</p></li>
+
+<li><p>数据流配置Context</p></li>
+</ul>
+
+<p>类似于 ThreadLocal ,区别是ontext作用于一个 Flux 或一个 Mono 上，而不是应用于一个线程（Thread）,其生命周期伴随整个数据流。</p>
+
+<h4 id="错误处理-重试">错误处理&amp;重试</h4>
+
+<ul>
+<li><p>错误处理</p>
+
+<pre><code>捕获并返回一个静态的缺省值：
+onErrorReturn方法能够在收到错误信号的时候提供一个缺省值
+
+捕获并执行一个异常处理方法或计算一个候补值来顶替:
+onErrorResume方法能够在收到错误信号的时候提供一个新的数据流
+
+捕获，并再包装为某一个业务相关的异常，然后再抛出业务异常:
+onErrorMap
+
+捕获，记录错误日志...，然后继续抛出
+doOnError(只读，不会对数据流造成影响)
+
+使用 finally 来清理资源
+doFinally
+</code></pre></li>
+
+<li><p>重试</p>
+
+<pre><code>retry：retry对于上游Flux是采取的重订阅（re-subscribing）的方式，出错了retry会从新订阅了原始的数据流执行x次。
+</code></pre></li>
+</ul>
+
+<h4 id="backpressure背压-回压">Backpressure背压(回压)</h4>
+
+<ul>
+<li><p>背压的前提</p>
+
+<ol>
+<li>发布者与订阅者不在同一个线程中，因为在同一个线程中的话，通常使用传统的线性逻辑，不需要进行回压处理；</li>
+<li>发布者发出数据的速度高于订阅者处理数据的速度，也就是处于“PUSH”状态下。</li>
+</ol></li>
+
+<li><p>背压策略(OverflowStrategy )</p>
+
+<ul>
+<li>IGNORE: 完全忽略下游背压请求</li>
+<li>ERROR： 当下游跟不上节奏的时候发出一个错误信号。</li>
+<li>DROP：当下游没有准备好接收新的元素的时候抛弃这个元素。</li>
+<li>LATEST：让下游只得到上游最新的元素。</li>
+<li>BUFFER：缓存下游没有来得及处理的元素（如果缓存不限大小的可能导致OutOfMemoryError）。</li>
+</ul></li>
+
+<li><p>create声明回压策略</p>
+
+<pre><code>public static &lt;T&gt; Flux&lt;T&gt; create(Consumer&lt;? super FluxSink&lt;T&gt;&gt; emitter, OverflowStrategy backpressure) 
+</code></pre></li>
+
+<li><p>操作符调整背压策略</p>
+
+<ul>
+<li><p>onBackpressureBuffer(对于来自其下游的request采取“缓存”策略)
+<img src="https://raw.githubusercontent.com/reactor/reactor-core/v3.1.3.RELEASE/src/docs/marble/onbackpressurebuffer.png" alt="enter description here" /></p></li>
+
+<li><p>onBackpressureDrop(元素就绪时，根据下游是否有未满足的request来判断是否发出当前元素)
+<img src="https://raw.githubusercontent.com/reactor/reactor-core/v3.1.3.RELEASE/src/docs/marble/onbackpressuredrop.png" alt="enter description here" /></p></li>
+
+<li><p>onBackpressureLatest(当有新的request到来的时候，将最新的元素发出)
+<img src="https://raw.githubusercontent.com/reactor/reactor-core/v3.1.3.RELEASE/src/docs/marble/onbackpressurelatest.png" alt="enter description here" /></p></li>
+
+<li><p>onBackpressureError(当有多余元素就绪时，发出错误信号)
+<img src="https://raw.githubusercontent.com/reactor/reactor-core/v3.1.3.RELEASE/src/docs/marble/onbackpressureerror.png" alt="enter description here" /></p></li>
+</ul></li>
+
+<li><p>通过BaseSubscriber定义自己的Subscriber进行上游流量控制</p>
+
+<pre><code>subscribe(new BaseSubscriber&lt;Integer&gt;() {  
+                @Override
+                protected void hookOnSubscribe(Subscription subscription) { 
+                    //hookOnSubscribe定义在订阅的时候执行的操作，订阅时首先向上游请求1个元素
+                    request(1);
+                }
+
+                @Override
+                protected void hookOnNext(Integer value) {  
+                    //hookOnNext定义每次在收到一个元素的时候的操作，每次处理完1个元素后再请求1个。
+                    request(1);
+                }
+</code></pre></li>
+</ul>
+            </article>
+
+            <ul class="pager blog-pager">
+                
+                <li class="previous">
+                    <a href="https://chinalhr.github.io/posts/reactiveprogramming/" data-toggle="tooltip" data-placement="top" title="响应式编程">&larr; Previous Post</a>
+                </li>
+                 
+                <li class="next">
+                    <a href="https://chinalhr.github.io/posts/kotlin-learn/" data-toggle="tooltip" data-placement="top" title="Kotlin-Record">Next Post &rarr;</a>
+                </li>
+                
+            </ul>
+            
+            <div>
+                 
+                <h2>See Also</h2>
+                <ul>
+                    
+                    <li><a href="/posts/reactiveprogramming/">响应式编程</a></li>
+                    
+                    <li><a href="/posts/javacachestrategy/">缓存更新策略</a></li>
+                    
+                    <li><a href="/posts/mybatisshardplug/">Mybatis自定义分表Plug</a></li>
+                    
+                    <li><a href="/posts/mybatis_sql_precompile/">Mybatis动态表名：# 与 $ 区别</a></li>
+                    
+                    <li><a href="/posts/highavailabilityhttpclient/">高可用的HttpClient</a></li>
+                    
+                </ul>
+                
+            </div>
+            
+            
+            
+            
+<div>
+    <section id="datecount">
+        <h4 id="date"> Sun Jan 6, 2019</h4>
+    </section>
+    <h5 id="wc">400 Words|Read in about 2 Min</h5>
+    <h5 id="tags">Tags: 
+        
+        <a href="https://chinalhr.github.io/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/">响应式编程</a> &nbsp;
+        
+        <a href="https://chinalhr.github.io/tags/java/">Java</a> &nbsp;
+    </h5>
+</div>
+
+            
+            </div>
+            
+            
+        </div>
+    </div>
+    </section>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+        </ul>
+        <p class="credits copyright text-muted">
+        &copy;2017-2018
+          
+          
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://chinalhr.github.io/">LHR</a>
+          
+        </p>
+
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/rootsongjc/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/bootstrap.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe-ui-default.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/auto-render.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/main.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/prism.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/katex.min.js"></script>
+<script> renderMathInElement(document.body); </script>
+
+
+
+
+
+
+
+  </body>
+</html>
+

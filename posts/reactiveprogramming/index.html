@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title> 响应式编程 - Read the fucking source code</title>
+  <meta name="description" content="Read the fucking source code" />
+  <meta property="og:title" content="响应式编程" />
+  <meta name="twitter:title" content="响应式编程" />
+  <meta name="description" content="
+">
+  <meta property="og:description" content="
+">
+  <meta name="twitter:description" content="
+">
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://chinalhr.github.io/posts/reactiveprogramming/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LHR" />
+
+  <meta name="generator" content="Hugo 0.51" />
+  <link rel="canonical" href="https://chinalhr.github.io/posts/reactiveprogramming/" />
+  <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
+  <script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/jquery-1.12.4.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  
+  
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/main.css" />
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/search.css" />
+  
+  
+
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://chinalhr.github.io/">LHR</a>
+    </div>
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+              
+              
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/posts/about/">About</a>
+              
+              
+            </li>
+          
+        
+
+        
+
+        
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="LHR" href="https://chinalhr.github.io/">
+            <img class="avatar-img" src="https://avatars0.githubusercontent.com/u/19829495" alt="LHR" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-md-offset-0">
+            <div class="posts-heading">
+                <h1 align="center">响应式编程</h1>
+                
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main" itemscope itemtype="http://schema.org/Article">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            
+            
+            
+<div>
+    <section id="datecount">
+        <h4 id="date"> Fri Dec 28, 2018</h4>
+    </section>
+    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="tags">Tags: 
+        
+        <a href="https://chinalhr.github.io/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/">响应式编程</a> &nbsp;
+    </h5>
+</div>
+
+            
+            <article role="main" class="blog-post" itemprop="articleBody" id="content">
+                
+  
+
+
+                <blockquote>
+</blockquote>
+
+<h3 id="关于响应式编程">关于响应式编程</h3>
+
+<p>响应式编程是一种关注于数据流（datastreams）和变化传递（propagation of change）的异步编程方式。可以用既有的编程语言表达静态（如数组）或动态（如事件源）的数据流。</p>
+
+<p>响应式编程通常作为面向对象编程中的“观察者模式”（Observer design pattern）的一种扩展。</p>
+
+<h4 id="reactive-streams-与-iterator-design-pattern-关系">reactive streams 与 Iterator design pattern 关系</h4>
+
+<ul>
+<li><p>Iterator:</p>
+
+<ul>
+<li>基于Pull模式(拉取)，Iterable角色 提供访问元素的方法，但是什么时候执行next()获取元素取决于开发者。</li>
+<li>命令式编程，详细的命令机器怎么（How）去处理数据以达到你想要的结果（What）。</li>
+</ul></li>
+
+<li><p>Reactive:</p>
+
+<ul>
+<li>基于Push模式(推送)，Publisher(发布者)-Subscriber(订阅者)角色提供获取元素的方法。当有新的值到来的时候，Publisher通知Subscriber。</li>
+<li>声明式编程，开发者通过描述“控制流程”来定义对数据流的处理逻辑。</li>
+</ul></li>
+</ul>
+
+<h4 id="特性">特性</h4>
+
+<ul>
+<li>变化传递（propagation of change）
+类似于Excel的公式计算，一个单元格变化之后，导致直接和间接引用它的其他单元格均发生相应变化。</li>
+<li>数据流（data stream）
+数据/事件在响应式编程里会以数据流的形式发出。</li>
+<li>声明式（declarative）
+声明好了对于数据流“将会”进行什么样的处理，当有数据流过来时，就会按照声明好的处理流程逐个进行处理。(形成了一种计算逻辑对数据的“绑定”。)</li>
+<li>响应式流（Reactive Stream）
+异步非阻塞(Java Stream是同步的),可以通过背压进行流量控制。</li>
+</ul>
+
+<h4 id="阻塞与异步">阻塞与异步</h4>
+
+<ul>
+<li><p>阻塞式（blocking）编码造成浪费资源，当一个程序面临延迟（通常是I/O方面， 比如数据库读写请求或网络调用），所在线程需要进入 idle 状态等待数据，从而浪费资源。</p></li>
+
+<li><p>异步非阻塞编码， （任务发起异步调用后）执行过程会切换到另一个 使用同样底层资源 的活跃任务，然后等异步调用返回结果再去处理，避免资源浪费。</p></li>
+
+<li><p>Java的异步</p>
+
+<ul>
+<li><p>Callback：类似于观察者模式，异步方法没有返回值，而是采用一个 callback 作为参数，当结果出来后回调这个 callback。</p></li>
+
+<li><p>Futures:异步方法 立即 返回一个Future<T>，该异步方法要返回结果的是 T 类型,线程实际处理结束时可以拿到结果。</p></li>
+
+<li><p>缺陷：容易写出回调地狱（Callback Hell）</p></li>
+</ul></li>
+</ul>
+
+<h3 id="响应式库目标">响应式库目标</h3>
+
+<ul>
+<li>可编排性（Composability）以及可读性（Readability）使用丰富的操作符 来处理形如流的数据</li>
+<li>在订阅（subscribe）之前什么都不会发生</li>
+<li>背压（backpressure）具体来说即消费者能够反向告知生产者生产内容的速度的能力</li>
+<li>高层次 （同时也是有高价值的）的抽象，从而达到 并发无关 的效果</li>
+<li>JVM 异步方式缺陷</li>
+</ul>
+
+<h3 id="关于响应式宣言">关于响应式宣言</h3>
+
+<p>响应式宣言是一组架构与设计原则，即时响应性（Responsive）、回弹性（Resilient）、弹性（Elastic）以及消息驱动（Message Driven）。 对于这样的系统，我们称之为响应式系统（Reactive System）。</p>
+
+<ul>
+<li>回弹性
+
+<ul>
+<li>系统在出现失败时依然保持即时响应性。 失败的扩散被遏制在了每个组件内部，与其他组件相互隔离， 从而确保系统某部分的失败不会危及整个系统，并能独立恢复。每个组件的恢复都被委托给了另一个（外部的）组件。[如熔断器组件]</li>
+</ul></li>
+<li>弹性
+
+<ul>
+<li>系统在不断变化的工作负载之下依然保持即时响应性。响应式系统可以对输入（负载）的速率变化做出反应，比如通过增加或者减少被分配用于服务这些输入（负载）的资源。[如DevOps,云原生&hellip;]</li>
+</ul></li>
+<li>消息驱动
+
+<ul>
+<li>响应式系统依赖异步的消息传递，从而确保了松耦合、隔离、位置透明的组件之间有着明确边界。</li>
+</ul></li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/50694763-bbd49500-1075-11e9-9be4-b0e88578fabc.png" alt="image" /></p>
+
+<h3 id="响应式编程与响应式系统">响应式编程与响应式系统</h3>
+
+<p>响应式宣言是一组设计原则，一种关于分布式环境下系统架构与设计的思考方式，关注于通过分布式系统的通信和协作所得到的弹性和可靠性(消息驱动)，响应式系统是符合这一架构风格的系统。</p>
+
+<p>响应式编程是异步编程下的一个子集，是一种范式，有具体的开发库，侧重于由信息/数据流而不是命令式的控制流来推动逻辑的前进，专注于短时间的数据流链条上的计算(事件驱动)。</p>
+
+<p>一个拥有长期存活的可寻址long-lived addressable组件的消息驱动系统跟一个事件驱动的数据流驱动模型的不同在于，消息具有固定的导向，而事件则没有。消息会有明确的（一个）去向，而事件则只是一段等着被观察observe的信息。</p>
+
+<p>异步且非阻塞执行下的数据流管理——通常只在单个结点或服务中。当有多个结点时，就需要开始认真地考虑像数据一致性data consistency、跨结点沟通cross-node communication、协调coordination、版本控制versioning、编制orchestration、错误管理failure management、关注与责任concerns and responsibilities分离等等的东西——也即是：系统架构。</p>
+
+<h3 id="参考">参考</h3>
+
+<p><a href="http://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html">Reactor中文文档</a>
+<a href="https://www.reactivemanifesto.org/zh-CN">响应式宣言</a>
+<a href="https://linux.cn/article-8773-1.html">响应式编程与响应式系统</a></p>
+            </article>
+
+            <ul class="pager blog-pager">
+                
+                <li class="previous">
+                    <a href="https://chinalhr.github.io/posts/osheartmulticpu/" data-toggle="tooltip" data-placement="top" title="操作系统-多核心">&larr; Previous Post</a>
+                </li>
+                 
+                <li class="next">
+                    <a href="https://chinalhr.github.io/posts/reactiveprogramming_reactor/" data-toggle="tooltip" data-placement="top" title="响应式编程库-Reactor">Next Post &rarr;</a>
+                </li>
+                
+            </ul>
+            
+            <div>
+                 
+            </div>
+            
+            
+            
+            
+<div>
+    <section id="datecount">
+        <h4 id="date"> Fri Dec 28, 2018</h4>
+    </section>
+    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="tags">Tags: 
+        
+        <a href="https://chinalhr.github.io/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/">响应式编程</a> &nbsp;
+    </h5>
+</div>
+
+            
+            </div>
+            
+            
+        </div>
+    </div>
+    </section>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+        </ul>
+        <p class="credits copyright text-muted">
+        &copy;2017-2018
+          
+          
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://chinalhr.github.io/">LHR</a>
+          
+        </p>
+
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/rootsongjc/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/bootstrap.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe-ui-default.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/auto-render.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/main.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/prism.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/katex.min.js"></script>
+<script> renderMathInElement(document.body); </script>
+
+
+
+
+
+
+
+  </body>
+</html>
+
