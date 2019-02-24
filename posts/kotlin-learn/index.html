@@ -389,6 +389,58 @@ mapOf(1 to &quot;One&quot;,2 to &quot;Two&quot;)
 </code></pre>
 
 <h3 id="类-对象">类-对象</h3>
+
+<p>Kotlin 在类名后面使用冒号来代替了 Java 中的 extends 和 implements 关键字。</p>
+
+<ul>
+<li>Java的类和方法默认是open的，而Kotlin中默认都是final的。</li>
+</ul>
+
+<p>目的：避免脆弱的基类问题(类被重写方法的风险)。Kotlin采用了open，final 和 abstract 修饰符</p>
+
+<p>编译期强制使用override修饰符</p>
+
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>相关成员</th>
+<th>使用</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>final</td>
+<td>不能被重写</td>
+<td>类中成员默认使用</td>
+</tr>
+
+<tr>
+<td>open</td>
+<td>可以被重写</td>
+<td>需要明确地表明</td>
+</tr>
+
+<tr>
+<td>abstract</td>
+<td>必须被重写</td>
+<td>只能在抽象类中使用：抽象成员不能有实现</td>
+</tr>
+
+<tr>
+<td>override</td>
+<td>重写父类或接口中的成员</td>
+<td>如果没有使用 final 表明，亟写的成员默认是开放的</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>可见性修饰符：默认为 public ,模块修饰符internal</li>
+</ul>
+
+<p>internal：只在模块内部可见，一个模块就是一组一起编译的 Kotiin 文件(一个Maven或Gradle项目,IDEA模块&hellip;)</p>
             </article>
 
             <ul class="pager blog-pager">
