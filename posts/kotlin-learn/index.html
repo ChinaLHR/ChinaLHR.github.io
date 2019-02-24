@@ -211,7 +211,7 @@ Kotlin学习记录
     <section id="datecount">
         <h4 id="date"> Sun Jan 13, 2019</h4>
     </section>
-    <h5 id="wc">200 Words|Read in about 1 Min</h5>
+    <h5 id="wc">300 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
@@ -304,8 +304,84 @@ for (i in 100 downTo 1 step 2) {
 </ul></li>
 
 <li><p>异常
-Kotlin 中 throw 结构是一个表达式，不必使用 new 关键字来创建异常实例</p></li>
+Kotlin 中 throw 结构是一个表达式，不必使用 new 关键字来创建异常实例。(try也是)
+Kotlin 并不区分受检异常和未受检异常。不用指定函数抛出的异常 ， 而且可以处理也可以不处理异常。</p></li>
 </ul>
+
+<h3 id="函数">函数</h3>
+
+<ul>
+<li>命名参数
+当调用一个 Kotlin定义的函数时，可以显式地标明一些参数的名称,避免混淆
+<code>
+joinToString(collectio, separator =&quot;&quot;, prefix =&quot;&quot;, postfix =&quot;·&quot;)
+</code></li>
+<li>默认参数值
+对比Java一些类的重载函数很多， Kotlin中可以在声明函数的时候，指定参数的默认值，这样就可以避免创建重载的函数。
+```
+fun <T> joinToString(
+collection: Collection<T>,
+separator: String =&ldquo;,&rdquo;,//默认参数值
+prefix: String =&ldquo;&rdquo;,
+postfix: String = &ldquo;&rdquo;
+) : String{
+<br /></li>
+</ul>
+
+<p>}</p>
+
+<pre><code>- 顶层函数|参数
+在Java中，类处于顶层，类包含属性和方法，在Kotlin中，函数处于顶层，我们可以直接把函数放在代码文件的顶层，让它不从属于任何类，任何类都可以调用。
+目的，消除了Java中常见的静态工具类，使我们的代码更加整洁。
+</code></pre>
+
+<p>@file:JvmName(&ldquo;StrUtil&rdquo;)
+package util</p>
+
+<p>fun joinToStr(collection: Collection<String>): String{
+    //&hellip;.
+    return &ldquo;&rdquo;;
+}</p>
+
+<pre><code></code></pre>
+
+<p>import util.joinToStr</p>
+
+<p>fun main(args: Array<String>){
+    joinToStr(collection = listOf(&ldquo;123&rdquo;, &ldquo;456&rdquo;))
+}</p>
+
+<pre><code>因为在Java中，类还是必须要存在的，所以编译器将Str.kt文件里的代码放在了一个自动生成的类中，然后把我们定义的Kotlin的函数作为静态方法放在其中，在Java中是先通过import导入这个类，然后通过类名.方法名来调用。可以通过@file:JvmName注解来自定义类名。
+
+- 扩展函数|参数
+</code></pre>
+
+<p>/**
+ * 扩展函数
+ *
+ *  String-接收者类型           get(this.length -1) 对接收者对象(字符串)进行操作并返回
+ */
+fun String.lastChar() : Char = get(this.length -1)</p>
+
+<p>fun main(args: Array<String>) {
+    System.out.println(&ldquo;Kotlin&rdquo;.lastChar())
+}</p>
+
+<pre><code>导入扩展函数(Kotiin 允许用和导入类一样的语法来导入)
+</code></pre>
+
+<p>import strings.lastChar</p>
+
+<pre><code>- to 中缀调用
+ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair 类型的对象用来表示一对元素(解构声明)
+</code></pre>
+
+<p>fun <K, V> mapOf(vararg values: Pair<K, V>): Map<K , V>
+//使用
+mapOf(1 to &ldquo;One&rdquo;,2 to &ldquo;Two&rdquo;)
+```</p>
+
+<h3 id="类-对象">类-对象</h3>
             </article>
 
             <ul class="pager blog-pager">
@@ -331,7 +407,7 @@ Kotlin 中 throw 结构是一个表达式，不必使用 new 关键字来创建�
     <section id="datecount">
         <h4 id="date"> Sun Jan 13, 2019</h4>
     </section>
-    <h5 id="wc">200 Words|Read in about 1 Min</h5>
+    <h5 id="wc">300 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
