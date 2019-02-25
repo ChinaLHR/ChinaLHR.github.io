@@ -211,7 +211,7 @@ Kotlin学习记录
     <section id="datecount">
         <h4 id="date"> Sun Jan 13, 2019</h4>
     </section>
-    <h5 id="wc">300 Words|Read in about 2 Min</h5>
+    <h5 id="wc">500 Words|Read in about 3 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
@@ -221,8 +221,6 @@ Kotlin学习记录
             
             <article role="main" class="blog-post" itemprop="articleBody" id="content">
                 
-  
-
 
                 <blockquote>
 <p>Kotlin学习记录</p>
@@ -441,6 +439,71 @@ mapOf(1 to &quot;One&quot;,2 to &quot;Two&quot;)
 </ul>
 
 <p>internal：只在模块内部可见，一个模块就是一组一起编译的 Kotiin 文件(一个Maven或Gradle项目,IDEA模块&hellip;)</p>
+
+<ul>
+<li>Kotlin编译器生成:数据类与委托类</li>
+</ul>
+
+<pre><code>//重写toString,equals,hashCode
+override fun toString() = &quot;...&quot;
+/**
+ * 数据类，编译器重写toString 、equals 和 hashCode 。 
+ * equals 用来比较实例
+ * hashCode 用来作为例如 HashMap 这种基于哈希容器的键
+ * toString 用来为类生成按声明顺序排列的所有字段的字符串表达形式
+ *  copy 方法： copy对象的同时修改某些属性的值
+ */
+data class Client(val name: String, val postalCode: Int)
+/**
+ * 类委托：可以使用 by 关键字将接口的实现委托到另一个对象(避免装饰器模式带来的重复模板代码)
+ *  
+ *类相当于innerList的包装类，拥有innerList的实现，并可以覆盖原有方法提供不同实现
+ */
+ class DelegatingCollection&lt;T&gt;(innerList: Collection&lt;T&gt; = ArrayList&lt;T&gt;()) : Collection&lt;T&gt; by innerList {}
+</code></pre>
+
+<ul>
+<li>object关键字</li>
+</ul>
+
+<pre><code>/**
+ * object关键字 对象声明：创建单例类
+ */
+object Payroll {
+ ...
+ }
+ 
+/**
+ * 伴生对象companion：工厂方法
+ */
+//构造方法私有化
+class User private constructor(val nickname: String) {
+    //声明伴生对象:工厂方法创建对象
+    companion object {
+        fun newSubscribingUser(email: String) =
+                User(email.substringBefore(&quot;@&quot;))
+
+        fun newFacebookUser(accountld: Int) =
+                User(accountld.toString())
+    }
+}
+
+/**
+ * 普通类的伴生对象：伴生对象是一个声明在类中的普通对象，有名字(默认Companion )，可以实现一个接口或者有扩展函数或属性 。 
+ */
+ class Person(val name: String) {
+companion object Loader {...}
+}
+
+/**
+ * 对象表达式：(匿名内部类)
+ */
+ 
+val Listener = object : MouseAdapter() {
+override fun mouseClicked(e: MouseEvent) { .. . }
+override fun mouseEntered(e: MouseEvent) { ... }
+}
+</code></pre>
             </article>
 
             <ul class="pager blog-pager">
@@ -466,7 +529,7 @@ mapOf(1 to &quot;One&quot;,2 to &quot;Two&quot;)
     <section id="datecount">
         <h4 id="date"> Sun Jan 13, 2019</h4>
     </section>
-    <h5 id="wc">300 Words|Read in about 2 Min</h5>
+    <h5 id="wc">500 Words|Read in about 3 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
