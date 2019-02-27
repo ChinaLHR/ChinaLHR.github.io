@@ -211,7 +211,7 @@ Kotlin学习记录
     <section id="datecount">
         <h4 id="date"> Sun Jan 13, 2019</h4>
     </section>
-    <h5 id="wc">500 Words|Read in about 3 Min</h5>
+    <h5 id="wc">600 Words|Read in about 3 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
@@ -489,7 +489,7 @@ class User private constructor(val nickname: String) {
 }
 
 /**
- * 普通类的伴生对象：伴生对象是一个声明在类中的普通对象，有名字(默认Companion )，可以实现一个接口或者有扩展函数或属性 。 
+ * 普通类的伴生对象：伴生对象是一个声明在类中的普通对象，有名字(默认Companion )，可以实现一个接口或者有扩展函数或属性 。 伴生对象（与包级别函数和属性一起）替代了 Java 静态方法和字段定义
  */
  class Person(val name: String) {
 companion object Loader {...}
@@ -502,6 +502,69 @@ companion object Loader {...}
 val Listener = object : MouseAdapter() {
 override fun mouseClicked(e: MouseEvent) { .. . }
 override fun mouseEntered(e: MouseEvent) { ... }
+}
+</code></pre>
+
+<h3 id="lamdba">Lamdba</h3>
+
+<ul>
+<li>Kotlin与Java Lamdba区别
+1.在Kotiin中Lamdba不会仅限于访问 final 变量，在 lambda 内部也可以修改这些变量(lambda捕捉)</li>
+
+<li><p>部分操作符增强：[kotlin]count = [java]filter + count</p></li>
+
+<li><p>惰性集合操作Sequence
+例如 map 和 filter操作符，每一步的中间结果都被存储在一个临时列表，Sequence可以避免创建这些临时中间对象(序列中的元素求值是惰性的)。
+注意： Sequence 只提供了 一个方法， iterator
+关于惰性求值：1. 惰性求值是逐个处理元素 2. 延期操作，调用末端操作(count，sum&hellip;)的时候才会求值</p>
+
+<pre><code>//惰性求值，避免创建临时中间对象
+val list = persons.asSequence()
+        .map(Person::name)
+        .filter { it.startsWith(&quot;l&quot;) }
+        .toList()
+//惰性求值：给定序列中 的前一个元素，这个函数会计算出下一个元素。
+val naturalNumbers = generateSequence(0) { it + 1 }
+println(&quot;求100 以内的和：${naturalNumbers.takeWhile { it &lt;= 100 }.sum()}&quot;)
+</code></pre></li>
+
+<li><p>with 和 apply</p></li>
+</ul>
+
+<pre><code>/**
+ * 使用给定的[receiver]作为接收器调用指定的函数[block]并返回其结果。
+ */
+@kotlin.internal.InlineOnly
+public inline fun &lt;T, R&gt; with(receiver: T, block: T.() -&gt; R): R {
+    contract {
+        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+    }
+    return receiver.block()
+}
+
+val returnAToZ = with(StringBuilder()) {
+        for (letter in 'A'..'Z') {
+            append(letter)
+        }
+        toString()
+}
+
+/**
+ * 使用`this`值作为接收器调用指定的函数[block]并返回`this`值。
+ */
+@kotlin.internal.InlineOnly
+public inline fun &lt;T&gt; T.apply(block: T.() -&gt; Unit): T {
+    contract {
+        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+    }
+    block()
+    return this
+}
+
+val returnAToZ = StringBuilder().apply {
+        for (letter in 'A'..'Z') {
+            append(letter)
+        }
 }
 </code></pre>
             </article>
@@ -529,7 +592,7 @@ override fun mouseEntered(e: MouseEvent) { ... }
     <section id="datecount">
         <h4 id="date"> Sun Jan 13, 2019</h4>
     </section>
-    <h5 id="wc">500 Words|Read in about 3 Min</h5>
+    <h5 id="wc">600 Words|Read in about 3 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
