@@ -8,10 +8,20 @@
     <language>en</language>
     <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
     <webMaster>13435500980@163.com (lihanrong)</webMaster>
-    <lastBuildDate>Sun, 27 Jan 2019 22:17:36 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 27 Feb 2019 22:06:26 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Kotlin 类型系统</title>
+      <link>https://chinalhr.github.io/posts/kotlin-learn02/</link>
+      <pubDate>Wed, 27 Feb 2019 22:06:26 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/kotlin-learn02/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Bit-map算法及应用</title>
@@ -35,13 +45,12 @@
     </item>
     
     <item>
-      <title>Kotlin-Record</title>
-      <link>https://chinalhr.github.io/posts/kotlin-learn/</link>
+      <title>Kotlin-函数,对象,Lamdba</title>
+      <link>https://chinalhr.github.io/posts/kotlin-learn01/</link>
       <pubDate>Sun, 13 Jan 2019 23:02:40 +0800</pubDate>
       <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/kotlin-learn/</guid>
+      <guid>https://chinalhr.github.io/posts/kotlin-learn01/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;Kotlin学习记录&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

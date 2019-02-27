@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://chinalhr.github.io/posts/kotlin-learn02/</loc>
+    <lastmod>2019-02-27T22:06:26+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/posts/bitmap/</loc>
     <lastmod>2019-01-27T22:17:36+08:00</lastmod>
   </url>
@@ -13,7 +18,7 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/posts/kotlin-learn/</loc>
+    <loc>https://chinalhr.github.io/posts/kotlin-learn01/</loc>
     <lastmod>2019-01-13T23:02:40+08:00</lastmod>
   </url>
   
@@ -212,13 +217,13 @@
   
   <url>
     <loc>https://chinalhr.github.io/tags/kotlin/</loc>
-    <lastmod>2019-01-13T23:02:40+08:00</lastmod>
+    <lastmod>2019-02-27T22:06:26+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2019-01-27T22:17:36+08:00</lastmod>
+    <lastmod>2019-02-27T22:06:26+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -230,7 +235,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/posts/</loc>
-    <lastmod>2019-01-27T22:17:36+08:00</lastmod>
+    <lastmod>2019-02-27T22:06:26+08:00</lastmod>
     <priority>0</priority>
   </url>
   
