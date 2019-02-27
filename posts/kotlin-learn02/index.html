@@ -225,6 +225,23 @@
 </blockquote>
 
 <h3 id="类型系统">类型系统</h3>
+
+<p><strong>java类型系统缺陷：</strong></p>
+
+<p>例如String类型的变量可以持有两种值，分别是String的实例和 null，但两种值完全不一样(instanceof 运算符null不是String)。类型系统的缺陷导致即使变量拥有声明的类型 String你依然无法知道能对该变量的值做些什么，除非做额外的检查。</p>
+
+<h4 id="可null性">可Null性</h4>
+
+<p>Kotlin解决NullPointerException之道：把运行时的错误转变成编译期的错误</p>
+
+<ol>
+<li><p>编译器强制检测变量实参,所有常见类型默认都是非空的,可以在任何类型的后面加?来表示这个类型的变量可以存储 null 引用。<strong>但是对可null参数进行的操作也会受到限制，需要对可null参数进行null处理(判断，安全符&hellip;)才可以编译通过。</strong></p>
+
+<pre><code>fun strLen(s: String?) = s?.length
+</code></pre></li>
+
+<li></li>
+</ol>
             </article>
 
             <ul class="pager blog-pager">
@@ -240,7 +257,7 @@
                 <h2>See Also</h2>
                 <ul>
                     
-                    <li><a href="/posts/kotlin-learn01/">Kotlin-函数,对象,Lamdba</a></li>
+                    <li><a href="/posts/kotlin-learn01/">Kotlin 函数,对象,Lamdba</a></li>
                     
                 </ul>
                 
