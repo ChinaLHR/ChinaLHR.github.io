@@ -276,7 +276,7 @@ fun max(a : Int , b: Int) = if (a &gt; b) a else b
 
 <li><p>以关键字开始，然后是变量名称。(var age:Int = 20)</p></li>
 
-<li><p>val-不可变引用,val-可变引用</p></li>
+<li><p>val-不可变引用,var-可变引用</p></li>
 
 <li><p>值对象简单声明：class Person(val name: String)</p></li>
 
@@ -532,19 +532,36 @@ override fun mouseEntered(e: MouseEvent) { ... }
 <li><p>惰性集合操作Sequence
 例如 map 和 filter操作符，每一步的中间结果都被存储在一个临时列表，Sequence可以避免创建这些临时中间对象(序列中的元素求值是惰性的)。
 注意： Sequence 只提供了 一个方法， iterator
-关于惰性求值：1. 惰性求值是逐个处理元素 2. 延期操作，调用末端操作(count，sum&hellip;)的时候才会求值</p>
+关于惰性求值：1. 惰性求值是逐个处理元素 2. 延期操作，调用末端操作(count，sum&hellip;)的时候才会求值</p></li>
+</ul>
+
+<p>iterator 与 Sequence 区别:</p>
+
+<pre><code>/**
+ * 处理序列的中间操作函数是不进行任何计算的。相反，它们会返回上一个中间操作处理后产生的新序列。
+ * 所有这些一系列中间计算都将在终端操作执行中被确定，例如常见的终端操作toList或count.在另一方面，处理Iterable的每个中间操作函数都是会返回一个新的集合。
+ *
+ */
+interface Iterable&lt;out T&gt; {
+    operator fun iterator(): Iterator&lt;T&gt;
+}
+interface Sequence&lt;out T&gt; {
+    operator fun iterator(): Iterator&lt;T&gt;
+}
+</code></pre>
 
 <pre><code>//惰性求值，避免创建临时中间对象
-val list = persons.asSequence()
-        .map(Person::name)
-        .filter { it.startsWith(&quot;l&quot;) }
-        .toList()
+ val list = persons.asSequence()
+            .map(Person::name)
+            .filter { it.startsWith(&quot;l&quot;) }
+            .toList()
 //惰性求值：给定序列中 的前一个元素，这个函数会计算出下一个元素。
 val naturalNumbers = generateSequence(0) { it + 1 }
 println(&quot;求100 以内的和：${naturalNumbers.takeWhile { it &lt;= 100 }.sum()}&quot;)
-</code></pre></li>
+</code></pre>
 
-<li><p>with 和 apply</p></li>
+<ul>
+<li>with 和 apply</li>
 </ul>
 
 <pre><code>/**

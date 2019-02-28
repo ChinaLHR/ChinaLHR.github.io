@@ -208,7 +208,7 @@
     <section id="datecount">
         <h4 id="date"> Wed Feb 27, 2019</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="wc">300 Words|Read in about 1 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
@@ -240,8 +240,95 @@
 <pre><code>fun strLen(s: String?) = s?.length
 </code></pre></li>
 
-<li></li>
+<li><p>安全运算符
+<strong>?. 和 ?: 安全Null运算符</strong>
+```
+/**</p>
+
+<ul>
+<li>?.把一次 nu ll 检查和一次方法调用合并成一个操作</li>
+<li>下面两个函数是等效的
+*/
+fun strLen(s: String?) = s?.length</li>
+</ul></li>
 </ol>
+
+<p>fun strLenOld(s: String?) = {
+    if (s != null) s.length else null
+}</p>
+
+<p>/**
+ * Elvis 运算符 代替 null 的默认值，也可配合throw食用
+ */
+val t: String = s ?: &ldquo;&rdquo;</p>
+
+<p>val t: String = s ?: throw IllegalArgumentException(&ldquo;String is null&rdquo;)</p>
+
+<p>/**
+ * 链式安全调用
+ */
+class Address(val streetAddress: String, val zipCode: Int, val city: String, val country: String)
+class Company(val name: String, val address: Address ? )
+class Person(val name: String, val company: Company?)</p>
+
+<p>fun Person.countryName() :String{
+    val companyStr = this.company?.address?.country
+    return companyStr?:&ldquo;UnKnow&rdquo;
+}</p>
+
+<pre><code>
+**as? 安全类型转换运算符**
+</code></pre>
+
+<p>/**
+ * as? 尝试把值转换成指定的类型， 如果值不是合适的类型就返回 null
+ * 配合Elvis 运算符
+ */
+val otherPerson = o as? Person?: return false</p>
+
+<pre><code>
+**非Null断言!!**
+</code></pre>
+
+<p>/**
+ * !!可以把任何值转换成非空类型。如果对 null 值做非空断言，则会抛出异常。
+ */
+fun ignoreNulls(s: String?) {
+    val sNotNullVal = s!! //如果s为null,此处抛出KotlinNullPointerException异常
+    println(sNotNullVal)
+}</p>
+
+<pre><code>
+**let**
+</code></pre>
+
+<p>/**
+ * let:允许你对表达式求值，检查求值结果是否为 null ,并把结果保存为一个变量
+ * 只在表达式不为 null 时执行 lambda,相当于
+ * if (email != null)  sendEmailTo(email)
+ */
+email?.let { email -&gt; sendEmailTo(email) }</p>
+
+<pre><code>
+**lateinit 延迟初始化**
+</code></pre>
+
+<p>/**
+ * 不需要在构造方法中初始化它。如果在属性被初始化之前就访问了它，会抛出异常
+ */
+private lateinit var myService: MyService
+```</p>
+
+<ol>
+<li>Kotlin与Java Null操作
+Java 的类型系统是不支持可空性的</li>
+</ol>
+
+<p>Kotlin注解转换：Java 中的@ Nullable String 被 Kotlin 当作 String?,而@NotNull String 就是String</p>
+
+<p>Kotlin编译器无法对Java的可Null类型检测，开发者负责正确处理来自 Java 的值。</p>
+
+<h4 id="数据类型">数据类型</h4>
             </article>
 
             <ul class="pager blog-pager">
@@ -270,7 +357,7 @@
     <section id="datecount">
         <h4 id="date"> Wed Feb 27, 2019</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="wc">300 Words|Read in about 1 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
