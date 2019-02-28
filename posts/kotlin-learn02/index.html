@@ -234,95 +234,90 @@
 
 <p>Kotlin解决NullPointerException之道：把运行时的错误转变成编译期的错误</p>
 
-<ol>
-<li><p>编译器强制检测变量实参,所有常见类型默认都是非空的,可以在任何类型的后面加?来表示这个类型的变量可以存储 null 引用。<strong>但是对可null参数进行的操作也会受到限制，需要对可null参数进行null处理(判断，安全符&hellip;)才可以编译通过。</strong></p>
+<ul>
+<li>编译器强制检测变量实参,所有常见类型默认都是非空的,可以在任何类型的后面加?来表示这个类型的变量可以存储 null 引用。<strong>但是对可null参数进行的操作也会受到限制，需要对可null参数进行null处理(判断，安全符&hellip;)才可以编译通过。</strong></li>
+</ul>
 
 <pre><code>fun strLen(s: String?) = s?.length
-</code></pre></li>
-
-<li><p>安全运算符
-<strong>?. 和 ?: 安全Null运算符</strong>
-```
-/**</p>
+</code></pre>
 
 <ul>
-<li>?.把一次 nu ll 检查和一次方法调用合并成一个操作</li>
-<li>下面两个函数是等效的
-*/
-fun strLen(s: String?) = s?.length</li>
-</ul></li>
-</ol>
+<li>安全运算符
+<strong>?. 和 ?: 安全Null运算符</strong></li>
+</ul>
 
-<p>fun strLenOld(s: String?) = {
+<pre><code>/**
+ * ?.把一次 nu ll 检查和一次方法调用合并成一个操作
+ * 下面两个函数是等效的
+ */
+fun strLen(s: String?) = s?.length
+
+fun strLenOld(s: String?) = {
     if (s != null) s.length else null
-}</p>
+}
 
-<p>/**
+/**
  * Elvis 运算符 代替 null 的默认值，也可配合throw食用
  */
-val t: String = s ?: &ldquo;&rdquo;</p>
+val t: String = s ?: &quot;&quot;
 
-<p>val t: String = s ?: throw IllegalArgumentException(&ldquo;String is null&rdquo;)</p>
+val t: String = s ?: throw IllegalArgumentException(&quot;String is null&quot;)
 
-<p>/**
+/**
  * 链式安全调用
  */
 class Address(val streetAddress: String, val zipCode: Int, val city: String, val country: String)
 class Company(val name: String, val address: Address ? )
-class Person(val name: String, val company: Company?)</p>
+class Person(val name: String, val company: Company?)
 
-<p>fun Person.countryName() :String{
+fun Person.countryName() :String{
     val companyStr = this.company?.address?.country
-    return companyStr?:&ldquo;UnKnow&rdquo;
-}</p>
-
-<pre><code>
-**as? 安全类型转换运算符**
+    return companyStr?:&quot;UnKnow&quot;
+}
 </code></pre>
 
-<p>/**
+<p><strong>as? 安全类型转换运算符</strong></p>
+
+<pre><code>/**
  * as? 尝试把值转换成指定的类型， 如果值不是合适的类型就返回 null
  * 配合Elvis 运算符
  */
-val otherPerson = o as? Person?: return false</p>
-
-<pre><code>
-**非Null断言!!**
+val otherPerson = o as? Person?: return false
 </code></pre>
 
-<p>/**
+<p><strong>非Null断言!!</strong></p>
+
+<pre><code>/**
  * !!可以把任何值转换成非空类型。如果对 null 值做非空断言，则会抛出异常。
  */
 fun ignoreNulls(s: String?) {
     val sNotNullVal = s!! //如果s为null,此处抛出KotlinNullPointerException异常
     println(sNotNullVal)
-}</p>
-
-<pre><code>
-**let**
+}
 </code></pre>
 
-<p>/**
+<p><strong>let</strong></p>
+
+<pre><code>/**
  * let:允许你对表达式求值，检查求值结果是否为 null ,并把结果保存为一个变量
  * 只在表达式不为 null 时执行 lambda,相当于
  * if (email != null)  sendEmailTo(email)
  */
-email?.let { email -&gt; sendEmailTo(email) }</p>
-
-<pre><code>
-**lateinit 延迟初始化**
+email?.let { email -&gt; sendEmailTo(email) }
 </code></pre>
 
-<p>/**
+<p><strong>lateinit 延迟初始化</strong></p>
+
+<pre><code>/**
  * 不需要在构造方法中初始化它。如果在属性被初始化之前就访问了它，会抛出异常
  */
 private lateinit var myService: MyService
-```</p>
+</code></pre>
 
-<ol>
+<ul>
 <li>Kotlin与Java Null操作
 Java 的类型系统是不支持可空性的</li>
-</ol>
+</ul>
 
 <p>Kotlin注解转换：Java 中的@ Nullable String 被 Kotlin 当作 String?,而@NotNull String 就是String</p>
 
