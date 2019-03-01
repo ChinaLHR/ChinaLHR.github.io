@@ -208,7 +208,7 @@
     <section id="datecount">
         <h4 id="date"> Wed Feb 27, 2019</h4>
     </section>
-    <h5 id="wc">300 Words|Read in about 1 Min</h5>
+    <h5 id="wc">300 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
@@ -224,13 +224,11 @@
                 <blockquote>
 </blockquote>
 
-<h3 id="类型系统">类型系统</h3>
+<h3 id="可null性">可Null性</h3>
 
 <p><strong>java类型系统缺陷：</strong></p>
 
 <p>例如String类型的变量可以持有两种值，分别是String的实例和 null，但两种值完全不一样(instanceof 运算符null不是String)。类型系统的缺陷导致即使变量拥有声明的类型 String你依然无法知道能对该变量的值做些什么，除非做额外的检查。</p>
-
-<h4 id="可null性">可Null性</h4>
 
 <p>Kotlin解决NullPointerException之道：把运行时的错误转变成编译期的错误</p>
 
@@ -323,7 +321,49 @@ Java 的类型系统是不支持可空性的</li>
 
 <p>Kotlin编译器无法对Java的可Null类型检测，开发者负责正确处理来自 Java 的值。</p>
 
-<h4 id="数据类型">数据类型</h4>
+<h3 id="数据类型">数据类型</h3>
+
+<ul>
+<li>对比Java</li>
+</ul>
+
+<p>整数类型 Byte  Short Int Long
+浮点数类型 Float Double
+字符类型 Char
+布尔类型 Boolean</p>
+
+<p>对比Java，Kotlin不区分基本数据类型和它们的包装类。对于变量、属性、参数和返回类型Kotlin编译器会尽可能编译为基本类型，除了泛型。</p>
+
+<p>Kotiin不会自动地把数字从一种类型转换成另外一种，即便是转换成范围更大的类型。可以使用支持双向转换的函数,toByte(),toShort()&hellip; Kotlin 要求转换必须是显式的，可以避免转换数值的问题。</p>
+
+<ul>
+<li><p>根类型&rsquo;Any&rsquo; &lsquo;Any?&rsquo;
+Any类型是Kotiin所有非空类型的超类型，包括基础类型,区别于Java Object 只是所有引用类型的超类型，非基础类型</p></li>
+
+<li><p>Unit 类型 和 Nothing 类型
+Unit是Kotlin 的 &lsquo;void&rsquo; ，区别是Unit是一个完备的类型，可以作为类型参数。只存在一个值是 Unit 类型，这个值也叫作 Unit，并且（在函数中）会被隐式地返回。</p></li>
+</ul>
+
+<pre><code>//下面两个函数等效
+fun f () : Unit { . . . }
+fun f () { .. }
+
+interface Processor&lt;T&gt; {
+    fun process(): T
+}
+
+class NoResultProcessor : Processor&lt;Unit&gt;{
+    override fun process() {
+        //不需要显示return 会隐式返回Unit
+    }
+}
+</code></pre>
+
+<p>Nothing 类型没有任何值,只有被当作函数返回值使用,表示函数永不返回</p>
+
+<ul>
+<li>集合数组</li>
+</ul>
             </article>
 
             <ul class="pager blog-pager">
@@ -352,7 +392,7 @@ Java 的类型系统是不支持可空性的</li>
     <section id="datecount">
         <h4 id="date"> Wed Feb 27, 2019</h4>
     </section>
-    <h5 id="wc">300 Words|Read in about 1 Min</h5>
+    <h5 id="wc">300 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
