@@ -208,7 +208,7 @@
     <section id="datecount">
         <h4 id="date"> Wed Feb 27, 2019</h4>
     </section>
-    <h5 id="wc">300 Words|Read in about 2 Min</h5>
+    <h5 id="wc">400 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
@@ -233,7 +233,9 @@
 <p>Kotlin解决NullPointerException之道：把运行时的错误转变成编译期的错误</p>
 
 <ul>
-<li>编译器强制检测变量实参,所有常见类型默认都是非空的,可以在任何类型的后面加?来表示这个类型的变量可以存储 null 引用。<strong>但是对可null参数进行的操作也会受到限制，需要对可null参数进行null处理(判断，安全符&hellip;)才可以编译通过。</strong></li>
+<li><p>编译器强制检测变量实参,所有常见类型默认都是非空的,可以在任何类型的后面加?来表示这个类型的变量可以存储 null 引用。<strong>但是对可null参数进行的操作也会受到限制，需要对可null参数进行null处理(判断，安全符&hellip;)才可以编译通过。</strong></p></li>
+
+<li><p>Java 中的类型在Kotlin中被解释成平台类型，允许开发者把它们当作可空或非空来对待。</p></li>
 </ul>
 
 <pre><code>fun strLen(s: String?) = s?.length
@@ -364,6 +366,28 @@ class NoResultProcessor : Processor&lt;Unit&gt;{
 <ul>
 <li>集合数组</li>
 </ul>
+
+<p><strong>集合</strong>
+List<Int?> : 列表中的单个值是可Null的 <br/>
+List<Int>? : 集合本身是可Null的,但列表中的元素保证是非空的 <br/>
+List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
+
+<p>可以使用filterNotNull()函数过滤集合</p>
+
+<p><strong>只读集合，可变集合</strong>
+对比Java,Kotlin把访问集合数据的接口和修改集合数据的接口分开了。Collection接口(读)，MutableCollection接口(写)</p>
+
+<p>优势:让程序 中的数据发生的事情更容易理解，根据入参类型是可读或者可写的，很容易实现防御性编程，</p>
+
+<pre><code>fun&lt;T&gt; copyElements(source:Collection&lt;T&gt;,target:MutableCollection&lt;T&gt;){
+    for (item in source){
+        target.add(item)
+    }
+}
+</code></pre>
+
+<p><strong>数组</strong>
+Kotiin 中的一个数组是一个带有类型参数的类Array，其元素类型被指定为相应的类型参数。基本数据类型的数组使用像 IntArray 这样的特殊类来表示 。</p>
             </article>
 
             <ul class="pager blog-pager">
@@ -392,7 +416,7 @@ class NoResultProcessor : Processor&lt;Unit&gt;{
     <section id="datecount">
         <h4 id="date"> Wed Feb 27, 2019</h4>
     </section>
-    <h5 id="wc">300 Words|Read in about 2 Min</h5>
+    <h5 id="wc">400 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
