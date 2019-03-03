@@ -392,7 +392,110 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
 
 <p>Kotiin 中的一个数组是一个带有类型参数的类Array，其元素类型被指定为相应的类型参数。基本数据类型的数组使用像 IntArray 这样的特殊类来表示 。</p>
 
-<h3 id="语言特性">语言特性</h3>
+<h3 id="语言特性-约定">语言特性-约定</h3>
+
+<ul>
+<li>二元运算符重载</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>函数名</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>a * b</td>
+<td>times</td>
+</tr>
+
+<tr>
+<td>a / b</td>
+<td>div</td>
+</tr>
+
+<tr>
+<td>a % b</td>
+<td>mod</td>
+</tr>
+
+<tr>
+<td>a + b</td>
+<td>plus</td>
+</tr>
+
+<tr>
+<td>a - b</td>
+<td>minus</td>
+</tr>
+</tbody>
+</table>
+
+<pre><code>/**
+ * 定义一个名为plus的方法，operator重载+号运算符(扩展函数)
+ */
+operator fun Point.plus(other: Point): Point {
+    return Point(x + other.x, y + other.y)
+}
+
+data class Point(val x: Int, val y: Int)
+
+fun main(args: Array&lt;String&gt;) {
+    val p1 = Point(10, 20)
+    val p2 = Point(30, 40)
+    println(p1 + p2)
+}
+    
+</code></pre>
+
+<ul>
+<li>一元运算符重载</li>
+</ul>
+
+<p>用于重载一元运算符的函数，没有任何参数。</p>
+
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>函数名</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>+a</td>
+<td>unaryPlus</td>
+</tr>
+
+<tr>
+<td>-a</td>
+<td>unaryMinus</td>
+</tr>
+
+<tr>
+<td>!a</td>
+<td>not</td>
+</tr>
+
+<tr>
+<td>++a,a++</td>
+<td>inc</td>
+</tr>
+
+<tr>
+<td>&ndash;a,a&ndash;</td>
+<td>dec</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>比较运算符重载</li>
+</ul>
             </article>
 
             <ul class="pager blog-pager">
