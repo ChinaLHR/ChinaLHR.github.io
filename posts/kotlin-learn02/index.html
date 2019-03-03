@@ -5,10 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title> Kotlin 类型系统 - Read the fucking source code</title>
+  <title> Kotlin 类型系统，语言特性 - Read the fucking source code</title>
   <meta name="description" content="Read the fucking source code" />
-  <meta property="og:title" content="Kotlin 类型系统" />
-  <meta name="twitter:title" content="Kotlin 类型系统" />
+  <meta property="og:title" content="Kotlin 类型系统，语言特性" />
+  <meta name="twitter:title" content="Kotlin 类型系统，语言特性" />
   <meta name="description" content="
 ">
   <meta property="og:description" content="
@@ -186,7 +186,7 @@
         <div class="row">
           <div class="col-lg-12 col-md-12 col-md-offset-0">
             <div class="posts-heading">
-                <h1 align="center">Kotlin 类型系统</h1>
+                <h1 align="center">Kotlin 类型系统，语言特性</h1>
                 
                 
             </div>
@@ -367,15 +367,17 @@ class NoResultProcessor : Processor&lt;Unit&gt;{
 <li>集合数组</li>
 </ul>
 
-<p><strong>集合</strong>
-List<Int?> : 列表中的单个值是可Null的 <br/>
+<p><strong>集合</strong></p>
+
+<p>List<Int?> : 列表中的单个值是可Null的 <br/>
 List<Int>? : 集合本身是可Null的,但列表中的元素保证是非空的 <br/>
 List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
 
 <p>可以使用filterNotNull()函数过滤集合</p>
 
-<p><strong>只读集合，可变集合</strong>
-对比Java,Kotlin把访问集合数据的接口和修改集合数据的接口分开了。Collection接口(读)，MutableCollection接口(写)</p>
+<p><strong>只读集合，可变集合</strong></p>
+
+<p>对比Java,Kotlin把访问集合数据的接口和修改集合数据的接口分开了。Collection接口(读)，MutableCollection接口(写)</p>
 
 <p>优势:让程序 中的数据发生的事情更容易理解，根据入参类型是可读或者可写的，很容易实现防御性编程，</p>
 
@@ -386,8 +388,11 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
 }
 </code></pre>
 
-<p><strong>数组</strong>
-Kotiin 中的一个数组是一个带有类型参数的类Array，其元素类型被指定为相应的类型参数。基本数据类型的数组使用像 IntArray 这样的特殊类来表示 。</p>
+<p><strong>数组</strong></p>
+
+<p>Kotiin 中的一个数组是一个带有类型参数的类Array，其元素类型被指定为相应的类型参数。基本数据类型的数组使用像 IntArray 这样的特殊类来表示 。</p>
+
+<h3 id="语言特性">语言特性</h3>
             </article>
 
             <ul class="pager blog-pager">
