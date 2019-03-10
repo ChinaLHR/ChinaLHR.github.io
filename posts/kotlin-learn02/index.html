@@ -587,7 +587,8 @@ val value= entry.cornponent2()
 <li>委托属性</li>
 </ul>
 
-<pre><code class="language-java">class Foo {
+<pre><code class="language-java">
+class Foo {
 // 对p的get/set操作调用对应Delegate的get/setValue
 var p: Type by Delegate ()
 }
@@ -610,7 +611,8 @@ class Person {
 相比java的if(obj==null){//初始化并返回}else{//直接返回}，Kotlin可以更简单做到</li>
 </ul>
 
-<pre><code class="language-java">class Person(val name:String){
+<pre><code class="language-java">
+class Person(val name:String){
     val email by lazy { loadEmail(this) }
 
 }
