@@ -208,7 +208,7 @@
     <section id="datecount">
         <h4 id="date"> Sun Jan 13, 2019</h4>
     </section>
-    <h5 id="wc">600 Words|Read in about 3 Min</h5>
+    <h5 id="wc">800 Words|Read in about 4 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
@@ -330,7 +330,7 @@ Kotlin 并不区分受检异常和未受检异常。不用指定函数抛出的�
 当调用一个 Kotlin定义的函数时，可以显式地标明一些参数的名称,避免混淆</li>
 </ul>
 
-<pre><code>joinToString(collectio, separator =&quot;&quot;, prefix =&quot;&quot;, postfix =&quot;·&quot;)
+<pre><code class="language-java">joinToString(collectio, separator =&quot;&quot;, prefix =&quot;&quot;, postfix =&quot;·&quot;)
 </code></pre>
 
 <ul>
@@ -338,7 +338,7 @@ Kotlin 并不区分受检异常和未受检异常。不用指定函数抛出的�
 对比Java一些类的重载函数很多， Kotlin中可以在声明函数的时候，指定参数的默认值，这样就可以避免创建重载的函数。</li>
 </ul>
 
-<pre><code>fun &lt;T&gt; joinToString(
+<pre><code class="language-java">fun &lt;T&gt; joinToString(
     collection: Collection&lt;T&gt;,
     separator: String =&quot;,&quot;,//默认参数值
     prefix: String =&quot;&quot;,
@@ -354,7 +354,7 @@ Kotlin 并不区分受检异常和未受检异常。不用指定函数抛出的�
 目的，消除了Java中常见的静态工具类，使我们的代码更加整洁。</li>
 </ul>
 
-<pre><code>@file:JvmName(&quot;StrUtil&quot;)
+<pre><code class="language-java">@file:JvmName(&quot;StrUtil&quot;)
 package util
 
 fun joinToStr(collection: Collection&lt;String&gt;): String{
@@ -363,7 +363,7 @@ fun joinToStr(collection: Collection&lt;String&gt;): String{
 }
 </code></pre>
 
-<pre><code>import util.joinToStr
+<pre><code class="language-java">import util.joinToStr
 
 fun main(args: Array&lt;String&gt;){
     joinToStr(collection = listOf(&quot;123&quot;, &quot;456&quot;))
@@ -376,7 +376,7 @@ fun main(args: Array&lt;String&gt;){
 <li>扩展函数|参数</li>
 </ul>
 
-<pre><code>/**
+<pre><code class="language-java">/**
  * 扩展函数
  *
  *  String-接收者类型           get(this.length -1) 对接收者对象(字符串)进行操作并返回
@@ -390,7 +390,7 @@ fun main(args: Array&lt;String&gt;) {
 
 <p>导入扩展函数(Kotiin 允许用和导入类一样的语法来导入)</p>
 
-<pre><code>import strings.lastChar
+<pre><code class="language-java">import strings.lastChar
 </code></pre>
 
 <ul>
@@ -398,7 +398,7 @@ fun main(args: Array&lt;String&gt;) {
 infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair 类型的对象用来表示一对元素(解构声明)</li>
 </ul>
 
-<pre><code>fun &lt;K, V&gt; mapOf(vararg values: Pair&lt;K, V&gt;): Map&lt;K , V&gt;
+<pre><code class="language-java">fun &lt;K, V&gt; mapOf(vararg values: Pair&lt;K, V&gt;): Map&lt;K , V&gt;
 //使用
 mapOf(1 to &quot;One&quot;,2 to &quot;Two&quot;)
 </code></pre>
@@ -461,7 +461,7 @@ mapOf(1 to &quot;One&quot;,2 to &quot;Two&quot;)
 <li>Kotlin编译器生成:数据类与委托类</li>
 </ul>
 
-<pre><code>//重写toString,equals,hashCode
+<pre><code class="language-java">//重写toString,equals,hashCode
 override fun toString() = &quot;...&quot;
 /**
  * 数据类，编译器重写toString 、equals 和 hashCode 。 
@@ -483,7 +483,7 @@ data class Client(val name: String, val postalCode: Int)
 <li>object关键字</li>
 </ul>
 
-<pre><code>/**
+<pre><code class="language-java">/**
  * object关键字 对象声明：创建单例类
  */
 object Payroll {
@@ -538,7 +538,7 @@ override fun mouseEntered(e: MouseEvent) { ... }
 
 <p>iterator 与 Sequence 区别:</p>
 
-<pre><code>/**
+<pre><code class="language-java">/**
  * 处理序列的中间操作函数是不进行任何计算的。相反，它们会返回上一个中间操作处理后产生的新序列。
  * 所有这些一系列中间计算都将在终端操作执行中被确定，例如常见的终端操作toList或count.在另一方面，处理Iterable的每个中间操作函数都是会返回一个新的集合。
  *
@@ -551,7 +551,7 @@ interface Sequence&lt;out T&gt; {
 }
 </code></pre>
 
-<pre><code>//惰性求值，避免创建临时中间对象
+<pre><code class="language-java">//惰性求值，避免创建临时中间对象
  val list = persons.asSequence()
             .map(Person::name)
             .filter { it.startsWith(&quot;l&quot;) }
@@ -565,7 +565,7 @@ println(&quot;求100 以内的和：${naturalNumbers.takeWhile { it &lt;= 100 }.
 <li>with 和 apply</li>
 </ul>
 
-<pre><code>/**
+<pre><code class="language-java">/**
  * 使用给定的[receiver]作为接收器调用指定的函数[block]并返回其结果。
  */
 @kotlin.internal.InlineOnly
@@ -603,6 +603,68 @@ val returnAToZ = StringBuilder().apply {
 </code></pre>
 
 <h3 id="高阶lamdba">高阶Lamdba</h3>
+
+<ul>
+<li>内联函数(消除lambda运行时开销)</li>
+</ul>
+
+<p>开销：每调用 一次 lambda 表达式，一个额外的类就会被创建。并且如果 lambda 捕捉了某个变量，那么每次调用的时候都会创建一个新的对象 。 这会带来运行时的额外开销，导致使用 lambda 比使用 一个直接执行相同代码的函数效率更低 。</p>
+
+<p><strong>inline</strong></p>
+
+<p>使用 inline 修饰符标记一个函数，在函数被使用的时候编译器并不会生成函数调用的代码，而是使用函数实现的真实代码替换每一次的函数调用。</p>
+
+<pre><code class="language-java">@kotlin.internal.InlineOnly
+public inline fun &lt;T&gt; Lock.withLock(action: () -&gt; T): T {
+    lock()
+    try {
+        return action()
+    } finally {
+        unlock()
+    }
+}
+</code></pre>
+
+<p><strong>内联函数的限制：</strong></p>
+
+<p>作为参数的 lambda表达式的函数体会被直接替换到最终生成的代码中。如果（lambda）参数在某个地方被保存起来，lambda 表达式的代码将不能被内联。如果（lambda）参数被调用，这
+样的代码能被容易地内联。</p>
+
+<p><strong>JVM优化</strong>
+对于普通的函数调用，JVM己经提供了强大的内联支持。在将宇节码转换成机器代码时自动完成内联。使用inline 关键字只能提高带有 lambda 参数的函数的性能。将带有 lambda 参数的函数内联，节约了为 lambda 创建匿名类，以及创建 lambda 实例对象的开销。</p>
+
+<ul>
+<li>函数中的控制流</li>
+</ul>
+
+<p>lambda 中使用 return 关键字，是非局部返回(从调用 lambda 的函数中返回，并不只是从 lambda 中返回 )。只有在以 lambda 作为 参数的函数是内联函数的时候才能从更外层的函数返回。</p>
+
+<p><strong>标签返回</strong></p>
+
+<pre><code class="language-java"> /**
+ * tag@标签：return 会跳转到引用的标签lamdba 而不会跳出整个函数
+ */
+fun lookForAlice(s:List&lt;String&gt;){
+    s.forEach tag@{
+        if (it == &quot;Alice&quot;) return@tag
+    }
+    println(&quot;I find Alice&quot;)
+}
+</code></pre>
+
+<p><strong>匿名函数：默认使用局部返回</strong></p>
+
+<pre><code class="language-java">/**
+ * 使用匿名函数lambda
+ */
+fun lookForAlice2(s:List&lt;String&gt;){
+    s.forEach(fun (s){
+        //return指向最近的匿名函数
+        if (s == &quot;Alice&quot;) return
+    })
+    println(&quot;I find Alice&quot;)
+}
+</code></pre>
             </article>
 
             <ul class="pager blog-pager">
@@ -628,7 +690,7 @@ val returnAToZ = StringBuilder().apply {
     <section id="datecount">
         <h4 id="date"> Sun Jan 13, 2019</h4>
     </section>
-    <h5 id="wc">600 Words|Read in about 3 Min</h5>
+    <h5 id="wc">800 Words|Read in about 4 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
