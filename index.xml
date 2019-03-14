@@ -8,10 +8,20 @@
     <language>en</language>
     <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
     <webMaster>13435500980@163.com (lihanrong)</webMaster>
-    <lastBuildDate>Wed, 27 Feb 2019 22:06:26 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 14 Mar 2019 20:49:49 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Kotlin 泛型,注解,反射,DSL</title>
+      <link>https://chinalhr.github.io/posts/kotlin-learn03/</link>
+      <pubDate>Thu, 14 Mar 2019 20:49:49 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/kotlin-learn03/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Kotlin 类型系统，语言特性</title>
