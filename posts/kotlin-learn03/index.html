@@ -225,6 +225,63 @@
 </blockquote>
 
 <h3 id="泛型">泛型</h3>
+
+<ul>
+<li><p>对比Java
+和 Java 不同， Kotlin 始终要求类型实参要么被显式地说明，要么能被编译器推导出来。(因为Java有历史包袱,1.5才引入泛型)</p></li>
+
+<li><p>泛型类型约束</p></li>
+</ul>
+
+<p>约束上界 : &lt; T : Number&gt; T sum(List &lt; T&gt; list)</p>
+
+<ul>
+<li>擦除和实化类型参数
+JVM 上的泛型一般是通过类型擦除实现的，泛型类实例的类型实参在运行时是不保留的。</li>
+</ul>
+
+<pre><code class="language-java">var items = listOf(&quot;lhr&quot;,&quot;lnx&quot;,2)
+
+/**
+ * 运行时泛型被擦除了，无法判断List的类型
+ */
+fun main(args: Array&lt;String&gt;) {
+    if (items is List&lt;String&gt;){
+
+        //...
+    }
+}
+</code></pre>
+
+<p><strong>声明带实化类型参数的函数(基于inline内联函数)</strong>
+Kotlin 有特殊的语法结构可以允许你在函数体中使用具体的类型泛型实参，但只有 inline 函数可以。</p>
+
+<pre><code class="language-java">/**
+ * 内联函数 reified声明了类型参数T不会在运行时被擦除
+ */
+inline fun &lt;reified T&gt; Iterable&lt;*&gt;.filterIsInstance():List&lt;T&gt;{
+    val destination= mutableListOf&lt;T&gt;()
+    /*
+    对指定实参进行检测存储返回。
+    因为生成的字节码引用了具体类，而不是类型参数，它不会被运行时发生的类型参数擦除影响 。
+     */
+    for(element in this){
+       if (element is T){
+           destination.add(element)
+       }
+    }
+    return destination;
+}
+
+fun main(args: Array&lt;String&gt;) {
+    val list = listOf(&quot;123&quot;, &quot;456&quot;, 999)
+    println(list.filterIsInstance&lt;String&gt;())
+}
+</code></pre>
+
+<ul>
+<li>子类型化泛型</li>
+</ul>
             </article>
 
             <ul class="pager blog-pager">
