@@ -208,7 +208,7 @@
     <section id="datecount">
         <h4 id="date"> Thu Mar 14, 2019</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="wc">400 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
@@ -219,6 +219,26 @@
             <article role="main" class="blog-post" itemprop="articleBody" id="content">
                 
   
+  <aside class="toc">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#泛型">泛型</a></li>
+<li><a href="#泛型协变-逆变和不变与类型投影">泛型协变、逆变和不变与类型投影</a>
+<ul>
+<li><a href="#概念">概念</a></li>
+<li><a href="#java">Java</a></li>
+<li><a href="#kotlin">Kotlin</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </aside>
+  
 
 
                 <blockquote>
@@ -227,18 +247,22 @@
 <h3 id="泛型">泛型</h3>
 
 <ul>
-<li><p>对比Java
-和 Java 不同， Kotlin 始终要求类型实参要么被显式地说明，要么能被编译器推导出来。(因为Java有历史包袱,1.5才引入泛型)</p></li>
+<li>对比Java</li>
+</ul>
 
-<li><p>泛型类型约束</p></li>
+<p>和 Java 不同， Kotlin 始终要求类型实参要么被显式地说明，要么能被编译器推导出来。(因为Java有历史包袱,1.5才引入泛型)</p>
+
+<ul>
+<li>泛型类型约束</li>
 </ul>
 
 <p>约束上界 : &lt; T : Number&gt; T sum(List &lt; T&gt; list)</p>
 
 <ul>
-<li>擦除和实化类型参数
-JVM 上的泛型一般是通过类型擦除实现的，泛型类实例的类型实参在运行时是不保留的。</li>
+<li>擦除和实化类型参数</li>
 </ul>
+
+<p>JVM 上的泛型一般是通过类型擦除实现的，泛型类实例的类型实参在运行时是不保留的。</p>
 
 <pre><code class="language-java">var items = listOf(&quot;lhr&quot;,&quot;lnx&quot;,2)
 
@@ -253,8 +277,9 @@ fun main(args: Array&lt;String&gt;) {
 }
 </code></pre>
 
-<p><strong>声明带实化类型参数的函数(基于inline内联函数)</strong>
-Kotlin 有特殊的语法结构可以允许你在函数体中使用具体的类型泛型实参，但只有 inline 函数可以。</p>
+<p><strong>声明带实化类型参数的函数(基于inline内联函数)</strong></p>
+
+<p>Kotlin 有特殊的语法结构可以允许你在函数体中使用具体的类型泛型实参，但只有 inline 函数可以。</p>
 
 <pre><code class="language-java">/**
  * 内联函数 reified声明了类型参数T不会在运行时被擦除
@@ -279,9 +304,99 @@ fun main(args: Array&lt;String&gt;) {
 }
 </code></pre>
 
-<ul>
-<li>子类型化泛型</li>
-</ul>
+<h3 id="泛型协变-逆变和不变与类型投影">泛型协变、逆变和不变与类型投影</h3>
+
+<h4 id="概念">概念</h4>
+
+<p>假设Orange类是Fruit类的子类，Crate<T> 是一个泛型类
+- type variance（型变）:指我们是否允许对参数类型进行子类型转换
+- invariance（不型变）：也就是说，Crate<Orange> 和 Crate<Fruit> 之间没有关系
+- covariance（协变）：也就是说，Crate<Orange> 是 Crate<Fruit> 的子类型[Java Crate<Orange> 是 Crate&lt;? extends Fruit&gt; 的子类型]
+- contravariance（逆变）：也就是说，Crate<Fruit> 是 Crate<Orange> 的子类型。[Crate<Fruit> 是 Crate&lt;? super Orange&gt; 的子类型]</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/54437743-415c7b80-4770-11e9-9d1a-752a81c0c794.png" alt="image" /></p>
+
+<h4 id="java">Java</h4>
+
+<p>Java处理型变的做法概括起来是：Java中的泛型类在正常使用时是不型变的，要想型变必须在使用处通过通配符进行（称为使用处型变）。</p>
+
+<p><strong>协变</strong></p>
+
+<pre><code class="language-java">List&lt;? extends Fruit&gt; fruits = new ArrayList&lt;Orange&gt;();
+//编译错误:不能添加任何类型的对象
+//fruits.add(new Orange());
+//fruits.add(new Fruit());
+//fruits.add(new Object());
+//我们知道，返回值肯定是Fruit
+Fruit f = fruits.get(0);
+</code></pre>
+
+<p>fruits的类型是List&lt;? extends Fruit&gt;，代表Fruit类型或者从Fruit继承的类型的List，fruits可以引用诸如Fruit或Orange这样类型的List，然后向上转型为了List&lt;? extends Fruit&gt;。我们并不关心fruits具体引用的是ArrayList<Orange>()，还是ArrayList<Fruit>()，对于类型 List&lt;? extends Fruit&gt; 我们所能知道的就是：调用一个返回Fruit的方法是安全的，因为你知道，这个List中的任何对象至少具有Fruit类型。</p>
+
+<p>我们之所以可以安全地将 ArrayList<Orange> 向上转型为 List&lt;? extends Fruit&gt;，是因为编译器限制了我们对于 List&lt;? extends Fruit&gt; 类型部分方法的调用。例如void add(T t)方法，以及一切参数中含有 T 的方法（称为消费者方法）。因为这些方法可能会破坏类型安全，只要限制这些方法的调用，就可以安全地将 ArrayList<Orange> 转型为 List&lt;? extends Fruit&gt;。</p>
+
+<p>协变：通过限制对于消费者方法的调用，使得像 List&lt;? extends Fruit&gt; 这样的类型成为单纯的“生产者”，以保证运行时的类型安全</p>
+
+<p><strong>逆变</strong></p>
+
+<pre><code class="language-java">List&lt;Object&gt; objs = new ArrayList&lt;Object&gt;();
+objs.add(new Object());
+List&lt;? super Fruit&gt; canContainFruits = objs;
+//没有问题，可以写入Fruit类及其子类
+canContainFruits.add(new Orange());
+canContainFruits.add(new Banana());
+canContainFruits.add(new Fruit());
+//无法安全地读取,canContainFruits完全可能包含Fruit基类的对象，比如这里的Object
+//Fruit f = canContainFruits.get(0);
+
+//总是可以读取为Object，然而这并没有太多意义
+Object o = canContainFruits.get(1);
+</code></pre>
+
+<p>canContainFruits的类型是List&lt;? super Fruit&gt;，代表Fruit类型或者Fruit基类型的List，canContainFruits可以引用诸如Fruit或Object这样类型的List，然后向上转型为了List&lt;? super Fruit&gt;。对于List中的 T get(int pos) 方法，当指定类型是 “？ super Fruit”  时，get方法的返回类型就变成了 “？ super Fruit”，也就是说，返回类型可能是Fruit或者任意Fruit的基类型，我们不能确定，因此编译器拒绝调用任何返回类型为 T 的方法（除非我们只是读取为Object类）</p>
+
+<p>逆变：编译器限制了我们对于 List&lt;? super Fruit&gt; 类型部分方法的调用。例如T get(int  pos)方法，以及一切返回类型为 T 的方法（称为生产者方法），因为我们不能确定这些方法的返回类型，只要限制这些方法的调用，就可以安全地将 ArrayList<Object> 转型为 List&lt;? super Fruit&gt;。这就是所谓的逆变，通过限制对于生产者方法的调用，使得像 List&lt;? super Fruit&gt; 这样的类型成为单纯的“消费者”。</p>
+
+<p><strong>总结</strong></p>
+
+<p>extends限定了通配符类型的上界，所以我们可以安全地从其中读取；而super限定了通配符类型的下界，所以我们可以安全地向其中写入。</p>
+
+<h4 id="kotlin">Kotlin</h4>
+
+<p>Kotlin中的泛型类在定义时即可标明型变类型（协变或逆变，当然也可以不标明，那就是不型变的），在使用处可以直接型变（称为声明处型变）。</p>
+
+<p><strong>协变</strong></p>
+
+<p>使用out修饰符，表明类型参数 T 在泛型类中仅作为方法的返回值，不作为方法的参数，因此，这个泛型类是个协变的。回报是，使用时Source<Orange>可以作为Source<Fruit>的子类型。</p>
+
+<pre><code class="language-java">abstract class Source&lt;out T&gt; {
+    abstract fun nextT(): T
+}
+
+fun demo(oranges: Source&lt;Orange&gt;) {
+    val fruits: Source&lt;Fruit&gt; = oranges // 没问题，因为 T 是一个 out-参数，Source&lt;T&gt;是协变的
+    val oneFruit: Fruit = fruits.nextT() //可以安全读取
+}
+</code></pre>
+
+<p><strong>逆变</strong></p>
+
+<p>使用in修饰符，表明类型参数 T 在泛型类中仅作为方法的参数，不作为方法的返回值，因此，这个泛型类是个逆变的。回报是，使用时Comparable<Number>可以作为Comparable<Double>的子类型。</p>
+
+<pre><code class="language-java">//kotlin
+abstract class Comparable&lt;in T&gt; {
+    abstract fun compareTo(other: T): Int
+}
+
+fun demo(x: Comparable&lt;Number&gt;) {
+    val y: Comparable&lt;Double&gt; = x // OK！逆变，Comparable&lt;Number&gt;可以作为Comparable&lt;Double&gt;的子类型
+    y.compareTo(1.0) //1.0 拥有类型 Double
+}
+</code></pre>
+
+<p><strong>总结</strong></p>
+
+<p>out和in修饰符是自解释的。out代表泛型类中，类型参数 T 只能存在于方法的返回值中，即是作为输出，因此，泛型类是生产者/协变的；in代表泛型类中，类型参数T只能存在于方法的参数中，即是作为输入，因此，泛型类是消费者/逆变的。</p>
             </article>
 
             <ul class="pager blog-pager">
@@ -312,7 +427,7 @@ fun main(args: Array&lt;String&gt;) {
     <section id="datecount">
         <h4 id="date"> Thu Mar 14, 2019</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="wc">400 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
