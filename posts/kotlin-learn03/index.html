@@ -227,7 +227,7 @@
 <li>
 <ul>
 <li><a href="#泛型">泛型</a></li>
-<li><a href="#泛型协变-逆变和不变与类型投影">泛型协变、逆变和不变与类型投影</a>
+<li><a href="#泛型协变-逆变和不变">泛型协变、逆变和不变</a>
 <ul>
 <li><a href="#概念">概念</a></li>
 <li><a href="#java">Java</a></li>
@@ -304,7 +304,7 @@ fun main(args: Array&lt;String&gt;) {
 }
 </code></pre>
 
-<h3 id="泛型协变-逆变和不变与类型投影">泛型协变、逆变和不变与类型投影</h3>
+<h3 id="泛型协变-逆变和不变">泛型协变、逆变和不变</h3>
 
 <h4 id="概念">概念</h4>
 
@@ -372,7 +372,7 @@ Object o = canContainFruits.get(1);
 
 <p>使用out修饰符，表明类型参数 T 在泛型类中仅作为方法的返回值，不作为方法的参数，因此，这个泛型类是个协变的。回报是，使用时Source<Orange>可以作为Source<Fruit>的子类型。</p>
 
-<pre><code class="language-java">abstract class Source&lt;out T&gt; {
+<pre><code class="language-c">abstract class Source&lt;out T&gt; {
     abstract fun nextT(): T
 }
 
@@ -386,7 +386,7 @@ fun demo(oranges: Source&lt;Orange&gt;) {
 
 <p>使用in修饰符，表明类型参数 T 在泛型类中仅作为方法的参数，不作为方法的返回值，因此，这个泛型类是个逆变的。回报是，使用时Comparable<Number>可以作为Comparable<Double>的子类型。</p>
 
-<pre><code class="language-java">//kotlin
+<pre><code class="language-c">//kotlin
 abstract class Comparable&lt;in T&gt; {
     abstract fun compareTo(other: T): Int
 }
