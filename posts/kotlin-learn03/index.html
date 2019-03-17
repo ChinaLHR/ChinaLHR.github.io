@@ -234,7 +234,11 @@
 <li><a href="#kotlin">Kotlin</a></li>
 </ul></li>
 <li><a href="#注解">注解</a></li>
-<li><a href="#dsl">DSL</a></li>
+<li><a href="#dsl">DSL</a>
+<ul>
+<li><a href="#关于dsl">关于DSL</a></li>
+<li><a href="#kotlin-dsl使用">Kotlin DSL使用</a></li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -441,13 +445,25 @@ annotation class xxx
 
 <h3 id="dsl">DSL</h3>
 
+<h4 id="关于dsl">关于DSL</h4>
+
 <ul>
-<li><p>关于DSL
-DSL 也就是 Domain Specific Language 的简称，是指为某些特定领域（domain）设计的专用语言。例如，Linux 系统下有很多配置文件，每个配置文件格式都不大一样，它们可以被看成是多种 DSL。IP Tables 的规则是一种 DSL。</p></li>
+<li><p>DSL
+DSL 也就是 Domain Specific Language 的简称，是指为某些特定领域（domain）设计的专用语言。最常见的 DSL 就是 SQL和正则表达式。和通用编程语言相反，DSL大部分是声明式的(声明式语言描述了想要的结果并将执行细节留给了解释它的引擎)。</p></li>
+
+<li><p>内部DSL
+与有着自己独立语法的外部 DSL 不同，内部 DSL是用通用编程语言编写的程序的一部分，使用了和通用编程语言完全一致的语法。实际上，内部 DSL 不是完全独立的语言，而是使用主要语言的特定方式，同时保留具有独立语法的 DSL 的主要优点。</p></li>
+
+<li><p>DSL结构
+DSL 通常会依赖在其他上下文中也会广泛使用的语言特性，比如说中缀调用和运算符重载。DSL与API不同的显著特征是结构/文法。
+与API的命令查询不同, DSL 的方法调用存在于由 DSL 文法定义的
+更大的结构中。</p></li>
 
 <li><p>Kotlin DSL
 Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好的 IDE 支持]。</p></li>
 </ul>
+
+<h4 id="kotlin-dsl使用">Kotlin DSL使用</h4>
             </article>
 
             <ul class="pager blog-pager">
