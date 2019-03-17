@@ -5,10 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title> Kotlin 泛型,注解,反射,DSL - Read the fucking source code</title>
+  <title> Kotlin 泛型,注解,DSL - Read the fucking source code</title>
   <meta name="description" content="Read the fucking source code" />
-  <meta property="og:title" content="Kotlin 泛型,注解,反射,DSL" />
-  <meta name="twitter:title" content="Kotlin 泛型,注解,反射,DSL" />
+  <meta property="og:title" content="Kotlin 泛型,注解,DSL" />
+  <meta name="twitter:title" content="Kotlin 泛型,注解,DSL" />
   <meta name="description" content="
 ">
   <meta property="og:description" content="
@@ -186,7 +186,7 @@
         <div class="row">
           <div class="col-lg-12 col-md-12 col-md-offset-0">
             <div class="posts-heading">
-                <h1 align="center">Kotlin 泛型,注解,反射,DSL</h1>
+                <h1 align="center">Kotlin 泛型,注解,DSL</h1>
                 
                 
             </div>
@@ -233,6 +233,8 @@
 <li><a href="#java">Java</a></li>
 <li><a href="#kotlin">Kotlin</a></li>
 </ul></li>
+<li><a href="#注解">注解</a></li>
+<li><a href="#dsl">DSL</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -400,6 +402,52 @@ fun demo(x: Comparable&lt;Number&gt;) {
 <p><strong>总结</strong></p>
 
 <p>out和in修饰符是自解释的。out代表泛型类中，类型参数 T 只能存在于方法的返回值中，即是作为输出，因此，泛型类是生产者/协变的；in代表泛型类中，类型参数T只能存在于方法的参数中，即是作为输入，因此，泛型类是消费者/逆变的。</p>
+
+<h3 id="注解">注解</h3>
+
+<ul>
+<li><p>注解实参需要在编译期就是己知的，所以你不能引用任意的属性作为实参。要把属性当作注解实参使用，你需要用const修饰符标记它，来告知编译器这个属性是编译期常量。</p></li>
+
+<li><p>Kotlin 允许你对任意的表达式应用注解，而不仅仅是类和函数的声明及类型。</p></li>
+
+<li><p>用注解控制JavaAPI</p></li>
+</ul>
+
+<pre><code class="language-java">//volatile 多线程可见性
+@volatile
+//Strictfp 多平台浮点数可预测性
+@Strictfp
+//改变由 Kotlin 生成的 Java 方法或字段的名称 
+@JvmName 
+//能被用在对象声明或者伴生对象的方法上，把它们暴露成
+Java 的静态方法
+@JvmStatic
+//指导 Kotlin 编译器为带默认参数值的函数生成多个重载
+@JvmOverloads
+//应用于一个属性，把这个属性暴露成一个没有访问器的
+公有 Java 字段。
+@JvmField 
+</code></pre>
+
+<ul>
+<li>注解使用</li>
+</ul>
+
+<pre><code class="language-java">//声明注解
+//@Target 元注解
+@Target(AnnotationTarget.PROPERTY)
+annotation class xxx
+</code></pre>
+
+<h3 id="dsl">DSL</h3>
+
+<ul>
+<li><p>关于DSL
+DSL 也就是 Domain Specific Language 的简称，是指为某些特定领域（domain）设计的专用语言。例如，Linux 系统下有很多配置文件，每个配置文件格式都不大一样，它们可以被看成是多种 DSL。IP Tables 的规则是一种 DSL。</p></li>
+
+<li><p>Kotlin DSL
+Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好的 IDE 支持]。</p></li>
+</ul>
             </article>
 
             <ul class="pager blog-pager">
