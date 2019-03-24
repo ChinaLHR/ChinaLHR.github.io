@@ -208,7 +208,7 @@
     <section id="datecount">
         <h4 id="date"> Thu Mar 14, 2019</h4>
     </section>
-    <h5 id="wc">600 Words|Read in about 3 Min</h5>
+    <h5 id="wc">700 Words|Read in about 4 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
@@ -239,6 +239,7 @@
 <li><a href="#关于dsl">关于DSL</a></li>
 <li><a href="#kotlin-dsl使用">Kotlin DSL使用</a></li>
 </ul></li>
+<li><a href="#协程相关">协程相关</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -515,8 +516,9 @@ fun main(args: Array&lt;String&gt;) {
 }
 </code></pre>
 
-<p><strong>关于带接收者的lambda与扩展函数</strong>
-让我们使用一个结构来构建 API。当函数被调用的时候需要提供这个对象，它在函数体内是可用的。实际上 ，一个扩展函数类型描述了一个可以被当作扩展函数来调用的代码块。</p>
+<p><strong>关于带接收者的lambda与扩展函数</strong></p>
+
+<p>让我们使用一个结构来构建 API。当函数被调用的时候需要提供这个对象，它在函数体内是可用的。实际上 ，一个扩展函数类型描述了一个可以被当作扩展函数来调用的代码块。</p>
 
 <p>调用扩展函数类型lamdba时，可以像调用一个扩展函数那样调用 lambda，而不是将对象作为参数传递给 lambda。</p>
 
@@ -536,8 +538,9 @@ var s = buildString {
 }
 </code></pre>
 
-<p><strong>invoke约定</strong>
-invoke约定允许把自定义类型的对象当作函数一样调用。(类似于运算符重载)</p>
+<p><strong>invoke约定</strong></p>
+
+<p>invoke约定允许把自定义类型的对象当作函数一样调用。(类似于运算符重载)</p>
 
 <pre><code class="language-c">class Person(val name: String){
     /**
@@ -555,6 +558,45 @@ fun main(args: Array&lt;String&gt;) {
 }
 
 </code></pre>
+
+<p><strong>中缀调用 DSL清晰的语法</strong></p>
+
+<pre><code class="language-c">object start
+
+infix fun String.should(x: start): StartWrapper = StartWrapper(this)
+
+class StartWrapper(val value: String) {
+    infix fun with(prefix: String): Unit =
+            if (value.startsWith(prefix)) {
+            } else {
+                throw AssertionError(&quot;String does not start with $prefix: $value&quot;)
+            }
+
+}
+
+fun main(args: Array&lt;String&gt;) {
+    &quot;kotlin&quot; should start with &quot;ko&quot;
+}
+</code></pre>
+
+<p><strong>基本数据类型扩展</strong></p>
+
+<pre><code class="language-c">val Int.days: Period
+    //this 引用数字常量值
+    get() = Period . ofDays (this)
+
+val Period.ago:LocalDate
+    get() = LocalDate.now() - this
+
+fun main(args: Array&lt;String&gt;) {
+    //获取一天前日期
+    println(1.days.ago)
+}
+</code></pre>
+
+<h3 id="协程相关">协程相关</h3>
+
+<p>参考: <a href="http://johnnyshieh.me/categories/kotlin/">http://johnnyshieh.me/categories/kotlin/</a></p>
             </article>
 
             <ul class="pager blog-pager">
@@ -585,7 +627,7 @@ fun main(args: Array&lt;String&gt;) {
     <section id="datecount">
         <h4 id="date"> Thu Mar 14, 2019</h4>
     </section>
-    <h5 id="wc">600 Words|Read in about 3 Min</h5>
+    <h5 id="wc">700 Words|Read in about 4 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
