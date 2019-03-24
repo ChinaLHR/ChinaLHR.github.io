@@ -208,7 +208,7 @@
     <section id="datecount">
         <h4 id="date"> Thu Mar 14, 2019</h4>
     </section>
-    <h5 id="wc">400 Words|Read in about 2 Min</h5>
+    <h5 id="wc">600 Words|Read in about 3 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
@@ -452,7 +452,8 @@ annotation class xxx
 DSL 也就是 Domain Specific Language 的简称，是指为某些特定领域（domain）设计的专用语言。最常见的 DSL 就是 SQL和正则表达式。和通用编程语言相反，DSL大部分是声明式的(声明式语言描述了想要的结果并将执行细节留给了解释它的引擎)。</p></li>
 
 <li><p>内部DSL
-与有着自己独立语法的外部 DSL 不同，内部 DSL是用通用编程语言编写的程序的一部分，使用了和通用编程语言完全一致的语法。实际上，内部 DSL 不是完全独立的语言，而是使用主要语言的特定方式，同时保留具有独立语法的 DSL 的主要优点。</p></li>
+与有着自己独立语法的外部 DSL 不同，内部 DSL是用通用编程语言编写的程序的一部分，使用了和通用编程语言完全一致的语法。实际上，内部 DSL 不是完全独立的语言，而是使用主要语言的特定方式，同时保留具有独立语法的 DSL 的主要优点。
+[使用Kotlin 语言开发的，解决特定领域问题，具备独特代码结构的 API]</p></li>
 
 <li><p>DSL结构
 DSL 通常会依赖在其他上下文中也会广泛使用的语言特性，比如说中缀调用和运算符重载。DSL与API不同的显著特征是结构/文法。
@@ -464,6 +465,96 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 </ul>
 
 <h4 id="kotlin-dsl使用">Kotlin DSL使用</h4>
+
+<p><strong>利用带接收者的lambda和扩展函数实现HTML Table Sample DSL</strong></p>
+
+<pre><code class="language-java">open class Tag(val name: String) {
+
+    /**
+     * 保存所有嵌套标签
+     */
+    private val children = mutableListOf&lt;Tag&gt;()
+
+    protected fun &lt;T : Tag&gt; doInit(child: T, init: T. () -&gt; Unit) {
+        //调用作为参数的lambda,初始化并保存子标签
+        child.init()
+        children.add(child)
+    }
+
+    override fun toString() = &quot;&lt;$name&gt;${children.joinToString(&quot;&quot;)} &lt;/$name&gt;&quot;
+}
+
+fun table(init: TABLE.() -&gt; Unit) = TABLE().apply(init)
+
+class TABLE : Tag(&quot;table&quot;) {
+    /**
+     * 创建并初始化 TR 标签的示例并添加到TABLE 的子标签中
+     */
+    fun tr(init: TR.() -&gt; Unit) = doInit(TR(), init)
+}
+
+class TR : Tag(&quot;tr&quot;) {
+    /**
+     * 添加TD标签的一个实例到 TR 的子标签中
+     */
+    fun td(init: TD.() -&gt; Unit) = doInit(TD(), init)
+}
+
+class TD : Tag(&quot;td&quot;)
+
+fun main(args: Array&lt;String&gt;) {
+    fun createTable() =
+            table {
+                tr {
+                    td { }
+                    td { }
+                }
+            }
+    //&lt;table&gt;&lt;tr&gt;&lt;td&gt; &lt;/td&gt;&lt;td&gt; &lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;
+    println(createTable())
+}
+</code></pre>
+
+<p><strong>关于带接收者的lambda与扩展函数</strong>
+让我们使用一个结构来构建 API。当函数被调用的时候需要提供这个对象，它在函数体内是可用的。实际上 ，一个扩展函数类型描述了一个可以被当作扩展函数来调用的代码块。</p>
+
+<p>调用扩展函数类型lamdba时，可以像调用一个扩展函数那样调用 lambda，而不是将对象作为参数传递给 lambda。</p>
+
+<pre><code class="language-java">/**
+ * action: StringBuilder.() -&gt; Unit 定义接收者为StringBuilder的lambda
+ * StringBuilder.() -&gt; Unit 扩展函数
+ */
+fun buildString(action: StringBuilder.() -&gt; Unit):String{
+    val sb = StringBuilder()
+    //传递一个 StringBuilder 实例作为lambda的接收者
+    sb.action()
+    return sb.toString()
+}
+
+var s = buildString {
+    append(&quot;are you ok&quot;)
+}
+</code></pre>
+
+<p><strong>invoke约定</strong>
+invoke约定允许把自定义类型的对象当作函数一样调用。(类似于运算符重载)</p>
+
+<pre><code class="language-java">class Person(val name: String){
+    /**
+     * 重载invoke
+     */
+    operator fun invoke(no: String){
+        println(&quot;$name - $no &quot;)
+    }
+}
+
+fun main(args: Array&lt;String&gt;) {
+    val person = Person(&quot;lhr&quot;)
+    person(&quot;cp272727&quot;)//实际上调用的是person.invoke
+
+}
+
+</code></pre>
             </article>
 
             <ul class="pager blog-pager">
@@ -494,7 +585,7 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
     <section id="datecount">
         <h4 id="date"> Thu Mar 14, 2019</h4>
     </section>
-    <h5 id="wc">400 Words|Read in about 2 Min</h5>
+    <h5 id="wc">600 Words|Read in about 3 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
