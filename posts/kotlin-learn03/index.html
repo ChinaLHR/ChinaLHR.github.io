@@ -468,7 +468,7 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 
 <p><strong>利用带接收者的lambda和扩展函数实现HTML Table Sample DSL</strong></p>
 
-<pre><code class="language-java">open class Tag(val name: String) {
+<pre><code class="language-c">open class Tag(val name: String) {
 
     /**
      * 保存所有嵌套标签
@@ -520,7 +520,7 @@ fun main(args: Array&lt;String&gt;) {
 
 <p>调用扩展函数类型lamdba时，可以像调用一个扩展函数那样调用 lambda，而不是将对象作为参数传递给 lambda。</p>
 
-<pre><code class="language-java">/**
+<pre><code class="language-c">/**
  * action: StringBuilder.() -&gt; Unit 定义接收者为StringBuilder的lambda
  * StringBuilder.() -&gt; Unit 扩展函数
  */
@@ -539,7 +539,7 @@ var s = buildString {
 <p><strong>invoke约定</strong>
 invoke约定允许把自定义类型的对象当作函数一样调用。(类似于运算符重载)</p>
 
-<pre><code class="language-java">class Person(val name: String){
+<pre><code class="language-c">class Person(val name: String){
     /**
      * 重载invoke
      */
