@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>编程 on LHR</title>
+    <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/</link>
+    <description>Recent content in 编程 on LHR</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
+    <webMaster>13435500980@163.com (lihanrong)</webMaster>
+    <lastBuildDate>Thu, 14 Mar 2019 20:49:49 +0800</lastBuildDate>
+    
+	<atom:link href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Kotlin 泛型,注解,DSL</title>
+      <link>https://chinalhr.github.io/posts/kotlin-learn03/</link>
+      <pubDate>Thu, 14 Mar 2019 20:49:49 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/kotlin-learn03/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Kotlin 类型系统，语言特性</title>
+      <link>https://chinalhr.github.io/posts/kotlin-learn02/</link>
+      <pubDate>Wed, 27 Feb 2019 22:06:26 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/kotlin-learn02/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Bit-map算法及应用</title>
+      <link>https://chinalhr.github.io/posts/bitmap/</link>
+      <pubDate>Sun, 27 Jan 2019 22:17:36 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/bitmap/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>MySql大数据表优化</title>
+      <link>https://chinalhr.github.io/posts/mysqlbigdataoptimization/</link>
+      <pubDate>Wed, 23 Jan 2019 21:31:57 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/mysqlbigdataoptimization/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;公司数据库账单单表存储过亿,急需优化&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Kotlin 函数,对象,Lamdba</title>
+      <link>https://chinalhr.github.io/posts/kotlin-learn01/</link>
+      <pubDate>Sun, 13 Jan 2019 23:02:40 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/kotlin-learn01/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>响应式编程库-Reactor</title>
+      <link>https://chinalhr.github.io/posts/reactiveprogramming_reactor/</link>
+      <pubDate>Sun, 06 Jan 2019 22:30:19 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/reactiveprogramming_reactor/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>响应式编程</title>
+      <link>https://chinalhr.github.io/posts/reactiveprogramming/</link>
+      <pubDate>Fri, 28 Dec 2018 22:07:30 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/reactiveprogramming/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>操作系统-多核心</title>
+      <link>https://chinalhr.github.io/posts/osheartmulticpu/</link>
+      <pubDate>Thu, 20 Dec 2018 23:12:24 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/osheartmulticpu/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;读《计算机的心智》,另一个角度看操作系统&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>操作系统-文件</title>
+      <link>https://chinalhr.github.io/posts/osheartfile/</link>
+      <pubDate>Sun, 16 Dec 2018 22:58:29 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/osheartfile/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;读《计算机的心智》,另一个角度看操作系统&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>操作系统-内存</title>
+      <link>https://chinalhr.github.io/posts/osheartmemory/</link>
+      <pubDate>Tue, 11 Dec 2018 22:12:39 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/osheartmemory/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;读《计算机的心智》,另一个角度看操作系统&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>操作系统-线程</title>
+      <link>https://chinalhr.github.io/posts/osheartthread/</link>
+      <pubDate>Thu, 29 Nov 2018 21:56:04 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/osheartthread/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;读《计算机的心智》,另一个角度看操作系统&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>缓存更新策略</title>
+      <link>https://chinalhr.github.io/posts/javacachestrategy/</link>
+      <pubDate>Wed, 21 Nov 2018 23:20:52 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/javacachestrategy/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;缓存实践&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>操作系统-进程</title>
+      <link>https://chinalhr.github.io/posts/osheartprocess/</link>
+      <pubDate>Thu, 15 Nov 2018 22:30:30 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/osheartprocess/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;读《计算机的心智》,另一个角度看操作系统&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Mybatis自定义分表Plug</title>
+      <link>https://chinalhr.github.io/posts/mybatisshardplug/</link>
+      <pubDate>Mon, 12 Nov 2018 22:51:04 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/mybatisshardplug/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;工作中需要用到MyBatis进行分表操作，简单记录实现过程&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Mybatis动态表名：# 与 $ 区别</title>
+      <link>https://chinalhr.github.io/posts/mybatis_sql_precompile/</link>
+      <pubDate>Mon, 12 Nov 2018 21:30:50 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/mybatis_sql_precompile/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;学习Mybatis# 与 $ 机制&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>编码技巧：防御性编程|表驱动法</title>
+      <link>https://chinalhr.github.io/posts/codeoptimize1/</link>
+      <pubDate>Sat, 03 Nov 2018 21:44:31 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/codeoptimize1/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;读&amp;lt;代码大全&amp;gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>高可用的HttpClient</title>
+      <link>https://chinalhr.github.io/posts/highavailabilityhttpclient/</link>
+      <pubDate>Wed, 17 Oct 2018 22:48:08 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/highavailabilityhttpclient/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;对HttpClient的优化，基于HttpClient4.4+的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Joda DateTime记录</title>
+      <link>https://chinalhr.github.io/posts/joda_datetime_record/</link>
+      <pubDate>Thu, 04 Oct 2018 23:40:13 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/joda_datetime_record/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;用来记录joda DateTime工具类使用&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Spring Aop分析</title>
+      <link>https://chinalhr.github.io/posts/spring_aop/</link>
+      <pubDate>Mon, 24 Sep 2018 15:56:35 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/spring_aop/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Shrio导致SpringCache缓存失效原因分析</title>
+      <link>https://chinalhr.github.io/posts/springcache_shrio_bug/</link>
+      <pubDate>Sat, 22 Sep 2018 23:10:00 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/springcache_shrio_bug/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;记录Shrio与SpringCache使用过程遇到的问题&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>使用Apache ab进行压力测试</title>
+      <link>https://chinalhr.github.io/posts/apache_ab_use/</link>
+      <pubDate>Sun, 16 Sep 2018 23:07:30 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/apache_ab_use/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;学习Apache ab进行压力测试&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>基于SnowFlake的分布式UID生成服务</title>
+      <link>https://chinalhr.github.io/posts/uidgenerateserver/</link>
+      <pubDate>Sat, 08 Sep 2018 23:02:55 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/uidgenerateserver/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Java在Stream中异常处理问题</title>
+      <link>https://chinalhr.github.io/posts/java_lambda_exception/</link>
+      <pubDate>Wed, 25 Jul 2018 23:20:01 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/java_lambda_exception/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Java Lamdba Api缺陷&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>MySql大数据量表分页</title>
+      <link>https://chinalhr.github.io/posts/mysql_paging/</link>
+      <pubDate>Thu, 19 Jul 2018 23:37:55 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/mysql_paging/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>分布式锁实现(基于Redis|Zookeeper)</title>
+      <link>https://chinalhr.github.io/posts/distributedlocks/</link>
+      <pubDate>Sun, 15 Jul 2018 18:38:26 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/distributedlocks/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;学习分布式锁实现&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>RedisTemplate问题</title>
+      <link>https://chinalhr.github.io/posts/redistemplate_problem/</link>
+      <pubDate>Fri, 13 Jul 2018 22:17:22 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/redistemplate_problem/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;记录RedisTemplate使用过程的问题&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>函数式接口-Supplier|Predicate|Consumer|Function</title>
+      <link>https://chinalhr.github.io/posts/java_supplier_predicate_consumer/</link>
+      <pubDate>Wed, 11 Jul 2018 21:19:59 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/java_supplier_predicate_consumer/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>消息队列QPS优化(使用Redis做MQ的Buff)</title>
+      <link>https://chinalhr.github.io/posts/redisdomqbuff/</link>
+      <pubDate>Tue, 10 Jul 2018 22:01:41 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/redisdomqbuff/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;使用Redis做阿里MQ发送的缓存，一种控制MQ发送QPS的方案&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jenkins部署优化与发布优化</title>
+      <link>https://chinalhr.github.io/posts/jenkins_job_optimize/</link>
+      <pubDate>Mon, 09 Jul 2018 21:24:11 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/jenkins_job_optimize/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Jenkins是基于Java开发的一种持续集成工具,是一款自动化运维的工具。可用于软件构建自动化，构建可持续的自动化检查，构建可持续的自动化测试&amp;hellip;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Mysql对存有大数据表进行结构修改需要注意的问题</title>
+      <link>https://chinalhr.github.io/posts/mysql_alter/</link>
+      <pubDate>Sun, 08 Jul 2018 17:56:21 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/mysql_alter/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;记录生产中遇到的问题&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Git记录</title>
+      <link>https://chinalhr.github.io/posts/git_basic/</link>
+      <pubDate>Sun, 08 Jul 2018 15:49:09 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/git_basic/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;记录Git操作&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>MySql读写分离</title>
+      <link>https://chinalhr.github.io/posts/mysql_replicationon/</link>
+      <pubDate>Wed, 27 Jun 2018 15:55:01 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/mysql_replicationon/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Mysql主从复制</title>
+      <link>https://chinalhr.github.io/posts/mysql_proxy/</link>
+      <pubDate>Wed, 27 Jun 2018 15:54:50 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/mysql_proxy/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>使用RabbitMQ</title>
+      <link>https://chinalhr.github.io/posts/rabbitmq_use/</link>
+      <pubDate>Tue, 26 Jun 2018 21:44:54 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/rabbitmq_use/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Java项目中的系统结构分层</title>
+      <link>https://chinalhr.github.io/posts/java_system_structure/</link>
+      <pubDate>Mon, 25 Jun 2018 12:07:03 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/java_system_structure/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Spring Boot组件-Retry|Scheduled</title>
+      <link>https://chinalhr.github.io/posts/java_springboot_component1/</link>
+      <pubDate>Sun, 24 Jun 2018 20:53:59 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/java_springboot_component1/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Spring Retry与Scheduled使用记录&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>基于SSM项目的个人编码规范</title>
+      <link>https://chinalhr.github.io/posts/java_practice/</link>
+      <pubDate>Mon, 19 Feb 2018 14:31:45 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/java_practice/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;仅记录一个多月野蛮生长过程的个人编码规范&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Java异步编程-CompletableFuture</title>
+      <link>https://chinalhr.github.io/posts/java_completablefuture/</link>
+      <pubDate>Fri, 02 Feb 2018 00:42:49 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/java_completablefuture/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;学习CompletableFuture&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
