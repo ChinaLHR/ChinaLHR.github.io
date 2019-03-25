@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://chinalhr.github.io/posts/reactivewebstack/</loc>
+    <lastmod>2019-03-25T21:08:46+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/posts/kotlin-learn03/</loc>
     <lastmod>2019-03-14T20:49:49+08:00</lastmod>
   </url>
@@ -222,13 +227,13 @@
   
   <url>
     <loc>https://chinalhr.github.io/tags/kotlin/</loc>
-    <lastmod>2019-03-14T20:49:49+08:00</lastmod>
+    <lastmod>2019-03-25T21:08:46+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2019-03-14T20:49:49+08:00</lastmod>
+    <lastmod>2019-03-25T21:08:46+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -240,7 +245,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/posts/</loc>
-    <lastmod>2019-03-14T20:49:49+08:00</lastmod>
+    <lastmod>2019-03-25T21:08:46+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -270,7 +275,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2019-01-06T22:30:19+08:00</lastmod>
+    <lastmod>2019-03-25T21:08:46+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -300,7 +305,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2019-03-14T20:49:49+08:00</lastmod>
+    <lastmod>2019-03-25T21:08:46+08:00</lastmod>
     <priority>0</priority>
   </url>
   

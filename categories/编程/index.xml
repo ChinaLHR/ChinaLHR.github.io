@@ -8,10 +8,20 @@
     <language>en</language>
     <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
     <webMaster>13435500980@163.com (lihanrong)</webMaster>
-    <lastBuildDate>Thu, 14 Mar 2019 20:49:49 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 25 Mar 2019 21:08:46 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>响应式Web技术栈</title>
+      <link>https://chinalhr.github.io/posts/reactivewebstack/</link>
+      <pubDate>Mon, 25 Mar 2019 21:08:46 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/reactivewebstack/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Kotlin 泛型,注解,DSL</title>
