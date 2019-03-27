@@ -237,6 +237,35 @@
 <h3 id="webflux">WebFlux</h3>
 
 <h4 id="springframework5-x两大开发栈">SpringFramework5.X两大开发栈</h4>
+
+<ul>
+<li>Spring WebFlux：基于 Reactive Stream API，需要运行在 servlet 3.1+ 容器（Tomcat 8）或 Netty 上，这些容器支持 NIO、Reactor 模式</li>
+<li>Spring MVC：基于传统的 Servlet API，运行在传统的 Servlet 容器上，one-request-per-thread，同步阻塞 IO</li>
+</ul>
+
+<h4 id="servlet并发模型">Servlet并发模型</h4>
+
+<p>servlet由servlet container进行生命周期管理。container启动时构造servlet对象并调用servlet init()进行初始化；container关闭时调用servlet destory()销毁servlet；container运行时接受请求，并为每个请求分配一个线程（一般从线程池中获取空闲线程）然后调用service()。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/55001956-ac2f7180-5010-11e9-80cf-cd34a57832b1.png" alt="image" /></p>
+
+<p>弊端：处理请求的时候同步操作，一个请求对应一个线程来处理，并发上升，线程数量就会上涨（上线文切换，内存消耗大）影响请求的处理时间。现代系统多数都是IO密集的，同步处理让，线程大部分时间都浪费在了IO等待上面</p>
+
+<h4 id="webflux并发模型">WebFlux并发模型</h4>
+
+<p>WebFlux模型主要依赖响应式编程库Reactor，Reactor 有两种模型，Flux 和 Mono，提供了非阻塞、支持回压机制的异步流处理能力。当数据生成缓慢时，整个流自然进入推送模式；而当生产高峰来临数据生产速度加快时，整个流又进入了拉取模式。Flux 可以触发 0 到多个事件，用于异步地处理流式的信息；Mono 至多可以触发一个事件，通常用于在异步任务完成时发出通知。Flux 和 Mono 之间可以相互转换。对一个 Flux 序列进行计数操作，得到的结果是一个 Mono对象，把两个 Mono 序列合并在一起，得到的是一个 Flux 对象。
+<img src="https://user-images.githubusercontent.com/19829495/55006450-bc4b4f00-5018-11e9-981c-0a7ad97e3fa0.png" alt="image" />
+<img src="https://user-images.githubusercontent.com/19829495/55086336-2a5c4880-50e3-11e9-853b-a2a43d917b94.png" alt="image" /></p>
+
+<p>WebFlux 使用Netty作为默认的web服务器,Netty采用为主从 Reactor网络模型。mainReactor 负责监听 server socket、accept 新连接，并将建立的 socket 分派给 subReactor；subReactor 负责多路分离已连接的 socket，读写网络数据；而对业务处理的功能，交给 worker 线程池来完成。是一个异步和事件驱动的高性能服务器。</p>
+
+<h3 id="jasync-sql">jasync-sql</h3>
+
+<h3 id="kotlin">Kotlin</h3>
+
+<h3 id="参考">参考</h3>
+
+<p><a href="https://github.com/ZhongyangMA/webflux-streaming-demo/wiki/%E5%8F%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B%E6%A6%82%E8%A7%88%EF%BC%88%E4%B8%AD%E6%96%87%E7%89%88%EF%BC%89">https://github.com/ZhongyangMA/webflux-streaming-demo/wiki</a></p>
             </article>
 
             <ul class="pager blog-pager">
