@@ -216,7 +216,7 @@
     <section id="datecount">
         <h4 id="date"> Mon Mar 25, 2019</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="wc">200 Words|Read in about 1 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/">响应式编程</a> &nbsp;
@@ -228,6 +228,33 @@
             
             <article role="main" class="blog-post" itemprop="articleBody" id="content">
                 
+  
+  <aside class="toc">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#webflux">WebFlux</a>
+<ul>
+<li><a href="#springframework5-x两大开发栈">SpringFramework5.X两大开发栈</a></li>
+<li><a href="#servlet并发模型">Servlet并发模型</a></li>
+<li><a href="#webflux并发模型">WebFlux并发模型</a></li>
+</ul></li>
+<li><a href="#jasync-sql">jasync-sql</a>
+<ul>
+<li><a href="#通用api">通用API</a></li>
+<li><a href="#kotlin协程支持">Kotlin协程支持</a></li>
+<li><a href="#本地传输">本地传输</a></li>
+</ul></li>
+<li><a href="#kotlin">Kotlin</a></li>
+<li><a href="#参考">参考</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </aside>
   
 
 
@@ -261,7 +288,43 @@
 
 <h3 id="jasync-sql">jasync-sql</h3>
 
+<p>jasync-sql是用Kotlin编写的简单，异步，基于Netty，高性能和可靠的数据库驱动程序。Fork自postgresql-async(原来的lib不再维护)。Vert.x的MySql-Client使用其作为异步数据库驱动。支持mysql和PostgreSQL。</p>
+
+<h4 id="通用api">通用API</h4>
+
+<pre><code class="language-c">Connection
+----------------
+ConnectionPoolConfiguration - 如何连接到数据库（即连接URL）以及如何配置连接池
+SSLConfiguration - 保存与SSL相关的配置
+Connection - 用于在数据库上执行查询和语句的接口
+ConnectionPool - 池连接实现
+
+
+SQL query result
+----------------
+QueryResult - 保持整个结果包括状态消息
+ResultSet - 保留返回的行
+RowData - 结果中一行的数据
+</code></pre>
+
+<h4 id="kotlin协程支持">Kotlin协程支持</h4>
+
+<p>SuspendingConnection是一个包装器，它将所有调用委托给底层Connection，并使用kotlinx.coroutines的coroutines扩展将future转换为suspend方法。</p>
+
+<pre><code class="language-c">val suspendingConnection ： SuspendingConnection = connection.asSuspending
+</code></pre>
+
+<h4 id="本地传输">本地传输</h4>
+
+<p>使用Netty提供NIO传输和本地（epoll / bsd）进行传输</p>
+
 <h3 id="kotlin">Kotlin</h3>
+
+<ul>
+<li>Null安全特性</li>
+<li>协程支持，避免回调地狱</li>
+<li>高阶函数，语法糖</li>
+</ul>
 
 <h3 id="参考">参考</h3>
 
@@ -302,7 +365,7 @@
     <section id="datecount">
         <h4 id="date"> Mon Mar 25, 2019</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="wc">200 Words|Read in about 1 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/">响应式编程</a> &nbsp;
