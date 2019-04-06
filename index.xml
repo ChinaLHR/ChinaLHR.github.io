@@ -8,10 +8,20 @@
     <language>en</language>
     <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
     <webMaster>13435500980@163.com (lihanrong)</webMaster>
-    <lastBuildDate>Tue, 02 Apr 2019 22:01:56 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 06 Apr 2019 23:56:26 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Vert.x Web Record</title>
+      <link>https://chinalhr.github.io/posts/vertx02/</link>
+      <pubDate>Sat, 06 Apr 2019 23:56:26 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/vertx02/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Vert.x Core Record</title>
