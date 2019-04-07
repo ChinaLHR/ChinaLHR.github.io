@@ -216,7 +216,7 @@
     <section id="datecount">
         <h4 id="date"> Sat Apr 6, 2019</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="wc">200 Words|Read in about 1 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/vert.x/">Vert.x</a> &nbsp;
@@ -227,10 +227,140 @@
             <article role="main" class="blog-post" itemprop="articleBody" id="content">
                 
   
+  <aside class="toc">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#web组件">Web组件</a>
+<ul>
+<li><a href="#router">Router</a></li>
+<li><a href="#routingcontext">RoutingContext</a></li>
+</ul></li>
+<li><a href="#参考">参考</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </aside>
+  
 
 
                 <blockquote>
 </blockquote>
+
+<h3 id="web组件">Web组件</h3>
+
+<h4 id="router">Router</h4>
+
+<p>Router 接收 HTTP 请求，并查找首个匹配该请求的 Route，然后将请求传递给这个 Route。每一个被路由的请求对应一个唯一的 RoutingContext，这个实例会被传递到所有处理这个请求的处理器上。</p>
+
+<pre><code class="language-c">class MainVerticle : AbstractVerticle() {
+
+  override fun start(startFuture: Future&lt;Void&gt;) {
+    val server = vertx
+      .createHttpServer()
+
+    val router = Router.router(vertx)
+    router.route(&quot;/hello&quot;).handler {
+      val response = it.response()
+      response.putHeader(&quot;content-type&quot;, &quot;text/plain&quot;)
+      response.end(&quot;Hello World from Vert.x-Web!&quot;)
+    }
+
+    server.requestHandler(router).listen(8000)
+  }
+
+}
+</code></pre>
+
+<ul>
+<li>routingContext.next():让其他匹配的 Route 来处理请求</li>
+<li>使用阻塞式handler(会使用 Worker Pool 中的线程而不是 Event Loop 线程来处理请求)</li>
+</ul>
+
+<pre><code class="language-java">router.route().blockingHandler(routingContext -&gt; {
+  // 执行某些同步的耗时操作
+  service.doSomethingThatBlocks();
+});
+</code></pre>
+
+<ul>
+<li>路由</li>
+</ul>
+
+<pre><code class="language-java">//精确路径
+router.route().path(&quot;/some/path/&quot;)
+//路径前缀
+router.route().path(&quot;/some/path/*&quot;)
+//捕捉路径参数:
+Route route = router.route(HttpMethod.POST, &quot;/catalogue/products/:producttype/:productid/&quot;);
+
+route.handler(routingContext -&gt; {
+
+  String productType = routingContext.request().getParam(&quot;producttype&quot;);
+  String productID = routingContext.request().getParam(&quot;productid&quot;);
+
+  // 执行某些操作...
+});
+
+//正则表达式路由
+router.route().pathRegex(&quot;.*foo&quot;);
+
+//HTTP Method路由(不指定路径默认拦截全部)
+Route route = router.route(HttpMethod.POST, &quot;/some/path/&quot;);
+
+//consumes请求媒体类型（MIME types）路由
+router.route().consumes(&quot;text/html&quot;).handler(routingContext -&gt; {
+  // 所有 `content-type`消息头的值为的请求会调用这个处理器`text/html`，可以匹配多个，也可以模糊匹配
+});
+
+//produces响应MIME类型
+router.route().produces(&quot;application/json&quot;)
+</code></pre>
+
+<ul>
+<li>路由组合</li>
+</ul>
+
+<pre><code class="language-java">Route route = router.route(HttpMethod.PUT, &quot;myapi/orders&quot;)
+                    .consumes(&quot;application/json&quot;)
+                    .produces(&quot;application/json&quot;);
+</code></pre>
+
+<ul>
+<li>路由顺序
+默认的路由的匹配顺序与添加到 Router 的顺序一致。order 方法为每一个路由指定一个序号</li>
+</ul>
+
+<p>route2.order(x);</p>
+
+<ul>
+<li>子路由
+目的：分隔为多个 Router，达到复用handler</li>
+</ul>
+
+<p>实现：通过将一个 Router 挂载到另一个 Router 的挂载点上。挂载的 Router 被称为子路由（Sub Router）。Sub router 上也可以挂载其他的 sub router。</p>
+
+<pre><code class="language-java">Router mainRouter = Router.router(vertx);
+Router restAPI = Router.router(vertx);
+mainRouter.mountSubRouter(&quot;/productsAPI&quot;, restAPI);
+// REST API /productsAPI/products/id
+restAPI.get(&quot;/products/:productID&quot;).handler(rc -&gt; {
+//...
+});
+</code></pre>
+
+<ul>
+<li>错误处理
+failureHandler进行错误处理</li>
+</ul>
+
+<h4 id="routingcontext">RoutingContext</h4>
+
+<p>在请求的生命周期中，您可以通过路由上下文 RoutingContext 来维护任何您希望在处理器之间共享的数据。</p>
 
 <h3 id="参考">参考</h3>
 
@@ -263,7 +393,7 @@
     <section id="datecount">
         <h4 id="date"> Sat Apr 6, 2019</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="wc">200 Words|Read in about 1 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/vert.x/">Vert.x</a> &nbsp;
