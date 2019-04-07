@@ -257,7 +257,7 @@
 
 <p>Router 接收 HTTP 请求，并查找首个匹配该请求的 Route，然后将请求传递给这个 Route。每一个被路由的请求对应一个唯一的 RoutingContext，这个实例会被传递到所有处理这个请求的处理器上。</p>
 
-<pre><code class="language-c">class MainVerticle : AbstractVerticle() {
+<pre><code>class MainVerticle : AbstractVerticle() {
 
   override fun start(startFuture: Future&lt;Void&gt;) {
     val server = vertx
