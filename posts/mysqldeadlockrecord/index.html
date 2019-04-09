@@ -5,24 +5,27 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title> Vert.x Web Record - Read the fucking source code</title>
+  <title> Mysql死锁排查记录 - Read the fucking source code</title>
   <meta name="description" content="Read the fucking source code" />
-  <meta property="og:title" content="Vert.x Web Record" />
-  <meta name="twitter:title" content="Vert.x Web Record" />
+  <meta property="og:title" content="Mysql死锁排查记录" />
+  <meta name="twitter:title" content="Mysql死锁排查记录" />
   <meta name="description" content="
+记一次MySql死锁排查
 ">
   <meta property="og:description" content="
+记一次MySql死锁排查
 ">
   <meta name="twitter:description" content="
+记一次MySql死锁排查
 ">
   <meta name="author" content="lihanrong"/>
   <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://chinalhr.github.io/posts/vertx02/" />
+  <meta property="og:url" content="https://chinalhr.github.io/posts/mysqldeadlockrecord/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
   <meta name="generator" content="Hugo 0.51" />
-  <link rel="canonical" href="https://chinalhr.github.io/posts/vertx02/" />
+  <link rel="canonical" href="https://chinalhr.github.io/posts/mysqldeadlockrecord/" />
   <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/jquery-1.12.4.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -194,7 +197,7 @@
         <div class="row">
           <div class="col-lg-12 col-md-12 col-md-offset-0">
             <div class="posts-heading">
-                <h1 align="center">Vert.x Web Record</h1>
+                <h1 align="center">Mysql死锁排查记录</h1>
                 
                 
             </div>
@@ -214,12 +217,12 @@
             
 <div>
     <section id="datecount">
-        <h4 id="date"> Sat Apr 6, 2019</h4>
+        <h4 id="date"> Mon Apr 8, 2019</h4>
     </section>
-    <h5 id="wc">200 Words|Read in about 1 Min</h5>
+    <h5 id="wc">600 Words|Read in about 3 Min</h5>
     <h5 id="tags">Tags: 
         
-        <a href="https://chinalhr.github.io/tags/vert.x/">Vert.x</a> &nbsp;
+        <a href="https://chinalhr.github.io/tags/sql/">Sql</a> &nbsp;
     </h5>
 </div>
 
@@ -234,12 +237,20 @@
 <ul>
 <li>
 <ul>
-<li><a href="#web组件">Web组件</a>
+<li><a href="#情况-uniq-duplicate-key检查">情况(uniq duplicate key检查)</a>
 <ul>
-<li><a href="#router">Router</a></li>
-<li><a href="#routingcontext">RoutingContext</a></li>
+<li><a href="#表结构">表结构</a></li>
+<li><a href="#业务">业务</a></li>
+<li><a href="#分析死锁原因">分析死锁原因</a></li>
+<li><a href="#并发的情况下-发生死锁情况">并发的情况下，发生死锁情况</a></li>
+<li><a href="#解决">解决</a></li>
 </ul></li>
-<li><a href="#参考">参考</a></li>
+<li><a href="#另一种死锁情况-非主键索引更新引起的死锁">另一种死锁情况(非主键索引更新引起的死锁)</a>
+<ul>
+<li><a href="#业务-1">业务</a></li>
+<li><a href="#非主键索引行锁相关">非主键索引行锁相关</a></li>
+<li><a href="#并发情况下-死锁发生">并发情况下,死锁发生</a></li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -249,134 +260,222 @@
 
 
                 <blockquote>
+<p>记一次MySql死锁排查</p>
 </blockquote>
 
-<h3 id="web组件">Web组件</h3>
+<h3 id="情况-uniq-duplicate-key检查">情况(uniq duplicate key检查)</h3>
 
-<h4 id="router">Router</h4>
+<h4 id="表结构">表结构</h4>
 
-<p>Router 接收 HTTP 请求，并查找首个匹配该请求的 Route，然后将请求传递给这个 Route。每一个被路由的请求对应一个唯一的 RoutingContext，这个实例会被传递到所有处理这个请求的处理器上。</p>
+<pre><code class="language-sql">CREATE TABLE `customer_visit` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `customer_id` bigint(20) NOT NULL DEFAULT '-1' COMMENT '访问用户',
+  `visit_customer_id` bigint(20) NOT NULL DEFAULT '-1' COMMENT '被访问用户',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_customer_id_visit_customer_id` (`customer_id`,`visit_customer_id`),
+  KEY `index_customer_id` (`customer_id`),
+  KEY `index_visit_customer_id` (`visit_customer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='访客记录';
+</code></pre>
 
-<pre><code>class MainVerticle : AbstractVerticle() {
+<h4 id="业务">业务</h4>
 
-  override fun start(startFuture: Future&lt;Void&gt;) {
-    val server = vertx
-      .createHttpServer()
+<p>用户通过访问他人的个人主页删除访问用户-被访用户记录，并重新插入。(为什么删除再插入而不是update,由于另一套库里的访客不存在 customerId, targetCustomerId 的唯一索引, 所以肯定会有脏数据. 这里直接删掉规避更新异常)</p>
 
-    val router = Router.router(vertx)
-    router.route(&quot;/hello&quot;).handler {
-      val response = it.response()
-      response.putHeader(&quot;content-type&quot;, &quot;text/plain&quot;)
-      response.end(&quot;Hello World from Vert.x-Web!&quot;)
+<ul>
+<li>伪代码</li>
+</ul>
+
+<pre><code class="language-java">    //外层Async调用
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void saveOrUpdate(Long customerId, Long visitCustomerId) {
+        deleteVisit(customerId, visitCustomerId);
+        customerVisitDao.insertVisit(customerId, visitCustomerId);
     }
-
-    server.requestHandler(router).listen(8000)
-  }
-
-}
 </code></pre>
 
-<ul>
-<li>routingContext.next():让其他匹配的 Route 来处理请求</li>
-<li>使用阻塞式handler(会使用 Worker Pool 中的线程而不是 Event Loop 线程来处理请求)</li>
-</ul>
+<h4 id="分析死锁原因">分析死锁原因</h4>
 
-<pre><code class="language-java">router.route().blockingHandler(routingContext -&gt; {
-  // 执行某些同步的耗时操作
-  service.doSomethingThatBlocks();
-});
+<p>通过<code>show engine innodb status</code>查看最近一次的死锁日志</p>
+
+<pre><code>------------------------
+LATEST DETECTED DEADLOCK
+------------------------
+2019-04-08 22:58:23 7f8d2fbff700
+//事务1 编号694322167 活跃0.005s 事务状态:根据索引读取数据
+*** (1) TRANSACTION: 
+
+TRANSACTION 694322167, ACTIVE 0.005 sec starting index read
+//事务1使用一个表 表锁1
+mysql tables in use 1, locked 1
+//等待锁链表的长度为2 当前事务持有的行记录锁/gap(间隙锁)锁1
+LOCK WAIT 2 lock struct(s), heap size 360, 1 row lock(s)
+LOCK BLOCKING MySQL thread id: 5828505 block 5835430
+MySQL thread id 5835430, OS thread handle 0x7f8d6afff700, query id 4891428548 192.168.0.47 web_user updating
+//事务1正在等待锁的sql
+DELETE FROM customer_visit
+        where
+        customer_id = 735***68
+        and
+        visit_customer_id =624***90
+*** (1) WAITING FOR THIS LOCK TO BE GRANTED:
+//事务1 正在等待表customer_visit上索引uniq_customer_id_visit_customer_id的X锁(排他锁)-记录锁 
+RECORD LOCKS space id 47 page no 25368 n bits 616 index `uniq_customer_id_visit_customer_id` of table `huayan`.`customer_visit` trx id 694322167 lock_mode X locks rec but not gap waiting
+Record lock, heap no 502 PHYSICAL RECORD: n_fields 3; compact format; info bits 32
+ 0: len 8; hex 800000000462ed68; asc      b h;;
+ 1: len 8; hex 8000000003b97a96; asc       z ;;
+ 2: len 8; hex 8000000000eb5fb1; asc       _ ;;
+ 
+
+//事务2 编号694322166 活跃0.005s 事务状态:插入数据
+*** (2) TRANSACTION:
+TRANSACTION 694322166, ACTIVE 0.005 sec inserting
+//事务2使用一个表 表锁1
+mysql tables in use 1, locked 1
+4 lock struct(s), heap size 1184, 3 row lock(s), undo log entries 2
+MySQL thread id 5828505, OS thread handle 0x7f8d2fbff700, query id 4891428551 192.168.0.48 web_user update
+insert customer_visit(customer_id,visit_customer_id)
+      values (735***68,624***90)
+
+//事务2 持有表customer_visit上索引uniq_customer_id_visit_customer_id的X锁 记录锁
+//由于是RC隔离模式下的基于唯一索引的等值查询，会申请一个记录锁
+//此处是事务2通过delete fromcustomer_visit where customer_id = 735***68 and visit_customer_id =624***90申请的锁
+*** (2) HOLDS THE LOCK(S):
+RECORD LOCKS space id 47 page no 25368 n bits 616 index `uniq_customer_id_visit_customer_id` of table `huayan`.`customer_visit` trx id 694322166 lock_mode X locks rec but not gap
+Record lock, heap no 502 PHYSICAL RECORD: n_fields 3; compact format; info bits 32
+ 0: len 8; hex 800000000462ed68; asc      b h;;
+ 1: len 8; hex 8000000003b97a96; asc       z ;;
+ 2: len 8; hex 8000000000eb5fb1; asc       _ ;;
+ 
+//事务2 正在申请S锁(共享锁) 
+//此处是事务2通过insert customer_visit(customer_id,visit_customer_id) values (735***68,624***90) 申请的
+//insert语句在普通情况下是会申请排他锁，也就是X锁，但是这里出现了S锁。这是因为a字段是一个唯一索引，
+//所以insert语句会在插入前进行一次duplicate key的检查，为了使这次检查成功，需要申请S锁防止其他事务对a字段进行修改。
+*** (2) WAITING FOR THIS LOCK TO BE GRANTED:
+RECORD LOCKS space id 47 page no 25368 n bits 616 index `uniq_customer_id_visit_customer_id` of table `huayan`.`customer_visit` trx id 694322166 lock mode S waiting
+Record lock, heap no 502 PHYSICAL RECORD: n_fields 3; compact format; info bits 32
+ 0: len 8; hex 800000000462ed68; asc      b h;;
+ 1: len 8; hex 8000000003b97a96; asc       z ;;
+ 2: len 8; hex 8000000000eb5fb1; asc       _ ;;
+
 </code></pre>
 
-<ul>
-<li>路由</li>
-</ul>
+<p>综上，推测出死锁原因:对于同一个的字段的锁申请是需要排队的，针对uniq_customer_id_visit_customer_id索引,T2 insert申请的S锁之前,T1的delete在申请X锁,而T1的X锁又在等待T2 Delete申请的X锁释放，T2的S锁在等待T1的X锁申请，形成循环等待，导致死锁。</p>
 
-<pre><code class="language-java">//精确路径
-router.route().path(&quot;/some/path/&quot;)
-//路径前缀
-router.route().path(&quot;/some/path/*&quot;)
-//捕捉路径参数:
-Route route = router.route(HttpMethod.POST, &quot;/catalogue/products/:producttype/:productid/&quot;);
+<h4 id="并发的情况下-发生死锁情况">并发的情况下，发生死锁情况</h4>
 
-route.handler(routingContext -&gt; {
+<table>
+<thead>
+<tr>
+<th>事务1</th>
+<th>事务2</th>
+</tr>
+</thead>
 
-  String productType = routingContext.request().getParam(&quot;producttype&quot;);
-  String productID = routingContext.request().getParam(&quot;productid&quot;);
+<tbody>
+<tr>
+<td></td>
+<td>begin</td>
+</tr>
 
-  // 执行某些操作...
-});
+<tr>
+<td></td>
+<td>DELETE FROM customer_visit where customer_id = 1001 and visit_customer_id =1002[执行成功，事务2占有1001-1002uniq的X锁，类型为记录锁]</td>
+</tr>
 
-//正则表达式路由
-router.route().pathRegex(&quot;.*foo&quot;);
+<tr>
+<td>begin</td>
+<td></td>
+</tr>
 
-//HTTP Method路由(不指定路径默认拦截全部)
-Route route = router.route(HttpMethod.POST, &quot;/some/path/&quot;);
+<tr>
+<td>DELETE FROM customer_visit where customer_id = 1001 and visit_customer_id =1002[事务1希望申请1001-1002uniq的X锁,事务2已经申请到了,事务wait，X锁申请进入锁请求队列]</td>
+<td></td>
+</tr>
 
-//consumes请求媒体类型（MIME types）路由
-router.route().consumes(&quot;text/html&quot;).handler(routingContext -&gt; {
-  // 所有 `content-type`消息头的值为的请求会调用这个处理器`text/html`，可以匹配多个，也可以模糊匹配
-});
+<tr>
+<td>Deadlock</td>
+<td>insert customer_visit(customer_id,visit_customer_id) values (1001,1002)[事务2需要申请1001-1002uniq的S锁以便检查duplicate key，排在事务1的1001-1002uniq的X之后,形成循环等待 事务1等待事务2commit,事务2等待事务1commit，造成死锁]</td>
+</tr>
+</tbody>
+</table>
 
-//produces响应MIME类型
-router.route().produces(&quot;application/json&quot;)
-</code></pre>
+<h4 id="解决">解决</h4>
 
-<ul>
-<li>路由组合</li>
-</ul>
+<p>消除uniq_customer_id_visit_customer_id的X锁等待，在事务delete之前，先进行select查询是否存在记录，不存在则不进行delete操作，避免事务获取到X锁，避免循环等待。</p>
 
-<pre><code class="language-java">Route route = router.route(HttpMethod.PUT, &quot;myapi/orders&quot;)
-                    .consumes(&quot;application/json&quot;)
-                    .produces(&quot;application/json&quot;);
-</code></pre>
+<h3 id="另一种死锁情况-非主键索引更新引起的死锁">另一种死锁情况(非主键索引更新引起的死锁)</h3>
 
-<ul>
-<li>路由顺序
-默认的路由的匹配顺序与添加到 Router 的顺序一致。order 方法为每一个路由指定一个序号</li>
-</ul>
+<h4 id="业务-1">业务</h4>
 
-<p>route2.order(x);</p>
+<p>数据库表相比情况一缺少了uniq_customer_id_visit_customer_id这个唯一索引(主要是历史问题导致的,一开始就没有唯一索引，后续已经产生了很多脏数据不好添加索引)，业务逻辑是相同的。</p>
 
-<ul>
-<li>子路由
-目的：分隔为多个 Router，达到复用handler</li>
-</ul>
+<h4 id="非主键索引行锁相关">非主键索引行锁相关</h4>
 
-<p>实现：通过将一个 Router 挂载到另一个 Router 的挂载点上。挂载的 Router 被称为子路由（Sub Router）。Sub router 上也可以挂载其他的 sub router。</p>
+<p><strong>关于MySql行锁：</strong><br/>
+行级锁并不是直接锁记录，而是锁索引，如果一条SQL语句用到了主键索引，mysql会锁住主键索引；如果一条语句操作了非主键索引，mysql会先锁住非主键索引，再锁定主键索引。</p>
 
-<pre><code class="language-java">Router mainRouter = Router.router(vertx);
-Router restAPI = Router.router(vertx);
-mainRouter.mountSubRouter(&quot;/productsAPI&quot;, restAPI);
-// REST API /productsAPI/products/id
-restAPI.get(&quot;/products/:productID&quot;).handler(rc -&gt; {
-//...
-});
-</code></pre>
+<p><strong>依据索引执行DELETE/UPDATE的执行步骤：</strong><br/></p>
 
-<ul>
-<li>错误处理
-failureHandler进行错误处理</li>
-</ul>
+<ol>
+<li>由于用到了非主键索引，首先需要获取index_customer_id|index_visit_customer_id上的行级锁(锁非聚簇索引)</li>
+<li>根据主键进行更新，所以需要获取主键上的行级锁(锁聚簇索引)</li>
+<li>更新完毕，提交并释放所有的锁</li>
+</ol>
 
-<h4 id="routingcontext">RoutingContext</h4>
+<p><strong>语句分析EXPLAIN</strong>
+发现执行的时候使用的type是index merge。在mysql5.0之前，一个表仅仅能使用一个索引，从5.1开始，引入了 index merge 优化技术，对同一个表可以使用多个索引分别进行条件扫描。
+使用index merge的情况下 ，update/delete 需要对多个非主键索引相继获取锁，再获取主键上的锁。</p>
 
-<p>在请求的生命周期中，您可以通过路由上下文 RoutingContext 来维护任何您希望在处理器之间共享的数据。</p>
+<h4 id="并发情况下-死锁发生">并发情况下,死锁发生</h4>
 
-<h3 id="参考">参考</h3>
+<p>在并发情况下，可能会出现</p>
 
-<p><a href="http://vertxchina.github.io/vertx-translation-chinese/">Vert.x 官方文档中文翻译</a></p>
+<table>
+<thead>
+<tr>
+<th>事务1</th>
+<th>事务2</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td></td>
+<td>begin</td>
+</tr>
+
+<tr>
+<td></td>
+<td>DELETE FROM customer_visit where customer_id = 1003 and visit_customer_id =1002[走主键索引，获取pk锁]</td>
+</tr>
+
+<tr>
+<td>begin</td>
+<td></td>
+</tr>
+
+<tr>
+<td>DELETE FROM customer_visit where customer_id = 1001 and visit_customer_id =1002[走非主键索引：获取index锁]</td>
+<td></td>
+</tr>
+
+<tr>
+<td>Deadlock</td>
+<td>事务2等待获取index锁，事务1等待获取pk锁，形成循环等待，导致死锁</td>
+</tr>
+</tbody>
+</table>
             </article>
 
             <ul class="pager blog-pager">
                 
                 <li class="previous">
-                    <a href="https://chinalhr.github.io/posts/vertx01/" data-toggle="tooltip" data-placement="top" title="Vert.x Core Record">&larr; Previous Post</a>
+                    <a href="https://chinalhr.github.io/posts/vertx02/" data-toggle="tooltip" data-placement="top" title="Vert.x Web Record">&larr; Previous Post</a>
                 </li>
                  
-                <li class="next">
-                    <a href="https://chinalhr.github.io/posts/mysqldeadlockrecord/" data-toggle="tooltip" data-placement="top" title="Mysql死锁排查记录">Next Post &rarr;</a>
-                </li>
-                
             </ul>
             
             <div>
@@ -384,7 +483,13 @@ failureHandler进行错误处理</li>
                 <h2>See Also</h2>
                 <ul>
                     
-                    <li><a href="/posts/vertx01/">Vert.x Core Record</a></li>
+                    <li><a href="/posts/mysqlbigdataoptimization/">MySql大数据表优化</a></li>
+                    
+                    <li><a href="/posts/mysql_paging/">MySql大数据量表分页</a></li>
+                    
+                    <li><a href="/posts/mysql_replicationon/">MySql读写分离</a></li>
+                    
+                    <li><a href="/posts/mysql_proxy/">Mysql主从复制</a></li>
                     
                 </ul>
                 
@@ -395,12 +500,12 @@ failureHandler进行错误处理</li>
             
 <div>
     <section id="datecount">
-        <h4 id="date"> Sat Apr 6, 2019</h4>
+        <h4 id="date"> Mon Apr 8, 2019</h4>
     </section>
-    <h5 id="wc">200 Words|Read in about 1 Min</h5>
+    <h5 id="wc">600 Words|Read in about 3 Min</h5>
     <h5 id="tags">Tags: 
         
-        <a href="https://chinalhr.github.io/tags/vert.x/">Vert.x</a> &nbsp;
+        <a href="https://chinalhr.github.io/tags/sql/">Sql</a> &nbsp;
     </h5>
 </div>
 
