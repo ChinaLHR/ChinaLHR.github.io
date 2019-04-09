@@ -239,8 +239,8 @@
 <ul>
 <li><a href="#情况-uniq-duplicate-key检查">情况(uniq duplicate key检查)</a>
 <ul>
-<li><a href="#表结构">表结构</a></li>
 <li><a href="#业务">业务</a></li>
+<li><a href="#伪-表结构">(伪)表结构</a></li>
 <li><a href="#分析死锁原因">分析死锁原因</a></li>
 <li><a href="#并发的情况下-发生死锁情况">并发的情况下，发生死锁情况</a></li>
 <li><a href="#解决">解决</a></li>
@@ -265,20 +265,6 @@
 
 <h3 id="情况-uniq-duplicate-key检查">情况(uniq duplicate key检查)</h3>
 
-<h4 id="表结构">表结构</h4>
-
-<pre><code class="language-sql">CREATE TABLE `customer_visit` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
-  `customer_id` bigint(20) NOT NULL DEFAULT '-1' COMMENT '访问用户',
-  `visit_customer_id` bigint(20) NOT NULL DEFAULT '-1' COMMENT '被访问用户',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uniq_customer_id_visit_customer_id` (`customer_id`,`visit_customer_id`),
-  KEY `index_customer_id` (`customer_id`),
-  KEY `index_visit_customer_id` (`visit_customer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='访客记录';
-</code></pre>
-
 <h4 id="业务">业务</h4>
 
 <p>用户通过访问他人的个人主页删除访问用户-被访用户记录，并重新插入。(为什么删除再插入而不是update,由于另一套库里的访客不存在 customerId, targetCustomerId 的唯一索引, 所以肯定会有脏数据. 这里直接删掉规避更新异常)</p>
@@ -294,6 +280,20 @@
         deleteVisit(customerId, visitCustomerId);
         customerVisitDao.insertVisit(customerId, visitCustomerId);
     }
+</code></pre>
+
+<h4 id="伪-表结构">(伪)表结构</h4>
+
+<pre><code class="language-sql">CREATE TABLE `customer_visit` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `customer_id` bigint(20) NOT NULL DEFAULT '-1' COMMENT '访问用户',
+  `visit_customer_id` bigint(20) NOT NULL DEFAULT '-1' COMMENT '被访问用户',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_customer_id_visit_customer_id` (`customer_id`,`visit_customer_id`),
+  KEY `index_customer_id` (`customer_id`),
+  KEY `index_visit_customer_id` (`visit_customer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='访客记录';
 </code></pre>
 
 <h4 id="分析死锁原因">分析死锁原因</h4>
