@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://chinalhr.github.io/posts/maven_plugs_record/</loc>
+    <lastmod>2019-04-17T23:54:47+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/posts/mysqldeadlockrecord/</loc>
     <lastmod>2019-04-08T22:14:43+08:00</lastmod>
   </url>
@@ -248,7 +253,13 @@
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2019-04-08T22:14:43+08:00</lastmod>
+    <lastmod>2019-04-17T23:54:47+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/maven/</loc>
+    <lastmod>2019-04-17T23:54:47+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -260,7 +271,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/posts/</loc>
-    <lastmod>2019-04-08T22:14:43+08:00</lastmod>
+    <lastmod>2019-04-17T23:54:47+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -326,7 +337,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2019-04-08T22:14:43+08:00</lastmod>
+    <lastmod>2019-04-17T23:54:47+08:00</lastmod>
     <priority>0</priority>
   </url>
   
