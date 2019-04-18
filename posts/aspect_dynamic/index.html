@@ -5,18 +5,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title> Categories - Read the fucking source code</title>
+  <title>  javassist实现Spring Aspect动态Pointcut - Read the fucking source code</title>
   <meta name="description" content="Read the fucking source code" />
-  <meta property="og:title" content="Categories" />
-  <meta name="twitter:title" content="Categories" />
+  <meta property="og:title" content=" javassist实现Spring Aspect动态Pointcut" />
+  <meta name="twitter:title" content=" javassist实现Spring Aspect动态Pointcut" />
+  <meta name="description" content="
+">
+  <meta property="og:description" content="
+">
+  <meta name="twitter:description" content="
+">
   <meta name="author" content="lihanrong"/>
   <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://chinalhr.github.io/categories/" />
+  <meta property="og:url" content="https://chinalhr.github.io/posts/aspect_dynamic/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
   <meta name="generator" content="Hugo 0.51" />
-  <link rel="canonical" href="https://chinalhr.github.io/categories/" />
+  <link rel="canonical" href="https://chinalhr.github.io/posts/aspect_dynamic/" />
   <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/jquery-1.12.4.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -187,8 +193,8 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12 col-md-12 col-md-offset-0">
-            <div class="categories-heading">
-                <h1 align="center">Categories</h1>
+            <div class="posts-heading">
+                <h1 align="center"> javassist实现Spring Aspect动态Pointcut</h1>
                 
                 
             </div>
@@ -200,17 +206,214 @@
 
 
     
+<div class="container" role="main" itemscope itemtype="http://schema.org/Article">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            
+            
+            
+<div>
+    <section id="datecount">
+        <h4 id="date"> Thu Apr 18, 2019</h4>
+    </section>
+    <h5 id="wc">200 Words|Read in about 1 Min</h5>
+    <h5 id="tags">Tags: 
+        
+        <a href="https://chinalhr.github.io/tags/java/">Java</a> &nbsp;
+    </h5>
+</div>
+
+            
+            <article role="main" class="blog-post" itemprop="articleBody" id="content">
+                
   
-  <div class="container" role="main">
-    <article class="post-preview">
-      <div class="list-group col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3">
-      
-      <a href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/" class="list-group-item">
-          编程<span class="badge">44</span></a>
-      
-      </div>
-    </article>
-  </div>
+  <aside class="toc">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#为什么需要aspectj中具有动态值的pointcut">为什么需要AspectJ中具有动态值的Pointcut</a></li>
+<li><a href="#动态pointcut思路">动态Pointcut思路</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </aside>
+  
+
+
+                <blockquote>
+</blockquote>
+
+<h4 id="为什么需要aspectj中具有动态值的pointcut">为什么需要AspectJ中具有动态值的Pointcut</h4>
+
+<p>工作中需要抽离出公司项目的一些监控组件打成一个公共包,需要对一些Aspect作动态适配(根据引入项目的ComponentScan进行特定package的Pointcut)</p>
+
+<h4 id="动态pointcut思路">动态Pointcut思路</h4>
+
+<ul>
+<li>关于SpringAop</li>
+</ul>
+
+<p>AspectJ方式织入的核心，是一个BeanPostProcess（会扫描所有的Pointcut与遍历所有Bean,并对需要的Bean进行织入-自动代理，当对象实例化的时候，为其生成代理对象并返回）</p>
+
+<ul>
+<li>思路</li>
+</ul>
+
+<p>在Aop的BeanPostProcess执行之前( springApplication.run之前),使用javassist修改目标Aop类的@Pointcut,设置value为我们自己动态查询到的值。</p>
+
+<ul>
+<li>其他</li>
+</ul>
+
+<p>由于Spring boot的类加载机制，运行时javassist会扫描不到包，要通过insertClassPath添加扫描路径</p>
+
+<p>修改@Pointcut的切点值后，通过toClass覆盖原有类，需要通过类加载器重新加载。</p>
+
+<ul>
+<li>实现</li>
+</ul>
+
+<pre><code class="language-c">@SpringBootApplication
+public class UidServerApplication extends SpringBootServletInitializer {
+
+    public static void main(String[] args) {
+        AspectPoincutScan();
+        SpringApplication springApplication = new SpringApplication(UidServerApplication.class);
+        springApplication.addInitializers(new UidApplicationContextInitializer());
+        springApplication.run(args);
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(
+            SpringApplicationBuilder builder) {
+        AspectPoincutScan();
+        return builder.sources(UidServerApplication.class)
+                .initializers(new UidApplicationContextInitializer())
+                .listeners(new UidApplicationRefreshedListener())
+                .listeners(new UidApplicationCloseListener());
+    }
+
+
+    private static void AspectPoincutScan() {
+        try {
+            ClassPool pool = ClassPool.getDefault();
+            // 添加包的扫描路径
+            ClassClassPath classPath = new ClassClassPath(UidServerApplication.class);
+            pool.insertClassPath(classPath);
+            //获取要修改的Class
+            CtClass ct = pool.get(&quot;mobi.meishuo.uidserver.monitor.springaop.ServiceMonitorAop&quot;);
+            CtMethod[] cms = ct.getDeclaredMethods();
+            for (CtMethod cm : cms) {
+                //找到@pointcut 注解的方法
+                if (cm.getName().equals(&quot;pointcut&quot;)) {
+
+                    MethodInfo methodInfo = cm.getMethodInfo();
+                    ConstPool cPool = methodInfo.getConstPool();
+
+                    AnnotationsAttribute attribute = new AnnotationsAttribute(cPool, AnnotationsAttribute.visibleTag);
+                    //获取@pointcut 注解，修改其value值
+                    Annotation annotation = new Annotation(&quot;org.aspectj.lang.annotation.Pointcut&quot;, cPool);
+                    annotation.addMemberValue(&quot;value&quot;, new StringMemberValue(&quot;execution(public * *..service..*.*(..))&quot;, cPool));
+                    attribute.setAnnotation(annotation);
+                    methodInfo.addAttribute(attribute);
+
+                    //覆盖原有类
+                    ct.toClass();
+                    //使用类加载器重新加载Aop类
+                    pool.getClassLoader().loadClass(&quot;mobi.meishuo.uidserver.monitor.springaop.ServiceMonitorAop&quot;);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+</code></pre>
+            </article>
+
+            <ul class="pager blog-pager">
+                
+                <li class="previous">
+                    <a href="https://chinalhr.github.io/posts/maven_plugs_record/" data-toggle="tooltip" data-placement="top" title="Maven Plugin 记录">&larr; Previous Post</a>
+                </li>
+                 
+            </ul>
+            
+            <div>
+                 
+                <h2>See Also</h2>
+                <ul>
+                    
+                    <li><a href="/posts/reactiveprogramming_reactor/">响应式编程库-Reactor</a></li>
+                    
+                    <li><a href="/posts/javacachestrategy/">缓存更新策略</a></li>
+                    
+                    <li><a href="/posts/mybatisshardplug/">Mybatis自定义分表Plug</a></li>
+                    
+                    <li><a href="/posts/mybatis_sql_precompile/">Mybatis动态表名：# 与 $ 区别</a></li>
+                    
+                    <li><a href="/posts/highavailabilityhttpclient/">高可用的HttpClient</a></li>
+                    
+                </ul>
+                
+            </div>
+            
+            
+            
+            
+<div>
+    <section id="datecount">
+        <h4 id="date"> Thu Apr 18, 2019</h4>
+    </section>
+    <h5 id="wc">200 Words|Read in about 1 Min</h5>
+    <h5 id="tags">Tags: 
+        
+        <a href="https://chinalhr.github.io/tags/java/">Java</a> &nbsp;
+    </h5>
+</div>
+
+            
+            </div>
+            
+            
+                
+                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<aside id=comments>
+    
+    
+    
+    
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjI4Ni8xMjgyMQ==">
+    	<script type="text/javascript">
+       (function(d, s) {
+           var j, e = d.getElementsByTagName(s)[0];
+           if (typeof LivereTower === 'function') { return; }
+           j = d.createElement(s);
+           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+           j.async = true;
+           e.parentNode.insertBefore(j, e);
+       })(document, 'script');
+    	</script>
+    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+    
+</aside>
+</div>
+
+                
+            
+        </div>
+    </div>
+    </section>
+</div>
 
     <footer>
   <div class="container">
