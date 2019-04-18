@@ -266,7 +266,7 @@
 <li>思路</li>
 </ul>
 
-<p>在Aop的BeanPostProcess执行之前( springApplication.run之前),使用javassist修改目标Aop类的@Pointcut,设置value为我们自己动态查询到的值。</p>
+<p>在Aop的BeanPostProcess执行之前( springApplication.run之前),使用javassist修改目标Aop类字节码，动态设置@Pointcut,设置 value为我们自己动态查询到的值。</p>
 
 <ul>
 <li>其他</li>
