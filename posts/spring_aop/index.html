@@ -257,7 +257,7 @@
 <p>所谓切入点是指我们要对哪些 Joinpoint 进行拦截的定义。
 PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的类，MethodMatcher 指定特定的函数,能实现函数级别的AOP。</p>
 
-<p><img src="https://images.gitee.com/uploads/images/2018/0924/144733_8f895b8d_558165.png" alt="输入图片说明" title="屏幕截图.png" /></p>
+<p><img src="![image](https://user-images.githubusercontent.com/19829495/56457151-269da800-63a9-11e9-9867-ca24aa81bbfb.png)" alt="输入图片说明" title="屏幕截图.png" /></p>
 
 <ul>
 <li>MethodMatcher 两个实现类
@@ -276,13 +276,13 @@ PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的�
 <li>per-class类型的Advice（可以在目标对象类的所有实例之间共享，通常只提供方法拦截功能，不会对目标对象保存任何状态或添加新功能）</li>
 </ul>
 
-<p><img src="https://images.gitee.com/uploads/images/2018/0924/151710_ec13557c_558165.png" alt="输入图片说明" title="屏幕截图.png" /></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/56457157-4339e000-63a9-11e9-9c97-567220dd93ea.png" alt="输入图片说明" title="屏幕截图.png" /></p>
 
 <ul>
 <li>per-instance类型的Advice（不会在目标类所有实例之间共享，而是会为不同的实例对象保存他们各自的状态以及相关逻辑）Introduction可以在不改变目标类的定义的情况下，为对象添加新的属性与行为</li>
 </ul>
 
-<p><img src="https://images.gitee.com/uploads/images/2018/0924/151806_7d018003_558165.png" alt="输入图片说明" title="屏幕截图.png" /></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/56457167-564cb000-63a9-11e9-9e88-baba8a45ee6c.png" alt="输入图片说明" title="屏幕截图.png" /></p>
 
 <h2 id="advisor-aspect-切面">Advisor/Aspect(切面)</h2>
 
@@ -290,12 +290,12 @@ PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的�
 * Spring AOP的PointcutAdvisor
 AbstractPointcutAdvisor 实现了Ordered,为多个Advice指定顺序，顺序为Int类型，越小优先级越高,
 AbstractGenericPointcutAdvisor 指定了Advice，除了Introduction之外的类型
-<img src="https://images.gitee.com/uploads/images/2018/0924/152514_4b962f2b_558165.png" alt="输入图片说明" title="屏幕截图.png" /></p>
+<img src="https://user-images.githubusercontent.com/19829495/56457173-63699f00-63a9-11e9-8198-227db1c4e8d4.png" alt="输入图片说明" title="屏幕截图.png" /></p>
 
 <h2 id="proxy-代理">Proxy(代理)</h2>
 
 <p>一个类被 AOP 织入增强后，就产生一个结果代理类。
-<img src="https://images.gitee.com/uploads/images/2018/0924/152829_e6fb6706_558165.png" alt="输入图片说明" title="屏幕截图.png" />
+<img src="https://user-images.githubusercontent.com/19829495/56457348-dd028c80-63ab-11e9-814f-002dccf43651.png" alt="输入图片说明" title="屏幕截图.png" />
 * ProxyConfig</p>
 
 <pre><code>	private boolean proxyTargetClass = false;//true,使用CGLIB,false,使用原生
