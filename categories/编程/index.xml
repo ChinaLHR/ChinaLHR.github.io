@@ -8,13 +8,23 @@
     <language>en</language>
     <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
     <webMaster>13435500980@163.com (lihanrong)</webMaster>
-    <lastBuildDate>Thu, 18 Apr 2019 22:15:07 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 19 Apr 2019 22:59:11 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title> javassist实现Spring Aspect动态Pointcut</title>
+      <title>Linux操作记录</title>
+      <link>https://chinalhr.github.io/posts/linux_operating_record/</link>
+      <pubDate>Fri, 19 Apr 2019 22:59:11 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/linux_operating_record/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title> javassist实现Aspect动态Pointcut</title>
       <link>https://chinalhr.github.io/posts/aspect_dynamic/</link>
       <pubDate>Thu, 18 Apr 2019 22:15:07 +0800</pubDate>
       <author>13435500980@163.com (lihanrong)</author>

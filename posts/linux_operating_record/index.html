@@ -5,18 +5,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title> Maven Plugin 记录 - Read the fucking source code</title>
+  <title> Linux操作记录 - Read the fucking source code</title>
   <meta name="description" content="Read the fucking source code" />
-  <meta property="og:title" content="Maven Plugin 记录" />
-  <meta name="twitter:title" content="Maven Plugin 记录" />
+  <meta property="og:title" content="Linux操作记录" />
+  <meta name="twitter:title" content="Linux操作记录" />
+  <meta name="description" content="
+">
+  <meta property="og:description" content="
+">
+  <meta name="twitter:description" content="
+">
   <meta name="author" content="lihanrong"/>
   <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://chinalhr.github.io/posts/maven_plugs_record/" />
+  <meta property="og:url" content="https://chinalhr.github.io/posts/linux_operating_record/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
   <meta name="generator" content="Hugo 0.51" />
-  <link rel="canonical" href="https://chinalhr.github.io/posts/maven_plugs_record/" />
+  <link rel="canonical" href="https://chinalhr.github.io/posts/linux_operating_record/" />
   <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/jquery-1.12.4.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -188,7 +194,7 @@
         <div class="row">
           <div class="col-lg-12 col-md-12 col-md-offset-0">
             <div class="posts-heading">
-                <h1 align="center">Maven Plugin 记录</h1>
+                <h1 align="center">Linux操作记录</h1>
                 
                 
             </div>
@@ -208,12 +214,12 @@
             
 <div>
     <section id="datecount">
-        <h4 id="date"> Wed Apr 17, 2019</h4>
+        <h4 id="date"> Fri Apr 19, 2019</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 0 Min</h5>
+    <h5 id="wc">300 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
-        <a href="https://chinalhr.github.io/tags/maven/">maven</a> &nbsp;
+        <a href="https://chinalhr.github.io/tags/linux/">Linux</a> &nbsp;
     </h5>
 </div>
 
@@ -221,21 +227,227 @@
             <article role="main" class="blog-post" itemprop="articleBody" id="content">
                 
   
+  <aside class="toc">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#日常操作">日常操作</a>
+<ul>
+<li><a href="#find">find</a></li>
+<li><a href="#ps">ps</a></li>
+<li><a href="#tail">tail</a></li>
+<li><a href="#crontab">crontab</a></li>
+</ul></li>
+<li><a href="#排查">排查</a>
+<ul>
+<li><a href="#排查java-cpu占用问题">排查Java CPU占用问题</a></li>
+</ul></li>
+<li><a href="#链接">链接</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </aside>
+  
 
 
-                
+                <blockquote>
+</blockquote>
+
+<h3 id="日常操作">日常操作</h3>
+
+<h4 id="find">find</h4>
+
+<ul>
+<li>格式</li>
+</ul>
+
+<pre><code>find [path...] [expression]
+
+path:find命令所查找的目录路径。例如用.来表示当前目录，用/来表示系统根目录
+expression:expression可以分为——&quot;-options [-print -exec -ok ...]&quot;
+
+options:指定find命令的常用选项，下节详细介绍
+print:find命令将匹配的文件输出到标准输出
+exec:find命令对匹配的文件执行该参数所给出的shell命令
+-ok:和-exec的作用相同，只不过以一种更为安全的模式来执行该参数所给出的shell命令，在执行每一个命令之前，都会给出提示，让用户来确定是否执行。
+</code></pre>
+
+<ul>
+<li>options</li>
+</ul>
+
+<pre><code>    -type [查找某一类型的文件] 
+    b - 块设备文件。 
+    d - 目录。 
+    c - 字符设备文件。 
+    p - 管道文件。 
+    l - 符号链接文件。 
+    f - 普通文件
+
+    -name [按照文件名查找文件]
+    find /dir -name filename  在/dir目录及其子目录下面查找名字为filename的文件 
+    
+    -perm [按照文件权限来查找文件]
+    find . -perm 755 –print 在当前目录下查找文件权限位为755的文件
+    
+    -user[按照文件属主来查找文件]
+    find ~ -user sam –print 在$HOME目录中查找文件属主为sam的文件
+    
+    -group[按照文件所属的组来查找文件]
+    find /apps -group gem –print 在/apps目录下查找属于gem用户组的文件 
+    
+    -mtime -n +n [按照文件的更改时间来查找文件， - n表示文件更改时间距现在n天以内，+ n表示文件更改时间距现在n天以前]
+    find /var/adm -mtime +3 –print 在/var/adm目录下查找更改时间在3日以前的文件
+    
+    -size n：[c] 查找文件长度为n块的文件，带有c时表示文件长度以字节计。
+
+</code></pre>
+
+<ul>
+<li>常用操作记录</li>
+</ul>
+
+<pre><code>#清除/root/log 目录或者子目录下 大于1G的log文件
+find /root/logs/ -name &quot;*.log&quot; -size +1024M -exec rm -rf {} \;
+
+</code></pre>
+
+<ul>
+<li>参考链接</li>
+</ul>
+
+<p><a href="https://www.cnblogs.com/skynet/archive/2010/12/25/1916873.html">https://www.cnblogs.com/skynet/archive/2010/12/25/1916873.html</a></p>
+
+<h4 id="ps">ps</h4>
+
+<p>ps命令用来列出系统中当前运行的那些进程。</p>
+
+<ul>
+<li>格式</li>
+</ul>
+
+<pre><code>ps[参数]
+
+a  显示所有进程
+
+-a 显示同一终端下的所有程序
+
+-A 显示所有进程
+
+c  显示进程的真实名称
+
+-N 反向选择
+
+-e 等于“-A”
+
+e  显示环境变量
+
+f  显示程序间的关系
+
+-H 显示树状结构
+
+r  显示当前终端的进程
+
+T  显示当前终端的所有程序
+
+u  指定用户的所有进程
+
+-au 显示较详细的资讯
+
+-aux 显示所有包含其他使用者的进程 
+</code></pre>
+
+<ul>
+<li>常用操作记录</li>
+</ul>
+
+<pre><code># ps 与grep 常用组合用法，查找特定进程
+ps -ef|grep java
+</code></pre>
+
+<h4 id="tail">tail</h4>
+
+<p>tail 命令从指定点开始将文件写到标准输出.</p>
+
+<pre><code># 循环读取
+tail -f logfile.log
+# 显示文件末尾内容(最后五行)
+tail -n 5 logfile.log
+# 从第5行开始显示文件
+tail -n +5 logfile.log
+</code></pre>
+
+<h4 id="crontab">crontab</h4>
+
+<p>crond是linux下用来周期性的执行某种任务或等待处理某些事件的一个守护进程。在/etc目录下的crontab文件</p>
+
+<ul>
+<li>格式</li>
+</ul>
+
+<pre><code>minute   hour   day   month   week   command
+
+其中：
+
+minute： 表示分钟，可以是从0到59之间的任何整数。
+
+hour：表示小时，可以是从0到23之间的任何整数。
+
+day：表示日期，可以是从1到31之间的任何整数。
+
+month：表示月份，可以是从1到12之间的任何整数。
+
+week：表示星期几，可以是从0到7之间的任何整数，这里的0或7代表星期日。
+
+command：要执行的命令，可以是系统命令，也可以是自己编写的脚本文件。
+
+crontab [-u user] [ -e | -l | -r ]
+
+-e：编辑某个用户的crontab文件内容。如果不指定用户，则表示编辑当前用户的crontab文件。
+
+-l：显示某个用户的crontab文件内容，如果不指定用户，则表示显示当前用户的crontab文件内容。
+
+-r：从/var/spool/cron目录中删除某个用户的crontab文件，如果不指定用户，则默认删除当前用户的crontab文件。
+</code></pre>
+
+<ul>
+<li>常用操作记录</li>
+</ul>
+
+<pre><code>查看所有用户的crontab
+cat /etc/passwd | cut -f 1 -d : |xargs -I {} crontab -l -u {}
+</code></pre>
+
+<h3 id="排查">排查</h3>
+
+<h4 id="排查java-cpu占用问题">排查Java CPU占用问题</h4>
+
+<pre><code># top命令，定位高CPU占用Java进程PID
+# 显示线程列表(查看占用CPU时间,占用时间，TID)
+ps -mp pid -o THREAD,tid,time
+# 将线程ID TID转换为16进制
+printf “%x\n” tid
+# 使用jstack打印线程堆栈信息(pid=进程id tid=我们转换的tid)
+.../jvm/jstack pid |grep tid -A 60
+
+
+</code></pre>
+
+<h3 id="链接">链接</h3>
+
+<p><a href="https://www.cnblogs.com/peida/tag/%E6%AF%8F%E6%97%A5%E4%B8%80linux%E5%91%BD%E4%BB%A4/">每日一linux命令</a></p>
             </article>
 
             <ul class="pager blog-pager">
                 
                 <li class="previous">
-                    <a href="https://chinalhr.github.io/posts/mysqldeadlockrecord/" data-toggle="tooltip" data-placement="top" title="Mysql死锁排查记录">&larr; Previous Post</a>
+                    <a href="https://chinalhr.github.io/posts/aspect_dynamic/" data-toggle="tooltip" data-placement="top" title=" javassist实现Aspect动态Pointcut">&larr; Previous Post</a>
                 </li>
                  
-                <li class="next">
-                    <a href="https://chinalhr.github.io/posts/aspect_dynamic/" data-toggle="tooltip" data-placement="top" title=" javassist实现Aspect动态Pointcut">Next Post &rarr;</a>
-                </li>
-                
             </ul>
             
             <div>
@@ -247,12 +459,12 @@
             
 <div>
     <section id="datecount">
-        <h4 id="date"> Wed Apr 17, 2019</h4>
+        <h4 id="date"> Fri Apr 19, 2019</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 0 Min</h5>
+    <h5 id="wc">300 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
-        <a href="https://chinalhr.github.io/tags/maven/">maven</a> &nbsp;
+        <a href="https://chinalhr.github.io/tags/linux/">Linux</a> &nbsp;
     </h5>
 </div>
 

@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://chinalhr.github.io/posts/linux_operating_record/</loc>
+    <lastmod>2019-04-19T22:59:11+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/posts/aspect_dynamic/</loc>
     <lastmod>2019-04-18T22:15:07+08:00</lastmod>
   </url>
@@ -258,7 +263,13 @@
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2019-04-18T22:15:07+08:00</lastmod>
+    <lastmod>2019-04-19T22:59:11+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/linux/</loc>
+    <lastmod>2019-04-19T22:59:11+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -276,7 +287,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/posts/</loc>
-    <lastmod>2019-04-18T22:15:07+08:00</lastmod>
+    <lastmod>2019-04-19T22:59:11+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -342,7 +353,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2019-04-18T22:15:07+08:00</lastmod>
+    <lastmod>2019-04-19T22:59:11+08:00</lastmod>
     <priority>0</priority>
   </url>
   

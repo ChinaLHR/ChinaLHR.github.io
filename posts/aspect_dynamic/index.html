@@ -5,10 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>  javassist实现Spring Aspect动态Pointcut - Read the fucking source code</title>
+  <title>  javassist实现Aspect动态Pointcut - Read the fucking source code</title>
   <meta name="description" content="Read the fucking source code" />
-  <meta property="og:title" content=" javassist实现Spring Aspect动态Pointcut" />
-  <meta name="twitter:title" content=" javassist实现Spring Aspect动态Pointcut" />
+  <meta property="og:title" content=" javassist实现Aspect动态Pointcut" />
+  <meta name="twitter:title" content=" javassist实现Aspect动态Pointcut" />
   <meta name="description" content="
 ">
   <meta property="og:description" content="
@@ -194,7 +194,7 @@
         <div class="row">
           <div class="col-lg-12 col-md-12 col-md-offset-0">
             <div class="posts-heading">
-                <h1 align="center"> javassist实现Spring Aspect动态Pointcut</h1>
+                <h1 align="center"> javassist实现Aspect动态Pointcut</h1>
                 
                 
             </div>
@@ -237,7 +237,8 @@
 <li>
 <ul>
 <li><a href="#为什么需要aspectj中具有动态值的pointcut">为什么需要AspectJ中具有动态值的Pointcut</a></li>
-<li><a href="#动态pointcut思路">动态Pointcut思路</a></li>
+<li><a href="#pointcut的用法">@Pointcut的用法</a></li>
+<li><a href="#动态pointcut">动态Pointcut</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -254,7 +255,41 @@
 
 <p>工作中需要抽离出公司项目的一些监控组件打成一个公共包,需要对一些Aspect作动态适配(根据引入项目的ComponentScan进行特定package的Pointcut)</p>
 
-<h4 id="动态pointcut思路">动态Pointcut思路</h4>
+<h4 id="pointcut的用法">@Pointcut的用法</h4>
+
+<ul>
+<li>格式</li>
+</ul>
+
+<pre><code>execution(modifiers-pattern? ret-type-pattern declaring-type-pattern? name-pattern(param-pattern)throws-pattern?) 
+
+修饰符匹配（modifier-pattern?）
+返回值匹配（ret-type-pattern）可以为*表示任何返回值,全路径的类名等
+类路径匹配（declaring-type-pattern?）
+方法名匹配（name-pattern）可以指定方法名 或者 *代表所有, set* 代表以set开头的所有方法
+参数匹配（(param-pattern)）可以指定具体的参数类型，多个参数间用“,”隔开，各个参数也可以用“*”来表示匹配任意类型的参数，如(String)表示匹配一个String参数的方法；(*,String) 表示匹配有两个参数的方法，第一个参数可以是任意类型，而第二个参数是String类型；可以用(..)表示零个或多个任意参数
+异常类型匹配（throws-pattern?）
+其中后面跟着“?”的是可选项
+
+1）execution(* *(..))  
+//表示匹配所有方法  
+2）execution(public * com. savage.service.UserService.*(..))  
+//表示匹配com.savage.server.UserService中所有的公有方法  
+3）execution(* com.savage.server..*.*(..))  
+//表示匹配com.savage.server包及其子包下的所有方法 
+</code></pre>
+
+<ul>
+<li>Spring中的Pointcut(Pointcut表示式(expression)和Pointcut签名(signature))</li>
+</ul>
+
+<pre><code>//Pointcut表示式(可以使用&amp;&amp; || ! 这三个运算)
+@Pointcut(&quot;execution(* com.savage.aop.MessageSender.*(..))&quot;)
+//Point签名
+private void log(){} 
+</code></pre>
+
+<h4 id="动态pointcut">动态Pointcut</h4>
 
 <ul>
 <li>关于SpringAop</li>
@@ -267,6 +302,8 @@
 </ul>
 
 <p>在Aop的BeanPostProcess执行之前( springApplication.run之前),使用javassist修改目标Aop类字节码，动态设置@Pointcut,设置 value为我们自己动态查询到的值。</p>
+
+<p>ps:可以使用编程式的AOP进行织入，但是需要编写大量接口，不如动态@Pointcut注解修改方便</p>
 
 <ul>
 <li>其他</li>
@@ -320,7 +357,7 @@ public class UidServerApplication extends SpringBootServletInitializer {
                     AnnotationsAttribute attribute = new AnnotationsAttribute(cPool, AnnotationsAttribute.visibleTag);
                     //获取@pointcut 注解，修改其value值
                     Annotation annotation = new Annotation(&quot;org.aspectj.lang.annotation.Pointcut&quot;, cPool);
-                    annotation.addMemberValue(&quot;value&quot;, new StringMemberValue(&quot;execution(public * *..service..*.*(..))&quot;, cPool));
+                    annotation.addMemberValue(&quot;value&quot;, new StringMemberValue(&quot;execution(xxxx&quot;, cPool));
                     attribute.setAnnotation(annotation);
                     methodInfo.addAttribute(attribute);
 
@@ -345,6 +382,10 @@ public class UidServerApplication extends SpringBootServletInitializer {
                     <a href="https://chinalhr.github.io/posts/maven_plugs_record/" data-toggle="tooltip" data-placement="top" title="Maven Plugin 记录">&larr; Previous Post</a>
                 </li>
                  
+                <li class="next">
+                    <a href="https://chinalhr.github.io/posts/linux_operating_record/" data-toggle="tooltip" data-placement="top" title="Linux操作记录">Next Post &rarr;</a>
+                </li>
+                
             </ul>
             
             <div>
