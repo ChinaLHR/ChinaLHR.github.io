@@ -261,6 +261,8 @@
 
 <h3 id="三大优势">三大优势</h3>
 
+<p>Vert.x是一个在JVM上构建响应式应用的工具集，Vert.x是 事件驱动的，同时也是非阻塞的。</p>
+
 <ul>
 <li>上下游异步生态</li>
 <li>对有状态应用友好的线程模型</li>
@@ -322,11 +324,14 @@ Future.compose:于顺序组合 Future
 
 <pre><code>每个 Vertx 实例维护的是 多个Event Loop线程。默认情况下根据机器上可用的核数量来设置 Event Loop 的数量。通过Event driven的方式，将Events分发到handlers中进行处理。
 
-任何event都不会阻塞Eventloop线程，这样Eventloop线程可以一直保持高速分发Events的速度。如果QPS为100/s的服务，需要在1s内分发到每个event，Eventloop数量为1(单核环境)，Eventloop必须能在10ms内分发完每个event，一旦Eventloop被阻塞，整个服务器吞吐量都会受到极大影响。所以Eventloop绝对不应该被阻塞住，所有交给Eventloop去处理的event都应该是non-blocking(I/O)的方式或者CPU执行时间较短的，才能确保每个event得到及时的分发。
+任何event都不会阻塞Eventloop线程，这样Eventloop线程可以一直保持高速分发Events的速度。如果QPS为100/s的服务，需要在1s内分发到每个event，Eventloop数量为1，Eventloop必须能在10ms内分发完每个event，一旦Eventloop被阻塞，整个服务器吞吐量都会受到极大影响。所以Eventloop绝对不应该被阻塞住，所有交给Eventloop去处理的event都应该是non-blocking(I/O)的方式或者CPU执行时间较短的，才能确保每个event得到及时的分发。
+
+默认情况下，Vert.x为每个CPU核心线程附加2个事件循环对应Verticle总是处理同一线程上的事件，因此不需要使用线程协调机制来操纵Verticle状态
 </code></pre>
 
 <p><img src="https://user-images.githubusercontent.com/19829495/55665502-8f4a3800-5873-11e9-8e80-bf91266b59c0.png" alt="image" />
-<img src="https://user-images.githubusercontent.com/19829495/55665506-a0934480-5873-11e9-84ef-a0652c911e6e.png" alt="image" /></p>
+<img src="https://user-images.githubusercontent.com/19829495/55665506-a0934480-5873-11e9-84ef-a0652c911e6e.png" alt="image" />
+<img src="https://raw.githubusercontent.com/vert-x3/vertx-guide-for-java-devs/3.6/intro/images/verticle-threading-config.png" alt="enter description here" /></p>
 
 <ul>
 <li>在Event Loop运行阻塞代码</li>

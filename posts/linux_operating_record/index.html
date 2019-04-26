@@ -5,10 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title> Linux操作记录 - Read the fucking source code</title>
+  <title> Linux命令记录 - Read the fucking source code</title>
   <meta name="description" content="Read the fucking source code" />
-  <meta property="og:title" content="Linux操作记录" />
-  <meta name="twitter:title" content="Linux操作记录" />
+  <meta property="og:title" content="Linux命令记录" />
+  <meta name="twitter:title" content="Linux命令记录" />
   <meta name="description" content="
 ">
   <meta property="og:description" content="
@@ -194,7 +194,7 @@
         <div class="row">
           <div class="col-lg-12 col-md-12 col-md-offset-0">
             <div class="posts-heading">
-                <h1 align="center">Linux操作记录</h1>
+                <h1 align="center">Linux命令记录</h1>
                 
                 
             </div>
@@ -239,12 +239,14 @@
 <li><a href="#find">find</a></li>
 <li><a href="#ps">ps</a></li>
 <li><a href="#tail">tail</a></li>
+<li><a href="#scp">scp</a></li>
 <li><a href="#crontab">crontab</a></li>
 </ul></li>
 <li><a href="#排查">排查</a>
 <ul>
 <li><a href="#排查java-cpu占用问题">排查Java CPU占用问题</a></li>
 </ul></li>
+<li><a href="#排查java高内存占用问题">排查Java高内存占用问题</a></li>
 <li><a href="#链接">链接</a></li>
 </ul></li>
 </ul></li>
@@ -381,6 +383,15 @@ tail -n 5 logfile.log
 tail -n +5 logfile.log
 </code></pre>
 
+<h4 id="scp">scp</h4>
+
+<pre><code># 复制文件
+scp local_file remote_username@remote_ip:remote_folder
+
+# 复制目录
+scp -r local_folder remote_username@remote_ip:remote_folder
+</code></pre>
+
 <h4 id="crontab">crontab</h4>
 
 <p>crond是linux下用来周期性的执行某种任务或等待处理某些事件的一个守护进程。在/etc目录下的crontab文件</p>
@@ -433,8 +444,14 @@ ps -mp pid -o THREAD,tid,time
 printf “%x\n” tid
 # 使用jstack打印线程堆栈信息(pid=进程id tid=我们转换的tid)
 .../jvm/jstack pid |grep tid -A 60
+</code></pre>
 
+<h3 id="排查java高内存占用问题">排查Java高内存占用问题</h3>
 
+<pre><code># 查看当前Java进程创建的活跃对象数目和占用内存大小
+jmap -histo:live [pid] &gt;a.log
+# 当前Java进程的内存占用情况导出来，方便用专门的内存分析工具（例如：MAT）来分析。
+jmap -dump:live,format=b,file=xxx.xxx [pid]
 </code></pre>
 
 <h3 id="链接">链接</h3>
