@@ -282,7 +282,7 @@ exec:find命令对匹配的文件执行该参数所给出的shell命令
 <li>options</li>
 </ul>
 
-<pre><code>    -type [查找某一类型的文件] 
+<pre><code class="language-shell">    -type [查找某一类型的文件] 
     b - 块设备文件。 
     d - 目录。 
     c - 字符设备文件。 
@@ -313,7 +313,7 @@ exec:find命令对匹配的文件执行该参数所给出的shell命令
 <li>常用操作记录</li>
 </ul>
 
-<pre><code>#清除/root/log 目录或者子目录下 大于1G的log文件
+<pre><code class="language-shell">#清除/root/log 目录或者子目录下 大于1G的log文件
 find /root/logs/ -name &quot;*.log&quot; -size +1024M -exec rm -rf {} \;
 
 </code></pre>
@@ -332,7 +332,7 @@ find /root/logs/ -name &quot;*.log&quot; -size +1024M -exec rm -rf {} \;
 <li>格式</li>
 </ul>
 
-<pre><code>ps[参数]
+<pre><code class="language-shell">ps[参数]
 
 a  显示所有进程
 
@@ -367,7 +367,7 @@ u  指定用户的所有进程
 <li>常用操作记录</li>
 </ul>
 
-<pre><code># ps 与grep 常用组合用法，查找特定进程
+<pre><code class="language-shell"># ps 与grep 常用组合用法，查找特定进程
 ps -ef|grep java
 </code></pre>
 
@@ -375,7 +375,7 @@ ps -ef|grep java
 
 <p>tail 命令从指定点开始将文件写到标准输出.</p>
 
-<pre><code># 循环读取
+<pre><code class="language-shell"># 循环读取
 tail -f logfile.log
 # 显示文件末尾内容(最后五行)
 tail -n 5 logfile.log
@@ -385,7 +385,7 @@ tail -n +5 logfile.log
 
 <h4 id="scp">scp</h4>
 
-<pre><code># 复制文件
+<pre><code class="language-shell"># 复制文件
 scp local_file remote_username@remote_ip:remote_folder
 
 # 复制目录
@@ -400,7 +400,7 @@ scp -r local_folder remote_username@remote_ip:remote_folder
 <li>格式</li>
 </ul>
 
-<pre><code>minute   hour   day   month   week   command
+<pre><code class="language-shell">minute   hour   day   month   week   command
 
 其中：
 
@@ -429,7 +429,7 @@ crontab [-u user] [ -e | -l | -r ]
 <li>常用操作记录</li>
 </ul>
 
-<pre><code>查看所有用户的crontab
+<pre><code class="language-shell">查看所有用户的crontab
 cat /etc/passwd | cut -f 1 -d : |xargs -I {} crontab -l -u {}
 </code></pre>
 
@@ -437,7 +437,7 @@ cat /etc/passwd | cut -f 1 -d : |xargs -I {} crontab -l -u {}
 
 <h4 id="排查java-cpu占用问题">排查Java CPU占用问题</h4>
 
-<pre><code># top命令，定位高CPU占用Java进程PID
+<pre><code class="language-shell"># top命令，定位高CPU占用Java进程PID
 # 显示线程列表(查看占用CPU时间,占用时间，TID)
 ps -mp pid -o THREAD,tid,time
 # 将线程ID TID转换为16进制
@@ -448,7 +448,7 @@ printf “%x\n” tid
 
 <h3 id="排查java高内存占用问题">排查Java高内存占用问题</h3>
 
-<pre><code># 查看当前Java进程创建的活跃对象数目和占用内存大小
+<pre><code class="language-shell"># 查看当前Java进程创建的活跃对象数目和占用内存大小
 jmap -histo:live [pid] &gt;a.log
 # 当前Java进程的内存占用情况导出来，方便用专门的内存分析工具（例如：MAT）来分析。
 jmap -dump:live,format=b,file=xxx.xxx [pid]
