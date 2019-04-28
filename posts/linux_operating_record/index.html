@@ -216,7 +216,7 @@
     <section id="datecount">
         <h4 id="date"> Fri Apr 19, 2019</h4>
     </section>
-    <h5 id="wc">300 Words|Read in about 2 Min</h5>
+    <h5 id="wc">500 Words|Read in about 3 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/linux/">Linux</a> &nbsp;
@@ -247,6 +247,11 @@
 <li><a href="#排查java-cpu占用问题">排查Java CPU占用问题</a></li>
 </ul></li>
 <li><a href="#排查java高内存占用问题">排查Java高内存占用问题</a></li>
+<li><a href="#阿里云相关">阿里云相关</a>
+<ul>
+<li><a href="#挂载ecs数据盘">挂载ecs数据盘</a></li>
+<li><a href="#阿里云数据盘扩容操作">阿里云数据盘扩容操作</a></li>
+</ul></li>
 <li><a href="#链接">链接</a></li>
 </ul></li>
 </ul></li>
@@ -454,6 +459,125 @@ jmap -histo:live [pid] &gt;a.log
 jmap -dump:live,format=b,file=xxx.xxx [pid]
 </code></pre>
 
+<h3 id="阿里云相关">阿里云相关</h3>
+
+<h4 id="挂载ecs数据盘">挂载ecs数据盘</h4>
+
+<ul>
+<li>先将数据盘挂载到实例上</li>
+<li>分区</li>
+</ul>
+
+<pre><code>fdisk /dev/vdb
+Command n [新建分区]
+Command p [选择分区类型为主分区]
+Selected partition 1 [选择分区号]
+Command w [退出]
+</code></pre>
+
+<ul>
+<li>格式化</li>
+</ul>
+
+<pre><code>mkfs.ext4 /dev/vdb1
+</code></pre>
+
+<ul>
+<li>修改 /etc/fstab</li>
+</ul>
+
+<pre><code>cp /etc/fstab /etc/fstab.bak
+
+mkdir -p /data
+echo /dev/vdb1 /data ext4 defaults 0 0 &gt;&gt; /etc/fstab
+</code></pre>
+
+<ul>
+<li>将分区挂载到对应的文件系统路径下</li>
+</ul>
+
+<pre><code>mount /dev/vdb1 /data
+</code></pre>
+
+<h4 id="阿里云数据盘扩容操作">阿里云数据盘扩容操作</h4>
+
+<ul>
+<li>控制台操作对数据盘进行扩容</li>
+<li>重启机器</li>
+<li>确认分区和文件系统</li>
+</ul>
+
+<pre><code># 确认磁盘是否分区(fdisk -lu &lt;DeviceName&gt;)
+fdisk -lu /dev/vdb
+
+展示如下:
+Device Boot      Start         End      Blocks   Id  System
+/dev/vdb1              63  1048575023   524287480+  83  Linux
+
+# 确认文件系统(blkid &lt;PartionName&gt;)
+blkid /dev/vdb1
+
+/dev/vdb1: UUID=&quot;...&quot; TYPE=&quot;ext4&quot;
+
+# 确认文件系统状态为clean
+e2fsck -n /dev/vdb1
+</code></pre>
+
+<ul>
+<li>卸载数据盘(原先/dev/vdb1是挂载到/data的)</li>
+</ul>
+
+<pre><code>umount /data
+</code></pre>
+
+<ul>
+<li>扩展已有分区</li>
+</ul>
+
+<pre><code># 显示并记录旧分区的起始和结束的扇区位置
+fdisk -lu /dev/vdb
+
+# 删除旧分区
+fdisk -u /dev/vdb
+Command p [打印分区表]
+Command d [删除分区]
+Selected partition 1 [选择分区号]
+Command w [退出]
+
+# 新建分区
+fdisk -u /dev/vdb
+Command p [打印分区表]
+Command n [新建分区]
+Command p [选择分区类型为主分区]
+Selected partition 1 [选择分区号]
+Command w [退出]
+
+# lsblk /dev/vdb确认分区表,显示如下 500G-&gt;1000G
+NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+vdb    252:16   0 1000G  0 disk 
+└─vdb1 252:17   0 1000G  0 part 
+
+# 确认文件系统状态为clean
+e2fsck -n /dev/vdb1
+
+# 内核版本 ≥ 3.6的，通知内核更新分区表
+partprobe &lt;dst_dev_path&gt;或者partx -u &lt;dst_dev_path&gt;
+</code></pre>
+
+<ul>
+<li>扩容文件系统</li>
+</ul>
+
+<pre><code># 检测并修复文件系统的完整性
+e2fsck -f /dev/vdb1
+
+# 增大文件系统的大小
+resize2fs -f /dev/vdb1
+
+# 重新挂载/data
+mount /dev/vdb1 /data
+</code></pre>
+
 <h3 id="链接">链接</h3>
 
 <p><a href="https://www.cnblogs.com/peida/tag/%E6%AF%8F%E6%97%A5%E4%B8%80linux%E5%91%BD%E4%BB%A4/">每日一linux命令</a></p>
@@ -478,7 +602,7 @@ jmap -dump:live,format=b,file=xxx.xxx [pid]
     <section id="datecount">
         <h4 id="date"> Fri Apr 19, 2019</h4>
     </section>
-    <h5 id="wc">300 Words|Read in about 2 Min</h5>
+    <h5 id="wc">500 Words|Read in about 3 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/linux/">Linux</a> &nbsp;

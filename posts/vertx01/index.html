@@ -235,6 +235,7 @@
 <li>
 <ul>
 <li><a href="#三大优势">三大优势</a></li>
+<li><a href="#线程和编程模型">线程和编程模型</a></li>
 <li><a href="#组件">组件</a>
 <ul>
 <li><a href="#vert-x-core-vert-x-的核心api">Vert.x Core(Vert.x 的核心API)</a></li>
@@ -268,6 +269,19 @@
 <li>对有状态应用友好的线程模型</li>
 <li>内置集群模式的EventBus，高伸缩性</li>
 </ul>
+
+<h3 id="线程和编程模型">线程和编程模型</h3>
+
+<p>有别于基于Servlet容器的线程模型，每个网络客户端在连接时被分配一个线程，并且该线程处理客户端直到它断开连接。
+这种&rdquo;同步I / O&rdquo;线程模型保持简单理解的优势，但是没有了可扩展性，在重负载下一个操作系统内核花费显著时间在线程调度管理。</p>
+
+<p>Vert.x中的部署单位称为Verticle。Verticle通过事件循环处理传入事件，其中事件可以是接收网络缓冲区，定时事件或其他Verticle发送的消息。</p>
+
+<p><img src="https://github.com/vert-x3/vertx-guide-for-java-devs/raw/3.6/intro/images/event-loop.png" alt="enter description here" /></p>
+
+<p>每个事件循环都附加到一个线程。默认情况下，Vert.x为每个CPU核心线程附加2个事件循环。常规Verticle总是处理同一线程上的事件，因此不需要使用线程协调机制来操纵Verticle状态</p>
+
+<p><img src="https://github.com/vert-x3/vertx-guide-for-java-devs/raw/3.6/intro/images/verticle-threading-config.png" alt="enter description here" /></p>
 
 <h3 id="组件">组件</h3>
 
