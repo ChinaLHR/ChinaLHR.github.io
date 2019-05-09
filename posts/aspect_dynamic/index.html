@@ -216,7 +216,7 @@
     <section id="datecount">
         <h4 id="date"> Thu Apr 18, 2019</h4>
     </section>
-    <h5 id="wc">200 Words|Read in about 1 Min</h5>
+    <h5 id="wc">300 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/java/">Java</a> &nbsp;
@@ -239,6 +239,7 @@
 <li><a href="#为什么需要aspectj中具有动态值的pointcut">为什么需要AspectJ中具有动态值的Pointcut</a></li>
 <li><a href="#pointcut的用法">@Pointcut的用法</a></li>
 <li><a href="#动态pointcut">动态Pointcut</a></li>
+<li><a href="#编程式aop实现动态pointcut">编程式AOP实现动态PointCut</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -253,7 +254,7 @@
 
 <h4 id="为什么需要aspectj中具有动态值的pointcut">为什么需要AspectJ中具有动态值的Pointcut</h4>
 
-<p>工作中需要抽离出公司项目的一些监控组件打成一个公共包,需要对一些Aspect作动态适配(根据引入项目的ComponentScan进行特定package的Pointcut)</p>
+<p>工作中需要抽离出公司项目的一些监控组件打成一个公共包,需要对一些Aspect作动态适配(根据引入项目的ComponentScan进行特定package的Pointcut/配置PointCut)</p>
 
 <h4 id="pointcut的用法">@Pointcut的用法</h4>
 
@@ -302,8 +303,6 @@ private void log(){}
 </ul>
 
 <p>在Aop的BeanPostProcess执行之前( springApplication.run之前),使用javassist修改目标Aop类字节码，动态设置@Pointcut,设置 value为我们自己动态查询到的值。</p>
-
-<p>ps:可以使用编程式的AOP进行织入，但是需要编写大量接口，不如动态@Pointcut注解修改方便</p>
 
 <ul>
 <li>其他</li>
@@ -374,6 +373,62 @@ public class UidServerApplication extends SpringBootServletInitializer {
 
 }
 </code></pre>
+
+<h4 id="编程式aop实现动态pointcut">编程式AOP实现动态PointCut</h4>
+
+<ul>
+<li>PonitCut</li>
+</ul>
+
+<pre><code> public static Pointcut getAdapterServicePointcut(){
+        AspectJExpressionPointcut adapterPointcut = new AspectJExpressionPointcut();
+        //从配置文件中获取PointCut表达式
+        adapterPointcut.setExpression(MonitorPropertyConfig.getPoinitcutAdapter());
+        return adapterPointcut;}
+        
+//扩展Spring中AbstractBeanFactoryPointcutAdvisor
+
+public class AdapterServiceAdvisor extends AbstractBeanFactoryPointcutAdvisor {
+
+    @Override
+    public Pointcut getPointcut() {
+        return getAdapterServicePointcut();
+    }
+
+}
+</code></pre>
+
+<ul>
+<li>Advice</li>
+</ul>
+
+<pre><code>public class AdapterServiceMonitorInterceptor implements MethodInterceptor {
+
+    @Override
+    public Object invoke(MethodInvocation invocation) throws Throwable {
+       //做一些操作...
+    }
+}
+</code></pre>
+
+<ul>
+<li>配置Advisor Bean</li>
+</ul>
+
+<pre><code>@Configuration
+public class MonitorProxyConfiguration {
+
+    @Bean(name = &quot;adapterServiceAdvisor&quot;)
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+    public AdapterServiceAdvisor adapterServiceAdvisor() {
+        AdapterServiceAdvisor advisor = new AdapterServiceAdvisor();
+        advisor.setAdviceBeanName(&quot;adapterServiceAdvice&quot;);
+        advisor.setAdvice(new AdapterServiceMonitorInterceptor());
+        advisor.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return advisor;
+    }
+}
+</code></pre>
             </article>
 
             <ul class="pager blog-pager">
@@ -414,7 +469,7 @@ public class UidServerApplication extends SpringBootServletInitializer {
     <section id="datecount">
         <h4 id="date"> Thu Apr 18, 2019</h4>
     </section>
-    <h5 id="wc">200 Words|Read in about 1 Min</h5>
+    <h5 id="wc">300 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/java/">Java</a> &nbsp;

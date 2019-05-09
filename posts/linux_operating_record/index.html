@@ -241,6 +241,7 @@
 <li><a href="#tail">tail</a></li>
 <li><a href="#scp">scp</a></li>
 <li><a href="#crontab">crontab</a></li>
+<li><a href="#netstat">netstat</a></li>
 </ul></li>
 <li><a href="#排查">排查</a>
 <ul>
@@ -436,6 +437,14 @@ crontab [-u user] [ -e | -l | -r ]
 
 <pre><code class="language-shell">查看所有用户的crontab
 cat /etc/passwd | cut -f 1 -d : |xargs -I {} crontab -l -u {}
+</code></pre>
+
+<h4 id="netstat">netstat</h4>
+
+<pre><code>查询端口所占用的进程
+netstat -ntulp | grep 10063
+查询进程的详细信息
+ps -ef|grep 4826
 </code></pre>
 
 <h3 id="排查">排查</h3>

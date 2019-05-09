@@ -513,6 +513,8 @@ ProxyFactory是Spring的AOP织入器，接受Pointcut/Advice返回织入了横�
 
 <p>将AOP融入Bean的创建过程,AspectJ方式织入的核心，是一个BeanPostProcess（会扫描所有的Pointcut与遍历所有Bean,并对需要的Bean进行织入-自动代理，当对象实例化的时候，为其生成代理对象并返回）</p>
 
+<p>简单的实现如下:</p>
+
 <pre><code>public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor, BeanFactoryAware {
 
 	private AbstractBeanFactory beanFactory;

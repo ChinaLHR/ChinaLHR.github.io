@@ -274,16 +274,6 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/tags/love/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/categories/love/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://chinalhr.github.io/tags/maven/</loc>
     <lastmod>2019-04-17T23:54:47+08:00</lastmod>
     <priority>0</priority>
@@ -323,10 +313,6 @@
     <loc>https://chinalhr.github.io/tags/vert.x/</loc>
     <lastmod>2019-04-06T23:56:26+08:00</lastmod>
     <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/posts/love_1/</loc>
   </url>
   
   <url>
