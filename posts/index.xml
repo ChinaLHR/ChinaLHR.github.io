@@ -8,10 +8,20 @@
     <language>en</language>
     <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
     <webMaster>13435500980@163.com (lihanrong)</webMaster>
-    <lastBuildDate>Fri, 19 Apr 2019 22:59:11 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 23 May 2019 21:59:46 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Vertx Kotlin协程</title>
+      <link>https://chinalhr.github.io/posts/vertx_kotlin_coroutine/</link>
+      <pubDate>Thu, 23 May 2019 21:59:46 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/vertx_kotlin_coroutine/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Linux命令记录</title>
