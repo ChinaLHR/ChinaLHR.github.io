@@ -278,7 +278,7 @@
 <li>BeanPostProcessor:构建Bean的时候调用，会处理所有符合条件的对象实例(扫描所有Bean进行处理,Aop实现就是通过BeanPostProcessor找到匹配的Pointcut进行自动代理)</li>
 </ul>
 
-<p><img src="https://images.gitee.com/uploads/images/2018/1011/211710_822be750_558165.png" alt="输入图片说明" title="屏幕截图.png" /></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/59182905-817ba080-8b9d-11e9-958c-c56cd040c332.png" alt="image" /></p>
 
 <ul>
 <li>提供了postProcessBeforeInitialization与postProcessAfterInitialization方法，对所有实现了InitializingBean的Bean的afterPropertiesSet方法前后执行。</li>
@@ -373,7 +373,7 @@
 
 <h3 id="关于priorityordered">关于PriorityOrdered</h3>
 
-<p><img src="https://images.gitee.com/uploads/images/2018/1011/212930_5befdf81_558165.png" alt="输入图片说明" title="屏幕截图.png" /></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/59182997-af60e500-8b9d-11e9-99a0-966aaaedc070.png" alt="image" /></p>
 
 <p>实现了PriorityOrdered的BeanPostProcessor先于其他BeanPostProcessor，并会影响到其他BeanPostProcessor的autowiring behavior</p>
 
@@ -410,13 +410,13 @@
     }
 </code></pre>
 
-<p><img src="https://images.gitee.com/uploads/images/2018/1011/211820_359c98cd_558165.png" alt="输入图片说明" title="屏幕截图.png" /></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/59183019-ba1b7a00-8b9d-11e9-9e6d-13c62b143934.png" alt="image" /></p>
 
 <ul>
 <li>通过Debug查看registerBeanPostProcessors</li>
 </ul>
 
-<p><img src="https://images.gitee.com/uploads/images/2018/1011/212219_f909743e_558165.png" alt="输入图片说明" title="屏幕截图.png" /></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/59183033-c43d7880-8b9d-11e9-9b0f-f3e6348e3711.png" alt="image" /></p>
 
 <h3 id="lazy">@Lazy</h3>
 
@@ -459,7 +459,7 @@
 
 <p>通过对自定义Realm中依赖的Bean加上@Lazy，使其延迟加载。</p>
 
-<p><img src="https://images.gitee.com/uploads/images/2018/1011/211939_8d207908_558165.png" alt="输入图片说明" title="屏幕截图.png" /></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/59183053-d4edee80-8b9d-11e9-963e-a87272359895.png" alt="image" /></p>
 
 <h2 id="参考">参考</h2>
 
