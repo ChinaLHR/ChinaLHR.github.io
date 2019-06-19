@@ -245,6 +245,12 @@
 <li><a href="#为什么是nginx">为什么是Nginx</a></li>
 <li><a href="#linux内核参数的优化">Linux内核参数的优化</a></li>
 <li><a href="#命令行控制">命令行控制</a></li>
+<li><a href="#nginx进程关系">Nginx进程关系</a></li>
+<li><a href="#nginx配置">Nginx配置</a>
+<ul>
+<li><a href="#语法">语法</a></li>
+<li><a href="#基本配置">基本配置</a></li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -321,7 +327,59 @@ net.ipv4.tcp_max_syn.backlog=1024
 kill -s SIGTERM PID
 kill -s SIGINT PID
 
+# 优雅地停止服务(希望Nginx服务可以正常地处理完当前所有请求再停止服务)
+
+/usr/local/nginx/sbin/nginx -s quit
+kill -s SIGQUIT MASTER_PID
+kill -s SIGWINCH WORKER_PID
+
+# 重读配置项并生效(Nginx会先检查新的配置项是否有误，
+如果全部正确就以优雅的方式关闭，再重新启动Nginx来实现这个目的。)
+/usr/local/nginx/sbin/nginx -s reload
+
+# 日志文件回滚(可以重新打开日志文件，这样可以先把当前日志文件改名或转移到其他目录中进行备份，再重新打开时就会生成新的日志文件)
+
+/usr/local/nginx/sbin/nginx -s reopen
 </code></pre>
+
+<h3 id="nginx进程关系">Nginx进程关系</h3>
+
+<p>使用一个master进程来管理多个worker进程，worker进程的数量与服务器上的CPU核心数相同。master进程监控控管理worker进程。worker进程之间通过共享内存、原子操作等一些进程间通信机制来实现负载均衡等功能。</p>
+
+<ul>
+<li><p>master
+只用于管理真正提供服务的worker进程，为管理员提供命令行服务，包括诸如启动服务、停止服务、重载配置文件、平滑升级程序等。</p></li>
+
+<li><p>worker
+·多个worker进程处理互联网请求不但可以提高服务的健壮性（一个worker进程出错后，其他worker进程仍然可以正常提供服务),一个worker进程可以同时处理的请求数只受限于内存大小，不同的worker进程之间处理并发请求时几乎没有同步锁的限制
+，worker进程通常不会进入睡眠状态，当Nginx上的进程数与CPU核心数相等时（最好每一个worker进程都绑定特定的CPU核心），
+进程间切换的代价是最小的。</p></li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/59755405-6e15b700-92ba-11e9-8ab8-3239548edfa9.png" alt="image" /></p>
+
+<h3 id="nginx配置">Nginx配置</h3>
+
+<h4 id="语法">语法</h4>
+
+<pre><code>块配置项由一个块配置项名和一对大括号组。
+
+如：
+events {
+…
+}
+
+
+配置项语法(配置项名 配置项值1 配置项值2 …)
+
+配置项的注释(#)
+
+配置项的单位
+空间大小:·K或者k千字节（KiloByte，KB）M或者m兆字节（MegaByte，MB）
+时间单位：ms（毫秒），s（秒），m（分钟），h（小时），d（天），w（周，包含7天），M（月，包含30天），y（年，包含365天）
+</code></pre>
+
+<h4 id="基本配置">基本配置</h4>
             </article>
 
             <ul class="pager blog-pager">
