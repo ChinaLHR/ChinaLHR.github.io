@@ -224,7 +224,7 @@
     <section id="datecount">
         <h4 id="date"> Tue Jun 18, 2019</h4>
     </section>
-    <h5 id="wc">200 Words|Read in about 1 Min</h5>
+    <h5 id="wc">300 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/nginx/">Nginx</a> &nbsp;
@@ -250,6 +250,9 @@
 <ul>
 <li><a href="#语法">语法</a></li>
 <li><a href="#基本配置">基本配置</a></li>
+<li><a href="#运行时配置">运行时配置</a></li>
+<li><a href="#优化配置">优化配置</a></li>
+<li><a href="#事件类配置项">事件类配置项</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -380,6 +383,74 @@ events {
 </code></pre>
 
 <h4 id="基本配置">基本配置</h4>
+
+<pre><code># 是否以守护进程方式运行Nginx(默认on)
+daemon on|off;
+
+# 否以master/worker方式工作(默认on)
+master_process on|off;
+
+# error日志的设置(范围是debug、info、notice、warn
+、error、crit、alert、emerg。当设定为一个级别时，大于或等于该级别的日志都会被输出)
+error_log/path/file level;
+</code></pre>
+
+<h4 id="运行时配置">运行时配置</h4>
+
+<pre><code># 定义环境变量(让用户直接设置操作系统上的环境变)
+env VAR|VAR=VALUE
+
+# 嵌入其他配置文件(可以使用通配符)
+include /path/file
+
+# 配置pid文件的路径(默认logs/nginx.pid)
+pid path/file
+
+# worker进程运行的用户及用户组
+user username[groupname]
+
+# 指定worker进程可以打开的最大句柄描述符个数
+worker_rlimit_nofile limit
+
+# 设置每个用户发往Nginx的信号队列的大小，队列满了信号量会被丢弃
+worker_rlimit_sigpending limit
+</code></pre>
+
+<h4 id="优化配置">优化配置</h4>
+
+<pre><code># worker进程个数
+worker_processes number
+
+# SSL硬件加速
+ssl_engine device
+
+# 系统调用gettimeofday的执行频率(默认情况下，每次内核的事件调用（如epoll、select、poll、kqueue等）返回时，都会执行一次gettimeofday，实现用内核的时钟来更新Nginx中的缓存时钟)
+timer_resolution t
+
+# nginx worker进程优先级设置(默认0)
+worker_priority nice;
+</code></pre>
+
+<h4 id="事件类配置项">事件类配置项</h4>
+
+<pre><code># 开关accept锁 默认on(accept_mutex是Nginx的负载均衡锁)
+accept_mutex[on|off]
+
+# lock文件的路径(与accept锁开启相关，是accept锁的实现)
+lock_file path/file
+
+# 使用accept锁后到真正建立连接之间的延迟时间
+accept_mutex_delay Nms
+
+# 批量建立新连接(尽可能地对本次调度中客户端发起的所有TCP请求都建立连接)
+multi_accept[on|off]
+
+# 选择事件模型（Nginx会自动使用最适合的事件模型，Linux主要是poll，select，epoll）
+use[kqueue|rtsig|epoll|/dev/poll|select|poll|eventport];
+
+# 每个worker的最大连接数
+worker_connections number
+</code></pre>
             </article>
 
             <ul class="pager blog-pager">
@@ -408,7 +479,7 @@ events {
     <section id="datecount">
         <h4 id="date"> Tue Jun 18, 2019</h4>
     </section>
-    <h5 id="wc">200 Words|Read in about 1 Min</h5>
+    <h5 id="wc">300 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/nginx/">Nginx</a> &nbsp;

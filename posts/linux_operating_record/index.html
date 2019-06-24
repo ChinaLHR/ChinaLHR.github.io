@@ -251,6 +251,8 @@
 <li><a href="#scp">scp</a></li>
 <li><a href="#crontab">crontab</a></li>
 <li><a href="#netstat">netstat</a></li>
+<li><a href="#du">du</a></li>
+<li><a href="#其他">其他</a></li>
 </ul></li>
 <li><a href="#排查">排查</a>
 <ul>
@@ -463,6 +465,17 @@ cat /etc/passwd | cut -f 1 -d : |xargs -I {} crontab -l -u {}
 netstat -ntulp | grep 10063
 查询进程的详细信息
 ps -ef|grep 4826
+</code></pre>
+
+<h4 id="du">du</h4>
+
+<h4 id="其他">其他</h4>
+
+<pre><code>如何删除大文件(正在写入的大文件)，会释放占用的磁盘
+echo &quot;&quot; &gt; filename
+
+查看文件的大小
+du -ms filename
 </code></pre>
 
 <h3 id="排查">排查</h3>
