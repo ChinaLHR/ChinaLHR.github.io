@@ -5,24 +5,29 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title> Nginx Base - Read the fucking source code</title>
+  <title> RedisTemplate Jackson 数据解析异常:Invalid numeric value: Leading zeroes not allowed - Read the fucking source code</title>
   <meta name="description" content="Read the fucking source code" />
-  <meta property="og:title" content="Nginx Base" />
-  <meta name="twitter:title" content="Nginx Base" />
-  <meta name="description" content="
-">
-  <meta property="og:description" content="
-">
-  <meta name="twitter:description" content="
-">
+  <meta property="og:title" content="RedisTemplate Jackson 数据解析异常:Invalid numeric value: Leading zeroes not allowed" />
+  <meta name="twitter:title" content="RedisTemplate Jackson 数据解析异常:Invalid numeric value: Leading zeroes not …" />
+  <meta name="description" content="场景 使用Redis存储用户的短信验证码，后台增加了一个查询功能，用于查询用户手机接收到的验证码与过期时间，使用的是RedisTemplate。
+异常分析 使用RedisTemplate查询，如果验证码以0开头会报Invalid numeric value: Leading zeroes not allowed 异常。 日志如下：
+Caused by: com.fasterxml.jackson.core.JsonParseException: Invalid numeric value: Leading zeroes not allowed at [Source: [B@2c8b01ed; line: 1, column: 2] at com.fasterxml.jackson.core.JsonParser._constructError(JsonParser.java:1702) at com.fasterxml.jackson.core.base.ParserMinimalBase._reportError(ParserMinimalBase.java:558) at com.fasterxml.jackson.core.base.ParserBase.reportInvalidNumber(ParserBase.java:1062) at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._verifyNoLeadingZeroes(UTF8StreamJsonParser.java:1549) at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._parsePosNumber(UTF8StreamJsonParser.java:1395) at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._nextTokenNotInObject(UTF8StreamJsonParser.java:876) at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.nextToken(UTF8StreamJsonParser.java:772) at com.fasterxml.jackson.databind.ObjectMapper._initForReading(ObjectMapper.java:3834) at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:3783) at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:2929) at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:117)  因为原RedisTemplate指定了jackson作为解析，使用的jackson解析redis中存储的数据，会把纯数字的短信验证码当作是数字类型来解析，以0开头的jackson认为这是一个无效的数字。
+ @Bean(name = &quot;objectRedisTemplate&quot;) public RedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) { RedisTemplate&lt;?, ?&gt; redisTemplate = new RedisTemplate&lt;&gt;(); GenericJackson2JsonRedisSerializer jsonRedisSerializer = new GenericJackson2JsonRedisSerializer(createObjectMapper()); StringRedisSerializer stringRedisSerializer = new StringRedisSerializer(); redisTemplate.">
+  <meta property="og:description" content="场景 使用Redis存储用户的短信验证码，后台增加了一个查询功能，用于查询用户手机接收到的验证码与过期时间，使用的是RedisTemplate。
+异常分析 使用RedisTemplate查询，如果验证码以0开头会报Invalid numeric value: Leading zeroes not allowed 异常。 日志如下：
+Caused by: com.fasterxml.jackson.core.JsonParseException: Invalid numeric value: Leading zeroes not allowed at [Source: [B@2c8b01ed; line: 1, column: 2] at com.fasterxml.jackson.core.JsonParser._constructError(JsonParser.java:1702) at com.fasterxml.jackson.core.base.ParserMinimalBase._reportError(ParserMinimalBase.java:558) at com.fasterxml.jackson.core.base.ParserBase.reportInvalidNumber(ParserBase.java:1062) at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._verifyNoLeadingZeroes(UTF8StreamJsonParser.java:1549) at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._parsePosNumber(UTF8StreamJsonParser.java:1395) at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._nextTokenNotInObject(UTF8StreamJsonParser.java:876) at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.nextToken(UTF8StreamJsonParser.java:772) at com.fasterxml.jackson.databind.ObjectMapper._initForReading(ObjectMapper.java:3834) at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:3783) at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:2929) at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:117)  因为原RedisTemplate指定了jackson作为解析，使用的jackson解析redis中存储的数据，会把纯数字的短信验证码当作是数字类型来解析，以0开头的jackson认为这是一个无效的数字。
+ @Bean(name = &quot;objectRedisTemplate&quot;) public RedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) { RedisTemplate&lt;?, ?&gt; redisTemplate = new RedisTemplate&lt;&gt;(); GenericJackson2JsonRedisSerializer jsonRedisSerializer = new GenericJackson2JsonRedisSerializer(createObjectMapper()); StringRedisSerializer stringRedisSerializer = new StringRedisSerializer(); redisTemplate.">
+  <meta name="twitter:description" content="场景 使用Redis存储用户的短信验证码，后台增加了一个查询功能，用于查询用户手机接收到的验证码与过期时间，使用的是RedisTemplate。
+异常分析 使用RedisTemplate查询，如果验证码以0开头会报Invalid numeric value: Leading zeroes not allowed 异常。 日志如下：
+Caused by: …">
   <meta name="author" content="lihanrong"/>
   <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://chinalhr.github.io/posts/nginx_base/" />
+  <meta property="og:url" content="https://chinalhr.github.io/posts/redistemplatejacksonexception/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
   <meta name="generator" content="Hugo 0.51" />
-  <link rel="canonical" href="https://chinalhr.github.io/posts/nginx_base/" />
+  <link rel="canonical" href="https://chinalhr.github.io/posts/redistemplatejacksonexception/" />
   <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/jquery-1.12.4.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -202,7 +207,7 @@
         <div class="row">
           <div class="col-lg-12 col-md-12 col-md-offset-0">
             <div class="posts-heading">
-                <h1 align="center">Nginx Base</h1>
+                <h1 align="center">RedisTemplate Jackson 数据解析异常:Invalid numeric value: Leading zeroes not allowed</h1>
                 
                 
             </div>
@@ -222,12 +227,12 @@
             
 <div>
     <section id="datecount">
-        <h4 id="date"> Tue Jun 18, 2019</h4>
+        <h4 id="date"> Wed Jun 26, 2019</h4>
     </section>
-    <h5 id="wc">300 Words|Read in about 2 Min</h5>
+    <h5 id="wc">200 Words|Read in about 1 Min</h5>
     <h5 id="tags">Tags: 
         
-        <a href="https://chinalhr.github.io/tags/nginx/">Nginx</a> &nbsp;
+        <a href="https://chinalhr.github.io/tags/java/">Java</a> &nbsp;
     </h5>
 </div>
 
@@ -242,18 +247,9 @@
 <ul>
 <li>
 <ul>
-<li><a href="#为什么是nginx">为什么是Nginx</a></li>
-<li><a href="#linux内核参数的优化">Linux内核参数的优化</a></li>
-<li><a href="#命令行控制">命令行控制</a></li>
-<li><a href="#nginx进程关系">Nginx进程关系</a></li>
-<li><a href="#nginx配置">Nginx配置</a>
-<ul>
-<li><a href="#语法">语法</a></li>
-<li><a href="#基本配置">基本配置</a></li>
-<li><a href="#运行时配置">运行时配置</a></li>
-<li><a href="#优化配置">优化配置</a></li>
-<li><a href="#事件类配置项">事件类配置项</a></li>
-</ul></li>
+<li><a href="#场景">场景</a></li>
+<li><a href="#异常分析">异常分析</a></li>
+<li><a href="#解决">解决</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -262,207 +258,83 @@
   
 
 
-                <blockquote>
-</blockquote>
+                
 
-<h3 id="为什么是nginx">为什么是Nginx</h3>
+<h3 id="场景">场景</h3>
 
-<ol>
-<li>快(高并发下更快的响应)</li>
-<li>高扩展性(Nginx的设计极具扩展性，它完全是由多个不同功能、不同层次、不同类型且耦合度极低的模块组成)</li>
-<li>高可靠性(master和worker进程模型)</li>
-<li>低内存消耗(10000个非活跃的HTTP Keep-Alive连接在Nginx中仅消耗2.5MB的内存)</li>
-<li>高并发(单机支持10万以上的并发连接,Nginx支持的并发连接上限取决于内存)</li>
-<li>热部署</li>
-<li>BSD许可协议</li>
-</ol>
+<p>使用Redis存储用户的短信验证码，后台增加了一个查询功能，用于查询用户手机接收到的验证码与过期时间，使用的是RedisTemplate。</p>
 
-<h3 id="linux内核参数的优化">Linux内核参数的优化</h3>
+<h3 id="异常分析">异常分析</h3>
 
-<ul>
-<li>修改Linux运行时内核参数(/etc/sysctl.conf)以达到支持高并发访问的Web服务器,执行行sysctl -p命令，使上述修改生效</li>
-</ul>
+<p>使用RedisTemplate查询，如果验证码以0开头会报Invalid numeric value: Leading zeroes not allowed 异常。 日志如下：</p>
 
-<pre><code># 表示进程（比如一个worker进程）可以同时打开的最大句柄数,影响最大并发连接数
-fs.file-max = 999999  
-# 参数设置为1，表示允许将TIME-WAIT状态的socket重新用于新的TCP连接
-net.ipv4.tcp_tw_reuse = 1
-# keepalive启用时,TCP发送keepalive消息的,设置小一些有效清理无效链接
-net.ipv4.tcp_keepalive_time = 600
-# 这个参数表示当服务器主动关闭连接时,socket保持在FIN-WAIT-2状态的最大时间
-net.ipv4.tcp_fin_timeout = 30
-# 这个参数表示操作系统允许TIME_WAIT套接字数量的最大值,过多的TIME_WAIT会使Web服务器变慢
-net.ipv4.tcp_max_tw_buckets = 5000
-# 这个参数定义了在UDP和TCP连接中本地（不包括连接的远端）端口的取值范
-net.ipv4.ip_local_port_range = 1024    61000
-# 定义了TCP接收缓存（用于TCP接收滑动窗口）的最小值、默认值、最大值
-net.ipv4.tcp_rmem = 4096 32768 262142 
-# 定义了TCP发送缓存（用于TCP发送滑动窗口）的最小值、默认值、最大值
-net.ipv4.tcp_wmem = 4096 32768 262142
-# 当网卡接收数据包的速度大于内核处理的速度时，会有一个队列保存这些数据包。参数表示该队列的最大
-net.core.netdev_max_backlog = 8096
-# 表示内核套接字接收缓存区默认的大小
-net.core.rmem_default = 262144
-# 表示内核套接字发送缓存区默认的大小
-net.core.wmem_default = 262144
-# 表示内核套接字接收缓存区的最大大小
-net.core.rmem_max = 2097152
-# 参数表示内核套接字发送缓存区的最大大小
-net.core.wmem_max = 2097152
-# 用于解决TCP的SYN攻击
-net.ipv4.tcp_syncookies = 1
-net.ipv4.tcp_max_syn.backlog=1024
+<pre><code>Caused by: com.fasterxml.jackson.core.JsonParseException: Invalid numeric value: Leading zeroes not allowed 
+at [Source: [B@2c8b01ed; line: 1, column: 2] 
+at com.fasterxml.jackson.core.JsonParser._constructError(JsonParser.java:1702) 
+at com.fasterxml.jackson.core.base.ParserMinimalBase._reportError(ParserMinimalBase.java:558) 
+at com.fasterxml.jackson.core.base.ParserBase.reportInvalidNumber(ParserBase.java:1062) 
+at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._verifyNoLeadingZeroes(UTF8StreamJsonParser.java:1549) 
+at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._parsePosNumber(UTF8StreamJsonParser.java:1395) 
+at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._nextTokenNotInObject(UTF8StreamJsonParser.java:876) 
+at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.nextToken(UTF8StreamJsonParser.java:772) 
+at com.fasterxml.jackson.databind.ObjectMapper._initForReading(ObjectMapper.java:3834) 
+at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:3783) 
+at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:2929) 
+at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:117) 
 </code></pre>
 
-<h3 id="命令行控制">命令行控制</h3>
+<p>因为原RedisTemplate指定了jackson作为解析，使用的jackson解析redis中存储的数据，会把纯数字的短信验证码当作是数字类型来解析，以0开头的jackson认为这是一个无效的数字。</p>
 
-<pre><code># 默认启动方式 取默认路径下的配置文件：/usr/local/nginx/conf/nginx.conf
-/usr/local/nginx/sbin/nginx 
+<pre><code>    @Bean(name = &quot;objectRedisTemplate&quot;)
+    public RedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate&lt;?, ?&gt; redisTemplate = new RedisTemplate&lt;&gt;();
+        GenericJackson2JsonRedisSerializer jsonRedisSerializer = new GenericJackson2JsonRedisSerializer(createObjectMapper());
+        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        redisTemplate.setKeySerializer(stringRedisSerializer);
+        redisTemplate.setHashKeySerializer(stringRedisSerializer);
+        redisTemplate.setValueSerializer(jsonRedisSerializer);
+        redisTemplate.setHashValueSerializer(jsonRedisSerializer);
+        redisTemplate.afterPropertiesSet();
+        return redisTemplate;
+    }
 
-# 指定配置文件-c 指定安装目录 -p 指定全局配置项 -g
-/usr/local/nginx/sbin/nginx -c /tmp/nginx.conf
+    private ObjectMapper createObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        return objectMapper;
 
-# 测试配置信息是否有错误 -q参数不把error级别以下的信息输出到屏幕
-/usr/local/nginx/sbin/nginx -t -q
-
-# 快速地停止服务 -s stop 或者kill命令直接向nginx master进程发送TERM或者INT
-/usr/local/nginx/sbin/nginx -s stop
-kill -s SIGTERM PID
-kill -s SIGINT PID
-
-# 优雅地停止服务(希望Nginx服务可以正常地处理完当前所有请求再停止服务)
-
-/usr/local/nginx/sbin/nginx -s quit
-kill -s SIGQUIT MASTER_PID
-kill -s SIGWINCH WORKER_PID
-
-# 重读配置项并生效(Nginx会先检查新的配置项是否有误，
-如果全部正确就以优雅的方式关闭，再重新启动Nginx来实现这个目的。)
-/usr/local/nginx/sbin/nginx -s reload
-
-# 日志文件回滚(可以重新打开日志文件，这样可以先把当前日志文件改名或转移到其他目录中进行备份，再重新打开时就会生成新的日志文件)
-
-/usr/local/nginx/sbin/nginx -s reopen
+    }
+...
 </code></pre>
 
-<h3 id="nginx进程关系">Nginx进程关系</h3>
+<h3 id="解决">解决</h3>
 
-<p>使用一个master进程来管理多个worker进程，worker进程的数量与服务器上的CPU核心数相同。master进程监控控管理worker进程。worker进程之间通过共享内存、原子操作等一些进程间通信机制来实现负载均衡等功能。</p>
+<p>配置stringRedisTemplate,在解析获取短信验证码数据的时候使用字符串的方式解析,不使用jackson。</p>
 
-<ul>
-<li><p>master
-只用于管理真正提供服务的worker进程，为管理员提供命令行服务，包括诸如启动服务、停止服务、重载配置文件、平滑升级程序等。</p></li>
-
-<li><p>worker
-·多个worker进程处理互联网请求不但可以提高服务的健壮性（一个worker进程出错后，其他worker进程仍然可以正常提供服务),一个worker进程可以同时处理的请求数只受限于内存大小，不同的worker进程之间处理并发请求时几乎没有同步锁的限制
-，worker进程通常不会进入睡眠状态，当Nginx上的进程数与CPU核心数相等时（最好每一个worker进程都绑定特定的CPU核心），
-进程间切换的代价是最小的。</p></li>
-</ul>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/59755405-6e15b700-92ba-11e9-8ab8-3239548edfa9.png" alt="image" /></p>
-
-<h3 id="nginx配置">Nginx配置</h3>
-
-<h4 id="语法">语法</h4>
-
-<pre><code>块配置项由一个块配置项名和一对大括号组。
-
-如：
-events {
-…
-}
-
-
-配置项语法(配置项名 配置项值1 配置项值2 …)
-
-配置项的注释(#)
-
-配置项的单位
-空间大小:·K或者k千字节（KiloByte，KB）M或者m兆字节（MegaByte，MB）
-时间单位：ms（毫秒），s（秒），m（分钟），h（小时），d（天），w（周，包含7天），M（月，包含30天），y（年，包含365天）
+<pre><code> @Bean(name = &quot;stringRedisTemplate&quot;)
+    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory
+                                                           redisConnectionFactory) {
+        return new StringRedisTemplate(redisConnectionFactory);
+    }
 </code></pre>
 
-<h4 id="基本配置">基本配置</h4>
+<p>使用</p>
 
-<pre><code># 是否以守护进程方式运行Nginx(默认on)
-daemon on|off;
-
-# 否以master/worker方式工作(默认on)
-master_process on|off;
-
-# error日志的设置(范围是debug、info、notice、warn
-、error、crit、alert、emerg。当设定为一个级别时，大于或等于该级别的日志都会被输出)
-error_log/path/file level;
+<pre><code>@Resource(name = &quot;stringRedisTemplate&quot;)
+private RedisTemplate&lt;String, String&gt; redisTemplate;
 </code></pre>
 
-<h4 id="运行时配置">运行时配置</h4>
-
-<pre><code># 定义环境变量(让用户直接设置操作系统上的环境变)
-env VAR|VAR=VALUE
-
-# 嵌入其他配置文件(可以使用通配符)
-include /path/file
-
-# 配置pid文件的路径(默认logs/nginx.pid)
-pid path/file
-
-# worker进程运行的用户及用户组
-user username[groupname]
-
-# 指定worker进程可以打开的最大句柄描述符个数
-worker_rlimit_nofile limit
-
-# 设置每个用户发往Nginx的信号队列的大小，队列满了信号量会被丢弃
-worker_rlimit_sigpending limit
-</code></pre>
-
-<h4 id="优化配置">优化配置</h4>
-
-<pre><code># worker进程个数
-worker_processes number
-
-# SSL硬件加速
-ssl_engine device
-
-# 系统调用gettimeofday的执行频率(默认情况下，每次内核的事件调用（如epoll、select、poll、kqueue等）返回时，都会执行一次gettimeofday，实现用内核的时钟来更新Nginx中的缓存时钟)
-timer_resolution t
-
-# nginx worker进程优先级设置(默认0)
-worker_priority nice;
-</code></pre>
-
-<h4 id="事件类配置项">事件类配置项</h4>
-
-<pre><code># 开关accept锁 默认on(accept_mutex是Nginx的负载均衡锁)
-accept_mutex[on|off]
-
-# lock文件的路径(与accept锁开启相关，是accept锁的实现)
-lock_file path/file
-
-# 使用accept锁后到真正建立连接之间的延迟时间
-accept_mutex_delay Nms
-
-# 批量建立新连接(尽可能地对本次调度中客户端发起的所有TCP请求都建立连接)
-multi_accept[on|off]
-
-# 选择事件模型（Nginx会自动使用最适合的事件模型，Linux主要是poll，select，epoll）
-use[kqueue|rtsig|epoll|/dev/poll|select|poll|eventport];
-
-# 每个worker的最大连接数
-worker_connections number
-</code></pre>
             </article>
 
             <ul class="pager blog-pager">
                 
                 <li class="previous">
-                    <a href="https://chinalhr.github.io/posts/nginx_cross/" data-toggle="tooltip" data-placement="top" title="Nginx反向代理解决跨域问题">&larr; Previous Post</a>
+                    <a href="https://chinalhr.github.io/posts/nginx_http/" data-toggle="tooltip" data-placement="top" title="Nginx Http">&larr; Previous Post</a>
                 </li>
                  
-                <li class="next">
-                    <a href="https://chinalhr.github.io/posts/nginx_http/" data-toggle="tooltip" data-placement="top" title="Nginx Http">Next Post &rarr;</a>
-                </li>
-                
             </ul>
             
             <div>
@@ -470,7 +342,15 @@ worker_connections number
                 <h2>See Also</h2>
                 <ul>
                     
-                    <li><a href="/posts/nginx_cross/">Nginx反向代理解决跨域问题</a></li>
+                    <li><a href="/posts/aspect_dynamic/"> javassist实现Aspect动态Pointcut</a></li>
+                    
+                    <li><a href="/posts/reactiveprogramming_reactor/">响应式编程库-Reactor</a></li>
+                    
+                    <li><a href="/posts/javacachestrategy/">缓存更新策略</a></li>
+                    
+                    <li><a href="/posts/mybatisshardplug/">Mybatis自定义分表Plug</a></li>
+                    
+                    <li><a href="/posts/mybatis_sql_precompile/">Mybatis动态表名：# 与 $ 区别</a></li>
                     
                 </ul>
                 
@@ -481,12 +361,12 @@ worker_connections number
             
 <div>
     <section id="datecount">
-        <h4 id="date"> Tue Jun 18, 2019</h4>
+        <h4 id="date"> Wed Jun 26, 2019</h4>
     </section>
-    <h5 id="wc">300 Words|Read in about 2 Min</h5>
+    <h5 id="wc">200 Words|Read in about 1 Min</h5>
     <h5 id="tags">Tags: 
         
-        <a href="https://chinalhr.github.io/tags/nginx/">Nginx</a> &nbsp;
+        <a href="https://chinalhr.github.io/tags/java/">Java</a> &nbsp;
     </h5>
 </div>
 
