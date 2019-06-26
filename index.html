@@ -265,10 +265,8 @@
 
               <div class="post-entry">
                 
-                  场景 使用Redis存储用户的短信验证码，后台增加了一个查询功能，用于查询用户手机接收到的验证码与过期时间，使用的是RedisTemplate。
-异常分析 使用RedisTemplate查询，如果验证码以0开头会报Invalid numeric value: Leading zeroes not allowed 异常。 日志如下：
-Caused by: com.fasterxml.jackson.core.JsonParseException: Invalid numeric value: Leading zeroes not allowed at [Source: [B@2c8b01ed; line: 1, column: 2] at com.fasterxml.jackson.core.JsonParser._constructError(JsonParser.java:1702) at com.fasterxml.jackson.core.base.ParserMinimalBase._reportError(ParserMinimalBase.java:558) at com.fasterxml.jackson.core.base.ParserBase.reportInvalidNumber(ParserBase.java:1062) at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._verifyNoLeadingZeroes(UTF8StreamJsonParser.java:1549) at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._parsePosNumber(UTF8StreamJsonParser.java:1395) at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._nextTokenNotInObject(UTF8StreamJsonParser.java:876) at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.nextToken(UTF8StreamJsonParser.java:772) at com.fasterxml.jackson.databind.ObjectMapper._initForReading(ObjectMapper.java:3834) at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:3783) at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:2929) at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:117)  因为原RedisTemplate指定了jackson作为解析，使用的jackson解析redis中存储的数据，会把纯数字的短信验证码当作是数字类型来解析，以0开头的jackson认为这是一个无效的数字。
- @Bean(name = &quot;objectRedisTemplate&quot;) public RedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) { RedisTemplate&lt;?, ?&gt; redisTemplate = new RedisTemplate&lt;&gt;(); GenericJackson2JsonRedisSerializer jsonRedisSerializer = new GenericJackson2JsonRedisSerializer(createObjectMapper()); StringRedisSerializer stringRedisSerializer = new StringRedisSerializer(); redisTemplate.
+                  <blockquote>
+</blockquote>
                   <a href="https://chinalhr.github.io/posts/redistemplatejacksonexception/" class="post-read-more">[Read More]</a>
                 
               </div>
