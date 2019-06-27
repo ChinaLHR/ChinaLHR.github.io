@@ -224,7 +224,7 @@
     <section id="datecount">
         <h4 id="date"> Tue Jun 25, 2019</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="wc">200 Words|Read in about 1 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/nginx/">Nginx</a> &nbsp;
@@ -235,6 +235,27 @@
             <article role="main" class="blog-post" itemprop="articleBody" id="content">
                 
   
+  <aside class="toc">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#ngx-http-core-module模块">ngx_http_core_module模块</a>
+<ul>
+<li><a href="#虚拟主机与请求的分发">虚拟主机与请求的分发</a></li>
+<li><a href="#文件路径">文件路径</a></li>
+<li><a href="#请求处理时内存与磁盘资源分配配置">请求处理时内存与磁盘资源分配配置</a></li>
+<li><a href="#网络连接与设置">网络连接与设置</a></li>
+</ul></li>
+<li><a href="#示例">示例</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </aside>
+  
 
 
                 <blockquote>
@@ -244,6 +265,124 @@
 
 <h4 id="虚拟主机与请求的分发">虚拟主机与请求的分发</h4>
 
+<p>server_name（对应用户请求中的主机域名）并通过server块来定义虚拟主机。server块就是一个虚拟主机，它只处理与之相对应的主机域名请求。</p>
+
+<ul>
+<li>监听端口 listen</li>
+</ul>
+
+<p>listen address:port 其他参数
+其他参数：default_server(默认server块)/
+backlog=num(表示TCP中backlog队列的大小)/
+rcvbuf=size(设置监听句柄的SO_RCVBUF参数)/
+sndbuf=size(设置监听句柄的SO_SNDBUF参数)/
+ssl(在当前监听的端口上建立的连接必须基于SSL协议)</p>
+
+<ul>
+<li><p>主机名称 server_name name[&hellip;]
+nginx会取出header头中的Host，与每个server中的server_name进行匹配,决定到底由哪一个server块来处理这个请求。
+全匹配&gt;前缀通配符&gt;后缀通配符&gt;正则</p></li>
+
+<li><p>server_name_in_redirect on|off 重定向主机名称的处理
+on打开时，表示在重定向请求时会使用server_name里配置的第一个主机名代替原先请求中的Host头部。</p></li>
+
+<li><p>location[=|~|~*|^~|@]/uri/{&hellip;}
+尝试根据用户请求中的URI来匹配上面的/uri表达式，
+如果可以匹配，就选择location{}块中的配置来处理用户请求。</p></li>
+</ul>
+
+<pre><code>匹配方式(有顺序 )
+=表示把URI作为字符串
+~表示匹配URI时是字母大小写敏感的
+~*表示匹配URI时忽略字母大小写问题
+正则
+location  /匹配所有请求
+</code></pre>
+
+<h4 id="文件路径">文件路径</h4>
+
+<ul>
+<li>root path (默认root html) 和alias path</li>
+</ul>
+
+<p>root可以放置到http、server、location或if块中，而alias只能放置到location块</p>
+
+<pre><code># 个请求的URI是/download/test.html，那么Web服务器将会返回服务器上/opt/web/html/download/test.html文件的内容
+
+location /download/ {
+   root /opt/web/html/;
+}
+
+# alias写法
+location /download/ {
+   alias /opt/web/html/download;
+}
+
+</code></pre>
+
+<ul>
+<li>首页 index file&hellip;</li>
+</ul>
+
+<pre><code>location / {
+    root   path;
+    index /index.html /html/index.php /index.php;
+}
+</code></pre>
+
+<ul>
+<li>根据HTTP返回码重定向页面(error_page code[code&hellip;][=|=answer-code]uri|@named_location)</li>
+</ul>
+
+<pre><code>error_page   404          /404.html;
+
+# 更改错误码
+error_page 404 =200 /empty.gif;
+
+重定向到另一个location中进行处理
+location / (
+    error_page 404 @fallback;
+)
+location @fallback (
+    proxy_pass http://backend;
+)
+</code></pre>
+
+<h4 id="请求处理时内存与磁盘资源分配配置">请求处理时内存与磁盘资源分配配置</h4>
+
+<ul>
+<li>client_body_in_file_only on|clean|off;(HTTP包体只存储到磁盘文件中,默认off)</li>
+<li>client_body_in_single_buffer on|off;(HTTP包体尽量写入到一个内存buffer，默认off)</li>
+</ul>
+
+<p>因为用户请求的HTTP包体大小超过client_body_buffer_size设置的值，包体还是会写入到磁盘文件中</p>
+
+<ul>
+<li>client_header_buffer_size size;(存储HTTP头部的内存buffer大小)</li>
+</ul>
+
+<p>定义了正常情况下Nginx接收用户请求中HTTPheader部分（包括HTTP行和HTTP头部）
+时分配的内存buffer大小.</p>
+
+<ul>
+<li>large_client_header_buffers number size;(存储超大HTTP头部的内存,buffer个数，buffer大小)</li>
+</ul>
+
+<p>每一个header的大小超过单个buffer的大小，或者总和超过number * size 会报错</p>
+
+<ul>
+<li><p>client_body_buffer_size size;(存储HTTP包体的内存buffer大小)
+HTTP包——&gt;缓存——&gt;写入磁盘</p></li>
+
+<li><p>connection_pool_size size;(TCP连接内存池初始大小)</p></li>
+
+<li><p>request_pool_size size;(HTTP请求处理内存池)</p></li>
+</ul>
+
+<h4 id="网络连接与设置">网络连接与设置</h4>
+
+<h3 id="示例">示例</h3>
+
 <pre><code>http {
     gzip on;
     upstream {
@@ -252,6 +391,7 @@
     …
     server {
            listen localhost:80;
+           server_name lickdog.com www.lickdog.com;
            …
            location /webstatic {
                         if …
@@ -270,6 +410,8 @@
     }
 }
 </code></pre>
+
+<p>####</p>
             </article>
 
             <ul class="pager blog-pager">
@@ -304,7 +446,7 @@
     <section id="datecount">
         <h4 id="date"> Tue Jun 25, 2019</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="wc">200 Words|Read in about 1 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/nginx/">Nginx</a> &nbsp;
