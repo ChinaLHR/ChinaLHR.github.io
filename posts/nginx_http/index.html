@@ -251,8 +251,12 @@
 <li><a href="#对客户端请求的限制">对客户端请求的限制</a></li>
 <li><a href="#文件操作优化配置">文件操作优化配置</a></li>
 <li><a href="#其他">其他</a></li>
+<li><a href="#结构">结构</a></li>
 </ul></li>
-<li><a href="#示例-反向代理">示例(反向代理)</a></li>
+<li><a href="#反向代理">反向代理</a>
+<ul>
+<li><a href="#负载均衡">负载均衡</a></li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -464,10 +468,9 @@ off:关闭缓存功能。
 <li>resolver address&hellip;(DNS解析地址)</li>
 <li>resolver_timeout time(DNS解析的超时时间，默认30s)</li>
 <li>server_tokens on|off(返回错误页面时是否在Server中注明Nginx版本)</li>
-<li></li>
 </ul>
 
-<h3 id="示例-反向代理">示例(反向代理)</h3>
+<h4 id="结构">结构</h4>
 
 <pre><code>http {
     gzip on;
@@ -496,6 +499,16 @@ off:关闭缓存功能。
     }
 }
 </code></pre>
+
+<h3 id="反向代理">反向代理</h3>
+
+<p>反向代理:用代理服务器来接受Internet上的连接请求，然后将请求转发给内部网络中的上游服务器，并将从上游服务器上得到的结果返回给Internet上请求连接的客户端。</p>
+
+<p>Nginx并不会立刻转发到上游服务器，而是先把用户的请求（包括HTTP包体）完整地接收到Nginx所在服务器的硬盘或者内存中，然后再向上游服务器发起连接，把缓存的客户端请求转发到上游服务器。[增加了一点请求处理时间,但降低了上游服务器的负载，把压力放在了Nginx上]</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/60446933-f601a680-9c54-11e9-8ec0-e20abb939ebd.png" alt="image" /></p>
+
+<h4 id="负载均衡">负载均衡</h4>
             </article>
 
             <ul class="pager blog-pager">
