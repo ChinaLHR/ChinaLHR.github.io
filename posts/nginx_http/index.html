@@ -224,7 +224,7 @@
     <section id="datecount">
         <h4 id="date"> Tue Jun 25, 2019</h4>
     </section>
-    <h5 id="wc">200 Words|Read in about 1 Min</h5>
+    <h5 id="wc">300 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/nginx/">Nginx</a> &nbsp;
@@ -248,8 +248,11 @@
 <li><a href="#文件路径">文件路径</a></li>
 <li><a href="#请求处理时内存与磁盘资源分配配置">请求处理时内存与磁盘资源分配配置</a></li>
 <li><a href="#网络连接与设置">网络连接与设置</a></li>
+<li><a href="#对客户端请求的限制">对客户端请求的限制</a></li>
+<li><a href="#文件操作优化配置">文件操作优化配置</a></li>
+<li><a href="#其他">其他</a></li>
 </ul></li>
-<li><a href="#示例">示例</a></li>
+<li><a href="#示例-反向代理">示例(反向代理)</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -397,7 +400,74 @@ location @fallback (
 
 <h4 id="网络连接与设置">网络连接与设置</h4>
 
-<h3 id="示例">示例</h3>
+<ul>
+<li>client_header_timeout time（读取HTTP头部的超时时间 默认单位：秒 60）</li>
+<li>client_body_timeout time (读取HTTP包体的超时时间 默认单位：秒 60)</li>
+<li>send_timeout time (发送响应的超时时间,响应用户但用户一直没有接受数据包，超时会关闭链接)</li>
+<li>reset_timeout_connection on|off (默认off，开启后连接超时后将通过向客户端发送RST包来直接重置连接，不是使用正常情形下的四次握手关闭TCP连接，而是直接向用户发送RST重置包，不再等待用户的应答，直接释放Nginx服务器上关于这个套接字使用的所有缓存
+如TCP滑动窗口)</li>
+<li>lingering_close off|on|always(默认on 控制Nginx关闭用户连接的方式，是否必须先连接上用户)</li>
+<li>lingering_timeout time(发送的数据到达服务器超时时间)</li>
+<li>keepalive_timeout time(keepalive超时时间)</li>
+<li>keepalive_requests n;(默认100 一个keepalive长连接上允许承载的请求最大数)</li>
+</ul>
+
+<h4 id="对客户端请求的限制">对客户端请求的限制</h4>
+
+<ul>
+<li>limit_except method&hellip;{&hellip;}(按HTTP方法名限制用户请求)</li>
+</ul>
+
+<pre><code>limit_except GET {
+    allow 192.168.1.0/32;
+    deny  all;
+}
+</code></pre>
+
+<ul>
+<li>client_max_body_size size(HTTP请求包体Content-Length字段的最大值,默认1m)</li>
+<li>limit_rate speed(对请求的限速,默认0)</li>
+<li>limit_rate_after speed(nginx向客户端发送的响应长度超过limit<em>rate</em>
+after后才开始限默认，1m)</li>
+</ul>
+
+<h4 id="文件操作优化配置">文件操作优化配置</h4>
+
+<ul>
+<li>sendfile on|off(启用Linux的sendfile系统调用来发送文件,减少了内核态与用户态之间的两次内存复制)</li>
+<li>aio on|off(启用Linux系统上内核级别的异步文件I/O功能。与sendfile互斥)</li>
+<li>directio size|off(Linux系统上使用O_DIRECT选项去读取文件，大文件读取速度会有优化，缓冲区大小为size。与sendfile互斥)</li>
+<li>open_file_cache max=N[inactive=time]|off(文件缓存，默认off，会缓存文件句柄,文件大小，上次修改时间&hellip;减少对磁盘的操作)</li>
+</ul>
+
+<pre><code>open_file_cache max=1000 inactive=20s;
+
+max:表示在内存中存储元素的最大个数。达到最大限制数量后，将采用LRU（Least Recently
+Used）算法进行淘汰。
+inactive:在inactive指定的时间段内没有被访问过的元素将会被淘汰。
+off:关闭缓存功能。
+</code></pre>
+
+<ul>
+<li>open_file_cache_errors on|off(是否缓存打开文件错误的信息)</li>
+<li>open_file_cache_min_uses number(不被淘汰的最小访问次数,默认1)</li>
+<li>open_file_cache_valid time(检验缓存中元素有效性的频率,默认60s)</li>
+</ul>
+
+<h4 id="其他">其他</h4>
+
+<ul>
+<li>ignore_invalid_headers on|off(忽略不合法的HTTP头部，默认on)</li>
+<li>underscores_in_headers on|off(HTTP头部是否允许下划线,默认off)</li>
+<li>if_modified_since<a href="Modified-Since头部的处理策略">off|exact|before</a></li>
+<li>log_not_found on|off(文件未找到时是否记录到error日志)</li>
+<li>resolver address&hellip;(DNS解析地址)</li>
+<li>resolver_timeout time(DNS解析的超时时间，默认30s)</li>
+<li>server_tokens on|off(返回错误页面时是否在Server中注明Nginx版本)</li>
+<li></li>
+</ul>
+
+<h3 id="示例-反向代理">示例(反向代理)</h3>
 
 <pre><code>http {
     gzip on;
@@ -426,8 +496,6 @@ location @fallback (
     }
 }
 </code></pre>
-
-<p>####</p>
             </article>
 
             <ul class="pager blog-pager">
@@ -462,7 +530,7 @@ location @fallback (
     <section id="datecount">
         <h4 id="date"> Tue Jun 25, 2019</h4>
     </section>
-    <h5 id="wc">200 Words|Read in about 1 Min</h5>
+    <h5 id="wc">300 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/nginx/">Nginx</a> &nbsp;
