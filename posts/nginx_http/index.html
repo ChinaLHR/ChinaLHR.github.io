@@ -5,10 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title> Nginx Http - Read the fucking source code</title>
+  <title> Nginx Http Module - Read the fucking source code</title>
   <meta name="description" content="Read the fucking source code" />
-  <meta property="og:title" content="Nginx Http" />
-  <meta name="twitter:title" content="Nginx Http" />
+  <meta property="og:title" content="Nginx Http Module" />
+  <meta name="twitter:title" content="Nginx Http Module" />
   <meta name="description" content="
 ">
   <meta property="og:description" content="
@@ -202,7 +202,7 @@
         <div class="row">
           <div class="col-lg-12 col-md-12 col-md-offset-0">
             <div class="posts-heading">
-                <h1 align="center">Nginx Http</h1>
+                <h1 align="center">Nginx Http Module</h1>
                 
                 
             </div>
@@ -224,7 +224,7 @@
     <section id="datecount">
         <h4 id="date"> Tue Jun 25, 2019</h4>
     </section>
-    <h5 id="wc">300 Words|Read in about 2 Min</h5>
+    <h5 id="wc">400 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/nginx/">Nginx</a> &nbsp;
@@ -256,6 +256,8 @@
 <li><a href="#反向代理">反向代理</a>
 <ul>
 <li><a href="#负载均衡">负载均衡</a></li>
+<li><a href="#反向代理-1">反向代理</a></li>
+<li><a href="#例子">例子</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -509,6 +511,63 @@ off:关闭缓存功能。
 <p><img src="https://user-images.githubusercontent.com/19829495/60446933-f601a680-9c54-11e9-8ec0-e20abb939ebd.png" alt="image" /></p>
 
 <h4 id="负载均衡">负载均衡</h4>
+
+<ul>
+<li>upstream name{&hellip;} (定义了一个上游服务器的集群，便于反向代理中的proxy_pass使用)</li>
+<li>server name<a href="指定一台上游服务器的，可以是域名，IP:PROT,UNIX句柄">parameters</a></li>
+</ul>
+
+<p>server参数：</p>
+
+<pre><code>weight=num:上游服务器转发的权重。
+max_fails=num(def 1) fail_timeout=time(def 10s)：表示该时间段内转发失败多少次后就认为上游服务器暂时不可用，用于优化反向代理功能。
+down：表示所在的上游服务器永久下线，只在使用ip_hash配置项时才有用。
+·backup：在使用ip_hash配置项时它是无效的。它表示所在的上游服务器只是备份服务器，
+只有在所有的非备份上游服务器都失效后，才会向所在的上游服务器转发请求。
+</code></pre>
+
+<h4 id="反向代理-1">反向代理</h4>
+
+<ul>
+<li>proxy_pass URL</li>
+</ul>
+
+<pre><code>将当前请求反向代理到URL参数指定的服务器上，URL可以是主机名/IP:PROT/UNIX句柄/upstream块的形式。
+
+proxy_pass http://localhost:8000/uri/;
+</code></pre>
+
+<ul>
+<li>proxy_method method (转发时的协议方法名)</li>
+<li>proxy_hide_header the_header;(Nginx将上游服务器的响应转发给客户端，这里指定哪些HTTP Header 字段不能被转发，默认不会转发Server、X-Pad和X-Accel-*)</li>
+<li>proxy_pass_header the_header;(允许转发的HTTP Header)</li>
+<li>proxy_pass_request_body on|off(默认on，是否向上游服务器发送HTTP包体部分)</li>
+<li>proxy_pass_request_headers on|off</li>
+<li>proxy_redirect[default|off|redirect replacement]</li>
+</ul>
+
+<pre><code>上游服务器返回的响应是重定向或刷新请求，proxy_redirect可以重设HTTP头部的location或refresh字段。
+
+proxy_redirect http://localhost:8000/free/ http://frontend/free/
+</code></pre>
+
+<h4 id="例子">例子</h4>
+
+<pre><code>upstream backend {
+
+  ip_hash;(负载均衡策略)
+
+  server backend1.service.com weight=5;
+  server 127.0.0.1:9000 param...;
+  server unix:/tmp/backend3;
+}
+
+server {
+  location / {
+    proxy_pass  http://backend;
+  }
+}
+</code></pre>
             </article>
 
             <ul class="pager blog-pager">
@@ -543,7 +602,7 @@ off:关闭缓存功能。
     <section id="datecount">
         <h4 id="date"> Tue Jun 25, 2019</h4>
     </section>
-    <h5 id="wc">300 Words|Read in about 2 Min</h5>
+    <h5 id="wc">400 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/nginx/">Nginx</a> &nbsp;
