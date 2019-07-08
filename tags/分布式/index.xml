@@ -8,10 +8,20 @@
     <language>en</language>
     <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
     <webMaster>13435500980@163.com (lihanrong)</webMaster>
-    <lastBuildDate>Sat, 08 Sep 2018 23:02:55 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 08 Jul 2019 23:47:37 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Web接口幂等性</title>
+      <link>https://chinalhr.github.io/posts/interface_idempotent/</link>
+      <pubDate>Mon, 08 Jul 2019 23:47:37 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/interface_idempotent/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>基于SnowFlake的分布式UID生成服务</title>

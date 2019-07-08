@@ -224,7 +224,7 @@
     <section id="datecount">
         <h4 id="date"> Fri Apr 19, 2019</h4>
     </section>
-    <h5 id="wc">500 Words|Read in about 3 Min</h5>
+    <h5 id="wc">600 Words|Read in about 3 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/linux/">Linux</a> &nbsp;
@@ -484,13 +484,26 @@ du -ms filename
 
 <h4 id="排查java-cpu占用问题">排查Java CPU占用问题</h4>
 
+<p>1.0</p>
+
 <pre><code class="language-shell"># top命令，定位高CPU占用Java进程PID
+top -c (将系统资源使用情况实时显示出来) P(输入大写 P 将应用按照 CPU 使用率排序，第一个为使用率最高的)
 # 显示线程列表(查看占用CPU时间,占用时间，TID)
 ps -mp pid -o THREAD,tid,time
 # 将线程ID TID转换为16进制
 printf “%x\n” tid
 # 使用jstack打印线程堆栈信息(pid=进程id tid=我们转换的tid)
 .../jvm/jstack pid |grep tid -A 60
+</code></pre>
+
+<p>2.0</p>
+
+<pre><code class="language-shell">1. top -c 将系统资源使用情况实时显示出来 （-c 参数可以完整显示命令）大写 P 将应用按照 CPU 使用率排序，第一个就是使用率最高的程序。
+2.  top -Hp pid 然后输入 P 依然可以按照 CPU 使用率将线程排序。
+3. 将线程ID TID转换为16进制printf “%x\n” tid。
+4. 通过 jstack pid &gt;pid.log 生成日志文件，利用刚才保存的 16 进制进程 ID 去这个线程快照中搜索即可查看消耗 CPU 的线程日志。 
+5. jstat -gcutil pid 200 50 将内存使用、gc 回收状况打印出来（每隔 200ms 打印 50次）。
+6. 
 </code></pre>
 
 <h3 id="排查java高内存占用问题">排查Java高内存占用问题</h3>
@@ -648,7 +661,7 @@ mount /dev/vdb1 /data
     <section id="datecount">
         <h4 id="date"> Fri Apr 19, 2019</h4>
     </section>
-    <h5 id="wc">500 Words|Read in about 3 Min</h5>
+    <h5 id="wc">600 Words|Read in about 3 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/linux/">Linux</a> &nbsp;
