@@ -9,9 +9,18 @@
   <meta name="description" content="Read the fucking source code" />
   <meta property="og:title" content="Maven Plugin 记录" />
   <meta name="twitter:title" content="Maven Plugin 记录" />
-  <meta name="description" content="https://einverne.github.io/post/2018/07/maven-plugins.html">
-  <meta property="og:description" content="https://einverne.github.io/post/2018/07/maven-plugins.html">
-  <meta name="twitter:description" content="https://einverne.github.io/post/2018/07/maven-plugins.html">
+  <meta name="description" content="Maven插件机制 Maven的核心仅仅定义了抽象的生命周期，具体的任务是交由插件完成的，插件以独立的构件形式存在，Maven会在需要的时候下载并使用插件。
+插件机制的目的 插件本身，为了能够复用代码，它往往能够完成多个任务，为每个这样的功能编写一个独立的插件显然是不可取的，因为这些任务背后都有很多可以复用的代码，这些功能都聚集在一个插件里，每个功能就是一个插件目标。
+通用写法 compiler:compile(插件前缀:插件目标)
+插件的绑定 Maven生命周期的阶段与插件的目标相互绑定，以完成某个具体的构建任务。
+ clean生命周期阶段插件绑定关系     生命周期阶段 插件目标 执行任务     pre-clean     clean maven-clean-plugin:clean 删除项目的输出目录   post-clean       site生命周期阶段与插件绑定关系     生命周期阶段 插件目标 执行任务     pre-site     site maven-site-plugin:site target/site生成站点   post-site     site-deploy maven-site-plugin:deploy 部署到web服务器     default生命周期阶段与插件绑定关系(jar)     生命周期阶段 插件目标 执行任务     process-resources maven-resources-plugin:resources 复制主资源文件至主输出目录   compile maven-compiler-plugin:compile 编译主代码至主输出目录   process-test-resources maven-resources-plugin:testResources 复制测试资源文件至测试输出目录   test-compile maven-compiler-plugin:testCompile 编译测试代码至测试输出目录   test maven-surefire-plugin:test 执行测试用例   package maven-jar-plugin:jar 创建项目jar包   install maven-install-plugin:install 将项目输出构件安装到本地仓库   deploy maven-deploy-plugin:deploy 将项目输出构件部署到远程仓库    插件配置  命令行配置  # –D 参数 是Java自带，功能是通过命令行设置一个Java系统属性，Maven简单地重用了该参数。 # maven-surefire-plugin maven-surefire-plugin 提供一个 maven.">
+  <meta property="og:description" content="Maven插件机制 Maven的核心仅仅定义了抽象的生命周期，具体的任务是交由插件完成的，插件以独立的构件形式存在，Maven会在需要的时候下载并使用插件。
+插件机制的目的 插件本身，为了能够复用代码，它往往能够完成多个任务，为每个这样的功能编写一个独立的插件显然是不可取的，因为这些任务背后都有很多可以复用的代码，这些功能都聚集在一个插件里，每个功能就是一个插件目标。
+通用写法 compiler:compile(插件前缀:插件目标)
+插件的绑定 Maven生命周期的阶段与插件的目标相互绑定，以完成某个具体的构建任务。
+ clean生命周期阶段插件绑定关系     生命周期阶段 插件目标 执行任务     pre-clean     clean maven-clean-plugin:clean 删除项目的输出目录   post-clean       site生命周期阶段与插件绑定关系     生命周期阶段 插件目标 执行任务     pre-site     site maven-site-plugin:site target/site生成站点   post-site     site-deploy maven-site-plugin:deploy 部署到web服务器     default生命周期阶段与插件绑定关系(jar)     生命周期阶段 插件目标 执行任务     process-resources maven-resources-plugin:resources 复制主资源文件至主输出目录   compile maven-compiler-plugin:compile 编译主代码至主输出目录   process-test-resources maven-resources-plugin:testResources 复制测试资源文件至测试输出目录   test-compile maven-compiler-plugin:testCompile 编译测试代码至测试输出目录   test maven-surefire-plugin:test 执行测试用例   package maven-jar-plugin:jar 创建项目jar包   install maven-install-plugin:install 将项目输出构件安装到本地仓库   deploy maven-deploy-plugin:deploy 将项目输出构件部署到远程仓库    插件配置  命令行配置  # –D 参数 是Java自带，功能是通过命令行设置一个Java系统属性，Maven简单地重用了该参数。 # maven-surefire-plugin maven-surefire-plugin 提供一个 maven.">
+  <meta name="twitter:description" content="Maven插件机制 Maven的核心仅仅定义了抽象的生命周期，具体的任务是交由插件完成的，插件以独立的构件形式存在，Maven会在需要的时候下载并使用插件。
+插件机制的目的 插件本身，为了能够复用代码，它往往能够完成多个任务，为每个这样的功能编写一个独立的插件显然是不可取的，因为这些任务背后都有很多可以复用的代码，这些功能都聚集在一个插件里，每个功能就是一个插件目标。 …">
   <meta name="author" content="lihanrong"/>
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://chinalhr.github.io/posts/maven_plugs_record/" />
@@ -221,7 +230,7 @@
     <section id="datecount">
         <h4 id="date"> Wed Apr 17, 2019</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="wc">200 Words|Read in about 1 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/maven/">maven</a> &nbsp;
@@ -232,9 +241,336 @@
             <article role="main" class="blog-post" itemprop="articleBody" id="content">
                 
   
+  <aside class="toc">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#maven插件机制">Maven插件机制</a>
+<ul>
+<li><a href="#插件机制的目的">插件机制的目的</a></li>
+<li><a href="#插件的绑定">插件的绑定</a></li>
+<li><a href="#插件配置">插件配置</a></li>
+</ul></li>
+<li><a href="#其他插件">其他插件</a>
+<ul>
+<li><a href="#maven-release-plugin">maven-release-plugin</a></li>
+<li><a href="#maven-checkstyle-plugin">maven-checkstyle-plugin</a></li>
+<li><a href="#maven-shade-plugin">maven-shade-plugin</a></li>
+<li><a href="#maven-resources-plugin">maven-resources-plugin</a></li>
+<li><a href="#maven-source-plugin">maven-source-plugin</a></li>
+</ul></li>
+<li><a href="#参考">参考</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </aside>
+  
 
 
-                <p><a href="https://einverne.github.io/post/2018/07/maven-plugins.html">https://einverne.github.io/post/2018/07/maven-plugins.html</a></p>
+                
+
+<h3 id="maven插件机制">Maven插件机制</h3>
+
+<p>Maven的核心仅仅定义了抽象的生命周期，具体的任务是交由插件完成的，插件以独立的构件形式存在，Maven会在需要的时候下载并使用插件。</p>
+
+<h4 id="插件机制的目的">插件机制的目的</h4>
+
+<p>插件本身，为了能够复用代码，它往往能够完成多个任务，为每个这样的功能编写一个独立的插件显然是不可取的，因为这些任务背后都有很多可以复用的代码，这些功能都聚集在一个插件里，每个功能就是一个插件目标。</p>
+
+<p>通用写法 compiler:compile(插件前缀:插件目标)</p>
+
+<h4 id="插件的绑定">插件的绑定</h4>
+
+<p>Maven生命周期的阶段与插件的目标相互绑定，以完成某个具体的构建任务。</p>
+
+<ul>
+<li>clean生命周期阶段插件绑定关系</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>生命周期阶段</th>
+<th>插件目标</th>
+<th>执行任务</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>pre-clean</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>clean</td>
+<td>maven-clean-plugin:clean</td>
+<td>删除项目的输出目录</td>
+</tr>
+
+<tr>
+<td>post-clean</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>site生命周期阶段与插件绑定关系</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>生命周期阶段</th>
+<th>插件目标</th>
+<th>执行任务</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>pre-site</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>site</td>
+<td>maven-site-plugin:site</td>
+<td>target/site生成站点</td>
+</tr>
+
+<tr>
+<td>post-site</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>site-deploy</td>
+<td>maven-site-plugin:deploy</td>
+<td>部署到web服务器</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>default生命周期阶段与插件绑定关系(jar)</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>生命周期阶段</th>
+<th>插件目标</th>
+<th>执行任务</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>process-resources</td>
+<td>maven-resources-plugin:resources</td>
+<td>复制主资源文件至主输出目录</td>
+</tr>
+
+<tr>
+<td>compile</td>
+<td>maven-compiler-plugin:compile</td>
+<td>编译主代码至主输出目录</td>
+</tr>
+
+<tr>
+<td>process-test-resources</td>
+<td>maven-resources-plugin:testResources</td>
+<td>复制测试资源文件至测试输出目录</td>
+</tr>
+
+<tr>
+<td>test-compile</td>
+<td>maven-compiler-plugin:testCompile</td>
+<td>编译测试代码至测试输出目录</td>
+</tr>
+
+<tr>
+<td>test</td>
+<td>maven-surefire-plugin:test</td>
+<td>执行测试用例</td>
+</tr>
+
+<tr>
+<td>package</td>
+<td>maven-jar-plugin:jar</td>
+<td>创建项目jar包</td>
+</tr>
+
+<tr>
+<td>install</td>
+<td>maven-install-plugin:install</td>
+<td>将项目输出构件安装到本地仓库</td>
+</tr>
+
+<tr>
+<td>deploy</td>
+<td>maven-deploy-plugin:deploy</td>
+<td>将项目输出构件部署到远程仓库</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="插件配置">插件配置</h4>
+
+<ul>
+<li>命令行配置</li>
+</ul>
+
+<pre><code># –D 参数
+是Java自带，功能是通过命令行设置一个Java系统属性，Maven简单地重用了该参数。
+
+# maven-surefire-plugin
+maven-surefire-plugin 提供一个 maven.test.skip 参数，当其值为 true的时候，就会跳过执行测试。
+</code></pre>
+
+<ul>
+<li>pom 中插件全局配置</li>
+</ul>
+
+<p>如指定jdk编译版本</p>
+
+<pre><code>&lt;build&gt;
+	&lt;plugins&gt;
+		&lt;plugin&gt;
+			&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+			&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+			&lt;version&gt;3.1&lt;/version&gt;
+			&lt;configuration&gt;
+				&lt;source&gt;1.8&lt;/source&gt;
+				&lt;target&gt;1.8&lt;/target&gt;
+			&lt;/configuration&gt;
+		&lt;/plugin&gt;
+	&lt;/plugins&gt;
+&lt;/build&gt;
+</code></pre>
+
+<h3 id="其他插件">其他插件</h3>
+
+<h4 id="maven-release-plugin">maven-release-plugin</h4>
+
+<pre><code># 版本管理
+# 功能:
+
+SNAPSHOT快照版本，RELEASE正式版本
+
+正式发布流程：
+
+1. 在trunk中，更新pom版本从1.0-SNAPSHOT到1.0
+2. 对1.0打一个git tag
+3. 针对tag进行mvn deploy，发布正式版本
+4. 更新trunk从1.0到1.1-SNAPSHOT
+
+
+&lt;plugin&gt;
+      &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+      &lt;artifactId&gt;maven-release-plugin&lt;/artifactId&gt;
+      &lt;version&gt;2.5.3&lt;/version&gt;
+      &lt;configuration&gt;
+        &lt;autoVersionSubmodules&gt;true&lt;/autoVersionSubmodules&gt;
+        &lt;tagNameFormat&gt;v@{project.version}&lt;/tagNameFormat&gt;
+        &lt;generateReleasePoms&gt;false&lt;/generateReleasePoms&gt;
+        &lt;arguments&gt;-DskipTests&lt;/arguments&gt;
+        ...
+      &lt;/configuration&gt;
+&lt;/plugin&gt;
+
+&lt;scm&gt;
+  &lt;developerConnection&gt;scm:git:xxx&lt;/developerConnection&gt;
+&lt;/scm&gt;
+
+命令:
+mvn release:prepare release版本打tag,snapshot版本自动迭代 
+mvn release:perform release版本打包，分发到远程Maven仓库中
+
+maven版本规则
+&lt;主版本&gt;.&lt;次版本&gt;.&lt;增量版本&gt;
+</code></pre>
+
+<h4 id="maven-checkstyle-plugin">maven-checkstyle-plugin</h4>
+
+<pre><code># 代码风格检查
+
+添加checkstyle配置文件
+&lt;checkstyle.config.location&gt;checkstyle.xml&lt;/checkstyle.config.location&gt;
+
+
+       &lt;plugin&gt;  
+          &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;  
+          &lt;artifactId&gt;maven-checkstyle-plugin&lt;/artifactId&gt;  
+          &lt;version&gt;2.9.1&lt;/version&gt;  
+       &lt;/plugin&gt;  
+  
+       &lt;plugin&gt;  
+          &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;  
+          &lt;artifactId&gt;maven-jxr-plugin&lt;/artifactId&gt;  
+          &lt;version&gt;2.3&lt;/version&gt;  
+       &lt;/plugin&gt; 
+       
+mvn命令检测代码
+mvn checkstyle:checkstyle 检查工程是否满足checkstyle
+mvn jxr:jxr 命令可以查看有错的对应代码
+</code></pre>
+
+<h4 id="maven-shade-plugin">maven-shade-plugin</h4>
+
+<pre><code># 绑定package生命周期目标,用户项目打可执行包，包含依赖，以及对依赖进行取舍过滤
+</code></pre>
+
+<h4 id="maven-resources-plugin">maven-resources-plugin</h4>
+
+<pre><code># Maven中的资源文件默认存在于src/main/resources,resources用于提供自定义资源打包功能
+
+ &lt;plugin&gt;
+                    &lt;artifactId&gt;maven-resources-plugin&lt;/artifactId&gt;
+                    &lt;version&gt;${maven-resources-plugin.version}&lt;/version&gt;
+                    &lt;executions&gt;
+                        &lt;execution&gt;
+                            &lt;id&gt;copy-resources&lt;/id&gt;
+                            &lt;phase&gt;package&lt;/phase&gt;
+                            &lt;goals&gt;
+                                &lt;goal&gt;copy-resources&lt;/goal&gt;
+                            &lt;/goals&gt;
+                            &lt;configuration&gt;
+                                //自定义输出目录，将resource/conf下的配置打包到输出目录/conf
+                                &lt;outputDirectory&gt;${build.path}/conf&lt;/outputDirectory&gt;
+                                &lt;resources&gt;
+                                    &lt;resource&gt;
+                                        &lt;directory&gt;../conf/&lt;/directory&gt;
+                                        &lt;filtering&gt;true&lt;/filtering&gt;
+                                    &lt;/resource&gt;
+                                &lt;/resources&gt;
+                            &lt;/configuration&gt;
+                        &lt;/execution&gt;
+                    &lt;/executions&gt;
+                &lt;/plugin&gt;
+</code></pre>
+
+<h4 id="maven-source-plugin">maven-source-plugin</h4>
+
+<pre><code># 自动将源码打包并发布的功能,
+mvn install:将source install到repository
+mvn deploy:将source deploy到remote-repository
+mvn source:jar:单独打包源码
+</code></pre>
+
+<h3 id="参考">参考</h3>
+
+<p><a href="http://maven.apache.org/plugins/index.html">http://maven.apache.org/plugins/index.html</a></p>
 
             </article>
 
@@ -261,7 +597,7 @@
     <section id="datecount">
         <h4 id="date"> Wed Apr 17, 2019</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="wc">200 Words|Read in about 1 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/maven/">maven</a> &nbsp;

@@ -544,8 +544,12 @@
 
               <div class="post-entry">
                 
-                  <p><a href="https://einverne.github.io/post/2018/07/maven-plugins.html">https://einverne.github.io/post/2018/07/maven-plugins.html</a></p>
-
+                  Maven插件机制 Maven的核心仅仅定义了抽象的生命周期，具体的任务是交由插件完成的，插件以独立的构件形式存在，Maven会在需要的时候下载并使用插件。
+插件机制的目的 插件本身，为了能够复用代码，它往往能够完成多个任务，为每个这样的功能编写一个独立的插件显然是不可取的，因为这些任务背后都有很多可以复用的代码，这些功能都聚集在一个插件里，每个功能就是一个插件目标。
+通用写法 compiler:compile(插件前缀:插件目标)
+插件的绑定 Maven生命周期的阶段与插件的目标相互绑定，以完成某个具体的构建任务。
+ clean生命周期阶段插件绑定关系     生命周期阶段 插件目标 执行任务     pre-clean     clean maven-clean-plugin:clean 删除项目的输出目录   post-clean       site生命周期阶段与插件绑定关系     生命周期阶段 插件目标 执行任务     pre-site     site maven-site-plugin:site target/site生成站点   post-site     site-deploy maven-site-plugin:deploy 部署到web服务器     default生命周期阶段与插件绑定关系(jar)     生命周期阶段 插件目标 执行任务     process-resources maven-resources-plugin:resources 复制主资源文件至主输出目录   compile maven-compiler-plugin:compile 编译主代码至主输出目录   process-test-resources maven-resources-plugin:testResources 复制测试资源文件至测试输出目录   test-compile maven-compiler-plugin:testCompile 编译测试代码至测试输出目录   test maven-surefire-plugin:test 执行测试用例   package maven-jar-plugin:jar 创建项目jar包   install maven-install-plugin:install 将项目输出构件安装到本地仓库   deploy maven-deploy-plugin:deploy 将项目输出构件部署到远程仓库    插件配置  命令行配置  # –D 参数 是Java自带，功能是通过命令行设置一个Java系统属性，Maven简单地重用了该参数。 # maven-surefire-plugin maven-surefire-plugin 提供一个 maven.
+                  <a href="https://chinalhr.github.io/posts/maven_plugs_record/" class="post-read-more">[Read More]</a>
                 
               </div>
 
