@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title> Linux_io_multiplexing - Read the fucking source code</title>
+  <meta name="description" content="Read the fucking source code" />
+  <meta property="og:title" content="Linux_io_multiplexing" />
+  <meta name="twitter:title" content="Linux_io_multiplexing" />
+  <meta name="description" content="
+">
+  <meta property="og:description" content="
+">
+  <meta name="twitter:description" content="
+">
+  <meta name="author" content="lihanrong"/>
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://chinalhr.github.io/posts/linux_io_multiplexing/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LHR" />
+
+  <meta name="generator" content="Hugo 0.51" />
+  <link rel="canonical" href="https://chinalhr.github.io/posts/linux_io_multiplexing/" />
+  <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
+  <script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/jquery-1.12.4.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  
+  
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/main.css" />
+  <link rel="stylesheet" href="https://chinalhr.github.io/css/search.css" />
+  
+  
+  
+  <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/monokai.min.css" rel="stylesheet">
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<link rel="stylesheet" href="https://chinalhr.github.io/css/prism.css" />
+
+
+
+
+
+<script async src="//cdn.busuanzi.ibruce.info/cdn/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://chinalhr.github.io/">LHR</a>
+    </div>
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Tags" href="/tags/">Tags</a>
+              
+              
+            </li>
+          
+        
+          
+            <li>
+              <a title="categories" href="/categories/">categories</a>
+              
+              
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/posts/about/">About</a>
+              
+              
+            </li>
+          
+        
+          
+            <li>
+              <a title="Resume" href="/posts/resume/">Resume</a>
+              
+              
+            </li>
+          
+        
+
+        
+
+        
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="LHR" href="https://chinalhr.github.io/">
+            <img class="avatar-img" src="https://avatars0.githubusercontent.com/u/19829495" alt="LHR" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-md-offset-0">
+            <div class="posts-heading">
+                <h1 align="center">Linux_io_multiplexing</h1>
+                
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main" itemscope itemtype="http://schema.org/Article">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            
+            
+            
+<div>
+    <section id="datecount">
+        <h4 id="date"> Wed Jul 24, 2019</h4>
+    </section>
+    <h5 id="wc">300 Words|Read in about 2 Min</h5>
+    <h5 id="tags">Tags: 
+        
+        <a href="https://chinalhr.github.io/tags/linux/">Linux</a> &nbsp;
+    </h5>
+</div>
+
+            
+            <article role="main" class="blog-post" itemprop="articleBody" id="content">
+                
+  
+  <aside class="toc">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#unix-io模型">Unix IO模型</a>
+<ul>
+<li><a href="#blocking-io-阻塞io">Blocking IO - 阻塞IO</a></li>
+<li><a href="#noneblockingio-非阻塞io">NoneBlockingIO - 非阻塞IO</a></li>
+<li><a href="#io-multiplexing-io多路复用-select为例子">IO multiplexing - IO多路复用(select为例子)</a></li>
+<li><a href="#asynchronous-io-异步io">asynchronous IO - 异步IO</a></li>
+<li><a href="#对比">对比</a></li>
+</ul></li>
+<li><a href="#同步-异步-阻塞-非阻塞">同步-异步-阻塞-非阻塞</a>
+<ul>
+<li><a href="#同步-异步">同步-异步</a></li>
+<li><a href="#阻塞与非阻塞">阻塞与非阻塞</a></li>
+</ul></li>
+<li><a href="#操作系统相关">操作系统相关</a>
+<ul>
+<li><a href="#用户空间与内核空间">用户空间与内核空间</a></li>
+<li><a href="#进程切换">进程切换</a></li>
+<li><a href="#进程阻塞">进程阻塞</a></li>
+<li><a href="#文件描述符fd">文件描述符fd</a></li>
+<li><a href="#缓存-i-o">缓存 I/O</a></li>
+</ul></li>
+<li><a href="#select-poll与epoll">select、poll与epoll</a>
+<ul>
+<li><a href="#select">select</a></li>
+<li><a href="#poll">poll</a></li>
+<li><a href="#epoll">epoll</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </aside>
+  
+
+
+                <blockquote>
+</blockquote>
+
+<h3 id="unix-io模型">Unix IO模型</h3>
+
+<pre><code>Blocking IO - 阻塞IO
+NoneBlocking IO - 非阻塞IO
+IO multiplexing - IO多路复用
+signal driven IO - 信号驱动IO
+asynchronous IO - 异步IO
+</code></pre>
+
+<ul>
+<li><p>network IO涉及系统对象</p>
+
+<ul>
+<li>application(调用这个IO的进程)</li>
+<li>kernel(系统内核)</li>
+</ul></li>
+
+<li><p>交互过程</p>
+
+<ul>
+<li>阶段1:wait for data 等待数据准备(TCP/UDP包接受接收)</li>
+<li>阶段2: copy data from kernel to user 将数据从内核拷贝到用户进程中</li>
+</ul></li>
+</ul>
+
+<h4 id="blocking-io-阻塞io">Blocking IO - 阻塞IO</h4>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/61194583-fab66800-a6f4-11e9-861e-1a04a6ea9ad4.png" alt="image" /></p>
+
+<p>wait for data阶段与copy data from kernel to user阶段都是阻塞的。</p>
+
+<h4 id="noneblockingio-非阻塞io">NoneBlockingIO - 非阻塞IO</h4>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/61263524-c9549f80-a7bb-11e9-9667-bd3c96e350e8.png" alt="image" /></p>
+
+<p>wait for data阶段非阻塞，用户进程发出recvfrom系统调用后，kernel中的数据如果没准备好，立即返回一个结果。采用循环check的方式，每隔一段时间再次发送recvfrom。</p>
+
+<p>copy data from kernel to user阶段都是阻塞的，一旦kernel中的数据准备好了，那么它马上就将数据拷贝到了用户内存，然后返回。</p>
+
+<h4 id="io-multiplexing-io多路复用-select为例子">IO multiplexing - IO多路复用(select为例子)</h4>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/61263999-8267a980-a7bd-11e9-9652-c42423272e8a.png" alt="image" /></p>
+
+<p>与blocking I/O相似度很高，但是可以等待多个数据报就绪（datagram ready），可以同时处理多个连接。核空间内select会监听指定的多个datagram (如socket连接)，如果其中任意一个数据就绪了就返回。此时程序再进行数据读取操作，将数据拷贝至当前进程内。</p>
+
+<p>wait for data阶段是阻塞的(select调用阻塞，而非I/O阻塞)，select底层通过轮询机制来判断每个socket读写是否就绪。</p>
+
+<p>copy data from kernel to user阶段都是阻塞的。</p>
+
+<h4 id="asynchronous-io-异步io">asynchronous IO - 异步IO</h4>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/61297800-93410b00-a80f-11e9-8461-fa4d61307e5b.png" alt="image" /></p>
+
+<p>aio_read(读取操作)会通知内核进行读取操作并将数据拷贝至进程中，该操作会立刻返回，程序可以进行其它的操作，所有的读取、拷贝工作都由内核去做，做完以后通知进程，进程调用绑定的回调函数来处理数据。</p>
+
+<h4 id="对比">对比</h4>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/61381288-6a874700-a8dd-11e9-9f10-ade54f1f7d2e.png" alt="image" /></p>
+
+<h3 id="同步-异步-阻塞-非阻塞">同步-异步-阻塞-非阻塞</h3>
+
+<h4 id="同步-异步">同步-异步</h4>
+
+<p>关注点为消息通信机制。</p>
+
+<p>同步:发出一个调用时,在没有得到结果之前,该调用就不返回。但是一旦调用返回,就得到返回值了。</p>
+
+<p>异步:发出一个调用后,这个调用就直接返回了,被调用方通过状态、通知来通知调用者,或通过回调函数处理这个调用。</p>
+
+<h4 id="阻塞与非阻塞">阻塞与非阻塞</h4>
+
+<p>关注点是程序在等待调用结果（消息，返回值）时的状态。</p>
+
+<p>阻塞调用:调用结果返回之前，当前线程会被挂起。调用线程只有在得到结果之后才会返回。</p>
+
+<p>非阻塞调用:在不能立刻得到结果之前，该调用不会阻塞当前线程。会以另一种方式去check。</p>
+
+<h3 id="操作系统相关">操作系统相关</h3>
+
+<h4 id="用户空间与内核空间">用户空间与内核空间</h4>
+
+<p>现在操作系统采用虚拟存储器，对于32位操作系统的寻址空间（虚拟存储空间）为4G（2的32次方）。操心系统将虚拟空间划分为两部分，一部分为内核空间，一部分为用户空间。对于linux操作系统而言，将最高的1G字节（从虚拟地址0xC0000000到0xFFFFFFFF），供内核使用，称为内核空间，而将较低的3G字节（从虚拟地址0x00000000到0xBFFFFFFF），供各个进程使用，称为用户空间。</p>
+
+<h4 id="进程切换">进程切换</h4>
+
+<p>内核挂起正在CPU上运行的进程，并恢复以前挂起的某个进程的执行。</p>
+
+<p>进程切换：</p>
+
+<pre><code>1. 保存处理机上下文，包括程序计数器和其他寄存器。
+2. 更新PCB信息。
+3. 把进程的PCB移入相应的队列，如就绪、在某事件阻塞等队列。
+4. 选择另一个进程执行，并更新其PCB。
+5. 更新内存管理的数据结构。
+6. 恢复处理机上下文。
+</code></pre>
+
+<h4 id="进程阻塞">进程阻塞</h4>
+
+<p>正在执行的进程，由于期待的某些事件未发生，如请求系统资源失败、等待某种操作的完成、新数据尚未到达或无新工作做等，则由系统自动执行阻塞原语(Block)，使自己由运行状态变为阻塞状态。<strong>当进程进入阻塞状态，是不占用CPU资源的。</strong></p>
+
+<h4 id="文件描述符fd">文件描述符fd</h4>
+
+<p>文件描述符（File descriptor）是一个用于表述指向文件的引用的抽象化概念。</p>
+
+<p>文件描述符在形式上是一个非负整数。实际上，它是一个索引值，指向内核为每一个进程所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。</p>
+
+<h4 id="缓存-i-o">缓存 I/O</h4>
+
+<p>缓存 I/O 又被称作标准 I/O，大多数文件系统的默认 I/O 操作都是缓存 I/O。在 Linux 的缓存 I/O 机制中，操作系统会将 I/O 的数据缓存在文件系统的页缓存（ page cache ）中，也就是说，数据会先被拷贝到操作系统内核的缓冲区中，然后才会从操作系统内核的缓冲区拷贝到应用程序的地址空间。</p>
+
+<h3 id="select-poll与epoll">select、poll与epoll</h3>
+
+<p>I/O多路复用就是通过一种机制，一个进程可以监视多个描述符，一旦某个描述符就绪（一般是读就绪或者写就绪），能够通知程序进行相应的读写操作。但select，poll，epoll本质上都是同步I/O。需要在读写事件就绪后自己负责进行(阻塞)读写。</p>
+
+<h4 id="select">select</h4>
+
+<pre><code>int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);
+</code></pre>
+
+<p>select 函数监视的文件描述符分3类，分别是writefds、readfds、和exceptfds。调用后select函数会阻塞，直到有描述符就绪（有数据 可读、可写、或者有except），或者超时（timeout指定等待时间，如果立即返回设为null即可），函数返回。当select函数返回后，可以 通过遍历fdset，来找到就绪的描述符。</p>
+
+<p>优势：跨平台支持
+缺陷:单个进程能够监视的文件描述符的数量存在最大限制，在Linux上一般为1024。</p>
+
+<h4 id="poll">poll</h4>
+
+<pre><code>int poll (struct pollfd *fds, unsigned int nfds, int timeout);
+
+struct pollfd {
+    int fd; /* file descriptor */
+    short events; /* requested events to watch */
+    short revents; /* returned events witnessed */
+};
+</code></pre>
+
+<p>poll使用一个 pollfd的指针实现。</p>
+
+<p>pollfd结构包含了要监视的event和发生的event，不再使用select“参数-值”传递的方式。没有最大数量限制（但是数量过大后性能也是会下降）。 和select函数一样，poll返回后，需要轮询pollfd来获取就绪的描述符。</p>
+
+<p>缺陷:select和poll都需要在返回后，通过遍历文件描述符来获取已经就绪的socket。同时连接的大量客户端在一时刻可能只有很少的处于就绪状态，因此随着监视的描述符数量的增长，其效率也会线性下降。</p>
+
+<h4 id="epoll">epoll</h4>
+
+<p>select和poll的增强版本。没有描述符限制,epoll使用一个文件描述符管理多个描述符，将用户关系的文件描述符的事件存放到内核的一个事件表中，这样在用户空间和内核空间的copy只需一次。</p>
+
+<pre><code>int epoll_create(int size)；
+int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)；
+int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);
+</code></pre>
+
+<ul>
+<li>epoll_create</li>
+</ul>
+
+<pre><code>创建一个epoll的句柄，size用来告诉内核这个监听的数目一共有多大，不同于select()中的第一个参数，给出最大监听的fd+1的值，参数size并不是限制了epoll所能监听的描述符最大个数，只是对内核初始分配内部数据结构的一个建议。
+当创建好epoll句柄后，它就会占用一个fd值，在linux下如果查看/proc/进程id/fd/能够看到这个fd，所以在使用完epoll后，必须调用close()关闭，否则可能导致fd被耗尽。
+</code></pre>
+
+<ul>
+<li>epoll_ctl</li>
+</ul>
+
+<pre><code>函数是对指定描述符fd执行op操作。
+- epfd：是epoll_create()的返回值。
+- op：表示op操作，用三个宏来表示：添加EPOLL_CTL_ADD，删除EPOLL_CTL_DEL，修改EPOLL_CTL_MOD。分别添加、删除和修改对fd的监听事件。
+- fd：是需要监听的fd（文件描述符）
+- epoll_event：内核需要监的事件
+</code></pre>
+
+<ul>
+<li>epoll_wait</li>
+</ul>
+
+<pre><code>等待epfd上的io事件，最多返回maxevents个事件。
+参数events用来从内核得到事件的集合，maxevents告之内核这个events有多大，这个maxevents的值不能大于创建epoll_create()时的size，参数timeout是超时时间（毫秒，0会立即返回，-1将不确定，也有说法说是永久阻塞）。该函数返回需要处理的事件数目，如返回0表示已超时。
+</code></pre>
+
+<ul>
+<li>工作模式</li>
+</ul>
+
+<pre><code>LT模式(默认 支持block和no-blocksocket)：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序可以不立即处理该事件。下次调用epoll_wait时，会再次响应应用程序并通知此事件。
+
+ET模式(支持no-blocksocket)：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序必须立即处理该事件。如果不处理，下次调用epoll_wait时，不会再次响应应用程序并通知此事件。
+</code></pre>
+
+<ul>
+<li>epoll对比select和poll</li>
+</ul>
+
+<pre><code>在 select/poll中，进程只有在调用一定的方法后，内核才对所有监视的文件描述符进行扫描，而epoll事先通过epoll_ctl()来注册一 个文件描述符，一旦基于某个文件描述符就绪时，内核会采用类似callback的回调机制，迅速激活这个文件描述符，当进程调用epoll_wait() 时便得到通知。(此处去掉了遍历文件描述符，而是通过监听回调的的机制)
+
+epoll监视的描述符数量不受限制，它所支持的FD上限是最大可以打开文件的数目，远大于2048,举个例子,在1GB内存的机器上大约是10万左右，cat /proc/sys/fs/file-max察看,与系统内存有关
+
+
+</code></pre>
+            </article>
+
+            <ul class="pager blog-pager">
+                
+                <li class="previous">
+                    <a href="https://chinalhr.github.io/posts/interface_idempotent/" data-toggle="tooltip" data-placement="top" title="Web接口幂等性">&larr; Previous Post</a>
+                </li>
+                 
+            </ul>
+            
+            <div>
+                 
+                <h2>See Also</h2>
+                <ul>
+                    
+                    <li><a href="/posts/linuxoom/">Linux Out-Of-Memory killer</a></li>
+                    
+                    <li><a href="/posts/linux_operating_record/">Linux命令记录</a></li>
+                    
+                </ul>
+                
+            </div>
+            
+            
+            
+            
+<div>
+    <section id="datecount">
+        <h4 id="date"> Wed Jul 24, 2019</h4>
+    </section>
+    <h5 id="wc">300 Words|Read in about 2 Min</h5>
+    <h5 id="tags">Tags: 
+        
+        <a href="https://chinalhr.github.io/tags/linux/">Linux</a> &nbsp;
+    </h5>
+</div>
+
+            
+            </div>
+            
+            
+                
+                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<aside id=comments>
+    
+    
+    
+    
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjI4Ni8xMjgyMQ==">
+    	<script type="text/javascript">
+       (function(d, s) {
+           var j, e = d.getElementsByTagName(s)[0];
+           if (typeof LivereTower === 'function') { return; }
+           j = d.createElement(s);
+           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+           j.async = true;
+           e.parentNode.insertBefore(j, e);
+       })(document, 'script');
+    	</script>
+    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+    
+</aside>
+</div>
+
+                
+            
+        </div>
+    </div>
+    </section>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+                <a href="mailto:13435500980@163.com" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/ChinaLHR" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="https://chinalhr.github.io/index.xml" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+        &copy;2017-2018
+          
+            
+              <a href="https://chinalhr.github.io/">lihanrong</a>
+            
+          
+          
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://chinalhr.github.io/">LHR</a>
+          
+        </p>
+
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/rootsongjc/beautifulhugo">Beautiful Hugo</a>
+          
+		   <span id="busuanzi_container_site_pv">
+            本站访问量：<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        &nbsp;
+        <span id="busuanzi_container_site_uv">
+            您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者
+        </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/bootstrap.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe-ui-default.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/auto-render.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/main.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/prism.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/katex.min.js"></script>
+<script> renderMathInElement(document.body); </script>
+
+
+
+
+
+
+
+  </body>
+</html>
+
