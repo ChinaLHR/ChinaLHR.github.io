@@ -224,7 +224,7 @@
     <section id="datecount">
         <h4 id="date"> Wed Jul 24, 2019</h4>
     </section>
-    <h5 id="wc">300 Words|Read in about 2 Min</h5>
+    <h5 id="wc">400 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/linux/">Linux</a> &nbsp;
@@ -268,6 +268,7 @@
 <li><a href="#select">select</a></li>
 <li><a href="#poll">poll</a></li>
 <li><a href="#epoll">epoll</a></li>
+<li><a href="#select-poll-epoll对比">select·poll·epoll对比</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -400,10 +401,19 @@ asynchronous IO - 异步IO
 <pre><code>int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);
 </code></pre>
 
-<p>select 函数监视的文件描述符分3类，分别是writefds、readfds、和exceptfds。调用后select函数会阻塞，直到有描述符就绪（有数据 可读、可写、或者有except），或者超时（timeout指定等待时间，如果立即返回设为null即可），函数返回。当select函数返回后，可以 通过遍历fdset，来找到就绪的描述符。</p>
+<p>select 函数监视的文件描述符分3类，分别是writefds、readfds、和exceptfds。调用后select函数会阻塞，直到有描述符就绪（有数据 可读、可写、或者有except），或者超时（timeout指定等待时间，如果立即返回设为null即可），函数返回。当select函数返回后，可以 通过遍历fdset(集合,存放的是文件描述符)，来找到就绪的描述符。</p>
 
-<p>优势：跨平台支持
-缺陷:单个进程能够监视的文件描述符的数量存在最大限制，在Linux上一般为1024。</p>
+<p>select()的机制中提供一种fd_set的数据结构(long类型的数组)，每一个数组元素都能与一打开的文件句柄建立联系，建立联系的工作由程序员完成，当调用select()时，由内核根据IO状态修改fd_set的内容，由此来通知执行了select()的进程哪一Socket或文件可读</p>
+
+<p>用户可以注册多个socket，然后不断地调用select读取被激活的socket，即可达到在同一个线程内同时处理多个IO请求的目的(达到多线程同步阻塞模型的效果)</p>
+
+<p>优势：跨平台支持</p>
+
+<p>缺陷:</p>
+
+<p>单个进程能够监视的文件描述符的数量存在最大限制，在Linux上一般为1024<br/>
+每次调用select都需要在内核遍历传递进来的所有fd_set，如果fd_set集合很大时开销也很大<br/>
+每次调用select，都需要把fd_set集合从用户态拷贝到内核态(存在copy开销)<br/></p>
 
 <h4 id="poll">poll</h4>
 
@@ -420,11 +430,14 @@ struct pollfd {
 
 <p>pollfd结构包含了要监视的event和发生的event，不再使用select“参数-值”传递的方式。没有最大数量限制（但是数量过大后性能也是会下降）。 和select函数一样，poll返回后，需要轮询pollfd来获取就绪的描述符。</p>
 
-<p>缺陷:select和poll都需要在返回后，通过遍历文件描述符来获取已经就绪的socket。同时连接的大量客户端在一时刻可能只有很少的处于就绪状态，因此随着监视的描述符数量的增长，其效率也会线性下降。</p>
+<p>poll改变了文件描述符集合的描述方式，使用了pollfd结构而不是select的fd_set结构，使得poll支持的文件描述符集合限制远大于select的1024</p>
+
+<p>优势:解决了select文件描述符的数量限制问题
+缺陷:select和poll都需要在返回后，通过遍历文件描述符来获取已经就绪的socket。同时连接的大量客户端在一时刻可能只有很少的处于就绪状态，因此随着监视的描述符数量的增长，其效率也会线性下降。</p>
 
 <h4 id="epoll">epoll</h4>
 
-<p>select和poll的增强版本。没有描述符限制,epoll使用一个文件描述符管理多个描述符，将用户关系的文件描述符的事件存放到内核的一个事件表中，这样在用户空间和内核空间的copy只需一次。</p>
+<p>select和poll的增强版本。没有描述符限制,epoll使用一个文件描述符管理多个描述符，使用一个文件描述符管理多个描述符，将用户关系的文件描述符的事件存放到内核的一个事件表中，这样在用户空间和内核空间的copy只需一次。</p>
 
 <pre><code>int epoll_create(int size)；
 int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)；
@@ -444,10 +457,24 @@ int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout
 </ul>
 
 <pre><code>函数是对指定描述符fd执行op操作。
-- epfd：是epoll_create()的返回值。
+- epfd：是epoll_create()的返回值,表示epoll句柄。
 - op：表示op操作，用三个宏来表示：添加EPOLL_CTL_ADD，删除EPOLL_CTL_DEL，修改EPOLL_CTL_MOD。分别添加、删除和修改对fd的监听事件。
 - fd：是需要监听的fd（文件描述符）
 - epoll_event：内核需要监的事件
+
+结构如下
+
+struct epoll_event {
+    __uint32_t events;  /* Epoll events */
+    epoll_data_t data;  /* User data variable */
+};
+
+typedef union epoll_data {
+    void *ptr;
+    int fd;
+    __uint32_t u32;
+    __uint64_t u64;
+} epoll_data_t;
 </code></pre>
 
 <ul>
@@ -456,6 +483,11 @@ int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout
 
 <pre><code>等待epfd上的io事件，最多返回maxevents个事件。
 参数events用来从内核得到事件的集合，maxevents告之内核这个events有多大，这个maxevents的值不能大于创建epoll_create()时的size，参数timeout是超时时间（毫秒，0会立即返回，-1将不确定，也有说法说是永久阻塞）。该函数返回需要处理的事件数目，如返回0表示已超时。
+
+- epfd 是epoll句柄
+- events 表示从内核得到的就绪事件集合
+- maxevents 告诉内核events的大小
+- timeout 表示等待的超时事件
 </code></pre>
 
 <ul>
@@ -465,6 +497,8 @@ int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout
 <pre><code>LT模式(默认 支持block和no-blocksocket)：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序可以不立即处理该事件。下次调用epoll_wait时，会再次响应应用程序并通知此事件。
 
 ET模式(支持no-blocksocket)：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序必须立即处理该事件。如果不处理，下次调用epoll_wait时，不会再次响应应用程序并通知此事件。
+
+ET模式很大程度上减少了epoll事件的触发次数，因此效率比LT模式下高。
 </code></pre>
 
 <ul>
@@ -474,9 +508,11 @@ ET模式(支持no-blocksocket)：当epoll_wait检测到描述符事件发生并�
 <pre><code>在 select/poll中，进程只有在调用一定的方法后，内核才对所有监视的文件描述符进行扫描，而epoll事先通过epoll_ctl()来注册一 个文件描述符，一旦基于某个文件描述符就绪时，内核会采用类似callback的回调机制，迅速激活这个文件描述符，当进程调用epoll_wait() 时便得到通知。(此处去掉了遍历文件描述符，而是通过监听回调的的机制)
 
 epoll监视的描述符数量不受限制，它所支持的FD上限是最大可以打开文件的数目，远大于2048,举个例子,在1GB内存的机器上大约是10万左右，cat /proc/sys/fs/file-max察看,与系统内存有关
-
-
 </code></pre>
+
+<h4 id="select-poll-epoll对比">select·poll·epoll对比</h4>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/61850023-c0fc1300-aee5-11e9-8100-bed40dab1e3f.png" alt="image" /></p>
             </article>
 
             <ul class="pager blog-pager">
@@ -507,7 +543,7 @@ epoll监视的描述符数量不受限制，它所支持的FD上限是最大可�
     <section id="datecount">
         <h4 id="date"> Wed Jul 24, 2019</h4>
     </section>
-    <h5 id="wc">300 Words|Read in about 2 Min</h5>
+    <h5 id="wc">400 Words|Read in about 2 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/linux/">Linux</a> &nbsp;
