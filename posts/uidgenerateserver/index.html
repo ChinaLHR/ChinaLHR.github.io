@@ -224,7 +224,7 @@
     <section id="datecount">
         <h4 id="date"> Sat Sep 8, 2018</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="wc">800 Words|Read in about 4 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a> &nbsp;
@@ -234,6 +234,30 @@
             
             <article role="main" class="blog-post" itemprop="articleBody" id="content">
                 
+  
+  <aside class="toc">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#背景">背景</a></li>
+<li><a href="#snowflake概述">SnowFlake概述</a></li>
+<li><a href="#简单实现">简单实现</a>
+<ul>
+<li><a href="#结构">结构</a></li>
+<li><a href="#集群环境下机器标识获取">集群环境下机器标识获取</a></li>
+<li><a href="#其他">其他</a></li>
+<li><a href="#代码">代码</a></li>
+</ul></li>
+<li><a href="#snowflake改造">SnowFlake改造</a>
+<ul>
+<li><a href="#固定长度uid改造-snowflake生成的id长度不是固定的-和设置的起始时间有关系-多数订单号需要一个统一长度的订单id-可以对机器id与序列号进行取舍-对于机房小的小型公司可以采用缩减机器id的方式-对于并发性不高的业务可以采用缩减序列号的方式-减小毫秒级别uid的生成数量">[固定长度UID改造]Snowflake生成的ID长度不是固定的，和设置的起始时间有关系。多数订单号需要一个统一长度的订单ID。可以对机器ID与序列号进行取舍。(对于机房小的小型公司可以采用缩减机器ID的方式，对于并发性不高的业务可以采用缩减序列号的方式，减小毫秒级别UID的生成数量)</a></li>
+</ul></li>
+<li><a href="#参考">参考</a></li>
+</ul></li>
+</ul>
+</nav>
+  </aside>
   
 
 
@@ -287,9 +311,236 @@
 2. 服务限流
 </code></pre>
 
-<h3 id="基于netty的分布式uid生成服务">基于Netty的分布式UID生成服务</h3>
+<h3 id="代码">代码</h3>
 
-<p><a href="https://github.com/ChinaLHR/Gungnir/tree/master/gungnir-uid-generate">https://github.com/ChinaLHR/Gungnir/tree/master/gungnir-uid-generate</a></p>
+<pre><code>/**
+ * @Author : lhr
+ * @Date : 12:03 2018/9/14
+ * &lt;p&gt;
+ * 基于Twitter SnowFlake算法 UID生成类
+ * 0 - 41位时间戳 - 10位机器标识 - 12位序列号
+ * 41位时间戳：时间戳的差值（当前时间-固定的开始时间START_STMP）
+ * 10位机器标识:固定值,取IP地址后八位
+ * 12位序列号：同一毫秒内同一个节点可以生成4096个ID
+ * &lt;p&gt;
+ * 0 - 000000000 0000000000 0000000000 0000000000 0 - 000000000 - 0000000000 00
+ */
+public class SnowFlakeUidGenerate {
+
+    /**
+     * 起始时间戳 2018-09-10 00:00:00
+     */
+    private final static long START_STMP = 1536508800000L;
+    private static ReentrantLock reentrantLock = new ReentrantLock();
+
+    /**
+     * 每一部分占用的位数
+     * SEQUENCE_BIT:序列号占用的位数
+     * MACHINE_BIT:机器标识占用的位数(0-1024)
+     */
+    private final static long SEQUENCE_BIT = 12;
+    private final static long MACHINE_BIT = 10;
+
+    /**
+     * 每一部分占用的最大值
+     * MAX_SEQUENCE_NUM:序列号最大值
+     * MAX_MACHINE_NUM:机器标识最大值
+     */
+    private final static long MAX_SEQUENCE_NUM = -1L ^ (-1L &lt;&lt; SEQUENCE_BIT);
+    private final static long MAX_MACHINE_NUM = -1L ^ (-1L &lt;&lt; MACHINE_BIT);
+
+    /**
+     * 每一部分向左移动
+     */
+    private final static long MACHINE_LEFT = SEQUENCE_BIT;
+    private final static long TIMESTMP_LEFT = SEQUENCE_BIT + MACHINE_BIT;
+
+    private static long machineId = 0L;
+    private static long sequence = 0L;
+    private static long lastStmp = -1L;
+
+    /**
+     * 产生下一个Id
+     *
+     * @return
+     */
+    public static long nextId() {
+        reentrantLock.lock();
+        try {
+            long currStmp = getNewstmp();
+            if (currStmp &lt; lastStmp) {
+                String msg = String.format(&quot;SnowFlakeUidGenerate: 机器时钟发生错误,无法生成UID &quot; +
+                        &quot;machineId:{} ; currStmp:{} ; lastStmp:{}&quot;, machineId, currStmp, lastStmp);
+                throw new RuntimeException(msg);
+            }
+
+            if (currStmp == lastStmp) {
+                //相同毫秒内，序列号自增
+                sequence = (sequence + 1) &amp; MAX_SEQUENCE_NUM;
+                //同一毫秒的序列数已经达到最大
+                if (sequence == 0L) {
+                    currStmp = getNextMill();
+                }
+            } else {
+                //不同毫秒内，序列号置为0
+                sequence = 0L;
+            }
+
+            lastStmp = currStmp;
+
+            return ((currStmp - START_STMP) &lt;&lt; TIMESTMP_LEFT)
+                    | machineId &lt;&lt; MACHINE_LEFT
+                    | sequence;
+        } finally {
+            reentrantLock.unlock();
+        }
+    }
+
+    private static long getNextMill() {
+        long mill = getNewstmp();
+        while (mill &lt;= lastStmp) {
+            mill = getNewstmp();
+        }
+        return mill;
+    }
+
+    private static long getNewstmp() {
+        return System.currentTimeMillis();
+    }
+
+    public static void initMachineId(long currentMachineId) {
+        if (currentMachineId &gt; MAX_MACHINE_NUM || currentMachineId &lt; 0) {
+            String msg = String.format(&quot;SnowFlakeUidGenerate 机器标识不正确 machineId:{}&quot;, machineId);
+            throw new RuntimeException(msg);
+        }
+        machineId = currentMachineId;
+    }
+
+    public static long getMachineId() {
+        return machineId;
+    }
+}
+</code></pre>
+
+<h2 id="snowflake改造">SnowFlake改造</h2>
+
+<h3 id="固定长度uid改造-snowflake生成的id长度不是固定的-和设置的起始时间有关系-多数订单号需要一个统一长度的订单id-可以对机器id与序列号进行取舍-对于机房小的小型公司可以采用缩减机器id的方式-对于并发性不高的业务可以采用缩减序列号的方式-减小毫秒级别uid的生成数量">[固定长度UID改造]Snowflake生成的ID长度不是固定的，和设置的起始时间有关系。多数订单号需要一个统一长度的订单ID。可以对机器ID与序列号进行取舍。(对于机房小的小型公司可以采用缩减机器ID的方式，对于并发性不高的业务可以采用缩减序列号的方式，减小毫秒级别UID的生成数量)</h3>
+
+<pre><code>/**
+ * @Author : lhr
+ * @Date : 14:06 2019/7/30
+ * &lt;p&gt;
+ * 基于Twitter SnowFlake算法改造 UserId生成类 生成固定长度为19的ID
+ * 01 - 41位时间戳 - 10位机器标识 - 11位序列号
+ * 41位时间戳：时间戳的差值（当前时间-固定的开始时间START_STMP）
+ * 10位机器标识:固定值,取IP地址后八位
+ * 11位序列号：同一毫秒内同一个节点可以生成2048个ID
+ * &lt;p&gt;
+ * 01 - 000000000 0000000000 0000000000 0000000000 0 - 000000000 - 0000000000 0
+ */
+public class SnowFlakeUserIdGenerate {
+
+    /**
+     * 起始时间戳 2018-09-10 00:00:00
+     */
+    private final static long START_STMP = 1536508800000L;
+    private static ReentrantLock reentrantLock = new ReentrantLock();
+
+    /**
+     * 有效bit位
+     */
+    private static final long bitNum = 62;
+
+    /**
+     * 每一部分占用的位数
+     * SEQUENCE_BIT:序列号占用的位数
+     * MACHINE_BIT:机器标识占用的位数(0-1024)
+     */
+    private final static long SEQUENCE_BIT = 11;
+    private final static long MACHINE_BIT = 10;
+
+    /**
+     * 每一部分占用的最大值
+     * MAX_SEQUENCE_NUM:序列号最大值
+     * MAX_MACHINE_NUM:机器标识最大值
+     */
+    private final static long MAX_SEQUENCE_NUM = -1L ^ (-1L &lt;&lt; SEQUENCE_BIT);
+    private final static long MAX_MACHINE_NUM = -1L ^ (-1L &lt;&lt; MACHINE_BIT);
+
+    /**
+     * 每一部分向左移动
+     */
+    private final static long MACHINE_LEFT = SEQUENCE_BIT;
+    private final static long TIMESTMP_LEFT = SEQUENCE_BIT + MACHINE_BIT;
+
+    private static long machineId = 0L;
+    private static long sequence = 0L;
+    private static long lastStmp = -1L;
+
+    /**
+     * 产生下一个Id
+     *
+     * @return
+     */
+    public static long nextId() {
+        reentrantLock.lock();
+        try {
+            long currStmp = getNewstmp();
+            if (currStmp &lt; lastStmp) {
+                String msg = String.format(&quot;SnowFlakeUserIdGenerate: 机器时钟发生错误,无法生成UID &quot; +
+                        &quot;machineId:{} ; currStmp:{} ; lastStmp:{}&quot;, machineId, currStmp, lastStmp);
+                throw new RuntimeException(msg);
+            }
+
+            if (currStmp == lastStmp) {
+                //相同毫秒内，序列号自增
+                sequence = (sequence + 1) &amp; MAX_SEQUENCE_NUM;
+                //同一毫秒的序列数已经达到最大
+                if (sequence == 0L) {
+                    currStmp = getNextMill();
+                }
+            } else {
+                //不同毫秒内，序列号置为0
+                sequence = 0L;
+            }
+
+            lastStmp = currStmp;
+
+            return ((currStmp - START_STMP) &lt;&lt; TIMESTMP_LEFT)
+                    | machineId &lt;&lt; MACHINE_LEFT
+                    | sequence
+                    | 1L &lt;&lt; bitNum;
+        } finally {
+            reentrantLock.unlock();
+        }
+    }
+
+    private static long getNextMill() {
+        long mill = getNewstmp();
+        while (mill &lt;= lastStmp) {
+            mill = getNewstmp();
+        }
+        return mill;
+    }
+
+    private static long getNewstmp() {
+        return System.currentTimeMillis();
+    }
+
+    public static void initMachineId(long currentMachineId) {
+        if (currentMachineId &gt; MAX_MACHINE_NUM || currentMachineId &lt; 0) {
+            String msg = String.format(&quot;SnowFlakeUserIdGenerate 机器标识不正确 machineId:{}&quot;, machineId);
+            throw new RuntimeException(msg);
+        }
+        machineId = currentMachineId;
+    }
+
+    public static long getMachineId() {
+        return machineId;
+    }
+
+}
+</code></pre>
 
 <h2 id="参考">参考</h2>
 
@@ -330,7 +581,7 @@
     <section id="datecount">
         <h4 id="date"> Sat Sep 8, 2018</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="wc">800 Words|Read in about 4 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a> &nbsp;
