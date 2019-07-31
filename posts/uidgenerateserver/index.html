@@ -313,7 +313,7 @@
 
 <h3 id="代码">代码</h3>
 
-<pre><code>/**
+<pre><code class="language-java">/**
  * @Author : lhr
  * @Date : 12:03 2018/9/14
  * &lt;p&gt;
@@ -426,9 +426,9 @@ public class SnowFlakeUidGenerate {
 
 <h3 id="固定长度uid改造">固定长度UID改造</h3>
 
-<p>Snowflake生成的ID长度不是固定的，和设置的起始时间有关系。多数订单号需要一个统一长度的订单ID。可以对机器ID与序列号进行取舍。(对于机房小的小型公司可以采用缩减机器ID的方式，对于并发性不高的业务可以采用缩减序列号的方式，减小毫秒级别UID的生成数量)</p>
+<p>Snowflake生成的ID长度不是固定的，和设置的起始时间有关系。多数订单号需要一个统一长度的订单ID。可以在64位数前面使用01达到确定位数，对机器ID与序列号进行取舍。(对于机房小的小型公司可以采用缩减机器ID的方式，对于并发性不高的业务可以采用缩减序列号的方式，减小毫秒级别UID的生成数量)</p>
 
-<pre><code>/**
+<pre><code class="language-java">/**
  * @Author : lhr
  * @Date : 14:06 2019/7/30
  * &lt;p&gt;

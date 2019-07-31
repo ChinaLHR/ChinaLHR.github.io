@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://chinalhr.github.io/posts/algorithm_shuffle/</loc>
+    <lastmod>2019-07-31T21:13:12+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/posts/linux_io_multiplexing/</loc>
     <lastmod>2019-07-24T22:22:03+08:00</lastmod>
   </url>
@@ -88,7 +93,7 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/posts/bitmap/</loc>
+    <loc>https://chinalhr.github.io/posts/algorithm_bitmap/</loc>
     <lastmod>2019-01-27T22:17:36+08:00</lastmod>
   </url>
   
@@ -308,7 +313,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2019-07-24T22:22:03+08:00</lastmod>
+    <lastmod>2019-07-31T21:13:12+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -338,7 +343,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/posts/</loc>
-    <lastmod>2019-07-24T22:22:03+08:00</lastmod>
+    <lastmod>2019-07-31T21:13:12+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -392,7 +397,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/tags/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2019-01-27T22:17:36+08:00</lastmod>
+    <lastmod>2019-07-31T21:13:12+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -404,7 +409,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2019-07-24T22:22:03+08:00</lastmod>
+    <lastmod>2019-07-31T21:13:12+08:00</lastmod>
     <priority>0</priority>
   </url>
   
