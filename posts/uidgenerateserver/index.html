@@ -224,7 +224,7 @@
     <section id="datecount">
         <h4 id="date"> Sat Sep 8, 2018</h4>
     </section>
-    <h5 id="wc">800 Words|Read in about 4 Min</h5>
+    <h5 id="wc">900 Words|Read in about 5 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a> &nbsp;
@@ -314,6 +314,10 @@
 </code></pre>
 
 <h3 id="代码">代码</h3>
+
+<ul>
+<li>Java 实现</li>
+</ul>
 
 <pre><code class="language-java">/**
  * @Author : lhr
@@ -422,6 +426,27 @@ public class SnowFlakeUidGenerate {
         return machineId;
     }
 }
+</code></pre>
+
+<ul>
+<li>核心操作</li>
+</ul>
+
+<pre><code>((currStmp - START_STMP) &lt;&lt; TIMESTMP_LEFT)
+使用当前时间戳减去开始时间戳得到时间戳数值,时间戳数值左移22位进行bit位对齐
+0 [000 0000 0000 0000 0000 0000 0000 0000 0000 0000 00]00 0000 0000 0000 0000 0000
+
+| machineId &lt;&lt; MACHINE_LEFT
+10位的机器ID左移12位进行bit位对其,并于上述二进制数值进行|或操作,进行bit位对齐
+0 000 0000 0000 0000 0000 0000 0000 0000 0000 0000 00 [00 0000 0000] 0000 0000 0000
+|
+0 [000 0000 0000 0000 0000 0000 0000 0000 0000 0000 00]00 0000 0000 0000 0000 0000
+=
+0 [000 0000 0000 0000 0000 0000 0000 0000 0000 0000 00][00 0000 0000] 0000 0000 0000
+
+| sequence
+12位的序列号与上述二进制数值进行|或操作,进行bit位对齐 得到
+0 [000 0000 0000 0000 0000 0000 0000 0000 0000 0000 00][00 0000 0000][0000 0000 0000]
 </code></pre>
 
 <h2 id="snowflake改造">SnowFlake改造</h2>
@@ -546,6 +571,19 @@ public class SnowFlakeUserIdGenerate {
 }
 </code></pre>
 
+<ul>
+<li>核心操作</li>
+</ul>
+
+<pre><code>| 1L &lt;&lt; bitNum;
+1左移62个有效bit位，并与原来生成的uid进行|或操作,使得生成的UID bit位1和2为01，达到确定生成十进制数为19位的目的
+00 [000 0000 0000 0000 0000 0000 0000 0000 0000 0000 00][00 0000 0000][0000 0000 000]
+|
+01 000 0000 0000 0000 0000 0000 0000 0000 0000 0000 00 00 0000 0000 0000 0000 000
+=
+01 [000 0000 0000 0000 0000 0000 0000 0000 0000 0000 00][00 0000 0000][0000 0000 000]
+</code></pre>
+
 <h2 id="参考">参考</h2>
 
 <ul>
@@ -585,7 +623,7 @@ public class SnowFlakeUserIdGenerate {
     <section id="datecount">
         <h4 id="date"> Sat Sep 8, 2018</h4>
     </section>
-    <h5 id="wc">800 Words|Read in about 4 Min</h5>
+    <h5 id="wc">900 Words|Read in about 5 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a> &nbsp;
