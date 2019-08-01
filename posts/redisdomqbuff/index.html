@@ -250,8 +250,9 @@
 
 <ul>
 <li>场景：每次用户消费，api模块发送MQ消息(变更账户信息)到Bill模块，进行elasticsearch的索引更新。</li>
-<li>问题：api模块由于引入了大量的mq消息的发送,导致mq的qps过高，带来的性能隐患。</li>
-<li>解决：采用Redis作为MQ的缓存中间层与合并MQ消息，使用Task定时读取缓存发送MQ消息，将MQ的发送压力从api模块迁移到 task模块中。</li>
+<li>问题：api模块由于引入了大量的mq消息的发送,导致mq的qps高峰期过高，带来的性能隐患。</li>
+<li>解决：采用Redis作为MQ的缓存中间层与合并MQ消息，使用Task定时读取缓存发送MQ消息，将MQ的发送压力从api模块迁移到 task模块中，
+利用定时器定时发送达到控制QPS的目的。</li>
 </ul>
 
 <h2 id="redis存储结构">Redis存储结构</h2>

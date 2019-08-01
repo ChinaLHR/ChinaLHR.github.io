@@ -44,16 +44,6 @@
     </item>
     
     <item>
-      <title>RedisTemplate Jackson 数据解析异常:Invalid numeric value: Leading zeroes not allowed</title>
-      <link>https://chinalhr.github.io/posts/redistemplatejacksonexception/</link>
-      <pubDate>Wed, 26 Jun 2019 20:54:17 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/redistemplatejacksonexception/</guid>
-      <description>&lt;blockquote&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
       <title>Nginx Http Module</title>
       <link>https://chinalhr.github.io/posts/nginx_http/</link>
       <pubDate>Tue, 25 Jun 2019 20:37:07 +0800</pubDate>

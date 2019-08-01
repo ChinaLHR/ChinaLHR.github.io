@@ -8,20 +8,10 @@
     <language>en</language>
     <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
     <webMaster>13435500980@163.com (lihanrong)</webMaster>
-    <lastBuildDate>Wed, 26 Jun 2019 20:54:17 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 18 Apr 2019 22:15:07 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>RedisTemplate Jackson 数据解析异常:Invalid numeric value: Leading zeroes not allowed</title>
-      <link>https://chinalhr.github.io/posts/redistemplatejacksonexception/</link>
-      <pubDate>Wed, 26 Jun 2019 20:54:17 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/redistemplatejacksonexception/</guid>
-      <description>&lt;blockquote&gt;
-&lt;/blockquote&gt;</description>
-    </item>
     
     <item>
       <title> javassist实现Aspect动态Pointcut</title>

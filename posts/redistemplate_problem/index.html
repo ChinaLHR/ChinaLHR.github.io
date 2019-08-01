@@ -227,7 +227,7 @@
     <section id="datecount">
         <h4 id="date"> Fri Jul 13, 2018</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="wc">200 Words|Read in about 1 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/java/">Java</a> &nbsp;
@@ -238,11 +238,99 @@
             <article role="main" class="blog-post" itemprop="articleBody" id="content">
                 
   
+  <aside class="toc">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#jackson-数据解析异常-invalid-numeric-value-leading-zeroes-not-allowed">Jackson 数据解析异常:Invalid numeric value: Leading zeroes not allowed</a>
+<ul>
+<li><a href="#场景">场景</a></li>
+<li><a href="#异常分析">异常分析</a></li>
+<li><a href="#解决">解决</a></li>
+</ul></li>
+<li><a href="#redistemplate事务问题">RedisTemplate事务问题</a></li>
+<li><a href="#redistemple序列化问题">RedisTemple序列化问题</a></li>
+<li><a href="#redistemplate使用相关博文链接">RedisTemplate使用相关博文链接</a></li>
+</ul></li>
+</ul>
+</nav>
+  </aside>
+  
 
 
                 <blockquote>
 <p>记录RedisTemplate使用过程的问题</p>
 </blockquote>
+
+<h2 id="jackson-数据解析异常-invalid-numeric-value-leading-zeroes-not-allowed">Jackson 数据解析异常:Invalid numeric value: Leading zeroes not allowed</h2>
+
+<h3 id="场景">场景</h3>
+
+<p>使用Redis存储用户的短信验证码，后台增加了一个查询功能，用于查询用户手机接收到的验证码与过期时间，使用的是RedisTemplate。</p>
+
+<h3 id="异常分析">异常分析</h3>
+
+<p>使用RedisTemplate查询，如果验证码以0开头会报Invalid numeric value: Leading zeroes not allowed 异常。 日志如下：</p>
+
+<pre><code>Caused by: com.fasterxml.jackson.core.JsonParseException: Invalid numeric value: Leading zeroes not allowed 
+at [Source: [B@2c8b01ed; line: 1, column: 2] 
+at com.fasterxml.jackson.core.JsonParser._constructError(JsonParser.java:1702) 
+at com.fasterxml.jackson.core.base.ParserMinimalBase._reportError(ParserMinimalBase.java:558) 
+at com.fasterxml.jackson.core.base.ParserBase.reportInvalidNumber(ParserBase.java:1062) 
+at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._verifyNoLeadingZeroes(UTF8StreamJsonParser.java:1549) 
+at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._parsePosNumber(UTF8StreamJsonParser.java:1395) 
+at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._nextTokenNotInObject(UTF8StreamJsonParser.java:876) 
+at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.nextToken(UTF8StreamJsonParser.java:772) 
+at com.fasterxml.jackson.databind.ObjectMapper._initForReading(ObjectMapper.java:3834) 
+at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:3783) 
+at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:2929) 
+at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:117) 
+</code></pre>
+
+<p>因为原RedisTemplate指定了jackson作为解析，使用的jackson解析redis中存储的数据，会把纯数字的短信验证码当作是数字类型来解析，以0开头的jackson认为这是一个无效的数字。</p>
+
+<pre><code>    @Bean(name = &quot;objectRedisTemplate&quot;)
+    public RedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate&lt;?, ?&gt; redisTemplate = new RedisTemplate&lt;&gt;();
+        GenericJackson2JsonRedisSerializer jsonRedisSerializer = new GenericJackson2JsonRedisSerializer(createObjectMapper());
+        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        redisTemplate.setKeySerializer(stringRedisSerializer);
+        redisTemplate.setHashKeySerializer(stringRedisSerializer);
+        redisTemplate.setValueSerializer(jsonRedisSerializer);
+        redisTemplate.setHashValueSerializer(jsonRedisSerializer);
+        redisTemplate.afterPropertiesSet();
+        return redisTemplate;
+    }
+
+    private ObjectMapper createObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        return objectMapper;
+
+    }
+...
+</code></pre>
+
+<h3 id="解决">解决</h3>
+
+<p>配置stringRedisTemplate,在解析获取短信验证码数据的时候使用字符串的方式解析,不使用jackson。</p>
+
+<pre><code> @Bean(name = &quot;stringRedisTemplate&quot;)
+    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory
+                                                           redisConnectionFactory) {
+        return new StringRedisTemplate(redisConnectionFactory);
+    }
+</code></pre>
+
+<p>使用</p>
+
+<pre><code>@Resource(name = &quot;stringRedisTemplate&quot;)
+private RedisTemplate&lt;String, String&gt; redisTemplate;
+</code></pre>
 
 <h2 id="redistemplate事务问题">RedisTemplate事务问题</h2>
 
@@ -271,11 +359,12 @@ StringRedisTemplate.execute(sessionCallback);
 
 <h2 id="redistemple序列化问题">RedisTemple序列化问题</h2>
 
-<p>使用redisTemplate jackson序列化时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&hellip;,会有导致序列化失败，类型转换异常风险。</p>
+<p>使用redisTemplate jackson序列化时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&hellip;,
+会有导致序列化失败，类型转换异常风险。</p>
 
 <p>解决：使用Number存储</p>
 
-<h2 id="优秀博文链接">优秀博文链接</h2>
+<h2 id="redistemplate使用相关博文链接">RedisTemplate使用相关博文链接</h2>
 
 <p><a href="https://www.jianshu.com/p/7bf5dc61ca06">https://www.jianshu.com/p/7bf5dc61ca06</a></p>
             </article>
@@ -318,7 +407,7 @@ StringRedisTemplate.execute(sessionCallback);
     <section id="datecount">
         <h4 id="date"> Fri Jul 13, 2018</h4>
     </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
+    <h5 id="wc">200 Words|Read in about 1 Min</h5>
     <h5 id="tags">Tags: 
         
         <a href="https://chinalhr.github.io/tags/java/">Java</a> &nbsp;

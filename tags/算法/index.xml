@@ -33,5 +33,15 @@
 &lt;/blockquote&gt;</description>
     </item>
     
+    <item>
+      <title>基于SnowFlake的分布式UID生成服务</title>
+      <link>https://chinalhr.github.io/posts/uidgenerateserver/</link>
+      <pubDate>Sat, 08 Sep 2018 23:02:55 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/uidgenerateserver/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
   </channel>
 </rss>
