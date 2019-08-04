@@ -347,14 +347,12 @@ factorialTailRecursion(120, 1)
 <p><a href="https://softwareengineering.stackexchange.com/questions/272061/why-doesnt-java-have-optimization-for-tail-recursion-at-all">https://softwareengineering.stackexchange.com/questions/272061/why-doesnt-java-have-optimization-for-tail-recursion-at-all</a></p>
 
 <ul>
-<li><p>使用Lambda优化尾递归</p>
-
-<ul>
-<li>设计一个函数接口代替递归中的栈帧，利用Stream将递归转换为迭代，</li>
-</ul></li>
+<li>使用Lambda优化尾递归</li>
 </ul>
 
-<pre><code class="language-java">/**
+<p>设计一个函数接口代替递归中的栈帧，利用Stream将递归转换为迭代，</p>
+
+<pre><code>/**
  * @Author : lhr
  * @Date : 11:15 2019/8/3
  *
@@ -399,10 +397,9 @@ public interface TailRecursion&lt;T&gt; {
 }
 </code></pre>
 
-<pre><code>- 设计一个对外统一的尾递归包装类，目的是达到可以复用的效果，包装递归方法 1怎样调用下次递归,2递归的终止条件
-</code></pre>
+<p>设计一个对外统一的尾递归包装类，目的是达到可以复用的效果，包装递归方法 1怎样调用下次递归,2递归的终止条件</p>
 
-<pre><code class="language-java">/**
+<pre><code>/**
  * @Author : lhr
  * @Date : 11:59 2019/8/3
  *
@@ -452,8 +449,7 @@ public class TailInvoke {
 }
 </code></pre>
 
-<pre><code>- lamdba优化尾递归 阶乘计算示例
-</code></pre>
+<p>lamdba优化尾递归 阶乘计算示例</p>
 
 <pre><code>   /**
      * 阶乘计算 -- 使用尾递归接口完成
