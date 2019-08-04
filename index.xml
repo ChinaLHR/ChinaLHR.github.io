@@ -8,10 +8,20 @@
     <language>en</language>
     <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
     <webMaster>13435500980@163.com (lihanrong)</webMaster>
-    <lastBuildDate>Wed, 31 Jul 2019 21:13:12 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 04 Aug 2019 14:09:41 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>尾递归-Java-Kotlin</title>
+      <link>https://chinalhr.github.io/posts/tailrecursion/</link>
+      <pubDate>Sun, 04 Aug 2019 14:09:41 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/tailrecursion/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>洗牌算法Shuffle</title>

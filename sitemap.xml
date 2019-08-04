@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://chinalhr.github.io/posts/tailrecursion/</loc>
+    <lastmod>2019-08-04T14:09:41+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/posts/algorithm_shuffle/</loc>
     <lastmod>2019-07-31T21:13:12+08:00</lastmod>
   </url>
@@ -308,7 +313,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2019-07-31T21:13:12+08:00</lastmod>
+    <lastmod>2019-08-04T14:09:41+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -338,7 +343,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/posts/</loc>
-    <lastmod>2019-07-31T21:13:12+08:00</lastmod>
+    <lastmod>2019-08-04T14:09:41+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -398,13 +403,13 @@
   
   <url>
     <loc>https://chinalhr.github.io/tags/%E7%BC%96%E7%A0%81%E6%8A%80%E5%B7%A7/</loc>
-    <lastmod>2018-11-03T21:44:31+08:00</lastmod>
+    <lastmod>2019-08-04T14:09:41+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2019-07-31T21:13:12+08:00</lastmod>
+    <lastmod>2019-08-04T14:09:41+08:00</lastmod>
     <priority>0</priority>
   </url>
   
