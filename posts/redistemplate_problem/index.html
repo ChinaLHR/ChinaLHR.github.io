@@ -243,14 +243,14 @@
 <ul>
 <li>
 <ul>
+<li><a href="#redistemplate事务问题">RedisTemplate事务问题</a></li>
+<li><a href="#redistemple序列化问题">RedisTemple序列化问题</a></li>
 <li><a href="#jackson-数据解析异常-invalid-numeric-value-leading-zeroes-not-allowed">Jackson 数据解析异常:Invalid numeric value: Leading zeroes not allowed</a>
 <ul>
 <li><a href="#场景">场景</a></li>
 <li><a href="#异常分析">异常分析</a></li>
 <li><a href="#解决">解决</a></li>
 </ul></li>
-<li><a href="#redistemplate事务问题">RedisTemplate事务问题</a></li>
-<li><a href="#redistemple序列化问题">RedisTemple序列化问题</a></li>
 <li><a href="#redistemplate使用相关博文链接">RedisTemplate使用相关博文链接</a></li>
 </ul></li>
 </ul>
@@ -262,6 +262,38 @@
                 <blockquote>
 <p>记录RedisTemplate使用过程的问题</p>
 </blockquote>
+
+<h2 id="redistemplate事务问题">RedisTemplate事务问题</h2>
+
+<ul>
+<li>RedisTemplate事务使用
+采用RedisTemplate的SesionCallback</li>
+</ul>
+
+<pre><code>SessionCallback&lt;Object&gt; sessionCallback=new SessionCallback&lt;Object&gt;(){
+  @Override
+   public Object execute(RedisOperations operations) throws DataAccessException{
+		operations.multi();
+		//常规操作...
+		Object val=operations.exec();
+		return val;
+	}
+}
+StringRedisTemplate.execute(sessionCallback);
+</code></pre>
+
+<ul>
+<li>UnsupportedOperationException
+在Pipline和Transaction中不支持多个字段操作
+<img src="https://s1.ax1x.com/2018/07/13/PK0ASI.png" alt="" /></li>
+</ul>
+
+<h2 id="redistemple序列化问题">RedisTemple序列化问题</h2>
+
+<p>使用redisTemplate jackson序列化时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&hellip;,
+会有导致序列化失败，类型转换异常风险。</p>
+
+<p>解决：使用Number存储</p>
 
 <h2 id="jackson-数据解析异常-invalid-numeric-value-leading-zeroes-not-allowed">Jackson 数据解析异常:Invalid numeric value: Leading zeroes not allowed</h2>
 
@@ -331,38 +363,6 @@ at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.
 <pre><code>@Resource(name = &quot;stringRedisTemplate&quot;)
 private RedisTemplate&lt;String, String&gt; redisTemplate;
 </code></pre>
-
-<h2 id="redistemplate事务问题">RedisTemplate事务问题</h2>
-
-<ul>
-<li>RedisTemplate事务使用
-采用RedisTemplate的SesionCallback</li>
-</ul>
-
-<pre><code>SessionCallback&lt;Object&gt; sessionCallback=new SessionCallback&lt;Object&gt;(){
-  @Override
-   public Object execute(RedisOperations operations) throws DataAccessException{
-		operations.multi();
-		//常规操作...
-		Object val=operations.exec();
-		return val;
-	}
-}
-StringRedisTemplate.execute(sessionCallback);
-</code></pre>
-
-<ul>
-<li>UnsupportedOperationException
-在Pipline和Transaction中不支持多个字段操作
-<img src="https://s1.ax1x.com/2018/07/13/PK0ASI.png" alt="" /></li>
-</ul>
-
-<h2 id="redistemple序列化问题">RedisTemple序列化问题</h2>
-
-<p>使用redisTemplate jackson序列化时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&hellip;,
-会有导致序列化失败，类型转换异常风险。</p>
-
-<p>解决：使用Number存储</p>
 
 <h2 id="redistemplate使用相关博文链接">RedisTemplate使用相关博文链接</h2>
 

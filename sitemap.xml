@@ -336,6 +336,12 @@
   </url>
   
   <url>
+    <loc>https://chinalhr.github.io/tags/mysql/</loc>
+    <lastmod>2019-04-08T22:14:43+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/tags/nginx/</loc>
     <lastmod>2019-06-25T20:37:07+08:00</lastmod>
     <priority>0</priority>
@@ -350,12 +356,6 @@
   <url>
     <loc>https://chinalhr.github.io/tags/redis/</loc>
     <lastmod>2018-07-10T22:01:41+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/tags/sql/</loc>
-    <lastmod>2019-04-08T22:14:43+08:00</lastmod>
     <priority>0</priority>
   </url>
   
