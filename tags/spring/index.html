@@ -5,27 +5,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title> Mybatis动态表名：# 与 $ 区别 - Read the fucking source code</title>
+  <title> Spring - Read the fucking source code</title>
   <meta name="description" content="Read the fucking source code" />
-  <meta property="og:title" content="Mybatis动态表名：# 与 $ 区别" />
-  <meta name="twitter:title" content="Mybatis动态表名：# 与 $ 区别" />
-  <meta name="description" content="
-学习Mybatis# 与 $ 机制
-">
-  <meta property="og:description" content="
-学习Mybatis# 与 $ 机制
-">
-  <meta name="twitter:description" content="
-学习Mybatis# 与 $ 机制
-">
+  <meta property="og:title" content="Spring" />
+  <meta name="twitter:title" content="Spring" />
   <meta name="author" content="lihanrong"/>
   <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://chinalhr.github.io/posts/mybatis_sql_precompile/" />
+  <meta property="og:url" content="https://chinalhr.github.io/tags/spring/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LHR" />
 
   <meta name="generator" content="Hugo 0.51" />
-  <link rel="canonical" href="https://chinalhr.github.io/posts/mybatis_sql_precompile/" />
+  <link rel="canonical" href="https://chinalhr.github.io/tags/spring/" />
   <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
   <script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/jquery-1.12.4.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -188,26 +179,14 @@
 
 
     
-  
-  
-  
-
-
-
-
-  
-
   <header class="header-section ">
-    
     <div class="intro-header no-img">
-      
       <div class="container">
         <div class="row">
           <div class="col-lg-12 col-md-12 col-md-offset-0">
-            <div class="posts-heading">
-                <h1 align="center">Mybatis动态表名：# 与 $ 区别</h1>
-                
-                
+            <div class="page-heading">
+              <h1>#Spring</h1>
+              <hr class="small">
             </div>
           </div>
         </div>
@@ -215,156 +194,181 @@
     </div>
   </header>
 
-
     
-<div class="container" role="main" itemscope itemtype="http://schema.org/Article">
+  <div class="container" role="main">
     <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            
-            
-            
-<div>
-    <section id="datecount">
-        <h4 id="date"> Mon Nov 12, 2018</h4>
-    </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
-    <h5 id="tags">Tags: 
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         
-        <a href="https://chinalhr.github.io/tags/java/">Java</a> &nbsp;
-        
-        <a href="https://chinalhr.github.io/tags/mybatis/">MyBatis</a> &nbsp;
-    </h5>
-</div>
+        <div class="posts-list">
+          
+            <article class="post-preview">
+              <a href="https://chinalhr.github.io/posts/aspect_dynamic/">
+                <h2 class="post-title"> javassist实现Aspect动态Pointcut</h2>
 
-            
-            <article role="main" class="blog-post" itemprop="articleBody" id="content">
                 
-  
+              </a>
 
-
-                <blockquote>
-<p>学习Mybatis# 与 $ 机制</p>
+              <p class="post-meta">
+                Posted on April 18, 2019
+              </p>
+              <div class="post-entry">
+                
+                  <blockquote>
 </blockquote>
+                  <a href="https://chinalhr.github.io/posts/aspect_dynamic/" class="post-read-more">[Read More]</a>
+                
+              </div>
 
-<h2 id="mybatis中-与-区别">MyBatis中#与$区别</h2>
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://chinalhr.github.io/tags/java/">Java</a>&nbsp;
+                  
+                    #<a href="https://chinalhr.github.io/tags/spring/">Spring</a>&nbsp;
+                  
+                </span>
+              
 
-<p>动态SQL：mybatis在对sql语句进行预编译之前，会对sql进行动态解析，解析为一个BoundSql对象，也是在此处对动态sql进行处理。</p>
-
-<pre><code>select * from customer where id = #{id};
-↓
-select * from customer where id = ?;
-
-select * from customer where id = ${id};
-↓——传入参数为12589时
-select * from customer where id = 12589;
-</code></pre>
-
-<ul>
-<li><p>$与#的区别</p>
-
-<ol>
-<li>${ } 的变量的替换阶段是在动态 SQL 解析阶段，而 #{ }的变量的替换是在 DBMS 中。</li>
-<li>${ } 在预编译之前已经被变量替换了，存在 sql 注入问题</li>
-<li>#{}将传入的参数当成一个字符串（会给传入的参数加一个单引号)
-${}将传入的参数直接显示生成在sql中，不会添加引号</li>
-</ol></li>
-</ul>
-
-<h2 id="mybatis动态表名">MyBatis动态表名</h2>
-
-<p>MyBatis使用中，表名作为变量时，必须使用 ${ }。因为使用#{}会带上单引号 &ldquo;，这会导致 sql 语法错误。</p>
-
-<p>示例(添加statementType=&ldquo;STATEMENT&rdquo;禁止预编译)：</p>
-
-<pre><code> &lt;select id=&quot;selectByCustomerId&quot; resultMap=&quot;BaseResultMap&quot; statementType=&quot;STATEMENT&quot;&gt;
- select
- &lt;include refid=&quot;Base_Column_List&quot;/&gt;
- from ${tableName}
- where customer_id = ${customerId}
-</code></pre>
             </article>
-
-            <ul class="pager blog-pager">
-                
-                <li class="previous">
-                    <a href="https://chinalhr.github.io/posts/codeoptimize1/" data-toggle="tooltip" data-placement="top" title="编码技巧：防御性编程|表驱动法">&larr; Previous Post</a>
-                </li>
-                 
-                <li class="next">
-                    <a href="https://chinalhr.github.io/posts/mybatisshardplug/" data-toggle="tooltip" data-placement="top" title="Mybatis自定义分表Plug">Next Post &rarr;</a>
-                </li>
-                
-            </ul>
-            
-            <div>
-                 
-                <h2>See Also</h2>
-                <ul>
-                    
-                    <li><a href="/posts/highavailabilityhttpclient/">高可用的HttpClient</a></li>
-                    
-                    <li><a href="/posts/joda_datetime_record/">Joda DateTime记录</a></li>
-                    
-                    <li><a href="/posts/spring_aop/">Spring Aop分析</a></li>
-                    
-                    <li><a href="/posts/springcache_shrio_bug/">Shrio导致SpringCache缓存失效原因分析</a></li>
-                    
-                    <li><a href="/posts/java_lambda_exception/">Java在Stream中异常处理问题</a></li>
-                    
-                </ul>
-                
-            </div>
-            
-            
-            
-            
-<div>
-    <section id="datecount">
-        <h4 id="date"> Mon Nov 12, 2018</h4>
-    </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
-    <h5 id="tags">Tags: 
-        
-        <a href="https://chinalhr.github.io/tags/java/">Java</a> &nbsp;
-        
-        <a href="https://chinalhr.github.io/tags/mybatis/">MyBatis</a> &nbsp;
-    </h5>
-</div>
-
-            
-            </div>
-            
-            
-                
-                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<aside id=comments>
-    
-    
-    
-    
-    <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjI4Ni8xMjgyMQ==">
-    	<script type="text/javascript">
-       (function(d, s) {
-           var j, e = d.getElementsByTagName(s)[0];
-           if (typeof LivereTower === 'function') { return; }
-           j = d.createElement(s);
-           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-           j.async = true;
-           e.parentNode.insertBefore(j, e);
-       })(document, 'script');
-    	</script>
-    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-    </div>
-    
-</aside>
-</div>
+          
+            <article class="post-preview">
+              <a href="https://chinalhr.github.io/posts/spring_aop/">
+                <h2 class="post-title">Spring Aop分析</h2>
 
                 
-            
+              </a>
+
+              <p class="post-meta">
+                Posted on September 24, 2018
+              </p>
+              <div class="post-entry">
+                
+                  <blockquote>
+</blockquote>
+                  <a href="https://chinalhr.github.io/posts/spring_aop/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://chinalhr.github.io/tags/java/">Java</a>&nbsp;
+                  
+                    #<a href="https://chinalhr.github.io/tags/spring/">Spring</a>&nbsp;
+                  
+                </span>
+              
+
+            </article>
+          
+            <article class="post-preview">
+              <a href="https://chinalhr.github.io/posts/springcache_shrio_bug/">
+                <h2 class="post-title">Shrio导致SpringCache缓存失效原因分析</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                Posted on September 22, 2018
+              </p>
+              <div class="post-entry">
+                
+                  <blockquote>
+<p>记录Shrio与SpringCache使用过程遇到的问题</p>
+</blockquote>
+                  <a href="https://chinalhr.github.io/posts/springcache_shrio_bug/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://chinalhr.github.io/tags/java/">Java</a>&nbsp;
+                  
+                    #<a href="https://chinalhr.github.io/tags/spring/">Spring</a>&nbsp;
+                  
+                </span>
+              
+
+            </article>
+          
+            <article class="post-preview">
+              <a href="https://chinalhr.github.io/posts/redistemplate_problem/">
+                <h2 class="post-title">RedisTemplate问题</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                Posted on July 13, 2018
+              </p>
+              <div class="post-entry">
+                
+                  <blockquote>
+<p>记录RedisTemplate使用过程的问题</p>
+</blockquote>
+                  <a href="https://chinalhr.github.io/posts/redistemplate_problem/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://chinalhr.github.io/tags/java/">Java</a>&nbsp;
+                  
+                    #<a href="https://chinalhr.github.io/tags/spring/">Spring</a>&nbsp;
+                  
+                </span>
+              
+
+            </article>
+          
+            <article class="post-preview">
+              <a href="https://chinalhr.github.io/posts/java_springboot_component1/">
+                <h2 class="post-title">Spring Boot组件-Retry|Scheduled</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                Posted on June 24, 2018
+              </p>
+              <div class="post-entry">
+                
+                  <blockquote>
+<p>Spring Retry与Scheduled使用记录</p>
+</blockquote>
+                  <a href="https://chinalhr.github.io/posts/java_springboot_component1/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://chinalhr.github.io/tags/java/">Java</a>&nbsp;
+                  
+                    #<a href="https://chinalhr.github.io/tags/spring/">Spring</a>&nbsp;
+                  
+                </span>
+              
+
+            </article>
+          
         </div>
+        
+      </div>
+    <div align="center" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        
+
+        
+        
+        
+        
+        
+        
+      </div>
     </div>
-    </section>
-</div>
+  </div>
 
     <footer>
   <div class="container">

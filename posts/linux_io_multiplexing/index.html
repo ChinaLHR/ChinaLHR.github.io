@@ -432,8 +432,9 @@ struct pollfd {
 
 <p>poll改变了文件描述符集合的描述方式，使用了pollfd结构而不是select的fd_set结构，使得poll支持的文件描述符集合限制远大于select的1024</p>
 
-<p>优势:解决了select文件描述符的数量限制问题
-缺陷:select和poll都需要在返回后，通过遍历文件描述符来获取已经就绪的socket。同时连接的大量客户端在一时刻可能只有很少的处于就绪状态，因此随着监视的描述符数量的增长，其效率也会线性下降。</p>
+<p>优势:解决了select文件描述符的数量限制问题</p>
+
+<p>缺陷:select和poll都需要在返回后，通过遍历文件描述符来获取已经就绪的socket。同时连接的大量客户端在一时刻可能只有很少的处于就绪状态，因此随着监视的描述符数量的增长，其效率也会线性下降。</p>
 
 <h4 id="epoll">epoll</h4>
 
@@ -445,7 +446,7 @@ int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout
 </code></pre>
 
 <ul>
-<li>epoll_create</li>
+<li>int epoll_create(int size)</li>
 </ul>
 
 <pre><code>创建一个epoll的句柄，size用来告诉内核这个监听的数目一共有多大，不同于select()中的第一个参数，给出最大监听的fd+1的值，参数size并不是限制了epoll所能监听的描述符最大个数，只是对内核初始分配内部数据结构的一个建议。
@@ -453,10 +454,12 @@ int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout
 </code></pre>
 
 <ul>
-<li>epoll_ctl</li>
+<li>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)</li>
 </ul>
 
-<pre><code>函数是对指定描述符fd执行op操作。
+<pre><code>epoll的事件注册函数，它不同与select()是在监听事件时告诉内核要监听什么类型的事件，而是在这里先注册要监听的事件类型。
+
+
 - epfd：是epoll_create()的返回值,表示epoll句柄。
 - op：表示op操作，用三个宏来表示：添加EPOLL_CTL_ADD，删除EPOLL_CTL_DEL，修改EPOLL_CTL_MOD。分别添加、删除和修改对fd的监听事件。
 - fd：是需要监听的fd（文件描述符）
@@ -475,13 +478,23 @@ typedef union epoll_data {
     __uint32_t u32;
     __uint64_t u64;
 } epoll_data_t;
+
+events可以是以下几个宏的集合：
+EPOLLIN ：表示对应的文件描述符可以读（包括对端SOCKET正常关闭）；
+EPOLLOUT：表示对应的文件描述符可以写；
+EPOLLPRI：表示对应的文件描述符有紧急的数据可读（这里应该表示有带外数据到来）；
+EPOLLERR：表示对应的文件描述符发生错误；
+EPOLLHUP：表示对应的文件描述符被挂断；
+EPOLLET： 将EPOLL设为边缘触发(Edge Triggered)模式，这是相对于水平触发(Level Triggered)来说的。
+EPOLLONESHOT：只监听一次事件，当监听完这次事件之后，如果还需要继续监听这个socket的话，需要再次把这个socket加入到EPOLL队列里
+
 </code></pre>
 
 <ul>
-<li>epoll_wait</li>
+<li>int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);</li>
 </ul>
 
-<pre><code>等待epfd上的io事件，最多返回maxevents个事件。
+<pre><code>等待事件的产生，类似于select()调用，最多返回maxevents个事件。
 参数events用来从内核得到事件的集合，maxevents告之内核这个events有多大，这个maxevents的值不能大于创建epoll_create()时的size，参数timeout是超时时间（毫秒，0会立即返回，-1将不确定，也有说法说是永久阻塞）。该函数返回需要处理的事件数目，如返回0表示已超时。
 
 - epfd 是epoll句柄

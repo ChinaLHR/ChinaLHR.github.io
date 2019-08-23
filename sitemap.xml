@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://chinalhr.github.io/posts/linux_zerocopy/</loc>
+    <lastmod>2019-08-23T12:26:11+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/posts/tailrecursion/</loc>
     <lastmod>2019-08-04T14:09:41+08:00</lastmod>
   </url>
@@ -295,7 +300,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/tags/java/</loc>
-    <lastmod>2019-04-18T22:15:07+08:00</lastmod>
+    <lastmod>2019-08-23T12:26:11+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -313,13 +318,13 @@
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2019-08-04T14:09:41+08:00</lastmod>
+    <lastmod>2019-08-23T12:26:11+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://chinalhr.github.io/tags/linux/</loc>
-    <lastmod>2019-07-24T22:22:03+08:00</lastmod>
+    <lastmod>2019-08-23T12:26:11+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -332,6 +337,12 @@
   <url>
     <loc>https://chinalhr.github.io/tags/mq/</loc>
     <lastmod>2018-07-10T22:01:41+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/mybatis/</loc>
+    <lastmod>2018-11-12T22:51:04+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -349,13 +360,19 @@
   
   <url>
     <loc>https://chinalhr.github.io/posts/</loc>
-    <lastmod>2019-08-04T14:09:41+08:00</lastmod>
+    <lastmod>2019-08-23T12:26:11+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://chinalhr.github.io/tags/redis/</loc>
     <lastmod>2018-07-10T22:01:41+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/spring/</loc>
+    <lastmod>2019-04-18T22:15:07+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -409,7 +426,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2019-08-04T14:09:41+08:00</lastmod>
+    <lastmod>2019-08-23T12:26:11+08:00</lastmod>
     <priority>0</priority>
   </url>
   

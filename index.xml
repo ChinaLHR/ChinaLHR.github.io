@@ -8,10 +8,20 @@
     <language>en</language>
     <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
     <webMaster>13435500980@163.com (lihanrong)</webMaster>
-    <lastBuildDate>Sun, 04 Aug 2019 14:09:41 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 23 Aug 2019 12:26:11 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux_zeroCopy</title>
+      <link>https://chinalhr.github.io/posts/linux_zerocopy/</link>
+      <pubDate>Fri, 23 Aug 2019 12:26:11 +0800</pubDate>
+      <author>13435500980@163.com (lihanrong)</author>
+      <guid>https://chinalhr.github.io/posts/linux_zerocopy/</guid>
+      <description>&lt;blockquote&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>尾递归-Java-Kotlin</title>
