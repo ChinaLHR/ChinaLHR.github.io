@@ -333,12 +333,11 @@ fun main(args: Array&lt;String&gt;) {
 
 <p>假设Orange类是Fruit类的子类，Crate<T> 是一个泛型类</p>
 
-<ul>
-<li>type variance（型变）:指我们是否允许对参数类型进行子类型转换</li>
-<li>invariance（不型变）：也就是说，Crate<Orange> 和 Crate<Fruit> 之间没有关系</li>
-<li>covariance（协变）：也就是说，Crate<Orange> 是 Crate<Fruit> 的子类型[Java Crate<Orange> 是 Crate&lt;? extends Fruit&gt; 的子类型]</li>
-<li>contravariance（逆变）：也就是说，Crate<Fruit> 是 Crate<Orange> 的子类型。[Crate<Fruit> 是 Crate&lt;? super Orange&gt; 的子类型]</li>
-</ul>
+<pre><code>type variance（型变）:指我们是否允许对参数类型进行子类型转换
+invariance（不型变）：也就是说，Crate&lt;Orange&gt; 和 Crate&lt;Fruit&gt; 之间没有关系
+covariance（协变）：也就是说，Crate&lt;Orange&gt; 是 Crate&lt;Fruit&gt; 的子类型[Java Crate&lt;Orange&gt; 是 Crate&lt;? extends Fruit&gt; 的子类型]
+contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Orange&gt; 的子类型。[Crate&lt;Fruit&gt; 是 Crate&lt;? super Orange&gt; 的子类型]
+</code></pre>
 
 <p><img src="https://user-images.githubusercontent.com/19829495/54437743-415c7b80-4770-11e9-9d1a-752a81c0c794.png" alt="image" /></p>
 
