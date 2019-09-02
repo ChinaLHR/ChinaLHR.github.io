@@ -1,267 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>编码技巧：防御性编程|表驱动法 - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-  <title> 编码技巧：防御性编程|表驱动法 - Read the fucking source code</title>
-  <meta name="description" content="Read the fucking source code" />
-  <meta property="og:title" content="编码技巧：防御性编程|表驱动法" />
-  <meta name="twitter:title" content="编码技巧：防御性编程|表驱动法" />
-  <meta name="description" content="
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" 读&amp;lt;代码大全&amp;gt;
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/posts/codeoptimize1/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="编码技巧：防御性编程|表驱动法" />
+<meta property="og:description" content="
+读&lt;代码大全&gt;
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/posts/codeoptimize1/" /><meta property="article:published_time" content="2018-11-03T21:44:31&#43;08:00"/>
+<meta property="article:modified_time" content="2018-11-03T21:44:31&#43;08:00"/>
+
+<meta itemprop="name" content="编码技巧：防御性编程|表驱动法">
+<meta itemprop="description" content="
 读&lt;代码大全&gt;
 ">
-  <meta property="og:description" content="
+
+
+<meta itemprop="datePublished" content="2018-11-03T21:44:31&#43;08:00" />
+<meta itemprop="dateModified" content="2018-11-03T21:44:31&#43;08:00" />
+<meta itemprop="wordCount" content="585">
+
+
+
+<meta itemprop="keywords" content="编码技巧," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="编码技巧：防御性编程|表驱动法"/>
+<meta name="twitter:description" content="
 读&lt;代码大全&gt;
-">
-  <meta name="twitter:description" content="
-读&lt;代码大全&gt;
-">
-  <meta name="author" content="lihanrong"/>
-  <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://chinalhr.github.io/posts/codeoptimize1/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="LHR" />
+"/>
 
-  <meta name="generator" content="Hugo 0.51" />
-  <link rel="canonical" href="https://chinalhr.github.io/posts/codeoptimize1/" />
-  <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
-  <script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/jquery-1.12.4.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  
-  
-  <link rel="stylesheet" href="https://chinalhr.github.io/css/main.css" />
-  <link rel="stylesheet" href="https://chinalhr.github.io/css/search.css" />
-  
-  
-  
-  <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/monokai.min.css" rel="stylesheet">
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
 
-
-<script>
-    var _hmt = _hmt || [];
-    (function() {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-
-<link rel="stylesheet" href="https://chinalhr.github.io/css/prism.css" />
-
-
-
-
-
-<script async src="//cdn.busuanzi.ibruce.info/cdn/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
-
-
-
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-<div class="pswp__bg"></div>
-
-<div class="pswp__scroll-wrap">
-    
-    <div class="pswp__container">
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-    </div>
-    
-    <div class="pswp__ui pswp__ui--hidden">
-    <div class="pswp__top-bar">
-      
-      <div class="pswp__counter"></div>
-      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-      <button class="pswp__button pswp__button--share" title="Share"></button>
-      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-      
-      
-      <div class="pswp__preloader">
-        <div class="pswp__preloader__icn">
-          <div class="pswp__preloader__cut">
-            <div class="pswp__preloader__donut"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-      <div class="pswp__share-tooltip"></div>
-    </div>
-    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-    </button>
-    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-    </button>
-    <div class="pswp__caption">
-      <div class="pswp__caption__center"></div>
-    </div>
-    </div>
-    </div>
-</div>
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
 
 </head>
-
-  <body>
-    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="https://chinalhr.github.io/">LHR</a>
-    </div>
-    <div class="collapse navbar-collapse" id="main-navbar">
-      <ul class="nav navbar-nav navbar-right">
-        
-          
-            <li>
-              <a title="Tags" href="/tags/">Tags</a>
-              
-              
-            </li>
-          
-        
-          
-            <li>
-              <a title="categories" href="/categories/">categories</a>
-              
-              
-            </li>
-          
-        
-          
-            <li>
-              <a title="About" href="/posts/about/">About</a>
-              
-              
-            </li>
-          
-        
-          
-            <li>
-              <a title="Resume" href="/posts/resume/">Resume</a>
-              
-              
-            </li>
-          
-        
-
-        
-
-        
-        
-      </ul>
-    </div>
-
-    <div class="avatar-container">
-      <div class="avatar-img-border">
-        
-          <a title="LHR" href="https://chinalhr.github.io/">
-            <img class="avatar-img" src="https://avatars0.githubusercontent.com/u/19829495" alt="LHR" />
-          </a>
-        
-      </div>
-    </div>
-
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
   </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/posts/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/posts/resume/">
+        <li class="mobile-menu-item">Resume</li>
+      </a>
+  </ul>
 </nav>
-
-
-
-
-
-
-    
-  
-  
-  
-
-
-
-
-  
-
-  <header class="header-section ">
-    
-    <div class="intro-header no-img">
-      
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-md-offset-0">
-            <div class="posts-heading">
-                <h1 align="center">编码技巧：防御性编程|表驱动法</h1>
-                
-                
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-
-    
-<div class="container" role="main" itemscope itemtype="http://schema.org/Article">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            
-            
-            
-<div>
-    <section id="datecount">
-        <h4 id="date"> Sat Nov 3, 2018</h4>
-    </section>
-    <h5 id="wc">200 Words|Read in about 1 Min</h5>
-    <h5 id="tags">Tags: 
-        
-        <a href="https://chinalhr.github.io/tags/%E7%BC%96%E7%A0%81%E6%8A%80%E5%B7%A7/">编码技巧</a> &nbsp;
-    </h5>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
 </div>
 
-            
-            <article role="main" class="blog-post" itemprop="articleBody" id="content">
-                
-  
-  <aside class="toc">
-    <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#防御性编程">防御性编程</a>
-<ul>
-<li><a href="#主要思想-子程序不因传入错误数据而被破坏">主要思想：子程序不因传入错误数据而被破坏</a></li>
-</ul></li>
-<li><a href="#表驱动法">表驱动法</a>
-<ul>
-<li><a href="#主要思想-表驱动法是一种编程模式-从表里面查找信息而不使用逻辑语句-if-case-作用是使逻辑语句更直白健壮">主要思想：表驱动法是一种编程模式，从表里面查找信息而不使用逻辑语句(if&amp;case)，作用是使逻辑语句更直白健壮。</a></li>
-<li><a href="#1-直接访问表">1.直接访问表</a></li>
-<li><a href="#2-索引表访问">2.索引表访问</a></li>
-<li><a href="#3-阶梯访问表">3.阶梯访问表</a></li>
-</ul></li>
-</ul></li>
-</ul>
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/posts/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/posts/resume/">Resume</a>
+      </li>
+  </ul>
 </nav>
-  </aside>
-  
+    </header>
 
-
-                <blockquote>
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+  <div class="post-content">
+    <blockquote>
 <p>读&lt;代码大全&gt;</p>
 </blockquote>
 
@@ -287,30 +160,53 @@
 <h3 id="1-直接访问表">1.直接访问表</h3>
 
 <p>示例1：获取月份的天数</p>
-
-<pre><code class="language-java">Integer[] daysPerMonth = new Integer[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 30};
-//获取三月的天数,避免过多的if case
-Integer marDays = daysPerMonth[3 - 1];
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Integer</span><span class="o">[]</span> <span class="n">daysPerMonth</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Integer</span><span class="o">[]{</span><span class="n">31</span><span class="o">,</span> <span class="n">28</span><span class="o">,</span> <span class="n">31</span><span class="o">,</span> <span class="n">30</span><span class="o">,</span> <span class="n">31</span><span class="o">,</span> <span class="n">30</span><span class="o">,</span> <span class="n">31</span><span class="o">,</span> <span class="n">31</span><span class="o">,</span> <span class="n">30</span><span class="o">,</span> <span class="n">31</span><span class="o">,</span> <span class="n">30</span><span class="o">,</span> <span class="n">30</span><span class="o">};</span>
+<span class="c1">//获取三月的天数,避免过多的if case
+</span><span class="c1"></span><span class="n">Integer</span> <span class="n">marDays</span> <span class="o">=</span> <span class="n">daysPerMonth</span><span class="o">[</span><span class="n">3</span> <span class="o">-</span> <span class="n">1</span><span class="o">];</span></code></pre></td></tr></table>
+</div>
+</div>
 <p>示例2：营业类型对应提成</p>
-
-<pre><code class="language-java">/**
-  * 营业类型 - 提成
-  */
-HashMap&lt;BusinessType, Integer&gt; businessTable = new HashMap&lt;&gt;();
-businessTable.put(BusinessType.MALECONSUME,11);
-        ...
-/**
-  * 营业类型
-  */
-private enum BusinessType{
- MALECONSUME,MALEINCOME,FEMALECONSUME,FEMALEINCOME
-}
-//获取男生消费提成
-Integer maleConsumePush = businessTable.get(BusinessType.MALECONSUME);
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">  * 营业类型 - 提成
+</span><span class="cm">  */</span>
+<span class="n">HashMap</span><span class="o">&lt;</span><span class="n">BusinessType</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">businessTable</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+<span class="n">businessTable</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">BusinessType</span><span class="o">.</span><span class="na">MALECONSUME</span><span class="o">,</span><span class="n">11</span><span class="o">);</span>
+        <span class="o">...</span>
+<span class="cm">/**
+</span><span class="cm">  * 营业类型
+</span><span class="cm">  */</span>
+<span class="kd">private</span> <span class="kd">enum</span> <span class="n">BusinessType</span><span class="o">{</span>
+ <span class="n">MALECONSUME</span><span class="o">,</span><span class="n">MALEINCOME</span><span class="o">,</span><span class="n">FEMALECONSUME</span><span class="o">,</span><span class="n">FEMALEINCOME</span>
+<span class="o">}</span>
+<span class="c1">//获取男生消费提成
+</span><span class="c1"></span><span class="n">Integer</span> <span class="n">maleConsumePush</span> <span class="o">=</span> <span class="n">businessTable</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">BusinessType</span><span class="o">.</span><span class="na">MALECONSUME</span><span class="o">);</span></code></pre></td></tr></table>
+</div>
+</div>
 <h3 id="2-索引表访问">2.索引表访问</h3>
 
 <p>索引表访问先用一个基本数据类型从索引表中查出一个键值，再根据键值去主查询表中查询数据。
@@ -321,182 +217,145 @@ Integer maleConsumePush = businessTable.get(BusinessType.MALECONSUME);
 <p>相对于索引表访问，阶梯访问对于不同数据范围有效，而不是不同数据点有效。</p>
 
 <p>示例：成绩类型-分数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java">	<span class="kd">private</span> <span class="kd">static</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">LadderType</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">ladderTable</span><span class="o">;</span>
 
-<pre><code class="language-java">	private static HashMap&lt;LadderType, Integer&gt; ladderTable;
+    <span class="kd">static</span> <span class="o">{</span>
+        <span class="cm">/**
+</span><span class="cm">         * 成绩类型 - 分数上限
+</span><span class="cm">         */</span>
+        <span class="n">ladderTable</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedHashMap</span><span class="o">&lt;&gt;();</span>
+        <span class="n">ladderTable</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">LadderType</span><span class="o">.</span><span class="na">E</span><span class="o">,</span> <span class="n">50</span><span class="o">);</span>
+        <span class="n">ladderTable</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">LadderType</span><span class="o">.</span><span class="na">D</span><span class="o">,</span> <span class="n">65</span><span class="o">);</span>
+        <span class="n">ladderTable</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">LadderType</span><span class="o">.</span><span class="na">C</span><span class="o">,</span> <span class="n">75</span><span class="o">);</span>
+        <span class="n">ladderTable</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">LadderType</span><span class="o">.</span><span class="na">B</span><span class="o">,</span> <span class="n">90</span><span class="o">);</span>
+        <span class="n">ladderTable</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">LadderType</span><span class="o">.</span><span class="na">A</span><span class="o">,</span> <span class="n">100</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    static {
-        /**
-         * 成绩类型 - 分数上限
-         */
-        ladderTable = new LinkedHashMap&lt;&gt;();
-        ladderTable.put(LadderType.E, 50);
-        ladderTable.put(LadderType.D, 65);
-        ladderTable.put(LadderType.C, 75);
-        ladderTable.put(LadderType.B, 90);
-        ladderTable.put(LadderType.A, 100);
-    }
+    <span class="cm">/**
+</span><span class="cm">     * 根据分数获取成绩类型
+</span><span class="cm">     * @param socre
+</span><span class="cm">     * @return
+</span><span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">LadderType</span> <span class="nf">getStudentLadder</span><span class="o">(</span><span class="n">Integer</span> <span class="n">socre</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">LadderType</span> <span class="n">type</span> <span class="o">:</span> <span class="n">ladderTable</span><span class="o">.</span><span class="na">keySet</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">socre</span><span class="o">&lt;</span><span class="n">ladderTable</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">type</span><span class="o">)){</span>
+                <span class="k">return</span> <span class="n">type</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">&#34;Error cannot find type&#34;</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    /**
-     * 根据分数获取成绩类型
-     * @param socre
-     * @return
-     */
-    private static LadderType getStudentLadder(Integer socre) {
-        for (LadderType type : ladderTable.keySet()) {
-            if (socre&lt;ladderTable.get(type)){
-                return type;
-            }
-        }
-        throw new RuntimeException(&quot;Error cannot find type&quot;);
-    }
-
-    /**
-     * 成绩类型(A&gt;=90%,B&lt;90%,C&lt;75%,D&lt;65%,F&lt;50%)
-     */
-    private enum LadderType {
-        A, B, C, D, E, F
-    }
-</code></pre>
-            </article>
-
-            <ul class="pager blog-pager">
-                
-                <li class="previous">
-                    <a href="https://chinalhr.github.io/posts/highavailabilityhttpclient/" data-toggle="tooltip" data-placement="top" title="高可用的HttpClient">&larr; Previous Post</a>
-                </li>
-                 
-                <li class="next">
-                    <a href="https://chinalhr.github.io/posts/mybatis_sql_precompile/" data-toggle="tooltip" data-placement="top" title="Mybatis动态表名：# 与 $ 区别">Next Post &rarr;</a>
-                </li>
-                
-            </ul>
-            
-            <div>
-                 
-            </div>
-            
-            
-            
-            
-<div>
-    <section id="datecount">
-        <h4 id="date"> Sat Nov 3, 2018</h4>
-    </section>
-    <h5 id="wc">200 Words|Read in about 1 Min</h5>
-    <h5 id="tags">Tags: 
-        
-        <a href="https://chinalhr.github.io/tags/%E7%BC%96%E7%A0%81%E6%8A%80%E5%B7%A7/">编码技巧</a> &nbsp;
-    </h5>
+    <span class="cm">/**
+</span><span class="cm">     * 成绩类型(A&gt;=90%,B&lt;90%,C&lt;75%,D&lt;65%,F&lt;50%)
+</span><span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kd">enum</span> <span class="n">LadderType</span> <span class="o">{</span>
+        <span class="n">A</span><span class="o">,</span> <span class="n">B</span><span class="o">,</span> <span class="n">C</span><span class="o">,</span> <span class="n">D</span><span class="o">,</span> <span class="n">E</span><span class="o">,</span> <span class="n">F</span>
+    <span class="o">}</span></code></pre></td></tr></table>
 </div>
-
-            
-            </div>
-            
-            
-                
-                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<aside id=comments>
-    
-    
-    
-    
-    <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjI4Ni8xMjgyMQ==">
-    	<script type="text/javascript">
-       (function(d, s) {
-           var j, e = d.getElementsByTagName(s)[0];
-           if (typeof LivereTower === 'function') { return; }
-           j = d.createElement(s);
-           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-           j.async = true;
-           e.parentNode.insertBefore(j, e);
-       })(document, 'script');
-    	</script>
-    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-    </div>
-    
-</aside>
 </div>
-
-                
-            
+  </div>
+</article>
         </div>
-    </div>
-    </section>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="http://localhost:1313" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="http://localhost:1313" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-pocket" title="pocket"></a>
+      <a href="http://localhost:1313" class="iconfont icon-tumblr" title="tumblr"></a>
+      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
+      <a href="http://localhost:1313" class="iconfont icon-gitlab" title="gitlab"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
 </div>
 
-    <footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <ul class="list-inline text-center footer-links">
-          
-              <li>
-                <a href="mailto:13435500980@163.com" title="Email me">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="https://github.com/ChinaLHR" title="GitHub">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-          
-          <li>
-            <a href="https://chinalhr.github.io/index.xml" title="RSS">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          
-        </ul>
-        <p class="credits copyright text-muted">
-        &copy;2017-2018
-          
-            
-              <a href="https://chinalhr.github.io/">lihanrong</a>
-            
-          
-          
-          
-            &nbsp;&bull;&nbsp;
-            <a href="https://chinalhr.github.io/">LHR</a>
-          
-        </p>
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
 
-        
-        <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/rootsongjc/beautifulhugo">Beautiful Hugo</a>
-          
-		   <span id="busuanzi_container_site_pv">
-            本站访问量：<span id="busuanzi_value_site_pv"></span>次
-        </span>
-        &nbsp;
-        <span id="busuanzi_container_site_uv">
-            您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者
-        </span>
-        </p>
-      </div>
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
     </div>
   </div>
-</footer>
-
-
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/bootstrap.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe-ui-default.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/auto-render.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/main.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/prism.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/katex.min.js"></script>
-<script> renderMathInElement(document.body); </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
 
 
 
@@ -504,6 +363,6 @@ Integer maleConsumePush = businessTable.get(BusinessType.MALECONSUME);
 
 
 
-  </body>
+
+</body>
 </html>
-

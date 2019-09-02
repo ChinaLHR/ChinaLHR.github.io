@@ -1,273 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Nginx Http Module - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-  <title> Nginx Http Module - Read the fucking source code</title>
-  <meta name="description" content="Read the fucking source code" />
-  <meta property="og:title" content="Nginx Http Module" />
-  <meta name="twitter:title" content="Nginx Http Module" />
-  <meta name="description" content="
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" " /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/posts/nginx_http/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Nginx Http Module" />
+<meta property="og:description" content="
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/posts/nginx_http/" /><meta property="article:published_time" content="2019-06-25T20:37:07&#43;08:00"/>
+<meta property="article:modified_time" content="2019-06-25T20:37:07&#43;08:00"/>
+
+<meta itemprop="name" content="Nginx Http Module">
+<meta itemprop="description" content="
 ">
-  <meta property="og:description" content="
-">
-  <meta name="twitter:description" content="
-">
-  <meta name="author" content="lihanrong"/>
-  <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://chinalhr.github.io/posts/nginx_http/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="LHR" />
-
-  <meta name="generator" content="Hugo 0.51" />
-  <link rel="canonical" href="https://chinalhr.github.io/posts/nginx_http/" />
-  <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
-  <script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/jquery-1.12.4.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  
-  
-  <link rel="stylesheet" href="https://chinalhr.github.io/css/main.css" />
-  <link rel="stylesheet" href="https://chinalhr.github.io/css/search.css" />
-  
-  
-  
-  <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/monokai.min.css" rel="stylesheet">
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
 
 
-<script>
-    var _hmt = _hmt || [];
-    (function() {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-
-<link rel="stylesheet" href="https://chinalhr.github.io/css/prism.css" />
+<meta itemprop="datePublished" content="2019-06-25T20:37:07&#43;08:00" />
+<meta itemprop="dateModified" content="2019-06-25T20:37:07&#43;08:00" />
+<meta itemprop="wordCount" content="3302">
 
 
 
+<meta itemprop="keywords" content="Nginx," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Nginx Http Module"/>
+<meta name="twitter:description" content="
+"/>
 
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
 
-<script async src="//cdn.busuanzi.ibruce.info/cdn/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
-
-
-
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-<div class="pswp__bg"></div>
-
-<div class="pswp__scroll-wrap">
-    
-    <div class="pswp__container">
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-    </div>
-    
-    <div class="pswp__ui pswp__ui--hidden">
-    <div class="pswp__top-bar">
-      
-      <div class="pswp__counter"></div>
-      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-      <button class="pswp__button pswp__button--share" title="Share"></button>
-      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-      
-      
-      <div class="pswp__preloader">
-        <div class="pswp__preloader__icn">
-          <div class="pswp__preloader__cut">
-            <div class="pswp__preloader__donut"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-      <div class="pswp__share-tooltip"></div>
-    </div>
-    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-    </button>
-    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-    </button>
-    <div class="pswp__caption">
-      <div class="pswp__caption__center"></div>
-    </div>
-    </div>
-    </div>
-</div>
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
 
 </head>
-
-  <body>
-    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="https://chinalhr.github.io/">LHR</a>
-    </div>
-    <div class="collapse navbar-collapse" id="main-navbar">
-      <ul class="nav navbar-nav navbar-right">
-        
-          
-            <li>
-              <a title="Tags" href="/tags/">Tags</a>
-              
-              
-            </li>
-          
-        
-          
-            <li>
-              <a title="categories" href="/categories/">categories</a>
-              
-              
-            </li>
-          
-        
-          
-            <li>
-              <a title="About" href="/posts/about/">About</a>
-              
-              
-            </li>
-          
-        
-          
-            <li>
-              <a title="Resume" href="/posts/resume/">Resume</a>
-              
-              
-            </li>
-          
-        
-
-        
-
-        
-        
-      </ul>
-    </div>
-
-    <div class="avatar-container">
-      <div class="avatar-img-border">
-        
-          <a title="LHR" href="https://chinalhr.github.io/">
-            <img class="avatar-img" src="https://avatars0.githubusercontent.com/u/19829495" alt="LHR" />
-          </a>
-        
-      </div>
-    </div>
-
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
   </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/posts/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/posts/resume/">
+        <li class="mobile-menu-item">Resume</li>
+      </a>
+  </ul>
 </nav>
-
-
-
-
-
-
-    
-  
-  
-  
-
-
-
-
-  
-
-  <header class="header-section ">
-    
-    <div class="intro-header no-img">
-      
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-md-offset-0">
-            <div class="posts-heading">
-                <h1 align="center">Nginx Http Module</h1>
-                
-                
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-
-    
-<div class="container" role="main" itemscope itemtype="http://schema.org/Article">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            
-            
-            
-<div>
-    <section id="datecount">
-        <h4 id="date"> Tue Jun 25, 2019</h4>
-    </section>
-    <h5 id="wc">400 Words|Read in about 2 Min</h5>
-    <h5 id="tags">Tags: 
-        
-        <a href="https://chinalhr.github.io/tags/nginx/">Nginx</a> &nbsp;
-    </h5>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
 </div>
 
-            
-            <article role="main" class="blog-post" itemprop="articleBody" id="content">
-                
-  
-  <aside class="toc">
-    <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#ngx-http-core-module模块">ngx_http_core_module模块</a>
-<ul>
-<li><a href="#虚拟主机与请求的分发">虚拟主机与请求的分发</a></li>
-<li><a href="#文件路径">文件路径</a></li>
-<li><a href="#请求处理时内存与磁盘资源分配配置">请求处理时内存与磁盘资源分配配置</a></li>
-<li><a href="#网络连接与设置">网络连接与设置</a></li>
-<li><a href="#对客户端请求的限制">对客户端请求的限制</a></li>
-<li><a href="#文件操作优化配置">文件操作优化配置</a></li>
-<li><a href="#其他">其他</a></li>
-<li><a href="#结构">结构</a></li>
-</ul></li>
-<li><a href="#反向代理">反向代理</a>
-<ul>
-<li><a href="#负载均衡">负载均衡</a></li>
-<li><a href="#反向代理-1">反向代理</a></li>
-<li><a href="#例子">例子</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/posts/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/posts/resume/">Resume</a>
+      </li>
+  </ul>
 </nav>
-  </aside>
-  
+    </header>
 
-
-                <blockquote>
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+  <div class="post-content">
+    <blockquote>
 </blockquote>
 
 <h3 id="ngx-http-core-module模块">ngx_http_core_module模块</h3>
@@ -279,35 +142,65 @@
 <ul>
 <li>监听端口 listen</li>
 </ul>
-
-<pre><code>listen address:port 其他参数
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">listen address:port 其他参数
 其他参数：default_server(默认server块)/
 backlog=num(表示TCP中backlog队列的大小)/
 rcvbuf=size(设置监听句柄的SO_RCVBUF参数)/
 sndbuf=size(设置监听句柄的SO_SNDBUF参数)/
-ssl(在当前监听的端口上建立的连接必须基于SSL协议)
-</code></pre>
-
+ssl(在当前监听的端口上建立的连接必须基于SSL协议)</pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>主机名称 server_name name[&hellip;]</li>
 </ul>
-
-<pre><code>nginx会取出header头中的Host，与每个server中的server_name进行匹配,决定到底由哪一个server块来处理这个请求。
-全匹配&gt;前缀通配符&gt;后缀通配符&gt;正则
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">nginx会取出header头中的Host，与每个server中的server_name进行匹配,决定到底由哪一个server块来处理这个请求。
+全匹配&gt;前缀通配符&gt;后缀通配符&gt;正则</pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>server_name_in_redirect on|off 重定向主机名称的处理</li>
 </ul>
-
-<pre><code>on打开时，表示在重定向请求时会使用server_name里配置的第一个主机名代替原先请求中的Host头部。
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">on打开时，表示在重定向请求时会使用server_name里配置的第一个主机名代替原先请求中的Host头部。</pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>location[=|~|~*|^~|@]/uri/{&hellip;}</li>
 </ul>
-
-<pre><code>尝试根据用户请求中的URI来匹配上面的/uri表达式，
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">尝试根据用户请求中的URI来匹配上面的/uri表达式，
 如果可以匹配，就选择location{}块中的配置来处理用户请求。
 
 匹配方式(有顺序 )
@@ -315,9 +208,9 @@ ssl(在当前监听的端口上建立的连接必须基于SSL协议)
 ~表示匹配URI时是字母大小写敏感的
 ~*表示匹配URI时忽略字母大小写问题
 正则
-location  /匹配所有请求
-</code></pre>
-
+location  /匹配所有请求</pre></td></tr></table>
+</div>
+</div>
 <h4 id="文件路径">文件路径</h4>
 
 <ul>
@@ -325,8 +218,21 @@ location  /匹配所有请求
 </ul>
 
 <p>root可以放置到http、server、location或if块中，而alias只能放置到location块</p>
-
-<pre><code># 个请求的URI是/download/test.html，那么Web服务器将会返回服务器上/opt/web/html/download/test.html文件的内容
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"># 个请求的URI是/download/test.html，那么Web服务器将会返回服务器上/opt/web/html/download/test.html文件的内容
 
 location /download/ {
    root /opt/web/html/;
@@ -335,25 +241,46 @@ location /download/ {
 # alias写法
 location /download/ {
    alias /opt/web/html/download;
-}
-
-</code></pre>
-
+}</pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>首页 index file&hellip;</li>
 </ul>
-
-<pre><code>location / {
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">location / {
     root   path;
     index /index.html /html/index.php /index.php;
-}
-</code></pre>
-
+}</pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>根据HTTP返回码重定向页面(error_page code[code&hellip;][=|=answer-code]uri|@named_location)</li>
 </ul>
-
-<pre><code>error_page   404          /404.html;
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">error_page   404          /404.html;
 
 # 更改错误码
 error_page 404 =200 /empty.gif;
@@ -364,41 +291,58 @@ location / (
 )
 location @fallback (
     proxy_pass http://backend;
-)
-</code></pre>
-
+)</pre></td></tr></table>
+</div>
+</div>
 <h4 id="请求处理时内存与磁盘资源分配配置">请求处理时内存与磁盘资源分配配置</h4>
 
 <ul>
 <li>client_body_in_file_only on|clean|off;(HTTP包体只存储到磁盘文件中,默认off)</li>
 <li>client_body_in_single_buffer on|off;(HTTP包体尽量写入到一个内存buffer，默认off)</li>
 </ul>
-
-<pre><code>因为用户请求的HTTP包体大小超过client_body_buffer_size设置的值，包体还是会写入到磁盘文件中
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">因为用户请求的HTTP包体大小超过client_body_buffer_size设置的值，包体还是会写入到磁盘文件中</pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>client_header_buffer_size size;(存储HTTP头部的内存buffer大小)</li>
 </ul>
-
-<pre><code>定义了正常情况下Nginx接收用户请求中HTTPheader部分（包括HTTP行和HTTP头部）
-时分配的内存buffer大小.
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">定义了正常情况下Nginx接收用户请求中HTTPheader部分（包括HTTP行和HTTP头部）
+时分配的内存buffer大小.</pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>large_client_header_buffers number size;(存储超大HTTP头部的内存,buffer个数，buffer大小)</li>
 </ul>
-
-<pre><code>每一个header的大小超过单个buffer的大小，或者总和超过number * size 会报错
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">每一个header的大小超过单个buffer的大小，或者总和超过number * size 会报错</pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>client_body_buffer_size size;(存储HTTP包体的内存buffer大小)</li>
 </ul>
-
-<pre><code>HTTP包——&gt;缓存——&gt;写入磁盘
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">HTTP包——&gt;缓存——&gt;写入磁盘</pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>connection_pool_size size;(TCP连接内存池初始大小)</li>
 <li>request_pool_size size;(HTTP请求处理内存池)</li>
@@ -423,13 +367,20 @@ location @fallback (
 <ul>
 <li>limit_except method&hellip;{&hellip;}(按HTTP方法名限制用户请求)</li>
 </ul>
-
-<pre><code>limit_except GET {
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">limit_except GET {
     allow 192.168.1.0/32;
     deny  all;
-}
-</code></pre>
-
+}</pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>client_max_body_size size(HTTP请求包体Content-Length字段的最大值,默认1m)</li>
 <li>limit_rate speed(对请求的限速,默认0)</li>
@@ -445,15 +396,24 @@ after后才开始限默认，1m)</li>
 <li>directio size|off(Linux系统上使用O_DIRECT选项去读取文件，大文件读取速度会有优化，缓冲区大小为size。与sendfile互斥)</li>
 <li>open_file_cache max=N[inactive=time]|off(文件缓存，默认off，会缓存文件句柄,文件大小，上次修改时间&hellip;减少对磁盘的操作)</li>
 </ul>
-
-<pre><code>open_file_cache max=1000 inactive=20s;
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">open_file_cache max=1000 inactive=20s;
 
 max:表示在内存中存储元素的最大个数。达到最大限制数量后，将采用LRU（Least Recently
 Used）算法进行淘汰。
 inactive:在inactive指定的时间段内没有被访问过的元素将会被淘汰。
-off:关闭缓存功能。
-</code></pre>
-
+off:关闭缓存功能。</pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>open_file_cache_errors on|off(是否缓存打开文件错误的信息)</li>
 <li>open_file_cache_min_uses number(不被淘汰的最小访问次数,默认1)</li>
@@ -473,8 +433,37 @@ off:关闭缓存功能。
 </ul>
 
 <h4 id="结构">结构</h4>
-
-<pre><code>http {
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">http {
     gzip on;
     upstream {
            …
@@ -499,9 +488,9 @@ off:关闭缓存功能。
     server {
            …
     }
-}
-</code></pre>
-
+}</pre></td></tr></table>
+</div>
+</div>
 <h3 id="反向代理">反向代理</h3>
 
 <p>反向代理:用代理服务器来接受Internet上的连接请求，然后将请求转发给内部网络中的上游服务器，并将从上游服务器上得到的结果返回给Internet上请求连接的客户端。</p>
@@ -518,25 +507,39 @@ off:关闭缓存功能。
 </ul>
 
 <p>server参数：</p>
-
-<pre><code>weight=num:上游服务器转发的权重。
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">weight=num:上游服务器转发的权重。
 max_fails=num(def 1) fail_timeout=time(def 10s)：表示该时间段内转发失败多少次后就认为上游服务器暂时不可用，用于优化反向代理功能。
 down：表示所在的上游服务器永久下线，只在使用ip_hash配置项时才有用。
 ·backup：在使用ip_hash配置项时它是无效的。它表示所在的上游服务器只是备份服务器，
-只有在所有的非备份上游服务器都失效后，才会向所在的上游服务器转发请求。
-</code></pre>
-
+只有在所有的非备份上游服务器都失效后，才会向所在的上游服务器转发请求。</pre></td></tr></table>
+</div>
+</div>
 <h4 id="反向代理-1">反向代理</h4>
 
 <ul>
 <li>proxy_pass URL</li>
 </ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">将当前请求反向代理到URL参数指定的服务器上，URL可以是主机名/IP:PROT/UNIX句柄/upstream块的形式。
 
-<pre><code>将当前请求反向代理到URL参数指定的服务器上，URL可以是主机名/IP:PROT/UNIX句柄/upstream块的形式。
-
-proxy_pass http://localhost:8000/uri/;
-</code></pre>
-
+proxy_pass http://localhost:8000/uri/;</pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>proxy_method method (转发时的协议方法名)</li>
 <li>proxy_hide_header the_header;(Nginx将上游服务器的响应转发给客户端，这里指定哪些HTTP Header 字段不能被转发，默认不会转发Server、X-Pad和X-Accel-*)</li>
@@ -545,15 +548,38 @@ proxy_pass http://localhost:8000/uri/;
 <li>proxy_pass_request_headers on|off</li>
 <li>proxy_redirect[default|off|redirect replacement]</li>
 </ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">上游服务器返回的响应是重定向或刷新请求，proxy_redirect可以重设HTTP头部的location或refresh字段。
 
-<pre><code>上游服务器返回的响应是重定向或刷新请求，proxy_redirect可以重设HTTP头部的location或refresh字段。
-
-proxy_redirect http://localhost:8000/free/ http://frontend/free/
-</code></pre>
-
+proxy_redirect http://localhost:8000/free/ http://frontend/free/</pre></td></tr></table>
+</div>
+</div>
 <h4 id="例子">例子</h4>
-
-<pre><code>upstream backend {
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">upstream backend {
 
   ip_hash;(负载均衡策略)
 
@@ -566,157 +592,74 @@ server {
   location / {
     proxy_pass  http://backend;
   }
-}
-</code></pre>
-            </article>
-
-            <ul class="pager blog-pager">
-                
-                <li class="previous">
-                    <a href="https://chinalhr.github.io/posts/nginx_base/" data-toggle="tooltip" data-placement="top" title="Nginx Base">&larr; Previous Post</a>
-                </li>
-                 
-                <li class="next">
-                    <a href="https://chinalhr.github.io/posts/interface_idempotent/" data-toggle="tooltip" data-placement="top" title="Web接口幂等性">Next Post &rarr;</a>
-                </li>
-                
-            </ul>
-            
-            <div>
-                 
-                <h2>See Also</h2>
-                <ul>
-                    
-                    <li><a href="/posts/nginx_base/">Nginx Base</a></li>
-                    
-                    <li><a href="/posts/nginx_cross/">Nginx反向代理解决跨域问题</a></li>
-                    
-                </ul>
-                
-            </div>
-            
-            
-            
-            
-<div>
-    <section id="datecount">
-        <h4 id="date"> Tue Jun 25, 2019</h4>
-    </section>
-    <h5 id="wc">400 Words|Read in about 2 Min</h5>
-    <h5 id="tags">Tags: 
-        
-        <a href="https://chinalhr.github.io/tags/nginx/">Nginx</a> &nbsp;
-    </h5>
+}</pre></td></tr></table>
 </div>
-
-            
-            </div>
-            
-            
-                
-                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<aside id=comments>
-    
-    
-    
-    
-    <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjI4Ni8xMjgyMQ==">
-    	<script type="text/javascript">
-       (function(d, s) {
-           var j, e = d.getElementsByTagName(s)[0];
-           if (typeof LivereTower === 'function') { return; }
-           j = d.createElement(s);
-           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-           j.async = true;
-           e.parentNode.insertBefore(j, e);
-       })(document, 'script');
-    	</script>
-    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-    </div>
-    
-</aside>
 </div>
-
-                
-            
+  </div>
+</article>
         </div>
-    </div>
-    </section>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="http://localhost:1313" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="http://localhost:1313" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-pocket" title="pocket"></a>
+      <a href="http://localhost:1313" class="iconfont icon-tumblr" title="tumblr"></a>
+      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
+      <a href="http://localhost:1313" class="iconfont icon-gitlab" title="gitlab"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
 </div>
 
-    <footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <ul class="list-inline text-center footer-links">
-          
-              <li>
-                <a href="mailto:13435500980@163.com" title="Email me">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="https://github.com/ChinaLHR" title="GitHub">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-          
-          <li>
-            <a href="https://chinalhr.github.io/index.xml" title="RSS">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          
-        </ul>
-        <p class="credits copyright text-muted">
-        &copy;2017-2018
-          
-            
-              <a href="https://chinalhr.github.io/">lihanrong</a>
-            
-          
-          
-          
-            &nbsp;&bull;&nbsp;
-            <a href="https://chinalhr.github.io/">LHR</a>
-          
-        </p>
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
 
-        
-        <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/rootsongjc/beautifulhugo">Beautiful Hugo</a>
-          
-		   <span id="busuanzi_container_site_pv">
-            本站访问量：<span id="busuanzi_value_site_pv"></span>次
-        </span>
-        &nbsp;
-        <span id="busuanzi_container_site_uv">
-            您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者
-        </span>
-        </p>
-      </div>
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
     </div>
   </div>
-</footer>
-
-
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/bootstrap.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe-ui-default.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/auto-render.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/main.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/prism.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/katex.min.js"></script>
-<script> renderMathInElement(document.body); </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
 
 
 
@@ -724,6 +667,6 @@ server {
 
 
 
-  </body>
+
+</body>
 </html>
-

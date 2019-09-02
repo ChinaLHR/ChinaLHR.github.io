@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Git on LHR</title>
+    <title>git on LiHanRong Blog</title>
     <link>https://chinalhr.github.io/tags/git/</link>
-    <description>Recent content in Git on LHR</description>
+    <description>Recent content in git on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
-    <webMaster>13435500980@163.com (lihanrong)</webMaster>
     <lastBuildDate>Sun, 08 Jul 2018 15:49:09 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/git/index.xml" rel="self" type="application/rss+xml" />
@@ -15,10 +13,10 @@
     
     <item>
       <title>Git记录</title>
-      <link>https://chinalhr.github.io/posts/git_basic/</link>
+      <link>https://chinalhr.github.io/post/git_basic/</link>
       <pubDate>Sun, 08 Jul 2018 15:49:09 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/git_basic/</guid>
+      
+      <guid>https://chinalhr.github.io/post/git_basic/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记录Git操作&lt;/p&gt;
 &lt;/blockquote&gt;</description>

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Redis on LHR</title>
+    <title>redis on LiHanRong Blog</title>
     <link>https://chinalhr.github.io/tags/redis/</link>
-    <description>Recent content in Redis on LHR</description>
+    <description>Recent content in redis on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
-    <webMaster>13435500980@163.com (lihanrong)</webMaster>
     <lastBuildDate>Tue, 10 Jul 2018 22:01:41 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/redis/index.xml" rel="self" type="application/rss+xml" />
@@ -15,10 +13,10 @@
     
     <item>
       <title>消息队列QPS优化(使用Redis做MQ的Buff)</title>
-      <link>https://chinalhr.github.io/posts/redisdomqbuff/</link>
+      <link>https://chinalhr.github.io/post/redisdomqbuff/</link>
       <pubDate>Tue, 10 Jul 2018 22:01:41 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/redisdomqbuff/</guid>
+      
+      <guid>https://chinalhr.github.io/post/redisdomqbuff/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;使用Redis做阿里MQ发送的缓存，一种控制MQ发送QPS的方案&lt;/p&gt;
 &lt;/blockquote&gt;</description>

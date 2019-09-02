@@ -1,208 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>RedisTemplate问题 - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-  <title> RedisTemplate问题 - Read the fucking source code</title>
-  <meta name="description" content="Read the fucking source code" />
-  <meta property="og:title" content="RedisTemplate问题" />
-  <meta name="twitter:title" content="RedisTemplate问题" />
-  <meta name="description" content="
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" 记录RedisTemplate使用过程的问题
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/redistemplate_problem/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="RedisTemplate问题" />
+<meta property="og:description" content="
+记录RedisTemplate使用过程的问题
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/redistemplate_problem/" /><meta property="article:published_time" content="2018-07-13T22:17:22&#43;08:00"/>
+<meta property="article:modified_time" content="2018-07-13T22:17:22&#43;08:00"/>
+
+<meta itemprop="name" content="RedisTemplate问题">
+<meta itemprop="description" content="
 记录RedisTemplate使用过程的问题
 ">
-  <meta property="og:description" content="
+
+
+<meta itemprop="datePublished" content="2018-07-13T22:17:22&#43;08:00" />
+<meta itemprop="dateModified" content="2018-07-13T22:17:22&#43;08:00" />
+<meta itemprop="wordCount" content="799">
+
+
+
+<meta itemprop="keywords" content="Java,Spring," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="RedisTemplate问题"/>
+<meta name="twitter:description" content="
 记录RedisTemplate使用过程的问题
-">
-  <meta name="twitter:description" content="
-记录RedisTemplate使用过程的问题
-">
-  <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://chinalhr.github.io/post/redistemplate_problem/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="LHR" />
+"/>
 
-  <meta name="generator" content="Hugo 0.51" />
-  <link rel="canonical" href="https://chinalhr.github.io/post/redistemplate_problem/" />
-  <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
-  <script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/jquery-1.12.4.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  
-  
-  <link rel="stylesheet" href="https://chinalhr.github.io/css/main.css" />
-  <link rel="stylesheet" href="https://chinalhr.github.io/css/search.css" />
-  
-  
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
 
-
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
-
-
-
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-<div class="pswp__bg"></div>
-
-<div class="pswp__scroll-wrap">
-    
-    <div class="pswp__container">
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-    </div>
-    
-    <div class="pswp__ui pswp__ui--hidden">
-    <div class="pswp__top-bar">
-      
-      <div class="pswp__counter"></div>
-      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-      <button class="pswp__button pswp__button--share" title="Share"></button>
-      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-      
-      
-      <div class="pswp__preloader">
-        <div class="pswp__preloader__icn">
-          <div class="pswp__preloader__cut">
-            <div class="pswp__preloader__donut"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-      <div class="pswp__share-tooltip"></div>
-    </div>
-    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-    </button>
-    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-    </button>
-    <div class="pswp__caption">
-      <div class="pswp__caption__center"></div>
-    </div>
-    </div>
-    </div>
-</div>
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
 
 </head>
-
-  <body>
-    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="https://chinalhr.github.io/">LHR</a>
-    </div>
-    <div class="collapse navbar-collapse" id="main-navbar">
-      <ul class="nav navbar-nav navbar-right">
-        
-          
-            <li>
-              <a title="Tags" href="/tags">Tags</a>
-              
-              
-            </li>
-          
-        
-          
-            <li>
-              <a title="About" href="/post/about/">About</a>
-              
-              
-            </li>
-          
-        
-
-        
-
-        
-        
-      </ul>
-    </div>
-
-    <div class="avatar-container">
-      <div class="avatar-img-border">
-        
-          <a title="LHR" href="https://chinalhr.github.io/">
-            <img class="avatar-img" src="https://avatars0.githubusercontent.com/u/19829495" alt="LHR" />
-          </a>
-        
-      </div>
-    </div>
-
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
   </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/post/resume/">
+        <li class="mobile-menu-item">Resume</li>
+      </a>
+  </ul>
 </nav>
-
-
-
-
-
-
-    
-  
-  
-  
-
-
-
-
-  
-
-  <header class="header-section ">
-    
-    <div class="intro-header no-img">
-      
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-md-offset-0">
-            <div class="post-heading">
-                <h1 align="center">RedisTemplate问题</h1>
-                
-                
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-
-    
-<div class="container" role="main" itemscope itemtype="http://schema.org/Article">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            
-            
-            
-<div>
-    <section id="datecount">
-        <h4 id="date"> Fri Jul 13, 2018</h4>
-    </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
-    <h5 id="tags">Tags: 
-        
-        <a href="https://chinalhr.github.io/tags/java/">Java</a> &nbsp;
-    </h5>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
 </div>
 
-            
-            <article role="main" class="blog-post" itemprop="articleBody" id="content">
-                
-  
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/resume/">Resume</a>
+      </li>
+  </ul>
+</nav>
+    </header>
 
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">RedisTemplate问题</h1>
 
-                <blockquote>
+      <div class="post-meta">
+        <span class="post-time"> 2018-07-13 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B/"> 编程 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#redistemplate事务问题">RedisTemplate事务问题</a></li>
+<li><a href="#redistemple序列化问题">RedisTemple序列化问题</a></li>
+<li><a href="#jackson-数据解析异常-invalid-numeric-value-leading-zeroes-not-allowed">Jackson 数据解析异常:Invalid numeric value: Leading zeroes not allowed</a>
+<ul>
+<li><a href="#场景">场景</a></li>
+<li><a href="#异常分析">异常分析</a></li>
+<li><a href="#解决">解决</a></li>
+</ul></li>
+<li><a href="#redistemplate使用相关博文链接">RedisTemplate使用相关博文链接</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
 <p>记录RedisTemplate使用过程的问题</p>
 </blockquote>
 
@@ -212,8 +178,21 @@
 <li>RedisTemplate事务使用
 采用RedisTemplate的SesionCallback</li>
 </ul>
-
-<pre><code>SessionCallback&lt;Object&gt; sessionCallback=new SessionCallback&lt;Object&gt;(){
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">SessionCallback&lt;Object&gt; sessionCallback=new SessionCallback&lt;Object&gt;(){
   @Override
    public Object execute(RedisOperations operations) throws DataAccessException{
 		operations.multi();
@@ -222,9 +201,9 @@
 		return val;
 	}
 }
-StringRedisTemplate.execute(sessionCallback);
-</code></pre>
-
+StringRedisTemplate.execute(sessionCallback);</pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>UnsupportedOperationException
 在Pipline和Transaction中不支持多个字段操作
@@ -233,113 +212,245 @@ StringRedisTemplate.execute(sessionCallback);
 
 <h2 id="redistemple序列化问题">RedisTemple序列化问题</h2>
 
-<p>使用redisTemplate jackson序列化时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&hellip;,会有导致序列化失败，类型转换异常风险。</p>
+<p>使用redisTemplate jackson序列化时， 如果value是数字类型, 包括Integer,Long,Double. 序列化时不会根据泛型进行类型转换，而是根据数字长度进行转换为Integer，Long&hellip;,
+会有导致序列化失败，类型转换异常风险。</p>
 
 <p>解决：使用Number存储</p>
 
-<h2 id="优秀博文链接">优秀博文链接</h2>
+<h2 id="jackson-数据解析异常-invalid-numeric-value-leading-zeroes-not-allowed">Jackson 数据解析异常:Invalid numeric value: Leading zeroes not allowed</h2>
+
+<h3 id="场景">场景</h3>
+
+<p>使用Redis存储用户的短信验证码，后台增加了一个查询功能，用于查询用户手机接收到的验证码与过期时间，使用的是RedisTemplate。</p>
+
+<h3 id="异常分析">异常分析</h3>
+
+<p>使用RedisTemplate查询，如果验证码以0开头会报Invalid numeric value: Leading zeroes not allowed 异常。 日志如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">Caused by: com.fasterxml.jackson.core.JsonParseException: Invalid numeric value: Leading zeroes not allowed 
+at [Source: [B@2c8b01ed; line: 1, column: 2] 
+at com.fasterxml.jackson.core.JsonParser._constructError(JsonParser.java:1702) 
+at com.fasterxml.jackson.core.base.ParserMinimalBase._reportError(ParserMinimalBase.java:558) 
+at com.fasterxml.jackson.core.base.ParserBase.reportInvalidNumber(ParserBase.java:1062) 
+at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._verifyNoLeadingZeroes(UTF8StreamJsonParser.java:1549) 
+at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._parsePosNumber(UTF8StreamJsonParser.java:1395) 
+at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._nextTokenNotInObject(UTF8StreamJsonParser.java:876) 
+at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.nextToken(UTF8StreamJsonParser.java:772) 
+at com.fasterxml.jackson.databind.ObjectMapper._initForReading(ObjectMapper.java:3834) 
+at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:3783) 
+at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:2929) 
+at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:117) </pre></td></tr></table>
+</div>
+</div>
+<p>因为原RedisTemplate指定了jackson作为解析，使用的jackson解析redis中存储的数据，会把纯数字的短信验证码当作是数字类型来解析，以0开头的jackson认为这是一个无效的数字。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">    @Bean(name = &#34;objectRedisTemplate&#34;)
+    public RedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate&lt;?, ?&gt; redisTemplate = new RedisTemplate&lt;&gt;();
+        GenericJackson2JsonRedisSerializer jsonRedisSerializer = new GenericJackson2JsonRedisSerializer(createObjectMapper());
+        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        redisTemplate.setKeySerializer(stringRedisSerializer);
+        redisTemplate.setHashKeySerializer(stringRedisSerializer);
+        redisTemplate.setValueSerializer(jsonRedisSerializer);
+        redisTemplate.setHashValueSerializer(jsonRedisSerializer);
+        redisTemplate.afterPropertiesSet();
+        return redisTemplate;
+    }
+
+    private ObjectMapper createObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        return objectMapper;
+
+    }
+...</pre></td></tr></table>
+</div>
+</div>
+<h3 id="解决">解决</h3>
+
+<p>配置stringRedisTemplate,在解析获取短信验证码数据的时候使用字符串的方式解析,不使用jackson。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"> @Bean(name = &#34;stringRedisTemplate&#34;)
+    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory
+                                                           redisConnectionFactory) {
+        return new StringRedisTemplate(redisConnectionFactory);
+    }</pre></td></tr></table>
+</div>
+</div>
+<p>使用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">@Resource(name = &#34;stringRedisTemplate&#34;)
+private RedisTemplate&lt;String, String&gt; redisTemplate;</pre></td></tr></table>
+</div>
+</div>
+<h2 id="redistemplate使用相关博文链接">RedisTemplate使用相关博文链接</h2>
 
 <p><a href="https://www.jianshu.com/p/7bf5dc61ca06">https://www.jianshu.com/p/7bf5dc61ca06</a></p>
-            </article>
-
-            <ul class="pager blog-pager">
-                
-                <li class="previous">
-                    <a href="https://chinalhr.github.io/post/java_supplier_predicate_consumer/" data-toggle="tooltip" data-placement="top" title="函数式接口-Supplier|Predicate|Consumer|Function">&larr; Previous Post</a>
-                </li>
-                 
-                <li class="next">
-                    <a href="https://chinalhr.github.io/post/distributedlocks/" data-toggle="tooltip" data-placement="top" title="分布式锁实现(基于Redis|Zookeeper)">Next Post &rarr;</a>
-                </li>
-                
-            </ul>
-            
-            <div>
-                 
-                <h2>See Also</h2>
-                <ul>
-                    
-                    <li><a href="/post/java_supplier_predicate_consumer/">函数式接口-Supplier|Predicate|Consumer|Function</a></li>
-                    
-                    <li><a href="/post/java_system_structure/">Java项目中的系统结构分层</a></li>
-                    
-                    <li><a href="/post/java_springboot_component1/">Spring Boot组件-Retry|Scheduled</a></li>
-                    
-                    <li><a href="/post/java_practice/">基于SSM项目的个人编码规范</a></li>
-                    
-                    <li><a href="/post/java_completablefuture/">Java异步编程-CompletableFuture</a></li>
-                    
-                </ul>
-                
-            </div>
-            
-            
-            
-            
-<div>
-    <section id="datecount">
-        <h4 id="date"> Fri Jul 13, 2018</h4>
-    </section>
-    <h5 id="wc">100 Words|Read in about 1 Min</h5>
-    <h5 id="tags">Tags: 
-        
-        <a href="https://chinalhr.github.io/tags/java/">Java</a> &nbsp;
-    </h5>
-</div>
-
-            
-            </div>
-            
-            
-        </div>
     </div>
-    </section>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2018-07-13
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/java/">Java</a>
+          <a href="/tags/spring/">Spring</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/distributedlocks/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">分布式锁实现(基于Redis|Zookeeper)</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/java_supplier_predicate_consumer/">
+            <span class="next-text nav-default">函数式接口-Supplier|Predicate|Consumer|Function</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
 </div>
 
-    <footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <ul class="list-inline text-center footer-links">
-          
-          
-        </ul>
-        <p class="credits copyright text-muted">
-        &copy;2017-2018
-          
-          
-          
-            &nbsp;&bull;&nbsp;
-            <a href="https://chinalhr.github.io/">LHR</a>
-          
-        </p>
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
 
-        
-        <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/rootsongjc/beautifulhugo">Beautiful Hugo</a>
-          
-        </p>
-      </div>
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
     </div>
   </div>
-</footer>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
 
 
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/bootstrap.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe-ui-default.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/auto-render.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/main.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/prism.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/katex.min.js"></script>
-<script> renderMathInElement(document.body); </script>
 
 
 
 
-
-
-
-  </body>
+</body>
 </html>
-

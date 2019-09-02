@@ -1,683 +1,386 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>编程 · LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-  <title> 编程 - Read the fucking source code</title>
-  <meta name="description" content="Read the fucking source code" />
-  <meta property="og:title" content="编程" />
-  <meta name="twitter:title" content="编程" />
-  <meta name="author" content="lihanrong"/>
-  <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="LHR" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-  <meta name="generator" content="Hugo 0.51" />
-  <link rel="canonical" href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/" />
-  <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
-  <script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/jquery-1.12.4.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  
-  
-  <link rel="stylesheet" href="https://chinalhr.github.io/css/main.css" />
-  <link rel="stylesheet" href="https://chinalhr.github.io/css/search.css" />
-  
-  
-  
-  <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/monokai.min.css" rel="stylesheet">
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<script>
-    var _hmt = _hmt || [];
-    (function() {
-    var hm = document.createElement("script");
+<meta name="author" content="LHR" /><meta name="description" content="Hugo theme even example site." /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/" />
+  <link href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/index.xml" rel="alternate" type="application/rss+xml" title="LiHanRong Blog" />
+  <link href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/index.xml" rel="feed" type="application/rss+xml" title="LiHanRong Blog" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="编程" />
+<meta property="og:description" content="Hugo theme even example site." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/" />
+<meta property="og:updated_time" content="2019-09-02T20:33:31&#43;08:00"/>
+
+<meta itemprop="name" content="编程">
+<meta itemprop="description" content="Hugo theme even example site.">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="编程"/>
+<meta name="twitter:description" content="Hugo theme even example site."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/post/resume/">
+        <li class="mobile-menu-item">Resume</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/resume/">Resume</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <section id="archive" class="archive">
+  <div class="archive-title category">
+        <h2 class="archive-name">编程</h2>
+      </div>
+
+  <div class="archive-post">
+      <span class="archive-post-time">
+        2019-09-02
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/mongodb_limit_sort_index/" class="archive-post-link">
+          MongoDB分页-排序-索引
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-08-23
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/linux_zerocopy/" class="archive-post-link">
+          Linux Zero-copy(零拷贝)
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-08-04
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/tailrecursion/" class="archive-post-link">
+          尾递归-Java-Kotlin
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-07-31
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/algorithm_shuffle/" class="archive-post-link">
+          洗牌算法Shuffle
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-07-24
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/linux_io_multiplexing/" class="archive-post-link">
+          Linux IO多路复用 select poll epoll
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-07-08
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/interface_idempotent/" class="archive-post-link">
+          Web接口幂等性
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-06-25
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/nginx_http/" class="archive-post-link">
+          Nginx Http Module
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-06-18
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/nginx_base/" class="archive-post-link">
+          Nginx Base
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-06-18
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/nginx_cross/" class="archive-post-link">
+          Nginx反向代理解决跨域问题
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-06-03
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/linuxoom/" class="archive-post-link">
+          Linux Out-Of-Memory killer
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-05-23
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/vertx_kotlin_coroutine/" class="archive-post-link">
+          Vertx Kotlin协程
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-04-19
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/linux_operating_record/" class="archive-post-link">
+          Linux命令记录
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-04-18
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/aspect_dynamic/" class="archive-post-link">
+           javassist实现Aspect动态Pointcut
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-04-17
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/maven_plugs_record/" class="archive-post-link">
+          Maven Plugin 记录
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-04-08
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/mysqldeadlockrecord/" class="archive-post-link">
+          Mysql死锁排查记录
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-04-06
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/vertx02/" class="archive-post-link">
+          Vert.x Web Record
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-04-02
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/vertx01/" class="archive-post-link">
+          Vert.x Core Record
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-03-25
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/reactivewebstack/" class="archive-post-link">
+          响应式Web技术栈
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-03-14
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/kotlin-learn03/" class="archive-post-link">
+          Kotlin 泛型,注解,DSL
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-02-27
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/kotlin-learn02/" class="archive-post-link">
+          Kotlin 类型系统，语言特性
+        </a>
+      </span>
+    </div>
+</section>
+
+<nav class="pagination">
+  
+  <a class="next" href="/categories/%E7%BC%96%E7%A8%8B/page/2/">
+      <span class="next-text">Next</span>
+      <i class="iconfont icon-right"></i>
+    </a>
+</nav>
+        </div>
+        
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
     hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(hm, s);
-    })();
+  })();
 </script>
 
-<link rel="stylesheet" href="https://chinalhr.github.io/css/prism.css" />
 
 
 
 
 
-<script async src="//cdn.busuanzi.ibruce.info/cdn/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
-
-
-
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-<div class="pswp__bg"></div>
-
-<div class="pswp__scroll-wrap">
-    
-    <div class="pswp__container">
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-    </div>
-    
-    <div class="pswp__ui pswp__ui--hidden">
-    <div class="pswp__top-bar">
-      
-      <div class="pswp__counter"></div>
-      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-      <button class="pswp__button pswp__button--share" title="Share"></button>
-      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-      
-      
-      <div class="pswp__preloader">
-        <div class="pswp__preloader__icn">
-          <div class="pswp__preloader__cut">
-            <div class="pswp__preloader__donut"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-      <div class="pswp__share-tooltip"></div>
-    </div>
-    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-    </button>
-    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-    </button>
-    <div class="pswp__caption">
-      <div class="pswp__caption__center"></div>
-    </div>
-    </div>
-    </div>
-</div>
-
-</head>
-
-  <body>
-    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="https://chinalhr.github.io/">LHR</a>
-    </div>
-    <div class="collapse navbar-collapse" id="main-navbar">
-      <ul class="nav navbar-nav navbar-right">
-        
-          
-            <li>
-              <a title="Tags" href="/tags/">Tags</a>
-              
-              
-            </li>
-          
-        
-          
-            <li>
-              <a title="categories" href="/categories/">categories</a>
-              
-              
-            </li>
-          
-        
-          
-            <li>
-              <a title="About" href="/posts/about/">About</a>
-              
-              
-            </li>
-          
-        
-          
-            <li>
-              <a title="Resume" href="/posts/resume/">Resume</a>
-              
-              
-            </li>
-          
-        
-
-        
-
-        
-        
-      </ul>
-    </div>
-
-    <div class="avatar-container">
-      <div class="avatar-img-border">
-        
-          <a title="LHR" href="https://chinalhr.github.io/">
-            <img class="avatar-img" src="https://avatars0.githubusercontent.com/u/19829495" alt="LHR" />
-          </a>
-        
-      </div>
-    </div>
-
-  </div>
-</nav>
-
-
-
-
-
-
-    
-  <header class="header-section ">
-    <div class="intro-header no-img">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-md-offset-0">
-            <div class="page-heading">
-              <h1>#编程</h1>
-              <hr class="small">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-    
-  <div class="container" role="main">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        
-        <div class="posts-list">
-          
-            <article class="post-preview">
-              <a href="https://chinalhr.github.io/posts/linux_zerocopy/">
-                <h2 class="post-title">Linux Zero-copy(零拷贝)</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on August 23, 2019
-              </p>
-              <div class="post-entry">
-                
-                  <blockquote>
-</blockquote>
-                  <a href="https://chinalhr.github.io/posts/linux_zerocopy/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://chinalhr.github.io/tags/linux/">Linux</a>&nbsp;
-                  
-                    #<a href="https://chinalhr.github.io/tags/java/">Java</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://chinalhr.github.io/posts/tailrecursion/">
-                <h2 class="post-title">尾递归-Java-Kotlin</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on August 4, 2019
-              </p>
-              <div class="post-entry">
-                
-                  <blockquote>
-</blockquote>
-                  <a href="https://chinalhr.github.io/posts/tailrecursion/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://chinalhr.github.io/tags/%E7%BC%96%E7%A0%81%E6%8A%80%E5%B7%A7/">编码技巧</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://chinalhr.github.io/posts/algorithm_shuffle/">
-                <h2 class="post-title">洗牌算法Shuffle</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on July 31, 2019
-              </p>
-              <div class="post-entry">
-                
-                  <blockquote>
-</blockquote>
-                  <a href="https://chinalhr.github.io/posts/algorithm_shuffle/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://chinalhr.github.io/tags/%E7%AE%97%E6%B3%95/">算法</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://chinalhr.github.io/posts/linux_io_multiplexing/">
-                <h2 class="post-title">Linux IO多路复用 select poll epoll</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on July 24, 2019
-              </p>
-              <div class="post-entry">
-                
-                  <blockquote>
-</blockquote>
-                  <a href="https://chinalhr.github.io/posts/linux_io_multiplexing/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://chinalhr.github.io/tags/linux/">Linux</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://chinalhr.github.io/posts/interface_idempotent/">
-                <h2 class="post-title">Web接口幂等性</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on July 8, 2019
-              </p>
-              <div class="post-entry">
-                
-                  <blockquote>
-</blockquote>
-                  <a href="https://chinalhr.github.io/posts/interface_idempotent/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://chinalhr.github.io/posts/nginx_http/">
-                <h2 class="post-title">Nginx Http Module</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on June 25, 2019
-              </p>
-              <div class="post-entry">
-                
-                  <blockquote>
-</blockquote>
-                  <a href="https://chinalhr.github.io/posts/nginx_http/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://chinalhr.github.io/tags/nginx/">Nginx</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://chinalhr.github.io/posts/nginx_base/">
-                <h2 class="post-title">Nginx Base</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on June 18, 2019
-              </p>
-              <div class="post-entry">
-                
-                  <blockquote>
-</blockquote>
-                  <a href="https://chinalhr.github.io/posts/nginx_base/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://chinalhr.github.io/tags/nginx/">Nginx</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://chinalhr.github.io/posts/nginx_cross/">
-                <h2 class="post-title">Nginx反向代理解决跨域问题</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on June 18, 2019
-              </p>
-              <div class="post-entry">
-                
-                  <blockquote>
-</blockquote>
-                  <a href="https://chinalhr.github.io/posts/nginx_cross/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://chinalhr.github.io/tags/nginx/">Nginx</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://chinalhr.github.io/posts/linuxoom/">
-                <h2 class="post-title">Linux Out-Of-Memory killer</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on June 3, 2019
-              </p>
-              <div class="post-entry">
-                
-                  <blockquote>
-</blockquote>
-                  <a href="https://chinalhr.github.io/posts/linuxoom/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://chinalhr.github.io/tags/linux/">Linux</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://chinalhr.github.io/posts/vertx_kotlin_coroutine/">
-                <h2 class="post-title">Vertx Kotlin协程</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on May 23, 2019
-              </p>
-              <div class="post-entry">
-                
-                  <blockquote>
-</blockquote>
-                  <a href="https://chinalhr.github.io/posts/vertx_kotlin_coroutine/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://chinalhr.github.io/tags/vert.x/">Vert.x</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
-        </div>
-        
-          <ul class="pager main-pager">
-            
-            
-              <li class="next">
-                <a href="/categories/%E7%BC%96%E7%A8%8B/page/2">Older Posts &rarr;</a>
-              </li>
-            
-          </ul>
-        
-      </div>
-    <div align="center" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        
-
-<ul class="pagination">
-    
-    <li class="page-item">
-        <a href="/categories/%E7%BC%96%E7%A8%8B/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-    </li>
-    
-    <li class="page-item disabled">
-    <a href="" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-    </li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item active"><a class="page-link" href="/categories/%E7%BC%96%E7%A8%8B/">1</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item"><a class="page-link" href="/categories/%E7%BC%96%E7%A8%8B/page/2/">2</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item"><a class="page-link" href="/categories/%E7%BC%96%E7%A8%8B/page/3/">3</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item disabled"><span aria-hidden="true">&nbsp;&hellip;&nbsp;</span></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item"><a class="page-link" href="/categories/%E7%BC%96%E7%A8%8B/page/6/">6</a></li>
-    
-    
-    <li class="page-item">
-    <a href="/categories/%E7%BC%96%E7%A8%8B/page/2/" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-    </li>
-    
-    <li class="page-item">
-        <a href="/categories/%E7%BC%96%E7%A8%8B/page/6/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-    </li>
-    
-</ul>
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-    </div>
-  </div>
-
-    <footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <ul class="list-inline text-center footer-links">
-          
-              <li>
-                <a href="mailto:13435500980@163.com" title="Email me">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="https://github.com/ChinaLHR" title="GitHub">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-          
-          <li>
-            <a href="https://chinalhr.github.io/index.xml" title="RSS">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          
-        </ul>
-        <p class="credits copyright text-muted">
-        &copy;2017-2018
-          
-            
-              <a href="https://chinalhr.github.io/">lihanrong</a>
-            
-          
-          
-          
-            &nbsp;&bull;&nbsp;
-            <a href="https://chinalhr.github.io/">LHR</a>
-          
-        </p>
-
-        
-        <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/rootsongjc/beautifulhugo">Beautiful Hugo</a>
-          
-		   <span id="busuanzi_container_site_pv">
-            本站访问量：<span id="busuanzi_value_site_pv"></span>次
-        </span>
-        &nbsp;
-        <span id="busuanzi_container_site_uv">
-            您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者
-        </span>
-        </p>
-      </div>
-    </div>
-  </div>
-</footer>
-
-
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/bootstrap.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe-ui-default.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/auto-render.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/main.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/prism.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/katex.min.js"></script>
-<script> renderMathInElement(document.body); </script>
-
-
-
-
-
-
-
-  </body>
+</body>
 </html>
-

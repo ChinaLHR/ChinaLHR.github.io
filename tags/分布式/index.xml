@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>分布式 on LHR</title>
+    <title>分布式 on LiHanRong Blog</title>
     <link>https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/</link>
-    <description>Recent content in 分布式 on LHR</description>
+    <description>Recent content in 分布式 on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
-    <webMaster>13435500980@163.com (lihanrong)</webMaster>
     <lastBuildDate>Mon, 08 Jul 2019 23:47:37 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
@@ -15,30 +13,32 @@
     
     <item>
       <title>Web接口幂等性</title>
-      <link>https://chinalhr.github.io/posts/interface_idempotent/</link>
+      <link>https://chinalhr.github.io/post/interface_idempotent/</link>
       <pubDate>Mon, 08 Jul 2019 23:47:37 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/interface_idempotent/</guid>
+      
+      <guid>https://chinalhr.github.io/post/interface_idempotent/</guid>
       <description>&lt;blockquote&gt;
+&lt;p&gt;生成环境中Web接口幂等性保证实践记录&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
     <item>
       <title>基于SnowFlake的分布式UID生成服务</title>
-      <link>https://chinalhr.github.io/posts/uidgenerateserver/</link>
+      <link>https://chinalhr.github.io/post/uidgenerateserver/</link>
       <pubDate>Sat, 08 Sep 2018 23:02:55 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/uidgenerateserver/</guid>
+      
+      <guid>https://chinalhr.github.io/post/uidgenerateserver/</guid>
       <description>&lt;blockquote&gt;
+&lt;p&gt;分析与改造SnowFlake算法&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
     <item>
       <title>分布式锁实现(基于Redis|Zookeeper)</title>
-      <link>https://chinalhr.github.io/posts/distributedlocks/</link>
+      <link>https://chinalhr.github.io/post/distributedlocks/</link>
       <pubDate>Sun, 15 Jul 2018 18:38:26 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/distributedlocks/</guid>
+      
+      <guid>https://chinalhr.github.io/post/distributedlocks/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;学习分布式锁实现&lt;/p&gt;
 &lt;/blockquote&gt;</description>

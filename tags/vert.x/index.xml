@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Vert.x on LHR</title>
+    <title>Vert.x on LiHanRong Blog</title>
     <link>https://chinalhr.github.io/tags/vert.x/</link>
-    <description>Recent content in Vert.x on LHR</description>
+    <description>Recent content in Vert.x on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
-    <webMaster>13435500980@163.com (lihanrong)</webMaster>
     <lastBuildDate>Thu, 23 May 2019 21:59:46 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/vert.x/index.xml" rel="self" type="application/rss+xml" />
@@ -15,31 +13,34 @@
     
     <item>
       <title>Vertx Kotlin协程</title>
-      <link>https://chinalhr.github.io/posts/vertx_kotlin_coroutine/</link>
+      <link>https://chinalhr.github.io/post/vertx_kotlin_coroutine/</link>
       <pubDate>Thu, 23 May 2019 21:59:46 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/vertx_kotlin_coroutine/</guid>
+      
+      <guid>https://chinalhr.github.io/post/vertx_kotlin_coroutine/</guid>
       <description>&lt;blockquote&gt;
+&lt;p&gt;Vert.x 利用 Kotlin协程特性优雅编写异步逻辑&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
     <item>
       <title>Vert.x Web Record</title>
-      <link>https://chinalhr.github.io/posts/vertx02/</link>
+      <link>https://chinalhr.github.io/post/vertx02/</link>
       <pubDate>Sat, 06 Apr 2019 23:56:26 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/vertx02/</guid>
+      
+      <guid>https://chinalhr.github.io/post/vertx02/</guid>
       <description>&lt;blockquote&gt;
+&lt;p&gt;Vert.x 官方文档阅读&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
     <item>
       <title>Vert.x Core Record</title>
-      <link>https://chinalhr.github.io/posts/vertx01/</link>
+      <link>https://chinalhr.github.io/post/vertx01/</link>
       <pubDate>Tue, 02 Apr 2019 22:01:56 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/vertx01/</guid>
+      
+      <guid>https://chinalhr.github.io/post/vertx01/</guid>
       <description>&lt;blockquote&gt;
+&lt;p&gt;Vert.x 官方文档阅读&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

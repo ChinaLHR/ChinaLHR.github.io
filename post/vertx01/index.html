@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Vert.x Core Record - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" Vert.x 官方文档阅读
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/vertx01/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Vert.x Core Record" />
+<meta property="og:description" content="
+Vert.x 官方文档阅读
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/vertx01/" /><meta property="article:published_time" content="2019-04-02T22:01:56&#43;08:00"/>
+<meta property="article:modified_time" content="2019-04-02T22:01:56&#43;08:00"/>
+
+<meta itemprop="name" content="Vert.x Core Record">
+<meta itemprop="description" content="
+Vert.x 官方文档阅读
+">
+
+
+<meta itemprop="datePublished" content="2019-04-02T22:01:56&#43;08:00" />
+<meta itemprop="dateModified" content="2019-04-02T22:01:56&#43;08:00" />
+<meta itemprop="wordCount" content="4172">
+
+
+
+<meta itemprop="keywords" content="Vert.x," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Vert.x Core Record"/>
+<meta name="twitter:description" content="
+Vert.x 官方文档阅读
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/post/resume/">
+        <li class="mobile-menu-item">Resume</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/resume/">Resume</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Vert.x Core Record</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-04-02 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B/"> 编程 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#三大优势">三大优势</a></li>
+<li><a href="#线程和编程模型">线程和编程模型</a></li>
+<li><a href="#组件">组件</a>
+<ul>
+<li><a href="#vert-x-core-vert-x-的核心api">Vert.x Core(Vert.x 的核心API)</a></li>
+<li><a href="#vertx实例-入口">Vertx实例(入口)</a></li>
+<li><a href="#eventloop">Eventloop</a></li>
+<li><a href="#context">Context</a></li>
+<li><a href="#verticle">Verticle</a></li>
+<li><a href="#abstractverticle">AbstractVerticle</a></li>
+<li><a href="#event-bus">Event Bus</a></li>
+<li><a href="#vert-x-共享数据">Vert.x 共享数据</a></li>
+</ul></li>
+<li><a href="#数据访问库">数据访问库</a></li>
+<li><a href="#参考">参考</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>Vert.x 官方文档阅读</p>
+</blockquote>
+
+<h3 id="三大优势">三大优势</h3>
+
+<p>Vert.x是一个在JVM上构建响应式应用的工具集，Vert.x是 事件驱动的，同时也是非阻塞的。</p>
+
+<ul>
+<li>上下游异步生态</li>
+<li>对有状态应用友好的线程模型</li>
+<li>内置集群模式的EventBus，高伸缩性</li>
+</ul>
+
+<h3 id="线程和编程模型">线程和编程模型</h3>
+
+<p>有别于基于Servlet容器的线程模型，每个网络客户端在连接时被分配一个线程，并且该线程处理客户端直到它断开连接。
+这种&rdquo;同步I / O&rdquo;线程模型保持简单理解的优势，但是没有了可扩展性，在重负载下一个操作系统内核花费显著时间在线程调度管理。</p>
+
+<p>Vert.x中的部署单位称为Verticle。Verticle通过事件循环处理传入事件，其中事件可以是接收网络缓冲区，定时事件或其他Verticle发送的消息。</p>
+
+<p><img src="https://github.com/vert-x3/vertx-guide-for-java-devs/raw/3.6/intro/images/event-loop.png" alt="enter description here" /></p>
+
+<p>每个事件循环都附加到一个线程。默认情况下，Vert.x为每个CPU核心线程附加2个事件循环。常规Verticle总是处理同一线程上的事件，因此不需要使用线程协调机制来操纵Verticle状态</p>
+
+<p><img src="https://github.com/vert-x3/vertx-guide-for-java-devs/raw/3.6/intro/images/verticle-threading-config.png" alt="enter description here" /></p>
+
+<h3 id="组件">组件</h3>
+
+<h4 id="vert-x-core-vert-x-的核心api">Vert.x Core(Vert.x 的核心API)</h4>
+
+<ul>
+<li>功能</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">- 编写 TCP 客户端和服务端
+- 编写支持 WebSocket 的 HTTP 客户端和服务端
+- 事件总线
+- 共享数据 —— 本地的Map和分布式集群Map
+- 周期性、延迟性动作
+- 部署和撤销 Verticle 实例
+- 数据报套接字
+- DNS客户端
+- 文件系统访问
+- 高可用性
+- 集群</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>Vert.x 的 API 大部分都是事件驱动的,所有API都不会阻塞调用线程。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">因为Vert.x API不会阻塞线程，所以通过Vert.x您可以只使用少量的线程来处理大量的并发。</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>CompositeFuture/Future(并发异步操作)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">CompositeFuture.all:接受多个 Future,都成功返回成功的 Future，任意一个失败返回失败的Future
+CompositeFuture.any:任意一个成功返回成功的Future,都失败返回失败的 Future
+CompositeFuture.join:等待所有的 Future 完成，无论成败
+Future.compose:于顺序组合 Future</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>阻塞/非阻塞访问文件系统(FileSystem)</li>
+<li>HTTP/TCP/UDP支持</li>
+</ul>
+
+<h4 id="vertx实例-入口">Vertx实例(入口)</h4>
+
+<p>Vertx实例(instance)可以通过静态工厂方法创建，一个Vertx实例可以用于部署HTTP、TCP Server,client等等操作，可以将Vertx instance看做一个Vert.x Core API 的入口。</p>
+
+<h4 id="eventloop">Eventloop</h4>
+
+<ul>
+<li>Multi-Reactor 模式</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">每个 Vertx 实例维护的是 多个Event Loop线程。默认情况下根据机器上可用的核数量来设置 Event Loop 的数量。通过Event driven的方式，将Events分发到handlers中进行处理。
+
+任何event都不会阻塞Eventloop线程，这样Eventloop线程可以一直保持高速分发Events的速度。如果QPS为100/s的服务，需要在1s内分发到每个event，Eventloop数量为1，Eventloop必须能在10ms内分发完每个event，一旦Eventloop被阻塞，整个服务器吞吐量都会受到极大影响。所以Eventloop绝对不应该被阻塞住，所有交给Eventloop去处理的event都应该是non-blocking(I/O)的方式或者CPU执行时间较短的，才能确保每个event得到及时的分发。
+
+默认情况下，Vert.x为每个CPU核心线程附加2个事件循环对应Verticle总是处理同一线程上的事件，因此不需要使用线程协调机制来操纵Verticle状态</pre></td></tr></table>
+</div>
+</div>
+<p><img src="https://user-images.githubusercontent.com/19829495/55665502-8f4a3800-5873-11e9-8e80-bf91266b59c0.png" alt="image" />
+<img src="https://user-images.githubusercontent.com/19829495/55665506-a0934480-5873-11e9-84ef-a0652c911e6e.png" alt="image" />
+<img src="https://raw.githubusercontent.com/vert-x3/vertx-guide-for-java-devs/3.6/intro/images/verticle-threading-config.png" alt="enter description here" /></p>
+
+<ul>
+<li>在Event Loop运行阻塞代码</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">executeBlocking: 异步执行指定阻塞式代码
+Worker Verticle：使用 Worker Pool 中的某个线程来执行阻塞代码</pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">Vertx vertx = Vertx.vertx();</pre></td></tr></table>
+</div>
+</div>
+<h4 id="context">Context</h4>
+
+<p>Context对应的是一次Handler执行过程的执行context。</p>
+
+<p>Vert.x 传递一个事件给处理器或者调用 Verticle 的 start 或 stop 方法时，它会关联一个 Context 对象(绑定到了一个特定的 Event Loop 线程上),此 Verticle 上所有的普通代码都会在此 Context 上执行。</p>
+
+<ul>
+<li>用处</li>
+</ul>
+
+<p>用来管理控制着handlers或者handlers创建的任务执行时的scope和order的。当使用Vert.x API把event分发到handler时，例如设置一个HttpServer的request handler时，会将该handler的callback和一个context绑定起来，这个Context就会被用来调度callbacks。如果执行任务当前所在的线程是Vert.x线程的话，那么该任务将复用已经和线程所绑定的context；如果当前线程不是Vert.x线程，那么就创建一个新的context。</p>
+
+<ul>
+<li>context种类
+
+<ul>
+<li>Eventloop Context</li>
+<li>Worker Context</li>
+<li>Multi-Thread worker Context</li>
+</ul></li>
+</ul>
+
+<p>Eventloop Context 会和一个Eventloop线程绑定在一起，保证该Context下的executions一直在相同的Eventloop线程中。一个context只会在一个线程中执行，而一个线程可能会被多个contexts所使用。</p>
+
+<h4 id="verticle">Verticle</h4>
+
+<ul>
+<li><p>Verticle使用Actor模式保管代码组件，一个应用程序通常是由在同一个 Vert.x 实例中同时运行的许多 Verticle 实例组合而成。不同的 Verticle 实例通过向 Event Bus 上发送消息来相互通信。</p></li>
+
+<li><p>当部署一个新的Verticle时，会为这个Verticle创建一个新的Context, 每个Verticle会一直关联一个context，任何在这个Verticle上面注册的handler都会通过verticle的context关联。</p></li>
+
+<li><p>Verticle 种类</p></li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">Stardand Verticle：
+这种Verticle会被指派到创建和启动时的Eventloop线程上,Vert.x会保证你在这个Verticle实例上调用任何的handler操作将在同样的eventloop线程上面执行。
+
+Worker Verticle：
+目标是为了执行阻塞的代码，会运行在 Worker Pool 中的线程上。Worker verticle在同一个时间片内只会被Vert.x执行在一个线程内，它不会被并发执行，但是不同时间段有可能被不同线程执行。
+
+Multi-Threaded Worker Verticle：
+这类 Verticle 也会运行在 Worker Pool 中的线程上。一个实例可以由多个线程同时执行,因此需要开发者自己确保线程安全。</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>部署，设置Verticle</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//部署
+</span><span class="c1"></span><span class="n">vertx</span><span class="o">.</span><span class="na">deployVerticle</span><span class="o">(</span><span class="s">&#34;com.mycompany.MyOrderProcessorVerticle&#34;</span><span class="o">,</span><span class="n">options</span><span class="o">);</span>
+<span class="c1">//撤销
+</span><span class="c1"></span><span class="n">vertx</span><span class="o">.</span><span class="na">undeploy</span><span class="o">(</span><span class="n">deploymentID</span><span class="o">,</span> <span class="n">res</span> <span class="o">-&gt;</span> <span class="o">{</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">res</span><span class="o">.</span><span class="na">succeeded</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Undeployed ok&#34;</span><span class="o">);</span>
+  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Undeploy failed!&#34;</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">});</span>
+<span class="c1">//配置 Verticle相关参数(部署多个实例来利用所有的CPU)
+</span><span class="c1"></span><span class="n">DeploymentOptions</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DeploymentOptions</span><span class="o">().</span><span class="na">setInstances</span><span class="o">(</span><span class="n">16</span><span class="o">);</span>
+<span class="c1">//设置JSON参数，
+</span><span class="c1"></span><span class="n">DeploymentOptions</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DeploymentOptions</span><span class="o">().</span><span class="na">setConfig</span><span class="o">(</span><span class="n">config</span><span class="o">);</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>简单总结
+
+<ol>
+<li><code>Verticle</code>是个类，通常我们继承<code>AbstractVerticle</code>来实现自己的业务。</li>
+<li>一个Vert.x程序由一个或多个<code>Verticle</code>组成，且必有一个<code>Verticle</code>是程序的入口。</li>
+<li><code>Verticle</code>有生命周期，通常我们关心<code>start</code>与<code>stop</code>方法。</li>
+<li>在一个<code>Verticle</code>可以部署其他任意的<code>Verticle</code>，也可以让已部署的下架。这些操作都会命中上面说的生命周期方法。</li>
+<li><code>Verticle</code>除了可以在部署的时候传递参数。也可以通过<code>EventBus</code>在任意<code>Verticle</code>间用收发消息的方式传递数据。</li>
+<li>一个<code>Verticle</code>中的代码，永远只会被一个线程访问，这里有三个例外:
+
+<ul>
+<li>自己在代码中手动操作<code>Thread</code></li>
+<li>部署<code>Verticle</code>时追加设置<code>setMultiThreaded(true)</code>（但是这种用法已经被标记为<code>@deprecated</code>）</li>
+<li>通过<code>vertx.executeBlocking</code>执行阻塞式代码时<code>ordered</code>参数传<code>false</code></li>
+</ul></li>
+<li>所以，如果按照<code>Verticle</code>的使用规范编写代码，大部分情况下不会出现线程不安全的情况。</li>
+<li><code>Verticle</code>根据应用场景不同，分为两种，一种是普通版，一种是<code>work</code>版。简单的说就是比较耗时的阻塞式代码应该放在<code>work Verticle</code>中执行。</li>
+<li>普通版<code>Verticle</code>用的线程池是<code>eventloop-thread</code>，而<code>work</code>版的线程池叫<code>worker-thread</code>。前者是绑定式实用，部署<code>Verticle</code>的时候，分配一个线程供它使用，就不会再变了；但是后者不是。</li>
+</ol></li>
+</ul>
+
+<h4 id="abstractverticle">AbstractVerticle</h4>
+
+<p>AbstractVerticle是Vert.x实现了Verticle接口提供给用户使用的一个抽象类，将自己的类继承自AbstractVerticle，在start()方法或者stop()方法中自定义一些操作，然后通过vertx实例来部署verticle。</p>
+
+<p>综上,Vert.x应用运行时如下：</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/55672980-627a3d00-58d4-11e9-88e6-84eb26c14492.png" alt="image" /></p>
+
+<h4 id="event-bus">Event Bus</h4>
+
+<p>每一个 Vert.x 实例都有一个单独的 Event Bus 实例。通过 Vertx 实例的 eventBus 方法来获得对应的 EventBus 实例。应用中的不同部分通过 Event Bus 相互通信。</p>
+
+<ul>
+<li>基本</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//获取Event Bus
+EventBus eb = vertx.eventBus();
+//注册handler
+MessageConsumer&lt;String&gt; consumer = eb.consumer(&#34;news.uk.sport&#34;);
+consumer.handler(message -&gt; {
+  System.out.println(&#34;I have received a message: &#34; + message.body());
+});
+//注销handler
+consumer.unregister(res -&gt; {
+  if (res.succeeded()) {
+    System.out.println(&#34;The handler un-registration has reached all nodes&#34;);
+  } else {
+    System.out.println(&#34;Un-registration failed!&#34;);
+  }
+});
+//一对多发布消息(发送给所有注册handler)
+eb.publish(&#34;news.uk.sport&#34;, &#34;Yay! Someone kicked a ball&#34;);
+//一对一发布消息(发送给一个注册handler)
+eventBus.send(&#34;news.uk.sport&#34;, &#34;Yay! Someone kicked a ball&#34;);
+//设置参数
+DeliveryOptions options = new DeliveryOptions();
+options.addHeader(&#34;some-header&#34;, &#34;some-value&#34;);
+eventBus.send(&#34;news.uk.sport&#34;, &#34;Yay! Someone kicked a ball&#34;, options);
+//应答消息(消费者可以通过调用 reply 方法来应答这个消息)
+MessageConsumer&lt;String&gt; consumer = eventBus.consumer(&#34;news.uk.sport&#34;);
+consumer.handler(message -&gt; {
+  System.out.println(&#34;I have received a message: &#34; + message.body());
+  message.reply(&#34;how interesting!&#34;);
+});
+//接收消息
+eventBus.send(&#34;news.uk.sport&#34;, &#34;Yay! Someone kicked a ball across a patch of grass&#34;, ar -&gt; {
+  if (ar.succeeded()) {
+    System.out.println(&#34;Received reply: &#34; + ar.result().body());
+  }
+});</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>编解码</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//为Event Bus注册编解码器 MessageCodec，需要在DeliveryOptions指定名称，也可以为某个类指定特定的编解码
+eventBus.registerCodec(myCodec);
+DeliveryOptions options = new DeliveryOptions().setCodecName(myCodec.name());
+eventBus.send(&#34;orders&#34;, new MyPOJO(), options);</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>EventBusOptions(Event Bus相关配置)</li>
+</ul>
+
+<h4 id="vert-x-共享数据">Vert.x 共享数据</h4>
+
+<p>共享数据（Shared Data）包含的功能允许您可以安全地在应用程序的不同部分之间、同一 Vert.x 实例中的不同应用程序之间或集群中的不同 Vert.x 实例之间安全地共享数据。</p>
+
+<ul>
+<li>本地共享Map(LocalMap)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">在同一个 Vert.x 实例中的不同 Event Loop（如不同的 Verticle 中）之间安全共享数据。
+
+SharedData sd = vertx.sharedData();
+LocalMap&lt;String, String&gt; map1 = sd.getLocalMap(&#34;mymap1&#34;);
+// String是不可变的，所以不需要复制
+map1.put(&#34;foo&#34;, &#34;bar&#34;); 
+LocalMap&lt;String, Buffer&gt; map2 = sd.getLocalMap(&#34;mymap2&#34;);
+// Buffer将会在添加到Map之前拷贝
+map2.put(&#34;eek&#34;, Buffer.buffer().appendInt(123));</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>分布式异步Map(允许从集群的任何节点将数据放到 Map 中，并从任何其他节点读取)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">SharedData sd = vertx.sharedData();
+sd.&lt;String, String&gt;getClusterWideMap(&#34;mymap&#34;, res -&gt; {
+  if (res.succeeded()) {
+    AsyncMap&lt;String, String&gt; map = res.result();
+  } else {
+  //...
+  }
+});</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>分布式锁(在集群中获取独占锁，以达到只在集群一个节点上执行某些操作或访问资源)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">sd.getLockWithTimeout</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>分布式计数器</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">sd.getCounter</pre></td></tr></table>
+</div>
+</div>
+<h3 id="数据访问库">数据访问库</h3>
+
+<ul>
+<li>JDBC client</li>
+</ul>
+
+<p>基于JDBC Drive使用线程简单封装，用法变成异步的，但本质还是原来JDBC的阻塞模型。</p>
+
+<ul>
+<li>MySQL / PostgreSQL client</li>
+</ul>
+
+<p>基于Mauricio Linhares的异步驱动模型实现的(已废弃)，后续使用jasync异步驱动库实现，不会有线程切换等高负荷操作存在。</p>
+
+<h3 id="参考">参考</h3>
+
+<p><a href="http://vertxchina.github.io/vertx-translation-chinese/">Vert.x 官方文档中文翻译</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2019-04-02
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/vert.x/">Vert.x</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/vertx02/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Vert.x Web Record</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/reactivewebstack/">
+            <span class="next-text nav-default">响应式Web技术栈</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>MongoDB分页-排序-索引 - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" Mysql主从复制相关资料整理记录
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/mongodb_limit_sort_index/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="MongoDB分页-排序-索引" />
+<meta property="og:description" content="
+Mysql主从复制相关资料整理记录
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/mongodb_limit_sort_index/" /><meta property="article:published_time" content="2019-09-02T20:33:31&#43;08:00"/>
+<meta property="article:modified_time" content="2019-09-02T20:33:31&#43;08:00"/>
+
+<meta itemprop="name" content="MongoDB分页-排序-索引">
+<meta itemprop="description" content="
+Mysql主从复制相关资料整理记录
+">
+
+
+<meta itemprop="datePublished" content="2019-09-02T20:33:31&#43;08:00" />
+<meta itemprop="dateModified" content="2019-09-02T20:33:31&#43;08:00" />
+<meta itemprop="wordCount" content="1204">
+
+
+
+<meta itemprop="keywords" content="MongoDB," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MongoDB分页-排序-索引"/>
+<meta name="twitter:description" content="
+Mysql主从复制相关资料整理记录
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/post/resume/">
+        <li class="mobile-menu-item">Resume</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/resume/">Resume</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">MongoDB分页-排序-索引</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-09-02 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B/"> 编程 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#分页">分页</a></li>
+<li><a href="#排序">排序</a></li>
+<li><a href="#索引">索引</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>Mysql主从复制相关资料整理记录</p>
+</blockquote>
+
+<h3 id="分页">分页</h3>
+
+<ul>
+<li>limit offset分页方法</li>
+</ul>
+
+<p>MonogDB实现分页</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">入参 pageNum=1 pageSize=5
+
+skip()方法来跳过指定数量的数据
+limit()方法来读取指定数量的数据
+
+利用skip(pageSize*(n-1)).limit(pageSize)实现分页
+
+当pageNum=1 pageSize=5
+db.getCollection(&#39;user&#39;).find().skip(0).limit(5)
+当pageNum=2 pageSize=5
+db.getCollection(&#39;user&#39;).find().skip(5).limit(5)</pre></td></tr></table>
+</div>
+</div>
+<p>缺陷：会进行Table Scan,扫描全部文档再返回结果，数据量大的时候会出现慢查询问题。</p>
+
+<ul>
+<li>Seek Method分页方法</li>
+</ul>
+
+<p>seek method方式翻页,只用find + limit，不再使用skip,在find中加了一个条件：上一批的最后一个document的_id(比较的基准字段可以是任何有序的字段，例如时间戳，该字段必须有Index才有意义)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//第一页
+db.users.find().limit(pageSize);
+//找到此页面中最后一个文档的ID为lastId
+last_id = ...
+
+//第二页
+db.user.find({
+   &#34;_id&#34;:{&#34;$gt&#34;:&#34;5d6c7b8304f4757af5636e81&#34;}
+}).limit(10)
+//使用此页面中最后一个文档的ID更新lastId
+last_id = ...</pre></td></tr></table>
+</div>
+</div>
+<p>缺陷：无法像传统分页一样进行跳页，总页数展示</p>
+
+<h3 id="排序">排序</h3>
+
+<ul>
+<li>ObjectId有序性</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ObjectId 类似唯一主键，可以很快的去生成和排序，包含 12 bytes，含义是：
+
+- 前 4 个字节表示创建 unix 时间戳,格林尼治时间 UTC 时间，比北京时间晚了 8 个小时
+- 接下来的 3 个字节是机器标识码
+- 紧接的两个字节由进程 id 组成 PID
+- 最后三个字节是随机数
+
+MongoDB的ObjectId随着时间而增加，如果是同一台机器的同一个进程生成的对象，是有序的。</pre></td></tr></table>
+</div>
+</div>
+<p><img src="https://user-images.githubusercontent.com/19829495/64103993-ecf09b00-cda5-11e9-971a-f80fd94cb687.png" alt="image" /></p>
+
+<ul>
+<li>降序</li>
+</ul>
+
+<p>id降序，第一页是最大的，下一页的id比上一页的最后的id还小</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">db.user.find({
+   &#34;_id&#34;:{&#34;$lt&#34;:&#34;5d6c7ba804f4757af5636e84&#34;}
+})
+.sort({&#34;_id&#34;:-1})
+.limit(5)</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>升序</li>
+</ul>
+
+<p>id升序， 第一页最小，下一页的id比上一页的最后一条记录id还大</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">db.user.find({
+   &#34;_id&#34;:{&#34;$gt&#34;:&#34;5d6c7ba804f4757af5636e84&#34;}
+})
+.sort({&#34;_id&#34;:1})
+.limit(5)</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>排序性能</li>
+</ul>
+
+<p>MongoDB的sort和find函数，先find查询符合条件的结果，然后在结果集中排序。从2.6开始，sort只排序100M以内的数据，超过将会报错。可以通过设置allowDiskUse来允许排序大容量数据。有索引的排序会比没有索引的排序快，MongoDB官方推荐为需要排序的key建立索引。</p>
+
+<h3 id="索引">索引</h3>
+
+<ul>
+<li>单key索引</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">db.records.createIndex( { a: 1 } )</pre></td></tr></table>
+</div>
+</div>
+<p>单key的排序使用单key索引，索引又分升序(1)和降序(-1)，索引定义的排序方向以及逆转方向可以支持sort。对于上述单key索引a，可以支持sort({a:1})升序和sort({a:-1})降序。</p>
+
+<ul>
+<li>多key索引</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">db.records.createIndex( { a: 1, b:-1 } )</pre></td></tr></table>
+</div>
+</div>
+<p>对于多字段排序使用复合(compound index)索引。复合多字段索引的顺序要和sort的字段一致才可以走索引。比如索引{a:1, b:1}, 可以支持sort({a:1, b:1})和逆序sort({a:-1, b:-1})， 但不支持sort({b:1, a:1})。</p>
+
+<p>复合索引支持sort同排序和逆序：索引{a:1, b:-1} 可以支持sort({a:1, b:-1}), 也可以支持sort({a:-1, b:1})</p>
+
+<p>复合索引可以前缀子集支持sort {a:1, b:1, c:1}相当于{ a: 1 } + { a: 1, b: 1 } + { a: 1, b: 1, c: 1 }</p>
+
+<ul>
+<li>示例</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/64108264-f7fbf900-cdae-11e9-9ccc-c07cb82491d2.png" alt="image" /></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2019-09-02
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/mongodb/">MongoDB</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/linux_zerocopy/">
+            <span class="next-text nav-default">Linux Zero-copy(零拷贝)</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+
+</body>
+</html>

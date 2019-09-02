@@ -1,224 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Mybatis自定义分表Plug - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-  <title> Mybatis自定义分表Plug - Read the fucking source code</title>
-  <meta name="description" content="Read the fucking source code" />
-  <meta property="og:title" content="Mybatis自定义分表Plug" />
-  <meta name="twitter:title" content="Mybatis自定义分表Plug" />
-  <meta name="description" content="
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" 工作中需要用到MyBatis进行分表操作，简单记录实现过程
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/mybatisshardplug/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Mybatis自定义分表Plug" />
+<meta property="og:description" content="
+工作中需要用到MyBatis进行分表操作，简单记录实现过程
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/mybatisshardplug/" /><meta property="article:published_time" content="2018-11-12T22:51:04&#43;08:00"/>
+<meta property="article:modified_time" content="2018-11-12T22:51:04&#43;08:00"/>
+
+<meta itemprop="name" content="Mybatis自定义分表Plug">
+<meta itemprop="description" content="
 工作中需要用到MyBatis进行分表操作，简单记录实现过程
 ">
-  <meta property="og:description" content="
+
+
+<meta itemprop="datePublished" content="2018-11-12T22:51:04&#43;08:00" />
+<meta itemprop="dateModified" content="2018-11-12T22:51:04&#43;08:00" />
+<meta itemprop="wordCount" content="1310">
+
+
+
+<meta itemprop="keywords" content="Java,MyBatis," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Mybatis自定义分表Plug"/>
+<meta name="twitter:description" content="
 工作中需要用到MyBatis进行分表操作，简单记录实现过程
-">
-  <meta name="twitter:description" content="
-工作中需要用到MyBatis进行分表操作，简单记录实现过程
-">
-  <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://chinalhr.github.io/post/mybatisshardplug/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="LHR" />
+"/>
 
-  <meta name="generator" content="Hugo 0.51" />
-  <link rel="canonical" href="https://chinalhr.github.io/post/mybatisshardplug/" />
-  <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
-  <script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/jquery-1.12.4.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  
-  
-  <link rel="stylesheet" href="https://chinalhr.github.io/css/main.css" />
-  <link rel="stylesheet" href="https://chinalhr.github.io/css/search.css" />
-  
-  
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
 
-
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
-
-
-
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-<div class="pswp__bg"></div>
-
-<div class="pswp__scroll-wrap">
-    
-    <div class="pswp__container">
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-    </div>
-    
-    <div class="pswp__ui pswp__ui--hidden">
-    <div class="pswp__top-bar">
-      
-      <div class="pswp__counter"></div>
-      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-      <button class="pswp__button pswp__button--share" title="Share"></button>
-      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-      
-      
-      <div class="pswp__preloader">
-        <div class="pswp__preloader__icn">
-          <div class="pswp__preloader__cut">
-            <div class="pswp__preloader__donut"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-      <div class="pswp__share-tooltip"></div>
-    </div>
-    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-    </button>
-    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-    </button>
-    <div class="pswp__caption">
-      <div class="pswp__caption__center"></div>
-    </div>
-    </div>
-    </div>
-</div>
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
 
 </head>
-
-  <body>
-    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="https://chinalhr.github.io/">LHR</a>
-    </div>
-    <div class="collapse navbar-collapse" id="main-navbar">
-      <ul class="nav navbar-nav navbar-right">
-        
-          
-            <li>
-              <a title="Tags" href="/tags">Tags</a>
-              
-              
-            </li>
-          
-        
-          
-            <li>
-              <a title="About" href="/post/about/">About</a>
-              
-              
-            </li>
-          
-        
-
-        
-
-        
-        
-      </ul>
-    </div>
-
-    <div class="avatar-container">
-      <div class="avatar-img-border">
-        
-          <a title="LHR" href="https://chinalhr.github.io/">
-            <img class="avatar-img" src="https://avatars0.githubusercontent.com/u/19829495" alt="LHR" />
-          </a>
-        
-      </div>
-    </div>
-
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
   </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/post/resume/">
+        <li class="mobile-menu-item">Resume</li>
+      </a>
+  </ul>
 </nav>
-
-
-
-
-
-
-    
-  
-  
-  
-
-
-
-
-  
-
-  <header class="header-section ">
-    
-    <div class="intro-header no-img">
-      
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-md-offset-0">
-            <div class="post-heading">
-                <h1 align="center">Mybatis自定义分表Plug</h1>
-                
-                
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-
-    
-<div class="container" role="main" itemscope itemtype="http://schema.org/Article">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            
-            
-            
-<div>
-    <section id="datecount">
-        <h4 id="date"> Mon Nov 12, 2018</h4>
-    </section>
-    <h5 id="wc">400 Words|Read in about 2 Min</h5>
-    <h5 id="tags">Tags: 
-        
-        <a href="https://chinalhr.github.io/tags/java/">Java</a> &nbsp;
-    </h5>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
 </div>
 
-            
-            <article role="main" class="blog-post" itemprop="articleBody" id="content">
-                
-  
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/resume/">Resume</a>
+      </li>
+  </ul>
+</nav>
+    </header>
 
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Mybatis自定义分表Plug</h1>
 
-                <blockquote>
+      <div class="post-meta">
+        <span class="post-time"> 2018-11-12 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B/"> 编程 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#mybatis-interceptor">MyBatis Interceptor</a>
+<ul>
+<li><a href="#mybatis-允许你在已映射语句执行过程中的某一点使用插件来拦截-包括">MyBatis 允许你在已映射语句执行过程中的某一点使用插件来拦截,包括：</a></li>
+<li><a href="#interceptor接口">Interceptor接口</a></li>
+<li><a href="#intercepts">@Intercepts</a></li>
+</ul></li>
+<li><a href="#利用interceptor实现自定义分表原理">利用Interceptor实现自定义分表原理</a></li>
+<li><a href="#示例">示例:</a></li>
+<li><a href="#关于分表策略">关于分表策略</a>
+<ul>
+<li><a href="#取模">取模</a></li>
+</ul></li>
+<li><a href="#参考">参考</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
 <p>工作中需要用到MyBatis进行分表操作，简单记录实现过程</p>
 </blockquote>
 
 <h2 id="mybatis-interceptor">MyBatis Interceptor</h2>
 
 <h3 id="mybatis-允许你在已映射语句执行过程中的某一点使用插件来拦截-包括">MyBatis 允许你在已映射语句执行过程中的某一点使用插件来拦截,包括：</h3>
-
-<pre><code>Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)[拦截执行器的方法]
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)[拦截执行器的方法]
 ParameterHandler (getParameterObject, setParameters)[拦截参数的处理]
 ResultSetHandler (handleResultSets, handleOutputParameters)[拦截结果集的处理]
-StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法构建的处理]
-</code></pre>
-
+StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法构建的处理]</pre></td></tr></table>
+</div>
+</div>
 <h3 id="interceptor接口">Interceptor接口</h3>
-
-<pre><code>public interface Interceptor {
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">public interface Interceptor {
   //进行拦截的时候要执行的方法
   Object intercept(Invocation invocation) throws Throwable;
   //决定是否要进行拦截进而决定要返回一个什么样的目标对象
@@ -226,20 +215,30 @@ StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法�
   //Mybatis配置文件中指定一些属性
   void setProperties(Properties properties);
 
-}
-</code></pre>
-
+}</pre></td></tr></table>
+</div>
+</div>
 <h3 id="intercepts">@Intercepts</h3>
-
-<pre><code>@Intercepts用于表明当前的对象是一个Interceptor，而@Signature则表明要拦截的接口、方法以及对应的参数类型。
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">@Intercepts用于表明当前的对象是一个Interceptor，而@Signature则表明要拦截的接口、方法以及对应的参数类型。
 
 @Intercepts( {  
-   @Signature(method = &quot;query&quot;, type = Executor.class, args = {  
+   @Signature(method = &#34;query&#34;, type = Executor.class, args = {  
           MappedStatement.class, Object.class, RowBounds.class,  
           ResultHandler.class }),  
-   @Signature(method = &quot;prepare&quot;, type = StatementHandler.class, args = { Connection.class }) })  
-</code></pre>
-
+   @Signature(method = &#34;prepare&#34;, type = StatementHandler.class, args = { Connection.class }) })  </pre></td></tr></table>
+</div>
+</div>
 <p><img src="https://user-images.githubusercontent.com/19829495/48355299-a2931600-e6ce-11e8-8a6f-540c9cd5f3f8.png" alt="image" /></p>
 
 <h2 id="利用interceptor实现自定义分表原理">利用Interceptor实现自定义分表原理</h2>
@@ -251,8 +250,92 @@ StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法�
 <p>获取原始Sql后，可以解析出根表名，再通过一系列的策略获取到实际的分表表名，对其原始Sql进行表名替换。</p>
 
 <h2 id="示例">示例:</h2>
-
-<pre><code>@Intercepts({@Signature(type = StatementHandler.class, method = &quot;prepare&quot;, args = {Connection.class, Integer.class})})
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">@Intercepts({@Signature(type = StatementHandler.class, method = &#34;prepare&#34;, args = {Connection.class, Integer.class})})
 public class CustomerIdShardInterceptor implements Interceptor {
     private static final ObjectFactory DEFAULT_OBJECT_FACTORY = new DefaultObjectFactory();
     private static final ObjectWrapperFactory DEFAULT_OBJECT_WRAPPER_FACTORY = new DefaultObjectWrapperFactory();
@@ -266,11 +349,11 @@ public class CustomerIdShardInterceptor implements Interceptor {
         MetaObject metaStatementHandler = MetaObject.forObject(statementHandler,
                 DEFAULT_OBJECT_FACTORY, DEFAULT_OBJECT_WRAPPER_FACTORY, DEFAULT_REFLECTOR_FACTORY);
         // 获取原sql
-        BoundSql boundSql = (BoundSql) metaStatementHandler.getValue(&quot;delegate.boundSql&quot;);
+        BoundSql boundSql = (BoundSql) metaStatementHandler.getValue(&#34;delegate.boundSql&#34;);
         //修改原有Sql数据         
         String modifiedSql = modifySql(boundSql);
         //将修改后的Sql设置到metaStatementHandler中
-        metaStatementHandler.setValue(&quot;delegate.boundSql.sql&quot;, modifiedSql);
+        metaStatementHandler.setValue(&#34;delegate.boundSql.sql&#34;, modifiedSql);
         return invocation.proceed();
     }
 
@@ -305,26 +388,26 @@ public class CustomerIdShardInterceptor implements Interceptor {
      * @return
      */
     private String getTableName(String sql) {
-        String[] sqls = sql.split(&quot;\\s+&quot;);
+        String[] sqls = sql.split(&#34;\\s+&#34;);
         switch (sqls[0]) {
-            case &quot;select&quot;: {
+            case &#34;select&#34;: {
                 // select tableName
                 for (int i = 0; i &lt; sqls.length; i++) {
-                    if (sqls[i].equals(&quot;from&quot;)) {
+                    if (sqls[i].equals(&#34;from&#34;)) {
                         return sqls[i + 1];
                     }
                 }
                 break;
             }
-            case &quot;update&quot;: {
+            case &#34;update&#34;: {
                 // update tableName
                 return sqls[1];
             }
-            case &quot;insert&quot;: {
+            case &#34;insert&#34;: {
                 // insert into tableName
                 return sqls[2];
             }
-            case &quot;delete&quot;: {
+            case &#34;delete&#34;: {
                 // delete tableName
                 return sqls[1];
             }
@@ -332,123 +415,136 @@ public class CustomerIdShardInterceptor implements Interceptor {
         return StringUtils.EMPTY;
     }
 
-}
-</code></pre>
-
+}</pre></td></tr></table>
+</div>
+</div>
 <h2 id="关于分表策略">关于分表策略</h2>
 
 <h3 id="取模">取模</h3>
-
-<pre><code>1.可以维护一个根symbols表用来存储插入表的自增的id代表固定业务id，使用id取模进行分表(存储分表table_suffix = table_(id%i),i的大小取决于数据量的大小),由此策略可分table_0~table_i-1个分表进行数据存储。
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">1.可以维护一个根symbols表用来存储插入表的自增的id代表固定业务id，使用id取模进行分表(存储分表table_suffix = table_(id%i),i的大小取决于数据量的大小),由此策略可分table_0~table_i-1个分表进行数据存储。
 2.插入时根据symbols表的自增业务id进行取模对对应表进行插入。
-3.查询时从symbols对查询业务id进行取模,决定去哪个分表查询
-</code></pre>
-
+3.查询时从symbols对查询业务id进行取模,决定去哪个分表查询</pre></td></tr></table>
+</div>
+</div>
 <h2 id="参考">参考</h2>
 
 <p><a href="http://elim.iteye.com/blog/1851081">http://elim.iteye.com/blog/1851081</a></p>
 
 <p><a href="https://zhuanlan.zhihu.com/p/35483580">https://zhuanlan.zhihu.com/p/35483580</a></p>
-            </article>
-
-            <ul class="pager blog-pager">
-                
-                <li class="previous">
-                    <a href="https://chinalhr.github.io/post/mybatis_sql_precompile/" data-toggle="tooltip" data-placement="top" title="Mybatis动态表名：# 与 $ 区别">&larr; Previous Post</a>
-                </li>
-                 
-                <li class="next">
-                    <a href="https://chinalhr.github.io/post/osheartprocess/" data-toggle="tooltip" data-placement="top" title="操作系统-进程">Next Post &rarr;</a>
-                </li>
-                
-            </ul>
-            
-            <div>
-                 
-                <h2>See Also</h2>
-                <ul>
-                    
-                    <li><a href="/post/mybatis_sql_precompile/">Mybatis动态表名：# 与 $ 区别</a></li>
-                    
-                    <li><a href="/post/highavailabilityhttpclient/">高可用的HttpClient</a></li>
-                    
-                    <li><a href="/post/joda_datetime_record/">Joda DateTime记录</a></li>
-                    
-                    <li><a href="/post/spring_aop/">Spring Aop分析</a></li>
-                    
-                    <li><a href="/post/springcache_shrio_bug/">Shrio导致SpringCache缓存失效原因分析</a></li>
-                    
-                </ul>
-                
-            </div>
-            
-            
-            
-            
-<div>
-    <section id="datecount">
-        <h4 id="date"> Mon Nov 12, 2018</h4>
-    </section>
-    <h5 id="wc">400 Words|Read in about 2 Min</h5>
-    <h5 id="tags">Tags: 
-        
-        <a href="https://chinalhr.github.io/tags/java/">Java</a> &nbsp;
-    </h5>
-</div>
-
-            
-            </div>
-            
-            
-        </div>
     </div>
-    </section>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2018-11-12
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/java/">Java</a>
+          <a href="/tags/mybatis/">MyBatis</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/osheartprocess/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">操作系统-进程</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/mybatis_sql_precompile/">
+            <span class="next-text nav-default">Mybatis动态表名：# 与 $ 区别</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
 </div>
 
-    <footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <ul class="list-inline text-center footer-links">
-          
-          
-        </ul>
-        <p class="credits copyright text-muted">
-        &copy;2017-2018
-          
-          
-          
-            &nbsp;&bull;&nbsp;
-            <a href="https://chinalhr.github.io/">LHR</a>
-          
-        </p>
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
 
-        
-        <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/rootsongjc/beautifulhugo">Beautiful Hugo</a>
-          
-        </p>
-      </div>
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
     </div>
   </div>
-</footer>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
 
 
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/bootstrap.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe-ui-default.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/auto-render.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/main.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/prism.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/katex.min.js"></script>
-<script> renderMathInElement(document.body); </script>
 
 
 
 
-
-
-
-  </body>
+</body>
 </html>
-

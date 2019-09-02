@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>操作系统 on LHR</title>
+    <title>操作系统 on LiHanRong Blog</title>
     <link>https://chinalhr.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
-    <description>Recent content in 操作系统 on LHR</description>
+    <description>Recent content in 操作系统 on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
-    <webMaster>13435500980@163.com (lihanrong)</webMaster>
     <lastBuildDate>Thu, 20 Dec 2018 23:12:24 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml" />
@@ -15,10 +13,10 @@
     
     <item>
       <title>操作系统-多核心</title>
-      <link>https://chinalhr.github.io/posts/osheartmulticpu/</link>
+      <link>https://chinalhr.github.io/post/osheartmulticpu/</link>
       <pubDate>Thu, 20 Dec 2018 23:12:24 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/osheartmulticpu/</guid>
+      
+      <guid>https://chinalhr.github.io/post/osheartmulticpu/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;读《计算机的心智》,另一个角度看操作系统&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -26,10 +24,10 @@
     
     <item>
       <title>操作系统-文件</title>
-      <link>https://chinalhr.github.io/posts/osheartfile/</link>
+      <link>https://chinalhr.github.io/post/osheartfile/</link>
       <pubDate>Sun, 16 Dec 2018 22:58:29 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/osheartfile/</guid>
+      
+      <guid>https://chinalhr.github.io/post/osheartfile/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;读《计算机的心智》,另一个角度看操作系统&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -37,10 +35,10 @@
     
     <item>
       <title>操作系统-内存</title>
-      <link>https://chinalhr.github.io/posts/osheartmemory/</link>
+      <link>https://chinalhr.github.io/post/osheartmemory/</link>
       <pubDate>Tue, 11 Dec 2018 22:12:39 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/osheartmemory/</guid>
+      
+      <guid>https://chinalhr.github.io/post/osheartmemory/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;读《计算机的心智》,另一个角度看操作系统&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -48,10 +46,10 @@
     
     <item>
       <title>操作系统-线程</title>
-      <link>https://chinalhr.github.io/posts/osheartthread/</link>
+      <link>https://chinalhr.github.io/post/osheartthread/</link>
       <pubDate>Thu, 29 Nov 2018 21:56:04 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/osheartthread/</guid>
+      
+      <guid>https://chinalhr.github.io/post/osheartthread/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;读《计算机的心智》,另一个角度看操作系统&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -59,10 +57,10 @@
     
     <item>
       <title>操作系统-进程</title>
-      <link>https://chinalhr.github.io/posts/osheartprocess/</link>
+      <link>https://chinalhr.github.io/post/osheartprocess/</link>
       <pubDate>Thu, 15 Nov 2018 22:30:30 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/osheartprocess/</guid>
+      
+      <guid>https://chinalhr.github.io/post/osheartprocess/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;读《计算机的心智》,另一个角度看操作系统&lt;/p&gt;
 &lt;/blockquote&gt;</description>

@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Linux命令记录 - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" 日常Linux命令记录
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/linux_operating_record/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Linux命令记录" />
+<meta property="og:description" content="
+日常Linux命令记录
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/linux_operating_record/" /><meta property="article:published_time" content="2019-04-19T22:59:11&#43;08:00"/>
+<meta property="article:modified_time" content="2019-04-19T22:59:11&#43;08:00"/>
+
+<meta itemprop="name" content="Linux命令记录">
+<meta itemprop="description" content="
+日常Linux命令记录
+">
+
+
+<meta itemprop="datePublished" content="2019-04-19T22:59:11&#43;08:00" />
+<meta itemprop="dateModified" content="2019-04-19T22:59:11&#43;08:00" />
+<meta itemprop="wordCount" content="2828">
+
+
+
+<meta itemprop="keywords" content="Linux," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux命令记录"/>
+<meta name="twitter:description" content="
+日常Linux命令记录
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/post/resume/">
+        <li class="mobile-menu-item">Resume</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/resume/">Resume</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Linux命令记录</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-04-19 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B/"> 编程 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#日常操作">日常操作</a>
+<ul>
+<li><a href="#find">find</a></li>
+<li><a href="#ps">ps</a></li>
+<li><a href="#tail">tail</a></li>
+<li><a href="#more-less">more|less</a></li>
+<li><a href="#scp">scp</a></li>
+<li><a href="#crontab">crontab</a></li>
+<li><a href="#netstat">netstat</a></li>
+<li><a href="#du">du</a></li>
+<li><a href="#其他">其他</a></li>
+</ul></li>
+<li><a href="#排查">排查</a>
+<ul>
+<li><a href="#排查java-cpu占用问题">排查Java CPU占用问题</a></li>
+</ul></li>
+<li><a href="#排查java高内存占用问题">排查Java高内存占用问题</a></li>
+<li><a href="#阿里云相关">阿里云相关</a>
+<ul>
+<li><a href="#挂载ecs数据盘">挂载ecs数据盘</a></li>
+<li><a href="#阿里云数据盘扩容操作">阿里云数据盘扩容操作</a></li>
+</ul></li>
+<li><a href="#链接">链接</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>日常Linux命令记录</p>
+</blockquote>
+
+<h3 id="日常操作">日常操作</h3>
+
+<h4 id="find">find</h4>
+
+<ul>
+<li>格式</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">find [path...] [expression]
+
+path:find命令所查找的目录路径。例如用.来表示当前目录，用/来表示系统根目录
+expression:expression可以分为——&#34;-options [-print -exec -ok ...]&#34;
+
+options:指定find命令的常用选项，下节详细介绍
+print:find命令将匹配的文件输出到标准输出
+exec:find命令对匹配的文件执行该参数所给出的shell命令
+-ok:和-exec的作用相同，只不过以一种更为安全的模式来执行该参数所给出的shell命令，在执行每一个命令之前，都会给出提示，让用户来确定是否执行。</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>options</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">    -type <span class="o">[</span>查找某一类型的文件<span class="o">]</span> 
+    b - 块设备文件。 
+    d - 目录。 
+    c - 字符设备文件。 
+    p - 管道文件。 
+    l - 符号链接文件。 
+    f - 普通文件
+
+    -name <span class="o">[</span>按照文件名查找文件<span class="o">]</span>
+    find /dir -name filename  在/dir目录及其子目录下面查找名字为filename的文件 
+    
+    -perm <span class="o">[</span>按照文件权限来查找文件<span class="o">]</span>
+    find . -perm <span class="m">755</span> –print 在当前目录下查找文件权限位为755的文件
+    
+    -user<span class="o">[</span>按照文件属主来查找文件<span class="o">]</span>
+    find ~ -user sam –print 在<span class="nv">$HOME目录中查找文件属主为sam的文件</span>
+    
+    -group<span class="o">[</span>按照文件所属的组来查找文件<span class="o">]</span>
+    find /apps -group gem –print 在/apps目录下查找属于gem用户组的文件 
+    
+    -mtime -n +n <span class="o">[</span>按照文件的更改时间来查找文件， - n表示文件更改时间距现在n天以内，+ n表示文件更改时间距现在n天以前<span class="o">]</span>
+    find /var/adm -mtime +3 –print 在/var/adm目录下查找更改时间在3日以前的文件
+    
+    -size n：<span class="o">[</span>c<span class="o">]</span> 查找文件长度为n块的文件，带有c时表示文件长度以字节计。</code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>常用操作记录</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1">#清除/root/log 目录或者子目录下 大于1G的log文件</span>
+find /root/logs/ -name <span class="s2">&#34;*.log&#34;</span> -size +1024M -exec rm -rf <span class="o">{}</span> <span class="se">\;</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>参考链接</li>
+</ul>
+
+<p><a href="https://www.cnblogs.com/skynet/archive/2010/12/25/1916873.html">https://www.cnblogs.com/skynet/archive/2010/12/25/1916873.html</a></p>
+
+<h4 id="ps">ps</h4>
+
+<p>ps命令用来列出系统中当前运行的那些进程。</p>
+
+<ul>
+<li>格式</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">ps<span class="o">[</span>参数<span class="o">]</span>
+
+a  显示所有进程
+
+-a 显示同一终端下的所有程序
+
+-A 显示所有进程
+
+c  显示进程的真实名称
+
+-N 反向选择
+
+-e 等于“-A”
+
+e  显示环境变量
+
+f  显示程序间的关系
+
+-H 显示树状结构
+
+r  显示当前终端的进程
+
+T  显示当前终端的所有程序
+
+u  指定用户的所有进程
+
+-au 显示较详细的资讯
+
+-aux 显示所有包含其他使用者的进程 </code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>常用操作记录</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># ps 与grep 常用组合用法，查找特定进程</span>
+ps -ef<span class="p">|</span>grep java</code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="tail">tail</h4>
+
+<p>tail 命令从指定点开始将文件写到标准输出.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 循环读取</span>
+tail -f logfile.log
+<span class="c1"># 显示文件末尾内容(最后五行)</span>
+tail -n <span class="m">5</span> logfile.log
+<span class="c1"># 从第5行开始显示文件</span>
+tail -n +5 logfile.log</code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="more-less">more|less</h4>
+
+<p>more命令从前向后读取文件（在启动时就加载整个文件）<br/>
+空白键（space）就往下一页显示，按 b 键就会往回（back）一页显示。</p>
+
+<p>less命令<br/></p>
+
+<p>d  向后翻半页 u  向前滚动半页 空格键 滚动一页</p>
+
+<p>查询:?关键字 n 上一位 N 下一位</p>
+
+<h4 id="scp">scp</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 复制文件</span>
+scp local_file remote_username@remote_ip:remote_folder
+
+<span class="c1"># 复制目录</span>
+scp -r local_folder remote_username@remote_ip:remote_folder</code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="crontab">crontab</h4>
+
+<p>crond是linux下用来周期性的执行某种任务或等待处理某些事件的一个守护进程。在/etc目录下的crontab文件</p>
+
+<ul>
+<li>格式</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">minute   hour   day   month   week   <span class="nb">command</span>
+
+其中：
+
+minute： 表示分钟，可以是从0到59之间的任何整数。
+
+hour：表示小时，可以是从0到23之间的任何整数。
+
+day：表示日期，可以是从1到31之间的任何整数。
+
+month：表示月份，可以是从1到12之间的任何整数。
+
+week：表示星期几，可以是从0到7之间的任何整数，这里的0或7代表星期日。
+
+command：要执行的命令，可以是系统命令，也可以是自己编写的脚本文件。
+
+crontab <span class="o">[</span>-u user<span class="o">]</span> <span class="o">[</span> -e <span class="p">|</span> -l <span class="p">|</span> -r <span class="o">]</span>
+
+-e：编辑某个用户的crontab文件内容。如果不指定用户，则表示编辑当前用户的crontab文件。
+
+-l：显示某个用户的crontab文件内容，如果不指定用户，则表示显示当前用户的crontab文件内容。
+
+-r：从/var/spool/cron目录中删除某个用户的crontab文件，如果不指定用户，则默认删除当前用户的crontab文件。</code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>常用操作记录</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">查看所有用户的crontab
+cat /etc/passwd <span class="p">|</span> cut -f <span class="m">1</span> -d : <span class="p">|</span>xargs -I <span class="o">{}</span> crontab -l -u <span class="o">{}</span></code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="netstat">netstat</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">查询端口所占用的进程
+netstat -ntulp | grep 10063
+查询进程的详细信息
+ps -ef|grep 4826</pre></td></tr></table>
+</div>
+</div>
+<h4 id="du">du</h4>
+
+<h4 id="其他">其他</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">如何删除大文件(正在写入的大文件)，会释放占用的磁盘
+echo &#34;&#34; &gt; filename
+
+查看文件的大小
+du -ms filename</pre></td></tr></table>
+</div>
+</div>
+<h3 id="排查">排查</h3>
+
+<h4 id="排查java-cpu占用问题">排查Java CPU占用问题</h4>
+
+<p>1.0</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># top命令，定位高CPU占用Java进程PID</span>
+top -c <span class="o">(</span>将系统资源使用情况实时显示出来<span class="o">)</span> P<span class="o">(</span>输入大写 P 将应用按照 CPU 使用率排序，第一个为使用率最高的<span class="o">)</span>
+<span class="c1"># 显示线程列表(查看占用CPU时间,占用时间，TID)</span>
+ps -mp pid -o THREAD,tid,time
+<span class="c1"># 将线程ID TID转换为16进制</span>
+<span class="nb">printf</span> “%x<span class="se">\n</span>” tid
+<span class="c1"># 使用jstack打印线程堆栈信息(pid=进程id tid=我们转换的tid)</span>
+.../jvm/jstack pid <span class="p">|</span>grep tid -A <span class="m">60</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>2.0</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="m">1</span>. top -c 将系统资源使用情况实时显示出来 （-c 参数可以完整显示命令）大写 P 将应用按照 CPU 使用率排序，第一个就是使用率最高的程序。
+<span class="m">2</span>.  top -Hp pid 然后输入 P 依然可以按照 CPU 使用率将线程排序。
+<span class="m">3</span>. 将线程ID TID转换为16进制printf “%x<span class="se">\n</span>” tid。
+<span class="m">4</span>. 通过 jstack pid &gt;pid.log 生成日志文件，利用刚才保存的 <span class="m">16</span> 进制进程 ID 去这个线程快照中搜索即可查看消耗 CPU 的线程日志。 
+<span class="m">5</span>. jstat -gcutil pid <span class="m">200</span> <span class="m">50</span> 将内存使用、gc 回收状况打印出来（每隔 200ms 打印 50次）。
+<span class="m">6</span>. </code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="排查java高内存占用问题">排查Java高内存占用问题</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 查看当前Java进程创建的活跃对象数目和占用内存大小</span>
+jmap -histo:live <span class="o">[</span>pid<span class="o">]</span> &gt;a.log
+<span class="c1"># 当前Java进程的内存占用情况导出来，方便用专门的内存分析工具（例如：MAT）来分析。</span>
+jmap -dump:live,format<span class="o">=</span>b,file<span class="o">=</span>xxx.xxx <span class="o">[</span>pid<span class="o">]</span></code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="阿里云相关">阿里云相关</h3>
+
+<h4 id="挂载ecs数据盘">挂载ecs数据盘</h4>
+
+<ul>
+<li>先将数据盘挂载到实例上</li>
+<li>分区</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">fdisk /dev/vdb
+Command n [新建分区]
+Command p [选择分区类型为主分区]
+Selected partition 1 [选择分区号]
+Command w [退出]</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>格式化</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mkfs.ext4 /dev/vdb1</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>修改 /etc/fstab</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">cp /etc/fstab /etc/fstab.bak
+
+mkdir -p /data
+echo /dev/vdb1 /data ext4 defaults 0 0 &gt;&gt; /etc/fstab</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>将分区挂载到对应的文件系统路径下</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mount /dev/vdb1 /data</pre></td></tr></table>
+</div>
+</div>
+<h4 id="阿里云数据盘扩容操作">阿里云数据盘扩容操作</h4>
+
+<ul>
+<li>控制台操作对数据盘进行扩容</li>
+<li>重启机器</li>
+<li>确认分区和文件系统</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"># 确认磁盘是否分区(fdisk -lu &lt;DeviceName&gt;)
+fdisk -lu /dev/vdb
+
+展示如下:
+Device Boot      Start         End      Blocks   Id  System
+/dev/vdb1              63  1048575023   524287480+  83  Linux
+
+# 确认文件系统(blkid &lt;PartionName&gt;)
+blkid /dev/vdb1
+
+/dev/vdb1: UUID=&#34;...&#34; TYPE=&#34;ext4&#34;
+
+# 确认文件系统状态为clean
+e2fsck -n /dev/vdb1</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>卸载数据盘(原先/dev/vdb1是挂载到/data的)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">umount /data</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>扩展已有分区</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"># 显示并记录旧分区的起始和结束的扇区位置
+fdisk -lu /dev/vdb
+
+# 删除旧分区
+fdisk -u /dev/vdb
+Command p [打印分区表]
+Command d [删除分区]
+Selected partition 1 [选择分区号]
+Command w [退出]
+
+# 新建分区
+fdisk -u /dev/vdb
+Command p [打印分区表]
+Command n [新建分区]
+Command p [选择分区类型为主分区]
+Selected partition 1 [选择分区号]
+Command w [退出]
+
+# lsblk /dev/vdb确认分区表,显示如下 500G-&gt;1000G
+NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+vdb    252:16   0 1000G  0 disk 
+└─vdb1 252:17   0 1000G  0 part 
+
+# 确认文件系统状态为clean
+e2fsck -n /dev/vdb1
+
+# 内核版本 ≥ 3.6的，通知内核更新分区表
+partprobe &lt;dst_dev_path&gt;或者partx -u &lt;dst_dev_path&gt;</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>扩容文件系统</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"># 检测并修复文件系统的完整性
+e2fsck -f /dev/vdb1
+
+# 增大文件系统的大小
+resize2fs -f /dev/vdb1
+
+# 重新挂载/data
+mount /dev/vdb1 /data</pre></td></tr></table>
+</div>
+</div>
+<h3 id="链接">链接</h3>
+
+<p><a href="https://www.cnblogs.com/peida/tag/%E6%AF%8F%E6%97%A5%E4%B8%80linux%E5%91%BD%E4%BB%A4/">每日一linux命令</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2019-04-19
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/linux/">Linux</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/vertx_kotlin_coroutine/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Vertx Kotlin协程</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/aspect_dynamic/">
+            <span class="next-text nav-default"> javassist实现Aspect动态Pointcut</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+
+</body>
+</html>

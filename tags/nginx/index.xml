@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Nginx on LHR</title>
+    <title>Nginx on LiHanRong Blog</title>
     <link>https://chinalhr.github.io/tags/nginx/</link>
-    <description>Recent content in Nginx on LHR</description>
+    <description>Recent content in Nginx on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
-    <webMaster>13435500980@163.com (lihanrong)</webMaster>
     <lastBuildDate>Tue, 25 Jun 2019 20:37:07 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/nginx/index.xml" rel="self" type="application/rss+xml" />
@@ -15,31 +13,34 @@
     
     <item>
       <title>Nginx Http Module</title>
-      <link>https://chinalhr.github.io/posts/nginx_http/</link>
+      <link>https://chinalhr.github.io/post/nginx_http/</link>
       <pubDate>Tue, 25 Jun 2019 20:37:07 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/nginx_http/</guid>
+      
+      <guid>https://chinalhr.github.io/post/nginx_http/</guid>
       <description>&lt;blockquote&gt;
+&lt;p&gt;Nginx相关资料阅读整理&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
     <item>
       <title>Nginx Base</title>
-      <link>https://chinalhr.github.io/posts/nginx_base/</link>
+      <link>https://chinalhr.github.io/post/nginx_base/</link>
       <pubDate>Tue, 18 Jun 2019 22:01:04 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/nginx_base/</guid>
+      
+      <guid>https://chinalhr.github.io/post/nginx_base/</guid>
       <description>&lt;blockquote&gt;
+&lt;p&gt;Nginx相关资料阅读整理&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
     <item>
       <title>Nginx反向代理解决跨域问题</title>
-      <link>https://chinalhr.github.io/posts/nginx_cross/</link>
+      <link>https://chinalhr.github.io/post/nginx_cross/</link>
       <pubDate>Tue, 18 Jun 2019 21:55:57 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/nginx_cross/</guid>
+      
+      <guid>https://chinalhr.github.io/post/nginx_cross/</guid>
       <description>&lt;blockquote&gt;
+&lt;p&gt;Nginx相关资料阅读整理&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

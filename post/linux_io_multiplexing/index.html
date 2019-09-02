@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Linux IO多路复用 select poll epoll - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" Unix IO模型, Linux IO多路复用 select poll epoll机制整理
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/linux_io_multiplexing/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Linux IO多路复用 select poll epoll" />
+<meta property="og:description" content="
+Unix IO模型, Linux IO多路复用 select poll epoll机制整理
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/linux_io_multiplexing/" /><meta property="article:published_time" content="2019-07-24T22:22:03&#43;08:00"/>
+<meta property="article:modified_time" content="2019-07-24T22:22:03&#43;08:00"/>
+
+<meta itemprop="name" content="Linux IO多路复用 select poll epoll">
+<meta itemprop="description" content="
+Unix IO模型, Linux IO多路复用 select poll epoll机制整理
+">
+
+
+<meta itemprop="datePublished" content="2019-07-24T22:22:03&#43;08:00" />
+<meta itemprop="dateModified" content="2019-07-24T22:22:03&#43;08:00" />
+<meta itemprop="wordCount" content="4630">
+
+
+
+<meta itemprop="keywords" content="Linux," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux IO多路复用 select poll epoll"/>
+<meta name="twitter:description" content="
+Unix IO模型, Linux IO多路复用 select poll epoll机制整理
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/post/resume/">
+        <li class="mobile-menu-item">Resume</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/resume/">Resume</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Linux IO多路复用 select poll epoll</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-07-24 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B/"> 编程 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#unix-io模型">Unix IO模型</a>
+<ul>
+<li><a href="#blocking-io-阻塞io">Blocking IO - 阻塞IO</a></li>
+<li><a href="#noneblockingio-非阻塞io">NoneBlockingIO - 非阻塞IO</a></li>
+<li><a href="#io-multiplexing-io多路复用-select为例子">IO multiplexing - IO多路复用(select为例子)</a></li>
+<li><a href="#asynchronous-io-异步io">asynchronous IO - 异步IO</a></li>
+<li><a href="#对比">对比</a></li>
+</ul></li>
+<li><a href="#同步-异步-阻塞-非阻塞">同步-异步-阻塞-非阻塞</a>
+<ul>
+<li><a href="#同步-异步">同步-异步</a></li>
+<li><a href="#阻塞与非阻塞">阻塞与非阻塞</a></li>
+</ul></li>
+<li><a href="#操作系统相关">操作系统相关</a>
+<ul>
+<li><a href="#用户空间与内核空间">用户空间与内核空间</a></li>
+<li><a href="#进程切换">进程切换</a></li>
+<li><a href="#进程阻塞">进程阻塞</a></li>
+<li><a href="#文件描述符fd">文件描述符fd</a></li>
+<li><a href="#缓存-i-o">缓存 I/O</a></li>
+</ul></li>
+<li><a href="#select-poll与epoll">select、poll与epoll</a>
+<ul>
+<li><a href="#select">select</a></li>
+<li><a href="#poll">poll</a></li>
+<li><a href="#epoll">epoll</a></li>
+<li><a href="#select-poll-epoll对比">select·poll·epoll对比</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>Unix IO模型, Linux IO多路复用 select poll epoll机制整理</p>
+</blockquote>
+
+<h3 id="unix-io模型">Unix IO模型</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">Blocking IO - 阻塞IO
+NoneBlocking IO - 非阻塞IO
+IO multiplexing - IO多路复用
+signal driven IO - 信号驱动IO
+asynchronous IO - 异步IO</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li><p>network IO涉及系统对象</p>
+
+<ul>
+<li>application(调用这个IO的进程)</li>
+<li>kernel(系统内核)</li>
+</ul></li>
+
+<li><p>交互过程</p>
+
+<ul>
+<li>阶段1:wait for data 等待数据准备(TCP/UDP包接受接收)</li>
+<li>阶段2: copy data from kernel to user 将数据从内核拷贝到用户进程中</li>
+</ul></li>
+</ul>
+
+<h4 id="blocking-io-阻塞io">Blocking IO - 阻塞IO</h4>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/61194583-fab66800-a6f4-11e9-861e-1a04a6ea9ad4.png" alt="image" /></p>
+
+<p>wait for data阶段与copy data from kernel to user阶段都是阻塞的。</p>
+
+<h4 id="noneblockingio-非阻塞io">NoneBlockingIO - 非阻塞IO</h4>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/61263524-c9549f80-a7bb-11e9-9667-bd3c96e350e8.png" alt="image" /></p>
+
+<p>wait for data阶段非阻塞，用户进程发出recvfrom系统调用后，kernel中的数据如果没准备好，立即返回一个结果。采用循环check的方式，每隔一段时间再次发送recvfrom。</p>
+
+<p>copy data from kernel to user阶段都是阻塞的，一旦kernel中的数据准备好了，那么它马上就将数据拷贝到了用户内存，然后返回。</p>
+
+<h4 id="io-multiplexing-io多路复用-select为例子">IO multiplexing - IO多路复用(select为例子)</h4>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/61263999-8267a980-a7bd-11e9-9652-c42423272e8a.png" alt="image" /></p>
+
+<p>与blocking I/O相似度很高，但是可以等待多个数据报就绪（datagram ready），可以同时处理多个连接。核空间内select会监听指定的多个datagram (如socket连接)，如果其中任意一个数据就绪了就返回。此时程序再进行数据读取操作，将数据拷贝至当前进程内。</p>
+
+<p>wait for data阶段是阻塞的(select调用阻塞，而非I/O阻塞)，select底层通过轮询机制来判断每个socket读写是否就绪。</p>
+
+<p>copy data from kernel to user阶段都是阻塞的。</p>
+
+<h4 id="asynchronous-io-异步io">asynchronous IO - 异步IO</h4>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/61297800-93410b00-a80f-11e9-8461-fa4d61307e5b.png" alt="image" /></p>
+
+<p>aio_read(读取操作)会通知内核进行读取操作并将数据拷贝至进程中，该操作会立刻返回，程序可以进行其它的操作，所有的读取、拷贝工作都由内核去做，做完以后通知进程，进程调用绑定的回调函数来处理数据。</p>
+
+<h4 id="对比">对比</h4>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/61381288-6a874700-a8dd-11e9-9f10-ade54f1f7d2e.png" alt="image" /></p>
+
+<h3 id="同步-异步-阻塞-非阻塞">同步-异步-阻塞-非阻塞</h3>
+
+<h4 id="同步-异步">同步-异步</h4>
+
+<p>关注点为消息通信机制。</p>
+
+<p>同步:发出一个调用时,在没有得到结果之前,该调用就不返回。但是一旦调用返回,就得到返回值了。</p>
+
+<p>异步:发出一个调用后,这个调用就直接返回了,被调用方通过状态、通知来通知调用者,或通过回调函数处理这个调用。</p>
+
+<h4 id="阻塞与非阻塞">阻塞与非阻塞</h4>
+
+<p>关注点是程序在等待调用结果（消息，返回值）时的状态。</p>
+
+<p>阻塞调用:调用结果返回之前，当前线程会被挂起。调用线程只有在得到结果之后才会返回。</p>
+
+<p>非阻塞调用:在不能立刻得到结果之前，该调用不会阻塞当前线程。会以另一种方式去check。</p>
+
+<h3 id="操作系统相关">操作系统相关</h3>
+
+<h4 id="用户空间与内核空间">用户空间与内核空间</h4>
+
+<p>现在操作系统采用虚拟存储器，对于32位操作系统的寻址空间（虚拟存储空间）为4G（2的32次方）。操心系统将虚拟空间划分为两部分，一部分为内核空间，一部分为用户空间。对于linux操作系统而言，将最高的1G字节（从虚拟地址0xC0000000到0xFFFFFFFF），供内核使用，称为内核空间，而将较低的3G字节（从虚拟地址0x00000000到0xBFFFFFFF），供各个进程使用，称为用户空间。</p>
+
+<h4 id="进程切换">进程切换</h4>
+
+<p>内核挂起正在CPU上运行的进程，并恢复以前挂起的某个进程的执行。</p>
+
+<p>进程切换：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">1. 保存处理机上下文，包括程序计数器和其他寄存器。
+2. 更新PCB信息。
+3. 把进程的PCB移入相应的队列，如就绪、在某事件阻塞等队列。
+4. 选择另一个进程执行，并更新其PCB。
+5. 更新内存管理的数据结构。
+6. 恢复处理机上下文。</pre></td></tr></table>
+</div>
+</div>
+<h4 id="进程阻塞">进程阻塞</h4>
+
+<p>正在执行的进程，由于期待的某些事件未发生，如请求系统资源失败、等待某种操作的完成、新数据尚未到达或无新工作做等，则由系统自动执行阻塞原语(Block)，使自己由运行状态变为阻塞状态。<strong>当进程进入阻塞状态，是不占用CPU资源的。</strong></p>
+
+<h4 id="文件描述符fd">文件描述符fd</h4>
+
+<p>文件描述符（File descriptor）是一个用于表述指向文件的引用的抽象化概念。</p>
+
+<p>文件描述符在形式上是一个非负整数。实际上，它是一个索引值，指向内核为每一个进程所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。</p>
+
+<h4 id="缓存-i-o">缓存 I/O</h4>
+
+<p>缓存 I/O 又被称作标准 I/O，大多数文件系统的默认 I/O 操作都是缓存 I/O。在 Linux 的缓存 I/O 机制中，操作系统会将 I/O 的数据缓存在文件系统的页缓存（ page cache ）中，也就是说，数据会先被拷贝到操作系统内核的缓冲区中，然后才会从操作系统内核的缓冲区拷贝到应用程序的地址空间。</p>
+
+<h3 id="select-poll与epoll">select、poll与epoll</h3>
+
+<p>I/O多路复用就是通过一种机制，一个进程可以监视多个描述符，一旦某个描述符就绪（一般是读就绪或者写就绪），能够通知程序进行相应的读写操作。但select，poll，epoll本质上都是同步I/O。需要在读写事件就绪后自己负责进行(阻塞)读写。</p>
+
+<h4 id="select">select</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);</pre></td></tr></table>
+</div>
+</div>
+<p>select 函数监视的文件描述符分3类，分别是writefds、readfds、和exceptfds。调用后select函数会阻塞，直到有描述符就绪（有数据 可读、可写、或者有except），或者超时（timeout指定等待时间，如果立即返回设为null即可），函数返回。当select函数返回后，可以 通过遍历fdset(集合,存放的是文件描述符)，来找到就绪的描述符。</p>
+
+<p>select()的机制中提供一种fd_set的数据结构(long类型的数组)，每一个数组元素都能与一打开的文件句柄建立联系，建立联系的工作由程序员完成，当调用select()时，由内核根据IO状态修改fd_set的内容，由此来通知执行了select()的进程哪一Socket或文件可读</p>
+
+<p>用户可以注册多个socket，然后不断地调用select读取被激活的socket，即可达到在同一个线程内同时处理多个IO请求的目的(达到多线程同步阻塞模型的效果)</p>
+
+<p>优势：跨平台支持</p>
+
+<p>缺陷:</p>
+
+<p>单个进程能够监视的文件描述符的数量存在最大限制，在Linux上一般为1024<br/>
+每次调用select都需要在内核遍历传递进来的所有fd_set，如果fd_set集合很大时开销也很大<br/>
+每次调用select，都需要把fd_set集合从用户态拷贝到内核态(存在copy开销)<br/></p>
+
+<h4 id="poll">poll</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">int poll (struct pollfd *fds, unsigned int nfds, int timeout);
+
+struct pollfd {
+    int fd; /* file descriptor */
+    short events; /* requested events to watch */
+    short revents; /* returned events witnessed */
+};</pre></td></tr></table>
+</div>
+</div>
+<p>poll使用一个 pollfd的指针实现。</p>
+
+<p>pollfd结构包含了要监视的event和发生的event，不再使用select“参数-值”传递的方式。没有最大数量限制（但是数量过大后性能也是会下降）。 和select函数一样，poll返回后，需要轮询pollfd来获取就绪的描述符。</p>
+
+<p>poll改变了文件描述符集合的描述方式，使用了pollfd结构而不是select的fd_set结构，使得poll支持的文件描述符集合限制远大于select的1024</p>
+
+<p>优势:解决了select文件描述符的数量限制问题</p>
+
+<p>缺陷:select和poll都需要在返回后，通过遍历文件描述符来获取已经就绪的socket。同时连接的大量客户端在一时刻可能只有很少的处于就绪状态，因此随着监视的描述符数量的增长，其效率也会线性下降。</p>
+
+<h4 id="epoll">epoll</h4>
+
+<p>select和poll的增强版本。没有描述符限制,epoll使用一个文件描述符管理多个描述符，使用一个文件描述符管理多个描述符，将用户关系的文件描述符的事件存放到内核的一个事件表中，这样在用户空间和内核空间的copy只需一次。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">int epoll_create(int size)；
+int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)；
+int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>int epoll_create(int size)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">创建一个epoll的句柄，size用来告诉内核这个监听的数目一共有多大，不同于select()中的第一个参数，给出最大监听的fd+1的值，参数size并不是限制了epoll所能监听的描述符最大个数，只是对内核初始分配内部数据结构的一个建议。
+当创建好epoll句柄后，它就会占用一个fd值，在linux下如果查看/proc/进程id/fd/能够看到这个fd，所以在使用完epoll后，必须调用close()关闭，否则可能导致fd被耗尽。</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">epoll的事件注册函数，它不同与select()是在监听事件时告诉内核要监听什么类型的事件，而是在这里先注册要监听的事件类型。
+
+
+- epfd：是epoll_create()的返回值,表示epoll句柄。
+- op：表示op操作，用三个宏来表示：添加EPOLL_CTL_ADD，删除EPOLL_CTL_DEL，修改EPOLL_CTL_MOD。分别添加、删除和修改对fd的监听事件。
+- fd：是需要监听的fd（文件描述符）
+- epoll_event：内核需要监的事件
+
+结构如下
+
+struct epoll_event {
+    __uint32_t events;  /* Epoll events */
+    epoll_data_t data;  /* User data variable */
+};
+
+typedef union epoll_data {
+    void *ptr;
+    int fd;
+    __uint32_t u32;
+    __uint64_t u64;
+} epoll_data_t;
+
+events可以是以下几个宏的集合：
+EPOLLIN ：表示对应的文件描述符可以读（包括对端SOCKET正常关闭）；
+EPOLLOUT：表示对应的文件描述符可以写；
+EPOLLPRI：表示对应的文件描述符有紧急的数据可读（这里应该表示有带外数据到来）；
+EPOLLERR：表示对应的文件描述符发生错误；
+EPOLLHUP：表示对应的文件描述符被挂断；
+EPOLLET： 将EPOLL设为边缘触发(Edge Triggered)模式，这是相对于水平触发(Level Triggered)来说的。
+EPOLLONESHOT：只监听一次事件，当监听完这次事件之后，如果还需要继续监听这个socket的话，需要再次把这个socket加入到EPOLL队列里</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">等待事件的产生，类似于select()调用，最多返回maxevents个事件。
+参数events用来从内核得到事件的集合，maxevents告之内核这个events有多大，这个maxevents的值不能大于创建epoll_create()时的size，参数timeout是超时时间（毫秒，0会立即返回，-1将不确定，也有说法说是永久阻塞）。该函数返回需要处理的事件数目，如返回0表示已超时。
+
+- epfd 是epoll句柄
+- events 表示从内核得到的就绪事件集合
+- maxevents 告诉内核events的大小
+- timeout 表示等待的超时事件</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>工作模式</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">LT模式(默认 支持block和no-blocksocket)：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序可以不立即处理该事件。下次调用epoll_wait时，会再次响应应用程序并通知此事件。
+
+ET模式(支持no-blocksocket)：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序必须立即处理该事件。如果不处理，下次调用epoll_wait时，不会再次响应应用程序并通知此事件。
+
+ET模式很大程度上减少了epoll事件的触发次数，因此效率比LT模式下高。</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>epoll对比select和poll</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">在 select/poll中，进程只有在调用一定的方法后，内核才对所有监视的文件描述符进行扫描，而epoll事先通过epoll_ctl()来注册一 个文件描述符，一旦基于某个文件描述符就绪时，内核会采用类似callback的回调机制，迅速激活这个文件描述符，当进程调用epoll_wait() 时便得到通知。(此处去掉了遍历文件描述符，而是通过监听回调的的机制)
+
+epoll监视的描述符数量不受限制，它所支持的FD上限是最大可以打开文件的数目，远大于2048,举个例子,在1GB内存的机器上大约是10万左右，cat /proc/sys/fs/file-max察看,与系统内存有关</pre></td></tr></table>
+</div>
+</div>
+<h4 id="select-poll-epoll对比">select·poll·epoll对比</h4>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/63755920-0c8d4c80-c8ea-11e9-936e-f6a1f3ba2452.png" alt="image" /></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2019-07-24
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/linux/">Linux</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/algorithm_shuffle/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">洗牌算法Shuffle</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/interface_idempotent/">
+            <span class="next-text nav-default">Web接口幂等性</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+
+</body>
+</html>

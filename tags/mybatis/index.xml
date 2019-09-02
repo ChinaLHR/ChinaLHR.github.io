@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Mybatis on LHR</title>
+    <title>MyBatis on LiHanRong Blog</title>
     <link>https://chinalhr.github.io/tags/mybatis/</link>
-    <description>Recent content in Mybatis on LHR</description>
+    <description>Recent content in MyBatis on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <managingEditor>13435500980@163.com (lihanrong)</managingEditor>
-    <webMaster>13435500980@163.com (lihanrong)</webMaster>
     <lastBuildDate>Mon, 12 Nov 2018 22:51:04 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/mybatis/index.xml" rel="self" type="application/rss+xml" />
@@ -15,10 +13,10 @@
     
     <item>
       <title>Mybatis自定义分表Plug</title>
-      <link>https://chinalhr.github.io/posts/mybatisshardplug/</link>
+      <link>https://chinalhr.github.io/post/mybatisshardplug/</link>
       <pubDate>Mon, 12 Nov 2018 22:51:04 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/mybatisshardplug/</guid>
+      
+      <guid>https://chinalhr.github.io/post/mybatisshardplug/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;工作中需要用到MyBatis进行分表操作，简单记录实现过程&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -26,10 +24,10 @@
     
     <item>
       <title>Mybatis动态表名：# 与 $ 区别</title>
-      <link>https://chinalhr.github.io/posts/mybatis_sql_precompile/</link>
+      <link>https://chinalhr.github.io/post/mybatis_sql_precompile/</link>
       <pubDate>Mon, 12 Nov 2018 21:30:50 +0800</pubDate>
-      <author>13435500980@163.com (lihanrong)</author>
-      <guid>https://chinalhr.github.io/posts/mybatis_sql_precompile/</guid>
+      
+      <guid>https://chinalhr.github.io/post/mybatis_sql_precompile/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;学习Mybatis# 与 $ 机制&lt;/p&gt;
 &lt;/blockquote&gt;</description>

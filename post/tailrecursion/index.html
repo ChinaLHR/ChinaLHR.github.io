@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>尾递归-Java-Kotlin - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" 尾递归与递归的对比，以及在Java与Kotlin中如何运用
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/tailrecursion/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="尾递归-Java-Kotlin" />
+<meta property="og:description" content="
+尾递归与递归的对比，以及在Java与Kotlin中如何运用
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/tailrecursion/" /><meta property="article:published_time" content="2019-08-04T14:09:41&#43;08:00"/>
+<meta property="article:modified_time" content="2019-08-04T14:09:41&#43;08:00"/>
+
+<meta itemprop="name" content="尾递归-Java-Kotlin">
+<meta itemprop="description" content="
+尾递归与递归的对比，以及在Java与Kotlin中如何运用
+">
+
+
+<meta itemprop="datePublished" content="2019-08-04T14:09:41&#43;08:00" />
+<meta itemprop="dateModified" content="2019-08-04T14:09:41&#43;08:00" />
+<meta itemprop="wordCount" content="2326">
+
+
+
+<meta itemprop="keywords" content="编码技巧," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="尾递归-Java-Kotlin"/>
+<meta name="twitter:description" content="
+尾递归与递归的对比，以及在Java与Kotlin中如何运用
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/post/resume/">
+        <li class="mobile-menu-item">Resume</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/resume/">Resume</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">尾递归-Java-Kotlin</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-08-04 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B/"> 编程 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#关于尾递归">关于尾递归</a></li>
+<li><a href="#尾递归示例">尾递归示例</a></li>
+<li><a href="#尾递归优化-java">尾递归优化-Java</a></li>
+<li><a href="#尾递归优化-kotlin">尾递归优化-Kotlin</a></li>
+<li><a href="#参考">参考</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>尾递归与递归的对比，以及在Java与Kotlin中如何运用</p>
+</blockquote>
+
+<h3 id="关于尾递归">关于尾递归</h3>
+
+<ul>
+<li>尾递归</li>
+</ul>
+
+<p>尾递归，比线性递归多一个参数(这个参数是上一次调用函数得到的结果)。关键点在于，尾递归每次调用都在收集结果，避免了线性递归不收集结果只能依次展开消耗内存的坏处。</p>
+
+<p>线性递归创建栈内存累积而后计算收缩，尾递归只会占用恒量的内存(类似迭代)。</p>
+
+<ul>
+<li>尾递归优化</li>
+</ul>
+
+<p>尾递归优化主要是对栈内存空间的优化,从O(n)到O(1)。对于时间的优化是由于对空间的优化导致内存分配的工作减少所产生的, 是一个常数级别的优化。</p>
+
+<ul>
+<li>函数式编程中的递归与迭代</li>
+</ul>
+
+<p>在一些函数式编程语言(例如Scala)中是鼓励使用递归，而不是循环来解决问题。这是因为循环会引入中间变量,而函数范式强调的是无副作用，强调函数计算的纯粹性，每个函数的执行都是没有副作用的，
+函数所有功能就是返回一个新的值，没有其他行为，尤其是不得修改外部变量的值。</p>
+
+<h3 id="尾递归示例">尾递归示例</h3>
+
+<ul>
+<li>递归实现阶乘</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">public static int factorialRecursion(final int number) {
+    if (number == 1) return number;
+        else return number * factorialRecursion(number - 1);
+}
+
+当调用factorialRecursion(5)时 栈的情况:
+
+factorialRecursion(5)
+5 * factorialRecursion(4)
+5 * (4 * factorialRecursion(3))
+5 * (4 * (3 * factorialRecursion(2)))
+5 * (4 * (3 * (2 * factorialRecursion(1))))
+5 * (4 * (3 * (2 * 1)))
+5 * (4 * (3 * 2))
+5 * (4 * 6)
+5 * 24
+120
+
+这里就是典型的线性递归创建栈内存累积而后计算收缩，从左到右，达到顶峰，再从右到左收缩。使用迭代只占据常量栈，使用更新栈而非
+扩展栈进行计算，因此迭代相比线性递归使用的内存更少。
+
+为什么会扩展：因为在没有递归到底之前，程序的中间变量会一直保存着，因此每一次递归都需要开辟一个新的栈空间来保存中间变量</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>尾递归实现阶乘</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"> public static int factorialTailRecursion(final int factorial, final int number) {
+        if (number == 1) return factorial;
+        else return factorialTailRecursion(factorial * number, number - 1);
+}
+
+当调用factorialTailRecursion(1,5)时:
+
+factorialTailRecursion(1, 5)
+factorialTailRecursion(5, 4)
+factorialTailRecursion(20, 3)
+factorialTailRecursion(60, 2)
+factorialTailRecursion(120, 1)
+120
+
+分析上面递归函数栈累积的原因就是在每次return的时候都会附带一个变量，因此只需要在return的时候不附带这个变量即可。尾递归使用一个参数来保存上一轮递归的结果，把变化的参数传递给递归函数的变量了。
+
+尾递归通过每轮递归结束后刷新当前的栈空间，复用了栈，克服了线性递归栈内存累积而后计算收缩，存在栈溢出风险。
+
+总结尾递归：return后面不附带任何变量的递归写法，递归发生在函数最尾部,我们称之为&#39;尾递归&#39;。</pre></td></tr></table>
+</div>
+</div>
+<h3 id="尾递归优化-java">尾递归优化-Java</h3>
+
+<p>Tail-Recursion 依赖于编译器对尾递归写法的优化，Javac对Tail-Recursion并没有做特定的优化，使用尾递归的写法，该栈溢出还是栈溢出。</p>
+
+<p>Javac为什么没有Tail-Recursion优化，参考下面的链接,可以得知原因:</p>
+
+<p>因为在JDK许多类中，有许多安全敏感方法依赖于计算JDK库代码和调用代码之间的堆栈帧来确定谁在调用它们。tail-recursion优化会改变堆栈上帧数，会破坏它并导致计算错误。因此JDK开发人员已经取代了这种机制。</p>
+
+<p><a href="https://softwareengineering.stackexchange.com/questions/272061/why-doesnt-java-have-optimization-for-tail-recursion-at-all">https://softwareengineering.stackexchange.com/questions/272061/why-doesnt-java-have-optimization-for-tail-recursion-at-all</a></p>
+
+<ul>
+<li>使用Lambda优化尾递归</li>
+</ul>
+
+<p>设计一个函数接口代替递归中的栈帧，利用Stream将递归转换为迭代，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">/**
+ * @Author : lhr
+ * @Date : 11:15 2019/8/3
+ *
+ * 尾递归函数式接口
+ */
+@FunctionalInterface
+public interface TailRecursion&lt;T&gt; {
+
+    /**
+     * 用于递归栈帧之间的连接,惰性求值
+     * @return 下一个递归栈帧
+     */
+    TailRecursion&lt;T&gt; apply();
+
+    /**
+     * 判断当前递归是否结束
+     * @return 默认为false,因为正常的递归过程中都还未结束
+     */
+    default boolean isFinished(){
+        return false;
+    }
+
+    /**
+     * 获得递归结果,只有在递归结束才能调用,这里默认给出异常,通过工具类的重写来获得值
+     * @return 递归最终结果
+     */
+    default T getResult()  {
+        throw new Error(&#34;递归还没有结束,调用获得结果异常!&#34;);
+    }
+
+    /**
+     * 及早求值,执行者一系列的递归,因为栈帧只有一个,所以使用findFirst获得最终的栈帧,接着调用getResult方法获得最终递归值
+     * @return 及早求值,获得最终递归结果
+     */
+    default T invoke() {
+        return Stream.iterate(this, TailRecursion::apply)
+                .filter(TailRecursion::isFinished)
+                .findFirst()
+                .get()
+                .getResult();
+    }
+}</pre></td></tr></table>
+</div>
+</div>
+<p>设计一个对外统一的尾递归包装类，目的是达到可以复用的效果，包装递归方法 1怎样调用下次递归,2递归的终止条件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">/**
+ * @Author : lhr
+ * @Date : 11:59 2019/8/3
+ *
+ * 使用尾递归的类,目的是对外统一方法
+ *
+ * 调用下次递归/结束本轮递归
+ *
+ */
+public class TailInvoke {
+
+    /**
+     * 统一结构的方法，获取当前递归的下一个递归
+     * @param nextFrame
+     * @param &lt;T&gt;
+     * @return
+     */
+    public static &lt;T&gt; TailRecursion&lt;T&gt; call(final TailRecursion&lt;T&gt; nextFrame) {
+        return nextFrame;
+    }
+
+    /**
+     * 结束当前递归，重写对应的默认方法的值,完成状态改为true,设置最终返回结果,设置非法递归调用
+     *
+     * @param value 最终递归值
+     * @param &lt;T&gt;   T
+     * @return 一个isFinished状态true的尾递归, 外部通过调用接口的invoke方法及早求值, 启动递归求值。
+     */
+    public static &lt;T&gt; TailRecursion&lt;T&gt; done(T value) {
+        return new TailRecursion&lt;T&gt;() {
+            @Override
+            public TailRecursion&lt;T&gt; apply() {
+                throw new Error(&#34;递归已经结束,非法调用apply方法&#34;);
+            }
+
+            @Override
+            public boolean isFinished() {
+                return true;
+            }
+
+            @Override
+            public T getResult() {
+                return value;
+            }
+        };
+    }
+
+}</pre></td></tr></table>
+</div>
+</div>
+<p>lamdba优化尾递归 阶乘计算示例</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">   /**
+     * 阶乘计算 -- 使用尾递归接口完成
+     *
+     * @param factorial 当前递归栈的结果值
+     * @param number    下一个递归需要计算的值
+     * @return 尾递归接口, 调用invoke启动及早求值获得结果
+     */
+    public static TailRecursion&lt;Long&gt; factorialTailRecursion(final long factorial, final int number) {
+        if (number == 1)
+            return TailInvoke.done(factorial);
+        else
+            return TailInvoke.call(() -&gt; factorialTailRecursion(factorial + number, number - 1));
+    }
+
+    public static void main(String[] args) {
+        //调用Invoke启动迭代并获取结果
+        factorialTailRecursion(1, 10000000).invoke();
+    }</pre></td></tr></table>
+</div>
+</div>
+<h3 id="尾递归优化-kotlin">尾递归优化-Kotlin</h3>
+
+<ul>
+<li>tailrec关键字</li>
+</ul>
+
+<p>Kotlin 支持尾递归，这允许一些通常用循环写的算法改用递归函数来写，而无堆栈溢出的风险。 当一个函数用 tailrec 修饰符标记并满足所需的形式时，编译器会优化该递归，留下一个快速而高效的基于循环的版本。</p>
+
+<ul>
+<li>尾递归实现阶乘(Kotlin版本)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">tailrec fun factorialTailRecursion(factorial: Int, number: Int): Int {
+    return if (number == 1) factorial
+    else factorialTailRecursion(factorial * number, number - 1)
+}</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>最终代码(经过Kotlin编译器优化)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">public static final int factorialTailRecursion(int factorial, int number) {
+      while(number != 1) {
+         int var10000 = factorial * number;
+         --number;
+         factorial = var10000;
+      }
+
+      return factorial;
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="参考">参考</h3>
+
+<p><a href="https://kotlintc.com/articles/4633">https://kotlintc.com/articles/4633</a></p>
+
+<p><a href="https://www.cnblogs.com/invoker-/p/7723420.html">https://www.cnblogs.com/invoker-/p/7723420.html</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2019-08-04
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%BC%96%E7%A0%81%E6%8A%80%E5%B7%A7/">编码技巧</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/linux_zerocopy/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Linux Zero-copy(零拷贝)</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/algorithm_shuffle/">
+            <span class="next-text nav-default">洗牌算法Shuffle</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,262 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Kotlin 函数,对象,Lamdba - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-  <title> Kotlin 函数,对象,Lamdba - Read the fucking source code</title>
-  <meta name="description" content="Read the fucking source code" />
-  <meta property="og:title" content="Kotlin 函数,对象,Lamdba" />
-  <meta name="twitter:title" content="Kotlin 函数,对象,Lamdba" />
-  <meta name="description" content="
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" " /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/posts/kotlin-learn01/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Kotlin 函数,对象,Lamdba" />
+<meta property="og:description" content="
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/posts/kotlin-learn01/" /><meta property="article:published_time" content="2019-01-13T23:02:40&#43;08:00"/>
+<meta property="article:modified_time" content="2019-01-13T23:02:40&#43;08:00"/>
+
+<meta itemprop="name" content="Kotlin 函数,对象,Lamdba">
+<meta itemprop="description" content="
 ">
-  <meta property="og:description" content="
-">
-  <meta name="twitter:description" content="
-">
-  <meta name="author" content="lihanrong"/>
-  <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://chinalhr.github.io/posts/kotlin-learn01/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="LHR" />
-
-  <meta name="generator" content="Hugo 0.51" />
-  <link rel="canonical" href="https://chinalhr.github.io/posts/kotlin-learn01/" />
-  <link rel="alternate" href="https://chinalhr.github.io/index.xml" type="application/rss+xml" title="LHR">
-  <script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/jquery-1.12.4.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  
-  
-  <link rel="stylesheet" href="https://chinalhr.github.io/css/main.css" />
-  <link rel="stylesheet" href="https://chinalhr.github.io/css/search.css" />
-  
-  
-  
-  <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/monokai.min.css" rel="stylesheet">
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
 
 
-<script>
-    var _hmt = _hmt || [];
-    (function() {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-
-<link rel="stylesheet" href="https://chinalhr.github.io/css/prism.css" />
+<meta itemprop="datePublished" content="2019-01-13T23:02:40&#43;08:00" />
+<meta itemprop="dateModified" content="2019-01-13T23:02:40&#43;08:00" />
+<meta itemprop="wordCount" content="4100">
 
 
 
+<meta itemprop="keywords" content="Kotlin," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Kotlin 函数,对象,Lamdba"/>
+<meta name="twitter:description" content="
+"/>
 
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
 
-<script async src="//cdn.busuanzi.ibruce.info/cdn/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
-
-
-
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-<div class="pswp__bg"></div>
-
-<div class="pswp__scroll-wrap">
-    
-    <div class="pswp__container">
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-    </div>
-    
-    <div class="pswp__ui pswp__ui--hidden">
-    <div class="pswp__top-bar">
-      
-      <div class="pswp__counter"></div>
-      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-      <button class="pswp__button pswp__button--share" title="Share"></button>
-      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-      
-      
-      <div class="pswp__preloader">
-        <div class="pswp__preloader__icn">
-          <div class="pswp__preloader__cut">
-            <div class="pswp__preloader__donut"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-      <div class="pswp__share-tooltip"></div>
-    </div>
-    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-    </button>
-    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-    </button>
-    <div class="pswp__caption">
-      <div class="pswp__caption__center"></div>
-    </div>
-    </div>
-    </div>
-</div>
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
 
 </head>
-
-  <body>
-    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="https://chinalhr.github.io/">LHR</a>
-    </div>
-    <div class="collapse navbar-collapse" id="main-navbar">
-      <ul class="nav navbar-nav navbar-right">
-        
-          
-            <li>
-              <a title="Tags" href="/tags/">Tags</a>
-              
-              
-            </li>
-          
-        
-          
-            <li>
-              <a title="categories" href="/categories/">categories</a>
-              
-              
-            </li>
-          
-        
-          
-            <li>
-              <a title="About" href="/posts/about/">About</a>
-              
-              
-            </li>
-          
-        
-          
-            <li>
-              <a title="Resume" href="/posts/resume/">Resume</a>
-              
-              
-            </li>
-          
-        
-
-        
-
-        
-        
-      </ul>
-    </div>
-
-    <div class="avatar-container">
-      <div class="avatar-img-border">
-        
-          <a title="LHR" href="https://chinalhr.github.io/">
-            <img class="avatar-img" src="https://avatars0.githubusercontent.com/u/19829495" alt="LHR" />
-          </a>
-        
-      </div>
-    </div>
-
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
   </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/posts/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/posts/resume/">
+        <li class="mobile-menu-item">Resume</li>
+      </a>
+  </ul>
 </nav>
-
-
-
-
-
-
-    
-  
-  
-  
-
-
-
-
-  
-
-  <header class="header-section ">
-    
-    <div class="intro-header no-img">
-      
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-md-offset-0">
-            <div class="posts-heading">
-                <h1 align="center">Kotlin 函数,对象,Lamdba</h1>
-                
-                
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-
-    
-<div class="container" role="main" itemscope itemtype="http://schema.org/Article">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            
-            
-            
-<div>
-    <section id="datecount">
-        <h4 id="date"> Sun Jan 13, 2019</h4>
-    </section>
-    <h5 id="wc">800 Words|Read in about 4 Min</h5>
-    <h5 id="tags">Tags: 
-        
-        <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
-    </h5>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
 </div>
 
-            
-            <article role="main" class="blog-post" itemprop="articleBody" id="content">
-                
-  
-  <aside class="toc">
-    <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#设计哲学">设计哲学</a></li>
-<li><a href="#kotlin与java">Kotlin与Java</a></li>
-<li><a href="#函数">函数</a></li>
-<li><a href="#类-对象">类-对象</a></li>
-<li><a href="#lamdba">Lamdba</a></li>
-<li><a href="#高阶lamdba">高阶Lamdba</a></li>
-</ul></li>
-</ul></li>
-</ul>
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/posts/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/posts/resume/">Resume</a>
+      </li>
+  </ul>
 </nav>
-  </aside>
-  
+    </header>
 
-
-                <blockquote>
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+  <div class="post-content">
+    <blockquote>
 </blockquote>
 
 <h3 id="设计哲学">设计哲学</h3>
@@ -285,11 +159,18 @@ Kotlin 的类型系统跟踪那些可以或不可以为 null 的
 <li>数组就是类,和 Java 不同， Kotlin 没有声明数组类型的特殊语法</li>
 
 <li><p>在 Kotlin 中，除了循环（ for, do 和 do/while）以外大多数控制结构( if,When )都是表达式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">表达式与语句:表达式有值，并且能作为另一个表达式的一部分使用；而语句总是包围着它的代码块中的顶层元素，并且没有自己的值。
 
-<pre><code>表达式与语句:表达式有值，并且能作为另一个表达式的一部分使用；而语句总是包围着它的代码块中的顶层元素，并且没有自己的值。
-
-fun max(a : Int , b: Int) = if (a &gt; b) a else b
-</code></pre></li>
+fun max(a : Int , b: Int) = if (a &gt; b) a else b</pre></td></tr></table>
+</div>
+</div></li>
 
 <li><p>以关键字开始，然后是变量名称。(var age:Int = 20)</p></li>
 
@@ -302,8 +183,21 @@ fun max(a : Int , b: Int) = if (a &gt; b) a else b
 <li><p>智能转换：使用 is 检查来判断一个变量是否是某种类型,Kotlin编译器检查过一个变量是某种类型，后面就不再需要转换它，可以就把它当作你检查过的类型使用。(对比Java instanceOf 之后需要显示转换)</p></li>
 
 <li><p>when:when对比switch：switch只能使用枚举常量，字符串或者数字字面值;when 允许使用任何对象并且不需要在每个分支都写上break 语句。when是表达式且可以与if连用&hellip;.</p>
-
-<pre><code>//when
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//when
 fun evalWhen(e: Expr): Int =
 when (e) {
     is Num -&gt;
@@ -311,27 +205,43 @@ when (e) {
     is Sum -&gt;
         evalWhen(e.right) + evalWhen(e.left)
     else -&gt;
-        throw RuntimeException(&quot;类型错误&quot;)
-}
-</code></pre></li>
+        throw RuntimeException(&#34;类型错误&#34;)
+}</pre></td></tr></table>
+</div>
+</div></li>
 
 <li><p>for:Kotlin没有Java的for-i概念，多出来区间与数列</p>
 
 <ul>
 <li><p>区间</p>
-
-<pre><code>for (i in 1..100) {
-    println(&quot;current：$i&quot;)
-}
-</code></pre></li>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">for (i in 1..100) {
+    println(&#34;current：$i&#34;)
+}</pre></td></tr></table>
+</div>
+</div></li>
 
 <li><p>downTo step until</p>
-
-<pre><code>//从100 到 1 打印偶数 步长2 向下到1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//从100 到 1 打印偶数 步长2 向下到1
 for (i in 100 downTo 1 step 2) {
-    println(&quot;current：$i&quot;)
-}
-</code></pre></li>
+    println(&#34;current：$i&#34;)
+}</pre></td></tr></table>
+</div>
+</div></li>
 </ul></li>
 
 <li><p>异常
@@ -345,80 +255,136 @@ Kotlin 并不区分受检异常和未受检异常。不用指定函数抛出的�
 <li>命名参数
 当调用一个 Kotlin定义的函数时，可以显式地标明一些参数的名称,避免混淆</li>
 </ul>
-
-<pre><code class="language-java">joinToString(collectio, separator =&quot;&quot;, prefix =&quot;&quot;, postfix =&quot;·&quot;)
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">joinToString</span><span class="o">(</span><span class="n">collectio</span><span class="o">,</span> <span class="n">separator</span> <span class="o">=</span><span class="s">&#34;&#34;</span><span class="o">,</span> <span class="n">prefix</span> <span class="o">=</span><span class="s">&#34;&#34;</span><span class="o">,</span> <span class="n">postfix</span> <span class="o">=</span><span class="s">&#34;·&#34;</span><span class="o">)</span></code></pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>默认参数值
 对比Java一些类的重载函数很多， Kotlin中可以在声明函数的时候，指定参数的默认值，这样就可以避免创建重载的函数。</li>
 </ul>
-
-<pre><code class="language-java">fun &lt;T&gt; joinToString(
-    collection: Collection&lt;T&gt;,
-    separator: String =&quot;,&quot;,//默认参数值
-    prefix: String =&quot;&quot;,
-    postfix: String = &quot;&quot;
-    ) : String{
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">fun</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">joinToString</span><span class="o">(</span><span class="nl">
+</span><span class="nl">    collection:</span> <span class="n">Collection</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;,</span><span class="nl">
+</span><span class="nl">    separator:</span> <span class="n">String</span> <span class="o">=</span><span class="s">&#34;,&#34;</span><span class="o">,</span><span class="c1">//默认参数值
+</span><span class="c1"></span>    <span class="nl">prefix:</span> <span class="n">String</span> <span class="o">=</span><span class="s">&#34;&#34;</span><span class="o">,</span><span class="nl">
+</span><span class="nl">    postfix:</span> <span class="n">String</span> <span class="o">=</span> <span class="s">&#34;&#34;</span>
+    <span class="o">)</span> <span class="o">:</span> <span class="n">String</span><span class="o">{</span>
             
-}
-</code></pre>
-
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>顶层函数|参数
 在Java中，类处于顶层，类包含属性和方法，在Kotlin中，函数处于顶层，我们可以直接把函数放在代码文件的顶层，让它不从属于任何类，任何类都可以调用。
 目的，消除了Java中常见的静态工具类，使我们的代码更加整洁。</li>
 </ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@file</span><span class="o">:</span><span class="n">JvmName</span><span class="o">(</span><span class="s">&#34;StrUtil&#34;</span><span class="o">)</span>
+<span class="kn">package</span> <span class="nn">util</span>
 
-<pre><code class="language-java">@file:JvmName(&quot;StrUtil&quot;)
-package util
+<span class="n">fun</span> <span class="nf">joinToStr</span><span class="o">(</span><span class="nl">collection:</span> <span class="n">Collection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;):</span> <span class="n">String</span><span class="o">{</span>
+    <span class="c1">//....
+</span><span class="c1"></span>    <span class="k">return</span> <span class="s">&#34;&#34;</span><span class="o">;</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">util.joinToStr</span>
 
-fun joinToStr(collection: Collection&lt;String&gt;): String{
-    //....
-    return &quot;&quot;;
-}
-</code></pre>
-
-<pre><code class="language-java">import util.joinToStr
-
-fun main(args: Array&lt;String&gt;){
-    joinToStr(collection = listOf(&quot;123&quot;, &quot;456&quot;))
-}
-</code></pre>
-
+<span class="n">fun</span> <span class="nf">main</span><span class="o">(</span><span class="nl">args:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;){</span>
+    <span class="n">joinToStr</span><span class="o">(</span><span class="n">collection</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="s">&#34;123&#34;</span><span class="o">,</span> <span class="s">&#34;456&#34;</span><span class="o">))</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <p>因为在Java中，类还是必须要存在的，所以编译器将Str.kt文件里的代码放在了一个自动生成的类中，然后把我们定义的Kotlin的函数作为静态方法放在其中，在Java中是先通过import导入这个类，然后通过类名.方法名来调用。可以通过@file:JvmName注解来自定义类名。</p>
 
 <ul>
 <li>扩展函数|参数</li>
 </ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm"> * 扩展函数
+</span><span class="cm"> *
+</span><span class="cm"> *  String-接收者类型           get(this.length -1) 对接收者对象(字符串)进行操作并返回
+</span><span class="cm"> */</span>
+<span class="n">fun</span> <span class="n">String</span><span class="o">.</span><span class="na">lastChar</span><span class="o">()</span> <span class="o">:</span> <span class="n">Char</span> <span class="o">=</span> <span class="n">get</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span><span class="n">1</span><span class="o">)</span>
 
-<pre><code class="language-java">/**
- * 扩展函数
- *
- *  String-接收者类型           get(this.length -1) 对接收者对象(字符串)进行操作并返回
- */
-fun String.lastChar() : Char = get(this.length -1)
-
-fun main(args: Array&lt;String&gt;) {
-    System.out.println(&quot;Kotlin&quot;.lastChar())
-}
-</code></pre>
-
+<span class="n">fun</span> <span class="nf">main</span><span class="o">(</span><span class="nl">args:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Kotlin&#34;</span><span class="o">.</span><span class="na">lastChar</span><span class="o">())</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <p>导入扩展函数(Kotiin 允许用和导入类一样的语法来导入)</p>
-
-<pre><code class="language-java">import strings.lastChar
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">strings.lastChar</span></code></pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>to 中缀调用
 infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair 类型的对象用来表示一对元素(解构声明)</li>
 </ul>
-
-<pre><code class="language-java">fun &lt;K, V&gt; mapOf(vararg values: Pair&lt;K, V&gt;): Map&lt;K , V&gt;
-//使用
-mapOf(1 to &quot;One&quot;,2 to &quot;Two&quot;)
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">fun</span> <span class="o">&lt;</span><span class="n">K</span><span class="o">,</span> <span class="n">V</span><span class="o">&gt;</span> <span class="nf">mapOf</span><span class="o">(</span><span class="n">vararg</span> <span class="nl">values:</span> <span class="n">Pair</span><span class="o">&lt;</span><span class="n">K</span><span class="o">,</span> <span class="n">V</span><span class="o">&gt;):</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">K</span> <span class="o">,</span> <span class="n">V</span><span class="o">&gt;</span>
+<span class="c1">//使用
+</span><span class="c1"></span><span class="n">mapOf</span><span class="o">(</span><span class="n">1</span> <span class="n">to</span> <span class="s">&#34;One&#34;</span><span class="o">,</span><span class="n">2</span> <span class="n">to</span> <span class="s">&#34;Two&#34;</span><span class="o">)</span></code></pre></td></tr></table>
+</div>
+</div>
 <h3 id="类-对象">类-对象</h3>
 
 <p>Kotlin 在类名后面使用冒号来代替了 Java 中的 extends 和 implements 关键字。</p>
@@ -476,68 +442,127 @@ mapOf(1 to &quot;One&quot;,2 to &quot;Two&quot;)
 <ul>
 <li>Kotlin编译器生成:数据类与委托类</li>
 </ul>
-
-<pre><code class="language-java">//重写toString,equals,hashCode
-override fun toString() = &quot;...&quot;
-/**
- * 数据类，编译器重写toString 、equals 和 hashCode 。 
- * equals 用来比较实例
- * hashCode 用来作为例如 HashMap 这种基于哈希容器的键
- * toString 用来为类生成按声明顺序排列的所有字段的字符串表达形式
- *  copy 方法： copy对象的同时修改某些属性的值
- */
-data class Client(val name: String, val postalCode: Int)
-/**
- * 类委托：可以使用 by 关键字将接口的实现委托到另一个对象(避免装饰器模式带来的重复模板代码)
- *  
- *类相当于innerList的包装类，拥有innerList的实现，并可以覆盖原有方法提供不同实现
- */
- class DelegatingCollection&lt;T&gt;(innerList: Collection&lt;T&gt; = ArrayList&lt;T&gt;()) : Collection&lt;T&gt; by innerList {}
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//重写toString,equals,hashCode
+</span><span class="c1"></span><span class="n">override</span> <span class="n">fun</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">=</span> <span class="s">&#34;...&#34;</span>
+<span class="cm">/**
+</span><span class="cm"> * 数据类，编译器重写toString 、equals 和 hashCode 。 
+</span><span class="cm"> * equals 用来比较实例
+</span><span class="cm"> * hashCode 用来作为例如 HashMap 这种基于哈希容器的键
+</span><span class="cm"> * toString 用来为类生成按声明顺序排列的所有字段的字符串表达形式
+</span><span class="cm"> *  copy 方法： copy对象的同时修改某些属性的值
+</span><span class="cm"> */</span>
+<span class="n">data</span> <span class="kd">class</span> <span class="nf">Client</span><span class="o">(</span><span class="n">val</span> <span class="nl">name:</span> <span class="n">String</span><span class="o">,</span> <span class="n">val</span> <span class="nl">postalCode:</span> <span class="n">Int</span><span class="o">)</span>
+<span class="cm">/**
+</span><span class="cm"> * 类委托：可以使用 by 关键字将接口的实现委托到另一个对象(避免装饰器模式带来的重复模板代码)
+</span><span class="cm"> *  
+</span><span class="cm"> *类相当于innerList的包装类，拥有innerList的实现，并可以覆盖原有方法提供不同实现
+</span><span class="cm"> */</span>
+ <span class="kd">class</span> <span class="nc">DelegatingCollection</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;(</span><span class="nl">innerList:</span> <span class="n">Collection</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;())</span> <span class="o">:</span> <span class="n">Collection</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">by</span> <span class="n">innerList</span> <span class="o">{}</span></code></pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>object关键字</li>
 </ul>
-
-<pre><code class="language-c">/**
- * object关键字 对象声明：创建单例类
- */
-object Payroll {
- ...
- }
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/**
+</span><span class="cm"> * object关键字 对象声明：创建单例类
+</span><span class="cm"> */</span>
+<span class="n">object</span> <span class="n">Payroll</span> <span class="p">{</span>
+ <span class="p">...</span>
+ <span class="p">}</span>
  
-/**
- * 伴生对象companion：工厂方法
- */
-//构造方法私有化
-class User private constructor(val nickname: String) {
-    //声明伴生对象:工厂方法创建对象
-    companion object {
-        fun newSubscribingUser(email: String) =
-                User(email.substringBefore(&quot;@&quot;))
+<span class="cm">/**
+</span><span class="cm"> * 伴生对象companion：工厂方法
+</span><span class="cm"> */</span>
+<span class="c1">//构造方法私有化
+</span><span class="c1"></span><span class="n">class</span> <span class="n">User</span> <span class="n">private</span> <span class="n">constructor</span><span class="p">(</span><span class="n">val</span> <span class="nl">nickname</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//声明伴生对象:工厂方法创建对象
+</span><span class="c1"></span>    <span class="n">companion</span> <span class="n">object</span> <span class="p">{</span>
+        <span class="n">fun</span> <span class="n">newSubscribingUser</span><span class="p">(</span><span class="nl">email</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">=</span>
+                <span class="n">User</span><span class="p">(</span><span class="n">email</span><span class="p">.</span><span class="n">substringBefore</span><span class="p">(</span><span class="s">&#34;@&#34;</span><span class="p">))</span>
 
-        fun newFacebookUser(accountld: Int) =
-                User(accountld.toString())
-    }
-}
+        <span class="n">fun</span> <span class="n">newFacebookUser</span><span class="p">(</span><span class="nl">accountld</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">=</span>
+                <span class="n">User</span><span class="p">(</span><span class="n">accountld</span><span class="p">.</span><span class="n">toString</span><span class="p">())</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-/**
- * 普通类的伴生对象：伴生对象是一个声明在类中的普通对象，有名字(默认Companion )，可以实现一个接口或者有扩展函数或属性 。 伴生对象（与包级别函数和属性一起）替代了 Java 静态方法和字段定义
- */
- class Person(val name: String) {
-companion object Loader {...}
-}
+<span class="cm">/**
+</span><span class="cm"> * 普通类的伴生对象：伴生对象是一个声明在类中的普通对象，有名字(默认Companion )，可以实现一个接口或者有扩展函数或属性 。 伴生对象（与包级别函数和属性一起）替代了 Java 静态方法和字段定义
+</span><span class="cm"> */</span>
+ <span class="n">class</span> <span class="n">Person</span><span class="p">(</span><span class="n">val</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+<span class="n">companion</span> <span class="n">object</span> <span class="n">Loader</span> <span class="p">{...}</span>
+<span class="p">}</span>
 
-/**
- * 对象表达式：(匿名内部类)
- */
+<span class="cm">/**
+</span><span class="cm"> * 对象表达式：(匿名内部类)
+</span><span class="cm"> */</span>
  
-val Listener = object : MouseAdapter() {
-override fun mouseClicked(e: MouseEvent) { .. . }
-override fun mouseEntered(e: MouseEvent) { ... }
-}
-</code></pre>
-
+<span class="n">val</span> <span class="n">Listener</span> <span class="o">=</span> <span class="nl">object</span> <span class="p">:</span> <span class="n">MouseAdapter</span><span class="p">()</span> <span class="p">{</span>
+<span class="n">override</span> <span class="n">fun</span> <span class="n">mouseClicked</span><span class="p">(</span><span class="nl">e</span><span class="p">:</span> <span class="n">MouseEvent</span><span class="p">)</span> <span class="p">{</span> <span class="p">..</span> <span class="p">.</span> <span class="p">}</span>
+<span class="n">override</span> <span class="n">fun</span> <span class="n">mouseEntered</span><span class="p">(</span><span class="nl">e</span><span class="p">:</span> <span class="n">MouseEvent</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <h3 id="lamdba">Lamdba</h3>
 
 <ul>
@@ -553,71 +578,134 @@ override fun mouseEntered(e: MouseEvent) { ... }
 </ul>
 
 <p>iterator 与 Sequence 区别:</p>
-
-<pre><code class="language-c">/**
- * 处理序列的中间操作函数是不进行任何计算的。相反，它们会返回上一个中间操作处理后产生的新序列。
- * 所有这些一系列中间计算都将在终端操作执行中被确定，例如常见的终端操作toList或count.在另一方面，处理Iterable的每个中间操作函数都是会返回一个新的集合。
- *
- */
-interface Iterable&lt;out T&gt; {
-    operator fun iterator(): Iterator&lt;T&gt;
-}
-interface Sequence&lt;out T&gt; {
-    operator fun iterator(): Iterator&lt;T&gt;
-}
-</code></pre>
-
-<pre><code class="language-java">//惰性求值，避免创建临时中间对象
- val list = persons.asSequence()
-            .map(Person::name)
-            .filter { it.startsWith(&quot;l&quot;) }
-            .toList()
-//惰性求值：给定序列中 的前一个元素，这个函数会计算出下一个元素。
-val naturalNumbers = generateSequence(0) { it + 1 }
-println(&quot;求100 以内的和：${naturalNumbers.takeWhile { it &lt;= 100 }.sum()}&quot;)
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/**
+</span><span class="cm"> * 处理序列的中间操作函数是不进行任何计算的。相反，它们会返回上一个中间操作处理后产生的新序列。
+</span><span class="cm"> * 所有这些一系列中间计算都将在终端操作执行中被确定，例如常见的终端操作toList或count.在另一方面，处理Iterable的每个中间操作函数都是会返回一个新的集合。
+</span><span class="cm"> *
+</span><span class="cm"> */</span>
+<span class="n">interface</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">out</span> <span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="n">operator</span> <span class="n">fun</span> <span class="n">iterator</span><span class="p">()</span><span class="o">:</span> <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+<span class="p">}</span>
+<span class="n">interface</span> <span class="n">Sequence</span><span class="o">&lt;</span><span class="n">out</span> <span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="n">operator</span> <span class="n">fun</span> <span class="n">iterator</span><span class="p">()</span><span class="o">:</span> <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//惰性求值，避免创建临时中间对象
+</span><span class="c1"></span> <span class="n">val</span> <span class="n">list</span> <span class="o">=</span> <span class="n">persons</span><span class="o">.</span><span class="na">asSequence</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Person:</span><span class="o">:</span><span class="n">name</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">filter</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">&#34;l&#34;</span><span class="o">)</span> <span class="o">}</span>
+            <span class="o">.</span><span class="na">toList</span><span class="o">()</span>
+<span class="c1">//惰性求值：给定序列中 的前一个元素，这个函数会计算出下一个元素。
+</span><span class="c1"></span><span class="n">val</span> <span class="n">naturalNumbers</span> <span class="o">=</span> <span class="n">generateSequence</span><span class="o">(</span><span class="n">0</span><span class="o">)</span> <span class="o">{</span> <span class="n">it</span> <span class="o">+</span> <span class="n">1</span> <span class="o">}</span>
+<span class="n">println</span><span class="o">(</span><span class="s">&#34;求100 以内的和：${naturalNumbers.takeWhile { it &lt;= 100 }.sum()}&#34;</span><span class="o">)</span></code></pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>with 和 apply</li>
 </ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm"> * 使用给定的[receiver]作为接收器调用指定的函数[block]并返回其结果。
+</span><span class="cm"> */</span>
+<span class="nd">@kotlin.internal.InlineOnly</span>
+<span class="kd">public</span> <span class="n">inline</span> <span class="n">fun</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">R</span><span class="o">&gt;</span> <span class="nf">with</span><span class="o">(</span><span class="nl">receiver:</span> <span class="n">T</span><span class="o">,</span> <span class="nl">block:</span> <span class="n">T</span><span class="o">.()</span> <span class="o">-&gt;</span> <span class="n">R</span><span class="o">):</span> <span class="n">R</span> <span class="o">{</span>
+    <span class="n">contract</span> <span class="o">{</span>
+        <span class="n">callsInPlace</span><span class="o">(</span><span class="n">block</span><span class="o">,</span> <span class="n">InvocationKind</span><span class="o">.</span><span class="na">EXACTLY_ONCE</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">receiver</span><span class="o">.</span><span class="na">block</span><span class="o">()</span>
+<span class="o">}</span>
 
-<pre><code class="language-java">/**
- * 使用给定的[receiver]作为接收器调用指定的函数[block]并返回其结果。
- */
-@kotlin.internal.InlineOnly
-public inline fun &lt;T, R&gt; with(receiver: T, block: T.() -&gt; R): R {
-    contract {
-        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
-    }
-    return receiver.block()
-}
+<span class="n">val</span> <span class="n">returnAToZ</span> <span class="o">=</span> <span class="n">with</span><span class="o">(</span><span class="n">StringBuilder</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">letter</span> <span class="n">in</span> <span class="sc">&#39;A&#39;</span><span class="o">..</span><span class="sc">&#39;Z&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">append</span><span class="o">(</span><span class="n">letter</span><span class="o">)</span>
+        <span class="o">}</span>
+        <span class="n">toString</span><span class="o">()</span>
+<span class="o">}</span>
 
-val returnAToZ = with(StringBuilder()) {
-        for (letter in 'A'..'Z') {
-            append(letter)
-        }
-        toString()
-}
+<span class="cm">/**
+</span><span class="cm"> * 使用`this`值作为接收器调用指定的函数[block]并返回`this`值。
+</span><span class="cm"> */</span>
+<span class="nd">@kotlin.internal.InlineOnly</span>
+<span class="kd">public</span> <span class="n">inline</span> <span class="n">fun</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">T</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="nl">block:</span> <span class="n">T</span><span class="o">.()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="o">):</span> <span class="n">T</span> <span class="o">{</span>
+    <span class="n">contract</span> <span class="o">{</span>
+        <span class="n">callsInPlace</span><span class="o">(</span><span class="n">block</span><span class="o">,</span> <span class="n">InvocationKind</span><span class="o">.</span><span class="na">EXACTLY_ONCE</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="n">block</span><span class="o">()</span>
+    <span class="k">return</span> <span class="k">this</span>
+<span class="o">}</span>
 
-/**
- * 使用`this`值作为接收器调用指定的函数[block]并返回`this`值。
- */
-@kotlin.internal.InlineOnly
-public inline fun &lt;T&gt; T.apply(block: T.() -&gt; Unit): T {
-    contract {
-        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
-    }
-    block()
-    return this
-}
-
-val returnAToZ = StringBuilder().apply {
-        for (letter in 'A'..'Z') {
-            append(letter)
-        }
-}
-</code></pre>
-
+<span class="n">val</span> <span class="n">returnAToZ</span> <span class="o">=</span> <span class="n">StringBuilder</span><span class="o">().</span><span class="na">apply</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">letter</span> <span class="n">in</span> <span class="sc">&#39;A&#39;</span><span class="o">..</span><span class="sc">&#39;Z&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">append</span><span class="o">(</span><span class="n">letter</span><span class="o">)</span>
+        <span class="o">}</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <h3 id="高阶lamdba">高阶Lamdba</h3>
 
 <ul>
@@ -629,18 +717,30 @@ val returnAToZ = StringBuilder().apply {
 <p><strong>inline</strong></p>
 
 <p>使用 inline 修饰符标记一个函数，在函数被使用的时候编译器并不会生成函数调用的代码，而是使用函数实现的真实代码替换每一次的函数调用。</p>
-
-<pre><code class="language-java">@kotlin.internal.InlineOnly
-public inline fun &lt;T&gt; Lock.withLock(action: () -&gt; T): T {
-    lock()
-    try {
-        return action()
-    } finally {
-        unlock()
-    }
-}
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@kotlin.internal.InlineOnly</span>
+<span class="kd">public</span> <span class="n">inline</span> <span class="n">fun</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Lock</span><span class="o">.</span><span class="na">withLock</span><span class="o">(</span><span class="nl">action:</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">):</span> <span class="n">T</span> <span class="o">{</span>
+    <span class="n">lock</span><span class="o">()</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">action</span><span class="o">()</span>
+    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+        <span class="n">unlock</span><span class="o">()</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <p><strong>内联函数的限制：</strong></p>
 
 <p>作为参数的 lambda表达式的函数体会被直接替换到最终生成的代码中。如果（lambda）参数在某个地方被保存起来，lambda 表达式的代码将不能被内联。如果（lambda）参数被调用，这
@@ -656,171 +756,122 @@ public inline fun &lt;T&gt; Lock.withLock(action: () -&gt; T): T {
 <p>lambda 中使用 return 关键字，是非局部返回(从调用 lambda 的函数中返回，并不只是从 lambda 中返回 )。只有在以 lambda 作为 参数的函数是内联函数的时候才能从更外层的函数返回。</p>
 
 <p><strong>标签返回</strong></p>
-
-<pre><code class="language-java"> /**
- * tag@标签：return 会跳转到引用的标签lamdba 而不会跳出整个函数
- */
-fun lookForAlice(s:List&lt;String&gt;){
-    s.forEach tag@{
-        if (it == &quot;Alice&quot;) return@tag
-    }
-    println(&quot;I find Alice&quot;)
-}
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"> <span class="cm">/**
+</span><span class="cm"> * tag@标签：return 会跳转到引用的标签lamdba 而不会跳出整个函数
+</span><span class="cm"> */</span>
+<span class="n">fun</span> <span class="nf">lookForAlice</span><span class="o">(</span><span class="nl">s:</span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;){</span>
+    <span class="n">s</span><span class="o">.</span><span class="na">forEach</span> <span class="n">tag</span><span class="err">@</span><span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">it</span> <span class="o">==</span> <span class="s">&#34;Alice&#34;</span><span class="o">)</span> <span class="k">return</span><span class="nd">@tag</span>
+    <span class="o">}</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">&#34;I find Alice&#34;</span><span class="o">)</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <p><strong>匿名函数：默认使用局部返回</strong></p>
-
-<pre><code class="language-java">/**
- * 使用匿名函数lambda
- */
-fun lookForAlice2(s:List&lt;String&gt;){
-    s.forEach(fun (s){
-        //return指向最近的匿名函数
-        if (s == &quot;Alice&quot;) return
-    })
-    println(&quot;I find Alice&quot;)
-}
-</code></pre>
-            </article>
-
-            <ul class="pager blog-pager">
-                
-                <li class="previous">
-                    <a href="https://chinalhr.github.io/posts/reactiveprogramming_reactor/" data-toggle="tooltip" data-placement="top" title="响应式编程库-Reactor">&larr; Previous Post</a>
-                </li>
-                 
-                <li class="next">
-                    <a href="https://chinalhr.github.io/posts/mysqlbigdataoptimization/" data-toggle="tooltip" data-placement="top" title="MySql大数据表优化">Next Post &rarr;</a>
-                </li>
-                
-            </ul>
-            
-            <div>
-                 
-            </div>
-            
-            
-            
-            
-<div>
-    <section id="datecount">
-        <h4 id="date"> Sun Jan 13, 2019</h4>
-    </section>
-    <h5 id="wc">800 Words|Read in about 4 Min</h5>
-    <h5 id="tags">Tags: 
-        
-        <a href="https://chinalhr.github.io/tags/kotlin/">Kotlin</a> &nbsp;
-    </h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm"> * 使用匿名函数lambda
+</span><span class="cm"> */</span>
+<span class="n">fun</span> <span class="nf">lookForAlice2</span><span class="o">(</span><span class="nl">s:</span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;){</span>
+    <span class="n">s</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">fun</span> <span class="o">(</span><span class="n">s</span><span class="o">){</span>
+        <span class="c1">//return指向最近的匿名函数
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">s</span> <span class="o">==</span> <span class="s">&#34;Alice&#34;</span><span class="o">)</span> <span class="k">return</span>
+    <span class="o">})</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">&#34;I find Alice&#34;</span><span class="o">)</span>
+<span class="o">}</span></code></pre></td></tr></table>
 </div>
-
-            
-            </div>
-            
-            
-                
-                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<aside id=comments>
-    
-    
-    
-    
-    <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjI4Ni8xMjgyMQ==">
-    	<script type="text/javascript">
-       (function(d, s) {
-           var j, e = d.getElementsByTagName(s)[0];
-           if (typeof LivereTower === 'function') { return; }
-           j = d.createElement(s);
-           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-           j.async = true;
-           e.parentNode.insertBefore(j, e);
-       })(document, 'script');
-    	</script>
-    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-    </div>
-    
-</aside>
 </div>
-
-                
-            
+  </div>
+</article>
         </div>
-    </div>
-    </section>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="http://localhost:1313" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="http://localhost:1313" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-pocket" title="pocket"></a>
+      <a href="http://localhost:1313" class="iconfont icon-tumblr" title="tumblr"></a>
+      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
+      <a href="http://localhost:1313" class="iconfont icon-gitlab" title="gitlab"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
 </div>
 
-    <footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <ul class="list-inline text-center footer-links">
-          
-              <li>
-                <a href="mailto:13435500980@163.com" title="Email me">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="https://github.com/ChinaLHR" title="GitHub">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-          
-          <li>
-            <a href="https://chinalhr.github.io/index.xml" title="RSS">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          
-        </ul>
-        <p class="credits copyright text-muted">
-        &copy;2017-2018
-          
-            
-              <a href="https://chinalhr.github.io/">lihanrong</a>
-            
-          
-          
-          
-            &nbsp;&bull;&nbsp;
-            <a href="https://chinalhr.github.io/">LHR</a>
-          
-        </p>
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
 
-        
-        <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.51</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/rootsongjc/beautifulhugo">Beautiful Hugo</a>
-          
-		   <span id="busuanzi_container_site_pv">
-            本站访问量：<span id="busuanzi_value_site_pv"></span>次
-        </span>
-        &nbsp;
-        <span id="busuanzi_container_site_uv">
-            您是本站第 <span id="busuanzi_value_site_uv"></span> 位访问者
-        </span>
-        </p>
-      </div>
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
     </div>
   </div>
-</footer>
-
-
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/bootstrap.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe-ui-default.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/photoswipe.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/auto-render.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/main.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/prism.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/katex.min.js"></script>
-<script> renderMathInElement(document.body); </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
 
 
 
@@ -828,6 +879,6 @@ fun lookForAlice2(s:List&lt;String&gt;){
 
 
 
-  </body>
+
+</body>
 </html>
-
