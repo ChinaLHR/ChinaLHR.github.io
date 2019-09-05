@@ -55,7 +55,7 @@ Redis事务/Watch机制相关知识点整理
 
 <meta itemprop="datePublished" content="2019-09-03T23:13:11&#43;08:00" />
 <meta itemprop="dateModified" content="2019-09-03T23:13:11&#43;08:00" />
-<meta itemprop="wordCount" content="1417">
+<meta itemprop="wordCount" content="1407">
 
 
 
@@ -176,32 +176,20 @@ Redis事务/Watch机制相关知识点整理
 </ul>
 
 <p>Redis transaction是一组命令的集合。 transaction命令和普通的Redis命令一样是Redis的最小执行单位，具有原子性（一个事物中的命令，要么都执行，要么都不执行）</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">原理:先将属于一个事务的命令MULTI发送给Redis，MULTI 执行之后，客户端可以继续向服务器发送任意多条命令，这些命令不会立即被执行，而是被放到一个队列中,然后当EXEC命令被调用时，再让Redis依次执行队列里的命令。
 
-事务从执行到开始三个阶段：
+<p>原理:先将属于一个事务的命令MULTI发送给Redis，MULTI 执行之后，客户端可以继续向服务器发送任意多条命令，这些命令不会立即被执行，
+而是被放到一个队列中,然后当EXEC命令被调用时，再让Redis依次执行队列里的命令。</p>
+
+<p>事务从执行到开始三个阶段：
 1. 开始事务
 2. 命令入队
-3. 执行事务
+3. 执行事务</p>
 
-Redis保证一个事务中的所有命令要么都执行，要么都不执行。如果在发送EXEC命令前客户端断线了，则Redis会清空事务队列，事务中的所有命令都不会执行。而一旦客户端发送了EXEC命令，所有的命令就都会被执行，即使此后客户端断线也没关系，因为Redis中已经记录了所有要执行的命令。
+<p>Redis保证一个事务中的所有命令要么都执行，要么都不执行。如果在发送EXEC命令前客户端断线了，则Redis会清空事务队列，事务中的所有命令都不会执行。
+而一旦客户端发送了EXEC命令，所有的命令就都会被执行，即使此后客户端断线也没关系，因为Redis中已经记录了所有要执行的命令。</p>
 
-Redis保证一个事务内的命令依次执行而不被其他命令插入。(避免多台机器同时发送命令导致并发问题)</pre></td></tr></table>
-</div>
-</div>
+<p>Redis保证一个事务内的命令依次执行而不被其他命令插入。(避免多台机器同时发送命令导致并发问题)</p>
+
 <ul>
 <li>和传统RDBS事务的区别</li>
 </ul>
@@ -243,7 +231,8 @@ redis &gt; exec</pre></td></tr></table>
 <li>Watch</li>
 </ul>
 
-<p>WATCH 命令用于在事务开始之前监视任意数量的键： 当调用 EXEC 命令执行事务时， 如果任意一个被监视的键已经被其他客户端修改了， 那么整个事务不再执行， 直接返回失败。</p>
+<p>WATCH 命令用于在事务开始之前监视任意数量的键： 当调用 EXEC 命令执行事务时， 如果任意一个被监视的键已经被其他客户端修改了， 那么整个事务不再执行，
+直接返回失败。</p>
 
 <ul>
 <li>Watch相关命令</li>
