@@ -223,7 +223,7 @@ Vert.x 利用 Kotlin协程特性优雅编写异步逻辑
 <p>协程构建器</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -250,35 +250,35 @@ Vert.x 利用 Kotlin协程特性优雅编写异步逻辑
 </span><span class="lnt">25
 </span><span class="lnt">26
 </span><span class="lnt">27
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">//launch不阻塞当前线程，在后台创建一个新协程
-//context 指定调度器 start 启动模式[CoroutineStart.DEAFAULT,LAZY(延迟启动)]
- GlobalScope.launch(Dispatchers.Main) {
-    //suspend fun
- }
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">//launch不阻塞当前线程，在后台创建一个新协程
+</span><span class="c1">//context 指定调度器 start 启动模式[CoroutineStart.DEAFAULT,LAZY(延迟启动)]
+</span><span class="c1"></span> <span class="n">GlobalScope</span><span class="p">.</span><span class="n">launch</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="n">Main</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//suspend fun
+</span><span class="c1"></span> <span class="p">}</span>
  
- fun main() {
-        val job = GlobalScope.launch(start = CoroutineStart.LAZY) {
-            println(&#34;World!&#34;)
-        }
-        println(&#34;Hello,&#34;)
-        job.start()
-        Thread.sleep(2000L)
-    }
+ <span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">val</span> <span class="py">job</span> <span class="p">=</span> <span class="n">GlobalScope</span><span class="p">.</span><span class="n">launch</span><span class="p">(</span><span class="n">start</span> <span class="p">=</span> <span class="n">CoroutineStart</span><span class="p">.</span><span class="n">LAZY</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">println</span><span class="p">(</span><span class="s">&#34;World!&#34;</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="n">println</span><span class="p">(</span><span class="s">&#34;Hello,&#34;</span><span class="p">)</span>
+        <span class="n">job</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="n">Thread</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="m">2000L</span><span class="p">)</span>
+    <span class="p">}</span>
 
-//runBlocking {}是创建一个新的协程同时阻塞当前线程
-runBlocking {
-      launch { 
-        //suspend fun
-    }
-}
+<span class="c1">//runBlocking {}是创建一个新的协程同时阻塞当前线程
+</span><span class="c1"></span><span class="n">runBlocking</span> <span class="p">{</span>
+      <span class="n">launch</span> <span class="p">{</span> 
+        <span class="c1">//suspend fun
+</span><span class="c1"></span>    <span class="p">}</span>
+<span class="p">}</span>
 
-//withContext不会创建新的协程，在指定协程上运行挂起代码块，并挂起该协程直至代码块运行完成
-withContext {}
+<span class="c1">//withContext不会创建新的协程，在指定协程上运行挂起代码块，并挂起该协程直至代码块运行完成
+</span><span class="c1"></span><span class="n">withContext</span> <span class="p">{}</span>
 
-//async和launch 一个效果，但是有返回值
-CoroutineScope.async {}</pre></td></tr></table>
+<span class="c1">//async和launch 一个效果，但是有返回值
+</span><span class="c1"></span><span class="n">CoroutineScope</span><span class="p">.</span><span class="n">async</span> <span class="p">{}</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>

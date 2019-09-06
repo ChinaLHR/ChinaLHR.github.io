@@ -55,7 +55,7 @@ Kotlin学习记录
 
 <meta itemprop="datePublished" content="2019-01-13T23:02:40&#43;08:00" />
 <meta itemprop="dateModified" content="2019-01-13T23:02:40&#43;08:00" />
-<meta itemprop="wordCount" content="4110">
+<meta itemprop="wordCount" content="4113">
 
 
 
@@ -296,10 +296,10 @@ Kotlin 并不区分受检异常和未受检异常。不用指定函数抛出的�
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">joinToString</span><span class="o">(</span><span class="n">collectio</span><span class="o">,</span> <span class="n">separator</span> <span class="o">=</span><span class="s">&#34;&#34;</span><span class="o">,</span> <span class="n">prefix</span> <span class="o">=</span><span class="s">&#34;&#34;</span><span class="o">,</span> <span class="n">postfix</span> <span class="o">=</span><span class="s">&#34;·&#34;</span><span class="o">)</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">joinToString</span><span class="p">(</span><span class="n">collectio</span><span class="p">,</span> <span class="n">separator</span> <span class="p">=</span><span class="s">&#34;&#34;</span><span class="p">,</span> <span class="n">prefix</span> <span class="p">=</span><span class="s">&#34;&#34;</span><span class="p">,</span> <span class="n">postfix</span> <span class="p">=</span><span class="s">&#34;·&#34;</span><span class="p">)</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>
@@ -308,7 +308,7 @@ Kotlin 并不区分受检异常和未受检异常。不用指定函数抛出的�
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -318,14 +318,14 @@ Kotlin 并不区分受检异常和未受检异常。不用指定函数抛出的�
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">fun</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">joinToString</span><span class="o">(</span><span class="nl">
-</span><span class="nl">    collection:</span> <span class="n">Collection</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;,</span><span class="nl">
-</span><span class="nl">    separator:</span> <span class="n">String</span> <span class="o">=</span><span class="s">&#34;,&#34;</span><span class="o">,</span><span class="c1">//默认参数值
-</span><span class="c1"></span>    <span class="nl">prefix:</span> <span class="n">String</span> <span class="o">=</span><span class="s">&#34;&#34;</span><span class="o">,</span><span class="nl">
-</span><span class="nl">    postfix:</span> <span class="n">String</span> <span class="o">=</span> <span class="s">&#34;&#34;</span>
-    <span class="o">)</span> <span class="o">:</span> <span class="n">String</span><span class="o">{</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> &lt;T&gt; <span class="nf">joinToString</span><span class="p">(</span>
+    <span class="n">collection</span><span class="p">:</span> <span class="n">Collection</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;,</span>
+    <span class="n">separator</span><span class="p">:</span> <span class="n">String</span> <span class="p">=</span><span class="s">&#34;,&#34;</span><span class="p">,</span><span class="c1">//默认参数值
+</span><span class="c1"></span>    <span class="n">prefix</span><span class="p">:</span> <span class="n">String</span> <span class="p">=</span><span class="s">&#34;&#34;</span><span class="p">,</span>
+    <span class="n">postfix</span><span class="p">:</span> <span class="n">String</span> <span class="p">=</span> <span class="s">&#34;&#34;</span>
+    <span class="p">)</span> <span class="p">:</span> <span class="n">String</span><span class="p">{</span>
             
-<span class="o">}</span></code></pre></td></tr></table>
+<span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>
@@ -335,7 +335,7 @@ Kotlin 并不区分受检异常和未受检异常。不用指定函数抛出的�
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -344,28 +344,28 @@ Kotlin 并不区分受检异常和未受检异常。不用指定函数抛出的�
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@file</span><span class="o">:</span><span class="n">JvmName</span><span class="o">(</span><span class="s">&#34;StrUtil&#34;</span><span class="o">)</span>
-<span class="kn">package</span> <span class="nn">util</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">@file</span><span class="p">:</span><span class="n">JvmName</span><span class="p">(</span><span class="s">&#34;StrUtil&#34;</span><span class="p">)</span>
+<span class="k">package</span> <span class="nn">util</span>
 
-<span class="n">fun</span> <span class="nf">joinToStr</span><span class="o">(</span><span class="nl">collection:</span> <span class="n">Collection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;):</span> <span class="n">String</span><span class="o">{</span>
+<span class="k">fun</span> <span class="nf">joinToStr</span><span class="p">(</span><span class="n">collection</span><span class="p">:</span> <span class="n">Collection</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;):</span> <span class="n">String</span><span class="p">{</span>
     <span class="c1">//....
-</span><span class="c1"></span>    <span class="k">return</span> <span class="s">&#34;&#34;</span><span class="o">;</span>
-<span class="o">}</span></code></pre></td></tr></table>
+</span><span class="c1"></span>    <span class="k">return</span> <span class="s">&#34;&#34;</span><span class="p">;</span>
+<span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">util.joinToStr</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">import</span> <span class="nn">util.joinToStr</span>
 
-<span class="n">fun</span> <span class="nf">main</span><span class="o">(</span><span class="nl">args:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;){</span>
-    <span class="n">joinToStr</span><span class="o">(</span><span class="n">collection</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="s">&#34;123&#34;</span><span class="o">,</span> <span class="s">&#34;456&#34;</span><span class="o">))</span>
-<span class="o">}</span></code></pre></td></tr></table>
+<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;){</span>
+    <span class="n">joinToStr</span><span class="p">(</span><span class="n">collection</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&#34;123&#34;</span><span class="p">,</span> <span class="s">&#34;456&#34;</span><span class="p">))</span>
+<span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <p>因为在Java中，类还是必须要存在的，所以编译器将Str.kt文件里的代码放在了一个自动生成的类中，然后把我们定义的Kotlin的函数作为静态方法放在其中，在Java中是先通过import导入这个类，然后通过类名.方法名来调用。可以通过@file:JvmName注解来自定义类名。</p>
@@ -375,7 +375,7 @@ Kotlin 并不区分受检异常和未受检异常。不用指定函数抛出的�
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -387,25 +387,25 @@ Kotlin 并不区分受检异常和未受检异常。不用指定函数抛出的�
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="cm">/**
 </span><span class="cm"> * 扩展函数
 </span><span class="cm"> *
 </span><span class="cm"> *  String-接收者类型           get(this.length -1) 对接收者对象(字符串)进行操作并返回
 </span><span class="cm"> */</span>
-<span class="n">fun</span> <span class="n">String</span><span class="o">.</span><span class="na">lastChar</span><span class="o">()</span> <span class="o">:</span> <span class="n">Char</span> <span class="o">=</span> <span class="n">get</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span><span class="n">1</span><span class="o">)</span>
+<span class="k">fun</span> <span class="nf">String</span><span class="p">.</span><span class="n">lastChar</span><span class="p">()</span> <span class="p">:</span> <span class="n">Char</span> <span class="p">=</span> <span class="k">get</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">length</span> <span class="p">-</span><span class="m">1</span><span class="p">)</span>
 
-<span class="n">fun</span> <span class="nf">main</span><span class="o">(</span><span class="nl">args:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;)</span> <span class="o">{</span>
-    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Kotlin&#34;</span><span class="o">.</span><span class="na">lastChar</span><span class="o">())</span>
-<span class="o">}</span></code></pre></td></tr></table>
+<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
+    <span class="n">System</span><span class="p">.</span><span class="k">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&#34;Kotlin&#34;</span><span class="p">.</span><span class="n">lastChar</span><span class="p">())</span>
+<span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <p>导入扩展函数(Kotiin 允许用和导入类一样的语法来导入)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">strings.lastChar</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">import</span> <span class="nn">strings.lastChar</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>
@@ -414,14 +414,14 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">fun</span> <span class="o">&lt;</span><span class="n">K</span><span class="o">,</span> <span class="n">V</span><span class="o">&gt;</span> <span class="nf">mapOf</span><span class="o">(</span><span class="n">vararg</span> <span class="nl">values:</span> <span class="n">Pair</span><span class="o">&lt;</span><span class="n">K</span><span class="o">,</span> <span class="n">V</span><span class="o">&gt;):</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">K</span> <span class="o">,</span> <span class="n">V</span><span class="o">&gt;</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> &lt;K, V&gt; <span class="nf">mapOf</span><span class="p">(</span><span class="k">vararg</span> <span class="n">values</span><span class="p">:</span> <span class="n">Pair</span><span class="p">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="p">&gt;):</span> <span class="n">Map</span><span class="p">&lt;</span><span class="n">K</span> <span class="p">,</span> <span class="n">V</span><span class="p">&gt;</span>
 <span class="c1">//使用
-</span><span class="c1"></span><span class="n">mapOf</span><span class="o">(</span><span class="n">1</span> <span class="n">to</span> <span class="s">&#34;One&#34;</span><span class="o">,</span><span class="n">2</span> <span class="n">to</span> <span class="s">&#34;Two&#34;</span><span class="o">)</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="n">mapOf</span><span class="p">(</span><span class="m">1</span> <span class="n">to</span> <span class="s">&#34;One&#34;</span><span class="p">,</span><span class="m">2</span> <span class="n">to</span> <span class="s">&#34;Two&#34;</span><span class="p">)</span></code></pre></td></tr></table>
 </div>
 </div>
 <h3 id="类-对象">类-对象</h3>
@@ -483,7 +483,7 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -501,8 +501,8 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//重写toString,equals,hashCode
-</span><span class="c1"></span><span class="n">override</span> <span class="n">fun</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">=</span> <span class="s">&#34;...&#34;</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">//重写toString,equals,hashCode
+</span><span class="c1"></span><span class="k">override</span> <span class="k">fun</span> <span class="nf">toString</span><span class="p">()</span> <span class="p">=</span> <span class="s">&#34;...&#34;</span>
 <span class="cm">/**
 </span><span class="cm"> * 数据类，编译器重写toString 、equals 和 hashCode 。 
 </span><span class="cm"> * equals 用来比较实例
@@ -510,13 +510,13 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 </span><span class="cm"> * toString 用来为类生成按声明顺序排列的所有字段的字符串表达形式
 </span><span class="cm"> *  copy 方法： copy对象的同时修改某些属性的值
 </span><span class="cm"> */</span>
-<span class="n">data</span> <span class="kd">class</span> <span class="nf">Client</span><span class="o">(</span><span class="n">val</span> <span class="nl">name:</span> <span class="n">String</span><span class="o">,</span> <span class="n">val</span> <span class="nl">postalCode:</span> <span class="n">Int</span><span class="o">)</span>
+<span class="k">data</span> <span class="k">class</span> <span class="nc">Client</span><span class="p">(</span><span class="k">val</span> <span class="py">name</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="k">val</span> <span class="py">postalCode</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span>
 <span class="cm">/**
 </span><span class="cm"> * 类委托：可以使用 by 关键字将接口的实现委托到另一个对象(避免装饰器模式带来的重复模板代码)
 </span><span class="cm"> *  
 </span><span class="cm"> *类相当于innerList的包装类，拥有innerList的实现，并可以覆盖原有方法提供不同实现
 </span><span class="cm"> */</span>
- <span class="kd">class</span> <span class="nc">DelegatingCollection</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;(</span><span class="nl">innerList:</span> <span class="n">Collection</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;())</span> <span class="o">:</span> <span class="n">Collection</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">by</span> <span class="n">innerList</span> <span class="o">{}</span></code></pre></td></tr></table>
+ <span class="k">class</span> <span class="nc">DelegatingCollection</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">innerList</span><span class="p">:</span> <span class="n">Collection</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">ArrayList</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;())</span> <span class="p">:</span> <span class="n">Collection</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">innerList</span> <span class="p">{}</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>
@@ -524,7 +524,7 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -563,10 +563,10 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 </span><span class="lnt">37
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/**
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="cm">/**
 </span><span class="cm"> * object关键字 对象声明：创建单例类
 </span><span class="cm"> */</span>
-<span class="n">object</span> <span class="n">Payroll</span> <span class="p">{</span>
+<span class="k">object</span> <span class="nc">Payroll</span> <span class="p">{</span>
  <span class="p">...</span>
  <span class="p">}</span>
  
@@ -574,13 +574,13 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 </span><span class="cm"> * 伴生对象companion：工厂方法
 </span><span class="cm"> */</span>
 <span class="c1">//构造方法私有化
-</span><span class="c1"></span><span class="n">class</span> <span class="n">User</span> <span class="n">private</span> <span class="n">constructor</span><span class="p">(</span><span class="n">val</span> <span class="nl">nickname</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="k">class</span> <span class="nc">User</span> <span class="k">private</span> <span class="k">constructor</span><span class="p">(</span><span class="k">val</span> <span class="py">nickname</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">//声明伴生对象:工厂方法创建对象
-</span><span class="c1"></span>    <span class="n">companion</span> <span class="n">object</span> <span class="p">{</span>
-        <span class="n">fun</span> <span class="n">newSubscribingUser</span><span class="p">(</span><span class="nl">email</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">=</span>
+</span><span class="c1"></span>    <span class="k">companion</span> <span class="k">object</span> <span class="p">{</span>
+        <span class="k">fun</span> <span class="nf">newSubscribingUser</span><span class="p">(</span><span class="n">email</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">=</span>
                 <span class="n">User</span><span class="p">(</span><span class="n">email</span><span class="p">.</span><span class="n">substringBefore</span><span class="p">(</span><span class="s">&#34;@&#34;</span><span class="p">))</span>
 
-        <span class="n">fun</span> <span class="n">newFacebookUser</span><span class="p">(</span><span class="nl">accountld</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">=</span>
+        <span class="k">fun</span> <span class="nf">newFacebookUser</span><span class="p">(</span><span class="n">accountld</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">=</span>
                 <span class="n">User</span><span class="p">(</span><span class="n">accountld</span><span class="p">.</span><span class="n">toString</span><span class="p">())</span>
     <span class="p">}</span>
 <span class="p">}</span>
@@ -588,17 +588,17 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 <span class="cm">/**
 </span><span class="cm"> * 普通类的伴生对象：伴生对象是一个声明在类中的普通对象，有名字(默认Companion )，可以实现一个接口或者有扩展函数或属性 。 伴生对象（与包级别函数和属性一起）替代了 Java 静态方法和字段定义
 </span><span class="cm"> */</span>
- <span class="n">class</span> <span class="n">Person</span><span class="p">(</span><span class="n">val</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
-<span class="n">companion</span> <span class="n">object</span> <span class="n">Loader</span> <span class="p">{...}</span>
+ <span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="k">val</span> <span class="py">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">companion</span> <span class="k">object</span> <span class="n">Loader</span> <span class="p">{...}</span>
 <span class="p">}</span>
 
 <span class="cm">/**
 </span><span class="cm"> * 对象表达式：(匿名内部类)
 </span><span class="cm"> */</span>
  
-<span class="n">val</span> <span class="n">Listener</span> <span class="o">=</span> <span class="nl">object</span> <span class="p">:</span> <span class="n">MouseAdapter</span><span class="p">()</span> <span class="p">{</span>
-<span class="n">override</span> <span class="n">fun</span> <span class="n">mouseClicked</span><span class="p">(</span><span class="nl">e</span><span class="p">:</span> <span class="n">MouseEvent</span><span class="p">)</span> <span class="p">{</span> <span class="p">..</span> <span class="p">.</span> <span class="p">}</span>
-<span class="n">override</span> <span class="n">fun</span> <span class="n">mouseEntered</span><span class="p">(</span><span class="nl">e</span><span class="p">:</span> <span class="n">MouseEvent</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="k">val</span> <span class="py">Listener</span> <span class="p">=</span> <span class="k">object</span> <span class="err">: </span><span class="nc">MouseAdapter</span><span class="p">()</span> <span class="p">{</span>
+<span class="k">override</span> <span class="k">fun</span> <span class="nf">mouseClicked</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="n">MouseEvent</span><span class="p">)</span> <span class="p">{</span> <span class="p">..</span> <span class="p">.</span> <span class="p">}</span>
+<span class="k">override</span> <span class="k">fun</span> <span class="nf">mouseEntered</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="n">MouseEvent</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
 <span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div>
@@ -619,7 +619,7 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 <p>iterator 与 Sequence 区别:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -632,21 +632,21 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/**
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="cm">/**
 </span><span class="cm"> * 处理序列的中间操作函数是不进行任何计算的。相反，它们会返回上一个中间操作处理后产生的新序列。
 </span><span class="cm"> * 所有这些一系列中间计算都将在终端操作执行中被确定，例如常见的终端操作toList或count.在另一方面，处理Iterable的每个中间操作函数都是会返回一个新的集合。
 </span><span class="cm"> *
 </span><span class="cm"> */</span>
-<span class="n">interface</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">out</span> <span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
-    <span class="n">operator</span> <span class="n">fun</span> <span class="n">iterator</span><span class="p">()</span><span class="o">:</span> <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+<span class="k">interface</span> <span class="nc">Iterable</span><span class="p">&lt;</span><span class="k">out</span> <span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span>
+    <span class="k">operator</span> <span class="k">fun</span> <span class="nf">iterator</span><span class="p">():</span> <span class="n">Iterator</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span>
 <span class="p">}</span>
-<span class="n">interface</span> <span class="n">Sequence</span><span class="o">&lt;</span><span class="n">out</span> <span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
-    <span class="n">operator</span> <span class="n">fun</span> <span class="n">iterator</span><span class="p">()</span><span class="o">:</span> <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+<span class="k">interface</span> <span class="nc">Sequence</span><span class="p">&lt;</span><span class="k">out</span> <span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span>
+    <span class="k">operator</span> <span class="k">fun</span> <span class="nf">iterator</span><span class="p">():</span> <span class="n">Iterator</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span>
 <span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -656,14 +656,14 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//惰性求值，避免创建临时中间对象
-</span><span class="c1"></span> <span class="n">val</span> <span class="n">list</span> <span class="o">=</span> <span class="n">persons</span><span class="o">.</span><span class="na">asSequence</span><span class="o">()</span>
-            <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Person:</span><span class="o">:</span><span class="n">name</span><span class="o">)</span>
-            <span class="o">.</span><span class="na">filter</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">&#34;l&#34;</span><span class="o">)</span> <span class="o">}</span>
-            <span class="o">.</span><span class="na">toList</span><span class="o">()</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">//惰性求值，避免创建临时中间对象
+</span><span class="c1"></span> <span class="k">val</span> <span class="py">list</span> <span class="p">=</span> <span class="n">persons</span><span class="p">.</span><span class="n">asSequence</span><span class="p">()</span>
+            <span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">Person</span><span class="o">::</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">filter</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">startsWith</span><span class="p">(</span><span class="s">&#34;l&#34;</span><span class="p">)</span> <span class="p">}</span>
+            <span class="p">.</span><span class="n">toList</span><span class="p">()</span>
 <span class="c1">//惰性求值：给定序列中 的前一个元素，这个函数会计算出下一个元素。
-</span><span class="c1"></span><span class="n">val</span> <span class="n">naturalNumbers</span> <span class="o">=</span> <span class="n">generateSequence</span><span class="o">(</span><span class="n">0</span><span class="o">)</span> <span class="o">{</span> <span class="n">it</span> <span class="o">+</span> <span class="n">1</span> <span class="o">}</span>
-<span class="n">println</span><span class="o">(</span><span class="s">&#34;求100 以内的和：${naturalNumbers.takeWhile { it &lt;= 100 }.sum()}&#34;</span><span class="o">)</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="k">val</span> <span class="py">naturalNumbers</span> <span class="p">=</span> <span class="n">generateSequence</span><span class="p">(</span><span class="m">0</span><span class="p">)</span> <span class="p">{</span> <span class="n">it</span> <span class="p">+</span> <span class="m">1</span> <span class="p">}</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&#34;求100 以内的和：${naturalNumbers.takeWhile { it &lt;= 100 }.sum()}&#34;</span><span class="p">)</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>
@@ -671,7 +671,7 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -708,41 +708,41 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 </span><span class="lnt">35
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="cm">/**
 </span><span class="cm"> * 使用给定的[receiver]作为接收器调用指定的函数[block]并返回其结果。
 </span><span class="cm"> */</span>
-<span class="nd">@kotlin.internal.InlineOnly</span>
-<span class="kd">public</span> <span class="n">inline</span> <span class="n">fun</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">R</span><span class="o">&gt;</span> <span class="nf">with</span><span class="o">(</span><span class="nl">receiver:</span> <span class="n">T</span><span class="o">,</span> <span class="nl">block:</span> <span class="n">T</span><span class="o">.()</span> <span class="o">-&gt;</span> <span class="n">R</span><span class="o">):</span> <span class="n">R</span> <span class="o">{</span>
-    <span class="n">contract</span> <span class="o">{</span>
-        <span class="n">callsInPlace</span><span class="o">(</span><span class="n">block</span><span class="o">,</span> <span class="n">InvocationKind</span><span class="o">.</span><span class="na">EXACTLY_ONCE</span><span class="o">)</span>
-    <span class="o">}</span>
-    <span class="k">return</span> <span class="n">receiver</span><span class="o">.</span><span class="na">block</span><span class="o">()</span>
-<span class="o">}</span>
+<span class="n">@kotlin</span><span class="p">.</span><span class="k">internal</span><span class="p">.</span><span class="n">InlineOnly</span>
+<span class="k">public</span> <span class="k">inline</span> <span class="k">fun</span> &lt;T, R&gt; <span class="nf">with</span><span class="p">(</span><span class="n">receiver</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">T</span><span class="p">.()</span> <span class="p">-&gt;</span> <span class="n">R</span><span class="p">):</span> <span class="n">R</span> <span class="p">{</span>
+    <span class="n">contract</span> <span class="p">{</span>
+        <span class="n">callsInPlace</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">InvocationKind</span><span class="p">.</span><span class="n">EXACTLY_ONCE</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">receiver</span><span class="p">.</span><span class="n">block</span><span class="p">()</span>
+<span class="p">}</span>
 
-<span class="n">val</span> <span class="n">returnAToZ</span> <span class="o">=</span> <span class="n">with</span><span class="o">(</span><span class="n">StringBuilder</span><span class="o">())</span> <span class="o">{</span>
-        <span class="k">for</span> <span class="o">(</span><span class="n">letter</span> <span class="n">in</span> <span class="sc">&#39;A&#39;</span><span class="o">..</span><span class="sc">&#39;Z&#39;</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">append</span><span class="o">(</span><span class="n">letter</span><span class="o">)</span>
-        <span class="o">}</span>
-        <span class="n">toString</span><span class="o">()</span>
-<span class="o">}</span>
+<span class="k">val</span> <span class="py">returnAToZ</span> <span class="p">=</span> <span class="n">with</span><span class="p">(</span><span class="n">StringBuilder</span><span class="p">())</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">letter</span> <span class="k">in</span> <span class="sc">&#39;A&#39;</span><span class="p">..</span><span class="sc">&#39;Z&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">append</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="n">toString</span><span class="p">()</span>
+<span class="p">}</span>
 
 <span class="cm">/**
 </span><span class="cm"> * 使用`this`值作为接收器调用指定的函数[block]并返回`this`值。
 </span><span class="cm"> */</span>
-<span class="nd">@kotlin.internal.InlineOnly</span>
-<span class="kd">public</span> <span class="n">inline</span> <span class="n">fun</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">T</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="nl">block:</span> <span class="n">T</span><span class="o">.()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="o">):</span> <span class="n">T</span> <span class="o">{</span>
-    <span class="n">contract</span> <span class="o">{</span>
-        <span class="n">callsInPlace</span><span class="o">(</span><span class="n">block</span><span class="o">,</span> <span class="n">InvocationKind</span><span class="o">.</span><span class="na">EXACTLY_ONCE</span><span class="o">)</span>
-    <span class="o">}</span>
-    <span class="n">block</span><span class="o">()</span>
+<span class="n">@kotlin</span><span class="p">.</span><span class="k">internal</span><span class="p">.</span><span class="n">InlineOnly</span>
+<span class="k">public</span> <span class="k">inline</span> <span class="k">fun</span> &lt;T&gt; <span class="nf">T</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="n">block</span><span class="p">:</span> <span class="n">T</span><span class="p">.()</span> <span class="p">-&gt;</span> <span class="n">Unit</span><span class="p">):</span> <span class="n">T</span> <span class="p">{</span>
+    <span class="n">contract</span> <span class="p">{</span>
+        <span class="n">callsInPlace</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">InvocationKind</span><span class="p">.</span><span class="n">EXACTLY_ONCE</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">block</span><span class="p">()</span>
     <span class="k">return</span> <span class="k">this</span>
-<span class="o">}</span>
+<span class="p">}</span>
 
-<span class="n">val</span> <span class="n">returnAToZ</span> <span class="o">=</span> <span class="n">StringBuilder</span><span class="o">().</span><span class="na">apply</span> <span class="o">{</span>
-        <span class="k">for</span> <span class="o">(</span><span class="n">letter</span> <span class="n">in</span> <span class="sc">&#39;A&#39;</span><span class="o">..</span><span class="sc">&#39;Z&#39;</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">append</span><span class="o">(</span><span class="n">letter</span><span class="o">)</span>
-        <span class="o">}</span>
-<span class="o">}</span></code></pre></td></tr></table>
+<span class="k">val</span> <span class="py">returnAToZ</span> <span class="p">=</span> <span class="n">StringBuilder</span><span class="p">().</span><span class="n">apply</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">letter</span> <span class="k">in</span> <span class="sc">&#39;A&#39;</span><span class="p">..</span><span class="sc">&#39;Z&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">append</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+        <span class="p">}</span>
+<span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <h3 id="高阶lamdba">高阶Lamdba</h3>
@@ -758,7 +758,7 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 <p>使用 inline 修饰符标记一个函数，在函数被使用的时候编译器并不会生成函数调用的代码，而是使用函数实现的真实代码替换每一次的函数调用。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -769,15 +769,15 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@kotlin.internal.InlineOnly</span>
-<span class="kd">public</span> <span class="n">inline</span> <span class="n">fun</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Lock</span><span class="o">.</span><span class="na">withLock</span><span class="o">(</span><span class="nl">action:</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">):</span> <span class="n">T</span> <span class="o">{</span>
-    <span class="n">lock</span><span class="o">()</span>
-    <span class="k">try</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">action</span><span class="o">()</span>
-    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
-        <span class="n">unlock</span><span class="o">()</span>
-    <span class="o">}</span>
-<span class="o">}</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">@kotlin</span><span class="p">.</span><span class="k">internal</span><span class="p">.</span><span class="n">InlineOnly</span>
+<span class="k">public</span> <span class="k">inline</span> <span class="k">fun</span> &lt;T&gt; <span class="nf">Lock</span><span class="p">.</span><span class="n">withLock</span><span class="p">(</span><span class="n">action</span><span class="p">:</span> <span class="p">()</span> <span class="p">-&gt;</span> <span class="n">T</span><span class="p">):</span> <span class="n">T</span> <span class="p">{</span>
+    <span class="n">lock</span><span class="p">()</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">action</span><span class="p">()</span>
+    <span class="p">}</span> <span class="k">finally</span> <span class="p">{</span>
+        <span class="n">unlock</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <p><strong>内联函数的限制：</strong></p>
@@ -797,7 +797,7 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 <p><strong>标签返回</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -808,21 +808,21 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"> <span class="cm">/**
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"> <span class="cm">/**
 </span><span class="cm"> * tag@标签：return 会跳转到引用的标签lamdba 而不会跳出整个函数
 </span><span class="cm"> */</span>
-<span class="n">fun</span> <span class="nf">lookForAlice</span><span class="o">(</span><span class="nl">s:</span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;){</span>
-    <span class="n">s</span><span class="o">.</span><span class="na">forEach</span> <span class="n">tag</span><span class="err">@</span><span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">it</span> <span class="o">==</span> <span class="s">&#34;Alice&#34;</span><span class="o">)</span> <span class="k">return</span><span class="nd">@tag</span>
-    <span class="o">}</span>
-    <span class="n">println</span><span class="o">(</span><span class="s">&#34;I find Alice&#34;</span><span class="o">)</span>
-<span class="o">}</span></code></pre></td></tr></table>
+<span class="k">fun</span> <span class="nf">lookForAlice</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;){</span>
+    <span class="n">s</span><span class="p">.</span><span class="n">forEach</span> <span class="n">tag</span><span class="err">@</span><span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">it</span> <span class="p">==</span> <span class="s">&#34;Alice&#34;</span><span class="p">)</span> <span class="k">return</span><span class="n">@tag</span>
+    <span class="p">}</span>
+    <span class="n">println</span><span class="p">(</span><span class="s">&#34;I find Alice&#34;</span><span class="p">)</span>
+<span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <p><strong>匿名函数：默认使用局部返回</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -834,16 +834,16 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="cm">/**
 </span><span class="cm"> * 使用匿名函数lambda
 </span><span class="cm"> */</span>
-<span class="n">fun</span> <span class="nf">lookForAlice2</span><span class="o">(</span><span class="nl">s:</span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;){</span>
-    <span class="n">s</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">fun</span> <span class="o">(</span><span class="n">s</span><span class="o">){</span>
+<span class="k">fun</span> <span class="nf">lookForAlice2</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;){</span>
+    <span class="n">s</span><span class="p">.</span><span class="n">forEach</span><span class="p">(</span><span class="k">fun</span> <span class="err">(</span><span class="nf">s</span><span class="p">){</span>
         <span class="c1">//return指向最近的匿名函数
-</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">s</span> <span class="o">==</span> <span class="s">&#34;Alice&#34;</span><span class="o">)</span> <span class="k">return</span>
-    <span class="o">})</span>
-    <span class="n">println</span><span class="o">(</span><span class="s">&#34;I find Alice&#34;</span><span class="o">)</span>
-<span class="o">}</span></code></pre></td></tr></table>
+</span><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="p">==</span> <span class="s">&#34;Alice&#34;</span><span class="p">)</span> <span class="k">return</span>
+    <span class="p">})</span>
+    <span class="n">println</span><span class="p">(</span><span class="s">&#34;I find Alice&#34;</span><span class="p">)</span>
+<span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div>
     </div>

@@ -181,10 +181,11 @@
 <h3 id="httpclient与resttemplate实现">HttpClient与RestTemplate实现</h3>
 
 <ol>
-<li><p>配置PoolingHttpClientConnectionManager连接池</p>
+<li>配置PoolingHttpClientConnectionManager连接池</li>
+</ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -207,38 +208,39 @@
 </span><span class="lnt">21
 </span><span class="lnt">22
 </span><span class="lnt">23
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"> public static CloseableHttpClient getCloseableHttpClient(boolean isRetry) {
-    // 长连接保持30秒
-    PoolingHttpClientConnectionManager pollingConnectionManager = new PoolingHttpClientConnectionManager(30, TimeUnit.SECONDS);
-    // 总连接数
-    pollingConnectionManager.setMaxTotal(200);
-    // 默认同路由的并发数
-    pollingConnectionManager.setDefaultMaxPerRoute(100);
-    HttpClientBuilder httpClientBuilder = HttpClients.custom();
-    httpClientBuilder.setConnectionManager(pollingConnectionManager);
-    // 重试次数，默认是3次，设置为2次，没有开启
-    if (isRetry) {
-        httpClientBuilder.setRetryHandler(new DefaultHttpRequestRetryHandler(2, true));
-    } else {
-        httpClientBuilder.setRetryHandler(new DefaultHttpRequestRetryHandler(0, false));
-    }
-    // 保持长连接配置，需要在头添加Keep-Alive
-    httpClientBuilder.setKeepAliveStrategy(DefaultConnectionKeepAliveStrategy.INSTANCE);
-
-    CloseableHttpClient httpClient = httpClientBuilder.build();
-
-    runIdleConnectionMonitor(pollingConnectionManager);
-    return httpClient;
-}   </pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="n">CloseableHttpClient</span> <span class="nf">getCloseableHttpClient</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">isRetry</span><span class="o">)</span> <span class="o">{</span>
+	<span class="c1">// 长连接保持30秒
+</span><span class="c1"></span>	<span class="n">PoolingHttpClientConnectionManager</span> <span class="n">pollingConnectionManager</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PoolingHttpClientConnectionManager</span><span class="o">(</span><span class="n">30</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">);</span>
+	<span class="c1">// 总连接数
+</span><span class="c1"></span>	<span class="n">pollingConnectionManager</span><span class="o">.</span><span class="na">setMaxTotal</span><span class="o">(</span><span class="n">200</span><span class="o">);</span>
+	<span class="c1">// 默认同路由的并发数
+</span><span class="c1"></span>	<span class="n">pollingConnectionManager</span><span class="o">.</span><span class="na">setDefaultMaxPerRoute</span><span class="o">(</span><span class="n">100</span><span class="o">);</span>
+	<span class="n">HttpClientBuilder</span> <span class="n">httpClientBuilder</span> <span class="o">=</span> <span class="n">HttpClients</span><span class="o">.</span><span class="na">custom</span><span class="o">();</span>
+	<span class="n">httpClientBuilder</span><span class="o">.</span><span class="na">setConnectionManager</span><span class="o">(</span><span class="n">pollingConnectionManager</span><span class="o">);</span>
+	<span class="c1">// 重试次数，默认是3次，设置为2次，没有开启
+</span><span class="c1"></span>	<span class="k">if</span> <span class="o">(</span><span class="n">isRetry</span><span class="o">)</span> <span class="o">{</span>
+	    <span class="n">httpClientBuilder</span><span class="o">.</span><span class="na">setRetryHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">DefaultHttpRequestRetryHandler</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="kc">true</span><span class="o">));</span>
+	<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+	    <span class="n">httpClientBuilder</span><span class="o">.</span><span class="na">setRetryHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">DefaultHttpRequestRetryHandler</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="kc">false</span><span class="o">));</span>
+	<span class="o">}</span>
+	<span class="c1">// 保持长连接配置，需要在头添加Keep-Alive
+</span><span class="c1"></span>	<span class="n">httpClientBuilder</span><span class="o">.</span><span class="na">setKeepAliveStrategy</span><span class="o">(</span><span class="n">DefaultConnectionKeepAliveStrategy</span><span class="o">.</span><span class="na">INSTANCE</span><span class="o">);</span>
+	
+	<span class="n">CloseableHttpClient</span> <span class="n">httpClient</span> <span class="o">=</span> <span class="n">httpClientBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+	
+	<span class="n">runIdleConnectionMonitor</span><span class="o">(</span><span class="n">pollingConnectionManager</span><span class="o">);</span>
+	<span class="k">return</span> <span class="n">httpClient</span><span class="o">;</span>
+<span class="o">}</span>	</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>自定义keepAliveStrategy</p>
+</div>
+<ol>
+<li>自定义keepAliveStrategy</li>
+</ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -254,31 +256,32 @@
 </span><span class="lnt">14
 </span><span class="lnt">15
 </span><span class="lnt">16
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">private static ConnectionKeepAliveStrategy getConnectionKeepAliveStrategy(){
-    return (response, context) -&gt; {
-        HeaderElementIterator it = new BasicHeaderElementIterator
-                (response.headerIterator(HTTP.CONN_KEEP_ALIVE));
-        while (it.hasNext()) {
-            HeaderElement he = it.nextElement();
-            String param = he.getName();
-            String value = he.getValue();
-            if (value != null &amp;&amp; param.equalsIgnoreCase
-                    (&#34;timeout&#34;)) {
-                return Long.parseLong(value) * 1000;
-            }
-        }
-        return 60 * 1000;//如果没有约定，则默认定义时长为60s
-    };
-}</pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="n">ConnectionKeepAliveStrategy</span> <span class="nf">getConnectionKeepAliveStrategy</span><span class="o">(){</span>
+    <span class="k">return</span> <span class="o">(</span><span class="n">response</span><span class="o">,</span> <span class="n">context</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+        <span class="n">HeaderElementIterator</span> <span class="n">it</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BasicHeaderElementIterator</span>
+                <span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">headerIterator</span><span class="o">(</span><span class="n">HTTP</span><span class="o">.</span><span class="na">CONN_KEEP_ALIVE</span><span class="o">));</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">HeaderElement</span> <span class="n">he</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="na">nextElement</span><span class="o">();</span>
+            <span class="n">String</span> <span class="n">param</span> <span class="o">=</span> <span class="n">he</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+            <span class="n">String</span> <span class="n">value</span> <span class="o">=</span> <span class="n">he</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">param</span><span class="o">.</span><span class="na">equalsIgnoreCase</span>
+                    <span class="o">(</span><span class="s">&#34;timeout&#34;</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">value</span><span class="o">)</span> <span class="o">*</span> <span class="n">1000</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">60</span> <span class="o">*</span> <span class="n">1000</span><span class="o">;</span><span class="c1">//如果没有约定，则默认定义时长为60s
+</span><span class="c1"></span>    <span class="o">};</span>
+<span class="o">}</span></code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>定时监控清理实现连接关闭</p>
+</div>
+<ol>
+<li>定时监控清理实现连接关闭</li>
+</ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -289,23 +292,23 @@
 </span><span class="lnt"> 9
 </span><span class="lnt">10
 </span><span class="lnt">11
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">private static void runIdleConnectionMonitor(HttpClientConnectionManager clientConnectionManager) {
-    FixedRateSchedule schedule = new FixedRateScheduleImpl();
-    schedule.setPoolTag(&#34;IDLE_CONNECTION_MONITOR_POOL&#34;);
-    schedule.init();
-    schedule.schedule(() -&gt; {
-        //关闭过期的链接
-        clientConnectionManager.closeExpiredConnections();
-        //关闭闲置超过30s的链接
-        clientConnectionManager.closeIdleConnections(30, TimeUnit.SECONDS);
-    }, IDLE_INITIALDELAY, IDLE_PERIOD, TimeUnit.MILLISECONDS);
-}</pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">runIdleConnectionMonitor</span><span class="o">(</span><span class="n">HttpClientConnectionManager</span> <span class="n">clientConnectionManager</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">FixedRateSchedule</span> <span class="n">schedule</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FixedRateScheduleImpl</span><span class="o">();</span>
+    <span class="n">schedule</span><span class="o">.</span><span class="na">setPoolTag</span><span class="o">(</span><span class="s">&#34;IDLE_CONNECTION_MONITOR_POOL&#34;</span><span class="o">);</span>
+    <span class="n">schedule</span><span class="o">.</span><span class="na">init</span><span class="o">();</span>
+    <span class="n">schedule</span><span class="o">.</span><span class="na">schedule</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+        <span class="c1">//关闭过期的链接
+</span><span class="c1"></span>        <span class="n">clientConnectionManager</span><span class="o">.</span><span class="na">closeExpiredConnections</span><span class="o">();</span>
+        <span class="c1">//关闭闲置超过30s的链接
+</span><span class="c1"></span>        <span class="n">clientConnectionManager</span><span class="o">.</span><span class="na">closeIdleConnections</span><span class="o">(</span><span class="n">30</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">);</span>
+    <span class="o">},</span> <span class="n">IDLE_INITIALDELAY</span><span class="o">,</span> <span class="n">IDLE_PERIOD</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MILLISECONDS</span><span class="o">);</span>
+<span class="o">}</span></code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>代码</p></li>
+</div>
+<ol>
+<li>代码</li>
 </ol>
 
 <p><a href="https://github.com/ChinaLHR/HttpClientOptimization">https://github.com/ChinaLHR/HttpClientOptimization</a></p>

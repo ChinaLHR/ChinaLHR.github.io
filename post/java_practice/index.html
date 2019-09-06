@@ -218,18 +218,18 @@
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">	person.flatMap(Person::getCar)
-		.flatMap(Car::getInsurance)
-		.filter(i-&gt;i.getName().length()&gt;=3)
-		.map(Insurance::getName)
-		.orElse(&#34;Unknown&#34;);`</pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java">	<span class="n">person</span><span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="nl">Person:</span><span class="o">:</span><span class="n">getCar</span><span class="o">)</span>
+		<span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="nl">Car:</span><span class="o">:</span><span class="n">getInsurance</span><span class="o">)</span>
+		<span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">i</span><span class="o">-&gt;</span><span class="n">i</span><span class="o">.</span><span class="na">getName</span><span class="o">().</span><span class="na">length</span><span class="o">()&gt;=</span><span class="n">3</span><span class="o">)</span>
+		<span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Insurance:</span><span class="o">:</span><span class="n">getName</span><span class="o">)</span>
+		<span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="s">&#34;Unknown&#34;</span><span class="o">);</span><span class="err">`</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>
@@ -237,22 +237,22 @@
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
 </span><span class="lnt">7
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">	public static Optional&lt;Integer&gt; stringToInt(String s) {
-	 	try {
-	 		return Optional.of(Integer.parseInt(s));
-	 	} catch (NumberFormatException e) {
-	 		return Optional.empty();
-	 	}
-	}</pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java">	<span class="kd">public</span> <span class="kd">static</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">stringToInt</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+	 	<span class="k">try</span> <span class="o">{</span>
+	 		<span class="k">return</span> <span class="n">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">s</span><span class="o">));</span>
+	 	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">NumberFormatException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+	 		<span class="k">return</span> <span class="n">Optional</span><span class="o">.</span><span class="na">empty</span><span class="o">();</span>
+	 	<span class="o">}</span>
+	<span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>

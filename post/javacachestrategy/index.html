@@ -226,10 +226,12 @@
 <h3 id="基于spring-transaction后置处理机制">基于Spring Transaction后置处理机制</h3>
 
 <ol>
-<li><p>关于TransactionSynchronizationAdapter</p>
+<li>关于TransactionSynchronizationAdapter
+<br /></li>
+</ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -265,50 +267,49 @@
 </span><span class="lnt">34
 </span><span class="lnt">35
 </span><span class="lnt">36
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public abstract class TransactionSynchronizationAdapter implements TransactionSynchronization, Ordered {
-
-@Override
-public int getOrder() {
-return Ordered.LOWEST_PRECEDENCE;
-}
-
-@Override
-public void suspend() {
-}
-
-@Override
-public void resume() {
-}
-
-@Override
-public void flush() {
-}
-
-@Override
-public void beforeCommit(boolean readOnly) {
-}
-
-@Override
-public void beforeCompletion() {
-}
-
-@Override
-public void afterCommit() {
-}
-     //完成事务后进行回调操作
-@Override
-public void afterCompletion(int status) {
-}
-
-}</pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">TransactionSynchronizationAdapter</span> <span class="kd">implements</span> <span class="n">TransactionSynchronization</span><span class="o">,</span> <span class="n">Ordered</span> <span class="o">{</span>
+    
+    	<span class="nd">@Override</span>
+    	<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getOrder</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="k">return</span> <span class="n">Ordered</span><span class="o">.</span><span class="na">LOWEST_PRECEDENCE</span><span class="o">;</span>
+    	<span class="o">}</span>
+    
+    	<span class="nd">@Override</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">suspend</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="o">}</span>
+    
+    	<span class="nd">@Override</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">resume</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="o">}</span>
+    
+    	<span class="nd">@Override</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">flush</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="o">}</span>
+    
+    	<span class="nd">@Override</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">beforeCommit</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">readOnly</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="o">}</span>
+    
+    	<span class="nd">@Override</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">beforeCompletion</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="o">}</span>
+    
+    	<span class="nd">@Override</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterCommit</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="o">}</span>
+             <span class="c1">//完成事务后进行回调操作
+</span><span class="c1"></span>    	<span class="nd">@Override</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterCompletion</span><span class="o">(</span><span class="kt">int</span> <span class="n">status</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="o">}</span>
+    
+<span class="o">}</span></code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>缓存更新：对目标数据查询的时候，没有命中缓存则对数据进行缓存，存储到Redis中</p></li>
-
-<li><p>缓存删除：创建AfterTransactionService实现TransactionSynchronizationAdapter,对完成后的事务进行缓存清除操作</p></li>
+</div>
+<ol>
+<li>缓存更新：对目标数据查询的时候，没有命中缓存则对数据进行缓存，存储到Redis中</li>
+<li>缓存删除：创建AfterTransactionService实现TransactionSynchronizationAdapter,对完成后的事务进行缓存清除操作</li>
 </ol>
 
 <h2 id="参考">参考</h2>

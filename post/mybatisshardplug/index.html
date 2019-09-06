@@ -196,7 +196,7 @@ StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法�
 <h3 id="interceptor接口">Interceptor接口</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -205,38 +205,38 @@ StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法�
 </span><span class="lnt">7
 </span><span class="lnt">8
 </span><span class="lnt">9
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public interface Interceptor {
-  //进行拦截的时候要执行的方法
-  Object intercept(Invocation invocation) throws Throwable;
-  //决定是否要进行拦截进而决定要返回一个什么样的目标对象
-  Object plugin(Object target);
-  //Mybatis配置文件中指定一些属性
-  void setProperties(Properties properties);
-
-}</pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Interceptor</span> <span class="o">{</span>
+	  <span class="c1">//进行拦截的时候要执行的方法
+</span><span class="c1"></span>	  <span class="n">Object</span> <span class="nf">intercept</span><span class="o">(</span><span class="n">Invocation</span> <span class="n">invocation</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Throwable</span><span class="o">;</span>
+	  <span class="c1">//决定是否要进行拦截进而决定要返回一个什么样的目标对象
+</span><span class="c1"></span>	  <span class="n">Object</span> <span class="nf">plugin</span><span class="o">(</span><span class="n">Object</span> <span class="n">target</span><span class="o">);</span>
+	  <span class="c1">//Mybatis配置文件中指定一些属性
+</span><span class="c1"></span>	  <span class="kt">void</span> <span class="nf">setProperties</span><span class="o">(</span><span class="n">Properties</span> <span class="n">properties</span><span class="o">);</span>
+	
+	<span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <h3 id="intercepts">@Intercepts</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
 </span><span class="lnt">7
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">@Intercepts用于表明当前的对象是一个Interceptor，而@Signature则表明要拦截的接口、方法以及对应的参数类型。
-
-@Intercepts( {  
-   @Signature(method = &#34;query&#34;, type = Executor.class, args = {  
-          MappedStatement.class, Object.class, RowBounds.class,  
-          ResultHandler.class }),  
-   @Signature(method = &#34;prepare&#34;, type = StatementHandler.class, args = { Connection.class }) })  </pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Intercepts用于表明当前的对象是一个Interceptor</span><span class="err">，</span><span class="n">而</span><span class="nd">@Signature则表明要拦截的接口</span><span class="err">、</span><span class="n">方法以及对应的参数类型</span><span class="err">。</span>
+	
+	<span class="nd">@Intercepts</span><span class="o">(</span> <span class="o">{</span>  
+       <span class="nd">@Signature</span><span class="o">(</span><span class="n">method</span> <span class="o">=</span> <span class="s">&#34;query&#34;</span><span class="o">,</span> <span class="n">type</span> <span class="o">=</span> <span class="n">Executor</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span> <span class="o">=</span> <span class="o">{</span>  
+              <span class="n">MappedStatement</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">Object</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">RowBounds</span><span class="o">.</span><span class="na">class</span><span class="o">,</span>  
+              <span class="n">ResultHandler</span><span class="o">.</span><span class="na">class</span> <span class="o">}),</span>  
+       <span class="nd">@Signature</span><span class="o">(</span><span class="n">method</span> <span class="o">=</span> <span class="s">&#34;prepare&#34;</span><span class="o">,</span> <span class="n">type</span> <span class="o">=</span> <span class="n">StatementHandler</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span> <span class="o">=</span> <span class="o">{</span> <span class="n">Connection</span><span class="o">.</span><span class="na">class</span> <span class="o">})</span> <span class="o">})</span>  </code></pre></td></tr></table>
 </div>
 </div>
 <p><img src="https://user-images.githubusercontent.com/19829495/48355299-a2931600-e6ce-11e8-8a6f-540c9cd5f3f8.png" alt="image" /></p>
@@ -252,7 +252,7 @@ StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法�
 <h2 id="示例">示例:</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -333,89 +333,89 @@ StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法�
 </span><span class="lnt">79
 </span><span class="lnt">80
 </span><span class="lnt">81
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">@Intercepts({@Signature(type = StatementHandler.class, method = &#34;prepare&#34;, args = {Connection.class, Integer.class})})
-public class CustomerIdShardInterceptor implements Interceptor {
-    private static final ObjectFactory DEFAULT_OBJECT_FACTORY = new DefaultObjectFactory();
-    private static final ObjectWrapperFactory DEFAULT_OBJECT_WRAPPER_FACTORY = new DefaultObjectWrapperFactory();
-    private static final ReflectorFactory DEFAULT_REFLECTOR_FACTORY = new DefaultReflectorFactory();
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Intercepts</span><span class="o">({</span><span class="nd">@Signature</span><span class="o">(</span><span class="n">type</span> <span class="o">=</span> <span class="n">StatementHandler</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s">&#34;prepare&#34;</span><span class="o">,</span> <span class="n">args</span> <span class="o">=</span> <span class="o">{</span><span class="n">Connection</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">Integer</span><span class="o">.</span><span class="na">class</span><span class="o">})})</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerIdShardInterceptor</span> <span class="kd">implements</span> <span class="n">Interceptor</span> <span class="o">{</span>
+	    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ObjectFactory</span> <span class="n">DEFAULT_OBJECT_FACTORY</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultObjectFactory</span><span class="o">();</span>
+	    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ObjectWrapperFactory</span> <span class="n">DEFAULT_OBJECT_WRAPPER_FACTORY</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultObjectWrapperFactory</span><span class="o">();</span>
+	    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ReflectorFactory</span> <span class="n">DEFAULT_REFLECTOR_FACTORY</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultReflectorFactory</span><span class="o">();</span>
+	
+	
+	    <span class="nd">@Override</span>
+	    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">intercept</span><span class="o">(</span><span class="n">Invocation</span> <span class="n">invocation</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Throwable</span> <span class="o">{</span>
+	        <span class="n">StatementHandler</span> <span class="n">statementHandler</span> <span class="o">=</span> <span class="o">(</span><span class="n">StatementHandler</span><span class="o">)</span> <span class="n">invocation</span><span class="o">.</span><span class="na">getTarget</span><span class="o">();</span>
+	        <span class="c1">// 保存会话信息
+</span><span class="c1"></span>	        <span class="n">MetaObject</span> <span class="n">metaStatementHandler</span> <span class="o">=</span> <span class="n">MetaObject</span><span class="o">.</span><span class="na">forObject</span><span class="o">(</span><span class="n">statementHandler</span><span class="o">,</span>
+	                <span class="n">DEFAULT_OBJECT_FACTORY</span><span class="o">,</span> <span class="n">DEFAULT_OBJECT_WRAPPER_FACTORY</span><span class="o">,</span> <span class="n">DEFAULT_REFLECTOR_FACTORY</span><span class="o">);</span>
+	        <span class="c1">// 获取原sql
+</span><span class="c1"></span>	        <span class="n">BoundSql</span> <span class="n">boundSql</span> <span class="o">=</span> <span class="o">(</span><span class="n">BoundSql</span><span class="o">)</span> <span class="n">metaStatementHandler</span><span class="o">.</span><span class="na">getValue</span><span class="o">(</span><span class="s">&#34;delegate.boundSql&#34;</span><span class="o">);</span>
+			<span class="c1">//修改原有Sql数据	        
+</span><span class="c1"></span>			<span class="n">String</span> <span class="n">modifiedSql</span> <span class="o">=</span> <span class="n">modifySql</span><span class="o">(</span><span class="n">boundSql</span><span class="o">);</span>
+			<span class="c1">//将修改后的Sql设置到metaStatementHandler中
+</span><span class="c1"></span>	        <span class="n">metaStatementHandler</span><span class="o">.</span><span class="na">setValue</span><span class="o">(</span><span class="s">&#34;delegate.boundSql.sql&#34;</span><span class="o">,</span> <span class="n">modifiedSql</span><span class="o">);</span>
+	        <span class="k">return</span> <span class="n">invocation</span><span class="o">.</span><span class="na">proceed</span><span class="o">();</span>
+	    <span class="o">}</span>
+	
+	    <span class="nd">@Override</span>
+	    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">plugin</span><span class="o">(</span><span class="n">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+			<span class="c1">//对应类型进行封装
+</span><span class="c1"></span>	        <span class="k">if</span> <span class="o">(</span><span class="n">o</span> <span class="k">instanceof</span> <span class="n">StatementHandler</span><span class="o">)</span> <span class="o">{</span>
+	            <span class="k">return</span> <span class="n">Plugin</span><span class="o">.</span><span class="na">wrap</span><span class="o">(</span><span class="n">o</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+	        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+	            <span class="k">return</span> <span class="n">o</span><span class="o">;</span>
+	        <span class="o">}</span>
+	    <span class="o">}</span>
+	
+	    <span class="nd">@Override</span>
+	    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setProperties</span><span class="o">(</span><span class="n">Properties</span> <span class="n">properties</span><span class="o">)</span> <span class="o">{</span>
+	
+	    <span class="o">}</span>
+	
+	    <span class="kd">private</span> <span class="n">String</span> <span class="nf">modifySql</span><span class="o">(</span><span class="n">BoundSql</span> <span class="n">boundSql</span><span class="o">)</span> <span class="o">{</span>
+	        <span class="n">String</span> <span class="n">targetSql</span> <span class="o">=</span> <span class="n">boundSql</span><span class="o">.</span><span class="na">getSql</span><span class="o">().</span><span class="na">trim</span><span class="o">().</span><span class="na">toLowerCase</span><span class="o">();</span>
+	        <span class="n">String</span> <span class="n">tableName</span> <span class="o">=</span> <span class="n">getTableName</span><span class="o">(</span><span class="n">targetSql</span><span class="o">);</span>
+			<span class="c1">// 对targetSql进行表名修改
+</span><span class="c1"></span>			<span class="o">...</span>
+	        <span class="k">return</span> <span class="n">targetSql</span><span class="o">;</span>
+	
+	    <span class="o">}</span>
+	
+	    <span class="cm">/**
+</span><span class="cm">	     * 根据sql获取表名
+</span><span class="cm">	     *
+</span><span class="cm">	     * @param sql
+</span><span class="cm">	     * @return
+</span><span class="cm">	     */</span>
+	    <span class="kd">private</span> <span class="n">String</span> <span class="nf">getTableName</span><span class="o">(</span><span class="n">String</span> <span class="n">sql</span><span class="o">)</span> <span class="o">{</span>
+	        <span class="n">String</span><span class="o">[]</span> <span class="n">sqls</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">&#34;\\s+&#34;</span><span class="o">);</span>
+	        <span class="k">switch</span> <span class="o">(</span><span class="n">sqls</span><span class="o">[</span><span class="n">0</span><span class="o">])</span> <span class="o">{</span>
+	            <span class="k">case</span> <span class="s">&#34;select&#34;</span><span class="o">:</span> <span class="o">{</span>
+	                <span class="c1">// select tableName
+</span><span class="c1"></span>	                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">sqls</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+	                    <span class="k">if</span> <span class="o">(</span><span class="n">sqls</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="s">&#34;from&#34;</span><span class="o">))</span> <span class="o">{</span>
+	                        <span class="k">return</span> <span class="n">sqls</span><span class="o">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">1</span><span class="o">];</span>
+	                    <span class="o">}</span>
+	                <span class="o">}</span>
+	                <span class="k">break</span><span class="o">;</span>
+	            <span class="o">}</span>
+	            <span class="k">case</span> <span class="s">&#34;update&#34;</span><span class="o">:</span> <span class="o">{</span>
+	                <span class="c1">// update tableName
+</span><span class="c1"></span>	                <span class="k">return</span> <span class="n">sqls</span><span class="o">[</span><span class="n">1</span><span class="o">];</span>
+	            <span class="o">}</span>
+	            <span class="k">case</span> <span class="s">&#34;insert&#34;</span><span class="o">:</span> <span class="o">{</span>
+	                <span class="c1">// insert into tableName
+</span><span class="c1"></span>	                <span class="k">return</span> <span class="n">sqls</span><span class="o">[</span><span class="n">2</span><span class="o">];</span>
+	            <span class="o">}</span>
+	            <span class="k">case</span> <span class="s">&#34;delete&#34;</span><span class="o">:</span> <span class="o">{</span>
+	                <span class="c1">// delete tableName
+</span><span class="c1"></span>	                <span class="k">return</span> <span class="n">sqls</span><span class="o">[</span><span class="n">1</span><span class="o">];</span>
+	            <span class="o">}</span>
+	        <span class="o">}</span>
+	        <span class="k">return</span> <span class="n">StringUtils</span><span class="o">.</span><span class="na">EMPTY</span><span class="o">;</span>
+	    <span class="o">}</span>
 
-
-    @Override
-    public Object intercept(Invocation invocation) throws Throwable {
-        StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
-        // 保存会话信息
-        MetaObject metaStatementHandler = MetaObject.forObject(statementHandler,
-                DEFAULT_OBJECT_FACTORY, DEFAULT_OBJECT_WRAPPER_FACTORY, DEFAULT_REFLECTOR_FACTORY);
-        // 获取原sql
-        BoundSql boundSql = (BoundSql) metaStatementHandler.getValue(&#34;delegate.boundSql&#34;);
-        //修改原有Sql数据         
-        String modifiedSql = modifySql(boundSql);
-        //将修改后的Sql设置到metaStatementHandler中
-        metaStatementHandler.setValue(&#34;delegate.boundSql.sql&#34;, modifiedSql);
-        return invocation.proceed();
-    }
-
-    @Override
-    public Object plugin(Object o) {
-        //对应类型进行封装
-        if (o instanceof StatementHandler) {
-            return Plugin.wrap(o, this);
-        } else {
-            return o;
-        }
-    }
-
-    @Override
-    public void setProperties(Properties properties) {
-
-    }
-
-    private String modifySql(BoundSql boundSql) {
-        String targetSql = boundSql.getSql().trim().toLowerCase();
-        String tableName = getTableName(targetSql);
-        // 对targetSql进行表名修改
-        ...
-        return targetSql;
-
-    }
-
-    /**
-     * 根据sql获取表名
-     *
-     * @param sql
-     * @return
-     */
-    private String getTableName(String sql) {
-        String[] sqls = sql.split(&#34;\\s+&#34;);
-        switch (sqls[0]) {
-            case &#34;select&#34;: {
-                // select tableName
-                for (int i = 0; i &lt; sqls.length; i++) {
-                    if (sqls[i].equals(&#34;from&#34;)) {
-                        return sqls[i + 1];
-                    }
-                }
-                break;
-            }
-            case &#34;update&#34;: {
-                // update tableName
-                return sqls[1];
-            }
-            case &#34;insert&#34;: {
-                // insert into tableName
-                return sqls[2];
-            }
-            case &#34;delete&#34;: {
-                // delete tableName
-                return sqls[1];
-            }
-        }
-        return StringUtils.EMPTY;
-    }
-
-}</pre></td></tr></table>
+    <span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <h2 id="关于分表策略">关于分表策略</h2>

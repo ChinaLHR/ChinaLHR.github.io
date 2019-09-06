@@ -452,7 +452,7 @@ Multi-Threaded Worker Verticle：
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -487,43 +487,43 @@ Multi-Threaded Worker Verticle：
 </span><span class="lnt">33
 </span><span class="lnt">34
 </span><span class="lnt">35
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">//获取Event Bus
-EventBus eb = vertx.eventBus();
-//注册handler
-MessageConsumer&lt;String&gt; consumer = eb.consumer(&#34;news.uk.sport&#34;);
-consumer.handler(message -&gt; {
-  System.out.println(&#34;I have received a message: &#34; + message.body());
-});
-//注销handler
-consumer.unregister(res -&gt; {
-  if (res.succeeded()) {
-    System.out.println(&#34;The handler un-registration has reached all nodes&#34;);
-  } else {
-    System.out.println(&#34;Un-registration failed!&#34;);
-  }
-});
-//一对多发布消息(发送给所有注册handler)
-eb.publish(&#34;news.uk.sport&#34;, &#34;Yay! Someone kicked a ball&#34;);
-//一对一发布消息(发送给一个注册handler)
-eventBus.send(&#34;news.uk.sport&#34;, &#34;Yay! Someone kicked a ball&#34;);
-//设置参数
-DeliveryOptions options = new DeliveryOptions();
-options.addHeader(&#34;some-header&#34;, &#34;some-value&#34;);
-eventBus.send(&#34;news.uk.sport&#34;, &#34;Yay! Someone kicked a ball&#34;, options);
-//应答消息(消费者可以通过调用 reply 方法来应答这个消息)
-MessageConsumer&lt;String&gt; consumer = eventBus.consumer(&#34;news.uk.sport&#34;);
-consumer.handler(message -&gt; {
-  System.out.println(&#34;I have received a message: &#34; + message.body());
-  message.reply(&#34;how interesting!&#34;);
-});
-//接收消息
-eventBus.send(&#34;news.uk.sport&#34;, &#34;Yay! Someone kicked a ball across a patch of grass&#34;, ar -&gt; {
-  if (ar.succeeded()) {
-    System.out.println(&#34;Received reply: &#34; + ar.result().body());
-  }
-});</pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//获取Event Bus
+</span><span class="c1"></span><span class="n">EventBus</span> <span class="n">eb</span> <span class="o">=</span> <span class="n">vertx</span><span class="o">.</span><span class="na">eventBus</span><span class="o">();</span>
+<span class="c1">//注册handler
+</span><span class="c1"></span><span class="n">MessageConsumer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">consumer</span> <span class="o">=</span> <span class="n">eb</span><span class="o">.</span><span class="na">consumer</span><span class="o">(</span><span class="s">&#34;news.uk.sport&#34;</span><span class="o">);</span>
+<span class="n">consumer</span><span class="o">.</span><span class="na">handler</span><span class="o">(</span><span class="n">message</span> <span class="o">-&gt;</span> <span class="o">{</span>
+  <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;I have received a message: &#34;</span> <span class="o">+</span> <span class="n">message</span><span class="o">.</span><span class="na">body</span><span class="o">());</span>
+<span class="o">});</span>
+<span class="c1">//注销handler
+</span><span class="c1"></span><span class="n">consumer</span><span class="o">.</span><span class="na">unregister</span><span class="o">(</span><span class="n">res</span> <span class="o">-&gt;</span> <span class="o">{</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">res</span><span class="o">.</span><span class="na">succeeded</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;The handler un-registration has reached all nodes&#34;</span><span class="o">);</span>
+  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Un-registration failed!&#34;</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">});</span>
+<span class="c1">//一对多发布消息(发送给所有注册handler)
+</span><span class="c1"></span><span class="n">eb</span><span class="o">.</span><span class="na">publish</span><span class="o">(</span><span class="s">&#34;news.uk.sport&#34;</span><span class="o">,</span> <span class="s">&#34;Yay! Someone kicked a ball&#34;</span><span class="o">);</span>
+<span class="c1">//一对一发布消息(发送给一个注册handler)
+</span><span class="c1"></span><span class="n">eventBus</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="s">&#34;news.uk.sport&#34;</span><span class="o">,</span> <span class="s">&#34;Yay! Someone kicked a ball&#34;</span><span class="o">);</span>
+<span class="c1">//设置参数
+</span><span class="c1"></span><span class="n">DeliveryOptions</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DeliveryOptions</span><span class="o">();</span>
+<span class="n">options</span><span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">&#34;some-header&#34;</span><span class="o">,</span> <span class="s">&#34;some-value&#34;</span><span class="o">);</span>
+<span class="n">eventBus</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="s">&#34;news.uk.sport&#34;</span><span class="o">,</span> <span class="s">&#34;Yay! Someone kicked a ball&#34;</span><span class="o">,</span> <span class="n">options</span><span class="o">);</span>
+<span class="c1">//应答消息(消费者可以通过调用 reply 方法来应答这个消息)
+</span><span class="c1"></span><span class="n">MessageConsumer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">consumer</span> <span class="o">=</span> <span class="n">eventBus</span><span class="o">.</span><span class="na">consumer</span><span class="o">(</span><span class="s">&#34;news.uk.sport&#34;</span><span class="o">);</span>
+<span class="n">consumer</span><span class="o">.</span><span class="na">handler</span><span class="o">(</span><span class="n">message</span> <span class="o">-&gt;</span> <span class="o">{</span>
+  <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;I have received a message: &#34;</span> <span class="o">+</span> <span class="n">message</span><span class="o">.</span><span class="na">body</span><span class="o">());</span>
+  <span class="n">message</span><span class="o">.</span><span class="na">reply</span><span class="o">(</span><span class="s">&#34;how interesting!&#34;</span><span class="o">);</span>
+<span class="o">});</span>
+<span class="c1">//接收消息
+</span><span class="c1"></span><span class="n">eventBus</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="s">&#34;news.uk.sport&#34;</span><span class="o">,</span> <span class="s">&#34;Yay! Someone kicked a ball across a patch of grass&#34;</span><span class="o">,</span> <span class="n">ar</span> <span class="o">-&gt;</span> <span class="o">{</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">ar</span><span class="o">.</span><span class="na">succeeded</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Received reply: &#34;</span> <span class="o">+</span> <span class="n">ar</span><span class="o">.</span><span class="na">result</span><span class="o">().</span><span class="na">body</span><span class="o">());</span>
+  <span class="o">}</span>
+<span class="o">});</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>
@@ -531,16 +531,16 @@ eventBus.send(&#34;news.uk.sport&#34;, &#34;Yay! Someone kicked a ball across a 
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">//为Event Bus注册编解码器 MessageCodec，需要在DeliveryOptions指定名称，也可以为某个类指定特定的编解码
-eventBus.registerCodec(myCodec);
-DeliveryOptions options = new DeliveryOptions().setCodecName(myCodec.name());
-eventBus.send(&#34;orders&#34;, new MyPOJO(), options);</pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//为Event Bus注册编解码器 MessageCodec，需要在DeliveryOptions指定名称，也可以为某个类指定特定的编解码
+</span><span class="c1"></span><span class="n">eventBus</span><span class="o">.</span><span class="na">registerCodec</span><span class="o">(</span><span class="n">myCodec</span><span class="o">);</span>
+<span class="n">DeliveryOptions</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DeliveryOptions</span><span class="o">().</span><span class="na">setCodecName</span><span class="o">(</span><span class="n">myCodec</span><span class="o">.</span><span class="na">name</span><span class="o">());</span>
+<span class="n">eventBus</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="s">&#34;orders&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">MyPOJO</span><span class="o">(),</span> <span class="n">options</span><span class="o">);</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>
@@ -556,7 +556,7 @@ eventBus.send(&#34;orders&#34;, new MyPOJO(), options);</pre></td></tr></table>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -565,17 +565,17 @@ eventBus.send(&#34;orders&#34;, new MyPOJO(), options);</pre></td></tr></table>
 </span><span class="lnt">7
 </span><span class="lnt">8
 </span><span class="lnt">9
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">在同一个 Vert.x 实例中的不同 Event Loop（如不同的 Verticle 中）之间安全共享数据。
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">在同一个</span> <span class="n">Vert</span><span class="o">.</span><span class="na">x</span> <span class="n">实例中的不同</span> <span class="n">Event</span> <span class="n">Loop</span><span class="err">（</span><span class="n">如不同的</span> <span class="n">Verticle</span> <span class="n">中</span><span class="err">）</span><span class="n">之间安全共享数据</span><span class="err">。</span>
 
-SharedData sd = vertx.sharedData();
-LocalMap&lt;String, String&gt; map1 = sd.getLocalMap(&#34;mymap1&#34;);
-// String是不可变的，所以不需要复制
-map1.put(&#34;foo&#34;, &#34;bar&#34;); 
-LocalMap&lt;String, Buffer&gt; map2 = sd.getLocalMap(&#34;mymap2&#34;);
-// Buffer将会在添加到Map之前拷贝
-map2.put(&#34;eek&#34;, Buffer.buffer().appendInt(123));</pre></td></tr></table>
+<span class="n">SharedData</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">vertx</span><span class="o">.</span><span class="na">sharedData</span><span class="o">();</span>
+<span class="n">LocalMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map1</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="na">getLocalMap</span><span class="o">(</span><span class="s">&#34;mymap1&#34;</span><span class="o">);</span>
+<span class="c1">// String是不可变的，所以不需要复制
+</span><span class="c1"></span><span class="n">map1</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;foo&#34;</span><span class="o">,</span> <span class="s">&#34;bar&#34;</span><span class="o">);</span> 
+<span class="n">LocalMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Buffer</span><span class="o">&gt;</span> <span class="n">map2</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="na">getLocalMap</span><span class="o">(</span><span class="s">&#34;mymap2&#34;</span><span class="o">);</span>
+<span class="c1">// Buffer将会在添加到Map之前拷贝
+</span><span class="c1"></span><span class="n">map2</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;eek&#34;</span><span class="o">,</span> <span class="n">Buffer</span><span class="o">.</span><span class="na">buffer</span><span class="o">().</span><span class="na">appendInt</span><span class="o">(</span><span class="n">123</span><span class="o">));</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>
@@ -583,7 +583,7 @@ map2.put(&#34;eek&#34;, Buffer.buffer().appendInt(123));</pre></td></tr></table>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -591,16 +591,16 @@ map2.put(&#34;eek&#34;, Buffer.buffer().appendInt(123));</pre></td></tr></table>
 </span><span class="lnt">6
 </span><span class="lnt">7
 </span><span class="lnt">8
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">SharedData sd = vertx.sharedData();
-sd.&lt;String, String&gt;getClusterWideMap(&#34;mymap&#34;, res -&gt; {
-  if (res.succeeded()) {
-    AsyncMap&lt;String, String&gt; map = res.result();
-  } else {
-  //...
-  }
-});</pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">SharedData</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">vertx</span><span class="o">.</span><span class="na">sharedData</span><span class="o">();</span>
+<span class="n">sd</span><span class="o">.&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span><span class="n">getClusterWideMap</span><span class="o">(</span><span class="s">&#34;mymap&#34;</span><span class="o">,</span> <span class="n">res</span> <span class="o">-&gt;</span> <span class="o">{</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">res</span><span class="o">.</span><span class="na">succeeded</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">AsyncMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="na">result</span><span class="o">();</span>
+  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+  <span class="c1">//...
+</span><span class="c1"></span>  <span class="o">}</span>
+<span class="o">});</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>

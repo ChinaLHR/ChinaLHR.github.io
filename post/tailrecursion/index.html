@@ -313,7 +313,7 @@ factorialTailRecursion(120, 1)
 <p>设计一个函数接口代替递归中的栈帧，利用Stream将递归转换为迭代，</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -356,57 +356,57 @@ factorialTailRecursion(120, 1)
 </span><span class="lnt">41
 </span><span class="lnt">42
 </span><span class="lnt">43
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">/**
- * @Author : lhr
- * @Date : 11:15 2019/8/3
- *
- * 尾递归函数式接口
- */
-@FunctionalInterface
-public interface TailRecursion&lt;T&gt; {
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm"> * @Author : lhr
+</span><span class="cm"> * @Date : 11:15 2019/8/3
+</span><span class="cm"> *
+</span><span class="cm"> * 尾递归函数式接口
+</span><span class="cm"> */</span>
+<span class="nd">@FunctionalInterface</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">TailRecursion</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
 
-    /**
-     * 用于递归栈帧之间的连接,惰性求值
-     * @return 下一个递归栈帧
-     */
-    TailRecursion&lt;T&gt; apply();
+    <span class="cm">/**
+</span><span class="cm">     * 用于递归栈帧之间的连接,惰性求值
+</span><span class="cm">     * @return 下一个递归栈帧
+</span><span class="cm">     */</span>
+    <span class="n">TailRecursion</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">apply</span><span class="o">();</span>
 
-    /**
-     * 判断当前递归是否结束
-     * @return 默认为false,因为正常的递归过程中都还未结束
-     */
-    default boolean isFinished(){
-        return false;
-    }
+    <span class="cm">/**
+</span><span class="cm">     * 判断当前递归是否结束
+</span><span class="cm">     * @return 默认为false,因为正常的递归过程中都还未结束
+</span><span class="cm">     */</span>
+    <span class="k">default</span> <span class="kt">boolean</span> <span class="nf">isFinished</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
 
-    /**
-     * 获得递归结果,只有在递归结束才能调用,这里默认给出异常,通过工具类的重写来获得值
-     * @return 递归最终结果
-     */
-    default T getResult()  {
-        throw new Error(&#34;递归还没有结束,调用获得结果异常!&#34;);
-    }
+    <span class="cm">/**
+</span><span class="cm">     * 获得递归结果,只有在递归结束才能调用,这里默认给出异常,通过工具类的重写来获得值
+</span><span class="cm">     * @return 递归最终结果
+</span><span class="cm">     */</span>
+    <span class="k">default</span> <span class="n">T</span> <span class="nf">getResult</span><span class="o">()</span>  <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="n">Error</span><span class="o">(</span><span class="s">&#34;递归还没有结束,调用获得结果异常!&#34;</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    /**
-     * 及早求值,执行者一系列的递归,因为栈帧只有一个,所以使用findFirst获得最终的栈帧,接着调用getResult方法获得最终递归值
-     * @return 及早求值,获得最终递归结果
-     */
-    default T invoke() {
-        return Stream.iterate(this, TailRecursion::apply)
-                .filter(TailRecursion::isFinished)
-                .findFirst()
-                .get()
-                .getResult();
-    }
-}</pre></td></tr></table>
+    <span class="cm">/**
+</span><span class="cm">     * 及早求值,执行者一系列的递归,因为栈帧只有一个,所以使用findFirst获得最终的栈帧,接着调用getResult方法获得最终递归值
+</span><span class="cm">     * @return 及早求值,获得最终递归结果
+</span><span class="cm">     */</span>
+    <span class="k">default</span> <span class="n">T</span> <span class="nf">invoke</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">Stream</span><span class="o">.</span><span class="na">iterate</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="nl">TailRecursion:</span><span class="o">:</span><span class="n">apply</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="nl">TailRecursion:</span><span class="o">:</span><span class="n">isFinished</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">findFirst</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">get</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">getResult</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <p>设计一个对外统一的尾递归包装类，目的是达到可以复用的效果，包装递归方法 1怎样调用下次递归,2递归的终止条件</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -454,62 +454,62 @@ public interface TailRecursion&lt;T&gt; {
 </span><span class="lnt">46
 </span><span class="lnt">47
 </span><span class="lnt">48
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">/**
- * @Author : lhr
- * @Date : 11:59 2019/8/3
- *
- * 使用尾递归的类,目的是对外统一方法
- *
- * 调用下次递归/结束本轮递归
- *
- */
-public class TailInvoke {
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm"> * @Author : lhr
+</span><span class="cm"> * @Date : 11:59 2019/8/3
+</span><span class="cm"> *
+</span><span class="cm"> * 使用尾递归的类,目的是对外统一方法
+</span><span class="cm"> *
+</span><span class="cm"> * 调用下次递归/结束本轮递归
+</span><span class="cm"> *
+</span><span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TailInvoke</span> <span class="o">{</span>
 
-    /**
-     * 统一结构的方法，获取当前递归的下一个递归
-     * @param nextFrame
-     * @param &lt;T&gt;
-     * @return
-     */
-    public static &lt;T&gt; TailRecursion&lt;T&gt; call(final TailRecursion&lt;T&gt; nextFrame) {
-        return nextFrame;
-    }
+    <span class="cm">/**
+</span><span class="cm">     * 统一结构的方法，获取当前递归的下一个递归
+</span><span class="cm">     * @param nextFrame
+</span><span class="cm">     * @param &lt;T&gt;
+</span><span class="cm">     * @return
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">TailRecursion</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">call</span><span class="o">(</span><span class="kd">final</span> <span class="n">TailRecursion</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">nextFrame</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">nextFrame</span><span class="o">;</span>
+    <span class="o">}</span>
 
-    /**
-     * 结束当前递归，重写对应的默认方法的值,完成状态改为true,设置最终返回结果,设置非法递归调用
-     *
-     * @param value 最终递归值
-     * @param &lt;T&gt;   T
-     * @return 一个isFinished状态true的尾递归, 外部通过调用接口的invoke方法及早求值, 启动递归求值。
-     */
-    public static &lt;T&gt; TailRecursion&lt;T&gt; done(T value) {
-        return new TailRecursion&lt;T&gt;() {
-            @Override
-            public TailRecursion&lt;T&gt; apply() {
-                throw new Error(&#34;递归已经结束,非法调用apply方法&#34;);
-            }
+    <span class="cm">/**
+</span><span class="cm">     * 结束当前递归，重写对应的默认方法的值,完成状态改为true,设置最终返回结果,设置非法递归调用
+</span><span class="cm">     *
+</span><span class="cm">     * @param value 最终递归值
+</span><span class="cm">     * @param &lt;T&gt;   T
+</span><span class="cm">     * @return 一个isFinished状态true的尾递归, 外部通过调用接口的invoke方法及早求值, 启动递归求值。
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">TailRecursion</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">done</span><span class="o">(</span><span class="n">T</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">TailRecursion</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="n">TailRecursion</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">apply</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="n">Error</span><span class="o">(</span><span class="s">&#34;递归已经结束,非法调用apply方法&#34;</span><span class="o">);</span>
+            <span class="o">}</span>
 
-            @Override
-            public boolean isFinished() {
-                return true;
-            }
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isFinished</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="o">}</span>
 
-            @Override
-            public T getResult() {
-                return value;
-            }
-        };
-    }
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="n">T</span> <span class="nf">getResult</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">value</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+    <span class="o">}</span>
 
-}</pre></td></tr></table>
+<span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <p>lamdba优化尾递归 阶乘计算示例</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -527,26 +527,26 @@ public class TailInvoke {
 </span><span class="lnt">16
 </span><span class="lnt">17
 </span><span class="lnt">18
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">   /**
-     * 阶乘计算 -- 使用尾递归接口完成
-     *
-     * @param factorial 当前递归栈的结果值
-     * @param number    下一个递归需要计算的值
-     * @return 尾递归接口, 调用invoke启动及早求值获得结果
-     */
-    public static TailRecursion&lt;Long&gt; factorialTailRecursion(final long factorial, final int number) {
-        if (number == 1)
-            return TailInvoke.done(factorial);
-        else
-            return TailInvoke.call(() -&gt; factorialTailRecursion(factorial + number, number - 1));
-    }
+<pre class="chroma"><code class="language-java" data-lang="java">   <span class="cm">/**
+</span><span class="cm">     * 阶乘计算 -- 使用尾递归接口完成
+</span><span class="cm">     *
+</span><span class="cm">     * @param factorial 当前递归栈的结果值
+</span><span class="cm">     * @param number    下一个递归需要计算的值
+</span><span class="cm">     * @return 尾递归接口, 调用invoke启动及早求值获得结果
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">TailRecursion</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span> <span class="nf">factorialTailRecursion</span><span class="o">(</span><span class="kd">final</span> <span class="kt">long</span> <span class="n">factorial</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span>
+            <span class="k">return</span> <span class="n">TailInvoke</span><span class="o">.</span><span class="na">done</span><span class="o">(</span><span class="n">factorial</span><span class="o">);</span>
+        <span class="k">else</span>
+            <span class="k">return</span> <span class="n">TailInvoke</span><span class="o">.</span><span class="na">call</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">factorialTailRecursion</span><span class="o">(</span><span class="n">factorial</span> <span class="o">+</span> <span class="n">number</span><span class="o">,</span> <span class="n">number</span> <span class="o">-</span> <span class="n">1</span><span class="o">));</span>
+    <span class="o">}</span>
 
-    public static void main(String[] args) {
-        //调用Invoke启动迭代并获取结果
-        factorialTailRecursion(1, 10000000).invoke();
-    }</pre></td></tr></table>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//调用Invoke启动迭代并获取结果
+</span><span class="c1"></span>        <span class="n">factorialTailRecursion</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">10000000</span><span class="o">).</span><span class="na">invoke</span><span class="o">();</span>
+    <span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <h3 id="尾递归优化-kotlin">尾递归优化-Kotlin</h3>
@@ -562,16 +562,16 @@ public class TailInvoke {
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">tailrec fun factorialTailRecursion(factorial: Int, number: Int): Int {
-    return if (number == 1) factorial
-    else factorialTailRecursion(factorial * number, number - 1)
-}</pre></td></tr></table>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">tailrec</span> <span class="k">fun</span> <span class="nf">factorialTailRecursion</span><span class="p">(</span><span class="n">factorial</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="n">Int</span><span class="p">):</span> <span class="n">Int</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">if</span> <span class="p">(</span><span class="n">number</span> <span class="p">==</span> <span class="m">1</span><span class="p">)</span> <span class="n">factorial</span>
+    <span class="k">else</span> <span class="n">factorialTailRecursion</span><span class="p">(</span><span class="n">factorial</span> <span class="p">*</span> <span class="n">number</span><span class="p">,</span> <span class="n">number</span> <span class="p">-</span> <span class="m">1</span><span class="p">)</span>
+<span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>
@@ -579,7 +579,7 @@ public class TailInvoke {
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -588,17 +588,17 @@ public class TailInvoke {
 </span><span class="lnt">7
 </span><span class="lnt">8
 </span><span class="lnt">9
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public static final int factorialTailRecursion(int factorial, int number) {
-      while(number != 1) {
-         int var10000 = factorial * number;
-         --number;
-         factorial = var10000;
-      }
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="nf">factorialTailRecursion</span><span class="o">(</span><span class="kt">int</span> <span class="n">factorial</span><span class="o">,</span> <span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">while</span><span class="o">(</span><span class="n">number</span> <span class="o">!=</span> <span class="n">1</span><span class="o">)</span> <span class="o">{</span>
+         <span class="kt">int</span> <span class="n">var10000</span> <span class="o">=</span> <span class="n">factorial</span> <span class="o">*</span> <span class="n">number</span><span class="o">;</span>
+         <span class="o">--</span><span class="n">number</span><span class="o">;</span>
+         <span class="n">factorial</span> <span class="o">=</span> <span class="n">var10000</span><span class="o">;</span>
+      <span class="o">}</span>
 
-      return factorial;
-}</pre></td></tr></table>
+      <span class="k">return</span> <span class="n">factorial</span><span class="o">;</span>
+<span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <h3 id="参考">参考</h3>

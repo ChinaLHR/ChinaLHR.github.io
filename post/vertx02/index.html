@@ -179,7 +179,7 @@ Vert.x 官方文档阅读
 <p>Router 接收 HTTP 请求，并查找首个匹配该请求的 Route，然后将请求传递给这个 Route。每一个被路由的请求对应一个唯一的 RoutingContext，这个实例会被传递到所有处理这个请求的处理器上。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -196,25 +196,25 @@ Vert.x 官方文档阅读
 </span><span class="lnt">15
 </span><span class="lnt">16
 </span><span class="lnt">17
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">class MainVerticle : AbstractVerticle() {
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">MainVerticle</span> <span class="o">:</span> <span class="n">AbstractVerticle</span><span class="o">()</span> <span class="o">{</span>
 
-  override fun start(startFuture: Future&lt;Void&gt;) {
-    val server = vertx
-      .createHttpServer()
+  <span class="n">override</span> <span class="n">fun</span> <span class="nf">start</span><span class="o">(</span><span class="nl">startFuture:</span> <span class="n">Future</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;)</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">server</span> <span class="o">=</span> <span class="n">vertx</span>
+      <span class="o">.</span><span class="na">createHttpServer</span><span class="o">()</span>
 
-    val router = Router.router(vertx)
-    router.route(&#34;/hello&#34;).handler {
-      val response = it.response()
-      response.putHeader(&#34;content-type&#34;, &#34;text/plain&#34;)
-      response.end(&#34;Hello World from Vert.x-Web!&#34;)
-    }
+    <span class="n">val</span> <span class="n">router</span> <span class="o">=</span> <span class="n">Router</span><span class="o">.</span><span class="na">router</span><span class="o">(</span><span class="n">vertx</span><span class="o">)</span>
+    <span class="n">router</span><span class="o">.</span><span class="na">route</span><span class="o">(</span><span class="s">&#34;/hello&#34;</span><span class="o">).</span><span class="na">handler</span> <span class="o">{</span>
+      <span class="n">val</span> <span class="n">response</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="na">response</span><span class="o">()</span>
+      <span class="n">response</span><span class="o">.</span><span class="na">putHeader</span><span class="o">(</span><span class="s">&#34;content-type&#34;</span><span class="o">,</span> <span class="s">&#34;text/plain&#34;</span><span class="o">)</span>
+      <span class="n">response</span><span class="o">.</span><span class="na">end</span><span class="o">(</span><span class="s">&#34;Hello World from Vert.x-Web!&#34;</span><span class="o">)</span>
+    <span class="o">}</span>
 
-    server.requestHandler(router).listen(8000)
-  }
+    <span class="n">server</span><span class="o">.</span><span class="na">requestHandler</span><span class="o">(</span><span class="n">router</span><span class="o">).</span><span class="na">listen</span><span class="o">(</span><span class="n">8000</span><span class="o">)</span>
+  <span class="o">}</span>
 
-}</pre></td></tr></table>
+<span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>

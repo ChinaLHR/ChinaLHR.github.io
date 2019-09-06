@@ -175,7 +175,7 @@ Java函数式接口相关记录
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -185,18 +185,18 @@ Java函数式接口相关记录
 </span><span class="lnt"> 8
 </span><span class="lnt"> 9
 </span><span class="lnt">10
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">	//设置Supplier获取函数为从数据库获取
-	zSetRedisConsumer.setBatchProcessSize(() -&gt; hkConfigService.findRedisBuffConfig().getBatchProcessSize());
+<pre class="chroma"><code class="language-java" data-lang="java">	<span class="c1">//设置Supplier获取函数为从数据库获取
+</span><span class="c1"></span>	<span class="n">zSetRedisConsumer</span><span class="o">.</span><span class="na">setBatchProcessSize</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">hkConfigService</span><span class="o">.</span><span class="na">findRedisBuffConfig</span><span class="o">().</span><span class="na">getBatchProcessSize</span><span class="o">());</span>
 
-	private Supplier&lt;Long&gt; fixDelayMilliseconds;
-	@Override
-    public RedisConsumer setFixDelayMilliseconds(Supplier&lt;Long&gt; fixDelayMilliseconds) {
-        this.fixDelayMilliseconds = fixDelayMilliseconds;
-        return this;
-    }
-	//通过调用batchProcessSize.get()实时获取配置</pre></td></tr></table>
+	<span class="kd">private</span> <span class="n">Supplier</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span> <span class="n">fixDelayMilliseconds</span><span class="o">;</span>
+	<span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">RedisConsumer</span> <span class="nf">setFixDelayMilliseconds</span><span class="o">(</span><span class="n">Supplier</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span> <span class="n">fixDelayMilliseconds</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">fixDelayMilliseconds</span> <span class="o">=</span> <span class="n">fixDelayMilliseconds</span><span class="o">;</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+	<span class="o">//</span><span class="n">通过调用batchProcessSize</span><span class="o">.</span><span class="na">get</span><span class="o">()</span><span class="n">实时获取配置</span></code></pre></td></tr></table>
 </div>
 </div>
 <h2 id="predicate">Predicate</h2>
@@ -207,7 +207,7 @@ Java函数式接口相关记录
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -220,21 +220,21 @@ Java函数式接口相关记录
 </span><span class="lnt">11
 </span><span class="lnt">12
 </span><span class="lnt">13
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public class PredicateDemo {
-    public static void main(String[] args) {
-        List&lt;Integer&gt; list = Arrays.asList(...);
-        PredicateTest predicateTest = new PredicateTest();
-        //输出大于5的数字
-        List&lt;Integer&gt; result = predicateTest.conditionFilter(list, integer -&gt; integer &gt; 5);
-        result.forEach(System.out::println);
-    }
-    //抽象方法
-    public List&lt;Integer&gt; conditionFilter(List&lt;Integer&gt; list, Predicate&lt;Integer&gt; predicate){
-        return list.stream().filter(predicate).collect(Collectors.toList());
-    }
-}</pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PredicateDemo</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(...);</span>
+        <span class="n">PredicateTest</span> <span class="n">predicateTest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PredicateTest</span><span class="o">();</span>
+        <span class="c1">//输出大于5的数字
+</span><span class="c1"></span>        <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">predicateTest</span><span class="o">.</span><span class="na">conditionFilter</span><span class="o">(</span><span class="n">list</span><span class="o">,</span> <span class="n">integer</span> <span class="o">-&gt;</span> <span class="n">integer</span> <span class="o">&gt;</span> <span class="n">5</span><span class="o">);</span>
+        <span class="n">result</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="c1">//抽象方法
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">conditionFilter</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">predicate</span><span class="o">){</span>
+        <span class="k">return</span> <span class="n">list</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">predicate</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <h2 id="consumer">Consumer</h2>
@@ -244,14 +244,14 @@ Java函数式接口相关记录
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">Consumer&lt;String&gt; printString = s -&gt; System.out.println(s);
-        printString.accept(&#34;helloWorld!&#34;);
-        //控制台输出 helloWorld!</pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Consumer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">printString</span> <span class="o">=</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+        <span class="n">printString</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="s">&#34;helloWorld!&#34;</span><span class="o">);</span>
+        <span class="o">//</span><span class="n">控制台输出</span> <span class="n">helloWorld</span><span class="o">!</span></code></pre></td></tr></table>
 </div>
 </div>
 <h2 id="function">Function</h2>
@@ -261,20 +261,20 @@ Java函数式接口相关记录
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">System.out.println(validInput(name, inputStr -&gt; inputStr.isEmpty() ? &#34;名字不能为空&#34;:inputStr));
-System.out.println(validInput(name1, inputStr -&gt; inputStr.length() &gt; 3 ? &#34;名字过长&#34;:inputStr));
-//抽象方法
-public static String validInput(String name,Function&lt;String,String&gt; function) {
-		return function.apply(name);
-}</pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">validInput</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">inputStr</span> <span class="o">-&gt;</span> <span class="n">inputStr</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()</span> <span class="o">?</span> <span class="s">&#34;名字不能为空&#34;</span><span class="o">:</span><span class="n">inputStr</span><span class="o">));</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">validInput</span><span class="o">(</span><span class="n">name1</span><span class="o">,</span> <span class="n">inputStr</span> <span class="o">-&gt;</span> <span class="n">inputStr</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">3</span> <span class="o">?</span> <span class="s">&#34;名字过长&#34;</span><span class="o">:</span><span class="n">inputStr</span><span class="o">));</span>
+<span class="c1">//抽象方法
+</span><span class="c1"></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">validInput</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span><span class="n">Function</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">function</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">function</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+<span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
     </div>

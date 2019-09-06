@@ -162,7 +162,7 @@ Java Lamdba Api缺陷
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -176,22 +176,22 @@ Java Lamdba Api缺陷
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">	//在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理
-	public List&lt;Class&gt; getClazz(List&lt;String&gt; names) {
-        return names.stream()
-                .map(className -&gt; {
-                            try {
-                                return Class.forName(className);
-                            } catch (ClassNotFoundException e) {
-                                e.printStackTrace();
-                                return getClass();
-                            }
-                        }
-                )
-                .collect(Collectors.toList());
-    }</pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java">	<span class="c1">//在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&gt;</span> <span class="nf">getClazz</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">className</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                            <span class="k">try</span> <span class="o">{</span>
+                                <span class="k">return</span> <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">className</span><span class="o">);</span>
+                            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">ClassNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                                <span class="k">return</span> <span class="n">getClass</span><span class="o">();</span>
+                            <span class="o">}</span>
+                        <span class="o">}</span>
+                <span class="o">)</span>
+                <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    <span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>
@@ -199,7 +199,7 @@ Java Lamdba Api缺陷
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -224,50 +224,50 @@ Java Lamdba Api缺陷
 </span><span class="lnt">23
 </span><span class="lnt">24
 </span><span class="lnt">25
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"> @FunctionalInterface
-    interface ExceptionFunction&lt;T, R, E extends Exception&gt; {
-        R apply(T t) throws E;
-    }
+<pre class="chroma"><code class="language-java" data-lang="java"> <span class="nd">@FunctionalInterface</span>
+    <span class="kd">interface</span> <span class="nc">ExceptionFunction</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">R</span><span class="o">,</span> <span class="n">E</span> <span class="kd">extends</span> <span class="n">Exception</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="n">R</span> <span class="nf">apply</span><span class="o">(</span><span class="n">T</span> <span class="n">t</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">E</span><span class="o">;</span>
+    <span class="o">}</span>
 
-    /**
-     * 包装异常
-     */
-    public static &lt;T, R, E extends Exception&gt; Function&lt;T, R&gt; wrap(ExceptionFunction&lt;T, R, E&gt; f) throws E {
-        return t -&gt; {
-            try {
-                return f.apply(t);
-            } catch (Exception e) {
-                throwUnCheckException(e);
-                return null;
-            }
-        };
-    }
+    <span class="cm">/**
+</span><span class="cm">     * 包装异常
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">R</span><span class="o">,</span> <span class="n">E</span> <span class="kd">extends</span> <span class="n">Exception</span><span class="o">&gt;</span> <span class="n">Function</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">R</span><span class="o">&gt;</span> <span class="nf">wrap</span><span class="o">(</span><span class="n">ExceptionFunction</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">R</span><span class="o">,</span> <span class="n">E</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">E</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">throwUnCheckException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+                <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+    <span class="o">}</span>
 
-    /**
-     * 利用泛型擦除机制将unCheck——&gt;Exception
-     */
-    public static &lt;E extends Exception&gt; void throwUnCheckException(Exception e) throws E {
-        throw (E) e;
-    }</pre></td></tr></table>
+    <span class="cm">/**
+</span><span class="cm">     * 利用泛型擦除机制将unCheck——&gt;Exception
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">E</span> <span class="kd">extends</span> <span class="n">Exception</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">throwUnCheckException</span><span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">E</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="o">(</span><span class="n">E</span><span class="o">)</span> <span class="n">e</span><span class="o">;</span>
+    <span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">//完美throws原始check异常
-    public static List&lt;Class&gt; findClasses(List&lt;String&gt; names) throws ClassNotFoundException {
-        return names.stream()
-                .map(LambdaCheckedUtils.wrap(Class::forName))
-                .collect(Collectors.toList());
-    }</pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//完美throws原始check异常
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&gt;</span> <span class="nf">findClasses</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ClassNotFoundException</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">LambdaCheckedUtils</span><span class="o">.</span><span class="na">wrap</span><span class="o">(</span><span class="nl">Class:</span><span class="o">:</span><span class="n">forName</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    <span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>

@@ -201,7 +201,7 @@ Kotlin学习记录
 <p>JVM 上的泛型一般是通过类型擦除实现的，泛型类实例的类型实参在运行时是不保留的。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -214,17 +214,17 @@ Kotlin学习记录
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">var</span> <span class="n">items</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="s">&#34;lhr&#34;</span><span class="o">,</span><span class="s">&#34;lnx&#34;</span><span class="o">,</span><span class="n">2</span><span class="o">)</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">var</span> <span class="py">items</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&#34;lhr&#34;</span><span class="p">,</span><span class="s">&#34;lnx&#34;</span><span class="p">,</span><span class="m">2</span><span class="p">)</span>
 
 <span class="cm">/**
 </span><span class="cm"> * 运行时泛型被擦除了，无法判断List的类型
 </span><span class="cm"> */</span>
-<span class="n">fun</span> <span class="nf">main</span><span class="o">(</span><span class="nl">args:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;)</span> <span class="o">{</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">items</span> <span class="n">is</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;){</span>
+<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">items</span> <span class="k">is</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;){</span>
 
         <span class="c1">//...
-</span><span class="c1"></span>    <span class="o">}</span>
-<span class="o">}</span></code></pre></td></tr></table>
+</span><span class="c1"></span>    <span class="p">}</span>
+<span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <p><strong>声明带实化类型参数的函数(基于inline内联函数)</strong></p>
@@ -232,7 +232,7 @@ Kotlin学习记录
 <p>Kotlin 有特殊的语法结构可以允许你在函数体中使用具体的类型泛型实参，但只有 inline 函数可以。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -255,27 +255,27 @@ Kotlin学习记录
 </span><span class="lnt">21
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="cm">/**
 </span><span class="cm"> * 内联函数 reified声明了类型参数T不会在运行时被擦除
 </span><span class="cm"> */</span>
-<span class="n">inline</span> <span class="n">fun</span> <span class="o">&lt;</span><span class="n">reified</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">Iterable</span><span class="o">&lt;*&gt;.</span><span class="na">filterIsInstance</span><span class="o">():</span><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;{</span>
-    <span class="n">val</span> <span class="n">destination</span><span class="o">=</span> <span class="n">mutableListOf</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;()</span>
+<span class="k">inline</span> <span class="k">fun</span> &lt;reified T&gt; <span class="nf">Iterable</span><span class="p">&lt;*&gt;.</span><span class="n">filterIsInstance</span><span class="p">():</span><span class="n">List</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;{</span>
+    <span class="k">val</span> <span class="py">destination</span><span class="p">=</span> <span class="n">mutableListOf</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;()</span>
     <span class="cm">/*
 </span><span class="cm">    对指定实参进行检测存储返回。
 </span><span class="cm">    因为生成的字节码引用了具体类，而不是类型参数，它不会被运行时发生的类型参数擦除影响 。
 </span><span class="cm">     */</span>
-    <span class="k">for</span><span class="o">(</span><span class="n">element</span> <span class="n">in</span> <span class="k">this</span><span class="o">){</span>
-       <span class="k">if</span> <span class="o">(</span><span class="n">element</span> <span class="n">is</span> <span class="n">T</span><span class="o">){</span>
-           <span class="n">destination</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">element</span><span class="o">)</span>
-       <span class="o">}</span>
-    <span class="o">}</span>
-    <span class="k">return</span> <span class="n">destination</span><span class="o">;</span>
-<span class="o">}</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">element</span> <span class="k">in</span> <span class="k">this</span><span class="p">){</span>
+       <span class="k">if</span> <span class="p">(</span><span class="n">element</span> <span class="k">is</span> <span class="n">T</span><span class="p">){</span>
+           <span class="n">destination</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+       <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">destination</span><span class="p">;</span>
+<span class="p">}</span>
 
-<span class="n">fun</span> <span class="nf">main</span><span class="o">(</span><span class="nl">args:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;)</span> <span class="o">{</span>
-    <span class="n">val</span> <span class="n">list</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="s">&#34;123&#34;</span><span class="o">,</span> <span class="s">&#34;456&#34;</span><span class="o">,</span> <span class="n">999</span><span class="o">)</span>
-    <span class="n">println</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">filterIsInstance</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;())</span>
-<span class="o">}</span></code></pre></td></tr></table>
+<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">list</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&#34;123&#34;</span><span class="p">,</span> <span class="s">&#34;456&#34;</span><span class="p">,</span> <span class="m">999</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">filterIsInstance</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;())</span>
+<span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <h3 id="泛型协变-逆变和不变">泛型协变、逆变和不变</h3>
@@ -306,7 +306,7 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 <p><strong>协变</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -315,13 +315,13 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">List</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Fruit</span><span class="o">&gt;</span> <span class="n">fruits</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Orange</span><span class="o">&gt;();</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">List</span><span class="p">&lt;?</span> <span class="n">extends</span> <span class="n">Fruit</span><span class="p">&gt;</span> <span class="n">fruits</span> <span class="p">=</span> <span class="n">new</span> <span class="n">ArrayList</span><span class="p">&lt;</span><span class="n">Orange</span><span class="p">&gt;();</span>
 <span class="c1">//编译错误:不能添加任何类型的对象
 </span><span class="c1">//fruits.add(new Orange());
 </span><span class="c1">//fruits.add(new Fruit());
 </span><span class="c1">//fruits.add(new Object());
 </span><span class="c1">//我们知道，返回值肯定是Fruit
-</span><span class="c1"></span><span class="n">Fruit</span> <span class="n">f</span> <span class="o">=</span> <span class="n">fruits</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">);</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="n">Fruit</span> <span class="n">f</span> <span class="p">=</span> <span class="n">fruits</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="m">0</span><span class="p">);</span></code></pre></td></tr></table>
 </div>
 </div>
 <p>fruits的类型是List&lt;? extends Fruit&gt;，代表Fruit类型或者从Fruit继承的类型的List，fruits可以引用诸如Fruit或Orange这样类型的List，然后向上转型为了List&lt;? extends Fruit&gt;。我们并不关心fruits具体引用的是ArrayList<Orange>()，还是ArrayList<Fruit>()，对于类型 List&lt;? extends Fruit&gt; 我们所能知道的就是：调用一个返回Fruit的方法是安全的，因为你知道，这个List中的任何对象至少具有Fruit类型。</p>
@@ -333,7 +333,7 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 <p><strong>逆变</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -347,18 +347,18 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">List</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="n">objs</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;();</span>
-<span class="n">objs</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Object</span><span class="o">());</span>
-<span class="n">List</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Fruit</span><span class="o">&gt;</span> <span class="n">canContainFruits</span> <span class="o">=</span> <span class="n">objs</span><span class="o">;</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">List</span><span class="p">&lt;</span><span class="n">Object</span><span class="p">&gt;</span> <span class="n">objs</span> <span class="p">=</span> <span class="n">new</span> <span class="n">ArrayList</span><span class="p">&lt;</span><span class="n">Object</span><span class="p">&gt;();</span>
+<span class="n">objs</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Object</span><span class="p">());</span>
+<span class="n">List</span><span class="p">&lt;?</span> <span class="k">super</span> <span class="n">Fruit</span><span class="p">&gt;</span> <span class="n">canContainFruits</span> <span class="p">=</span> <span class="n">objs</span><span class="p">;</span>
 <span class="c1">//没有问题，可以写入Fruit类及其子类
-</span><span class="c1"></span><span class="n">canContainFruits</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Orange</span><span class="o">());</span>
-<span class="n">canContainFruits</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Banana</span><span class="o">());</span>
-<span class="n">canContainFruits</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Fruit</span><span class="o">());</span>
+</span><span class="c1"></span><span class="n">canContainFruits</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Orange</span><span class="p">());</span>
+<span class="n">canContainFruits</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Banana</span><span class="p">());</span>
+<span class="n">canContainFruits</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Fruit</span><span class="p">());</span>
 <span class="c1">//无法安全地读取,canContainFruits完全可能包含Fruit基类的对象，比如这里的Object
 </span><span class="c1">//Fruit f = canContainFruits.get(0);
 </span><span class="c1"></span>
 <span class="c1">//总是可以读取为Object，然而这并没有太多意义
-</span><span class="c1"></span><span class="n">Object</span> <span class="n">o</span> <span class="o">=</span> <span class="n">canContainFruits</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">1</span><span class="o">);</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="n">Object</span> <span class="n">o</span> <span class="p">=</span> <span class="n">canContainFruits</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="m">1</span><span class="p">);</span></code></pre></td></tr></table>
 </div>
 </div>
 <p>canContainFruits的类型是List&lt;? super Fruit&gt;，代表Fruit类型或者Fruit基类型的List，canContainFruits可以引用诸如Fruit或Object这样类型的List，然后向上转型为了List&lt;? super Fruit&gt;。对于List中的 T get(int pos) 方法，当指定类型是 “？ super Fruit”  时，get方法的返回类型就变成了 “？ super Fruit”，也就是说，返回类型可能是Fruit或者任意Fruit的基类型，我们不能确定，因此编译器拒绝调用任何返回类型为 T 的方法（除非我们只是读取为Object类）</p>
@@ -378,7 +378,7 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 <p>使用out修饰符，表明类型参数 T 在泛型类中仅作为方法的返回值，不作为方法的参数，因此，这个泛型类是个协变的。回报是，使用时Source<Orange>可以作为Source<Fruit>的子类型。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -388,13 +388,13 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">abstract</span> <span class="n">class</span> <span class="n">Source</span><span class="o">&lt;</span><span class="n">out</span> <span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
-    <span class="n">abstract</span> <span class="n">fun</span> <span class="n">nextT</span><span class="p">()</span><span class="o">:</span> <span class="n">T</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">abstract</span> <span class="k">class</span> <span class="nc">Source</span><span class="p">&lt;</span><span class="k">out</span> <span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span>
+    <span class="k">abstract</span> <span class="k">fun</span> <span class="nf">nextT</span><span class="p">():</span> <span class="n">T</span>
 <span class="p">}</span>
 
-<span class="n">fun</span> <span class="n">demo</span><span class="p">(</span><span class="nl">oranges</span><span class="p">:</span> <span class="n">Source</span><span class="o">&lt;</span><span class="n">Orange</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">val</span> <span class="nl">fruits</span><span class="p">:</span> <span class="n">Source</span><span class="o">&lt;</span><span class="n">Fruit</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">oranges</span> <span class="c1">// 没问题，因为 T 是一个 out-参数，Source&lt;T&gt;是协变的
-</span><span class="c1"></span>    <span class="n">val</span> <span class="nl">oneFruit</span><span class="p">:</span> <span class="n">Fruit</span> <span class="o">=</span> <span class="n">fruits</span><span class="p">.</span><span class="n">nextT</span><span class="p">()</span> <span class="c1">//可以安全读取
+<span class="k">fun</span> <span class="nf">demo</span><span class="p">(</span><span class="n">oranges</span><span class="p">:</span> <span class="n">Source</span><span class="p">&lt;</span><span class="n">Orange</span><span class="p">&gt;)</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">fruits</span><span class="p">:</span> <span class="n">Source</span><span class="p">&lt;</span><span class="n">Fruit</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">oranges</span> <span class="c1">// 没问题，因为 T 是一个 out-参数，Source&lt;T&gt;是协变的
+</span><span class="c1"></span>    <span class="k">val</span> <span class="py">oneFruit</span><span class="p">:</span> <span class="n">Fruit</span> <span class="p">=</span> <span class="n">fruits</span><span class="p">.</span><span class="n">nextT</span><span class="p">()</span> <span class="c1">//可以安全读取
 </span><span class="c1"></span><span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div>
@@ -403,7 +403,7 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 <p>使用in修饰符，表明类型参数 T 在泛型类中仅作为方法的参数，不作为方法的返回值，因此，这个泛型类是个逆变的。回报是，使用时Comparable<Number>可以作为Comparable<Double>的子类型。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -414,14 +414,14 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="c1">//kotlin
-</span><span class="c1"></span><span class="n">abstract</span> <span class="n">class</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">in</span> <span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
-    <span class="n">abstract</span> <span class="n">fun</span> <span class="n">compareTo</span><span class="p">(</span><span class="nl">other</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span><span class="o">:</span> <span class="n">Int</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">//kotlin
+</span><span class="c1"></span><span class="k">abstract</span> <span class="k">class</span> <span class="nc">Comparable</span><span class="p">&lt;</span><span class="k">in</span> <span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span>
+    <span class="k">abstract</span> <span class="k">fun</span> <span class="nf">compareTo</span><span class="p">(</span><span class="n">other</span><span class="p">:</span> <span class="n">T</span><span class="p">):</span> <span class="n">Int</span>
 <span class="p">}</span>
 
-<span class="n">fun</span> <span class="n">demo</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">Number</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">val</span> <span class="nl">y</span><span class="p">:</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">x</span> <span class="c1">// OK！逆变，Comparable&lt;Number&gt;可以作为Comparable&lt;Double&gt;的子类型
-</span><span class="c1"></span>    <span class="n">y</span><span class="p">.</span><span class="n">compareTo</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="c1">//1.0 拥有类型 Double
+<span class="k">fun</span> <span class="nf">demo</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Comparable</span><span class="p">&lt;</span><span class="n">Number</span><span class="p">&gt;)</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">y</span><span class="p">:</span> <span class="n">Comparable</span><span class="p">&lt;</span><span class="n">Double</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">x</span> <span class="c1">// OK！逆变，Comparable&lt;Number&gt;可以作为Comparable&lt;Double&gt;的子类型
+</span><span class="c1"></span>    <span class="n">y</span><span class="p">.</span><span class="n">compareTo</span><span class="p">(</span><span class="m">1.0</span><span class="p">)</span> <span class="c1">//1.0 拥有类型 Double
 </span><span class="c1"></span><span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div>
@@ -440,7 +440,7 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -456,20 +456,20 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//volatile 多线程可见性
-</span><span class="c1"></span><span class="nd">@volatile</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">//volatile 多线程可见性
+</span><span class="c1"></span><span class="n">@volatile</span>
 <span class="c1">//Strictfp 多平台浮点数可预测性
-</span><span class="c1"></span><span class="nd">@Strictfp</span>
+</span><span class="c1"></span><span class="n">@Strictfp</span>
 <span class="c1">//改变由 Kotlin 生成的 Java 方法或字段的名称 
-</span><span class="c1"></span><span class="nd">@JvmName</span> 
+</span><span class="c1"></span><span class="n">@JvmName</span> 
 <span class="c1">//能被用在对象声明或者伴生对象的方法上，把它们暴露成
-</span><span class="c1"></span><span class="n">Java</span> <span class="n">的静态方法</span>
-<span class="nd">@JvmStatic</span>
+</span><span class="c1"></span><span class="n">Java</span> <span class="err">的静态方法</span>
+<span class="n">@JvmStatic</span>
 <span class="c1">//指导 Kotlin 编译器为带默认参数值的函数生成多个重载
-</span><span class="c1"></span><span class="nd">@JvmOverloads</span>
+</span><span class="c1"></span><span class="n">@JvmOverloads</span>
 <span class="c1">//应用于一个属性，把这个属性暴露成一个没有访问器的
-</span><span class="c1"></span><span class="n">公有</span> <span class="n">Java</span> <span class="n">字段</span><span class="err">。</span>
-<span class="nd">@JvmField</span> </code></pre></td></tr></table>
+</span><span class="c1"></span><span class="err">公有</span> <span class="n">Java</span> <span class="err">字段。</span>
+<span class="n">@JvmField</span> </code></pre></td></tr></table>
 </div>
 </div>
 <ul>
@@ -477,16 +477,16 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//声明注解
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">//声明注解
 </span><span class="c1">//@Target 元注解
-</span><span class="c1"></span><span class="nd">@Target</span><span class="o">(</span><span class="n">AnnotationTarget</span><span class="o">.</span><span class="na">PROPERTY</span><span class="o">)</span>
-<span class="n">annotation</span> <span class="kd">class</span> <span class="nc">xxx</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="n">@Target</span><span class="p">(</span><span class="n">AnnotationTarget</span><span class="p">.</span><span class="n">PROPERTY</span><span class="p">)</span>
+<span class="k">annotation</span> <span class="k">class</span> <span class="nc">xxx</span></code></pre></td></tr></table>
 </div>
 </div>
 <h3 id="dsl">DSL</h3>
@@ -515,7 +515,7 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 <p><strong>利用带接收者的lambda和扩展函数实现HTML Table Sample DSL</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -562,42 +562,42 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 </span><span class="lnt">45
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">open</span> <span class="n">class</span> <span class="nf">Tag</span><span class="p">(</span><span class="n">val</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">open</span> <span class="k">class</span> <span class="nc">Tag</span><span class="p">(</span><span class="k">val</span> <span class="py">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="cm">/**
 </span><span class="cm">     * 保存所有嵌套标签
 </span><span class="cm">     */</span>
-    <span class="n">private</span> <span class="n">val</span> <span class="n">children</span> <span class="o">=</span> <span class="n">mutableListOf</span><span class="o">&lt;</span><span class="n">Tag</span><span class="o">&gt;</span><span class="p">()</span>
+    <span class="k">private</span> <span class="k">val</span> <span class="py">children</span> <span class="p">=</span> <span class="n">mutableListOf</span><span class="p">&lt;</span><span class="n">Tag</span><span class="p">&gt;()</span>
 
-    <span class="n">protected</span> <span class="n">fun</span> <span class="o">&lt;</span><span class="nl">T</span> <span class="p">:</span> <span class="n">Tag</span><span class="o">&gt;</span> <span class="n">doInit</span><span class="p">(</span><span class="nl">child</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="nl">init</span><span class="p">:</span> <span class="n">T</span><span class="p">.</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">protected</span> <span class="k">fun</span> &lt;T : Tag&gt; <span class="nf">doInit</span><span class="p">(</span><span class="n">child</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="n">init</span><span class="p">:</span> <span class="n">T</span><span class="p">.</span> <span class="p">()</span> <span class="p">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">//调用作为参数的lambda,初始化并保存子标签
 </span><span class="c1"></span>        <span class="n">child</span><span class="p">.</span><span class="n">init</span><span class="p">()</span>
         <span class="n">children</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
     <span class="p">}</span>
 
-    <span class="n">override</span> <span class="n">fun</span> <span class="n">toString</span><span class="p">()</span> <span class="o">=</span> <span class="s">&#34;&lt;$name&gt;${children.joinToString(&#34;&#34;)} &lt;/$name&gt;&#34;</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">toString</span><span class="p">()</span> <span class="p">=</span> <span class="s">&#34;&lt;$name&gt;${children.joinToString(&#34;&#34;)} &lt;/$name&gt;&#34;</span>
 <span class="p">}</span>
 
-<span class="n">fun</span> <span class="nf">table</span><span class="p">(</span><span class="nl">init</span><span class="p">:</span> <span class="n">TABLE</span><span class="p">.()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="o">=</span> <span class="n">TABLE</span><span class="p">().</span><span class="n">apply</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
+<span class="k">fun</span> <span class="nf">table</span><span class="p">(</span><span class="n">init</span><span class="p">:</span> <span class="n">TABLE</span><span class="p">.()</span> <span class="p">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="p">=</span> <span class="n">TABLE</span><span class="p">().</span><span class="n">apply</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
 
-<span class="n">class</span> <span class="nl">TABLE</span> <span class="p">:</span> <span class="n">Tag</span><span class="p">(</span><span class="s">&#34;table&#34;</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">class</span> <span class="nc">TABLE</span> <span class="p">:</span> <span class="n">Tag</span><span class="p">(</span><span class="s">&#34;table&#34;</span><span class="p">)</span> <span class="p">{</span>
     <span class="cm">/**
 </span><span class="cm">     * 创建并初始化 TR 标签的示例并添加到TABLE 的子标签中
 </span><span class="cm">     */</span>
-    <span class="n">fun</span> <span class="n">tr</span><span class="p">(</span><span class="nl">init</span><span class="p">:</span> <span class="n">TR</span><span class="p">.()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="o">=</span> <span class="n">doInit</span><span class="p">(</span><span class="n">TR</span><span class="p">(),</span> <span class="n">init</span><span class="p">)</span>
+    <span class="k">fun</span> <span class="nf">tr</span><span class="p">(</span><span class="n">init</span><span class="p">:</span> <span class="n">TR</span><span class="p">.()</span> <span class="p">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="p">=</span> <span class="n">doInit</span><span class="p">(</span><span class="n">TR</span><span class="p">(),</span> <span class="n">init</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="n">class</span> <span class="nl">TR</span> <span class="p">:</span> <span class="n">Tag</span><span class="p">(</span><span class="s">&#34;tr&#34;</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">class</span> <span class="nc">TR</span> <span class="p">:</span> <span class="n">Tag</span><span class="p">(</span><span class="s">&#34;tr&#34;</span><span class="p">)</span> <span class="p">{</span>
     <span class="cm">/**
 </span><span class="cm">     * 添加TD标签的一个实例到 TR 的子标签中
 </span><span class="cm">     */</span>
-    <span class="n">fun</span> <span class="n">td</span><span class="p">(</span><span class="nl">init</span><span class="p">:</span> <span class="n">TD</span><span class="p">.()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="o">=</span> <span class="n">doInit</span><span class="p">(</span><span class="n">TD</span><span class="p">(),</span> <span class="n">init</span><span class="p">)</span>
+    <span class="k">fun</span> <span class="nf">td</span><span class="p">(</span><span class="n">init</span><span class="p">:</span> <span class="n">TD</span><span class="p">.()</span> <span class="p">-&gt;</span> <span class="n">Unit</span><span class="p">)</span> <span class="p">=</span> <span class="n">doInit</span><span class="p">(</span><span class="n">TD</span><span class="p">(),</span> <span class="n">init</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="n">class</span> <span class="nl">TD</span> <span class="p">:</span> <span class="n">Tag</span><span class="p">(</span><span class="s">&#34;td&#34;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">TD</span> <span class="p">:</span> <span class="n">Tag</span><span class="p">(</span><span class="s">&#34;td&#34;</span><span class="p">)</span>
 
-<span class="n">fun</span> <span class="n">main</span><span class="p">(</span><span class="nl">args</span><span class="p">:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">fun</span> <span class="n">createTable</span><span class="p">()</span> <span class="o">=</span>
+<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">createTable</span><span class="p">()</span> <span class="p">=</span>
             <span class="n">table</span> <span class="p">{</span>
                 <span class="n">tr</span> <span class="p">{</span>
                     <span class="n">td</span> <span class="p">{</span> <span class="p">}</span>
@@ -616,7 +616,7 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 <p>调用扩展函数类型lamdba时，可以像调用一个扩展函数那样调用 lambda，而不是将对象作为参数传递给 lambda。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -632,18 +632,18 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/**
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="cm">/**
 </span><span class="cm"> * action: StringBuilder.() -&gt; Unit 定义接收者为StringBuilder的lambda
 </span><span class="cm"> * StringBuilder.() -&gt; Unit 扩展函数
 </span><span class="cm"> */</span>
-<span class="n">fun</span> <span class="nf">buildString</span><span class="p">(</span><span class="nl">action</span><span class="p">:</span> <span class="n">StringBuilder</span><span class="p">.()</span> <span class="o">-&gt;</span> <span class="n">Unit</span><span class="p">)</span><span class="o">:</span><span class="n">String</span><span class="p">{</span>
-    <span class="n">val</span> <span class="n">sb</span> <span class="o">=</span> <span class="n">StringBuilder</span><span class="p">()</span>
+<span class="k">fun</span> <span class="nf">buildString</span><span class="p">(</span><span class="n">action</span><span class="p">:</span> <span class="n">StringBuilder</span><span class="p">.()</span> <span class="p">-&gt;</span> <span class="n">Unit</span><span class="p">):</span><span class="n">String</span><span class="p">{</span>
+    <span class="k">val</span> <span class="py">sb</span> <span class="p">=</span> <span class="n">StringBuilder</span><span class="p">()</span>
     <span class="c1">//传递一个 StringBuilder 实例作为lambda的接收者
 </span><span class="c1"></span>    <span class="n">sb</span><span class="p">.</span><span class="n">action</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">sb</span><span class="p">.</span><span class="n">toString</span><span class="p">()</span>
 <span class="p">}</span>
 
-<span class="n">var</span> <span class="n">s</span> <span class="o">=</span> <span class="n">buildString</span> <span class="p">{</span>
+<span class="k">var</span> <span class="py">s</span> <span class="p">=</span> <span class="n">buildString</span> <span class="p">{</span>
     <span class="n">append</span><span class="p">(</span><span class="s">&#34;are you ok&#34;</span><span class="p">)</span>
 <span class="p">}</span></code></pre></td></tr></table>
 </div>
@@ -653,7 +653,7 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 <p>invoke约定允许把自定义类型的对象当作函数一样调用。(类似于运算符重载)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -669,17 +669,17 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">class</span> <span class="nf">Person</span><span class="p">(</span><span class="n">val</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">){</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="k">val</span> <span class="py">name</span><span class="p">:</span> <span class="n">String</span><span class="p">){</span>
     <span class="cm">/**
 </span><span class="cm">     * 重载invoke
 </span><span class="cm">     */</span>
-    <span class="n">operator</span> <span class="n">fun</span> <span class="n">invoke</span><span class="p">(</span><span class="nl">no</span><span class="p">:</span> <span class="n">String</span><span class="p">){</span>
+    <span class="k">operator</span> <span class="k">fun</span> <span class="nf">invoke</span><span class="p">(</span><span class="n">no</span><span class="p">:</span> <span class="n">String</span><span class="p">){</span>
         <span class="n">println</span><span class="p">(</span><span class="s">&#34;$name - $no &#34;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="n">fun</span> <span class="nf">main</span><span class="p">(</span><span class="nl">args</span><span class="p">:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">val</span> <span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">&#34;lhr&#34;</span><span class="p">)</span>
+<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">person</span> <span class="p">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">&#34;lhr&#34;</span><span class="p">)</span>
     <span class="n">person</span><span class="p">(</span><span class="s">&#34;cp272727&#34;</span><span class="p">)</span><span class="c1">//实际上调用的是person.invoke
 </span><span class="c1"></span>
 <span class="p">}</span></code></pre></td></tr></table>
@@ -688,7 +688,7 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 <p><strong>中缀调用 DSL清晰的语法</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -706,20 +706,20 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">object</span> <span class="n">start</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">object</span> <span class="nc">start</span>
 
-<span class="n">infix</span> <span class="n">fun</span> <span class="n">String</span><span class="p">.</span><span class="n">should</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">start</span><span class="p">)</span><span class="o">:</span> <span class="n">StartWrapper</span> <span class="o">=</span> <span class="n">StartWrapper</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
+<span class="k">infix</span> <span class="k">fun</span> <span class="nf">String</span><span class="p">.</span><span class="n">should</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">start</span><span class="p">):</span> <span class="n">StartWrapper</span> <span class="p">=</span> <span class="n">StartWrapper</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
 
-<span class="n">class</span> <span class="n">StartWrapper</span><span class="p">(</span><span class="n">val</span> <span class="nl">value</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">infix</span> <span class="n">fun</span> <span class="n">with</span><span class="p">(</span><span class="nl">prefix</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span><span class="o">:</span> <span class="n">Unit</span> <span class="o">=</span>
+<span class="k">class</span> <span class="nc">StartWrapper</span><span class="p">(</span><span class="k">val</span> <span class="py">value</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">infix</span> <span class="k">fun</span> <span class="nf">with</span><span class="p">(</span><span class="n">prefix</span><span class="p">:</span> <span class="n">String</span><span class="p">):</span> <span class="n">Unit</span> <span class="p">=</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="n">startsWith</span><span class="p">(</span><span class="n">prefix</span><span class="p">))</span> <span class="p">{</span>
             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="n">throw</span> <span class="n">AssertionError</span><span class="p">(</span><span class="s">&#34;String does not start with $prefix: $value&#34;</span><span class="p">)</span>
+                <span class="k">throw</span> <span class="n">AssertionError</span><span class="p">(</span><span class="s">&#34;String does not start with $prefix: $value&#34;</span><span class="p">)</span>
             <span class="p">}</span>
 
 <span class="p">}</span>
 
-<span class="n">fun</span> <span class="n">main</span><span class="p">(</span><span class="nl">args</span><span class="p">:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
     <span class="s">&#34;kotlin&#34;</span> <span class="n">should</span> <span class="n">start</span> <span class="n">with</span> <span class="s">&#34;ko&#34;</span>
 <span class="p">}</span></code></pre></td></tr></table>
 </div>
@@ -727,7 +727,7 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 <p><strong>基本数据类型扩展</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -740,16 +740,16 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">val</span> <span class="n">Int</span><span class="p">.</span><span class="nl">days</span><span class="p">:</span> <span class="n">Period</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">val</span> <span class="py">Int</span><span class="p">.</span><span class="n">days</span><span class="p">:</span> <span class="n">Period</span>
     <span class="c1">//this 引用数字常量值
-</span><span class="c1"></span>    <span class="n">get</span><span class="p">()</span> <span class="o">=</span> <span class="n">Period</span> <span class="p">.</span> <span class="n">ofDays</span> <span class="p">(</span><span class="n">this</span><span class="p">)</span>
+</span><span class="c1"></span>    <span class="k">get</span><span class="p">()</span> <span class="p">=</span> <span class="n">Period</span> <span class="p">.</span> <span class="n">ofDays</span> <span class="p">(</span><span class="k">this</span><span class="p">)</span>
 
-<span class="n">val</span> <span class="n">Period</span><span class="p">.</span><span class="nl">ago</span><span class="p">:</span><span class="n">LocalDate</span>
-    <span class="n">get</span><span class="p">()</span> <span class="o">=</span> <span class="n">LocalDate</span><span class="p">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">this</span>
+<span class="k">val</span> <span class="py">Period</span><span class="p">.</span><span class="n">ago</span><span class="p">:</span><span class="n">LocalDate</span>
+    <span class="k">get</span><span class="p">()</span> <span class="p">=</span> <span class="n">LocalDate</span><span class="p">.</span><span class="n">now</span><span class="p">()</span> <span class="p">-</span> <span class="k">this</span>
 
-<span class="n">fun</span> <span class="n">main</span><span class="p">(</span><span class="nl">args</span><span class="p">:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
     <span class="c1">//获取一天前日期
-</span><span class="c1"></span>    <span class="n">println</span><span class="p">(</span><span class="mf">1.</span><span class="n">days</span><span class="p">.</span><span class="n">ago</span><span class="p">)</span>
+</span><span class="c1"></span>    <span class="n">println</span><span class="p">(</span><span class="m">1.</span><span class="n">days</span><span class="p">.</span><span class="n">ago</span><span class="p">)</span>
 <span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div>

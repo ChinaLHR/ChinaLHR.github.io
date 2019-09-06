@@ -159,7 +159,7 @@
 
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -242,91 +242,91 @@
 </span><span class="lnt">81
 </span><span class="lnt">82
 </span><span class="lnt">83
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">        //获取X时间前 minusDays/minusHours/minusMillis...
-		DateTime.now().minusDays(15).toDate();
+<pre class="chroma"><code class="language-java" data-lang="java">        <span class="c1">//获取X时间前 minusDays/minusHours/minusMillis...
+</span><span class="c1"></span>		<span class="n">DateTime</span><span class="o">.</span><span class="na">now</span><span class="o">().</span><span class="na">minusDays</span><span class="o">(</span><span class="n">15</span><span class="o">).</span><span class="na">toDate</span><span class="o">();</span>
 	
-		//获取X时间后 plusDays/plusHours/plusMillis
-		DateTime.now().plusDays(15).toDate();
+		<span class="c1">//获取X时间后 plusDays/plusHours/plusMillis
+</span><span class="c1"></span>		<span class="n">DateTime</span><span class="o">.</span><span class="na">now</span><span class="o">().</span><span class="na">plusDays</span><span class="o">(</span><span class="n">15</span><span class="o">).</span><span class="na">toDate</span><span class="o">();</span>
 	
-	 	/**
-	     * 获取DateTime今日零点
-	     *
-	     * @return
-	     */
-	    public static Date getStartOfToday(DateTime dateTime) {
-	        return dateTime.withMillisOfDay(0).toDate();
-	    }
+	 	<span class="cm">/**
+</span><span class="cm">	     * 获取DateTime今日零点
+</span><span class="cm">	     *
+</span><span class="cm">	     * @return
+</span><span class="cm">	     */</span>
+	    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Date</span> <span class="nf">getStartOfToday</span><span class="o">(</span><span class="n">DateTime</span> <span class="n">dateTime</span><span class="o">)</span> <span class="o">{</span>
+	        <span class="k">return</span> <span class="n">dateTime</span><span class="o">.</span><span class="na">withMillisOfDay</span><span class="o">(</span><span class="n">0</span><span class="o">).</span><span class="na">toDate</span><span class="o">();</span>
+	    <span class="o">}</span>
 	
-	    /**
-	     * 获取DateTime昨日零点
-	     *
-	     * @return
-	     */
-	    public static Date getStartOfYesterday(DateTime dateTime) {
-	        return dateTime.plusDays(-1).withMillisOfDay(0).toDate();
-	    }
+	    <span class="cm">/**
+</span><span class="cm">	     * 获取DateTime昨日零点
+</span><span class="cm">	     *
+</span><span class="cm">	     * @return
+</span><span class="cm">	     */</span>
+	    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Date</span> <span class="nf">getStartOfYesterday</span><span class="o">(</span><span class="n">DateTime</span> <span class="n">dateTime</span><span class="o">)</span> <span class="o">{</span>
+	        <span class="k">return</span> <span class="n">dateTime</span><span class="o">.</span><span class="na">plusDays</span><span class="o">(-</span><span class="n">1</span><span class="o">).</span><span class="na">withMillisOfDay</span><span class="o">(</span><span class="n">0</span><span class="o">).</span><span class="na">toDate</span><span class="o">();</span>
+	    <span class="o">}</span>
 	
-	    /**
-	     * 获取上周一零点
-	     *
-	     * @param dateTime
-	     * @return
-	     */
-	    public static Date getLastMonday(DateTime dateTime) {
-	        return dateTime.minusWeeks(1)
-	                .withDayOfWeek(1)
-	                .withTimeAtStartOfDay()
-	                .toDate();
-	    }
+	    <span class="cm">/**
+</span><span class="cm">	     * 获取上周一零点
+</span><span class="cm">	     *
+</span><span class="cm">	     * @param dateTime
+</span><span class="cm">	     * @return
+</span><span class="cm">	     */</span>
+	    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Date</span> <span class="nf">getLastMonday</span><span class="o">(</span><span class="n">DateTime</span> <span class="n">dateTime</span><span class="o">)</span> <span class="o">{</span>
+	        <span class="k">return</span> <span class="n">dateTime</span><span class="o">.</span><span class="na">minusWeeks</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+	                <span class="o">.</span><span class="na">withDayOfWeek</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+	                <span class="o">.</span><span class="na">withTimeAtStartOfDay</span><span class="o">()</span>
+	                <span class="o">.</span><span class="na">toDate</span><span class="o">();</span>
+	    <span class="o">}</span>
 	
-	    /**
-	     * 获取上周日零点
-	     *
-	     * @param dateTime
-	     * @return
-	     */
-	    public static Date getLastSunday(DateTime dateTime) {
-	        return dateTime
-	                .minusDays(dateTime.getDayOfWeek())
-	                .withTime(23, 59, 59, 0)
-	                .toDate();
-	    }
+	    <span class="cm">/**
+</span><span class="cm">	     * 获取上周日零点
+</span><span class="cm">	     *
+</span><span class="cm">	     * @param dateTime
+</span><span class="cm">	     * @return
+</span><span class="cm">	     */</span>
+	    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Date</span> <span class="nf">getLastSunday</span><span class="o">(</span><span class="n">DateTime</span> <span class="n">dateTime</span><span class="o">)</span> <span class="o">{</span>
+	        <span class="k">return</span> <span class="n">dateTime</span>
+	                <span class="o">.</span><span class="na">minusDays</span><span class="o">(</span><span class="n">dateTime</span><span class="o">.</span><span class="na">getDayOfWeek</span><span class="o">())</span>
+	                <span class="o">.</span><span class="na">withTime</span><span class="o">(</span><span class="n">23</span><span class="o">,</span> <span class="n">59</span><span class="o">,</span> <span class="n">59</span><span class="o">,</span> <span class="n">0</span><span class="o">)</span>
+	                <span class="o">.</span><span class="na">toDate</span><span class="o">();</span>
+	    <span class="o">}</span>
 	
-		/**
-	     * 获取上月一号零点
-	     * @param dateTime
-	     * @return
-	     */
-	    public static Date getLastMonthStratTime(DateTime dateTime) {
-	        return dateTime.minusMonths(1)
-	                .withDayOfMonth(1)
-	                .withTimeAtStartOfDay().toDate();
-	    }
+		<span class="cm">/**
+</span><span class="cm">	     * 获取上月一号零点
+</span><span class="cm">	     * @param dateTime
+</span><span class="cm">	     * @return
+</span><span class="cm">	     */</span>
+	    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Date</span> <span class="nf">getLastMonthStratTime</span><span class="o">(</span><span class="n">DateTime</span> <span class="n">dateTime</span><span class="o">)</span> <span class="o">{</span>
+	        <span class="k">return</span> <span class="n">dateTime</span><span class="o">.</span><span class="na">minusMonths</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+	                <span class="o">.</span><span class="na">withDayOfMonth</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+	                <span class="o">.</span><span class="na">withTimeAtStartOfDay</span><span class="o">().</span><span class="na">toDate</span><span class="o">();</span>
+	    <span class="o">}</span>
 	
-	    /**
-	     * 获取上月底零点
-	     * @param dateTime
-	     * @return
-	     */
-	    public static Date getLastMonthEndTime(DateTime dateTime) {
-	        return dateTime.minusDays(dateTime.getDayOfMonth())
-	                .withTime(23, 59, 59, 0).toDate();
-	    }
+	    <span class="cm">/**
+</span><span class="cm">	     * 获取上月底零点
+</span><span class="cm">	     * @param dateTime
+</span><span class="cm">	     * @return
+</span><span class="cm">	     */</span>
+	    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Date</span> <span class="nf">getLastMonthEndTime</span><span class="o">(</span><span class="n">DateTime</span> <span class="n">dateTime</span><span class="o">)</span> <span class="o">{</span>
+	        <span class="k">return</span> <span class="n">dateTime</span><span class="o">.</span><span class="na">minusDays</span><span class="o">(</span><span class="n">dateTime</span><span class="o">.</span><span class="na">getDayOfMonth</span><span class="o">())</span>
+	                <span class="o">.</span><span class="na">withTime</span><span class="o">(</span><span class="n">23</span><span class="o">,</span> <span class="n">59</span><span class="o">,</span> <span class="n">59</span><span class="o">,</span> <span class="n">0</span><span class="o">).</span><span class="na">toDate</span><span class="o">();</span>
+	    <span class="o">}</span>
 	
-		//获取两个DateTime相隔的时间
-		int between = new Period(start, end, PeriodType.days()).getDays();
+		<span class="c1">//获取两个DateTime相隔的时间
+</span><span class="c1"></span>		<span class="kt">int</span> <span class="n">between</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Period</span><span class="o">(</span><span class="n">start</span><span class="o">,</span> <span class="n">end</span><span class="o">,</span> <span class="n">PeriodType</span><span class="o">.</span><span class="na">days</span><span class="o">()).</span><span class="na">getDays</span><span class="o">();</span>
 	
-		//时间解析
-		DateTimeFormatter format = DateTimeFormat .forPattern(&#34;yyyy-MM-dd HH:mm:ss&#34;); 
-	　　DateTime d = DateTime.parse(&#34;2017-10-17 20:06:05&#34;,format) ;
+		<span class="c1">//时间解析
+</span><span class="c1"></span>		<span class="n">DateTimeFormatter</span> <span class="n">format</span> <span class="o">=</span> <span class="n">DateTimeFormat</span> <span class="o">.</span><span class="na">forPattern</span><span class="o">(</span><span class="s">&#34;yyyy-MM-dd HH:mm:ss&#34;</span><span class="o">);</span> 
+	　　<span class="n">DateTime</span> <span class="n">d</span> <span class="o">=</span> <span class="n">DateTime</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">&#34;2017-10-17 20:06:05&#34;</span><span class="o">,</span><span class="n">format</span><span class="o">)</span> <span class="o">;</span>
 	
-		//得到某一日期的年与日时分秒
-		DateTime time = new DateTime() ;
-		time.getYear();
-		time.getMonthOfYear();
-		time.getDayOfMonth();...</pre></td></tr></table>
+		<span class="c1">//得到某一日期的年与日时分秒
+</span><span class="c1"></span>		<span class="n">DateTime</span> <span class="n">time</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DateTime</span><span class="o">()</span> <span class="o">;</span>
+		<span class="n">time</span><span class="o">.</span><span class="na">getYear</span><span class="o">();</span>
+		<span class="n">time</span><span class="o">.</span><span class="na">getMonthOfYear</span><span class="o">();</span>
+		<span class="n">time</span><span class="o">.</span><span class="na">getDayOfMonth</span><span class="o">();...</span></code></pre></td></tr></table>
 </div>
 </div>
     </div>
