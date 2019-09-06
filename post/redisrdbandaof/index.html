@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title> Redis事务-Watch - LiHanRong Blog</title>
+  <title>Redis持久化 RDB-AOF - LiHanRong Blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -27,7 +27,7 @@
 <meta name="generator" content="Hugo 0.51 with even 4.0.0" />
 
 
-<link rel="canonical" href="https://chinalhr.github.io/post/redistransactionandwatch/" />
+<link rel="canonical" href="https://chinalhr.github.io/post/redisrdbandaof/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,29 +39,29 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content=" Redis事务-Watch" />
+<meta property="og:title" content="Redis持久化 RDB-AOF" />
 <meta property="og:description" content="
 Redis事务/Watch机制相关知识点整理
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/redistransactionandwatch/" /><meta property="article:published_time" content="2019-09-03T23:13:11&#43;08:00"/>
-<meta property="article:modified_time" content="2019-09-03T23:13:11&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/redisrdbandaof/" /><meta property="article:published_time" content="2019-09-06T22:43:23&#43;08:00"/>
+<meta property="article:modified_time" content="2019-09-06T22:43:23&#43;08:00"/>
 
-<meta itemprop="name" content=" Redis事务-Watch">
+<meta itemprop="name" content="Redis持久化 RDB-AOF">
 <meta itemprop="description" content="
 Redis事务/Watch机制相关知识点整理
 ">
 
 
-<meta itemprop="datePublished" content="2019-09-03T23:13:11&#43;08:00" />
-<meta itemprop="dateModified" content="2019-09-03T23:13:11&#43;08:00" />
-<meta itemprop="wordCount" content="1407">
+<meta itemprop="datePublished" content="2019-09-06T22:43:23&#43;08:00" />
+<meta itemprop="dateModified" content="2019-09-06T22:43:23&#43;08:00" />
+<meta itemprop="wordCount" content="1440">
 
 
 
 <meta itemprop="keywords" content="Redis," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=" Redis事务-Watch"/>
+<meta name="twitter:title" content="Redis持久化 RDB-AOF"/>
 <meta name="twitter:description" content="
 Redis事务/Watch机制相关知识点整理
 "/>
@@ -135,10 +135,10 @@ Redis事务/Watch机制相关知识点整理
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title"> Redis事务-Watch</h1>
+      <h1 class="post-title">Redis持久化 RDB-AOF</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2019-09-03 </span>
+        <span class="post-time"> 2019-09-06 </span>
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B/"> 编程 </a>
             </div>
@@ -153,11 +153,22 @@ Redis事务/Watch机制相关知识点整理
 <ul>
 <li>
 <ul>
-<li>
+<li><a href="#redis持久化">Redis持久化</a>
 <ul>
-<li><a href="#redis事务">Redis事务</a></li>
-<li><a href="#watch命令实现">Watch命令实现</a></li>
-<li><a href="#参考">参考</a></li>
+<li><a href="#rdb">RDB</a>
+<ul>
+<li><a href="#开启rdb方式">开启RDB方式</a></li>
+<li><a href="#rdb文件">RDB文件</a></li>
+<li><a href="#rdb优劣势">RDB优劣势</a></li>
+</ul></li>
+<li><a href="#aof">AOF</a>
+<ul>
+<li><a href="#配置">配置</a></li>
+<li><a href="#写入策略">写入策略</a></li>
+<li><a href="#aof文件重写">AOF文件重写</a></li>
+<li><a href="#aof文件修复">AOF文件修复</a></li>
+<li><a href="#aof优劣势">AOF优劣势</a></li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -169,128 +180,58 @@ Redis事务/Watch机制相关知识点整理
 <p>Redis事务/Watch机制相关知识点整理</p>
 </blockquote>
 
-<h3 id="redis事务">Redis事务</h3>
+<h2 id="redis持久化">Redis持久化</h2>
+
+<p>Redis提供了对持久化的支持，我们可以选择不同的方式(RDB或者AOF)将数据从内存中保存到硬盘当中，使数据可以持久化保存。</p>
+
+<h3 id="rdb">RDB</h3>
+
+<p>RDB是一种快照存储持久化方式，具体就是将Redis某一时刻的内存数据保存到硬盘的文件当中，默认保存的文件名为dump.rdb，而在Redis服务器启动时，会重新加载dump.rdb文件的数据到内存当中恢复数据。</p>
+
+<h4 id="开启rdb方式">开启RDB方式</h4>
 
 <ul>
-<li>关于Redis事务</li>
+<li>save命令</li>
 </ul>
 
-<p>Redis transaction是一组命令的集合。 transaction命令和普通的Redis命令一样是Redis的最小执行单位，具有原子性（一个事物中的命令，要么都执行，要么都不执行）</p>
+<p>同步Redis数据到磁盘上，当客户端向服务器发送save命令请求进行持久化时，服务器会阻塞save命令之后的其他客户端的请求，直到数据同步完成。</p>
 
-<p>原理:先将属于一个事务的命令MULTI发送给Redis，MULTI 执行之后，客户端可以继续向服务器发送任意多条命令，这些命令不会立即被执行，
-而是被放到一个队列中,然后当EXEC命令被调用时，再让Redis依次执行队列里的命令。</p>
-
-<p>事务从执行到开始三个阶段：
-1. 开始事务
-2. 命令入队
-3. 执行事务</p>
-
-<p>Redis保证一个事务中的所有命令要么都执行，要么都不执行。如果在发送EXEC命令前客户端断线了，则Redis会清空事务队列，事务中的所有命令都不会执行。
-而一旦客户端发送了EXEC命令，所有的命令就都会被执行，即使此后客户端断线也没关系，因为Redis中已经记录了所有要执行的命令。</p>
-
-<p>Redis保证一个事务内的命令依次执行而不被其他命令插入。(避免多台机器同时发送命令导致并发问题)</p>
+<p><img src="https://user-images.githubusercontent.com/19829495/64329200-6f28cb80-d001-11e9-9fea-0d23c541a030.png" alt="image" /></p>
 
 <ul>
-<li>和传统RDBS事务的区别</li>
+<li>bgsave命令</li>
 </ul>
 
-<p>Redis的事务没有提供rollback功能，如果一个事务中的某个命令执行出错，例如语法错误，运行错误</p>
+<p>异步保存数据集到磁盘上，当客户端发服务发出bgsave命令时，Redis服务器主进程会forks一个子进程来数据同步问题，在将数据保存到rdb文件之后，子进程会退出。子进程进行IO写入操作时，主进程仍然可以接收其他请求（但forks子进程是同步的，所以forks子进程时会阻塞其他客户端请求）。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/64330106-f3c81980-d002-11e9-8988-ee167ba341a7.png" alt="image" /></p>
 
 <ul>
-<li>事务相关命令</li>
+<li>配置触发</li>
 </ul>
+
+<p>redis.conf配置，达到触发条件时，会forks一个子进程进行数据同步。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma"># MULTI 命令的执行标记着事务的开始(客户端从非事务状态切换到事务状态)
-# EXEC 命令服务器根据客户端所保存的事务队列，以先进先出（FIFO）的方式执行事务队列中的命令
-#DISCARD 命令用于取消一个事务， 它清空客户端的整个事务队列， 然后将客户端从事务状态调整回非事务状态，返回字符串 OK 给客户端
-
-redis &gt; multi
-OK
-redis &gt; incr foo
-QUEUED
-redis &gt; set t1 1
-QUEUED
-redis &gt; exec</pre></td></tr></table>
+<pre class="chroma"># 900s内至少达到一条写命令
+save 900 1
+# 300s内至少达至10条写命令
+save 300 10
+# 60s内至少达到10000条写命令
+save 60 10000</pre></td></tr></table>
 </div>
 </div>
-<ul>
-<li>Watch</li>
-</ul>
+<h4 id="rdb文件">RDB文件</h4>
 
-<p>WATCH 命令用于在事务开始之前监视任意数量的键： 当调用 EXEC 命令执行事务时， 如果任意一个被监视的键已经被其他客户端修改了， 那么整个事务不再执行，
-直接返回失败。</p>
-
-<ul>
-<li>Watch相关命令</li>
-</ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">redis&gt; WATCH name
-OK
-
-redis&gt; MULTI
-OK
-
-redis&gt; SET name peter
-QUEUED
-
-redis&gt; EXEC
-(nil)</pre></td></tr></table>
-</div>
-</div>
-<h3 id="watch命令实现">Watch命令实现</h3>
-
-<ul>
-<li>watched_keys字典</li>
-</ul>
-
-<p>在每个代表数据库的 redis.h/redisDb 结构类型中， 都保存了一个 watched_keys 字典， 字典的键是这个数据库被监视的键， 而字典的值则是一个链表， 链表中保存了所有监视这个键的客户端。</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/64306279-d07e7980-cfc4-11e9-9e77-cd4dd66aeccb.png" alt="image" /></p>
-
-<p>WATCH 命令的作用， 就是将当前客户端和要监视的键在 watched_keys 中进行关联。</p>
-
-<p>通过 watched_keys 字典， 如果程序想检查某个键是否被监视， 那么它只要检查字典中是否存在这个键即可； 如果程序要获取监视某个键的所有客户端， 那么只要取出键的值（一个链表）， 然后对链表进行遍历即可。</p>
-
-<ul>
-<li>watch触发</li>
-</ul>
-
-<p>在任何对数据库键空间（key space）进行修改的命令成功执行之后 （比如 FLUSHDB 、 SET 、 DEL 、 LPUSH 、 SADD 、 ZREM ，诸如此类）， multi.c/touchWatchedKey 函数都会被调用 —— 它检查数据库的 watched_keys 字典， 看是否有客户端在监视已经被命令修改的键， 如果有的话， 程序将所有监视这个/这些被修改键的客户端的 REDIS_DIRTY_CAS 选项打开：</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/64306899-dd9c6800-cfc6-11e9-92f9-782a0ac91c4b.png" alt="image" /></p>
-
-<p>当客户端发送 EXEC 命令、触发事务执行时， 服务器会对客户端的状态进行检查：</p>
-
-<p>如果客户端的 REDIS_DIRTY_CAS 选项已经被打开，那么说明被客户端监视的键至少有一个已经被修改了，事务的安全性已经被破坏。服务器会放弃执行这个事务，直接向客户端返回空回复，表示事务执行失败。
-如果 REDIS_DIRTY_CAS 选项没有被打开，那么说明所有监视键都安全，服务器正式执行事务。</p>
+<p>RDB默认生成的文件名为dump.rdb,生成过程如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -298,14 +239,126 @@ redis&gt; EXEC
 </span><span class="lnt">3
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">1. client3对 key1 进行了修改
-2. 所有监视 key1 的客户端(client2,client5,client6)的 REDIS_DIRTY_CAS 选项都会被打开
-3. 当client2,client5,client6执行 EXEC 的时候， 它们的事务都会失败</pre></td></tr></table>
+<pre class="chroma">1.生成临时rdb文件，并写入数据。
+2.完成数据写入，用临时文代替代正式rdb文件。
+3.删除原来的db文件。</pre></td></tr></table>
 </div>
 </div>
-<h3 id="参考">参考</h3>
+<h4 id="rdb优劣势">RDB优劣势</h4>
 
-<p><a href="https://redisbook.readthedocs.io/en/latest/feature/transaction.html#durability">https://redisbook.readthedocs.io/en/latest/feature/transaction.html#durability</a></p>
+<ul>
+<li><p>优点</p>
+
+<ol>
+<li>与AOF方式相比，通过rdb文件恢复数据比较快。</li>
+<li>rdb文件非常紧凑，适合于数据备份。</li>
+<li>通过RDB进行数据备，由于使用子进程生成，所以对Redis服务器性能影响较小。</li>
+</ol></li>
+
+<li><p>缺点</p>
+
+<ol>
+<li>服务器宕机有数据缺失的风险</li>
+<li>save会造成Redis服务阻塞，gsave命令在forks子进程会消耗内存</li>
+</ol></li>
+</ul>
+
+<h3 id="aof">AOF</h3>
+
+<p>AOF(Append-only file)，AOF持久化方式会记录客户端对服务器的每一次写操作命令，并将这些写操作以Redis协议追加保存到以后缀为aof文件末尾，在Redis服务器重启时，会加载并运行aof文件的命令，以达到恢复数据的目的。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/64349166-06554980-d029-11e9-9690-476a7d8f0523.png" alt="image" /></p>
+
+<h4 id="配置">配置</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"># 开启aof机制
+appendonly yes
+
+# aof文件名
+appendfilename &#34;appendonly.aof&#34;
+
+# 写入策略,always表示每个写操作都保存到aof文件中,也可以是everysec或no
+appendfsync always
+
+# 默认不重写aof文件
+no-appendfsync-on-rewrite no
+
+# 保存目录
+dir ~/redis/</pre></td></tr></table>
+</div>
+</div>
+<h4 id="写入策略">写入策略</h4>
+
+<ul>
+<li>always
+<br /></li>
+</ul>
+
+<p>客户端的每一个写操作都保存到aof文件当，这种策略很安全，但是每个写请求都有IO操作。</p>
+
+<ul>
+<li>everysec
+<br /></li>
+</ul>
+
+<p>appendfsync的默认写入策略，每秒写入一次aof文件，因此，最多可能会丢失1s的数据。</p>
+
+<ul>
+<li>no
+<br /></li>
+</ul>
+
+<p>Redis服务器不负责写入aof，而是交由操作系统来处理什么时候写入aof文件。更快，但也是最不安全的选择，不推荐使用。</p>
+
+<h4 id="aof文件重写">AOF文件重写</h4>
+
+<p>可以通过配置的no-appendfsync-on-rewrite方式或者客户端向服务器发送bgrewriteaof命令</p>
+
+<h4 id="aof文件修复">AOF文件修复</h4>
+
+<ol>
+<li>定时备份aof文件</li>
+<li>使用redis-check-aof命令修复aof文件</li>
+<li>重启Redis服务器，加载已经修复的aof文件，恢复数据</li>
+</ol>
+
+<h4 id="aof优劣势">AOF优劣势</h4>
+
+<ul>
+<li><p>优点</p>
+
+<ol>
+<li>AOF只是追加日志文件，因此对服务器性能影响较小，速度比RDB要快，消耗的内存较少。</li>
+</ol></li>
+
+<li><p>缺点</p>
+
+<ol>
+<li>AOF方式生成的日志文件太大，即使通过AFO重写，文件体积仍然很大。<br /></li>
+<li>恢复数据的速度比RDB慢。</li>
+</ol></li>
+
+<li><p>注意</p></li>
+</ul>
+
+<p>当RDB与AOF两种方式都开启时，Redis会优先使用AOF日志来恢复数据，因为AOF保存的文件比RDB文件更完整。</p>
     </div>
 
     <div class="post-copyright">
@@ -316,7 +369,7 @@ redis&gt; EXEC
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2019-09-03
+        2019-09-06
         
     </span>
   </p>
@@ -328,13 +381,9 @@ redis&gt; EXEC
           <a href="/tags/redis/">Redis</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/redisrdbandaof/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Redis持久化 RDB-AOF</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/mongodb_limit_sort_index/">
-            <span class="next-text nav-default">MongoDB分页-排序-索引</span>
+        
+        <a class="next" href="/post/redistransactionandwatch/">
+            <span class="next-text nav-default"> Redis事务-Watch</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

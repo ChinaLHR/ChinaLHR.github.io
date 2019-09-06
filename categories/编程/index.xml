@@ -6,10 +6,21 @@
     <description>Recent content in 编程 on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 03 Sep 2019 23:13:11 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 06 Sep 2019 22:43:23 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Redis持久化 RDB-AOF</title>
+      <link>https://chinalhr.github.io/post/redisrdbandaof/</link>
+      <pubDate>Fri, 06 Sep 2019 22:43:23 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/redisrdbandaof/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Redis事务/Watch机制相关知识点整理&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title> Redis事务-Watch</title>
