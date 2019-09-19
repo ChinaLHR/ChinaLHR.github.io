@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>mq on LiHanRong Blog</title>
+    <title>MQ on LiHanRong Blog</title>
     <link>https://chinalhr.github.io/tags/mq/</link>
-    <description>Recent content in mq on LiHanRong Blog</description>
+    <description>Recent content in MQ on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 26 Jun 2018 21:44:54 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 10 Jul 2018 22:01:41 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/mq/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>消息队列QPS优化(使用Redis做MQ的Buff)</title>
+      <link>https://chinalhr.github.io/post/redisdomqbuff/</link>
+      <pubDate>Tue, 10 Jul 2018 22:01:41 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/redisdomqbuff/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;使用Redis做阿里MQ发送的缓存，一种控制MQ发送QPS的方案&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>使用RabbitMQ</title>
