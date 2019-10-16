@@ -17,7 +17,9 @@
       <pubDate>Wed, 16 Oct 2019 22:36:58 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/mongodb_conf/</guid>
-      <description>MongoDB配置相关知识点整理 两种MongoDB的启动方式 1.直接启动，配置参数写在命令中 mongod &amp;ndash;dbpath=data/db &amp;ndash;logpath=log/log.log &amp;ndash;fork 2.以配置文件启动 mongod -f /etc/mong</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;MongoDB配置相关知识点整理&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
