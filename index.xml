@@ -6,10 +6,21 @@
     <description>Recent content on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 16 Oct 2019 22:36:58 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 18 Oct 2019 23:06:48 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>MongoDB用户-权限</title>
+      <link>https://chinalhr.github.io/post/mongodb_user_auth/</link>
+      <pubDate>Fri, 18 Oct 2019 23:06:48 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/mongodb_user_auth/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;MongoDB用户/权限相关知识点整理&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>MongoDB配置相关</title>

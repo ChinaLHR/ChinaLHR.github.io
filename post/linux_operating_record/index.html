@@ -55,7 +55,7 @@
 
 <meta itemprop="datePublished" content="2019-04-19T22:59:11&#43;08:00" />
 <meta itemprop="dateModified" content="2019-04-19T22:59:11&#43;08:00" />
-<meta itemprop="wordCount" content="3157">
+<meta itemprop="wordCount" content="3548">
 
 
 
@@ -176,6 +176,13 @@
 <ul>
 <li><a href="#挂载ecs数据盘">挂载ecs数据盘</a></li>
 <li><a href="#阿里云数据盘扩容操作">阿里云数据盘扩容操作</a></li>
+</ul></li>
+<li><a href="#centos环境相关配置">Centos环境相关配置</a>
+<ul>
+<li><a href="#openjdk1-8">OpenJDK1.8</a></li>
+<li><a href="#nginx">Nginx</a></li>
+<li><a href="#mongodb">mongoDB</a></li>
+<li><a href="#maven">maven</a></li>
 </ul></li>
 <li><a href="#链接">链接</a></li>
 </ul></li>
@@ -832,6 +839,170 @@ resize2fs -f /dev/vdb1
 
 # 重新挂载/data
 mount /dev/vdb1 /data</pre></td></tr></table>
+</div>
+</div>
+<h3 id="centos环境相关配置">Centos环境相关配置</h3>
+
+<h4 id="openjdk1-8">OpenJDK1.8</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum -y install java-1.8.0-openjdk java-1.8.0-openjdk-devel
+
+# 获取java home
+dirname $(readlink $(readlink $(which java))) 
+
+# 设置环境变量
+vim /etc/profile.d/env_export.sh
+export JAVA_HOME=上面dirname命令获取到的路径，去掉/jre/bin最后这段
+export PATH=$PATH:$JAVA_HOME/bin
+export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
+
+# 使设置立即生效
+source /etc/profile.d/env_export.sh</pre></td></tr></table>
+</div>
+</div>
+<h4 id="nginx">Nginx</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"># 配置 EPEL源
+sudo yum install -y epel-release
+sudo yum -y update
+
+# 安装Nginx
+sudo yum install -y nginx
+
+# 常用命令
+systemctl enable nginx.service	设置开机启动
+systemctl disable nginx.service	停止开机自启动
+systemctl start nginx.service	启动nginx服务
+systemctl status nginx.service	查看服务当前状态
+systemctl restart nginx.service	重新启动服务
+systemctl list-units --type=service	查看所有已启动的服务
+
+nginx -s reload
+nginx -s stop
+nginx -s quit
+nginx -t
+service nginx start</pre></td></tr></table>
+</div>
+</div>
+<h4 id="mongodb">mongoDB</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"># 配置MongoDB的yum源
+#cd /etc/yum.repos.d 
+#vim mongodb-org-4.2.repo
+
+# 添加阿里云源
+
+[mngodb-org]
+name=MongoDB Repository
+baseurl=http://mirrors.aliyun.com/mongodb/yum/redhat/7Server/mongodb-org/4.0/x86_64/
+gpgcheck=0
+enabled=1
+
+# 安装
+yum install -y mongodb-org
+
+# 常用命令
+
+/usr/bin/mongod --config /etc/mongod.conf #启动
+/usr/bin/mongod --shutdown --config /etc/mongod.conf #停止
+mongo 						#进入控制台</pre></td></tr></table>
+</div>
+</div>
+<h4 id="maven">maven</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"># 下载maven
+wget http://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+
+# 解压安装
+tar -zxvf apache-maven-3.3.9-bin.tar.gz 
+
+# 配置环境变量
+vim /etc/profile
+
+M2_HOME=/opt/tools/apache-maven-3.3.9
+export PATH=${M2_HOME}/bin:${PATH}
+
+# 重载/etc/profile
+source /etc/profile</pre></td></tr></table>
 </div>
 </div>
 <h3 id="链接">链接</h3>
