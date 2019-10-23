@@ -6,10 +6,21 @@
     <description>Recent content in Posts on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 18 Oct 2019 23:06:48 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 23 Oct 2019 22:09:54 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux用户-权限</title>
+      <link>https://chinalhr.github.io/post/linux_security_permission/</link>
+      <pubDate>Wed, 23 Oct 2019 22:09:54 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/linux_security_permission/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;读《Linux命令行与shell脚本编程大全》记录&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>MongoDB用户-权限</title>
