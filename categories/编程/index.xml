@@ -497,10 +497,10 @@
     
     <item>
       <title>基于SnowFlake的分布式UID生成服务</title>
-      <link>https://chinalhr.github.io/post/uidgenerateserver/</link>
+      <link>https://chinalhr.github.io/post/uidgenerate_snowflake/</link>
       <pubDate>Sat, 08 Sep 2018 23:02:55 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/uidgenerateserver/</guid>
+      <guid>https://chinalhr.github.io/post/uidgenerate_snowflake/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;分析与改造SnowFlake算法&lt;/p&gt;
 &lt;/blockquote&gt;</description>
