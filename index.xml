@@ -6,10 +6,21 @@
     <description>Recent content on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 23 Oct 2019 22:09:54 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 25 Nov 2019 22:46:32 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>PHP-Composer</title>
+      <link>https://chinalhr.github.io/post/composer/</link>
+      <pubDate>Mon, 25 Nov 2019 22:46:32 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/composer/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;依赖管理工具Composer记录&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Linux用户-权限</title>
