@@ -451,8 +451,15 @@
   </url>
   
   <url>
+    <loc>https://chinalhr.github.io/post/books/</loc>
+    <lastmod>2016-11-25T23:28:15+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/post/resume/</loc>
-    <lastmod>1996-06-05T23:23:17+08:00</lastmod>
+    <lastmod>1996-02-13T23:23:17+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -640,7 +647,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/categories/%E7%AE%80%E5%8E%86/</loc>
-    <lastmod>1996-06-05T23:23:17+08:00</lastmod>
+    <lastmod>1996-02-13T23:23:17+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -662,6 +669,13 @@
   <url>
     <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2019-11-25T22:46:32+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/categories/%E8%AF%BB%E4%B9%A6/</loc>
+    <lastmod>2016-11-25T23:28:15+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
