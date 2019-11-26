@@ -3,7 +3,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://chinalhr.github.io/post/composer/</loc>
+    <loc>https://chinalhr.github.io/post/python-requests/</loc>
+    <lastmod>2019-11-26T23:54:39+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/post/php-composer/</loc>
     <lastmod>2019-11-25T22:46:32+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -486,7 +493,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2019-11-25T22:46:32+08:00</lastmod>
+    <lastmod>2019-11-26T23:54:39+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -542,7 +549,14 @@
   
   <url>
     <loc>https://chinalhr.github.io/post/</loc>
-    <lastmod>2019-11-25T22:46:32+08:00</lastmod>
+    <lastmod>2019-11-26T23:54:39+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/python/</loc>
+    <lastmod>2019-11-26T23:54:39+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -668,7 +682,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2019-11-25T22:46:32+08:00</lastmod>
+    <lastmod>2019-11-26T23:54:39+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

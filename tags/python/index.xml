@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on LiHanRong Blog</title>
+    <link>https://chinalhr.github.io/tags/python/</link>
+    <description>Recent content in Python on LiHanRong Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 26 Nov 2019 23:54:39 +0800</lastBuildDate>
+    
+	<atom:link href="https://chinalhr.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Python-Requests</title>
+      <link>https://chinalhr.github.io/post/python-requests/</link>
+      <pubDate>Tue, 26 Nov 2019 23:54:39 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/python-requests/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Python Requests模块&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
