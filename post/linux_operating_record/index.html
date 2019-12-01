@@ -55,7 +55,7 @@
 
 <meta itemprop="datePublished" content="2019-04-19T22:59:11&#43;08:00" />
 <meta itemprop="dateModified" content="2019-04-19T22:59:11&#43;08:00" />
-<meta itemprop="wordCount" content="8337">
+<meta itemprop="wordCount" content="8504">
 
 
 
@@ -190,6 +190,7 @@
 </ul></li>
 <li><a href="#centos环境相关配置">Centos环境相关配置</a>
 <ul>
+<li><a href="#docker">Docker</a></li>
 <li><a href="#openjdk1-8">OpenJDK1.8</a></li>
 <li><a href="#nginx">Nginx</a></li>
 <li><a href="#mongodb">mongoDB</a></li>
@@ -1551,6 +1552,63 @@ mount /dev/vdb1 /data</pre></td></tr></table>
 </div>
 <h3 id="centos环境相关配置">Centos环境相关配置</h3>
 
+<h4 id="docker">Docker</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"># 查看当前的内核版本(需要3.1.0以上版本)
+uname -r
+
+# 更新yum包
+sudo yum update
+
+# 安装需要的软件包
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+
+# 设置yum源
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+# 可以查看所有仓库中所有docker版本，并选择特定版本安装
+yum list docker-ce --showduplicates | sort -r
+
+# 安装docker
+sudo yum install docker-ce
+sudo yum install &lt;FQPN docker-ce.x86_64 3:19.03.5-3.el7&gt;
+
+# 启动并加入开机启动
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# 验证
+docker version</pre></td></tr></table>
+</div>
+</div>
 <h4 id="openjdk1-8">OpenJDK1.8</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
