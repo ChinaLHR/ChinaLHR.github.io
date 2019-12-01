@@ -55,7 +55,7 @@
 
 <meta itemprop="datePublished" content="2019-04-19T22:59:11&#43;08:00" />
 <meta itemprop="dateModified" content="2019-04-19T22:59:11&#43;08:00" />
-<meta itemprop="wordCount" content="8504">
+<meta itemprop="wordCount" content="8519">
 
 
 
@@ -1580,6 +1580,10 @@ mount /dev/vdb1 /data</pre></td></tr></table>
 </span><span class="lnt">23
 </span><span class="lnt">24
 </span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
 </span></pre></td>
 <td class="lntd">
 <pre class="chroma"># 查看当前的内核版本(需要3.1.0以上版本)
@@ -1606,7 +1610,11 @@ sudo systemctl start docker
 sudo systemctl enable docker
 
 # 验证
-docker version</pre></td></tr></table>
+docker version
+
+# 命令
+sudo service docker stop
+sudo service docker start</pre></td></tr></table>
 </div>
 </div>
 <h4 id="openjdk1-8">OpenJDK1.8</h4>
