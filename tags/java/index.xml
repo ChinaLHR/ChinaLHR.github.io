@@ -34,28 +34,6 @@
     </item>
     
     <item>
-      <title>响应式编程库-Reactor</title>
-      <link>https://chinalhr.github.io/post/reactiveprogramming_reactor/</link>
-      <pubDate>Sun, 06 Jan 2019 22:30:19 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/reactiveprogramming_reactor/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;响应式编程学习&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>缓存更新策略</title>
-      <link>https://chinalhr.github.io/post/javacachestrategy/</link>
-      <pubDate>Wed, 21 Nov 2018 23:20:52 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/javacachestrategy/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;缓存实践&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
       <title>Mybatis自定义分表Plug</title>
       <link>https://chinalhr.github.io/post/mybatisshardplug/</link>
       <pubDate>Mon, 12 Nov 2018 22:51:04 +0800</pubDate>
@@ -74,17 +52,6 @@
       <guid>https://chinalhr.github.io/post/mybatis_sql_precompile/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;学习Mybatis# 与 $ 机制&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>高可用的HttpClient</title>
-      <link>https://chinalhr.github.io/post/highavailabilityhttpclient/</link>
-      <pubDate>Wed, 17 Oct 2018 22:48:08 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/highavailabilityhttpclient/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;对HttpClient的优化，基于HttpClient4.4+的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -162,28 +129,6 @@
       <guid>https://chinalhr.github.io/post/java_system_structure/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;公司Java项目中的系统结构分层&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Spring Boot组件-Retry|Scheduled</title>
-      <link>https://chinalhr.github.io/post/java_springboot_component1/</link>
-      <pubDate>Sun, 24 Jun 2018 20:53:59 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/java_springboot_component1/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Spring Retry与Scheduled使用记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>基于SSM项目的个人编码规范</title>
-      <link>https://chinalhr.github.io/post/java_practice/</link>
-      <pubDate>Mon, 19 Feb 2018 14:31:45 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/java_practice/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;仅记录一个多月野蛮生长过程的个人编码规范&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

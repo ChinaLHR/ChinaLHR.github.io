@@ -11,15 +11,6 @@
     
     
     <item>
-      <title>DevOps</title>
-      <link>https://chinalhr.github.io/categories/devops/</link>
-      <pubDate>Tue, 26 Nov 2019 23:57:12 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/categories/devops/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>SEO</title>
       <link>https://chinalhr.github.io/categories/seo/</link>
       <pubDate>Wed, 09 Oct 2019 12:51:57 +0800</pubDate>
@@ -38,6 +29,15 @@
     </item>
     
     <item>
+      <title>笔记</title>
+      <link>https://chinalhr.github.io/categories/%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Thu, 20 Dec 2018 23:12:24 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/categories/%E7%AC%94%E8%AE%B0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>简历</title>
       <link>https://chinalhr.github.io/categories/%E7%AE%80%E5%8E%86/</link>
       <pubDate>Tue, 13 Feb 1996 23:23:17 +0800</pubDate>
@@ -47,11 +47,146 @@
     </item>
     
     <item>
-      <title>编程</title>
-      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/</link>
+      <title>编程-CI&amp;CD</title>
+      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-cicd/</link>
+      <pubDate>Mon, 09 Jul 2018 21:24:11 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-cicd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编程-Git</title>
+      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-git/</link>
+      <pubDate>Tue, 26 Nov 2019 23:57:12 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-git/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编程-Java</title>
+      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-java/</link>
+      <pubDate>Mon, 08 Jul 2019 23:47:37 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编程-Kotlin</title>
+      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-kotlin/</link>
+      <pubDate>Thu, 23 May 2019 21:59:46 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-kotlin/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编程-Linux</title>
+      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-linux/</link>
+      <pubDate>Wed, 23 Oct 2019 22:09:54 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编程-MQ</title>
+      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-mq/</link>
+      <pubDate>Tue, 26 Jun 2018 21:44:54 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-mq/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编程-NoSql</title>
+      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-nosql/</link>
+      <pubDate>Fri, 18 Oct 2019 23:06:48 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-nosql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编程-PHP</title>
+      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-php/</link>
+      <pubDate>Mon, 25 Nov 2019 22:46:32 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-php/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编程-Python</title>
+      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-python/</link>
       <pubDate>Sat, 30 Nov 2019 14:09:28 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B/</guid>
+      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编程-RDBMS</title>
+      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-rdbms/</link>
+      <pubDate>Mon, 08 Apr 2019 22:14:43 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-rdbms/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编程-分布式实践</title>
+      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E5%88%86%E5%B8%83%E5%BC%8F%E5%AE%9E%E8%B7%B5/</link>
+      <pubDate>Sun, 15 Jul 2018 18:38:26 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E5%88%86%E5%B8%83%E5%BC%8F%E5%AE%9E%E8%B7%B5/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编程-基础服务</title>
+      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E5%9F%BA%E7%A1%80%E6%9C%8D%E5%8A%A1/</link>
+      <pubDate>Tue, 25 Jun 2019 20:37:07 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E5%9F%BA%E7%A1%80%E6%9C%8D%E5%8A%A1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编程-技巧</title>
+      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Sun, 04 Aug 2019 14:09:41 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E6%8A%80%E5%B7%A7/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编程-测试</title>
+      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E6%B5%8B%E8%AF%95/</link>
+      <pubDate>Sun, 16 Sep 2018 23:07:30 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E6%B5%8B%E8%AF%95/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编程-算法</title>
+      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Wed, 31 Jul 2019 21:13:12 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E7%AE%97%E6%B3%95/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编程-范式</title>
+      <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E8%8C%83%E5%BC%8F/</link>
+      <pubDate>Mon, 25 Mar 2019 21:08:46 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E8%8C%83%E5%BC%8F/</guid>
       <description></description>
     </item>
     

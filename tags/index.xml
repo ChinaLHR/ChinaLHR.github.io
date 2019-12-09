@@ -6,10 +6,28 @@
     <description>Recent content in Tags on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 23 Aug 2019 12:26:11 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 16 Sep 2018 23:07:30 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Apache-ab</title>
+      <link>https://chinalhr.github.io/tags/apache-ab/</link>
+      <pubDate>Sun, 16 Sep 2018 23:07:30 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/apache-ab/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>HttpClient</title>
+      <link>https://chinalhr.github.io/tags/httpclient/</link>
+      <pubDate>Wed, 17 Oct 2018 22:48:08 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/httpclient/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Java</title>
@@ -23,7 +41,7 @@
     <item>
       <title>Kotlin</title>
       <link>https://chinalhr.github.io/tags/kotlin/</link>
-      <pubDate>Mon, 25 Mar 2019 21:08:46 +0800</pubDate>
+      <pubDate>Thu, 14 Mar 2019 20:49:49 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/tags/kotlin/</guid>
       <description></description>
@@ -35,15 +53,6 @@
       <pubDate>Wed, 23 Oct 2019 22:09:54 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>MQ</title>
-      <link>https://chinalhr.github.io/tags/mq/</link>
-      <pubDate>Tue, 10 Jul 2018 22:01:41 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/mq/</guid>
       <description></description>
     </item>
     
@@ -102,11 +111,38 @@
     </item>
     
     <item>
+      <title>RabbitMQ</title>
+      <link>https://chinalhr.github.io/tags/rabbitmq/</link>
+      <pubDate>Tue, 26 Jun 2018 21:44:54 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/rabbitmq/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Reactor</title>
+      <link>https://chinalhr.github.io/tags/reactor/</link>
+      <pubDate>Sun, 06 Jan 2019 22:30:19 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/reactor/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Redis</title>
       <link>https://chinalhr.github.io/tags/redis/</link>
       <pubDate>Fri, 06 Sep 2019 22:43:23 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/tags/redis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SEO优化</title>
+      <link>https://chinalhr.github.io/tags/seo%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Wed, 09 Oct 2019 12:51:57 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/seo%E4%BC%98%E5%8C%96/</guid>
       <description></description>
     </item>
     
@@ -158,18 +194,9 @@
     <item>
       <title>分布式</title>
       <link>https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/</link>
-      <pubDate>Mon, 08 Jul 2019 23:47:37 +0800</pubDate>
+      <pubDate>Sat, 08 Sep 2018 23:02:55 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>前端</title>
-      <link>https://chinalhr.github.io/tags/%E5%89%8D%E7%AB%AF/</link>
-      <pubDate>Wed, 09 Oct 2019 12:51:57 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/%E5%89%8D%E7%AB%AF/</guid>
       <description></description>
     </item>
     
@@ -183,20 +210,29 @@
     </item>
     
     <item>
+      <title>尾递归</title>
+      <link>https://chinalhr.github.io/tags/%E5%B0%BE%E9%80%92%E5%BD%92/</link>
+      <pubDate>Sun, 04 Aug 2019 14:09:41 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/%E5%B0%BE%E9%80%92%E5%BD%92/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>幂等性</title>
+      <link>https://chinalhr.github.io/tags/%E5%B9%82%E7%AD%89%E6%80%A7/</link>
+      <pubDate>Mon, 08 Jul 2019 23:47:37 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/%E5%B9%82%E7%AD%89%E6%80%A7/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>操作系统</title>
       <link>https://chinalhr.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
       <pubDate>Thu, 20 Dec 2018 23:12:24 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>测试</title>
-      <link>https://chinalhr.github.io/tags/%E6%B5%8B%E8%AF%95/</link>
-      <pubDate>Sun, 16 Sep 2018 23:07:30 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/%E6%B5%8B%E8%AF%95/</guid>
       <description></description>
     </item>
     
@@ -210,11 +246,29 @@
     </item>
     
     <item>
+      <title>缓存</title>
+      <link>https://chinalhr.github.io/tags/%E7%BC%93%E5%AD%98/</link>
+      <pubDate>Wed, 21 Nov 2018 23:20:52 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/%E7%BC%93%E5%AD%98/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>编码技巧</title>
       <link>https://chinalhr.github.io/tags/%E7%BC%96%E7%A0%81%E6%8A%80%E5%B7%A7/</link>
-      <pubDate>Sun, 04 Aug 2019 14:09:41 +0800</pubDate>
+      <pubDate>Sat, 03 Nov 2018 21:44:31 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/tags/%E7%BC%96%E7%A0%81%E6%8A%80%E5%B7%A7/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编码规范</title>
+      <link>https://chinalhr.github.io/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/</link>
+      <pubDate>Mon, 19 Feb 2018 14:31:45 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/</guid>
       <description></description>
     </item>
     

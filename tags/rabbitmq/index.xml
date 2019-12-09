@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>RabbitMQ on LiHanRong Blog</title>
+    <link>https://chinalhr.github.io/tags/rabbitmq/</link>
+    <description>Recent content in RabbitMQ on LiHanRong Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 26 Jun 2018 21:44:54 +0800</lastBuildDate>
+    
+	<atom:link href="https://chinalhr.github.io/tags/rabbitmq/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用RabbitMQ</title>
+      <link>https://chinalhr.github.io/post/rabbitmq_use/</link>
+      <pubDate>Tue, 26 Jun 2018 21:44:54 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/rabbitmq_use/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;RabbitMQ 学习整理&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

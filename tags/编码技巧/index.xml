@@ -6,21 +6,10 @@
     <description>Recent content in 编码技巧 on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 04 Aug 2019 14:09:41 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 03 Nov 2018 21:44:31 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/%E7%BC%96%E7%A0%81%E6%8A%80%E5%B7%A7/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>尾递归-Java-Kotlin</title>
-      <link>https://chinalhr.github.io/post/tailrecursion/</link>
-      <pubDate>Sun, 04 Aug 2019 14:09:41 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/tailrecursion/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;尾递归与递归的对比，以及在Java与Kotlin中如何运用&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
     
     <item>
       <title>编码技巧：防御性编程|表驱动法</title>

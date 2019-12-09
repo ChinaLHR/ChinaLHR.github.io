@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>编程-Git on LiHanRong Blog</title>
+    <link>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-git/</link>
+    <description>Recent content in 编程-Git on LiHanRong Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 26 Nov 2019 23:57:12 +0800</lastBuildDate>
+    
+	<atom:link href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-git/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Git Flow 分支策略</title>
+      <link>https://chinalhr.github.io/post/git-flow/</link>
+      <pubDate>Tue, 26 Nov 2019 23:57:12 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/git-flow/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Git-flow分支策略相关整理&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Git记录</title>
+      <link>https://chinalhr.github.io/post/git_basic/</link>
+      <pubDate>Sun, 08 Jul 2018 15:49:09 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/git_basic/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;记录Git操作&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
