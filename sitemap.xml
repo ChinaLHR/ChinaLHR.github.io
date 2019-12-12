@@ -702,13 +702,6 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</loc>
-    <lastmod>2018-12-20T23:12:24+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://chinalhr.github.io/categories/%E7%AE%80%E5%8E%86/</loc>
     <lastmod>1996-02-13T23:23:17+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -779,13 +772,6 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-mq/</loc>
-    <lastmod>2018-06-26T21:44:54+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-nosql/</loc>
     <lastmod>2019-10-18T23:06:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -830,6 +816,13 @@
   <url>
     <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E6%8A%80%E5%B7%A7/</loc>
     <lastmod>2019-08-04T14:09:41+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</loc>
+    <lastmod>2018-12-20T23:12:24+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
