@@ -56,6 +56,17 @@
     </item>
     
     <item>
+      <title>高可用的HttpClient</title>
+      <link>https://chinalhr.github.io/post/highavailabilityhttpclient/</link>
+      <pubDate>Wed, 17 Oct 2018 22:48:08 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/highavailabilityhttpclient/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;对HttpClient的优化，基于HttpClient4.4+的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
       <title>Joda DateTime记录</title>
       <link>https://chinalhr.github.io/post/joda_datetime_record/</link>
       <pubDate>Thu, 04 Oct 2018 23:40:13 +0800</pubDate>
