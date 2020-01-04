@@ -6,19 +6,30 @@
     <description>Recent content in DevOps on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 26 Nov 2019 23:57:12 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 29 Dec 2019 21:46:50 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/categories/devops/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Git Flow 分支策略</title>
-      <link>https://chinalhr.github.io/post/git-flow/</link>
-      <pubDate>Tue, 26 Nov 2019 23:57:12 +0800</pubDate>
+      <title>Docker-Jenkins-pipeline 实现CI/CD</title>
+      <link>https://chinalhr.github.io/post/jenkins-java-ci-cd/</link>
+      <pubDate>Sun, 29 Dec 2019 21:46:50 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/git-flow/</guid>
+      <guid>https://chinalhr.github.io/post/jenkins-java-ci-cd/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;Git-flow分支策略相关整理&lt;/p&gt;
+&lt;p&gt;基于Docker与Jenkins，对于Java应用CI/CD实践的记录。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jenkins部署优化</title>
+      <link>https://chinalhr.github.io/post/jenkins_job_optimize/</link>
+      <pubDate>Mon, 09 Jul 2018 21:24:11 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/jenkins_job_optimize/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Jenkins是基于Java开发的一种持续集成工具,是一款自动化运维的工具。可用于软件构建自动化，构建可持续的自动化检查，构建可持续的自动化测试&amp;hellip;&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

@@ -55,7 +55,7 @@
 
 <meta itemprop="datePublished" content="2018-07-08T15:49:09&#43;08:00" />
 <meta itemprop="dateModified" content="2018-07-08T15:49:09&#43;08:00" />
-<meta itemprop="wordCount" content="490">
+<meta itemprop="wordCount" content="532">
 
 
 
@@ -197,6 +197,9 @@
 </span><span class="lnt">32
 </span><span class="lnt">33
 </span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
 </span></pre></td>
 <td class="lntd">
 <pre class="chroma">## git创建分支并提交到远程
@@ -221,6 +224,9 @@ git pull origin master [更新master分支代码]
 git remote update origin --prune
 git remote update origin --p
 
+## 将远程仓库所有分支的最新版本全部取回到本地
+git fetch &lt;远程仓库的别名&gt;
+ 
 ## IntelliJ IDEA 对比当前分支代码与远程master分支代码
 IDEA右下角选择当前分支，点击Remote Branches下的origin/master,选择Comparing With进行对比
 
@@ -325,7 +331,7 @@ git push origin :branch-name</pre></td></tr></table>
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2019
+    2020
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span>
