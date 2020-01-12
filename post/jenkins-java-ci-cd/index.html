@@ -599,9 +599,9 @@ docker run -u root -itd --name jenkins \
 </div>
 <h4 id="build-docker镜像">build docker镜像</h4>
 
-<ol>
+<ul>
 <li>编写Dockerfile</li>
-</ol>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="lnt">1
@@ -620,9 +620,9 @@ docker run -u root -itd --name jenkins \
 </div>
 <p>大致为COPY jar和配置文件到指定目录，ENTRYPOINT指定JVM参数和vertx参数</p>
 
-<ol>
+<ul>
 <li>执行docker build相关Shell脚本</li>
-</ol>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
@@ -672,9 +672,9 @@ docker push registry.cn-hangzhou.aliyuncs.com/<span class="si">${</span><span cl
 </div>
 <h4 id="远程部署-镜像pull-重新部署">远程部署(镜像Pull，重新部署)</h4>
 
-<ol>
+<ul>
 <li>jenkins pipeline sshagent实现远程执行shell脚本</li>
-</ol>
+</ul>
 
 <p>生成ssh密钥对，并将私钥配置到jenkins的凭证中，将公钥配置到对应部署服务器的.ssh/authorized_keys文件中，pipeline脚本如下：</p>
 <div class="highlight"><div class="chroma">
@@ -693,9 +693,9 @@ docker push registry.cn-hangzhou.aliyuncs.com/<span class="si">${</span><span cl
 <span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
-<ol>
+<ul>
 <li>镜像Pull</li>
-</ol>
+</ul>
 
 <p>相关Shell脚本如下</p>
 <div class="highlight"><div class="chroma">
@@ -722,9 +722,9 @@ docker login -u<span class="o">=</span>xx -p<span class="o">=</span>xx registry.
 docker pull registry.cn-hangzhou.aliyuncs.com/<span class="si">${</span><span class="nv">REPOSITORY</span><span class="si">}</span>:<span class="si">${</span><span class="nv">TAG</span><span class="si">}</span></code></pre></td></tr></table>
 </div>
 </div>
-<ol>
+<ul>
 <li>重新部署</li>
-</ol>
+</ul>
 
 <p>相关Shell脚本如下</p>
 <div class="highlight"><div class="chroma">
