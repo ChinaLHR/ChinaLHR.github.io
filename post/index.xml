@@ -12,13 +12,13 @@
     
     
     <item>
-      <title>Docker-Jenkins-pipeline 实现CI/CD</title>
+      <title>Jenkins-pipeline-Docker 实现CI/CD</title>
       <link>https://chinalhr.github.io/post/jenkins-java-ci-cd/</link>
       <pubDate>Sun, 29 Dec 2019 21:46:50 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/jenkins-java-ci-cd/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;基于Docker与Jenkins，对于Java应用CI/CD实践的记录。&lt;/p&gt;
+&lt;p&gt;基于Jenkins和Docker，对于Java应用CI/CD实践的记录。&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
