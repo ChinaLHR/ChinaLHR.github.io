@@ -6,10 +6,65 @@
     <description>Recent content in 编程-操作系统 on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 20 Dec 2018 23:12:24 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 23 Oct 2019 22:09:54 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux用户-权限</title>
+      <link>https://chinalhr.github.io/post/linux_security_permission/</link>
+      <pubDate>Wed, 23 Oct 2019 22:09:54 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/linux_security_permission/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;读《Linux命令行与shell脚本编程大全》记录&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Linux Zero-copy(零拷贝)</title>
+      <link>https://chinalhr.github.io/post/linux_zerocopy/</link>
+      <pubDate>Fri, 23 Aug 2019 12:26:11 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/linux_zerocopy/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Linux Zero-copy机制与Java NIO对Zero-copy应用&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Linux IO多路复用 select poll epoll</title>
+      <link>https://chinalhr.github.io/post/linux_io_multiplexing/</link>
+      <pubDate>Wed, 24 Jul 2019 22:22:03 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/linux_io_multiplexing/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Unix IO模型, Linux IO多路复用 select poll epoll机制整理&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Linux Out-Of-Memory killer</title>
+      <link>https://chinalhr.github.io/post/linuxoom/</link>
+      <pubDate>Mon, 03 Jun 2019 22:48:25 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/linuxoom/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Linux OOM Killer排查记录&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Linux命令记录</title>
+      <link>https://chinalhr.github.io/post/linux_operating_record/</link>
+      <pubDate>Fri, 19 Apr 2019 22:59:11 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/linux_operating_record/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;日常Linux命令记录&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>计算机的心智-多核心</title>

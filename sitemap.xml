@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://chinalhr.github.io/post/agileanddevops/</loc>
+    <lastmod>2020-01-13T23:04:37+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/post/jenkins-java-ci-cd/</loc>
     <lastmod>2019-12-29T21:46:50+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -513,8 +520,15 @@
   </url>
   
   <url>
+    <loc>https://chinalhr.github.io/tags/devops/</loc>
+    <lastmod>2020-01-13T23:04:37+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/categories/devops/</loc>
-    <lastmod>2019-12-29T21:46:50+08:00</lastmod>
+    <lastmod>2020-01-13T23:04:37+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -535,7 +549,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2019-12-29T21:46:50+08:00</lastmod>
+    <lastmod>2020-01-13T23:04:37+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -584,7 +598,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/post/</loc>
-    <lastmod>2019-12-29T21:46:50+08:00</lastmod>
+    <lastmod>2020-01-13T23:04:37+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -716,6 +730,13 @@
   </url>
   
   <url>
+    <loc>https://chinalhr.github.io/tags/%E6%95%8F%E6%8D%B7/</loc>
+    <lastmod>2020-01-13T23:04:37+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/categories/%E7%AE%80%E5%8E%86/</loc>
     <lastmod>1996-02-13T23:23:17+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -751,29 +772,15 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-git/</loc>
-    <lastmod>2019-11-26T23:57:12+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-linux/</loc>
-    <lastmod>2019-10-23T22:09:54+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-nosql/</loc>
+    <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-database/</loc>
     <lastmod>2019-10-18T23:06:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-rdbms/</loc>
-    <lastmod>2019-04-08T22:14:43+08:00</lastmod>
+    <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-git/</loc>
+    <lastmod>2019-11-26T23:57:12+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -808,7 +815,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</loc>
-    <lastmod>2018-12-20T23:12:24+08:00</lastmod>
+    <lastmod>2019-10-23T22:09:54+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
