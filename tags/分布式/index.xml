@@ -22,16 +22,5 @@
 &lt;/blockquote&gt;</description>
     </item>
     
-    <item>
-      <title>分布式锁实现(基于Redis|Zookeeper)</title>
-      <link>https://chinalhr.github.io/post/distributedlocks/</link>
-      <pubDate>Sun, 15 Jul 2018 18:38:26 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/distributedlocks/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;学习分布式锁实现&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
   </channel>
 </rss>
