@@ -6,10 +6,21 @@
     <description>Recent content in Linux on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 23 Oct 2019 22:09:54 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 31 Jan 2020 13:55:12 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux-logrotate</title>
+      <link>https://chinalhr.github.io/post/linux_logrotate/</link>
+      <pubDate>Fri, 31 Jan 2020 13:55:12 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/linux_logrotate/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;logrotate学习记录&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Linux用户-权限</title>
