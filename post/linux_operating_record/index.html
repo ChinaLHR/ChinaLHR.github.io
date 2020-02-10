@@ -55,7 +55,7 @@
 
 <meta itemprop="datePublished" content="2019-04-19T22:59:11&#43;08:00" />
 <meta itemprop="dateModified" content="2019-04-19T22:59:11&#43;08:00" />
-<meta itemprop="wordCount" content="8665">
+<meta itemprop="wordCount" content="9101">
 
 
 
@@ -173,6 +173,8 @@
 <li><a href="#ln">ln</a></li>
 <li><a href="#kill">kill</a></li>
 <li><a href="#alias">alias</a></li>
+<li><a href="#nohup和-后台运行">nohup和&amp;(后台运行)</a></li>
+<li><a href="#防火墙">防火墙</a></li>
 <li><a href="#其他">其他</a></li>
 </ul></li>
 <li><a href="#处理数据相关">处理数据相关</a>
@@ -719,19 +721,19 @@ ln [源文件或目录][目标文件或目录] 硬链接</pre></td></tr></table>
 全部信号：
 
 kill -l
- 1) SIGHUP	 2) SIGINT	 3) SIGQUIT	 4) SIGILL	 5) SIGTRAP
- 6) SIGABRT	 7) SIGBUS	 8) SIGFPE	 9) SIGKILL	10) SIGUSR1
-11) SIGSEGV	12) SIGUSR2	13) SIGPIPE	14) SIGALRM	15) SIGTERM
-16) SIGSTKFLT	17) SIGCHLD	18) SIGCONT	19) SIGSTOP	20) SIGTSTP
-21) SIGTTIN	22) SIGTTOU	23) SIGURG	24) SIGXCPU	25) SIGXFSZ
-26) SIGVTALRM	27) SIGPROF	28) SIGWINCH	29) SIGIO	30) SIGPWR
-31) SIGSYS	34) SIGRTMIN	35) SIGRTMIN+1	36) SIGRTMIN+2	37) SIGRTMIN+3
-38) SIGRTMIN+4	39) SIGRTMIN+5	40) SIGRTMIN+6	41) SIGRTMIN+7	42) SIGRTMIN+8
-43) SIGRTMIN+9	44) SIGRTMIN+10	45) SIGRTMIN+11	46) SIGRTMIN+12	47) SIGRTMIN+13
-48) SIGRTMIN+14	49) SIGRTMIN+15	50) SIGRTMAX-14	51) SIGRTMAX-13	52) SIGRTMAX-12
-53) SIGRTMAX-11	54) SIGRTMAX-10	55) SIGRTMAX-9	56) SIGRTMAX-8	57) SIGRTMAX-7
-58) SIGRTMAX-6	59) SIGRTMAX-5	60) SIGRTMAX-4	61) SIGRTMAX-3	62) SIGRTMAX-2
-63) SIGRTMAX-1	64) SIGRTMAX	
+ 1) SIGHUP   2) SIGINT   3) SIGQUIT  4) SIGILL   5) SIGTRAP
+ 6) SIGABRT  7) SIGBUS   8) SIGFPE   9) SIGKILL 10) SIGUSR1
+11) SIGSEGV 12) SIGUSR2 13) SIGPIPE 14) SIGALRM 15) SIGTERM
+16) SIGSTKFLT   17) SIGCHLD 18) SIGCONT 19) SIGSTOP 20) SIGTSTP
+21) SIGTTIN 22) SIGTTOU 23) SIGURG  24) SIGXCPU 25) SIGXFSZ
+26) SIGVTALRM   27) SIGPROF 28) SIGWINCH    29) SIGIO   30) SIGPWR
+31) SIGSYS  34) SIGRTMIN    35) SIGRTMIN+1  36) SIGRTMIN+2  37) SIGRTMIN+3
+38) SIGRTMIN+4  39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN+7  42) SIGRTMIN+8
+43) SIGRTMIN+9  44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13
+48) SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12
+53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7
+58) SIGRTMAX-6  59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2
+63) SIGRTMAX-1  64) SIGRTMAX    
 
 常用信号：
 
@@ -776,6 +778,78 @@ STOP    19    暂停（同 Ctrl + Z）</pre></td></tr></table>
 alias cdlog=&#34;cd /data/log&#34;
 # 让配置文件生效
 source ~/.bashrc </pre></td></tr></table>
+</div>
+</div>
+<h4 id="nohup和-后台运行">nohup和&amp;(后台运行)</h4>
+
+<ul>
+<li>nohup</li>
+</ul>
+
+<p>用途：不挂断地运行命令。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">语法：nohup Command [ Arg … ] [　&amp; ]
+
+无论是否将 nohup 命令的输出重定向到终端，输出都将附加到当前目录的 nohup.out 文件中。
+如果当前目录的 nohup.out 文件不可写，输出重定向到 $HOME/nohup.out 文件中。
+如果没有文件能创建或打开以用于追加，那么 Command 参数指定的命令不可调用。
+退出状态：该命令返回下列出口值： 　　
+　　126 可以查找但不能调用 Command 参数指定的命令。 　　
+　　127 nohup 命令发生错误或不能查找由 Command 参数指定的命令。 　　
+　　否则，nohup 命令的退出状态是 Command 参数指定命令的退出状态。</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>&amp;</li>
+</ul>
+
+<p>用途：在后台运行,一般和nohup两个一起用，nohup command &amp;</p>
+
+<h4 id="防火墙">防火墙</h4>
+
+<p>centos7防火墙相关操作：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="m">1</span>.查看已开放的端口<span class="o">(</span>默认不开放任何端口<span class="o">)</span>
+firewall-cmd --list-ports
+<span class="m">2</span>.开启80端口
+firewall-cmd --zone<span class="o">=</span>public<span class="o">(</span>作用域<span class="o">)</span> --add-port<span class="o">=</span><span class="m">80</span>/tcp<span class="o">(</span>端口和访问类型<span class="o">)</span> --permanent<span class="o">(</span>永久生效<span class="o">)</span>
+firewall-cmd --zone<span class="o">=</span>public --add-port<span class="o">=</span><span class="m">80</span>/tcp --permanent
+<span class="m">3</span>.重启防火墙
+firewall-cmd --reload
+<span class="m">4</span>.停止防火墙
+systemctl stop firewalld.service
+<span class="m">5</span>.禁止防火墙开机启动
+systemctl disable firewalld.service
+<span class="m">6</span>.删除
+firewall-cmd --zone<span class="o">=</span> public --remove-port<span class="o">=</span><span class="m">80</span>/tcp --permanent</code></pre></td></tr></table>
 </div>
 </div>
 <h4 id="其他">其他</h4>
@@ -1728,12 +1802,12 @@ sudo yum -y update
 sudo yum install -y nginx
 
 # 常用命令
-systemctl enable nginx.service	设置开机启动
-systemctl disable nginx.service	停止开机自启动
-systemctl start nginx.service	启动nginx服务
-systemctl status nginx.service	查看服务当前状态
-systemctl restart nginx.service	重新启动服务
-systemctl list-units --type=service	查看所有已启动的服务
+systemctl enable nginx.service  设置开机启动
+systemctl disable nginx.service 停止开机自启动
+systemctl start nginx.service   启动nginx服务
+systemctl status nginx.service  查看服务当前状态
+systemctl restart nginx.service 重新启动服务
+systemctl list-units --type=service 查看所有已启动的服务
 
 nginx -s reload
 nginx -s stop
@@ -1786,7 +1860,7 @@ yum install -y mongodb-org
 
 /usr/bin/mongod --config /etc/mongod.conf #启动
 /usr/bin/mongod --shutdown --config /etc/mongod.conf #停止
-mongo 						#进入控制台</pre></td></tr></table>
+mongo                       #进入控制台</pre></td></tr></table>
 </div>
 </div>
 <h4 id="maven">maven</h4>

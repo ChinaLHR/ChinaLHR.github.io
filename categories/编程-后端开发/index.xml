@@ -6,10 +6,21 @@
     <description>Recent content in 编程-后端开发 on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 30 Nov 2019 14:09:28 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 11 Feb 2020 00:00:11 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>API认证与授权方案</title>
+      <link>https://chinalhr.github.io/post/api_auth_program/</link>
+      <pubDate>Tue, 11 Feb 2020 00:00:11 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/api_auth_program/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Api认证授权方案总结&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Python-Logging</title>
