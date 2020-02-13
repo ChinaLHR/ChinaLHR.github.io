@@ -6,10 +6,21 @@
     <description>Recent content in 编程-后端开发 on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 11 Feb 2020 00:00:11 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 13 Feb 2020 16:38:02 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Spring WebFlux 原理与适用场景</title>
+      <link>https://chinalhr.github.io/post/spring_webflux_principle/</link>
+      <pubDate>Thu, 13 Feb 2020 16:38:02 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/spring_webflux_principle/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Spring WebFlux源码分析与适用场景&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>API认证与授权方案</title>

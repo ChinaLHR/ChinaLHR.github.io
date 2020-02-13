@@ -55,7 +55,7 @@
 
 <meta itemprop="datePublished" content="2019-01-06T22:30:19&#43;08:00" />
 <meta itemprop="dateModified" content="2019-01-06T22:30:19&#43;08:00" />
-<meta itemprop="wordCount" content="3216">
+<meta itemprop="wordCount" content="3217">
 
 
 
@@ -202,62 +202,62 @@
 <li><p>Publisher(发布者,发出元素)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public interface Publisher&lt;T&gt; {
-public void subscribe(Subscriber&lt;? super T&gt; s);
-}</pre></td></tr></table>
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Publisher</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">subscribe</span><span class="o">(</span><span class="n">Subscriber</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">s</span><span class="o">);</span>
+<span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div></li>
 
 <li><p>Subscriber(订阅者,接收元素并做出响应的)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public interface Subscriber&lt;T&gt; {
-    public void onSubscribe(Subscription s);
-    public void onNext(T t);
-    public void onError(Throwable t);
-    public void onComplete();
-}</pre></td></tr></table>
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Subscriber</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onSubscribe</span><span class="o">(</span><span class="n">Subscription</span> <span class="n">s</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNext</span><span class="o">(</span><span class="n">T</span> <span class="n">t</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onError</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">t</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onComplete</span><span class="o">();</span>
+<span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div></li>
 
 <li><p>Subscription</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public interface Subscription {
-    public void request(long n);
-    public void cancel();
-}</pre></td></tr></table>
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Subscription</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">request</span><span class="o">(</span><span class="kt">long</span> <span class="n">n</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cancel</span><span class="o">();</span>
+<span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div></li>
 
 <li><p>Processor(集合Publisher和Subscriber)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
 </span><span class="lnt">2
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public interface Processor&lt;T, R&gt; extends             Subscriber&lt;T&gt;, Publisher&lt;R&gt; {
-}</pre></td></tr></table>
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Processor</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">R</span><span class="o">&gt;</span> <span class="kd">extends</span>             <span class="n">Subscriber</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;,</span> <span class="n">Publisher</span><span class="o">&lt;</span><span class="n">R</span><span class="o">&gt;</span> <span class="o">{</span>
+<span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div></li>
 </ul>
@@ -276,23 +276,23 @@ public void subscribe(Subscriber&lt;? super T&gt; s);
 <li><p>创建数据流</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">Flux.fromArray(array);
-Flux.fromIterable(list);
-Flux.fromStream(stream);
-Flux.just(...);</pre></td></tr></table>
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="n">Flux</span><span class="o">.</span><span class="na">fromArray</span><span class="o">(</span><span class="n">array</span><span class="o">);</span>
+<span class="n">Flux</span><span class="o">.</span><span class="na">fromIterable</span><span class="o">(</span><span class="n">list</span><span class="o">);</span>
+<span class="n">Flux</span><span class="o">.</span><span class="na">fromStream</span><span class="o">(</span><span class="n">stream</span><span class="o">);</span>
+<span class="n">Flux</span><span class="o">.</span><span class="na">just</span><span class="o">(...);</span></code></pre></td></tr></table>
 </div>
 </div></li>
 
 <li><p>订阅</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -308,24 +308,24 @@ Flux.just(...);</pre></td></tr></table>
 </span><span class="lnt">14
 </span><span class="lnt">15
 </span><span class="lnt">16
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">// 订阅并触发数据流
-subscribe(); 
-// 订阅并指定对正常数据元素如何处理
-subscribe(Consumer&lt;? super T&gt; consumer); 
-// 订阅并定义对正常数据元素和错误信号的处理
-subscribe(Consumer&lt;? super T&gt; consumer,
-          Consumer&lt;? super Throwable&gt; errorConsumer); 
-// 订阅并定义对正常数据元素、错误信号和完成信号的处理
-subscribe(Consumer&lt;? super T&gt; consumer,
-          Consumer&lt;? super Throwable&gt; errorConsumer,
-          Runnable completeConsumer); 
-// 订阅并定义对正常数据元素、错误信号和完成信号的处理，以及订阅发生时的处理逻辑
-subscribe(Consumer&lt;? super T&gt; consumer,
-          Consumer&lt;? super Throwable&gt; errorConsumer,
-          Runnable completeConsumer,
-          Consumer&lt;? super Subscription&gt; subscriptionConsumer);</pre></td></tr></table>
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="c1">// 订阅并触发数据流
+</span><span class="c1"></span><span class="n">subscribe</span><span class="o">();</span> 
+<span class="c1">// 订阅并指定对正常数据元素如何处理
+</span><span class="c1"></span><span class="n">subscribe</span><span class="o">(</span><span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">consumer</span><span class="o">);</span> 
+<span class="c1">// 订阅并定义对正常数据元素和错误信号的处理
+</span><span class="c1"></span><span class="n">subscribe</span><span class="o">(</span><span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">consumer</span><span class="o">,</span>
+          <span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Throwable</span><span class="o">&gt;</span> <span class="n">errorConsumer</span><span class="o">);</span> 
+<span class="c1">// 订阅并定义对正常数据元素、错误信号和完成信号的处理
+</span><span class="c1"></span><span class="n">subscribe</span><span class="o">(</span><span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">consumer</span><span class="o">,</span>
+          <span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Throwable</span><span class="o">&gt;</span> <span class="n">errorConsumer</span><span class="o">,</span>
+          <span class="n">Runnable</span> <span class="n">completeConsumer</span><span class="o">);</span> 
+<span class="c1">// 订阅并定义对正常数据元素、错误信号和完成信号的处理，以及订阅发生时的处理逻辑
+</span><span class="c1"></span><span class="n">subscribe</span><span class="o">(</span><span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">consumer</span><span class="o">,</span>
+          <span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Throwable</span><span class="o">&gt;</span> <span class="n">errorConsumer</span><span class="o">,</span>
+          <span class="n">Runnable</span> <span class="n">completeConsumer</span><span class="o">,</span>
+          <span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Subscription</span><span class="o">&gt;</span> <span class="n">subscriptionConsumer</span><span class="o">);</span></code></pre></td></tr></table>
 </div>
 </div></li>
 
@@ -335,18 +335,18 @@ subscribe(Consumer&lt;? super T&gt; consumer,
 <p>generate是一种同步地，逐个地发出数据的方法。因为它提供的sink是一个SynchronousSink， 而且其next()方法在每次回调的时候最多只能被调用一次。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public static &lt;T&gt; Flux&lt;T&gt; generate(Consumer&lt;SynchronousSink&lt;T&gt;&gt; generator)
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Flux</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">generate</span><span class="o">(</span><span class="n">Consumer</span><span class="o">&lt;</span><span class="n">SynchronousSink</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="n">generator</span><span class="o">)</span>
 
-public static &lt;T, S&gt; Flux&lt;T&gt; generate(Callable&lt;S&gt; stateSupplier, BiFunction&lt;S, SynchronousSink&lt;T&gt;, S&gt; generator) 
+<span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">S</span><span class="o">&gt;</span> <span class="n">Flux</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">generate</span><span class="o">(</span><span class="n">Callable</span><span class="o">&lt;</span><span class="n">S</span><span class="o">&gt;</span> <span class="n">stateSupplier</span><span class="o">,</span> <span class="n">BiFunction</span><span class="o">&lt;</span><span class="n">S</span><span class="o">,</span> <span class="n">SynchronousSink</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;,</span> <span class="n">S</span><span class="o">&gt;</span> <span class="n">generator</span><span class="o">)</span> 
 
-public static &lt;T, S&gt; Flux&lt;T&gt; generate(Callable&lt;S&gt; stateSupplier, BiFunction&lt;S, SynchronousSink&lt;T&gt;, S&gt; generator, Consumer&lt;? super S&gt; stateConsumer)</pre></td></tr></table>
+<span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">S</span><span class="o">&gt;</span> <span class="n">Flux</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">generate</span><span class="o">(</span><span class="n">Callable</span><span class="o">&lt;</span><span class="n">S</span><span class="o">&gt;</span> <span class="n">stateSupplier</span><span class="o">,</span> <span class="n">BiFunction</span><span class="o">&lt;</span><span class="n">S</span><span class="o">,</span> <span class="n">SynchronousSink</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;,</span> <span class="n">S</span><span class="o">&gt;</span> <span class="n">generator</span><span class="o">,</span> <span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">S</span><span class="o">&gt;</span> <span class="n">stateConsumer</span><span class="o">)</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>
@@ -356,7 +356,7 @@ public static &lt;T, S&gt; Flux&lt;T&gt; generate(Callable&lt;S&gt; stateSupplie
 <p>高级的创建Flux的方法，其生成数据流的方式既可以是同步的，也可以是异步的，并且还可以每次发出多个元素。(create 常用的场景就是将现有的 API 转为响应式，比如监听器的异步方法)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -374,26 +374,26 @@ public static &lt;T, S&gt; Flux&lt;T&gt; generate(Callable&lt;S&gt; stateSupplie
 </span><span class="lnt">16
 </span><span class="lnt">17
 </span><span class="lnt">18
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">MyEventSource eventSource = new MyEventSource();    
-    Flux.create(sink -&gt; {
-                //向事件源注册用匿名内部类创建的监听器
-                eventSource.register(new MyEventListener() {    
-                    @Override
-                    public void onNewEvent(MyEventSource.MyEvent event) {
-                        //监听器在收到事件回调的时候通过sink将事件再发出
-                        sink.next(event);
-                    }
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="n">MyEventSource</span> <span class="n">eventSource</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyEventSource</span><span class="o">();</span>    
+    <span class="n">Flux</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">sink</span> <span class="o">-&gt;</span> <span class="o">{</span>
+				<span class="c1">//向事件源注册用匿名内部类创建的监听器
+</span><span class="c1"></span>                <span class="n">eventSource</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="k">new</span> <span class="n">MyEventListener</span><span class="o">()</span> <span class="o">{</span>    
+                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNewEvent</span><span class="o">(</span><span class="n">MyEventSource</span><span class="o">.</span><span class="na">MyEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+						<span class="c1">//监听器在收到事件回调的时候通过sink将事件再发出
+</span><span class="c1"></span>                        <span class="n">sink</span><span class="o">.</span><span class="na">next</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+                    <span class="o">}</span>
 
-                    @Override
-                    public void onEventStopped() {
-                        //监听器在收到事件源停止的回调的时候通过sink发出完成信号
-                        sink.complete();        
-                    }
-                });
-            }
-    ).subscribe(System.out::println);</pre></td></tr></table>
+                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onEventStopped</span><span class="o">()</span> <span class="o">{</span>
+						<span class="c1">//监听器在收到事件源停止的回调的时候通过sink发出完成信号
+</span><span class="c1"></span>                        <span class="n">sink</span><span class="o">.</span><span class="na">complete</span><span class="o">();</span>        
+                    <span class="o">}</span>
+                <span class="o">});</span>
+            <span class="o">}</span>
+    <span class="o">).</span><span class="na">subscribe</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span></code></pre></td></tr></table>
 </div>
 </div>
 <h4 id="调试">调试</h4>
@@ -405,18 +405,20 @@ public static &lt;T, S&gt; Flux&lt;T&gt; generate(Callable&lt;S&gt; stateSupplie
 <p>expectNext用于测试下一个期望的数据元素，expectErrorMessage用于校验下一个元素是否为错误信号，expectComplete用于测试下一个元素是否为完成信号。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">    StepVerifier.create(...)
-        .expectNext(1, 2, 3, 4, 5, 6)
-        .expectComplete()
-        .verify();</pre></td></tr></table>
+<pre class="chroma"><code class="language-Java" data-lang="Java">    <span class="n">StepVerifier</span><span class="o">.</span><span class="na">create</span><span class="o">(...)</span>
+        <span class="o">.</span><span class="na">expectNext</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">,</span> <span class="n">4</span><span class="o">,</span> <span class="n">5</span><span class="o">,</span> <span class="n">6</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">expectComplete</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">verify</span><span class="o">();</span></code></pre></td></tr></table>
 </div>
 </div>
+<p>​</p>
+
 <h4 id="operator-操作符">Operator(操作符)</h4>
 
 <p>操作符选择器：<a href="https://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html#which.create">https://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html#which.create</a></p>
@@ -429,12 +431,12 @@ public static &lt;T, S&gt; Flux&lt;T&gt; generate(Callable&lt;S&gt; stateSupplie
 <li><p>zip - 一对一合并:对两个Flux/Mono流每次各取一个元素，合并为一个二元组（Tuple2）</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
 </span><span class="lnt">2
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public static &lt;T1,T2&gt; Flux&lt;Tuple2&lt;T1,T2&gt;&gt; zip(Publisher&lt;? extends T1&gt; source1,Publisher&lt;? extends T2&gt; source2)
-public static &lt;T1, T2&gt; Mono&lt;Tuple2&lt;T1, T2&gt;&gt; zip(Mono&lt;? extends T1&gt; p1, Mono&lt;? extends T2&gt; p2)</pre></td></tr></table>
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T1</span><span class="o">,</span><span class="n">T2</span><span class="o">&gt;</span> <span class="n">Flux</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">T1</span><span class="o">,</span><span class="n">T2</span><span class="o">&gt;&gt;</span> <span class="nf">zip</span><span class="o">(</span><span class="n">Publisher</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">T1</span><span class="o">&gt;</span> <span class="n">source1</span><span class="o">,</span><span class="n">Publisher</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">T2</span><span class="o">&gt;</span> <span class="n">source2</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T1</span><span class="o">,</span> <span class="n">T2</span><span class="o">&gt;</span> <span class="n">Mono</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">T1</span><span class="o">,</span> <span class="n">T2</span><span class="o">&gt;&gt;</span> <span class="nf">zip</span><span class="o">(</span><span class="n">Mono</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">T1</span><span class="o">&gt;</span> <span class="n">p1</span><span class="o">,</span> <span class="n">Mono</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">T2</span><span class="o">&gt;</span> <span class="n">p2</span><span class="o">)</span></code></pre></td></tr></table>
 </div>
 </div></li>
 
@@ -445,34 +447,34 @@ public static &lt;T1, T2&gt; Mono&lt;Tuple2&lt;T1, T2&gt;&gt; zip(Mono&lt;? exte
                     .map(String::toUpperCase);</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">Flux.fromIterable(Arrays.asList(&#34;blue&#34;, &#34;green&#34;, &#34;orange&#34;, &#34;purple&#34;))
-        .doOnNext(System.out::println)
-        //将包装的函数拼装到操作链
-        .transform(filterAndMap)
-        .subscribe(d -&gt; System.out.println(&#34;Subscriber to Transformed MapAndFilter: &#34;+d));</pre></td></tr></table>
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="n">Flux</span><span class="o">.</span><span class="na">fromIterable</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;blue&#34;</span><span class="o">,</span> <span class="s">&#34;green&#34;</span><span class="o">,</span> <span class="s">&#34;orange&#34;</span><span class="o">,</span> <span class="s">&#34;purple&#34;</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">doOnNext</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">)</span>
+        <span class="c1">//将包装的函数拼装到操作链
+</span><span class="c1"></span>        <span class="o">.</span><span class="na">transform</span><span class="o">(</span><span class="n">filterAndMap</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">d</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Subscriber to Transformed MapAndFilter: &#34;</span><span class="o">+</span><span class="n">d</span><span class="o">));</span></code></pre></td></tr></table>
 </div>
 </div></li>
 
 <li><p>compose - 与 transform类似，将几个操作符封装到一个函数式中。区别是，这个函数式是针对每一个订阅者起作用的。对每一个subscription可以生成不同的操作链。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">  Flux&lt;String&gt; composedFlux =
-        Flux.fromIterable(Arrays.asList(&#34;blue&#34;, &#34;green&#34;, &#34;orange&#34;, &#34;purple&#34;))
-                .doOnNext(System.out::println)
-                .compose(filterAndMap);</pre></td></tr></table>
+<pre class="chroma"><code class="language-Java" data-lang="Java"> <span class="n">Flux</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">composedFlux</span> <span class="o">=</span>
+       <span class="n">Flux</span><span class="o">.</span><span class="na">fromIterable</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;blue&#34;</span><span class="o">,</span> <span class="s">&#34;green&#34;</span><span class="o">,</span> <span class="s">&#34;orange&#34;</span><span class="o">,</span> <span class="s">&#34;purple&#34;</span><span class="o">))</span>
+               <span class="o">.</span><span class="na">doOnNext</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">)</span>
+               <span class="o">.</span><span class="na">compose</span><span class="o">(</span><span class="n">filterAndMap</span><span class="o">);</span></code></pre></td></tr></table>
 </div>
 </div></li>
 </ul>
@@ -491,18 +493,18 @@ public static &lt;T1, T2&gt; Mono&lt;Tuple2&lt;T1, T2&gt;&gt; zip(Mono&lt;? exte
 <li><p>示例：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"> // 基于Callable的Mono
- Mono.fromCallable(() -&gt; getStringSync())   
- // 使用subscribeOn将任务调度到Schedulers内置的弹性线程池执行
-        .subscribeOn(Schedulers.elastic()) 
-        .subscribe(System.out::println);</pre></td></tr></table>
+<pre class="chroma"><code class="language-Java" data-lang="Java"> <span class="c1">// 基于Callable的Mono
+</span><span class="c1"></span> <span class="n">Mono</span><span class="o">.</span><span class="na">fromCallable</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">getStringSync</span><span class="o">())</span>   
+ <span class="c1">// 使用subscribeOn将任务调度到Schedulers内置的弹性线程池执行
+</span><span class="c1"></span>        <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">elastic</span><span class="o">())</span> 
+        <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span></code></pre></td></tr></table>
 </div>
 </div></li>
 
@@ -558,10 +560,10 @@ doFinally</pre></td></tr></table>
 <li><p>重试</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">retry：retry对于上游Flux是采取的重订阅（re-subscribing）的方式，出错了retry会从新订阅了原始的数据流执行x次。</pre></td></tr></table>
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="n">retry</span><span class="err">：</span><span class="n">retry对于上游Flux是采取的重订阅</span><span class="err">（</span><span class="n">re</span><span class="o">-</span><span class="n">subscribing</span><span class="err">）</span><span class="n">的方式</span><span class="err">，</span><span class="n">出错了retry会从新订阅了原始的数据流执行x次</span><span class="err">。</span></code></pre></td></tr></table>
 </div>
 </div></li>
 </ul>
@@ -589,10 +591,10 @@ doFinally</pre></td></tr></table>
 <li><p>create声明回压策略</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public static &lt;T&gt; Flux&lt;T&gt; create(Consumer&lt;? super FluxSink&lt;T&gt;&gt; emitter, OverflowStrategy backpressure) </pre></td></tr></table>
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Flux</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">create</span><span class="o">(</span><span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">FluxSink</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="n">emitter</span><span class="o">,</span> <span class="n">OverflowStrategy</span> <span class="n">backpressure</span><span class="o">)</span> </code></pre></td></tr></table>
 </div>
 </div></li>
 
@@ -615,7 +617,7 @@ doFinally</pre></td></tr></table>
 <li><p>通过BaseSubscriber定义自己的Subscriber进行上游流量控制</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -627,20 +629,20 @@ doFinally</pre></td></tr></table>
 </span><span class="lnt">10
 </span><span class="lnt">11
 </span><span class="lnt">12
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">subscribe(new BaseSubscriber&lt;Integer&gt;() {  
-                @Override
-                protected void hookOnSubscribe(Subscription subscription) { 
-                    //hookOnSubscribe定义在订阅的时候执行的操作，订阅时首先向上游请求1个元素
-                    request(1);
-                }
-
-                @Override
-                protected void hookOnNext(Integer value) {  
-                    //hookOnNext定义每次在收到一个元素的时候的操作，每次处理完1个元素后再请求1个。
-                    request(1);
-                }</pre></td></tr></table>
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="n">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">BaseSubscriber</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>  
+                <span class="nd">@Override</span>
+                <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">hookOnSubscribe</span><span class="o">(</span><span class="n">Subscription</span> <span class="n">subscription</span><span class="o">)</span> <span class="o">{</span> 
+                    <span class="c1">//hookOnSubscribe定义在订阅的时候执行的操作，订阅时首先向上游请求1个元素
+</span><span class="c1"></span>                    <span class="n">request</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+                <span class="o">}</span>
+    
+                <span class="nd">@Override</span>
+                <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">hookOnNext</span><span class="o">(</span><span class="n">Integer</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>  
+                    <span class="c1">//hookOnNext定义每次在收到一个元素的时候的操作，每次处理完1个元素后再请求1个。
+</span><span class="c1"></span>                    <span class="n">request</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+                <span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div></li>
 </ul>
