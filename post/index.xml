@@ -34,6 +34,17 @@
     </item>
     
     <item>
+      <title>MongoDB备份与还原</title>
+      <link>https://chinalhr.github.io/post/mongo_back/</link>
+      <pubDate>Sat, 08 Feb 2020 23:33:14 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/mongo_back/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;记录MongoDB备份与还原知识点与个人站点的MongoDB备份脚本&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
       <title>Linux-logrotate</title>
       <link>https://chinalhr.github.io/post/linux_logrotate/</link>
       <pubDate>Fri, 31 Jan 2020 13:55:12 +0800</pubDate>
