@@ -202,7 +202,7 @@ Api认证授权方案总结
 
 <h2 id="关于认证-授权与凭证">关于认证，授权与凭证</h2>
 
-<p><img src="https://raw.githubusercontent.com/ChinaLHR/blog-images/master/5c99b7be2abea.webp" alt="" /></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/76158479-1fae8e00-6151-11ea-9ab1-ab98f4207862.png" alt="图片" /></p>
 
 <ul>
 <li>认证（authentication）</li>
@@ -238,7 +238,7 @@ Api认证授权方案总结
 <li>给编码后的字符串添加 Basic 前缀，然后设置名称为 Authorization 的 header 头部</li>
 </ol>
 
-<p><img src="https://raw.githubusercontent.com/ChinaLHR/blog-images/master/5c99b80d17f84.webp" alt="" /></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/76158487-30f79a80-6151-11ea-96a4-f8d282cc6d67.png" alt="图片" /></p>
 
 <p>API 也可以提供 HTTP Basic Authentication 认证方式，那么客户端可以很简单通过 Base64 传输用户名和密码即可。</p>
 
@@ -252,7 +252,7 @@ Api认证授权方案总结
 
 <p>基本过程如下：</p>
 
-<p><img src="https://raw.githubusercontent.com/ChinaLHR/blog-images/master/20200207163446.png" alt="" /></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/76158499-479df180-6151-11ea-8990-7f75f26bc0fb.png" alt="图片" /></p>
 
 <h4 id="签名生成">签名生成</h4>
 
@@ -276,7 +276,7 @@ Api认证授权方案总结
 附加到按照上面说到的方法进行 HMAC 签名，服务器使用预先分配的 nonce 同样进行签名校验，这个 nonce
 在服务器只会被使用一次，因此可以提供唯一的摘要。</p>
 
-<p><img src="https://raw.githubusercontent.com/ChinaLHR/blog-images/master/5c99b845656af.webp" alt="" /></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/76158506-54bae080-6151-11ea-9fcf-1173850a18ce.png" alt="图片" /></p>
 
 <h3 id="oauth2">OAuth2</h3>
 
@@ -303,7 +303,7 @@ Api认证授权方案总结
 
 <p>在一般情况下，Resource server提供Authorization server服务，提供授权接口与获取访问令牌接口。</p>
 
-<p><img src="https://raw.githubusercontent.com/ChinaLHR/blog-images/master/168328-20161228154537320-2101529434.jpg" alt="" /></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/76158510-64d2c000-6151-11ea-9d57-429acf9a8a14.png" alt="图片" /></p>
 
 <p>流程：</p>
 
@@ -329,7 +329,7 @@ Api认证授权方案总结
 
 <h4 id="authorization-code">Authorization Code</h4>
 
-<p><img src="https://raw.githubusercontent.com/ChinaLHR/blog-images/master/20200210220449.jpg" alt="" /></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/76158549-e4f92580-6151-11ea-9d02-5e188b39c04d.png" alt="图片" /></p>
 
 <ul>
 <li>（A）<strong>Client</strong>使用浏览器（用户代理）访问<strong>Authorization server。</strong>也就是用浏览器访问一个URL，这个URL是<strong>Authorization server</strong>提供的，访问的时候Client需要提供（客户端标识，请求范围，本地状态和重定向URL）这些参数。</li>
