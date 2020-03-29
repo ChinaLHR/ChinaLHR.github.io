@@ -6,10 +6,21 @@
     <description>Recent content on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Mar 2020 23:48:19 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 29 Mar 2020 16:16:16 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>分布式ID解决方案分析</title>
+      <link>https://chinalhr.github.io/post/uidgeneratorscheme/</link>
+      <pubDate>Sun, 29 Mar 2020 16:16:16 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/uidgeneratorscheme/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;分布式ID解决方案分析，百度uid-generator，美团Leaf原理分析&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>软件架构模式分析</title>
@@ -701,17 +712,6 @@
       <guid>https://chinalhr.github.io/post/redisdomqbuff/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;使用Redis做阿里MQ发送的缓存，一种控制MQ发送QPS的方案&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Jenkins部署优化</title>
-      <link>https://chinalhr.github.io/post/jenkins_job_optimize/</link>
-      <pubDate>Mon, 09 Jul 2018 21:24:11 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/jenkins_job_optimize/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Jenkins是基于Java开发的一种持续集成工具,是一款自动化运维的工具。可用于软件构建自动化，构建可持续的自动化检查，构建可持续的自动化测试&amp;hellip;&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

@@ -55,7 +55,7 @@
 
 <meta itemprop="datePublished" content="2018-02-19T14:31:45&#43;08:00" />
 <meta itemprop="dateModified" content="2018-02-19T14:31:45&#43;08:00" />
-<meta itemprop="wordCount" content="803">
+<meta itemprop="wordCount" content="945">
 
 
 
@@ -146,7 +146,7 @@
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 编程-后端开发 </a>
             </div>
-          <span class="more-meta"> 803 words </span>
+          <span class="more-meta"> 945 words </span>
           <span class="more-meta"> 2 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -166,7 +166,7 @@
 <li><a href="#mybatis插件">MyBatis插件</a></li>
 <li><a href="#jdk8">JDK8</a>
 <ul>
-<li><a href="#optional防止nullpointerexception产生">Optional防止NullPointerException产生</a></li>
+<li><a href="#optional优雅处理nullpointerexception">Optional优雅处理NullPointerException</a></li>
 <li><a href="#使用futurn-completablefuture在并发的层面充分利用单一cpu-避免等待远程服务返回而浪费资源">使用Futurn/CompletableFuture在并发的层面充分利用单一CPU，避免等待远程服务返回而浪费资源</a></li>
 </ul></li>
 </ul></li>
@@ -215,55 +215,107 @@
 
 <h2 id="jdk8">JDK8</h2>
 
-<h3 id="optional防止nullpointerexception产生">Optional防止NullPointerException产生</h3>
+<h3 id="optional优雅处理nullpointerexception">Optional优雅处理NullPointerException</h3>
 
 <ul>
-<li>Optional是对存在或者缺失的变量值进行建模</li>
-<li>声明：对于可能出现Null(及Person——&gt;Car可能拥有也可能不拥有的情况),使用Optional来包裹对象</li>
-<li>Optional.ofNullable(obj) ——&gt;可接受null的Optional</li>
+<li>of</li>
 </ul>
+
+<p>of方法通过工厂方法创建Optional实例，如果传入的值为null，会抛出异常。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="c1">// 给与一个非空值
+</span><span class="c1"></span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">username</span> <span class="o">=</span> <span class="n">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;lhr&#34;</span><span class="o">);</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>ofNullable</li>
+</ul>
+
+<p>与of类似，但如果传入的值为null，则返回一个空的Optional。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Optional</span> <span class="n">empty</span> <span class="o">=</span> <span class="n">Optional</span><span class="o">.</span><span class="na">ofNullable</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>isPresent</li>
+</ul>
+
+<p>如果Optional值存在返回true,否则返回false</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java">	<span class="n">person</span><span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="nl">Person:</span><span class="o">:</span><span class="n">getCar</span><span class="o">)</span>
-		<span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="nl">Car:</span><span class="o">:</span><span class="n">getInsurance</span><span class="o">)</span>
-		<span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">i</span><span class="o">-&gt;</span><span class="n">i</span><span class="o">.</span><span class="na">getName</span><span class="o">().</span><span class="na">length</span><span class="o">()&gt;=</span><span class="n">3</span><span class="o">)</span>
-		<span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Insurance:</span><span class="o">:</span><span class="n">getName</span><span class="o">)</span>
-		<span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="s">&#34;Unknown&#34;</span><span class="o">);</span><span class="err">`</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="k">if</span> <span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">isPresent</span><span class="o">())</span> <span class="o">{</span>
+   <span class="o">***</span>
+<span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>
-<li>使用Optional对类型转换异常返回的非法值进行返回</li>
+<li>get</li>
 </ul>
+
+<p>如果Optional有值则将其返回，否则抛出NoSuchElementException。</p>
+
+<ul>
+<li>ifPresent</li>
+</ul>
+
+<p>如果Optional实例有值则为其调用consumer ,否则不做处理。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java">	<span class="kd">public</span> <span class="kd">static</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">stringToInt</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
-	 	<span class="k">try</span> <span class="o">{</span>
-	 		<span class="k">return</span> <span class="n">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">s</span><span class="o">));</span>
-	 	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">NumberFormatException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-	 		<span class="k">return</span> <span class="n">Optional</span><span class="o">.</span><span class="na">empty</span><span class="o">();</span>
-	 	<span class="o">}</span>
-	<span class="o">}</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">user</span><span class="o">.</span><span class="na">ifPresent</span><span class="o">((</span><span class="n">value</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+   <span class="o">***</span>
+<span class="o">});</span></code></pre></td></tr></table>
 </div>
 </div>
 <ul>
-<li>缺陷：Optional没有实现Serializale接口，域模型中使用Optional实现序列化功能</li>
+<li>orElse</li>
 </ul>
+
+<p>如果有值则将其返回，否则返回指定的其它值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="k">new</span> <span class="n">User</span><span class="o">(</span><span class="s">&#34;zhangsan&#34;</span><span class="o">)));</span>  </code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>orElseGet</li>
+</ul>
+
+<p>orElseGet与orElse方法类似，区别在于得到的默认值。orElse传入的是默认值，orElseGet可以接受一个Supplier生成默认值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">orElseGet</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="n">User</span><span class="o">(</span><span class="s">&#34;zhangsan&#34;</span><span class="o">)));</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>orElseThrow</li>
+</ul>
+
+<p>如果有值则将其返回，否则抛出supplier接口创建的异常。</p>
 
 <h3 id="使用futurn-completablefuture在并发的层面充分利用单一cpu-避免等待远程服务返回而浪费资源">使用Futurn/CompletableFuture在并发的层面充分利用单一CPU，避免等待远程服务返回而浪费资源</h3>
 

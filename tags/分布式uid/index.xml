@@ -6,10 +6,21 @@
     <description>Recent content in 分布式UID on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Sep 2018 23:02:55 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 29 Mar 2020 16:16:16 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8Fuid/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>分布式ID解决方案分析</title>
+      <link>https://chinalhr.github.io/post/uidgeneratorscheme/</link>
+      <pubDate>Sun, 29 Mar 2020 16:16:16 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/uidgeneratorscheme/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;分布式ID解决方案分析，百度uid-generator，美团Leaf原理分析&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>基于SnowFlake的分布式UID生成服务</title>

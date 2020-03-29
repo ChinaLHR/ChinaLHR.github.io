@@ -6,10 +6,21 @@
     <description>Recent content in 编程-后端开发 on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 13 Feb 2020 16:38:02 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 29 Mar 2020 16:16:16 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>分布式ID解决方案分析</title>
+      <link>https://chinalhr.github.io/post/uidgeneratorscheme/</link>
+      <pubDate>Sun, 29 Mar 2020 16:16:16 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/uidgeneratorscheme/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;分布式ID解决方案分析，百度uid-generator，美团Leaf原理分析&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Spring WebFlux 原理与适用场景</title>
