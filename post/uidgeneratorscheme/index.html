@@ -55,7 +55,7 @@
 
 <meta itemprop="datePublished" content="2020-03-29T16:16:16&#43;08:00" />
 <meta itemprop="dateModified" content="2020-03-29T16:16:16&#43;08:00" />
-<meta itemprop="wordCount" content="12590">
+<meta itemprop="wordCount" content="12612">
 
 
 
@@ -146,7 +146,7 @@
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 编程-后端开发 </a>
             </div>
-          <span class="more-meta"> 12590 words </span>
+          <span class="more-meta"> 12612 words </span>
           <span class="more-meta"> 26 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -1276,7 +1276,7 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
     <span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
-<p>SegmentIDGenImpl的init方法可以看出主要是对biz_tag的同步，同步到应用的缓存中并且初始化对应的Segment  Buffer。</p>
+<p>SegmentIDGenImpl的init方法可以看出主要是对biz_tag的同步，同步到应用的缓存中并且初始化对应的Segment  Buffer。并且会开启调度线程进行定时的cache刷新。</p>
 
 <ul>
 <li>双Buffer</li>
