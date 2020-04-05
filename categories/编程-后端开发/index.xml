@@ -6,10 +6,21 @@
     <description>Recent content in 编程-后端开发 on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 29 Mar 2020 16:16:16 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 03 Apr 2020 19:45:19 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java技术域中的异步编程</title>
+      <link>https://chinalhr.github.io/post/java_asyncprogram/</link>
+      <pubDate>Fri, 03 Apr 2020 19:45:19 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/java_asyncprogram/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Java技术域异步编程总结&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>分布式ID解决方案分析</title>
@@ -140,17 +151,6 @@
       <guid>https://chinalhr.github.io/post/vertx01/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Vert.x 官方文档阅读&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>响应式Web技术栈</title>
-      <link>https://chinalhr.github.io/post/reactivewebstack/</link>
-      <pubDate>Mon, 25 Mar 2019 21:08:46 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/reactivewebstack/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;响应式编程学习&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -349,17 +349,6 @@
       <guid>https://chinalhr.github.io/post/java_practice/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;仅记录一个多月野蛮生长过程的个人编码规范&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Java异步编程-CompletableFuture</title>
-      <link>https://chinalhr.github.io/post/java_completablefuture/</link>
-      <pubDate>Fri, 02 Feb 2018 00:42:49 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/java_completablefuture/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;学习CompletableFuture&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

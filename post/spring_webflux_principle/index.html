@@ -55,7 +55,7 @@ Spring WebFlux源码分析与适用场景
 
 <meta itemprop="datePublished" content="2020-02-13T16:38:02&#43;08:00" />
 <meta itemprop="dateModified" content="2020-02-13T16:38:02&#43;08:00" />
-<meta itemprop="wordCount" content="3139">
+<meta itemprop="wordCount" content="4185">
 
 
 
@@ -146,8 +146,8 @@ Spring WebFlux源码分析与适用场景
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 编程-后端开发 </a>
             </div>
-          <span class="more-meta"> 3139 words </span>
-          <span class="more-meta"> 7 mins read </span>
+          <span class="more-meta"> 4185 words </span>
+          <span class="more-meta"> 9 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -160,12 +160,19 @@ Spring WebFlux源码分析与适用场景
 <li>
 <ul>
 <li><a href="#关于webflux">关于WebFlux</a></li>
+<li><a href="#webflux对比springmvc并发模型">WebFlux对比SpringMVC并发模型</a>
+<ul>
+<li>
+<ul>
+<li><a href="#springmvc基于的servlet并发模型">SpringMVC基于的Servlet并发模型</a></li>
+<li><a href="#webflux并发模型">WebFlux并发模型</a></li>
+</ul></li>
+</ul></li>
 <li><a href="#范例">范例</a></li>
 <li><a href="#性能">性能</a>
 <ul>
 <li><a href="#webflux对比springmvc的性能测试">webflux对比SpringMVC的性能测试</a></li>
 </ul></li>
-<li><a href="#webflux服务器启动流程">WebFlux服务器启动流程</a></li>
 <li><a href="#webflux请求分发">WebFlux请求分发</a>
 <ul>
 <li><a href="#reactor的map-flatmap-concatmap">reactor的map，flatMap，concatMap</a></li>
@@ -203,6 +210,32 @@ Spring WebFlux源码分析与适用场景
 <li>支持响应式的安全访问控制Spring Security Reactive；</li>
 </ul>
 
+<h2 id="webflux对比springmvc并发模型">WebFlux对比SpringMVC并发模型</h2>
+
+<h4 id="springmvc基于的servlet并发模型">SpringMVC基于的Servlet并发模型</h4>
+
+<p>servlet由servlet container进行生命周期管理。container启动时构造servlet对象并调用servlet init()进行初始化；container关闭时调用servlet destory()销毁servlet；container运行时接受请求，并为每个请求分配一个线程（一般从线程池中获取空闲线程）然后调用service()。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/55001956-ac2f7180-5010-11e9-80cf-cd34a57832b1.png" alt="image" /></p>
+
+<p>处理请求的时候同步操作，一个请求对应一个线程来处理，并发上升，线程数量就会上涨（上线文切换，内存消耗大）影响请求的处理时间。现代系统多数都是IO密集的，同步处理让线程大部分时间都浪费在了IO等待上面。虽然Servlet3.0后提供了异步请求处理与非阻塞IO支持，但是使用它会远离Servlet API的其余部分，比如其规范是同步的（Filter, Servlet）或阻塞的（getParameter,getPart），而且其对响应的写入仍然是阻塞的。</p>
+
+<h4 id="webflux并发模型">WebFlux并发模型</h4>
+
+<p>WebFlux模型主要依赖响应式编程库Reactor，Reactor 有两种模型，Flux 和 Mono，提供了非阻塞、支持回压机制的异步流处理能力。WebFlux API接收普通Publisher作为输入，在内部使其适配Reactor类型，使用它并返回Flux或Mono作为输出。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/55086336-2a5c4880-50e3-11e9-853b-a2a43d917b94.png" alt="image" /></p>
+
+<p>WebFlux 使用Netty作为默认的web服务器，其依赖于非阻塞IO，并且每次写入都不需要额外的线程进行支持。</p>
+
+<p>也可以使用Tomcat、Jetty容器，不同与SpringMVC依赖于Servlet阻塞IO，并允许应用程序在需要时直接使用Servlet API，WebFlux依赖于Servlet 3.1非阻塞IO。使用Undertow作为服务器时，WebFlux直接使用Undertow API而不使用Servlet API。</p>
+
+<p>当WebFlux运行在Netty服务器上，其线程模型如下：</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/78471326-0b1ae100-7763-11ea-8a55-3627e6884ba0.png" alt="图片" /></p>
+
+<p>NettyServer的Boss Group线程池内的事件循环会接收这个请求，然后把完成TCP三次握手的连接channel交给Worker Group中的某一个事件循环线程来进行处理（该事件处理线程会调用对应的controller进行处理）。所以WebFlux的handler执行是使用Netty的IO线程进行执行的，所以需要注意如果handler的执行比较耗时，会把IO线程耗尽导致不能再处理其他请求，可以通过Reactor的publishOn操作符切换到其他线程池中执行。</p>
+
 <h2 id="范例">范例</h2>
 
 <p><strong>参考</strong></p>
@@ -228,8 +261,6 @@ Spring WebFlux源码分析与适用场景
 <p><strong>结论：</strong>非阻塞的处理方式规避了线程排队等待的情况，从而可以用少量而固定的线程处理应对大量请求的处理，提升应用的吞吐量和伸缩性。</p>
 
 <p><a href="https://blog.csdn.net/get_set/article/details/79492439">参考链接</a></p>
-
-<h2 id="webflux服务器启动流程">WebFlux服务器启动流程</h2>
 
 <h2 id="webflux请求分发">WebFlux请求分发</h2>
 
