@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>计算机的心智-进程 - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" 读《计算机的心智》,另一个角度看操作系统
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/os-heart-process/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="计算机的心智-进程" />
+<meta property="og:description" content="
+读《计算机的心智》,另一个角度看操作系统
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/os-heart-process/" /><meta property="article:published_time" content="2018-11-15T22:30:30&#43;08:00"/>
+<meta property="article:modified_time" content="2018-11-15T22:30:30&#43;08:00"/>
+
+<meta itemprop="name" content="计算机的心智-进程">
+<meta itemprop="description" content="
+读《计算机的心智》,另一个角度看操作系统
+">
+
+
+<meta itemprop="datePublished" content="2018-11-15T22:30:30&#43;08:00" />
+<meta itemprop="dateModified" content="2018-11-15T22:30:30&#43;08:00" />
+<meta itemprop="wordCount" content="1504">
+
+
+
+<meta itemprop="keywords" content="操作系统," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="计算机的心智-进程"/>
+<meta name="twitter:description" content="
+读《计算机的心智》,另一个角度看操作系统
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="https://www.yuque.com/lihanrong">
+        <li class="mobile-menu-item">笔记</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/post/books/">
+        <li class="mobile-menu-item">阅读记录</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">笔记</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/books/">阅读记录</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">计算机的心智-进程</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-11-15 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"> 编程-操作系统 </a>
+            </div>
+          <span class="more-meta"> 1504 words </span>
+          <span class="more-meta"> 4 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#关于进程">关于进程</a></li>
+<li><a href="#进程调度">进程调度</a></li>
+<li><a href="#进程调度算法">进程调度算法</a></li>
+<li><a href="#进程通信-ipc">进程通信(IPC)</a>
+<ul>
+<li><a href="#权衡">权衡</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>读《计算机的心智》,另一个角度看操作系统</p>
+</blockquote>
+
+<h3 id="关于进程">关于进程</h3>
+
+<p>进展中的程序，一个程序被加载到内存后就变成进程。对于操作系统，进程是其提供的一种抽象，目的是通过并发提高系统CPU利用率，缩短响应时间。</p>
+
+<ul>
+<li>进程的三种典型状态</li>
+</ul>
+
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/19829495/48848073-0c51a500-edde-11e8-9779-6f82ec240dfd.png" width="60%">
+    <br />
+</p>
+
+<ul>
+<li><p>进程的创建过程</p>
+
+<ol>
+<li>分配进程控制块</li>
+<li>初始化机器寄存器</li>
+<li>初始化页表</li>
+<li>将程序代码从磁盘读取到内存</li>
+<li>将处理器状态设置为用户态</li>
+<li>跳转到程序的起始地址(设置程序计数器)</li>
+</ol></li>
+</ul>
+
+<p>UNIX 创建进程:1.fork[创建一个与自己完全一样的新进程] 2.exec[新进程的地址空间用另一个程序覆盖，跳转到新进程的起始地址完成启动]</p>
+
+<p>Window CreateProcess函数:CreateProcess[传递进来新的程序名称，创建新的页表]</p>
+
+<hr />
+
+<h3 id="进程调度">进程调度</h3>
+
+<ul>
+<li><p>程序使用CPU的三种模式</p>
+
+<ol>
+<li>计算密集型(科学计算,矩阵乘法&hellip;)</li>
+<li>IO密集型(游戏,人机交互&hellip;)</li>
+<li>平衡程序(网页浏览，下载，网络视频&hellip;)</li>
+</ol></li>
+
+<li><p>进程调度的目标</p></li>
+</ul>
+
+<p>极小化平均响应时间，极大化系统吞吐，保持各个系统功能部件处于繁忙和维持公平机制。</p>
+
+<hr />
+
+<h3 id="进程调度算法">进程调度算法</h3>
+
+<ul>
+<li>First Come First Server(先来先服务算法)</li>
+</ul>
+
+<p>顾名思义&hellip;</p>
+
+<ul>
+<li>时间片轮转算法</li>
+</ul>
+
+<p>周期性地进行进程切换&hellip;</p>
+
+<ul>
+<li>Shorted Time to Completion First(短任务优先算法)</li>
+</ul>
+
+<p>非抢占式:CPU上的程序运行到阻塞或者结束，从候选程序中选择执行时间最短的进行执行。
+抢占式：新增一个进程时，就从所有进程中选择执行时间最短的运行。</p>
+
+<ul>
+<li>优先级调度算法</li>
+</ul>
+
+<p>对每个进行赋予优先级，按照优先级调度</p>
+
+<ul>
+<li>保证调度算法</li>
+</ul>
+
+<p>众生平等策略，如果系统有n个进程，保证每个进程的CPU占用时间为1/n。</p>
+
+<ul>
+<li><p>实时调度算法</p>
+
+<ol>
+<li>动态优先调度(EDF)
+动态计算每个任务的截止时间进行动态调度优先级。由STCF算法改进而来，EDF就是最早截至的任务先运行，如果新进程比正在运行的进程的截止时间更靠前，就抢占当前任务进行调度。
+<br /></li>
+</ol>
+
+<p>缺陷：需要动态计算任务截止时间，消耗CPU资源，所以就有了静态调度算法</p>
+
+<ol>
+<li>静态优先调度(RMS)
+在进行调度之前，先计算出所有任务的优先级，按照计算的优先级进行调度，任务执行过程中不接受新进程也不进行优先级调整与CPU抢占。
+<br /></li>
+</ol>
+
+<p>缺陷：没有动态优先调度灵活</p></li>
+</ul>
+
+<hr />
+
+<h3 id="进程通信-ipc">进程通信(IPC)</h3>
+
+<ul>
+<li>管道通信(类UNIX下)
+通过Shell的 | :sort &lt; file |grep li [在排序sort与查找grep之间建立管道。数据从sort流向grep，作用是对file进行排序，排序结果作为grep程序的输入，在结果中找出包括li的文本行]</li>
+</ul>
+
+<p>通过pipe函数</p>
+
+<p>管道：用于管道的读与写。半双工的，具有固定的读端和写端(他只能用于具有亲缘关系的进程之间的通信)。可以看成是一种特殊的文件，对于它的读写也可以使用普通的read、write 等函数。但是它不是普通的文件，并不属于其他任何文件系统，并且只存在于内存中。</p>
+
+<ul>
+<li>FIFO(命名管道，是一种文件类型)
+FIFO可以在无关的进程之间交换数据，与无名管道不同。</li>
+</ul>
+
+<p>FIFO有路径名与之相关联，它以一种特殊设备文件形式存在于文件系统中。</p>
+
+<ul>
+<li><p>Socket套接字
+分为本地(UNIX域)套接字，网域套接字</p></li>
+
+<li><p>信号
+利用CPU内中断进行通信</p></li>
+</ul>
+
+<p>在计算机里，信号就是一个内核对象(数据结构)。发送方将该数据结构的内容填好，并指明该信号的目标进程后，发出特定的软件中断。操作系统接收到特定的中断请求后，知道是有进程要发送信号，于是到特定的内核数据结构里查找信号接收方，并进行通知。接到通知的进程则对信号进行相应处理。</p>
+
+<ul>
+<li><p>共享内存
+&hellip;</p></li>
+
+<li><p>消息队列
+无固定读写进程，支持多进程，多对多而并非管道之类的点对点。<br/>
+消息队列是消息的链接表，存放在内核中。一个消息队列由一个标识符（即队列ID）来标识。</p></li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/49161049-0b32f180-f363-11e8-9da0-536211ebae9a.png" alt="image" /></p>
+
+<ul>
+<li>参考：</li>
+</ul>
+
+<p><a href="https://songlee24.github.io/2015/04/21/linux-IPC/">https://songlee24.github.io/2015/04/21/linux-IPC/</a></p>
+
+<h4 id="权衡">权衡</h4>
+
+<ul>
+<li>管道通信,Socket套接字消耗系统资源大</li>
+<li>信号:小数据量通信</li>
+<li>共享内存，消息队列:大数据量通信</li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2018-11-15
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/java-cache-strategy/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">缓存更新策略</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/mybatis-shard-plugin/">
+            <span class="next-text nav-default">Mybatis自定义分表Plug</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>计算机的心智-多核心 - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" 读《计算机的心智》,另一个角度看操作系统
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/os-heart-multicpu/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="计算机的心智-多核心" />
+<meta property="og:description" content="
+读《计算机的心智》,另一个角度看操作系统
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/os-heart-multicpu/" /><meta property="article:published_time" content="2018-12-20T23:12:24&#43;08:00"/>
+<meta property="article:modified_time" content="2018-12-20T23:12:24&#43;08:00"/>
+
+<meta itemprop="name" content="计算机的心智-多核心">
+<meta itemprop="description" content="
+读《计算机的心智》,另一个角度看操作系统
+">
+
+
+<meta itemprop="datePublished" content="2018-12-20T23:12:24&#43;08:00" />
+<meta itemprop="dateModified" content="2018-12-20T23:12:24&#43;08:00" />
+<meta itemprop="wordCount" content="3075">
+
+
+
+<meta itemprop="keywords" content="操作系统," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="计算机的心智-多核心"/>
+<meta name="twitter:description" content="
+读《计算机的心智》,另一个角度看操作系统
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="https://www.yuque.com/lihanrong">
+        <li class="mobile-menu-item">笔记</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/post/books/">
+        <li class="mobile-menu-item">阅读记录</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">笔记</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/books/">阅读记录</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">计算机的心智-多核心</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-12-20 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"> 编程-操作系统 </a>
+            </div>
+          <span class="more-meta"> 3075 words </span>
+          <span class="more-meta"> 7 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#多核演变">多核演变</a></li>
+<li><a href="#多核原理">多核原理</a>
+<ul>
+<li><a href="#多核内存结构-协调多核心对内存的访问">多核内存结构(协调多核心对内存的访问)</a></li>
+<li><a href="#多处理器之间通信">多处理器之间通信</a></li>
+<li><a href="#对称多处理器-smp-的缓存一致性">对称多处理器(SMP)的缓存一致性</a></li>
+</ul></li>
+<li><a href="#多核环境下的进程同步与调度">多核环境下的进程同步与调度</a>
+<ul>
+<li><a href="#同步">同步</a></li>
+<li><a href="#调度">调度</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>读《计算机的心智》,另一个角度看操作系统</p>
+</blockquote>
+
+<h3 id="多核演变">多核演变</h3>
+
+<ul>
+<li>多处理结构(SMP Architecture)</li>
+</ul>
+
+<p>一条总线上挂载多个CPU。CPU角色功能平等，没有主从，称为对称结构。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/50348717-95dacb00-0574-11e9-9ff8-cd225b7a5e8b.png" alt="image" /></p>
+
+<ul>
+<li>超线程结构(HyperThreading)</li>
+</ul>
+
+<p>英特尔提出的技术，让一个CPU同时执行多重线程，从而提高CPU效率。目的是让一个CPU上同时执行多个程序而共享这个CPU内的资源。(让同一时间不同应用程序使用CPU的不同资源,由CPU上的逻辑处理单元指针控制)</p>
+
+<p>如下，4 个物理 CPU ，而每个CPU又因超线程技术分解为两个逻辑 CPU 。每个逻辑 CPU 可以执行一个线程序列。这样一个物理 CPU 可以同时执行两个线程。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/50382995-4f0ce280-06e6-11e9-94a0-eaf434da9ac6.png" alt="image" /></p>
+
+<ul>
+<li>多核结构(Multi-core Architecture)</li>
+</ul>
+
+<p>多核结构就是在一个CPU里面布两个执行核，即两套执行单元，如 ALU,FPU和L2缓存等。而其他部分则两个核共享。这样，由于使用的是一个 CPU ，其功耗和单CPU一样。由于布置了多个核，其指令级并行将是真正的并行，而不是超线程结构的半并行。</p>
+
+<ul>
+<li>多核超线程结构(Multi-core HyperThreading Architecture)</li>
+</ul>
+
+<p>在多核结构下使用超线程技术。</p>
+
+<ul>
+<li>区别
+主要体现在同时执行的两个线程之
+间共享物理资源的多少。多处理器的共享物理资源最少,每个线程有自己单独的处理器;超线程共享最多,ALU、FPU、MSR、缓存等均为共享物理资源;而多核则介于两者之间,共享处理器,但不共享ALU、FPU等。</li>
+</ul>
+
+<hr />
+
+<h3 id="多核原理">多核原理</h3>
+
+<h4 id="多核内存结构-协调多核心对内存的访问">多核内存结构(协调多核心对内存的访问)</h4>
+
+<ul>
+<li>UMA</li>
+</ul>
+
+<p>将内存作为与执行核独立的单元构建在核之外，所有的核通过同一总线对内存进行访问。由于每个核使用相同的方式访问内存，其到内存的延迟也相同，这种访问模式称为均匀内存访问(Uniform Memory Access , UMA)。</p>
+
+<p>优点是设计简单，实现容易。缺点是难以针对个体的程序进行访问优化，以及扩展困难。随着执行核数最的增加会加剧对共享内存的竞争，造成系统效率急剧下降。</p>
+
+<ul>
+<li>NUMA</li>
+</ul>
+
+<p>使用多个分开的独立共享内存。每个执行核或 CPU 到达不同共享内存的距离不同，访间延迟也不一样。这种访问延迟不一致的内存共享模式称为非均匀内存访问（ Non-Uniform Memo y Access , NUMA）。在这种模式下，最重要的特点是执行核在不同的内存单元面前地位并不平等：到近的内存具有优势地位，到远的内存则处于劣势。</p>
+
+<p>优点是易扩展，但对调度的要求很高(调度时将程序就近执行)。</p>
+
+<ul>
+<li>COMA</li>
+</ul>
+
+<p>在每个执行核里面配置缓存,其执行需要的数据均缓存在该缓存里面。所有访问由缓存得到满足。避免数据存储的内存单元(远/近),其对效率的影响。这种完全由缓存满足数据访问的模式称为全缓存内存访问( Cache Only Memor Access,COMA)。在这种模式下,每个执行核配备的缓存共同组成全局地址空间。</p>
+
+<h4 id="多处理器之间通信">多处理器之间通信</h4>
+
+<p>使用CPU之间中断的机制就是高级可编程中断控制器(APIC)。在此种规范下,每个CPU内部必须内置APIC单元(成为那个CPU的本地APIC)。CPU通过彼此发送中断(IPI,即处理器间中断)来完成它们之间的通信。通过给中断附加动作,不同的CPU可以在某种程度上彼此进行控制。除了每个CPU自己本地的APC外,所有CPU通常还共享一个IO APIC来处理由LO设备引起的中断,这个IO APIC是安装在主板上的。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/50383873-538dc700-06f7-11e9-8587-fc84bc218099.png" alt="image" /></p>
+
+<h4 id="对称多处理器-smp-的缓存一致性">对称多处理器(SMP)的缓存一致性</h4>
+
+<p>在对称多处理器结构下,每个处理器都有自己的缓存,因此在一个系统里面存在多个缓存的情况下就有可能出现两个缓存的数据不一致的情况。即两个CPU缓存同样的数据,其中一个或两个CPU对数据进行了修改从而造成两个CPU缓存数据的不同。</p>
+
+<p>MESI模型：CPU中每个缓存行（cacehline)使用4种状态进行标记（使用额外的两位(bit)表示)</p>
+
+<ul>
+<li>M: 被修改（Modified)</li>
+</ul>
+
+<p>该缓存行只被缓存在该CPU的缓存中，并且是被修改过的（dirty),即与主存中的数据不一致，该缓存行中的内存需要在未来的某个时间点（允许其它CPU读取请主存中相应内存之前）写回（write back）主存。当被写回主存之后，该缓存行的状态会变成独享（exclusive)状态。</p>
+
+<ul>
+<li>E: 独享的（Exclusive)</li>
+</ul>
+
+<p>该缓存行只被缓存在该CPU的缓存中，它是未被修改过的（clean)，与主存中数据一致。该状态可以在任何时刻当有其它CPU读取该内存时变成共享状态（shared)。同样地，当CPU修改该缓存行中内容时，该状态可以变成Modified状态。</p>
+
+<ul>
+<li>S: 共享的（Shared)</li>
+</ul>
+
+<p>该状态意味着该缓存行可能被多个CPU缓存，并且各个缓存中的数据与主存数据一致（clean)，当有一个CPU修改该缓存行中，其它CPU中该缓存行可以被作废（变成无效状态（Invalid））。</p>
+
+<ul>
+<li>I: 无效的（Invalid）</li>
+</ul>
+
+<p>该缓存是无效的（可能有其它CPU修改了该缓存行）。</p>
+
+<ul>
+<li>状态迁移</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/50384014-4245ba00-06f9-11e9-94fc-dcae7ea621bf.png" alt="image" /></p>
+
+<p>触发事件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">本地读取（Local read）    本地cache读取本地cache数据
+本地写入（Local write）   本地cache写入本地cache数据
+远端读取（Remote read）   其他cache读取本地cache数据
+远端写入（Remote write）其他cache写入本地cache数据</pre></td></tr></table>
+</div>
+</div>
+<hr />
+
+<h3 id="多核环境下的进程同步与调度">多核环境下的进程同步与调度</h3>
+
+<h4 id="同步">同步</h4>
+
+<ul>
+<li>加载与存入，测试与设置(硬件同步原语)</li>
+</ul>
+
+<p>&hellip;</p>
+
+<ul>
+<li>总线锁(硬件同步原语)</li>
+</ul>
+
+<p>总线锁就是将总线锁住,只有持有该锁的CPU才能使用总线。这样,由于所有CPU均需要使用共享总线来访问共享内存,而总线的锁住将使得其他CPU没有办法执行任何与共享内存有关的指令,从而使得数据的访问是排他的。</p>
+
+<ul>
+<li>软件同步原语</li>
+</ul>
+
+<p>Linux内核提供的原子操作:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">    总线锁:置换、比较与置换、原子递增操作。
+    原子算术操作:原子读、设置、加、减、递增、递减、递减与测试。
+    原子位操作:位设置、位清除;位测试与设置、位测试与清除、位测试与改变。</pre></td></tr></table>
+</div>
+</div>
+<p>Windows内核提供的原子:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">    互锁操作( interlocked operation)
+    执行体互锁操作( executive interlocked operations</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>旋锁</li>
+</ul>
+
+<p>多核操作系统提供的CPU互斥机制。旋锁通常用于保护某个全局的数据结构,如 Windows里面的DPC(延迟过程调用)队列。这里的互斥指的是多个处理器或执行核之间的互斥,即两个处理器或核不能(物理上)同时访问同一个数据结构。</p>
+
+<p>旋锁通过获取和释放两个操作来保证任何时候只有一个拥有者。旋锁的状态有两种:要么是闲置的,要么被某个CPU所拥有。如果一个CPU获得一个旋锁,那么运行在该CPU上的所有的线程都可以访问该旋锁所保护的寄存器和数据结构。</p>
+
+<p><strong>使用测试与设置实现</strong></p>
+
+<p>旋锁是一个特定的内存单元，位于整个系统的共享内存里面。如果一个处理器要使用旋锁,就必须检査这个特定内存单元的值。如果为0,则将其设置为1,表示获得该旋锁。如果为1,则表示该旋锁被其他处理器所占有,则在该旋锁上进行繁忙等待,即不停地循环。</p>
+
+<p><strong>避免内存总线竞争</strong></p>
+
+<p>每个CPU在检查旋锁的状态时均需要使用系统总线来访间旋锁所在的共享全局内存单元。测试并设置这个全局内存单元,就需要不停地发信号到总线上,造成对内存总线的竞争。</p>
+
+<p>队列旋锁优化：需要旋锁的CPU不要到全局内存去SPIN,而是到自己的局部内存去SPN。这样就可以排除对总线的竞争。需要旋锁的CPU使用队列数据结构(全局内存)，旋锁释放的时候就去检查这个队列进行操作。</p>
+
+<h4 id="调度">调度</h4>
+
+<ul>
+<li>调度策略</li>
+</ul>
+
+<p>每个CPU有着自己的就绪队列( runqueue)。该队列里面又
+可以按照不同的优先级分解为多个子队列,就像单核环境下的情况一样。一个进程只可以排在任何一个CPU的队列。</p>
+
+<p>Linux就绪队列：</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/50384852-e3d30880-0705-11e9-95f1-6ae9a448c48b.png" alt="image" /></p>
+
+<ul>
+<li>调度域(多个CPU负载平衡)
+负载平衡的目标是将进程均匀分配到每个CPU的就绪队列里面。Linux CPU负载均衡策略基于多级调度域。</li>
+</ul>
+
+<p>主动负载平衡是队列里面进程数多的CPU将某些进程推出去(push)。被动负载平衡则是队列为空的CPU从别的CPU队列里面将进程拉出来(pu)。</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2018-12-20
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/reactive-programming/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">响应式编程</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/os-heart-file/">
+            <span class="next-text nav-default">计算机的心智-文件</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+
+</body>
+</html>

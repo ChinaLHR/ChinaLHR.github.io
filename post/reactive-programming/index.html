@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>响应式编程 - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" 响应式编程学习
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/reactive-programming/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="响应式编程" />
+<meta property="og:description" content="
+响应式编程学习
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/reactive-programming/" /><meta property="article:published_time" content="2018-12-28T22:07:30&#43;08:00"/>
+<meta property="article:modified_time" content="2018-12-28T22:07:30&#43;08:00"/>
+
+<meta itemprop="name" content="响应式编程">
+<meta itemprop="description" content="
+响应式编程学习
+">
+
+
+<meta itemprop="datePublished" content="2018-12-28T22:07:30&#43;08:00" />
+<meta itemprop="dateModified" content="2018-12-28T22:07:30&#43;08:00" />
+<meta itemprop="wordCount" content="2021">
+
+
+
+<meta itemprop="keywords" content="响应式编程," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="响应式编程"/>
+<meta name="twitter:description" content="
+响应式编程学习
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="https://www.yuque.com/lihanrong">
+        <li class="mobile-menu-item">笔记</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/post/books/">
+        <li class="mobile-menu-item">阅读记录</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">笔记</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/books/">阅读记录</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">响应式编程</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-12-28 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 编程-后端开发 </a>
+            </div>
+          <span class="more-meta"> 2021 words </span>
+          <span class="more-meta"> 5 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#关于响应式编程">关于响应式编程</a>
+<ul>
+<li><a href="#reactive-streams-与-iterator-design-pattern-关系">reactive streams 与 Iterator design pattern 关系</a></li>
+<li><a href="#特性">特性</a></li>
+<li><a href="#阻塞与异步">阻塞与异步</a></li>
+</ul></li>
+<li><a href="#响应式库目标">响应式库目标</a></li>
+<li><a href="#关于响应式宣言">关于响应式宣言</a></li>
+<li><a href="#响应式编程与响应式系统">响应式编程与响应式系统</a></li>
+<li><a href="#参考">参考</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>响应式编程学习</p>
+</blockquote>
+
+<h3 id="关于响应式编程">关于响应式编程</h3>
+
+<p>响应式编程是一种关注于数据流（datastreams）和变化传递（propagation of change）的异步编程方式。可以用既有的编程语言表达静态（如数组）或动态（如事件源）的数据流。</p>
+
+<p>响应式编程通常作为面向对象编程中的“观察者模式”（Observer design pattern）的一种扩展。</p>
+
+<h4 id="reactive-streams-与-iterator-design-pattern-关系">reactive streams 与 Iterator design pattern 关系</h4>
+
+<ul>
+<li><p>Iterator:</p>
+
+<ul>
+<li>基于Pull模式(拉取)，Iterable角色 提供访问元素的方法，但是什么时候执行next()获取元素取决于开发者。</li>
+<li>命令式编程，详细的命令机器怎么（How）去处理数据以达到你想要的结果（What）。</li>
+</ul></li>
+
+<li><p>Reactive:</p>
+
+<ul>
+<li>基于Push模式(推送)，Publisher(发布者)-Subscriber(订阅者)角色提供获取元素的方法。当有新的值到来的时候，Publisher通知Subscriber。</li>
+<li>声明式编程，开发者通过描述“控制流程”来定义对数据流的处理逻辑。</li>
+</ul></li>
+</ul>
+
+<h4 id="特性">特性</h4>
+
+<ul>
+<li>变化传递（propagation of change）
+类似于Excel的公式计算，一个单元格变化之后，导致直接和间接引用它的其他单元格均发生相应变化。</li>
+<li>数据流（data stream）
+数据/事件在响应式编程里会以数据流的形式发出。</li>
+<li>声明式（declarative）
+声明好了对于数据流“将会”进行什么样的处理，当有数据流过来时，就会按照声明好的处理流程逐个进行处理。(形成了一种计算逻辑对数据的“绑定”。)</li>
+<li>响应式流（Reactive Stream）
+异步非阻塞(Java Stream是同步的),可以通过背压进行流量控制。</li>
+</ul>
+
+<h4 id="阻塞与异步">阻塞与异步</h4>
+
+<ul>
+<li><p>阻塞式（blocking）编码造成浪费资源，当一个程序面临延迟（通常是I/O方面， 比如数据库读写请求或网络调用），所在线程需要进入 idle 状态等待数据，从而浪费资源。</p></li>
+
+<li><p>异步非阻塞编码， （任务发起异步调用后）执行过程会切换到另一个 使用同样底层资源 的活跃任务，然后等异步调用返回结果再去处理，避免资源浪费。</p></li>
+
+<li><p>Java的异步</p>
+
+<ul>
+<li><p>Callback：类似于观察者模式，异步方法没有返回值，而是采用一个 callback 作为参数，当结果出来后回调这个 callback。</p></li>
+
+<li><p>Futures:异步方法 立即 返回一个Future<T>，该异步方法要返回结果的是 T 类型,线程实际处理结束时可以拿到结果。</p></li>
+
+<li><p>缺陷：容易写出回调地狱（Callback Hell）</p></li>
+</ul></li>
+</ul>
+
+<h3 id="响应式库目标">响应式库目标</h3>
+
+<ul>
+<li>可编排性（Composability）以及可读性（Readability）使用丰富的操作符 来处理形如流的数据</li>
+<li>在订阅（subscribe）之前什么都不会发生</li>
+<li>背压（backpressure）具体来说即消费者能够反向告知生产者生产内容的速度的能力</li>
+<li>高层次 （同时也是有高价值的）的抽象，从而达到 并发无关 的效果</li>
+<li>JVM 异步方式缺陷</li>
+</ul>
+
+<h3 id="关于响应式宣言">关于响应式宣言</h3>
+
+<p>响应式宣言是一组架构与设计原则，即时响应性（Responsive）、回弹性（Resilient）、弹性（Elastic）以及消息驱动（Message Driven）。 对于这样的系统，我们称之为响应式系统（Reactive System）。</p>
+
+<ul>
+<li>回弹性
+
+<ul>
+<li>系统在出现失败时依然保持即时响应性。 失败的扩散被遏制在了每个组件内部，与其他组件相互隔离， 从而确保系统某部分的失败不会危及整个系统，并能独立恢复。每个组件的恢复都被委托给了另一个（外部的）组件。[如熔断器组件]</li>
+</ul></li>
+<li>弹性
+
+<ul>
+<li>系统在不断变化的工作负载之下依然保持即时响应性。响应式系统可以对输入（负载）的速率变化做出反应，比如通过增加或者减少被分配用于服务这些输入（负载）的资源。[如DevOps,云原生&hellip;]</li>
+</ul></li>
+<li>消息驱动
+
+<ul>
+<li>响应式系统依赖异步的消息传递，从而确保了松耦合、隔离、位置透明的组件之间有着明确边界。</li>
+</ul></li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/50694763-bbd49500-1075-11e9-9be4-b0e88578fabc.png" alt="image" /></p>
+
+<h3 id="响应式编程与响应式系统">响应式编程与响应式系统</h3>
+
+<p>响应式宣言是一组设计原则，一种关于分布式环境下系统架构与设计的思考方式，关注于通过分布式系统的通信和协作所得到的弹性和可靠性(消息驱动)，响应式系统是符合这一架构风格的系统。</p>
+
+<p>响应式编程是异步编程下的一个子集，是一种范式，有具体的开发库，侧重于由信息/数据流而不是命令式的控制流来推动逻辑的前进，专注于短时间的数据流链条上的计算(事件驱动)。</p>
+
+<p>一个拥有长期存活的可寻址long-lived addressable组件的消息驱动系统跟一个事件驱动的数据流驱动模型的不同在于，消息具有固定的导向，而事件则没有。消息会有明确的（一个）去向，而事件则只是一段等着被观察observe的信息。</p>
+
+<p>异步且非阻塞执行下的数据流管理——通常只在单个结点或服务中。当有多个结点时，就需要开始认真地考虑像数据一致性data consistency、跨结点沟通cross-node communication、协调coordination、版本控制versioning、编制orchestration、错误管理failure management、关注与责任concerns and responsibilities分离等等的东西——也即是：系统架构。</p>
+
+<h3 id="参考">参考</h3>
+
+<p><a href="http://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html">Reactor中文文档</a>
+<a href="https://www.reactivemanifesto.org/zh-CN">响应式宣言</a>
+<a href="https://linux.cn/article-8773-1.html">响应式编程与响应式系统</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2018-12-28
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/">响应式编程</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/reactive-programming-reactor/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">响应式编程库-Reactor</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/os-heart-multicpu/">
+            <span class="next-text nav-default">计算机的心智-多核心</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+
+</body>
+</html>

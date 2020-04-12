@@ -13,10 +13,10 @@
     
     <item>
       <title>Spring WebFlux 原理与适用场景</title>
-      <link>https://chinalhr.github.io/post/spring_webflux_principle/</link>
+      <link>https://chinalhr.github.io/post/spring-webflux-principle/</link>
       <pubDate>Thu, 13 Feb 2020 16:38:02 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/spring_webflux_principle/</guid>
+      <guid>https://chinalhr.github.io/post/spring-webflux-principle/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Spring WebFlux源码分析与适用场景&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -24,10 +24,10 @@
     
     <item>
       <title>响应式编程库-Reactor</title>
-      <link>https://chinalhr.github.io/post/reactiveprogramming_reactor/</link>
+      <link>https://chinalhr.github.io/post/reactive-programming-reactor/</link>
       <pubDate>Sun, 06 Jan 2019 22:30:19 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/reactiveprogramming_reactor/</guid>
+      <guid>https://chinalhr.github.io/post/reactive-programming-reactor/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;响应式编程学习&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -35,10 +35,10 @@
     
     <item>
       <title>响应式编程</title>
-      <link>https://chinalhr.github.io/post/reactiveprogramming/</link>
+      <link>https://chinalhr.github.io/post/reactive-programming/</link>
       <pubDate>Fri, 28 Dec 2018 22:07:30 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/reactiveprogramming/</guid>
+      <guid>https://chinalhr.github.io/post/reactive-programming/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;响应式编程学习&lt;/p&gt;
 &lt;/blockquote&gt;</description>

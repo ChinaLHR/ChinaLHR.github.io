@@ -3,14 +3,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://chinalhr.github.io/post/java_asyncprogram/</loc>
+    <loc>https://chinalhr.github.io/post/devops-sonar-practice/</loc>
+    <lastmod>2020-04-12T15:28:21+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/post/java-asyncprogram/</loc>
     <lastmod>2020-04-03T19:45:19+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/uidgeneratorscheme/</loc>
+    <loc>https://chinalhr.github.io/post/uid-generator-scheme/</loc>
     <lastmod>2020-03-29T16:16:16+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -24,35 +31,35 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/spring_webflux_principle/</loc>
+    <loc>https://chinalhr.github.io/post/spring-webflux-principle/</loc>
     <lastmod>2020-02-13T16:38:02+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/api_auth_program/</loc>
+    <loc>https://chinalhr.github.io/post/api-auth-program/</loc>
     <lastmod>2020-02-11T00:00:11+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/mongo_back/</loc>
+    <loc>https://chinalhr.github.io/post/mongo-back/</loc>
     <lastmod>2020-02-08T23:33:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/linux_logrotate/</loc>
+    <loc>https://chinalhr.github.io/post/linux-logrotate/</loc>
     <lastmod>2020-01-31T13:55:12+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/agileanddevops/</loc>
+    <loc>https://chinalhr.github.io/post/agile-devops/</loc>
     <lastmod>2020-01-13T23:04:37+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -94,21 +101,21 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/linux_security_permission/</loc>
+    <loc>https://chinalhr.github.io/post/linux-security-permission/</loc>
     <lastmod>2019-10-23T22:09:54+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/mongodb_user_auth/</loc>
+    <loc>https://chinalhr.github.io/post/mongodb-user-auth/</loc>
     <lastmod>2019-10-18T23:06:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/mongodb_conf/</loc>
+    <loc>https://chinalhr.github.io/post/mongodb-conf/</loc>
     <lastmod>2019-10-16T22:36:58+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -122,133 +129,133 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/redisrdbandaof/</loc>
+    <loc>https://chinalhr.github.io/post/redis-rdb-aof/</loc>
     <lastmod>2019-09-06T22:43:23+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/redistransactionandwatch/</loc>
+    <loc>https://chinalhr.github.io/post/redis-transaction-watch/</loc>
     <lastmod>2019-09-03T23:13:11+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/mongodb_limit_sort_index/</loc>
+    <loc>https://chinalhr.github.io/post/mongo-limit-sort-index/</loc>
     <lastmod>2019-09-02T20:33:31+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/linux_zerocopy/</loc>
+    <loc>https://chinalhr.github.io/post/linux-zerocopy/</loc>
     <lastmod>2019-08-23T12:26:11+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/tailrecursion/</loc>
+    <loc>https://chinalhr.github.io/post/tail-recursion/</loc>
     <lastmod>2019-08-04T14:09:41+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/algorithm_shuffle/</loc>
+    <loc>https://chinalhr.github.io/post/algorithm-shuffle/</loc>
     <lastmod>2019-07-31T21:13:12+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/linux_io_multiplexing/</loc>
+    <loc>https://chinalhr.github.io/post/linux-io-multiplexing/</loc>
     <lastmod>2019-07-24T22:22:03+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/interface_idempotent/</loc>
+    <loc>https://chinalhr.github.io/post/interface-idempotent/</loc>
     <lastmod>2019-07-08T23:47:37+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/nginx_http/</loc>
+    <loc>https://chinalhr.github.io/post/nginx-http/</loc>
     <lastmod>2019-06-25T20:37:07+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/nginx_base/</loc>
+    <loc>https://chinalhr.github.io/post/nginx-base/</loc>
     <lastmod>2019-06-18T22:01:04+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/nginx_cross/</loc>
+    <loc>https://chinalhr.github.io/post/nginx-cross/</loc>
     <lastmod>2019-06-18T21:55:57+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/linuxoom/</loc>
+    <loc>https://chinalhr.github.io/post/linux-oom/</loc>
     <lastmod>2019-06-03T22:48:25+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/vertx_kotlin_coroutine/</loc>
+    <loc>https://chinalhr.github.io/post/vertx-kotlin-coroutine/</loc>
     <lastmod>2019-05-23T21:59:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/linux_operating_record/</loc>
+    <loc>https://chinalhr.github.io/post/linux-operating-record/</loc>
     <lastmod>2019-04-19T22:59:11+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/aspect_dynamic/</loc>
+    <loc>https://chinalhr.github.io/post/aspect-dynamic/</loc>
     <lastmod>2019-04-18T22:15:07+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/maven_plugs_record/</loc>
+    <loc>https://chinalhr.github.io/post/maven-plugs-record/</loc>
     <lastmod>2019-04-17T23:54:47+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/mysqldeadlockrecord/</loc>
+    <loc>https://chinalhr.github.io/post/mysql-deadlock-record/</loc>
     <lastmod>2019-04-08T22:14:43+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/vertx02/</loc>
+    <loc>https://chinalhr.github.io/post/vertx-record-2/</loc>
     <lastmod>2019-04-06T23:56:26+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/vertx01/</loc>
+    <loc>https://chinalhr.github.io/post/vertx-record-1/</loc>
     <lastmod>2019-04-02T22:01:56+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -269,14 +276,14 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/algorithm_bitmap/</loc>
+    <loc>https://chinalhr.github.io/post/algorithm-bitmap/</loc>
     <lastmod>2019-01-27T22:17:36+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/mysqlbigdataoptimization/</loc>
+    <loc>https://chinalhr.github.io/post/mysql-bigdata-optimization/</loc>
     <lastmod>2019-01-23T21:31:57+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -290,217 +297,217 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/reactiveprogramming_reactor/</loc>
+    <loc>https://chinalhr.github.io/post/reactive-programming-reactor/</loc>
     <lastmod>2019-01-06T22:30:19+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/reactiveprogramming/</loc>
+    <loc>https://chinalhr.github.io/post/reactive-programming/</loc>
     <lastmod>2018-12-28T22:07:30+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/osheartmulticpu/</loc>
+    <loc>https://chinalhr.github.io/post/os-heart-multicpu/</loc>
     <lastmod>2018-12-20T23:12:24+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/osheartfile/</loc>
+    <loc>https://chinalhr.github.io/post/os-heart-file/</loc>
     <lastmod>2018-12-16T22:58:29+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/osheartmemory/</loc>
+    <loc>https://chinalhr.github.io/post/os-heart-memory/</loc>
     <lastmod>2018-12-11T22:12:39+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/osheartthread/</loc>
+    <loc>https://chinalhr.github.io/post/os-heart-thread/</loc>
     <lastmod>2018-11-29T21:56:04+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/javacachestrategy/</loc>
+    <loc>https://chinalhr.github.io/post/java-cache-strategy/</loc>
     <lastmod>2018-11-21T23:20:52+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/osheartprocess/</loc>
+    <loc>https://chinalhr.github.io/post/os-heart-process/</loc>
     <lastmod>2018-11-15T22:30:30+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/mybatisshardplug/</loc>
+    <loc>https://chinalhr.github.io/post/mybatis-shard-plugin/</loc>
     <lastmod>2018-11-12T22:51:04+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/mybatis_sql_precompile/</loc>
+    <loc>https://chinalhr.github.io/post/mybatis-sql-precompile/</loc>
     <lastmod>2018-11-12T21:30:50+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/codeoptimize1/</loc>
+    <loc>https://chinalhr.github.io/post/code-optimize/</loc>
     <lastmod>2018-11-03T21:44:31+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/highavailabilityhttpclient/</loc>
+    <loc>https://chinalhr.github.io/post/highavailability-httpclient/</loc>
     <lastmod>2018-10-17T22:48:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/joda_datetime_record/</loc>
+    <loc>https://chinalhr.github.io/post/joda-datetime-record/</loc>
     <lastmod>2018-10-04T23:40:13+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/spring_aop/</loc>
+    <loc>https://chinalhr.github.io/post/spring-aop/</loc>
     <lastmod>2018-09-24T15:56:35+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/springcache_shrio_bug/</loc>
+    <loc>https://chinalhr.github.io/post/spring-cache-shrio-bug/</loc>
     <lastmod>2018-09-22T23:10:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/apache_ab_use/</loc>
+    <loc>https://chinalhr.github.io/post/test-apache-ab/</loc>
     <lastmod>2018-09-16T23:07:30+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/uidgenerate_snowflake/</loc>
+    <loc>https://chinalhr.github.io/post/uid-generate-snowflake/</loc>
     <lastmod>2018-09-08T23:02:55+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/java_lambda_exception/</loc>
+    <loc>https://chinalhr.github.io/post/java-lambda-exception/</loc>
     <lastmod>2018-07-25T23:20:01+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/mysql_paging/</loc>
+    <loc>https://chinalhr.github.io/post/mysql-paging/</loc>
     <lastmod>2018-07-19T23:37:55+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/distributedlocks/</loc>
+    <loc>https://chinalhr.github.io/post/distributed-locks/</loc>
     <lastmod>2018-07-15T18:38:26+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/redistemplate_problem/</loc>
+    <loc>https://chinalhr.github.io/post/redis-template_problem/</loc>
     <lastmod>2018-07-13T22:17:22+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/java_supplier_predicate_consumer/</loc>
+    <loc>https://chinalhr.github.io/post/java-supplier-predicate-consumer/</loc>
     <lastmod>2018-07-11T21:19:59+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/redisdomqbuff/</loc>
+    <loc>https://chinalhr.github.io/post/redis-do-mqbuff/</loc>
     <lastmod>2018-07-10T22:01:41+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/mysql_alter/</loc>
+    <loc>https://chinalhr.github.io/post/mysql-alter/</loc>
     <lastmod>2018-07-08T17:56:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/git_basic/</loc>
+    <loc>https://chinalhr.github.io/post/git-basic/</loc>
     <lastmod>2018-07-08T15:49:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/mysql_replicationon/</loc>
+    <loc>https://chinalhr.github.io/post/mysql-replicationon/</loc>
     <lastmod>2018-06-27T15:55:01+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/mysql_proxy/</loc>
+    <loc>https://chinalhr.github.io/post/mysql-proxy/</loc>
     <lastmod>2018-06-27T15:54:50+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/rabbitmq_use/</loc>
+    <loc>https://chinalhr.github.io/post/rabbitmq-use/</loc>
     <lastmod>2018-06-26T21:44:54+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/java_system_structure/</loc>
+    <loc>https://chinalhr.github.io/post/java-system-structure/</loc>
     <lastmod>2018-06-25T12:07:03+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/java_springboot_component1/</loc>
+    <loc>https://chinalhr.github.io/post/java-springboot-component/</loc>
     <lastmod>2018-06-24T20:53:59+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/java_practice/</loc>
+    <loc>https://chinalhr.github.io/post/java-practice/</loc>
     <lastmod>2018-02-19T14:31:45+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -548,15 +555,15 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/categories/devops/</loc>
-    <lastmod>2020-01-13T23:04:37+08:00</lastmod>
+    <loc>https://chinalhr.github.io/tags/devops/</loc>
+    <lastmod>2020-04-12T15:28:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/tags/devops/</loc>
-    <lastmod>2020-01-13T23:04:37+08:00</lastmod>
+    <loc>https://chinalhr.github.io/categories/devops/</loc>
+    <lastmod>2020-04-12T15:28:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -577,7 +584,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2020-04-03T19:45:19+08:00</lastmod>
+    <lastmod>2020-04-12T15:28:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -626,7 +633,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/post/</loc>
-    <lastmod>2020-04-03T19:45:19+08:00</lastmod>
+    <lastmod>2020-04-12T15:28:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -669,6 +676,13 @@
   <url>
     <loc>https://chinalhr.github.io/tags/seo%E4%BC%98%E5%8C%96/</loc>
     <lastmod>2019-10-09T12:51:57+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/sonarqube/</loc>
+    <lastmod>2020-04-12T15:28:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

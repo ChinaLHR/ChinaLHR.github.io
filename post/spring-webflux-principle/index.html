@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Spring WebFlux 原理与适用场景 - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" Spring WebFlux源码分析与适用场景
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/spring-webflux-principle/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Spring WebFlux 原理与适用场景" />
+<meta property="og:description" content="
+Spring WebFlux源码分析与适用场景
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/spring-webflux-principle/" /><meta property="article:published_time" content="2020-02-13T16:38:02&#43;08:00"/>
+<meta property="article:modified_time" content="2020-02-13T16:38:02&#43;08:00"/>
+
+<meta itemprop="name" content="Spring WebFlux 原理与适用场景">
+<meta itemprop="description" content="
+Spring WebFlux源码分析与适用场景
+">
+
+
+<meta itemprop="datePublished" content="2020-02-13T16:38:02&#43;08:00" />
+<meta itemprop="dateModified" content="2020-02-13T16:38:02&#43;08:00" />
+<meta itemprop="wordCount" content="4185">
+
+
+
+<meta itemprop="keywords" content="Java,Spring,WebFlux,响应式编程," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spring WebFlux 原理与适用场景"/>
+<meta name="twitter:description" content="
+Spring WebFlux源码分析与适用场景
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="https://www.yuque.com/lihanrong">
+        <li class="mobile-menu-item">笔记</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/post/books/">
+        <li class="mobile-menu-item">阅读记录</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">笔记</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/books/">阅读记录</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Spring WebFlux 原理与适用场景</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-02-13 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 编程-后端开发 </a>
+            </div>
+          <span class="more-meta"> 4185 words </span>
+          <span class="more-meta"> 9 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#关于webflux">关于WebFlux</a></li>
+<li><a href="#webflux对比springmvc并发模型">WebFlux对比SpringMVC并发模型</a>
+<ul>
+<li>
+<ul>
+<li><a href="#springmvc基于的servlet并发模型">SpringMVC基于的Servlet并发模型</a></li>
+<li><a href="#webflux并发模型">WebFlux并发模型</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#范例">范例</a></li>
+<li><a href="#性能">性能</a>
+<ul>
+<li><a href="#webflux对比springmvc的性能测试">webflux对比SpringMVC的性能测试</a></li>
+</ul></li>
+<li><a href="#webflux请求分发">WebFlux请求分发</a>
+<ul>
+<li><a href="#reactor的map-flatmap-concatmap">reactor的map，flatMap，concatMap</a></li>
+<li><a href="#webflux-的dispatcherhandler">WebFlux 的DispatcherHandler</a></li>
+</ul></li>
+<li><a href="#delay原理">delay原理</a>
+<ul>
+<li><a href="#delay原理实现">delay原理实现</a></li>
+<li><a href="#结论">结论</a></li>
+</ul></li>
+<li><a href="#适用场景">适用场景</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>Spring WebFlux源码分析与适用场景</p>
+</blockquote>
+
+<h2 id="关于webflux">关于WebFlux</h2>
+
+<p>Spring Framework 5提供了完整的端到端响应式编程的支持。这是一种不同于Servlet的全新的编程范式和技术栈，它基于异步非阻塞的特性，能够借助EventLoop以少量线程应对高并发的访问，对微服务架构也颇有助益。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/74244715-d23f2c80-4d1c-11ea-81c2-80e8b47f555f.png" alt="" /></p>
+
+<p>支持Spring 5的Spring Boot 2.0来说，新加入的响应式技术栈是其主打核心特性。具体来说，Spring Boot 2支持的响应式技术栈包括如下：</p>
+
+<ul>
+<li>Spring Framework 5提供的非阻塞web框架Spring Webflux；</li>
+<li>遵循响应式流规范的兄弟项目Reactor；</li>
+<li>支持异步I/O的Netty、Undertow等框架，以及基于Servlet 3.1+的容器（如Tomcat 8.0.23+和Jetty 9.0.4+）；</li>
+<li>支持响应式的数据访问Spring Data Reactive Repositories；</li>
+<li>支持响应式的安全访问控制Spring Security Reactive；</li>
+</ul>
+
+<h2 id="webflux对比springmvc并发模型">WebFlux对比SpringMVC并发模型</h2>
+
+<h4 id="springmvc基于的servlet并发模型">SpringMVC基于的Servlet并发模型</h4>
+
+<p>servlet由servlet container进行生命周期管理。container启动时构造servlet对象并调用servlet init()进行初始化；container关闭时调用servlet destory()销毁servlet；container运行时接受请求，并为每个请求分配一个线程（一般从线程池中获取空闲线程）然后调用service()。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/55001956-ac2f7180-5010-11e9-80cf-cd34a57832b1.png" alt="image" /></p>
+
+<p>处理请求的时候同步操作，一个请求对应一个线程来处理，并发上升，线程数量就会上涨（上线文切换，内存消耗大）影响请求的处理时间。现代系统多数都是IO密集的，同步处理让线程大部分时间都浪费在了IO等待上面。虽然Servlet3.0后提供了异步请求处理与非阻塞IO支持，但是使用它会远离Servlet API的其余部分，比如其规范是同步的（Filter, Servlet）或阻塞的（getParameter,getPart），而且其对响应的写入仍然是阻塞的。</p>
+
+<h4 id="webflux并发模型">WebFlux并发模型</h4>
+
+<p>WebFlux模型主要依赖响应式编程库Reactor，Reactor 有两种模型，Flux 和 Mono，提供了非阻塞、支持回压机制的异步流处理能力。WebFlux API接收普通Publisher作为输入，在内部使其适配Reactor类型，使用它并返回Flux或Mono作为输出。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/55086336-2a5c4880-50e3-11e9-853b-a2a43d917b94.png" alt="image" /></p>
+
+<p>WebFlux 使用Netty作为默认的web服务器，其依赖于非阻塞IO，并且每次写入都不需要额外的线程进行支持。</p>
+
+<p>也可以使用Tomcat、Jetty容器，不同与SpringMVC依赖于Servlet阻塞IO，并允许应用程序在需要时直接使用Servlet API，WebFlux依赖于Servlet 3.1非阻塞IO。使用Undertow作为服务器时，WebFlux直接使用Undertow API而不使用Servlet API。</p>
+
+<p>当WebFlux运行在Netty服务器上，其线程模型如下：</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/78471326-0b1ae100-7763-11ea-8a55-3627e6884ba0.png" alt="图片" /></p>
+
+<p>NettyServer的Boss Group线程池内的事件循环会接收这个请求，然后把完成TCP三次握手的连接channel交给Worker Group中的某一个事件循环线程来进行处理（该事件处理线程会调用对应的controller进行处理）。所以WebFlux的handler执行是使用Netty的IO线程进行执行的，所以需要注意如果handler的执行比较耗时，会把IO线程耗尽导致不能再处理其他请求，可以通过Reactor的publishOn操作符切换到其他线程池中执行。</p>
+
+<h2 id="范例">范例</h2>
+
+<p><strong>参考</strong></p>
+
+<p><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux">https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux</a></p>
+
+<h2 id="性能">性能</h2>
+
+<p>响应式和非阻塞并不是总能让应用跑的更快，况且将代码构建为非阻塞的执行方式本身还会带来少量的成本。但是在类似于WEB应用这样的高并发、少计算且I/O密集的应用中，响应式和非阻塞往往能够发挥出价值。</p>
+
+<p>对比SpringMVC使用的Servlet模型，增加Servlet容器处理请求的线程数量可以缓解这一问题，但是增加线程是有成本的，JVM中默认情况下在创建新线程时会分配大小为1M的线程栈，所以更多的线程意味着需要更多的内存；更多的线程会带来更多的线程上下文切换成本。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/76158113-3c48c700-614d-11ea-831d-55caa6f970f8.png" alt="图片" /></p>
+
+<h3 id="webflux对比springmvc的性能测试">webflux对比SpringMVC的性能测试</h3>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/74248065-ff420e00-4d21-11ea-81fb-5efb2bdf679c.png" alt="图片" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/74248685-eb4adc00-4d22-11ea-9437-57724a8ef677.png" alt="图片" /></p>
+
+<p>对于运行在异步IO的之上的WebFlux应用来说，其工作线程数量始终维持在一个固定的数量上，通常这个固定的数量等于CPU核数。从测试图中可以看到，随着用户数的增多，webflux吞吐量基本呈线性增多的趋势，95%的响应都在100ms+的可控范围内返回了，并未出现延时的情况。而SpringMVC线程数达到200/400前，95%的请求响应时长是正常的，之后呈直线上升的态势；</p>
+
+<p><strong>结论：</strong>非阻塞的处理方式规避了线程排队等待的情况，从而可以用少量而固定的线程处理应对大量请求的处理，提升应用的吞吐量和伸缩性。</p>
+
+<p><a href="https://blog.csdn.net/get_set/article/details/79492439">参考链接</a></p>
+
+<h2 id="webflux请求分发">WebFlux请求分发</h2>
+
+<h3 id="reactor的map-flatmap-concatmap">reactor的map，flatMap，concatMap</h3>
+
+<ul>
+<li>map</li>
+</ul>
+
+<p>map是同步非阻塞的1对1的转换数据处理。map方法签名接受<code>Function&lt;T, U&gt;</code> 返回<code>Flux&lt;U&gt;</code>。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/76159129-399f9f00-6158-11ea-99e3-6c75cd5c076e.png" alt="图片" /></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="c1">//同步执行乘法操作
+</span><span class="c1"></span><span class="n">Flux</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="n">1</span><span class="o">,</span><span class="n">2</span><span class="o">,</span><span class="n">3</span><span class="o">,</span><span class="n">4</span><span class="o">,</span><span class="n">5</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">log</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">i</span><span class="o">-&gt;{</span>
+                    <span class="k">try</span> <span class="o">{</span>
+                        <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+                    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                    <span class="o">}</span>
+                    <span class="k">return</span> <span class="n">i</span><span class="o">*</span><span class="n">10</span><span class="o">;</span>
+                <span class="o">})</span>
+                <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">c</span><span class="o">-&gt;</span><span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;getInt:{}&#34;</span><span class="o">,</span><span class="n">c</span><span class="o">));</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>flatMap</li>
+</ul>
+
+<p>flatMap是异步非阻塞的1对N的转换数据处理。flayMap方法签名接受<code>Function&lt;T, Publisher&lt;V&gt;&gt;</code> 返回 <code>Flux&lt;V&gt;</code>。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/76158453-d9f1c580-6150-11ea-960f-0dfb1366f01a.png" alt="图片" /></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//异步执行乘法
+</span><span class="c1"></span><span class="n">Flux</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="n">1</span><span class="o">,</span><span class="n">2</span><span class="o">,</span><span class="n">3</span><span class="o">,</span><span class="n">4</span><span class="o">,</span><span class="n">5</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">log</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">i</span><span class="o">-&gt;</span> <span class="n">Flux</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="n">i</span><span class="o">*</span><span class="n">10</span><span class="o">).</span><span class="na">delayElements</span><span class="o">(</span><span class="n">Duration</span><span class="o">.</span><span class="na">ofSeconds</span><span class="o">(</span><span class="n">1</span><span class="o">)))</span>
+                <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">c</span> <span class="o">-&gt;</span><span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;getInt:{}&#34;</span><span class="o">,</span><span class="n">c</span><span class="o">));</span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>总结</strong>：flatMap的转换Function要求返回一个Publisher，这个Publisher代表一个作用于元素的异步的转换操作；而map仅仅是同步的元素转换操作。</p>
+
+<ul>
+<li>concatMap</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/76158351-03f6b800-6150-11ea-8d55-83e7d43143d3.png" alt="图片" /></p>
+
+<p>concatMap 操作符的作用是把流中的每个元素转换成一个流, 再把所有流进行合并. 与 flatMap不同的是,concatMap会根据原始流中的元素顺序依次把转换之后的流进行合并。</p>
+
+<h3 id="webflux-的dispatcherhandler">WebFlux 的DispatcherHandler</h3>
+
+<p>Spring MVC 的前端控制器是 DispatcherServlet，而WebFlux 的前端控制器是 DispatcherHandler，它实现了 WebHandler接口。DispatcherHandler完成 handler 的查找、调用和结果处理等步骤，关联的Bean如下：</p>
+
+<table>
+<thead>
+<tr>
+<th>Bean 类型</th>
+<th>解释</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>HandlerMapping</code></td>
+<td>将请求映射到对应的 handler。主要的 <code>HandlerMapping</code> 实现有处理 <code>@RequestMapping</code> 注解的 <code>RequestMappingHandlerMapping</code> ，处理函数路由的<code>RouterFunctionMapping</code>，以及处理简单 URL 映射的 <code>SimpleUrlHandlerMapping</code>。</td>
+</tr>
+
+<tr>
+<td><code>HandlerAdapter</code></td>
+<td>帮助 <code>DispatcherHandler</code> 调用请求对应的 handler，而不用关心该 handler 具体的调用方式。例如，调用一个通过注解的方式定义的 controller 就需要寻找对应的注解，而 <code>HandlerAdapter</code> 的主要目的就是为了帮助 <code>DispatcherHandler</code> 屏蔽类似的细节.</td>
+</tr>
+
+<tr>
+<td><code>HandlerResultHandler</code></td>
+<td>处理 handler 调用后的结果，并生成最后的响应。参考 <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-resulthandling">Result Handling</a>。</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">WebHandler</span> <span class="o">{</span>
+
+	<span class="cm">/**
+</span><span class="cm">	 * Handle the web server exchange.
+</span><span class="cm">	 * @param exchange the current server exchange
+</span><span class="cm">	 * @return {@code Mono&lt;Void&gt;} to indicate when request handling is complete
+</span><span class="cm">	 */</span>
+	<span class="n">Mono</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;</span> <span class="nf">handle</span><span class="o">(</span><span class="n">ServerWebExchange</span> <span class="n">exchange</span><span class="o">);</span>
+
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DispatcherHandler</span> <span class="kd">implements</span> <span class="n">WebHandler</span><span class="o">,</span> <span class="n">ApplicationContextAware</span> <span class="o">{</span>
+<span class="o">...</span>
+    <span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="n">Mono</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;</span> <span class="nf">handle</span><span class="o">(</span><span class="n">ServerWebExchange</span> <span class="n">exchange</span><span class="o">)</span> <span class="o">{</span>
+	<span class="c1">//流程1	
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">handlerMappings</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="n">createNotFoundError</span><span class="o">();</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">Flux</span><span class="o">.</span><span class="na">fromIterable</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">handlerMappings</span><span class="o">)</span>
+            <span class="c1">//流程2
+</span><span class="c1"></span>				<span class="o">.</span><span class="na">concatMap</span><span class="o">(</span><span class="n">mapping</span> <span class="o">-&gt;</span> <span class="n">mapping</span><span class="o">.</span><span class="na">getHandler</span><span class="o">(</span><span class="n">exchange</span><span class="o">))</span>
+				<span class="o">.</span><span class="na">next</span><span class="o">()</span>
+            <span class="c1">//流程3
+</span><span class="c1"></span>				<span class="o">.</span><span class="na">switchIfEmpty</span><span class="o">(</span><span class="n">createNotFoundError</span><span class="o">())</span>
+            <span class="c1">//流程4
+</span><span class="c1"></span>				<span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">handler</span> <span class="o">-&gt;</span> <span class="n">invokeHandler</span><span class="o">(</span><span class="n">exchange</span><span class="o">,</span> <span class="n">handler</span><span class="o">))</span>
+            <span class="c1">//流程5
+</span><span class="c1"></span>				<span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">result</span> <span class="o">-&gt;</span> <span class="n">handleResult</span><span class="o">(</span><span class="n">exchange</span><span class="o">,</span> <span class="n">result</span><span class="o">));</span>
+	<span class="o">}</span>
+    
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>ServerWebExchange对象每一次 HTTP 请求的信息（包括请求参数，路径，Cookie等）</p>
+
+<p>从DispatcherHandler的handle实现可以看出WebFlux的请求分发流程：</p>
+
+<ol>
+<li>判断整个接口映射 mappings集合是否为空，空则创建一个 Not Found 的请求错误响应；</li>
+<li>根据具体的请求地址获取对应的 handlerMapping（处理方法）;</li>
+<li>handlerMapping为空的话找不到对应的处理方法，创建一个 Not Found 的请求错误响应；</li>
+<li>通过 invokeHandler 方法找到对应的 HandlerAdapter 来完成调用</li>
+<li>由 HandlerResultHandler 对结果进行处理，并生成响应</li>
+</ol>
+
+<h2 id="delay原理">delay原理</h2>
+
+<p>对于运行在异步IO的之上的WebFlux应用来说，其工作线程数量始终维持在一个固定的数量上，程序逻辑中有阻塞（如io阻塞等）需要进行异步化。如新出的WebClient工具就是将http请求io异步化，用delay方法代替sleep方法将延时异步化。</p>
+
+<h3 id="delay原理实现">delay原理实现</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="n">Mono</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span> <span class="nf">delay</span><span class="o">(</span><span class="n">Duration</span> <span class="n">duration</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">return</span> <span class="n">delay</span><span class="o">(</span><span class="n">duration</span><span class="o">,</span> <span class="n">Schedulers</span><span class="o">.</span><span class="na">parallel</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="n">Mono</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span> <span class="nf">delay</span><span class="o">(</span><span class="n">Duration</span> <span class="n">duration</span><span class="o">,</span> <span class="n">Scheduler</span> <span class="n">timer</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">return</span> <span class="n">onAssembly</span><span class="o">(</span><span class="k">new</span> <span class="n">MonoDelay</span><span class="o">(</span><span class="n">duration</span><span class="o">.</span><span class="na">toMillis</span><span class="o">(),</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MILLISECONDS</span><span class="o">,</span> <span class="n">timer</span><span class="o">));</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>查看delay方法源码，可以看到它里面其实构造一个MonoDelay类，并通过传入全局公用的调度器Schedulers.parallel()来调度里面的异步任务。</p>
+
+<p>查看MonoDelay类的subscribe方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">subscribe</span><span class="o">(</span><span class="n">CoreSubscriber</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">actual</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">MonoDelayRunnable</span> <span class="n">r</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MonoDelayRunnable</span><span class="o">(</span><span class="n">actual</span><span class="o">);</span>
+
+	<span class="n">actual</span><span class="o">.</span><span class="na">onSubscribe</span><span class="o">(</span><span class="n">r</span><span class="o">);</span>
+
+	<span class="k">try</span> <span class="o">{</span>
+		<span class="n">r</span><span class="o">.</span><span class="na">setCancel</span><span class="o">(</span><span class="n">timedScheduler</span><span class="o">.</span><span class="na">schedule</span><span class="o">(</span><span class="n">r</span><span class="o">,</span> <span class="n">delay</span><span class="o">,</span> <span class="n">unit</span><span class="o">));</span>
+	<span class="o">}</span>
+	<span class="k">catch</span> <span class="o">(</span><span class="n">RejectedExecutionException</span> <span class="n">ree</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">cancel</span> <span class="o">!=</span> <span class="n">OperatorDisposables</span><span class="o">.</span><span class="na">DISPOSED</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">actual</span><span class="o">.</span><span class="na">onError</span><span class="o">(</span><span class="n">Operators</span><span class="o">.</span><span class="na">onRejectedExecution</span><span class="o">(</span><span class="n">ree</span><span class="o">,</span> <span class="n">r</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span>
+					<span class="n">actual</span><span class="o">.</span><span class="na">currentContext</span><span class="o">()));</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>代码timedScheduler.schedule(r, delay, unit)方法，通过timedScheduler来调度延时任务。</p>
+
+<p>查看timedScheduler的schedule方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Disposable</span> <span class="nf">schedule</span><span class="o">(</span><span class="n">Runnable</span> <span class="n">task</span><span class="o">,</span> <span class="kt">long</span> <span class="n">delay</span><span class="o">,</span> <span class="n">TimeUnit</span> <span class="n">unit</span><span class="o">)</span> <span class="o">{</span>
+	    <span class="k">return</span> <span class="n">Schedulers</span><span class="o">.</span><span class="na">directSchedule</span><span class="o">(</span><span class="n">pick</span><span class="o">(),</span> <span class="n">task</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">delay</span><span class="o">,</span> <span class="n">unit</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="kd">static</span> <span class="n">Disposable</span> <span class="nf">directSchedule</span><span class="o">(</span><span class="n">ScheduledExecutorService</span> <span class="n">exec</span><span class="o">,</span>
+			<span class="n">Runnable</span> <span class="n">task</span><span class="o">,</span>
+			<span class="nd">@Nullable</span> <span class="n">Disposable</span> <span class="n">parent</span><span class="o">,</span>
+			<span class="kt">long</span> <span class="n">delay</span><span class="o">,</span>
+			<span class="n">TimeUnit</span> <span class="n">unit</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">task</span> <span class="o">=</span> <span class="n">onSchedule</span><span class="o">(</span><span class="n">task</span><span class="o">);</span>
+		<span class="n">SchedulerTask</span> <span class="n">sr</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SchedulerTask</span><span class="o">(</span><span class="n">task</span><span class="o">,</span> <span class="n">parent</span><span class="o">);</span>
+		<span class="n">Future</span><span class="o">&lt;?&gt;</span> <span class="n">f</span><span class="o">;</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">delay</span> <span class="o">&lt;=</span> <span class="n">0L</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">f</span> <span class="o">=</span> <span class="n">exec</span><span class="o">.</span><span class="na">submit</span><span class="o">((</span><span class="n">Callable</span><span class="o">&lt;?&gt;)</span> <span class="n">sr</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">else</span> <span class="o">{</span>
+			<span class="n">f</span> <span class="o">=</span> <span class="n">exec</span><span class="o">.</span><span class="na">schedule</span><span class="o">((</span><span class="n">Callable</span><span class="o">&lt;?&gt;)</span> <span class="n">sr</span><span class="o">,</span> <span class="n">delay</span><span class="o">,</span> <span class="n">unit</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="n">sr</span><span class="o">.</span><span class="na">setFuture</span><span class="o">(</span><span class="n">f</span><span class="o">);</span>
+
+		<span class="k">return</span> <span class="n">sr</span><span class="o">;</span>
+	<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>通过directSchedule可以看出，delay方法之所以没有阻塞主线程，因为它的延时处理的逻辑包装成SchedulerTask，交给了ScheduledExecutorService执行器处理，调用delay方法的主线程就直接返回了，当delay&gt;0是使用ScheduledExecutorService进行延迟调度。</p>
+
+<h3 id="结论">结论</h3>
+
+<p>WebFlux将部分阻塞的逻辑修改为类似于delay方法的实现，利用调度执行器去异步执行阻塞的逻辑，不阻塞EventLoop线程，使得少量的工作线程可以承载更多的请求。</p>
+
+<h2 id="适用场景">适用场景</h2>
+
+<p>使用 Spring WebFlux，下游使用的安全认证层、数据访问层框架都必须使用 Reactive API 保证上下游都是匹配的，非阻塞的。然而Spring Data Reactive Repositories 目前只支持 MongoDB、Redis 和Couchbase 等几种不支持事务管理的 NOSQL，技术选型时需要权衡利弊和风险。</p>
+
+<ol>
+<li>Spring MVC能满足场景的，就不需要更改为 Spring WebFlux，毕竟Reactive写法对比原本同步执行的程序写法很不同，而且很多基于Servlet线程模型的库将无法使用，如Spring Transaction&hellip;&hellip;。</li>
+<li>需要底层容器的支持（Netty和Servlet3.1+）。</li>
+<li>适合应用在 IO 密集型的服务中（IO 密集型包括：磁盘IO密集型, 网络IO密集型），微服务网关就属于网络 IO 密集型，使用异步非阻塞式编程模型，能够显著地提升网关对下游服务转发的吞吐量。</li>
+</ol>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2020-02-13
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/java/">Java</a>
+          <a href="/tags/spring/">Spring</a>
+          <a href="/tags/webflux/">WebFlux</a>
+          <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/">响应式编程</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/software-architecture-patterns/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">软件架构模式分析</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/api-auth-program/">
+            <span class="next-text nav-default">API认证与授权方案</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+
+</body>
+</html>

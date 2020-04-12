@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Vertx Kotlin协程 - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" Vert.x 利用 Kotlin协程特性优雅编写异步逻辑
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/vertx-kotlin-coroutine/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Vertx Kotlin协程" />
+<meta property="og:description" content="
+Vert.x 利用 Kotlin协程特性优雅编写异步逻辑
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/vertx-kotlin-coroutine/" /><meta property="article:published_time" content="2019-05-23T21:59:46&#43;08:00"/>
+<meta property="article:modified_time" content="2019-05-23T21:59:46&#43;08:00"/>
+
+<meta itemprop="name" content="Vertx Kotlin协程">
+<meta itemprop="description" content="
+Vert.x 利用 Kotlin协程特性优雅编写异步逻辑
+">
+
+
+<meta itemprop="datePublished" content="2019-05-23T21:59:46&#43;08:00" />
+<meta itemprop="dateModified" content="2019-05-23T21:59:46&#43;08:00" />
+<meta itemprop="wordCount" content="1527">
+
+
+
+<meta itemprop="keywords" content="Vert.x," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Vertx Kotlin协程"/>
+<meta name="twitter:description" content="
+Vert.x 利用 Kotlin协程特性优雅编写异步逻辑
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="https://www.yuque.com/lihanrong">
+        <li class="mobile-menu-item">笔记</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/post/books/">
+        <li class="mobile-menu-item">阅读记录</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">笔记</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/books/">阅读记录</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Vertx Kotlin协程</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-05-23 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 编程-后端开发 </a>
+            </div>
+          <span class="more-meta"> 1527 words </span>
+          <span class="more-meta"> 4 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#关于协程">关于协程</a></li>
+<li><a href="#kotlin协程">Kotlin协程</a></li>
+<li><a href="#vertx-使用协程避免callback-hell">Vertx 使用协程避免Callback Hell</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>Vert.x 利用 Kotlin协程特性优雅编写异步逻辑</p>
+</blockquote>
+
+<h3 id="关于协程">关于协程</h3>
+
+<p>协程通过将复杂性放入库来简化异步编程。程序的逻辑可以在协程中顺序地表达，而底层库会为我们解决其异步性。使用协程库将用户代码的相关部分包装为回调、订阅相关事件、在不同线程（甚至不同机器）上调度执行，而代码则保持如同顺序执行一样简单。</p>
+
+<p>轻量级的线程。线程是由系统调度的，线程切换或线程阻塞的开销都比较大。而协程依赖于线程，但是协程挂起时不需要阻塞线程，几乎是无代价的，协程是由开发者控制的。所以协程也像用户态的线程，非常轻量级，一个线程中可以创建任意个协程。</p>
+
+<h3 id="kotlin协程">Kotlin协程</h3>
+
+<ul>
+<li>suspend</li>
+</ul>
+
+<p>suspend修饰符标记，修饰挂起函数。挂起函数能够以与普通函数相同的方式获取参数和返回值，但是调用函数可能挂起协程（如果相关调用的结果已经可用，库可以决定继续进行而不挂起），挂起函数挂起协程时，不会阻塞协程所在的线程。挂起函数执行完成后会恢复协程，后面的代码才会继续执行。</p>
+
+<p>挂起函数只能在协程中或其他挂起函数中调用(launch函数创建协程)</p>
+
+<ul>
+<li>CoroutineScope</li>
+</ul>
+
+<p>协程本身</p>
+
+<ul>
+<li>CoroutineContext</li>
+</ul>
+
+<p>协程上下文，包括 Job 和 CoroutineDispatcher 元素，可以代表一个协程的场景。</p>
+
+<ul>
+<li>CoroutineDispatcher</li>
+</ul>
+
+<p>协程调度器，决定协程所在的线程或线程池。标准实现Dispatchers.Default、Dispatchers.IO，Dispatchers.Main和Dispatchers.Unconfined</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">- Default一般用于 CPU 密集型的任务,特别是涉及到计算、算法的场景。它可以使用和 CPU 核数一样多的线程。
+- IO一般用于输入/输出的场景。通常，涉及到会阻塞线程，需要等待另一个系统响应的任务，比如：网络请求、数据库操作、文件读写等，都可以使用它。因为它不使用 CPU ，可以同一时间运行多个线程，默认是数量为 64 的线程池。
+- Main使用UI线程/主线程
+- UnConfined不指定线程，使用的线程是不可控的</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>Coroutine builders</li>
+</ul>
+
+<p>协程构建器</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">//launch不阻塞当前线程，在后台创建一个新协程
+</span><span class="c1">//context 指定调度器 start 启动模式[CoroutineStart.DEAFAULT,LAZY(延迟启动)]
+</span><span class="c1"></span> <span class="n">GlobalScope</span><span class="p">.</span><span class="n">launch</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="n">Main</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//suspend fun
+</span><span class="c1"></span> <span class="p">}</span>
+ 
+ <span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">val</span> <span class="py">job</span> <span class="p">=</span> <span class="n">GlobalScope</span><span class="p">.</span><span class="n">launch</span><span class="p">(</span><span class="n">start</span> <span class="p">=</span> <span class="n">CoroutineStart</span><span class="p">.</span><span class="n">LAZY</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">println</span><span class="p">(</span><span class="s">&#34;World!&#34;</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="n">println</span><span class="p">(</span><span class="s">&#34;Hello,&#34;</span><span class="p">)</span>
+        <span class="n">job</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="n">Thread</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="m">2000L</span><span class="p">)</span>
+    <span class="p">}</span>
+
+<span class="c1">//runBlocking {}是创建一个新的协程同时阻塞当前线程
+</span><span class="c1"></span><span class="n">runBlocking</span> <span class="p">{</span>
+      <span class="n">launch</span> <span class="p">{</span> 
+        <span class="c1">//suspend fun
+</span><span class="c1"></span>    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">//withContext不会创建新的协程，在指定协程上运行挂起代码块，并挂起该协程直至代码块运行完成
+</span><span class="c1"></span><span class="n">withContext</span> <span class="p">{}</span>
+
+<span class="c1">//async和launch 一个效果，但是有返回值
+</span><span class="c1"></span><span class="n">CoroutineScope</span><span class="p">.</span><span class="n">async</span> <span class="p">{}</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>Job &amp; Deferred</li>
+</ul>
+
+<p>launch 方法会返回一个 Job，Job 继承了协程上下文（CoroutineContext）。</p>
+
+<p>async方法返回一个Deferred 允许并行地运行多个子线程任务，它不是一个可中断方法，所以当调用 async 启动子协程的同时，后面的代码也会立即执行。async 通常需要运行在另外一个协程内部，它会返回一个特殊的 Job，叫作 Deferred。</p>
+
+<p>Job没有返回值，Deferred有返回值。一个Job可以有一个父Job，父Job可以控制子Job。</p>
+
+<p>Job封装了协程中需要执行的代码逻辑。生命周期如下:</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/58104450-64475800-7c17-11e9-8ed4-cc54edbc9e59.png" alt="enter description here" /></p>
+
+<p><strong>Job相关方法：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">- job.join(中断与当前 Job 关联的协程，直到所有子 Job 执行完成)
+- job.cancel(取消所有与其关联的子 Job)</pre></td></tr></table>
+</div>
+</div>
+<p><strong>Deferred方法</strong>
+    - await(当我们需要获取 async 的结果时，需要调用 await() 方法等待结果。调用 await() 方法后，会中断当前协程，直到其返回结果)</p>
+
+<h3 id="vertx-使用协程避免callback-hell">Vertx 使用协程避免Callback Hell</h3>
+
+<p>vert.x的非阻塞特性导致需要编写非阻塞API。vert.x的核心API使用回调函数的风格，也可以使用发布-订阅模型的RxJava。异步的API编程比同步的更复杂更容易出错，而且不可避免
+Callback Hell。</p>
+
+<p>使用vertx-lang-kotlin-coroutines，编写同步风格的异步代码</p>
+
+<p><a href="https://github.com/ChinaLHR/vertx-kotlin-scaffold.git">示例</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2019-05-23
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/vert.x/">Vert.x</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/linux-oom/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Linux Out-Of-Memory killer</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/linux-operating-record/">
+            <span class="next-text nav-default">Linux命令记录</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+
+</body>
+</html>

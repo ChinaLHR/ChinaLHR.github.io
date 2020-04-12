@@ -13,10 +13,10 @@
     
     <item>
       <title>Mysql死锁排查记录</title>
-      <link>https://chinalhr.github.io/post/mysqldeadlockrecord/</link>
+      <link>https://chinalhr.github.io/post/mysql-deadlock-record/</link>
       <pubDate>Mon, 08 Apr 2019 22:14:43 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/mysqldeadlockrecord/</guid>
+      <guid>https://chinalhr.github.io/post/mysql-deadlock-record/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记一次MySql死锁排查&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -24,10 +24,10 @@
     
     <item>
       <title>MySql大数据表优化</title>
-      <link>https://chinalhr.github.io/post/mysqlbigdataoptimization/</link>
+      <link>https://chinalhr.github.io/post/mysql-bigdata-optimization/</link>
       <pubDate>Wed, 23 Jan 2019 21:31:57 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/mysqlbigdataoptimization/</guid>
+      <guid>https://chinalhr.github.io/post/mysql-bigdata-optimization/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;公司数据库账单单表存储过亿,急需优化&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -35,10 +35,10 @@
     
     <item>
       <title>MySql大数据量表分页</title>
-      <link>https://chinalhr.github.io/post/mysql_paging/</link>
+      <link>https://chinalhr.github.io/post/mysql-paging/</link>
       <pubDate>Thu, 19 Jul 2018 23:37:55 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/mysql_paging/</guid>
+      <guid>https://chinalhr.github.io/post/mysql-paging/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;MySql分页相关技巧整理&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -46,10 +46,10 @@
     
     <item>
       <title>Mysql对存有大数据表进行结构修改需要注意的问题</title>
-      <link>https://chinalhr.github.io/post/mysql_alter/</link>
+      <link>https://chinalhr.github.io/post/mysql-alter/</link>
       <pubDate>Sun, 08 Jul 2018 17:56:21 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/mysql_alter/</guid>
+      <guid>https://chinalhr.github.io/post/mysql-alter/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记录生产中遇到的问题&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -57,10 +57,10 @@
     
     <item>
       <title>MySql读写分离</title>
-      <link>https://chinalhr.github.io/post/mysql_replicationon/</link>
+      <link>https://chinalhr.github.io/post/mysql-replicationon/</link>
       <pubDate>Wed, 27 Jun 2018 15:55:01 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/mysql_replicationon/</guid>
+      <guid>https://chinalhr.github.io/post/mysql-replicationon/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;MySql读写分离相关资料记录&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -68,10 +68,10 @@
     
     <item>
       <title>Mysql主从复制</title>
-      <link>https://chinalhr.github.io/post/mysql_proxy/</link>
+      <link>https://chinalhr.github.io/post/mysql-proxy/</link>
       <pubDate>Wed, 27 Jun 2018 15:54:50 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/mysql_proxy/</guid>
+      <guid>https://chinalhr.github.io/post/mysql-proxy/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Mysql主从复制相关资料整理记录&lt;/p&gt;
 &lt;/blockquote&gt;</description>

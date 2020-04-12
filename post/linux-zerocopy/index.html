@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Linux Zero-copy(零拷贝) - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" Linux Zero-copy机制与Java NIO对Zero-copy应用
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/linux-zerocopy/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Linux Zero-copy(零拷贝)" />
+<meta property="og:description" content="
+Linux Zero-copy机制与Java NIO对Zero-copy应用
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/linux-zerocopy/" /><meta property="article:published_time" content="2019-08-23T12:26:11&#43;08:00"/>
+<meta property="article:modified_time" content="2019-08-23T12:26:11&#43;08:00"/>
+
+<meta itemprop="name" content="Linux Zero-copy(零拷贝)">
+<meta itemprop="description" content="
+Linux Zero-copy机制与Java NIO对Zero-copy应用
+">
+
+
+<meta itemprop="datePublished" content="2019-08-23T12:26:11&#43;08:00" />
+<meta itemprop="dateModified" content="2019-08-23T12:26:11&#43;08:00" />
+<meta itemprop="wordCount" content="2729">
+
+
+
+<meta itemprop="keywords" content="Linux,Java," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux Zero-copy(零拷贝)"/>
+<meta name="twitter:description" content="
+Linux Zero-copy机制与Java NIO对Zero-copy应用
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="https://www.yuque.com/lihanrong">
+        <li class="mobile-menu-item">笔记</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/post/books/">
+        <li class="mobile-menu-item">阅读记录</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">笔记</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/books/">阅读记录</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Linux Zero-copy(零拷贝)</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-08-23 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"> 编程-操作系统 </a>
+            </div>
+          <span class="more-meta"> 2729 words </span>
+          <span class="more-meta"> 6 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#关于zero-copy-零拷贝">关于Zero-copy(零拷贝)</a></li>
+<li><a href="#linux-i-o机制">Linux I/O机制</a></li>
+<li><a href="#传统socket传送数据">传统Socket传送数据</a></li>
+<li><a href="#linux-zero-copy">Linux Zero-copy</a>
+<ul>
+<li><a href="#mmap-内存映射">mmap(内存映射)</a></li>
+<li><a href="#sendfile">sendfile</a></li>
+<li><a href="#sendfile-with-dma-scatter-gather-copy">Sendfile With DMA Scatter/Gather Copy</a></li>
+<li><a href="#splice">splice</a></li>
+<li><a href="#zero-copy机制对比">Zero-copy机制对比</a></li>
+</ul></li>
+<li><a href="#java-nio-对linux-zero-copy机制支持">Java NIO 对Linux Zero-copy机制支持</a>
+<ul>
+<li><a href="#nio中的mmap">NIO中的mmap</a></li>
+<li><a href="#nio中的sendfile">NIO中的sendfile</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>Linux Zero-copy机制与Java NIO对Zero-copy应用</p>
+</blockquote>
+
+<h3 id="关于zero-copy-零拷贝">关于Zero-copy(零拷贝)</h3>
+
+<ul>
+<li>维基百科</li>
+</ul>
+
+<p>零复制（英语：Zero-copy；也译零拷贝）技术是指计算机执行操作时，CPU不需要先将数据从某处内存复制到另一个特定区域。这种技术通常用于通过网络传输文件时节省CPU周期和内存带宽。</p>
+
+<ul>
+<li>原理</li>
+</ul>
+
+<p>操作系统某些组件（例如驱动程序、文件系统和网络协议栈）若采用零复制技术，则能极大地增强了特定应用程序的性能，并更有效地利用系统资源。通过使CPU得以完成其他而非将机器中的数据复制到另一处的任务，性能也得到了增强。另外，零复制操作减少了在用户空间与内核空间之间切换模式的次数。</p>
+
+<p>举例来说，如果要读取一个文件并通过网络发送它，传统方式下每个读/写周期都需要复制两次数据和切换两次上下文，而数据的复制都需要依靠CPU。通过零复制技术完成相同的操作，上下文切换减少到两次，并且不需要CPU复制数据。</p>
+
+<p>零复制协议对于网络链路容量接近或超过CPU处理能力的高速网络尤为重要。在这种网络下，CPU几乎将所有时间都花在复制要传送的数据上，因此将成为使通信速率低于链路容量的瓶颈。</p>
+
+<h3 id="linux-i-o机制">Linux I/O机制</h3>
+
+<ul>
+<li>I/O中断</li>
+</ul>
+
+<p>用户进程需要读取磁盘数据，需要CPU中断，发起IO请求，每次的IO中断，都带来CPU的上下文切换。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/63401028-77c9b100-c408-11e9-804b-32f194a663dc.png" alt="image" /></p>
+
+<ul>
+<li>DMA(Direct Memory Access，直接内存存取)</li>
+</ul>
+
+<p>DMA允许不同速度的硬件装置来沟通，而不需要依赖于CPU 的大量中断负载。DMA控制器接管了数据读写请求，减少CPU的负担。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/63401395-b4e27300-c409-11e9-9ce8-46c2a4785cf4.png" alt="image" /></p>
+
+<p>涉及流程：</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/63411420-16b1d580-c428-11e9-92cf-0cfe51d00125.png" alt="image" /></p>
+
+<h3 id="传统socket传送数据">传统Socket传送数据</h3>
+
+<ul>
+<li>大部分Web应用服务器都通过文件读取数据然后将数据通过网络传输给其他的程序的方式。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">File.read(fileDesc,tmp_buf,len);
+File.send(socket,tmp_buf,len);</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>数据从文件到socket的过程</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/63423628-4fa97480-c43f-11e9-957c-491d8ff5086a.png" alt="image" /></p>
+
+<ul>
+<li>用户态和内核态的切换过程</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/63423861-c6467200-c43f-11e9-90cc-c465dc25e987.png" alt="image" /></p>
+
+<ul>
+<li>涉及过程</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">1.read()的调用引起了从用户态到内核态的切换，内部是通过sys_read()(或者类似的方法)发起对文件数据的读取。数据的第一次复制是通过DMA(直接内存访问)将磁盘上的数据复制到内核空间的缓冲区中。
+
+2.数据从内核空间的缓冲区复制到用户空间的缓冲区后，read()方法也就返回了。此时内核态又切换回用户态，现在数据也已经复制到了用户地址空间的缓冲区中。
+
+3.socket的send()方法的调用又引起了用户态到内核态的切换，第三次数据复制有将数据从用户空间缓冲区复制到了内核空间的缓冲区，这次数据被放在了不同于之前的内核缓冲区中，这个缓冲区与数据将要被传输到socket关联。
+
+4.send()系统调用返回后，就产生了第四次用户态和内核态的切换。随着DMA单独异步的将数据从内核态的缓冲区中传输到协议引擎发送到网络上，有了第四次数据的复制。</pre></td></tr></table>
+</div>
+</div>
+<p><img src="https://user-images.githubusercontent.com/19829495/63424473-140faa00-c441-11e9-96ba-9d6f73bd9f4f.png" alt="image" /></p>
+
+<ul>
+<li><p>问题</p>
+
+<ul>
+<li>传统数据传送所消耗的成本：4次拷贝(两次是DMA copy，两次是CPU copy)，4次上下文切换。</li>
+<li>大量的数据复制并不是真正需要的。可以消除一些重复，以减少开销并提高性能。</li>
+<li>内核缓冲区做中介的引入虽然改善了进程的性能(中介缓冲区可以用来实现异步功能,当缓冲区数据满了之后再写上去减少系统调用次数)，当应用程序读取的数据比这个中介缓冲区的容量大很多的时候，数据就会在磁盘、内核空间、用户空间之间复制多次后才最终被传给应用程序。</li>
+</ul></li>
+
+<li><p>改善</p>
+
+<ul>
+<li>零拷贝技术(Zero-copy)，在OS层面优化，减少IO流程中不必要的拷贝。</li>
+</ul></li>
+</ul>
+
+<h3 id="linux-zero-copy">Linux Zero-copy</h3>
+
+<h4 id="mmap-内存映射">mmap(内存映射)</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">tmp_buf = mmap(file, len);
+write(socket, tmp_buf, len);</pre></td></tr></table>
+</div>
+</div>
+<p>核心:从磁盘加载的数据通过DMA拷贝存储在内核缓冲区中。
+然后将应用程序缓冲区的页面映射到内核缓冲区，以便省略内核缓冲区和应用程序缓冲区之间的数据复制。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/63494509-64921080-c4f0-11e9-8995-b958975971c6.png" alt="image" /></p>
+
+<p>read-send模型</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/63501762-d2ddcf80-c4fe-11e9-9cf9-079c4a25bb43.png" alt="image" /></p>
+
+<p>优化：
+拷贝次数优化(1次cpu copy，2次DMA copy)。
+上下文切换四次。</p>
+
+<h4 id="sendfile">sendfile</h4>
+
+<p>在内核版本2.1中，引入了sendfile系统调用，以简化网络和两个本地文件之间的数据传输。sendfile的引入不仅减少了数据复制，还减少了上下文切换。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">sendfile(socket, file, len);</pre></td></tr></table>
+</div>
+</div>
+<p>在调用sendfile（）系统调用时，数据从磁盘中获取并通过DMA复制复制到内核缓冲区中。
+然后将数据直接从内核缓冲区复制到套接字缓冲区。
+将所有数据复制到套接字缓冲区后，sendfile（）系统调用将返回以指示从内核缓冲区到套接字缓冲区的数据传输完成。
+然后，数据将被复制到网卡上的缓冲区并传输到网络。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/63498007-9d81b380-c4f7-11e9-85dc-f577ed708b4c.png" alt="image" /></p>
+
+<p>read-send模型</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/63501685-a9bd3f00-c4fe-11e9-8fef-cbf540c0009e.png" alt="image" /></p>
+
+<p>优化:拷贝次数优化(1次CPU copy,2次DMA copy)
+上下文切换两次</p>
+
+<h4 id="sendfile-with-dma-scatter-gather-copy">Sendfile With DMA Scatter/Gather Copy</h4>
+
+<p>在Linux内核2.4以后的版本中, linux内核对socket缓冲区描述符做了优化. 通过这次优化, sendFile系统调用可以在只复制kernel buffer的少量元信息的基础上, 把数据直接从kernel buffer 复制到网卡的buffer中去.从而避免了从&rdquo;内核缓冲区&rdquo;拷贝到&rdquo;socket缓冲区&rdquo;的这一次拷贝.</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/63499538-9dcf7e00-c4fa-11e9-983a-0fcf9154fdd9.png" alt="image" /></p>
+
+<p>read-send模型</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/63502345-fb19fe00-c4ff-11e9-9c8d-67c79b3432a8.png" alt="image" /></p>
+
+<p>优化:拷贝次数优化 (0次cpu copy，2次DMA copy)
+上下文切换两次</p>
+
+<h4 id="splice">splice</h4>
+
+<p>Linux内核2.6.17 支持splice。splice不需要在内核空间和用户空间之间复制数据。使用此方法时，数据从磁盘读取到OS内核缓冲区后，在内核缓冲区直接可将其转成内核空间其他数据buffer，而不需要拷贝到用户空间。与Sendfile With DMA Scatter/Gather Copy不同，splice（）不需要硬件支持。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/63503847-da06dc80-c502-11e9-8f22-fa5677b90dca.png" alt="image" /></p>
+
+<p>与sendFile的区别：sendfile是将磁盘数据加载到kernel buffer后，需要一次CPU copy,拷贝到socket buffer。splice不需要CPU copy</p>
+
+<p>优化:拷贝次数优化 (0次cpu copy，2次DMA copy)
+上下文切换两次</p>
+
+<h4 id="zero-copy机制对比">Zero-copy机制对比</h4>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/63504127-6f09d580-c503-11e9-84d1-6747e6ffb7df.png" alt="image" /></p>
+
+<h3 id="java-nio-对linux-zero-copy机制支持">Java NIO 对Linux Zero-copy机制支持</h3>
+
+<h4 id="nio中的mmap">NIO中的mmap</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"> <span class="n">MappedByteBuffer</span> <span class="n">mappedByteBuffer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RandomAccessFile</span><span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="s">&#34;r&#34;</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">getChannel</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">FileChannel</span><span class="o">.</span><span class="na">MapMode</span><span class="o">.</span><span class="na">READ_ONLY</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">1024</span><span class="o">);</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>FileChannle.map(MapMode mode,long position, long size)</li>
+</ul>
+
+<p>将Channel文件的某个区域直接映射到内存中。采用了操作系统中的内存映射方式，底层就是调用Linux mmap()实现的。</p>
+
+<p>将内核缓冲区的内存和用户缓冲区的内存做了一个地址映射。这种方式适合读取大文件，同时也能对文件内容进行更改，但是如果其后要通过SocketChannel发送，还是需要CPU进行数据的拷贝。</p>
+
+<ul>
+<li>注意点</li>
+</ul>
+
+<p>使用mmap文件映射，只有在JVM在full gc时才会进行释放内存。当close时，需要手动清除内存映射文件，可以反射调用sun.misc.Cleaner方法。</p>
+
+<h4 id="nio中的sendfile">NIO中的sendfile</h4>
+
+<ul>
+<li>FileChannel.transferTo(long position, long count,WritableByteChannel target)</li>
+</ul>
+
+<p>transferTo方法直接将当前通道内容传输到另一个通道，没有涉及到Buffer的任何操作，NIO中 的Buffer是JVM堆或者堆外内存(操作系统内核空间的内存)。Linux系统中通过系统调用sendfile() 实现。</p>
+
+<ul>
+<li>Zero-copy实现文件复制</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">copyFile</span><span class="o">(</span><span class="n">File</span> <span class="n">src</span><span class="o">,</span> <span class="n">File</span> <span class="n">dest</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">(</span><span class="n">FileChannel</span> <span class="n">srcChannel</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="n">src</span><span class="o">).</span><span class="na">getChannel</span><span class="o">();</span>
+             <span class="n">FileChannel</span> <span class="n">destChannel</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="n">dest</span><span class="o">).</span><span class="na">getChannel</span><span class="o">())</span> <span class="o">{</span>
+
+            <span class="n">srcChannel</span><span class="o">.</span><span class="na">transferTo</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">srcChannel</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">destChannel</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2019-08-23
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/linux/">Linux</a>
+          <a href="/tags/java/">Java</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/mongo-limit-sort-index/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">MongoDB分页-排序-索引</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/tail-recursion/">
+            <span class="next-text nav-default">尾递归-Java-Kotlin</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+
+</body>
+</html>

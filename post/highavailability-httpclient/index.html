@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>高可用的HttpClient - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" 对HttpClient的优化，基于HttpClient4.4&#43;的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/highavailability-httpclient/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="高可用的HttpClient" />
+<meta property="og:description" content="
+对HttpClient的优化，基于HttpClient4.4&#43;的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/highavailability-httpclient/" /><meta property="article:published_time" content="2018-10-17T22:48:08&#43;08:00"/>
+<meta property="article:modified_time" content="2018-10-17T22:48:08&#43;08:00"/>
+
+<meta itemprop="name" content="高可用的HttpClient">
+<meta itemprop="description" content="
+对HttpClient的优化，基于HttpClient4.4&#43;的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。
+">
+
+
+<meta itemprop="datePublished" content="2018-10-17T22:48:08&#43;08:00" />
+<meta itemprop="dateModified" content="2018-10-17T22:48:08&#43;08:00" />
+<meta itemprop="wordCount" content="624">
+
+
+
+<meta itemprop="keywords" content="Java," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="高可用的HttpClient"/>
+<meta name="twitter:description" content="
+对HttpClient的优化，基于HttpClient4.4&#43;的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="https://www.yuque.com/lihanrong">
+        <li class="mobile-menu-item">笔记</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/post/books/">
+        <li class="mobile-menu-item">阅读记录</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">笔记</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/books/">阅读记录</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">高可用的HttpClient</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-10-17 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 编程-后端开发 </a>
+            </div>
+          <span class="more-meta"> 624 words </span>
+          <span class="more-meta"> 2 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#httpclient优化点">HttpClient优化点</a></li>
+<li><a href="#httpclient与resttemplate实现">HttpClient与RestTemplate实现</a></li>
+<li><a href="#参考">参考</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>对HttpClient的优化，基于HttpClient4.4+的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。</p>
+</blockquote>
+
+<h3 id="httpclient优化点">HttpClient优化点</h3>
+
+<ol>
+<li>httpclient是一个线程安全的类，全局维护一个可避免httpclient反复创建带来的开销。</li>
+<li>使用PoolingHttpClientConnectionManager连接池避免反复创建tcp连接</li>
+<li>定时监控清理关闭服务端已CLOSE的连接</li>
+<li>合理配置连接池的总连接数与并发数</li>
+</ol>
+
+<h3 id="httpclient与resttemplate实现">HttpClient与RestTemplate实现</h3>
+
+<ol>
+<li>配置PoolingHttpClientConnectionManager连接池</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="n">CloseableHttpClient</span> <span class="nf">getCloseableHttpClient</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">isRetry</span><span class="o">)</span> <span class="o">{</span>
+	<span class="c1">// 长连接保持30秒
+</span><span class="c1"></span>	<span class="n">PoolingHttpClientConnectionManager</span> <span class="n">pollingConnectionManager</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PoolingHttpClientConnectionManager</span><span class="o">(</span><span class="n">30</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">);</span>
+	<span class="c1">// 总连接数
+</span><span class="c1"></span>	<span class="n">pollingConnectionManager</span><span class="o">.</span><span class="na">setMaxTotal</span><span class="o">(</span><span class="n">200</span><span class="o">);</span>
+	<span class="c1">// 默认同路由的并发数
+</span><span class="c1"></span>	<span class="n">pollingConnectionManager</span><span class="o">.</span><span class="na">setDefaultMaxPerRoute</span><span class="o">(</span><span class="n">100</span><span class="o">);</span>
+	<span class="n">HttpClientBuilder</span> <span class="n">httpClientBuilder</span> <span class="o">=</span> <span class="n">HttpClients</span><span class="o">.</span><span class="na">custom</span><span class="o">();</span>
+	<span class="n">httpClientBuilder</span><span class="o">.</span><span class="na">setConnectionManager</span><span class="o">(</span><span class="n">pollingConnectionManager</span><span class="o">);</span>
+	<span class="c1">// 重试次数，默认是3次，设置为2次，没有开启
+</span><span class="c1"></span>	<span class="k">if</span> <span class="o">(</span><span class="n">isRetry</span><span class="o">)</span> <span class="o">{</span>
+	    <span class="n">httpClientBuilder</span><span class="o">.</span><span class="na">setRetryHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">DefaultHttpRequestRetryHandler</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="kc">true</span><span class="o">));</span>
+	<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+	    <span class="n">httpClientBuilder</span><span class="o">.</span><span class="na">setRetryHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">DefaultHttpRequestRetryHandler</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="kc">false</span><span class="o">));</span>
+	<span class="o">}</span>
+	<span class="c1">// 保持长连接配置，需要在头添加Keep-Alive
+</span><span class="c1"></span>	<span class="n">httpClientBuilder</span><span class="o">.</span><span class="na">setKeepAliveStrategy</span><span class="o">(</span><span class="n">DefaultConnectionKeepAliveStrategy</span><span class="o">.</span><span class="na">INSTANCE</span><span class="o">);</span>
+	
+	<span class="n">CloseableHttpClient</span> <span class="n">httpClient</span> <span class="o">=</span> <span class="n">httpClientBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+	
+	<span class="n">runIdleConnectionMonitor</span><span class="o">(</span><span class="n">pollingConnectionManager</span><span class="o">);</span>
+	<span class="k">return</span> <span class="n">httpClient</span><span class="o">;</span>
+<span class="o">}</span>	</code></pre></td></tr></table>
+</div>
+</div>
+<ol>
+<li>自定义keepAliveStrategy</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="n">ConnectionKeepAliveStrategy</span> <span class="nf">getConnectionKeepAliveStrategy</span><span class="o">(){</span>
+    <span class="k">return</span> <span class="o">(</span><span class="n">response</span><span class="o">,</span> <span class="n">context</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+        <span class="n">HeaderElementIterator</span> <span class="n">it</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BasicHeaderElementIterator</span>
+                <span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">headerIterator</span><span class="o">(</span><span class="n">HTTP</span><span class="o">.</span><span class="na">CONN_KEEP_ALIVE</span><span class="o">));</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">HeaderElement</span> <span class="n">he</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="na">nextElement</span><span class="o">();</span>
+            <span class="n">String</span> <span class="n">param</span> <span class="o">=</span> <span class="n">he</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+            <span class="n">String</span> <span class="n">value</span> <span class="o">=</span> <span class="n">he</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">param</span><span class="o">.</span><span class="na">equalsIgnoreCase</span>
+                    <span class="o">(</span><span class="s">&#34;timeout&#34;</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">value</span><span class="o">)</span> <span class="o">*</span> <span class="n">1000</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">60</span> <span class="o">*</span> <span class="n">1000</span><span class="o">;</span><span class="c1">//如果没有约定，则默认定义时长为60s
+</span><span class="c1"></span>    <span class="o">};</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<ol>
+<li>定时监控清理实现连接关闭</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">runIdleConnectionMonitor</span><span class="o">(</span><span class="n">HttpClientConnectionManager</span> <span class="n">clientConnectionManager</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">FixedRateSchedule</span> <span class="n">schedule</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FixedRateScheduleImpl</span><span class="o">();</span>
+    <span class="n">schedule</span><span class="o">.</span><span class="na">setPoolTag</span><span class="o">(</span><span class="s">&#34;IDLE_CONNECTION_MONITOR_POOL&#34;</span><span class="o">);</span>
+    <span class="n">schedule</span><span class="o">.</span><span class="na">init</span><span class="o">();</span>
+    <span class="n">schedule</span><span class="o">.</span><span class="na">schedule</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+        <span class="c1">//关闭过期的链接
+</span><span class="c1"></span>        <span class="n">clientConnectionManager</span><span class="o">.</span><span class="na">closeExpiredConnections</span><span class="o">();</span>
+        <span class="c1">//关闭闲置超过30s的链接
+</span><span class="c1"></span>        <span class="n">clientConnectionManager</span><span class="o">.</span><span class="na">closeIdleConnections</span><span class="o">(</span><span class="n">30</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">);</span>
+    <span class="o">},</span> <span class="n">IDLE_INITIALDELAY</span><span class="o">,</span> <span class="n">IDLE_PERIOD</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MILLISECONDS</span><span class="o">);</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<ol>
+<li>代码</li>
+</ol>
+
+<p><a href="https://github.com/ChinaLHR/HttpClientOptimization">https://github.com/ChinaLHR/HttpClientOptimization</a></p>
+
+<h3 id="参考">参考</h3>
+
+<p><a href="https://www.cnblogs.com/bethunebtj/p/8493379.html">https://www.cnblogs.com/bethunebtj/p/8493379.html</a></p>
+
+<p><a href="https://hc.apache.org/httpcomponents-client-ga/tutorial/html/connmgmt.html">https://hc.apache.org/httpcomponents-client-ga/tutorial/html/connmgmt.html</a></p>
+
+<p><a href="https://www.oschina.net/question/2011290_2199294">https://www.oschina.net/question/2011290_2199294</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2018-10-17
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/java/">Java</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/code-optimize/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">编码技巧：防御性编程|表驱动法</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/joda-datetime-record/">
+            <span class="next-text nav-default">Joda DateTime记录</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+
+</body>
+</html>

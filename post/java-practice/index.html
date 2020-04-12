@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>基于SSM项目的个人编码规范 - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" 仅记录一个多月野蛮生长过程的个人编码规范
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/java-practice/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="基于SSM项目的个人编码规范" />
+<meta property="og:description" content="
+仅记录一个多月野蛮生长过程的个人编码规范
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/java-practice/" /><meta property="article:published_time" content="2018-02-19T14:31:45&#43;08:00"/>
+<meta property="article:modified_time" content="2018-02-19T14:31:45&#43;08:00"/>
+
+<meta itemprop="name" content="基于SSM项目的个人编码规范">
+<meta itemprop="description" content="
+仅记录一个多月野蛮生长过程的个人编码规范
+">
+
+
+<meta itemprop="datePublished" content="2018-02-19T14:31:45&#43;08:00" />
+<meta itemprop="dateModified" content="2018-02-19T14:31:45&#43;08:00" />
+<meta itemprop="wordCount" content="945">
+
+
+
+<meta itemprop="keywords" content="编码规范," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="基于SSM项目的个人编码规范"/>
+<meta name="twitter:description" content="
+仅记录一个多月野蛮生长过程的个人编码规范
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="https://www.yuque.com/lihanrong">
+        <li class="mobile-menu-item">笔记</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/post/books/">
+        <li class="mobile-menu-item">阅读记录</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">笔记</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/books/">阅读记录</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">基于SSM项目的个人编码规范</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-02-19 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 编程-后端开发 </a>
+            </div>
+          <span class="more-meta"> 945 words </span>
+          <span class="more-meta"> 2 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#api接口定义">API接口定义</a></li>
+<li><a href="#异常处理">异常处理</a></li>
+<li><a href="#日志处理">日志处理</a></li>
+<li><a href="#dao与service的抽象">Dao与Service的抽象</a></li>
+<li><a href="#mybatis插件">MyBatis插件</a></li>
+<li><a href="#jdk8">JDK8</a>
+<ul>
+<li><a href="#optional优雅处理nullpointerexception">Optional优雅处理NullPointerException</a></li>
+<li><a href="#使用futurn-completablefuture在并发的层面充分利用单一cpu-避免等待远程服务返回而浪费资源">使用Futurn/CompletableFuture在并发的层面充分利用单一CPU，避免等待远程服务返回而浪费资源</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>仅记录一个多月野蛮生长过程的个人编码规范</p>
+</blockquote>
+
+<h2 id="api接口定义">API接口定义</h2>
+
+<ul>
+<li>统一返回格式为一个ResultBean，使用状态码对请求的状态做出响应</li>
+<li>ResultBean为Controller专用，不能由Service层或者Dao层上传</li>
+<li>在Controller层进行aop切面，（或者使用行为参数化传递代码并用lamdba进行内部类的简化书写）对业务进行统一处理业务层异常捕获处理并返回，减少Controller的try-catch代码块统一的日志打印</li>
+</ul>
+
+<h2 id="异常处理">异常处理</h2>
+
+<ul>
+<li>在service层尽量减少不必要的异常捕获与null的判断，可以抛出异常到Controller层，在AOP切面中进行统一处理</li>
+<li>对具体业务异常进行统一定义，继承RuntimeException</li>
+</ul>
+
+<h2 id="日志处理">日志处理</h2>
+
+<ul>
+<li>使用门面模式的日志框架：SLF4J</li>
+</ul>
+
+<h2 id="dao与service的抽象">Dao与Service的抽象</h2>
+
+<ul>
+<li>使用模板方法对简单操作CRUD进行抽象到统一接口或者父类中，减少代码冗余</li>
+</ul>
+
+<h2 id="mybatis插件">MyBatis插件</h2>
+
+<ul>
+<li>使用通用Mapper3简化单表CRUD操作</li>
+<li>使用PageHelper简化MyBatis的翻页查询</li>
+</ul>
+
+<h2 id="jdk8">JDK8</h2>
+
+<h3 id="optional优雅处理nullpointerexception">Optional优雅处理NullPointerException</h3>
+
+<ul>
+<li>of</li>
+</ul>
+
+<p>of方法通过工厂方法创建Optional实例，如果传入的值为null，会抛出异常。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="c1">// 给与一个非空值
+</span><span class="c1"></span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">username</span> <span class="o">=</span> <span class="n">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;lhr&#34;</span><span class="o">);</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>ofNullable</li>
+</ul>
+
+<p>与of类似，但如果传入的值为null，则返回一个空的Optional。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Optional</span> <span class="n">empty</span> <span class="o">=</span> <span class="n">Optional</span><span class="o">.</span><span class="na">ofNullable</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>isPresent</li>
+</ul>
+
+<p>如果Optional值存在返回true,否则返回false</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="k">if</span> <span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">isPresent</span><span class="o">())</span> <span class="o">{</span>
+   <span class="o">***</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>get</li>
+</ul>
+
+<p>如果Optional有值则将其返回，否则抛出NoSuchElementException。</p>
+
+<ul>
+<li>ifPresent</li>
+</ul>
+
+<p>如果Optional实例有值则为其调用consumer ,否则不做处理。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">user</span><span class="o">.</span><span class="na">ifPresent</span><span class="o">((</span><span class="n">value</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+   <span class="o">***</span>
+<span class="o">});</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>orElse</li>
+</ul>
+
+<p>如果有值则将其返回，否则返回指定的其它值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="k">new</span> <span class="n">User</span><span class="o">(</span><span class="s">&#34;zhangsan&#34;</span><span class="o">)));</span>  </code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>orElseGet</li>
+</ul>
+
+<p>orElseGet与orElse方法类似，区别在于得到的默认值。orElse传入的是默认值，orElseGet可以接受一个Supplier生成默认值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">orElseGet</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="n">User</span><span class="o">(</span><span class="s">&#34;zhangsan&#34;</span><span class="o">)));</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>orElseThrow</li>
+</ul>
+
+<p>如果有值则将其返回，否则抛出supplier接口创建的异常。</p>
+
+<h3 id="使用futurn-completablefuture在并发的层面充分利用单一cpu-避免等待远程服务返回而浪费资源">使用Futurn/CompletableFuture在并发的层面充分利用单一CPU，避免等待远程服务返回而浪费资源</h3>
+
+<ul>
+<li>在运行不需要立即获取结果的操作时，使用Future进行异步操作</li>
+<li>尽量使用可超时的get获取,避免无限阻塞等待的情况</li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2018-02-19
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/">编码规范</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/java-springboot-component/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Spring Boot组件-Retry|Scheduled</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/about/">
+            <span class="next-text nav-default">关于</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+
+</body>
+</html>

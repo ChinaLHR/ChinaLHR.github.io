@@ -13,10 +13,10 @@
     
     <item>
       <title>Java技术域中的异步编程</title>
-      <link>https://chinalhr.github.io/post/java_asyncprogram/</link>
+      <link>https://chinalhr.github.io/post/java-asyncprogram/</link>
       <pubDate>Fri, 03 Apr 2020 19:45:19 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/java_asyncprogram/</guid>
+      <guid>https://chinalhr.github.io/post/java-asyncprogram/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Java技术域异步编程总结&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -24,10 +24,10 @@
     
     <item>
       <title>Spring WebFlux 原理与适用场景</title>
-      <link>https://chinalhr.github.io/post/spring_webflux_principle/</link>
+      <link>https://chinalhr.github.io/post/spring-webflux-principle/</link>
       <pubDate>Thu, 13 Feb 2020 16:38:02 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/spring_webflux_principle/</guid>
+      <guid>https://chinalhr.github.io/post/spring-webflux-principle/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Spring WebFlux源码分析与适用场景&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -35,10 +35,10 @@
     
     <item>
       <title>Linux Zero-copy(零拷贝)</title>
-      <link>https://chinalhr.github.io/post/linux_zerocopy/</link>
+      <link>https://chinalhr.github.io/post/linux-zerocopy/</link>
       <pubDate>Fri, 23 Aug 2019 12:26:11 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/linux_zerocopy/</guid>
+      <guid>https://chinalhr.github.io/post/linux-zerocopy/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Linux Zero-copy机制与Java NIO对Zero-copy应用&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -46,10 +46,10 @@
     
     <item>
       <title> javassist实现Aspect动态Pointcut</title>
-      <link>https://chinalhr.github.io/post/aspect_dynamic/</link>
+      <link>https://chinalhr.github.io/post/aspect-dynamic/</link>
       <pubDate>Thu, 18 Apr 2019 22:15:07 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/aspect_dynamic/</guid>
+      <guid>https://chinalhr.github.io/post/aspect-dynamic/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Spriing Aop中动态Pointcut的实践&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -57,10 +57,10 @@
     
     <item>
       <title>Mybatis自定义分表Plug</title>
-      <link>https://chinalhr.github.io/post/mybatisshardplug/</link>
+      <link>https://chinalhr.github.io/post/mybatis-shard-plugin/</link>
       <pubDate>Mon, 12 Nov 2018 22:51:04 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/mybatisshardplug/</guid>
+      <guid>https://chinalhr.github.io/post/mybatis-shard-plugin/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;工作中需要用到MyBatis进行分表操作，简单记录实现过程&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -68,10 +68,10 @@
     
     <item>
       <title>Mybatis动态表名：# 与 $ 区别</title>
-      <link>https://chinalhr.github.io/post/mybatis_sql_precompile/</link>
+      <link>https://chinalhr.github.io/post/mybatis-sql-precompile/</link>
       <pubDate>Mon, 12 Nov 2018 21:30:50 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/mybatis_sql_precompile/</guid>
+      <guid>https://chinalhr.github.io/post/mybatis-sql-precompile/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;学习Mybatis# 与 $ 机制&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -79,10 +79,10 @@
     
     <item>
       <title>高可用的HttpClient</title>
-      <link>https://chinalhr.github.io/post/highavailabilityhttpclient/</link>
+      <link>https://chinalhr.github.io/post/highavailability-httpclient/</link>
       <pubDate>Wed, 17 Oct 2018 22:48:08 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/highavailabilityhttpclient/</guid>
+      <guid>https://chinalhr.github.io/post/highavailability-httpclient/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;对HttpClient的优化，基于HttpClient4.4+的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -90,10 +90,10 @@
     
     <item>
       <title>Joda DateTime记录</title>
-      <link>https://chinalhr.github.io/post/joda_datetime_record/</link>
+      <link>https://chinalhr.github.io/post/joda-datetime-record/</link>
       <pubDate>Thu, 04 Oct 2018 23:40:13 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/joda_datetime_record/</guid>
+      <guid>https://chinalhr.github.io/post/joda-datetime-record/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;用来记录joda DateTime工具类使用&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -101,10 +101,10 @@
     
     <item>
       <title>Spring Aop分析</title>
-      <link>https://chinalhr.github.io/post/spring_aop/</link>
+      <link>https://chinalhr.github.io/post/spring-aop/</link>
       <pubDate>Mon, 24 Sep 2018 15:56:35 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/spring_aop/</guid>
+      <guid>https://chinalhr.github.io/post/spring-aop/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Spring Aop源码分析&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -112,10 +112,10 @@
     
     <item>
       <title>Shrio导致SpringCache缓存失效原因分析</title>
-      <link>https://chinalhr.github.io/post/springcache_shrio_bug/</link>
+      <link>https://chinalhr.github.io/post/spring-cache-shrio-bug/</link>
       <pubDate>Sat, 22 Sep 2018 23:10:00 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/springcache_shrio_bug/</guid>
+      <guid>https://chinalhr.github.io/post/spring-cache-shrio-bug/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记录Shrio与SpringCache使用过程遇到的问题&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -123,10 +123,10 @@
     
     <item>
       <title>Java在Stream中异常处理问题</title>
-      <link>https://chinalhr.github.io/post/java_lambda_exception/</link>
+      <link>https://chinalhr.github.io/post/java-lambda-exception/</link>
       <pubDate>Wed, 25 Jul 2018 23:20:01 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/java_lambda_exception/</guid>
+      <guid>https://chinalhr.github.io/post/java-lambda-exception/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Java Lamdba Api缺陷&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -134,10 +134,10 @@
     
     <item>
       <title>RedisTemplate问题</title>
-      <link>https://chinalhr.github.io/post/redistemplate_problem/</link>
+      <link>https://chinalhr.github.io/post/redis-template_problem/</link>
       <pubDate>Fri, 13 Jul 2018 22:17:22 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/redistemplate_problem/</guid>
+      <guid>https://chinalhr.github.io/post/redis-template_problem/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记录RedisTemplate使用过程的问题&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -145,10 +145,10 @@
     
     <item>
       <title>函数式接口-Supplier|Predicate|Consumer|Function</title>
-      <link>https://chinalhr.github.io/post/java_supplier_predicate_consumer/</link>
+      <link>https://chinalhr.github.io/post/java-supplier-predicate-consumer/</link>
       <pubDate>Wed, 11 Jul 2018 21:19:59 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/java_supplier_predicate_consumer/</guid>
+      <guid>https://chinalhr.github.io/post/java-supplier-predicate-consumer/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Java函数式接口相关记录&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -156,10 +156,10 @@
     
     <item>
       <title>Java项目中的系统结构分层</title>
-      <link>https://chinalhr.github.io/post/java_system_structure/</link>
+      <link>https://chinalhr.github.io/post/java-system-structure/</link>
       <pubDate>Mon, 25 Jun 2018 12:07:03 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/java_system_structure/</guid>
+      <guid>https://chinalhr.github.io/post/java-system-structure/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;公司Java项目中的系统结构分层&lt;/p&gt;
 &lt;/blockquote&gt;</description>

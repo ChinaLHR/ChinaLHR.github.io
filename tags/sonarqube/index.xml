@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SonarQube on LiHanRong Blog</title>
+    <link>https://chinalhr.github.io/tags/sonarqube/</link>
+    <description>Recent content in SonarQube on LiHanRong Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 12 Apr 2020 15:28:21 +0800</lastBuildDate>
+    
+	<atom:link href="https://chinalhr.github.io/tags/sonarqube/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>DevOps流程中使用SonarQube推动代码质量优化</title>
+      <link>https://chinalhr.github.io/post/devops-sonar-practice/</link>
+      <pubDate>Sun, 12 Apr 2020 15:28:21 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/devops-sonar-practice/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;在CI中利用SonarQube推动代码质量的持续优化的实践&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

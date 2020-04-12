@@ -13,10 +13,10 @@
     
     <item>
       <title>分布式锁实现(基于Redis|Zookeeper)</title>
-      <link>https://chinalhr.github.io/post/distributedlocks/</link>
+      <link>https://chinalhr.github.io/post/distributed-locks/</link>
       <pubDate>Sun, 15 Jul 2018 18:38:26 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/distributedlocks/</guid>
+      <guid>https://chinalhr.github.io/post/distributed-locks/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;学习分布式锁实现&lt;/p&gt;
 &lt;/blockquote&gt;</description>

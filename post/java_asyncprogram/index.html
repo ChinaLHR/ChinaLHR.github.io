@@ -334,7 +334,7 @@ Java技术域异步编程总结
 </span><span class="lnt">13
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">- 线程池状
+<pre class="chroma">- 线程池状态
 RUNNING：接收新任务并且处理阻塞队列里的任务
 SHUTDOWN：拒绝新任务但是处理阻塞队列里的任务
 STOP：拒绝新任务并且抛弃阻塞队列里的任务，同时中断正在处理的任务
@@ -562,7 +562,7 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断</pre></td></tr></table>
 
 <p>CompletableFuture是一个可以通过编程方式显式地设置计算结果和状态以便让任务结束的Future，并且其可以作为一个CompletionStage（计算阶段），当它的计算完成时可以触发一个函数或者行为；当多个线程企图调用同一个CompletableFuture的complete、cancel方式时只有一个线程会成功。</p>
 
-<p>CompletableFuture所有异步的方法在没有显式指定Executor参数的情形下都是复用ForkJoinPool.commonPool()线程池来执行。</p>
+<p>CompletableFuture所有异步的方法在没有显式指定Executor参数的情形下都是复ForkJoinPool的commonPool()线程池来执行。</p>
 
 <p>CompletableFuture基于栈收集任务，所以在同一个CompletableFuture对象上行为注册的顺序与行为执行的顺序是相反的。</p>
 
@@ -1388,7 +1388,11 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断</pre></td></tr></table>
           <a href="/tags/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">异步编程</a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/devops-sonar-practice/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">DevOps流程中使用SonarQube推动代码质量优化</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
         <a class="next" href="/post/uidgeneratorscheme/">
             <span class="next-text nav-default">分布式ID解决方案分析</span>
             <span class="next-text nav-mobile">Next</span>

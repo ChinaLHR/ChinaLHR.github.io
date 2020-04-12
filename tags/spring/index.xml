@@ -13,10 +13,10 @@
     
     <item>
       <title>Spring WebFlux 原理与适用场景</title>
-      <link>https://chinalhr.github.io/post/spring_webflux_principle/</link>
+      <link>https://chinalhr.github.io/post/spring-webflux-principle/</link>
       <pubDate>Thu, 13 Feb 2020 16:38:02 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/spring_webflux_principle/</guid>
+      <guid>https://chinalhr.github.io/post/spring-webflux-principle/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Spring WebFlux源码分析与适用场景&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -24,10 +24,10 @@
     
     <item>
       <title> javassist实现Aspect动态Pointcut</title>
-      <link>https://chinalhr.github.io/post/aspect_dynamic/</link>
+      <link>https://chinalhr.github.io/post/aspect-dynamic/</link>
       <pubDate>Thu, 18 Apr 2019 22:15:07 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/aspect_dynamic/</guid>
+      <guid>https://chinalhr.github.io/post/aspect-dynamic/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Spriing Aop中动态Pointcut的实践&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -35,10 +35,10 @@
     
     <item>
       <title>Spring Aop分析</title>
-      <link>https://chinalhr.github.io/post/spring_aop/</link>
+      <link>https://chinalhr.github.io/post/spring-aop/</link>
       <pubDate>Mon, 24 Sep 2018 15:56:35 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/spring_aop/</guid>
+      <guid>https://chinalhr.github.io/post/spring-aop/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Spring Aop源码分析&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -46,10 +46,10 @@
     
     <item>
       <title>Shrio导致SpringCache缓存失效原因分析</title>
-      <link>https://chinalhr.github.io/post/springcache_shrio_bug/</link>
+      <link>https://chinalhr.github.io/post/spring-cache-shrio-bug/</link>
       <pubDate>Sat, 22 Sep 2018 23:10:00 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/springcache_shrio_bug/</guid>
+      <guid>https://chinalhr.github.io/post/spring-cache-shrio-bug/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记录Shrio与SpringCache使用过程遇到的问题&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -57,10 +57,10 @@
     
     <item>
       <title>RedisTemplate问题</title>
-      <link>https://chinalhr.github.io/post/redistemplate_problem/</link>
+      <link>https://chinalhr.github.io/post/redis-template_problem/</link>
       <pubDate>Fri, 13 Jul 2018 22:17:22 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/redistemplate_problem/</guid>
+      <guid>https://chinalhr.github.io/post/redis-template_problem/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记录RedisTemplate使用过程的问题&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -68,10 +68,10 @@
     
     <item>
       <title>Spring Boot组件-Retry|Scheduled</title>
-      <link>https://chinalhr.github.io/post/java_springboot_component1/</link>
+      <link>https://chinalhr.github.io/post/java-springboot-component/</link>
       <pubDate>Sun, 24 Jun 2018 20:53:59 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/java_springboot_component1/</guid>
+      <guid>https://chinalhr.github.io/post/java-springboot-component/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Spring Retry与Scheduled使用记录&lt;/p&gt;
 &lt;/blockquote&gt;</description>

@@ -13,10 +13,10 @@
     
     <item>
       <title>分布式ID解决方案分析</title>
-      <link>https://chinalhr.github.io/post/uidgeneratorscheme/</link>
+      <link>https://chinalhr.github.io/post/uid-generator-scheme/</link>
       <pubDate>Sun, 29 Mar 2020 16:16:16 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/uidgeneratorscheme/</guid>
+      <guid>https://chinalhr.github.io/post/uid-generator-scheme/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;分布式ID解决方案分析，百度uid-generator，美团Leaf原理分析&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -24,10 +24,10 @@
     
     <item>
       <title>基于SnowFlake的分布式UID生成服务</title>
-      <link>https://chinalhr.github.io/post/uidgenerate_snowflake/</link>
+      <link>https://chinalhr.github.io/post/uid-generate-snowflake/</link>
       <pubDate>Sat, 08 Sep 2018 23:02:55 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/uidgenerate_snowflake/</guid>
+      <guid>https://chinalhr.github.io/post/uid-generate-snowflake/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;分析与改造SnowFlake算法&lt;/p&gt;
 &lt;/blockquote&gt;</description>

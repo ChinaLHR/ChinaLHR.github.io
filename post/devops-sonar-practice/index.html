@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>DevOps流程中使用SonarQube推动代码质量优化 - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" 在CI中利用SonarQube推动代码质量的持续优化的实践
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/devops-sonar-practice/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="DevOps流程中使用SonarQube推动代码质量优化" />
+<meta property="og:description" content="
+在CI中利用SonarQube推动代码质量的持续优化的实践
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/devops-sonar-practice/" /><meta property="article:published_time" content="2020-04-12T15:28:21&#43;08:00"/>
+<meta property="article:modified_time" content="2020-04-12T15:28:21&#43;08:00"/>
+
+<meta itemprop="name" content="DevOps流程中使用SonarQube推动代码质量优化">
+<meta itemprop="description" content="
+在CI中利用SonarQube推动代码质量的持续优化的实践
+">
+
+
+<meta itemprop="datePublished" content="2020-04-12T15:28:21&#43;08:00" />
+<meta itemprop="dateModified" content="2020-04-12T15:28:21&#43;08:00" />
+<meta itemprop="wordCount" content="6327">
+
+
+
+<meta itemprop="keywords" content="SonarQube,DevOps," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="DevOps流程中使用SonarQube推动代码质量优化"/>
+<meta name="twitter:description" content="
+在CI中利用SonarQube推动代码质量的持续优化的实践
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="https://www.yuque.com/lihanrong">
+        <li class="mobile-menu-item">笔记</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a><a href="/post/books/">
+        <li class="mobile-menu-item">阅读记录</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">笔记</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/books/">阅读记录</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">DevOps流程中使用SonarQube推动代码质量优化</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-04-12 </span>
+        <div class="post-category">
+            <a href="/categories/devops/"> DevOps </a>
+            </div>
+          <span class="more-meta"> 6327 words </span>
+          <span class="more-meta"> 13 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#devops">DevOps</a></li>
+<li><a href="#消除技术债务危机">消除技术债务危机</a></li>
+<li><a href="#sonarqube">SonarQube</a>
+<ul>
+<li><a href="#介绍">介绍</a></li>
+<li><a href="#架构">架构</a></li>
+<li><a href="#工作流程">工作流程</a></li>
+<li><a href="#基础概念">基础概念</a></li>
+<li><a href="#部署">部署</a></li>
+</ul></li>
+<li><a href="#jenkins集成sonarqube">Jenkins集成SonarQube</a>
+<ul>
+<li><a href="#静态代码分析">静态代码分析</a>
+<ul>
+<li><a href="#前置准备">前置准备</a></li>
+<li><a href="#pipeline配置">Pipeline配置</a></li>
+</ul></li>
+<li><a href="#测试覆盖率控制">测试覆盖率控制</a>
+<ul>
+<li><a href="#关于jacoco">关于Jacoco</a></li>
+<li><a href="#前置准备-1">前置准备</a></li>
+<li><a href="#pipeline配置-1">pipeline配置</a></li>
+<li><a href="#单元测试覆盖率统计数据上报sonarqube">单元测试覆盖率统计数据上报SonarQube</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#sonarqube推动代码质量持续优化">SonarQube推动代码质量持续优化</a>
+<ul>
+<li>
+<ul>
+<li><a href="#具体流程">具体流程</a></li>
+<li><a href="#具体操作">具体操作</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>在CI中利用SonarQube推动代码质量的持续优化的实践</p>
+</blockquote>
+
+<h2 id="devops">DevOps</h2>
+
+<p><strong>DevOps</strong>（<strong>Dev</strong>elopment和<strong>Op</strong>erations的组合词）是一种重视“开发人员（Dev）”和“运维人员（Ops）”之间沟通合作的文化、运动或惯例。通过自动化“软件交付”和“架构变更”的流程，来使得构建、测试、发布软件能够更加地快捷、频繁和可靠。</p>
+
+<p><strong>DevOps生命周期：</strong> 版本控制、持续集成、持续部署和持续监控贯穿于软件开发的整个生命周期。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/78233656-a2d0c300-7508-11ea-837c-ad99c780a7cf.png" alt="图片" /></p>
+
+<p><strong>持续集成</strong>： 将所有软件工程师对于软件的工作副本持续集成到共享主线（mainline）的一种举措，例如将git的特性分支合并到主分支。持续集成的宗旨是避免集成问题， 组织在运用持续性集成(CI)一般会建置CI服务器来维护持续性套用质量控制的程序，一般包括自动化单元测试，自动化静态代码扫描，自动化代码风格检测&hellip;.，意在提升软件质量以及减少交付的时间。</p>
+
+<p>参考链接：<a href="https://zh.wikipedia.org/wiki/DevOps">https://zh.wikipedia.org/wiki/DevOps</a>，<a href="https://zh.wikipedia.org/wiki/%E6%8C%81%E7%BA%8C%E6%95%B4%E5%90%88">https://zh.wikipedia.org/wiki/%E6%8C%81%E7%BA%8C%E6%95%B4%E5%90%88</a></p>
+
+<h2 id="消除技术债务危机">消除技术债务危机</h2>
+
+<p>软件的质量通常分为两种，内部质量通常指代码和设计的质量。内部质量可以通过应用设计和编程达到最佳实践，也可以通过持续一致的开发和交付流程来提高。外部质量是通过查看和使用软件（例如验收测试）来度量的。从长远的角度看，内部质量不佳最终会影响外部质量，应用程序会持续不断地冒出新的bug，产生技术债务，而且开发时间会由于技术债务的增加而变长，由于初始鲁莽的设计决策，在未来的开发中我们需要付出更多努力，消耗更多的时间，这就是技术债务危机。</p>
+
+<p><strong>技术债务危机产生一般分为两类：</strong></p>
+
+<ul>
+<li>无意识的 - 由于经验的缺乏导致初级开发者编写了质量低劣的代码</li>
+<li>有意识的 - 团队根据当前而非未来进行设计选型，这种方式能很快解决当前的问题，但却很拙劣</li>
+</ul>
+
+<p>现象主要围绕着下面几点：</p>
+
+<ul>
+<li>重复</li>
+<li>糟糕的复杂性分布</li>
+<li>意大利面式设计风格</li>
+<li>缺少单元测试</li>
+<li>缺乏代码标准</li>
+<li>潜在的bug</li>
+<li>注释不足或过多</li>
+</ul>
+
+<p><strong>技术债务的处理：</strong></p>
+
+<p>在企业的DevOps建设过程中，我们可以基于持续集成的代码构建和自动化分析, 通过很多不同的维度评价代码设计的内部质量 。 可以通过Sonar质量度量平台，实现代码设计质量的持续监控，包括对代码复杂度、重复度、代码风格、单元测试、测试覆盖率的监控等。促进技术债务的及时处理，从而提高软件系统的总体开发运维效益。</p>
+
+<h2 id="sonarqube">SonarQube</h2>
+
+<h3 id="介绍">介绍</h3>
+
+<p>SonarQube是一个开源的代码质量管理系统。</p>
+
+<p><strong>特性：</strong></p>
+
+<ul>
+<li>支持超过25种编程语言。</li>
+<li>提供重复代码、编码标准、单元测试、代码覆盖率、代码复杂度、潜在Bug、注释和软件设计报告。</li>
+<li>提供了指标历史记录、计划图和微分查看。</li>
+<li>提供了完全自动化的分析：与Maven、Ant、Gradle和持续集成工具（例如Jenkins）。</li>
+<li>可以与Eclipse，IDEA等开发环境集成。</li>
+<li>可以与JIRA、Mantis、LDAP、Fortify等外部工具集集成。</li>
+<li>支持扩展插件。</li>
+</ul>
+
+<h3 id="架构">架构</h3>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/78547295-716e3500-7831-11ea-9dd2-87cca4c1c4f6.png" alt="image" /></p>
+
+<p>SonarQube平台由4个组件组成：</p>
+
+<ol>
+<li>SonarQube Server：
+
+<ul>
+<li>SonarQube Web服务器：供开发者、管理人员浏览质量指标和进行SonarQube的配置</li>
+<li>基于Elasticsearch的搜索</li>
+<li>Compute Engine：负责处理代码分析报告并将其保存在SonarQube数据库中</li>
+</ul></li>
+<li>SonarQube Database： 存储SonarQube的配置与质量报告，各种视图数据</li>
+<li>SonarQube Plugins：SonarQube插件支持，包括开发语言，SCM，持续集成，安全认证等</li>
+<li>SonarQube Scanner：在构建/持续集成服务器上运行一个或多个SonarScanner，以分析项目</li>
+</ol>
+
+<h3 id="工作流程">工作流程</h3>
+
+<p><img src="https://docs.sonarqube.org/latest/images/architecture-integrate.png" alt="img" /></p>
+
+<p>上图可以看出SonarQube各组件的工作流程：</p>
+
+<ol>
+<li>开发者在IDE中编码，可以使用SonarLint执行本地代码分析</li>
+<li>开发者向SCM（Git，SVN，TFVC等）提交代码</li>
+<li>代码提交触发持续集成平台（如Jenkins等）自动构建，执行SonarQube Scanner进行分析</li>
+<li>持续集成平台将分析报告发送到SonarQube Server进行处理</li>
+<li>SonarQube Server处理好的分析报告生成对应可视化的视图并保存数据到数据库</li>
+<li>开发者可以在SonarQube UI进行查看，评论，通过解决问题来管理和减少技术债</li>
+<li>SonarQube支持导出报表，使用API提取数据，基于JMX的监控</li>
+</ol>
+
+<h3 id="基础概念">基础概念</h3>
+
+<ul>
+<li>指标：指标的定义主要有复杂度，重复项，问题，可维护性，安全性，复杂度，测试覆盖率等。</li>
+<li>代码分析规则：SonarQube中可以通过插件提供的规则对代码进行分析并生成问题。规则中定义了修复问题的成本（时间），解决问题的代价以及技术债可以通过这些问题进行计算。规则一般有三种类型：可靠性（Bug），可维护性（坏味道），安全性（漏洞）。</li>
+<li>质量阈 ： 质量阈是一系列对项目指标进行度量的条件形成的阈值。</li>
+</ul>
+
+<h3 id="部署">部署</h3>
+
+<p>具体部署方式可以参考官方文档：<a href="https://docs.sonarqube.org/latest/setup/overview/">https://docs.sonarqube.org/latest/setup/overview/ </a></p>
+
+<p>简单便捷，小规模使用可以基于docker compose部署，如下所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 镜像拉取与基础目录创建</span>
+docker pull sonarqube:8.2-community
+docker pull postgres:12
+mkdir -p /opt/sonarqube-data/<span class="o">{</span>conf,data,logs,extensions,postgresql,postgresql-data<span class="o">}</span>
+chmod -R <span class="m">777</span> /opt/sonarqube-data
+<span class="c1"># 启动</span>
+docker-compose -f sonar-docker-compose.yml up -d</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile">version: <span class="s2">&#34;3&#34;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>services:<span class="err">
+</span><span class="err"></span>  sonarqube:<span class="err">
+</span><span class="err"></span>    image: sonarqube:8.2-community<span class="err">
+</span><span class="err"></span>    ports:<span class="err">
+</span><span class="err"></span>      - <span class="s2">&#34;9000:9000&#34;</span><span class="err">
+</span><span class="err"></span>    networks:<span class="err">
+</span><span class="err"></span>      - sonarnet<span class="err">
+</span><span class="err"></span>    environment:<span class="err">
+</span><span class="err"></span>      - sonar.jdbc.url<span class="o">=</span>jdbc:postgresql://db:5432/sonar?useUnicode<span class="o">=</span>true<span class="p">&amp;</span><span class="nv">characterEncoding</span><span class="o">=</span>utf8<span class="p">&amp;</span><span class="nv">rewriteBatchedStatements</span><span class="o">=</span>true<span class="p">&amp;</span><span class="nv">useConfigs</span><span class="o">=</span>maxPerformance<span class="p">&amp;</span><span class="nv">useSSL</span><span class="o">=</span>false<span class="s2">&#34;</span><span class="err">
+</span><span class="err"></span>      - sonar.jdbc.username<span class="o">=</span>sonar<span class="err">
+</span><span class="err"></span>      - sonar.jdbc.password<span class="o">=</span>sonar<span class="err">
+</span><span class="err"></span>    restart: always<span class="err">
+</span><span class="err"></span>    volumes:<span class="err">
+</span><span class="err"></span>      - sonarqube_conf:/opt/sonarqube/conf<span class="err">
+</span><span class="err"></span>      - sonarqube_data:/opt/sonarqube/data<span class="err">
+</span><span class="err"></span>      - sonarqube_extensions:/opt/sonarqube/extensions<span class="err">
+</span><span class="err">
+</span><span class="err"></span>  db:<span class="err">
+</span><span class="err"></span>    image: postgres:12<span class="err">
+</span><span class="err"></span>    networks:<span class="err">
+</span><span class="err"></span>      - sonarnet<span class="err">
+</span><span class="err"></span>    environment:<span class="err">
+</span><span class="err"></span>      - <span class="nv">POSTGRES_USER</span><span class="o">=</span>sonar<span class="err">
+</span><span class="err"></span>      - <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>sonar<span class="err">
+</span><span class="err"></span>    restart: always<span class="err">
+</span><span class="err"></span>    volumes:<span class="err">
+</span><span class="err"></span>      - postgresql:/var/lib/postgresql<span class="err">
+</span><span class="err"></span>      - postgresql_data:/var/lib/postgresql/data<span class="err">
+</span><span class="err">
+</span><span class="err"></span>networks:<span class="err">
+</span><span class="err"></span>  sonarnet:<span class="err">
+</span><span class="err"></span>    driver: bridge<span class="err">
+</span><span class="err">
+</span><span class="err"></span>volumes:<span class="err">
+</span><span class="err"></span>  sonarqube_conf:<span class="err">
+</span><span class="err"></span>  sonarqube_data:<span class="err">
+</span><span class="err"></span>  sonarqube_extensions:<span class="err">
+</span><span class="err"></span>  postgresql:<span class="err">
+</span><span class="err"></span>  postgresql_data:</code></pre></td></tr></table>
+</div>
+</div>
+<h2 id="jenkins集成sonarqube">Jenkins集成SonarQube</h2>
+
+<p>利用Jenkins集成SonarQube可以实现在持续集成过程中的利用SonarQube Scanner进行静态代码分析。</p>
+
+<h3 id="静态代码分析">静态代码分析</h3>
+
+<h4 id="前置准备">前置准备</h4>
+
+<ol>
+<li>Jenkins安装插件：SonarQube Scanner for Jenkins</li>
+<li>系统设置—&gt;配置—&gt;SonarQube servers中对SonarQube server进行配置</li>
+</ol>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/78802952-fd7a8b00-79f0-11ea-9bf9-172da4429214.png" alt="图片" /></p>
+
+<p>注意：server authentication token为SonarQube用户生成的token，类型为Secret text。</p>
+
+<ol>
+<li>系统管理—&gt;全局工具配置—&gt;SonarQube Scanner配置</li>
+</ol>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/78691524-4b2cc000-792b-11ea-929b-18df5d3b136e.png" alt="图片" /></p>
+
+<ol>
+<li>代码库的根目录创建sonar-project.properties</li>
+</ol>
+
+<p>这里使用的项目以美团开源的Leaf为例子，项目目录如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">├── Leaf
+│   ├── leaf-core
+│   ├── leaf-server</pre></td></tr></table>
+</div>
+</div>
+<p>sonar-project.properties配置文件配置如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">sonar.projectKey=Leaf
+sonar.projectName=Leaf
+sonar.projectVersion=0.0.1
+sonar.sources=src/main/java
+sonar.java.binaries=target/classes
+sonar.java.source=1.8
+sonar.java.target=1.8
+sonar.language=java
+sonar.sourceEncoding=UTF-8
+sonar.modules=leaf-core,leaf-server</pre></td></tr></table>
+</div>
+</div>
+<p>参考SonarQube文档：<a href="https://docs.sonarqube.org/latest/analysis/languages/java/">https://docs.sonarqube.org/latest/analysis/languages/java/</a></p>
+
+<h4 id="pipeline配置">Pipeline配置</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">stage</span><span class="o">(</span><span class="s1">&#39;拉取代码，构建&#39;</span><span class="o">)</span> <span class="o">{</span>
+    <span class="o">...</span>
+<span class="o">}</span> 
+<span class="n">stage</span><span class="o">(</span><span class="s1">&#39;静态代码扫描&#39;</span><span class="o">)</span> <span class="o">{</span>
+         <span class="n">steps</span> <span class="o">{</span>
+            <span class="n">script</span> <span class="o">{</span><span class="n">scannerHome</span> <span class="o">=</span> <span class="n">tool</span> <span class="s1">&#39;SonarQube Scanner&#39;</span><span class="o">}</span>
+            <span class="n">withSonarQubeEnv</span><span class="o">(</span><span class="s1">&#39;SonarQube-Dev&#39;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">sh</span> <span class="s2">&#34;${scannerHome}/bin/sonar-scanner&#34;</span>
+            <span class="o">}</span>
+            
+         <span class="o">}</span>
+      <span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>构建成功，SonarQube Scanner扫描完成后可以在SonarQube服务器看见对应项目的报表如下：</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/78804531-d3c26380-79f2-11ea-96b0-0941b89bc778.png" alt="图片" /></p>
+
+<h3 id="测试覆盖率控制">测试覆盖率控制</h3>
+
+<h4 id="关于jacoco">关于Jacoco</h4>
+
+<p>jacoco是一个开源的覆盖率工具，可以嵌入到 Ant 、Maven 中使用，提供了Eclipse与IDEA插件，也可以使用 Java Agent 技术监控 Java 程序，第三方自动化工具如SonarQube，Jenkins也对jacoco提供了很好的支持。</p>
+
+<p><strong>代码覆盖（Code coverage）</strong>是软件测试中的一种度量，描述程序中源代码被测试的比例和程度。</p>
+
+<p>Jacoco 包含了多种尺度的覆盖率计数器,包含指令级（Instructions,C0 coverage），分支（Branches,C1 coverage）、圈复杂度（Cyclomatic Complexity）、行（Lines）、方法（Non-abstract Methods）、类（Classes）。</p>
+
+<ul>
+<li>Instructions：Jacoco 计算的最小单位是字节码指令。指令覆盖率表明了在所有的指令中，哪些被执行过以及哪些没有被执行。这项指数完全独立于源码格式并且在任何情况下有效，不需要类文件的调试信息。</li>
+<li>Branches：Jacoco 对所有的 if 和 switch 指令计算了分支覆盖率。这项指标会统计所有的分支数量，并同时支出哪些分支被执行，哪些分支没有被执行。这项指标也在任何情况都有效。异常处理不考虑在分支范围内。</li>
+<li>Cyclomatic Complexity：Jacoco 为每个非抽象方法计算圈复杂度，并也会计算每个类、包、组的复杂度。根据 McCabe 1996 的定义，圈复杂度可以理解为覆盖所有的可能情况最少使用的测试用例数。这项参数也在任何情况下有效。</li>
+<li>Lines：该项指数在有调试信息的情况下计算。</li>
+<li>Methods：每一个非抽象方法都至少有一条指令。若一个方法至少被执行了一条指令，就认为它被执行过。因为 Jacoco 直接对字节码进行操作，所以有些方法没有在源码显示（比如某些构造方法和由编译器自动生成的方法）也会被计入在内。</li>
+<li>Classes：每个类中只要有一个方法被执行，这个类就被认定为被执行。同 Methods一样，有些没有在源码声明的方法被执行，也认定该类被执行。</li>
+</ul>
+
+<h4 id="前置准备-1">前置准备</h4>
+
+<ol>
+<li>Jenkins安装插件JaCoCo plugin。</li>
+<li>maven配置jacoco插件</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;plugin&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.jacoco<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>jacoco-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;version&gt;</span>0.7.5.201505241946<span class="nt">&lt;/version&gt;</span>
+                <span class="nt">&lt;executions&gt;</span>
+                    <span class="nt">&lt;execution&gt;</span>
+                        <span class="nt">&lt;id&gt;</span>pre-unit-test<span class="nt">&lt;/id&gt;</span>
+                        <span class="nt">&lt;goals&gt;</span>
+                            <span class="nt">&lt;goal&gt;</span>prepare-agent<span class="nt">&lt;/goal&gt;</span>
+                        <span class="nt">&lt;/goals&gt;</span>
+                        <span class="nt">&lt;configuration&gt;</span>
+                            <span class="nt">&lt;destFile&gt;</span>
+                                ${project.build.directory}/${project.artifactId}-jacoco.exec
+                            <span class="nt">&lt;/destFile&gt;</span>
+                        <span class="nt">&lt;/configuration&gt;</span>
+                    <span class="nt">&lt;/execution&gt;</span>
+                    <span class="nt">&lt;execution&gt;</span>
+                        <span class="nt">&lt;id&gt;</span>post-unit-test<span class="nt">&lt;/id&gt;</span>
+                        <span class="nt">&lt;phase&gt;</span>test<span class="nt">&lt;/phase&gt;</span>
+                        <span class="nt">&lt;goals&gt;</span>
+                            <span class="nt">&lt;goal&gt;</span>report<span class="nt">&lt;/goal&gt;</span>
+                        <span class="nt">&lt;/goals&gt;</span>
+                        <span class="nt">&lt;configuration&gt;</span>
+                            <span class="nt">&lt;dataFile&gt;</span>
+                                ${project.build.directory}/${project.artifactId}-jacoco.exec
+                            <span class="nt">&lt;/dataFile&gt;</span>
+                            <span class="nt">&lt;outputDirectory&gt;</span>${project.build.directory}/jacoco<span class="nt">&lt;/outputDirectory&gt;</span>
+                        <span class="nt">&lt;/configuration&gt;</span>
+                    <span class="nt">&lt;/execution&gt;</span>
+                <span class="nt">&lt;/executions&gt;</span>
+            <span class="nt">&lt;/plugin&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>该配置会在当前目录下的target目录产生一个jacoco.exec文件，该文件就是覆盖率的文件，相关的报表输出文件为当前目录下的target/jacoco目录。由于绑定了maven test生命周期，可以执行如下命令进行覆盖率文件与报表生成：<code>mvn clean test -Dmaven.test.failure.ignore=true</code></p>
+
+<h4 id="pipeline配置-1">pipeline配置</h4>
+
+<p>pipeline脚本如下所示，其中jacoco对覆盖率指标进行阈值设置，可参考pipeline-syntax进行配置，由于我们使用了SonarQube作为质量管理系统，对于覆盖率指标的把控也可以使用SonarQube的质量阈进行控制。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">stage</span><span class="o">(</span><span class="s1">&#39;代码覆盖率分析&#39;</span><span class="o">)</span> <span class="o">{</span>
+         <span class="n">steps</span> <span class="o">{</span>
+            
+           <span class="n">withMaven</span><span class="o">(</span><span class="nl">maven:</span> <span class="s1">&#39;maven3.6.3&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">sh</span> <span class="s1">&#39;mvn clean test -Dmaven.test.failure.ignore=true&#39;</span>
+            <span class="o">}</span>
+            
+            <span class="n">jacoco</span><span class="o">(</span>
+                <span class="nl">buildOverBuild:</span> <span class="kc">false</span><span class="o">,</span>
+                <span class="c1">//未达到要求修改pipeline的status为fail
+</span><span class="c1"></span>                <span class="nl">changeBuildStatus:</span> <span class="kc">true</span><span class="o">,</span> 
+                <span class="c1">//各种尺度指标阈值
+</span><span class="c1"></span>                <span class="nl">maximumBranchCoverage:</span> <span class="s1">&#39;80&#39;</span><span class="o">,</span> 
+                <span class="nl">maximumClassCoverage:</span> <span class="s1">&#39;80&#39;</span><span class="o">,</span> 
+                <span class="nl">maximumComplexityCoverage:</span> <span class="s1">&#39;80&#39;</span><span class="o">,</span> 
+                <span class="nl">maximumLineCoverage:</span> <span class="s1">&#39;80&#39;</span><span class="o">,</span> 
+                <span class="nl">maximumMethodCoverage:</span> <span class="s1">&#39;80&#39;</span><span class="o">,</span> 
+                <span class="nl">minimumBranchCoverage:</span> <span class="s1">&#39;50&#39;</span><span class="o">,</span> 
+                <span class="nl">minimumClassCoverage:</span> <span class="s1">&#39;50&#39;</span><span class="o">,</span> 
+                <span class="nl">minimumComplexityCoverage:</span> <span class="s1">&#39;50&#39;</span><span class="o">,</span> 
+                <span class="nl">minimumLineCoverage:</span> <span class="s1">&#39;50&#39;</span><span class="o">,</span> 
+                <span class="nl">minimumMethodCoverage:</span> <span class="s1">&#39;50&#39;</span><span class="o">,</span> 
+                <span class="nl">sourceInclusionPattern:</span> <span class="s1">&#39;**/*.java&#39;</span>
+            <span class="o">)</span>
+         <span class="o">}</span>
+      <span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>运行后在Jenkins上的Coverage Report可以查看到对应的覆盖率报告：</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/78918015-4f3f1600-7ac2-11ea-9a91-8c23c1dde294.png" alt="图片" /></p>
+
+<h4 id="单元测试覆盖率统计数据上报sonarqube">单元测试覆盖率统计数据上报SonarQube</h4>
+
+<p>需要在sonar-project.properties配置文件里配置jacoco报表，surefire报表路径，如下所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"># 配置junit单元测试源码与报表
+sonar.tests=src/test
+sonar.java.test.binaries=target/test-classes
+sonar.junit.reportsPaths=target/surefire-reports
+# 配置jacoco相关
+sonar.java.coveragePlugin=jacoco
+sonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco.xml
+
+# 如果仅需要扫描某个模块，可以设置为xmodule.sonar.surefire.reportsPath=target/surefire-reports...</pre></td></tr></table>
+</div>
+</div>
+<p>参考sonarQube文档：<a href="https://docs.sonarqube.org/latest/analysis/coverage/">https://docs.sonarqube.org/latest/analysis/coverage/</a></p>
+
+<p>最终效果如下：</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/79045392-70784180-7c3d-11ea-940b-393671068f34.png" alt="图片" /></p>
+
+<h2 id="sonarqube推动代码质量持续优化">SonarQube推动代码质量持续优化</h2>
+
+<p>上文说明了如何利用SonarQube结合Jenkins在pipeline中进行静态代码检测与测试覆盖率检测，在实际的开发中我们可以基于Git-Flow分支模型，通过Git的Webhook结合Jenkins，SonarQube质量阈，在CI中利用SonarQube推动代码质量的持续优化，具体流程如下所示。</p>
+
+<h4 id="具体流程">具体流程</h4>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/79062858-43c13a00-7cd0-11ea-9266-2f6535620c1f.png" alt="图片" /></p>
+
+<ol>
+<li>工程师完成特性分支的开发，将代码推送到远程服务器上</li>
+<li>Git 服务器 根据配置的Webhook 回调通知Jenkins服务器</li>
+<li>Jenkins服务器SonarQube 质量分析Job执行（可以基于Git-flow的工作流，过滤特定的分支如test/develop提交时才进行执行）</li>
+<li>Jenkins 通过SonarQube Scanner 插件分析代码</li>
+<li>Jenkins将分析产生的报告结果发送到SonarQube服务器上</li>
+<li>SonarQube服务器对接收到的分析报告进行可视化，存储以及质量阈的校验</li>
+<li>SonarQube服务器回调通知Jenkins质量阈状态</li>
+<li>当质量阈状态为失败时，Jenkins将结果对工程师进行通知</li>
+</ol>
+
+<h4 id="具体操作">具体操作</h4>
+
+<ol>
+<li>Generic Webhook Trigger配置</li>
+</ol>
+
+<p>Jenkins安装 Generic Webhook Trigger插件，该插件可以接收任何HTTP请求，然后从JSON或XML中提取任何值，并使用这些值作为变量来触发作业。一般用来配合GitHub，GitLab，Bitbucket，Jira等的Webhook一起使用。</p>
+
+<p>job勾选构建触发器Generic Webhook Trigger选项，设置token，如图所示：</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/79059727-0ea4ef80-7cb0-11ea-9fdf-89aa11d80983.png" alt="图片" /></p>
+
+<p>以Gitlab，Gitee或者Github的代码仓库WebHooks配置Jenkins Generic Webhook Trigger的回调地址 （http://[JenkinsIP]/generic-webhook-trigger/invoke?token=gitee-leaf-sonar-token)。以码云为例子，可以选择如下几个触发事件，当事件触发时回调我们的Jenkins 地址，触发job执行。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/79060087-a7893a00-7cb3-11ea-9cce-72181fb9d373.png" alt="图片" /></p>
+
+<p>参考文档：<a href="https://plugins.jenkins.io/generic-webhook-trigger/">https://plugins.jenkins.io/generic-webhook-trigger/</a></p>
+
+<ol>
+<li>Generic Webhook Trigger指定分支触发</li>
+</ol>
+
+<p>一般情况下，我们都会基于分支模型进行开发，例如常见的有git-flow分支模型。基于git-flow分支模型，我们可以在feature分支合并到develop/test的时候（特性分支提测的时候），触发Jenkins Job执行，确保在上线正式/灰度环境之前代码已经通过了SonarQube 质量阈。</p>
+
+<p>以Gitee为例子，触发事件发送请求，请求的body里包含了本次提交的一些信息，其中<code>&quot;ref&quot;: &quot;refs/heads/test&quot;</code>,表示本次提交的分支。有了这个信息，可以通过Generic Webhook Trigger的Post content parameters将请求体中的ref内容提取出来通过表达式<code>Expression</code>赋给$ref。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/79060459-beca2680-7cb7-11ea-86ce-bb9bcc65462e.png" alt="图片" /></p>
+
+<p>在Optional filter中 Expression 填写正则，Text 填写我们刚刚设置的变量 $ref进行匹配，如下所示对test分支进行了匹配，实现指定分支触发job的目的。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/79060490-27190800-7cb8-11ea-962b-368493256be7.png" alt="图片" /></p>
+
+<ol>
+<li>SonarQube配置Jenkins webhook</li>
+</ol>
+
+<p>这里用于在Sonarqube完成扫描后，通知Jenkins扫描结果，参考文档：<a href="https://docs.sonarqube.org/latest/project-administration/webhooks/">https://docs.sonarqube.org/latest/project-administration/webhooks/</a></p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/79046553-3e1e1280-7c44-11ea-8005-38d36fd0fe37.png" alt="图片" /></p>
+
+<p><a href="https://www.cnblogs.com/hackyo/p/10149171.html-/">https://www.cnblogs.com/hackyo/p/10149171.html-/</a></p>
+
+<ol>
+<li>Jenkins配置Quality Gates - Sonarqube</li>
+</ol>
+
+<p>Jenkins安装Sonar Quality Gates 插件，通过此插件可以让Jenkins等待SonarQube分析完成并返回质量阈状态 。当返回为Fail时，我们可以aborted 对应的job并进行通知操作。在 Jenkins的Manage Jenkins -&gt; Configure System -&gt; Quality Gates - Sonarqube，对其进行设置。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/79047205-cf42b880-7c47-11ea-87e5-48cbb20a6d22.png" alt="图片" /></p>
+
+<ol>
+<li>配置质量阈</li>
+</ol>
+
+<p>在SonarQube质量阈界面对指标进行配置，并分配到项目上。</p>
+
+<ol>
+<li>pipeline脚本如下</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+   <span class="n">agent</span> <span class="n">any</span>
+   <span class="n">stages</span> <span class="o">{</span>
+      <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;拉取代码&#39;</span><span class="o">)</span> <span class="o">{</span>
+         <span class="n">steps</span> <span class="o">{</span>
+            <span class="n">git</span> <span class="nl">branch:</span> <span class="s1">&#39;test&#39;</span><span class="o">,</span> 
+            <span class="nl">credentialsId:</span> <span class="s1">&#39;5c5a2fae-5468-472a-a4d5-0934dd311fd5&#39;</span><span class="o">,</span> 
+            <span class="nl">url:</span> <span class="s1">&#39;git@gitee.com:**/***.git&#39;</span>
+         <span class="o">}</span>
+      <span class="o">}</span>
+      
+      <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;构建&#39;</span><span class="o">)</span> <span class="o">{</span>
+         <span class="n">steps</span> <span class="o">{</span>
+           <span class="n">withMaven</span><span class="o">(</span><span class="nl">maven:</span> <span class="s1">&#39;maven3.6.3&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">sh</span> <span class="s1">&#39;mvn clean package -Dmaven.test.skip=true&#39;</span>
+            <span class="o">}</span>
+         <span class="o">}</span>
+      <span class="o">}</span>
+      
+      <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;代码覆盖率分析&#39;</span><span class="o">)</span> <span class="o">{</span>
+         <span class="n">steps</span> <span class="o">{</span>
+           <span class="n">withMaven</span><span class="o">(</span><span class="nl">maven:</span> <span class="s1">&#39;maven3.6.3&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">sh</span> <span class="s1">&#39;mvn clean test -Dmaven.test.failure.ignore=true&#39;</span>
+            <span class="o">}</span>
+         <span class="o">}</span>
+      <span class="o">}</span>
+      
+      <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;静态代码扫描&#39;</span><span class="o">)</span> <span class="o">{</span>
+         <span class="n">steps</span> <span class="o">{</span>
+            <span class="n">script</span> <span class="o">{</span><span class="n">scannerHome</span> <span class="o">=</span> <span class="n">tool</span> <span class="s1">&#39;SonarQube Scanner&#39;</span><span class="o">}</span>
+            <span class="n">withSonarQubeEnv</span><span class="o">(</span><span class="s1">&#39;SonarQube-Dev&#39;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">sh</span> <span class="s2">&#34;${scannerHome}/bin/sonar-scanner&#34;</span>
+            <span class="o">}</span>
+            
+         <span class="o">}</span>
+      <span class="o">}</span>
+      
+      <span class="n">stage</span><span class="o">(</span><span class="s2">&#34;质量阈校验&#34;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span>
+              <span class="n">timeout</span><span class="o">(</span><span class="nl">time:</span> <span class="mi">1</span><span class="o">,</span> <span class="nl">unit:</span> <span class="s1">&#39;HOURS&#39;</span><span class="o">)</span> <span class="o">{</span>
+                 <span class="n">script</span><span class="o">{</span>
+                        <span class="c1">// Wait for SonarQube analysis to be completed and return quality gate status
+</span><span class="c1"></span>                        <span class="kt">def</span> <span class="n">qg</span> <span class="o">=</span> <span class="n">waitForQualityGate</span><span class="o">();</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">qg</span><span class="o">.</span><span class="na">status</span> <span class="o">!=</span> <span class="s1">&#39;OK&#39;</span><span class="o">)</span> <span class="o">{</span>
+                             <span class="n">error</span> <span class="s2">&#34;Pipeline aborted due to quality gate failure: ${qg.status}&#34;</span>
+                             <span class="c1">//进行消息通知，可以通过SonarQube Web API获取具体失败信息
+</span><span class="c1"></span>                        <span class="o">}</span>
+                 <span class="o">}</span>
+            <span class="o">}</span>
+         <span class="o">}</span>
+      <span class="o">}</span>
+   <span class="o">}</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2020-04-12
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/sonarqube/">SonarQube</a>
+          <a href="/tags/devops/">DevOps</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/java-asyncprogram/">
+            <span class="next-text nav-default">Java技术域中的异步编程</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+
+</body>
+</html>

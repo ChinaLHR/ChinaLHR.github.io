@@ -13,10 +13,10 @@
     
     <item>
       <title>Web接口幂等性</title>
-      <link>https://chinalhr.github.io/post/interface_idempotent/</link>
+      <link>https://chinalhr.github.io/post/interface-idempotent/</link>
       <pubDate>Mon, 08 Jul 2019 23:47:37 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/interface_idempotent/</guid>
+      <guid>https://chinalhr.github.io/post/interface-idempotent/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;生成环境中Web接口幂等性保证实践记录&lt;/p&gt;
 &lt;/blockquote&gt;</description>

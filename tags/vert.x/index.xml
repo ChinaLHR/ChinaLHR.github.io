@@ -13,10 +13,10 @@
     
     <item>
       <title>Vertx Kotlin协程</title>
-      <link>https://chinalhr.github.io/post/vertx_kotlin_coroutine/</link>
+      <link>https://chinalhr.github.io/post/vertx-kotlin-coroutine/</link>
       <pubDate>Thu, 23 May 2019 21:59:46 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/vertx_kotlin_coroutine/</guid>
+      <guid>https://chinalhr.github.io/post/vertx-kotlin-coroutine/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Vert.x 利用 Kotlin协程特性优雅编写异步逻辑&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -24,10 +24,10 @@
     
     <item>
       <title>Vert.x Web Record</title>
-      <link>https://chinalhr.github.io/post/vertx02/</link>
+      <link>https://chinalhr.github.io/post/vertx-record-2/</link>
       <pubDate>Sat, 06 Apr 2019 23:56:26 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/vertx02/</guid>
+      <guid>https://chinalhr.github.io/post/vertx-record-2/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Vert.x 官方文档阅读&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -35,10 +35,10 @@
     
     <item>
       <title>Vert.x Core Record</title>
-      <link>https://chinalhr.github.io/post/vertx01/</link>
+      <link>https://chinalhr.github.io/post/vertx-record-1/</link>
       <pubDate>Tue, 02 Apr 2019 22:01:56 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/vertx01/</guid>
+      <guid>https://chinalhr.github.io/post/vertx-record-1/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Vert.x 官方文档阅读&lt;/p&gt;
 &lt;/blockquote&gt;</description>
