@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="LHR" /><meta name="description" content=" 在CI中利用SonarQube推动代码质量的持续优化的实践
+<meta name="author" content="LHR" /><meta name="description" content=" 在持续集成中利用SonarQube推动代码质量的持续优化的实践
 " /><meta name="keywords" content="Hugo, theme, even" />
 
 
@@ -41,7 +41,7 @@
 
 <meta property="og:title" content="DevOps流程中使用SonarQube推动代码质量优化" />
 <meta property="og:description" content="
-在CI中利用SonarQube推动代码质量的持续优化的实践
+在持续集成中利用SonarQube推动代码质量的持续优化的实践
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/devops-sonar-practice/" /><meta property="article:published_time" content="2020-04-12T15:28:21&#43;08:00"/>
@@ -49,13 +49,13 @@
 
 <meta itemprop="name" content="DevOps流程中使用SonarQube推动代码质量优化">
 <meta itemprop="description" content="
-在CI中利用SonarQube推动代码质量的持续优化的实践
+在持续集成中利用SonarQube推动代码质量的持续优化的实践
 ">
 
 
 <meta itemprop="datePublished" content="2020-04-12T15:28:21&#43;08:00" />
 <meta itemprop="dateModified" content="2020-04-12T15:28:21&#43;08:00" />
-<meta itemprop="wordCount" content="6327">
+<meta itemprop="wordCount" content="6329">
 
 
 
@@ -63,7 +63,7 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="DevOps流程中使用SonarQube推动代码质量优化"/>
 <meta name="twitter:description" content="
-在CI中利用SonarQube推动代码质量的持续优化的实践
+在持续集成中利用SonarQube推动代码质量的持续优化的实践
 "/>
 
 <!--[if lte IE 9]>
@@ -146,7 +146,7 @@
         <div class="post-category">
             <a href="/categories/devops/"> DevOps </a>
             </div>
-          <span class="more-meta"> 6327 words </span>
+          <span class="more-meta"> 6329 words </span>
           <span class="more-meta"> 13 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -199,7 +199,7 @@
 </div>
     <div class="post-content">
       <blockquote>
-<p>在CI中利用SonarQube推动代码质量的持续优化的实践</p>
+<p>在持续集成中利用SonarQube推动代码质量的持续优化的实践</p>
 </blockquote>
 
 <h2 id="devops">DevOps</h2>
@@ -422,24 +422,25 @@ docker-compose -f sonar-docker-compose.yml up -d</code></pre></td></tr></table>
 
 <h4 id="前置准备">前置准备</h4>
 
-<ol>
-<li>Jenkins安装插件：SonarQube Scanner for Jenkins</li>
-<li>系统设置—&gt;配置—&gt;SonarQube servers中对SonarQube server进行配置</li>
-</ol>
+<ul>
+<li><p>Jenkins安装插件：SonarQube Scanner for Jenkins</p></li>
+
+<li><p>系统设置—&gt;配置—&gt;SonarQube servers中对SonarQube server进行配置</p></li>
+</ul>
 
 <p><img src="https://user-images.githubusercontent.com/19829495/78802952-fd7a8b00-79f0-11ea-9bf9-172da4429214.png" alt="图片" /></p>
 
 <p>注意：server authentication token为SonarQube用户生成的token，类型为Secret text。</p>
 
-<ol>
+<ul>
 <li>系统管理—&gt;全局工具配置—&gt;SonarQube Scanner配置</li>
-</ol>
+</ul>
 
 <p><img src="https://user-images.githubusercontent.com/19829495/78691524-4b2cc000-792b-11ea-929b-18df5d3b136e.png" alt="图片" /></p>
 
-<ol>
+<ul>
 <li>代码库的根目录创建sonar-project.properties</li>
-</ol>
+</ul>
 
 <p>这里使用的项目以美团开源的Leaf为例子，项目目录如下：</p>
 <div class="highlight"><div class="chroma">
@@ -539,10 +540,11 @@ sonar.modules=leaf-core,leaf-server</pre></td></tr></table>
 
 <h4 id="前置准备-1">前置准备</h4>
 
-<ol>
-<li>Jenkins安装插件JaCoCo plugin。</li>
-<li>maven配置jacoco插件</li>
-</ol>
+<ul>
+<li><p>Jenkins安装插件JaCoCo plugin。</p></li>
+
+<li><p>maven配置jacoco插件</p></li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt"> 1
@@ -732,9 +734,9 @@ sonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco.xml
 
 <h4 id="具体操作">具体操作</h4>
 
-<ol>
+<ul>
 <li>Generic Webhook Trigger配置</li>
-</ol>
+</ul>
 
 <p>Jenkins安装 Generic Webhook Trigger插件，该插件可以接收任何HTTP请求，然后从JSON或XML中提取任何值，并使用这些值作为变量来触发作业。一般用来配合GitHub，GitLab，Bitbucket，Jira等的Webhook一起使用。</p>
 
@@ -748,9 +750,9 @@ sonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco.xml
 
 <p>参考文档：<a href="https://plugins.jenkins.io/generic-webhook-trigger/">https://plugins.jenkins.io/generic-webhook-trigger/</a></p>
 
-<ol>
+<ul>
 <li>Generic Webhook Trigger指定分支触发</li>
-</ol>
+</ul>
 
 <p>一般情况下，我们都会基于分支模型进行开发，例如常见的有git-flow分支模型。基于git-flow分支模型，我们可以在feature分支合并到develop/test的时候（特性分支提测的时候），触发Jenkins Job执行，确保在上线正式/灰度环境之前代码已经通过了SonarQube 质量阈。</p>
 
@@ -762,9 +764,9 @@ sonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco.xml
 
 <p><img src="https://user-images.githubusercontent.com/19829495/79060490-27190800-7cb8-11ea-962b-368493256be7.png" alt="图片" /></p>
 
-<ol>
+<ul>
 <li>SonarQube配置Jenkins webhook</li>
-</ol>
+</ul>
 
 <p>这里用于在Sonarqube完成扫描后，通知Jenkins扫描结果，参考文档：<a href="https://docs.sonarqube.org/latest/project-administration/webhooks/">https://docs.sonarqube.org/latest/project-administration/webhooks/</a></p>
 
@@ -772,23 +774,23 @@ sonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco.xml
 
 <p><a href="https://www.cnblogs.com/hackyo/p/10149171.html-/">https://www.cnblogs.com/hackyo/p/10149171.html-/</a></p>
 
-<ol>
+<ul>
 <li>Jenkins配置Quality Gates - Sonarqube</li>
-</ol>
+</ul>
 
 <p>Jenkins安装Sonar Quality Gates 插件，通过此插件可以让Jenkins等待SonarQube分析完成并返回质量阈状态 。当返回为Fail时，我们可以aborted 对应的job并进行通知操作。在 Jenkins的Manage Jenkins -&gt; Configure System -&gt; Quality Gates - Sonarqube，对其进行设置。</p>
 
 <p><img src="https://user-images.githubusercontent.com/19829495/79047205-cf42b880-7c47-11ea-87e5-48cbb20a6d22.png" alt="图片" /></p>
 
-<ol>
+<ul>
 <li>配置质量阈</li>
-</ol>
+</ul>
 
 <p>在SonarQube质量阈界面对指标进行配置，并分配到项目上。</p>
 
-<ol>
+<ul>
 <li>pipeline脚本如下</li>
-</ol>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="lnt"> 1
