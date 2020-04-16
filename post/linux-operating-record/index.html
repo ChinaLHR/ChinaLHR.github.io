@@ -55,7 +55,7 @@
 
 <meta itemprop="datePublished" content="2019-04-19T22:59:11&#43;08:00" />
 <meta itemprop="dateModified" content="2019-04-19T22:59:11&#43;08:00" />
-<meta itemprop="wordCount" content="9119">
+<meta itemprop="wordCount" content="9904">
 
 
 
@@ -150,8 +150,8 @@
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"> 编程-操作系统 </a>
             </div>
-          <span class="more-meta"> 9119 words </span>
-          <span class="more-meta"> 19 mins read </span>
+          <span class="more-meta"> 9904 words </span>
+          <span class="more-meta"> 20 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -168,6 +168,8 @@
 <li><a href="#日常操作">日常操作</a>
 <ul>
 <li><a href="#find">find</a></li>
+<li><a href="#which">which</a></li>
+<li><a href="#whereis">whereis</a></li>
 <li><a href="#ps">ps</a></li>
 <li><a href="#tail">tail</a></li>
 <li><a href="#head">head</a></li>
@@ -175,6 +177,7 @@
 <li><a href="#scp">scp</a></li>
 <li><a href="#crontab">crontab</a></li>
 <li><a href="#netstat">netstat</a></li>
+<li><a href="#telnet">telnet</a></li>
 <li><a href="#du">du</a></li>
 <li><a href="#ln">ln</a></li>
 <li><a href="#kill">kill</a></li>
@@ -207,6 +210,7 @@
 <li><a href="#nginx">Nginx</a></li>
 <li><a href="#mongodb">mongoDB</a></li>
 <li><a href="#maven">maven</a></li>
+<li><a href="#node-js">Node.js</a></li>
 <li><a href="#其他-1">其他</a></li>
 </ul></li>
 <li><a href="#链接">链接</a></li>
@@ -328,6 +332,102 @@ find /root/logs/ -name <span class="s2">&#34;*.log&#34;</span> -size +1024M -exe
 
 <p><a href="https://www.cnblogs.com/skynet/archive/2010/12/25/1916873.html">https://www.cnblogs.com/skynet/archive/2010/12/25/1916873.html</a></p>
 
+<h4 id="which">which</h4>
+
+<p>which命令的作用是在PATH变量指定的路径中，搜索某个系统命令的位置，并且返回第一个搜索结果。也就是说，使用which命令，就可以看到某个系统命令是否存在，以及执行的到底是哪一个位置的命令。</p>
+
+<ul>
+<li>格式</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">which 可执行文件名称 </pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>命令参数</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">-n 　指定文件名长度，指定的长度必须大于或等于所有文件中最长的文件名。
+-p 　与-n参数相同，但此处的包括了文件的路径。
+-w 　指定输出时栏位的宽度。
+-V 　显示版本信息</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>例子</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">which docker
+/usr/bin/docker</code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="whereis">whereis</h4>
+
+<p>whereis命令只能用于程序名的搜索，而且只搜索二进制文件（参数-b）、man说明文件（参数-m）和源代码文件（参数-s）。 whereis查找的速度很快，因为会从数据库中查找数据，而不是像find命令那样，通 过遍历硬盘来查找（注意： 数据库文件并不是实时更新，默认情况下时一星期更新一次）</p>
+
+<ul>
+<li>命令格式</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">whereis <span class="o">[</span>-bmsu<span class="o">]</span> <span class="o">[</span>BMS 目录名 -f <span class="o">]</span> 文件名</code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>命令参数</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">-b   定位可执行文件。
+-m   定位帮助文件。
+-s   定位源代码文件。
+-u   搜索默认路径下除可执行文件、源代码文件、帮助文件以外的其它文件。
+-B   指定搜索可执行文件的路径。
+-M   指定搜索帮助文件的路径。
+-S   指定搜索源代码文件的路径。</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>例子</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">whereis docker
+docker: /usr/bin/docker /etc/docker /usr/libexec/docker /usr/share/man/man1/docker.1.gz</code></pre></td></tr></table>
+</div>
+</div>
 <h4 id="ps">ps</h4>
 
 <p>ps命令用来列出系统中当前运行的那些进程。</p>
@@ -584,6 +684,23 @@ cat /etc/passwd <span class="p">|</span> cut -f <span class="m">1</span> -d : <s
 netstat -ntulp | grep 10063
 查询进程的详细信息
 ps -ef|grep 4826</pre></td></tr></table>
+</div>
+</div>
+<h4 id="telnet">telnet</h4>
+
+<p>telnet命令通常用来远程登录。telnet程序是基于TELNET协议的远程登录客户端程序。  telnet因为采用明文传送报文，安全性不好，很多Linux服务器都不开放telnet服务，而改用更安全的ssh方式。</p>
+
+<p>telnet命令除了远程登录，还被用于确定远程服务的状态，比如确定远程服务器的某个端口是否能访问</p>
+
+<ul>
+<li>命令格式</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">telnet[参数][HOST][PORT]</pre></td></tr></table>
 </div>
 </div>
 <h4 id="du">du</h4>
@@ -1913,6 +2030,41 @@ export PATH=${M2_HOME}/bin:${PATH}
 
 # 重载/etc/profile
 source /etc/profile</pre></td></tr></table>
+</div>
+</div>
+<h4 id="node-js">Node.js</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"># 确认系统是否已经安装了epel-release包
+yum info epel-release
+# 安装epel-release
+yum install epel-release
+# 安装node.js
+sudo yum install nodejs
+# 安装n（node 版本管理器）
+npm install -g n
+# 安装最新版本
+n latest
+# 安装指定版本
+n 8.11.3
+# 选择已安装的版本
+n</pre></td></tr></table>
 </div>
 </div>
 <h4 id="其他-1">其他</h4>
