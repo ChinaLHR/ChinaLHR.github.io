@@ -120,15 +120,6 @@
     </item>
     
     <item>
-      <title>RabbitMQ</title>
-      <link>https://chinalhr.github.io/tags/rabbitmq/</link>
-      <pubDate>Tue, 26 Jun 2018 21:44:54 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/rabbitmq/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Reactor</title>
       <link>https://chinalhr.github.io/tags/reactor/</link>
       <pubDate>Sun, 06 Jan 2019 22:30:19 +0800</pubDate>
@@ -255,20 +246,20 @@
     </item>
     
     <item>
-      <title>幂等性</title>
-      <link>https://chinalhr.github.io/tags/%E5%B9%82%E7%AD%89%E6%80%A7/</link>
-      <pubDate>Mon, 08 Jul 2019 23:47:37 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/tags/%E5%B9%82%E7%AD%89%E6%80%A7/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>异步编程</title>
       <link>https://chinalhr.github.io/tags/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/</link>
       <pubDate>Fri, 03 Apr 2020 19:45:19 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/tags/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>接口幂等性</title>
+      <link>https://chinalhr.github.io/tags/%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E6%80%A7/</link>
+      <pubDate>Mon, 08 Jul 2019 23:47:37 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/tags/%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E6%80%A7/</guid>
       <description></description>
     </item>
     
@@ -282,11 +273,11 @@
     </item>
     
     <item>
-      <title>敏捷</title>
-      <link>https://chinalhr.github.io/tags/%E6%95%8F%E6%8D%B7/</link>
+      <title>敏捷开发</title>
+      <link>https://chinalhr.github.io/tags/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/</link>
       <pubDate>Mon, 13 Jan 2020 23:04:37 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/tags/%E6%95%8F%E6%8D%B7/</guid>
+      <guid>https://chinalhr.github.io/tags/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/</guid>
       <description></description>
     </item>
     

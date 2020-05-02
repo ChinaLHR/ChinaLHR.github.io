@@ -760,24 +760,13 @@
     </item>
     
     <item>
-      <title>Mysql主从复制</title>
+      <title>Mysql主从复制-读写分离</title>
       <link>https://chinalhr.github.io/post/mysql-proxy/</link>
       <pubDate>Wed, 27 Jun 2018 15:54:50 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/mysql-proxy/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;Mysql主从复制相关资料整理记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>使用RabbitMQ</title>
-      <link>https://chinalhr.github.io/post/rabbitmq-use/</link>
-      <pubDate>Tue, 26 Jun 2018 21:44:54 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/rabbitmq-use/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;RabbitMQ 学习整理&lt;/p&gt;
+&lt;p&gt;Mysql主从复制，读写分离相关资料整理记录&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -826,13 +815,13 @@
     </item>
     
     <item>
-      <title>阅读记录</title>
+      <title>书单</title>
       <link>https://chinalhr.github.io/post/books/</link>
       <pubDate>Fri, 25 Nov 2016 23:28:15 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/books/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;仅用来记录阅读的书籍&lt;/p&gt;
+&lt;p&gt;仅用来记录阅读过的技术书单&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

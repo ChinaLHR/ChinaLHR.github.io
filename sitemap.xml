@@ -486,13 +486,6 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/rabbitmq-use/</loc>
-    <lastmod>2018-06-26T21:44:54+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://chinalhr.github.io/post/java-system-structure/</loc>
     <lastmod>2018-06-25T12:07:03+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -646,13 +639,6 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/tags/rabbitmq/</loc>
-    <lastmod>2018-06-26T21:44:54+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://chinalhr.github.io/tags/reactor/</loc>
     <lastmod>2019-01-06T22:30:19+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -772,15 +758,15 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/tags/%E5%B9%82%E7%AD%89%E6%80%A7/</loc>
-    <lastmod>2019-07-08T23:47:37+08:00</lastmod>
+    <loc>https://chinalhr.github.io/tags/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/</loc>
+    <lastmod>2020-04-03T19:45:19+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/tags/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2020-04-03T19:45:19+08:00</lastmod>
+    <loc>https://chinalhr.github.io/tags/%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E6%80%A7/</loc>
+    <lastmod>2019-07-08T23:47:37+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -793,7 +779,7 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/tags/%E6%95%8F%E6%8D%B7/</loc>
+    <loc>https://chinalhr.github.io/tags/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/</loc>
     <lastmod>2020-01-13T23:04:37+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
