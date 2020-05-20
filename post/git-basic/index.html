@@ -55,7 +55,7 @@
 
 <meta itemprop="datePublished" content="2018-07-08T15:49:09&#43;08:00" />
 <meta itemprop="dateModified" content="2018-07-08T15:49:09&#43;08:00" />
-<meta itemprop="wordCount" content="547">
+<meta itemprop="wordCount" content="636">
 
 
 
@@ -146,7 +146,7 @@
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-git/"> 编程-Git </a>
             </div>
-          <span class="more-meta"> 547 words </span>
+          <span class="more-meta"> 636 words </span>
           <span class="more-meta"> 2 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -205,6 +205,15 @@
 </span><span class="lnt">38
 </span><span class="lnt">39
 </span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
 </span></pre></td>
 <td class="lntd">
 <pre class="chroma">## git创建分支并提交到远程
@@ -246,7 +255,16 @@ git branch -r -d origin/branch-name
 git push origin :branch-name
 
 ## 切换远程分支
-git checkout -b dev origin/dev</pre></td></tr></table>
+git checkout -b dev origin/dev
+
+## git清空修改（未使用add添加到暂存区）
+git checkout .
+
+## git清空新增文件（未使用add添加到暂存区）
+rm -rf ***
+
+## git重置命令（清空掉已经add到暂存区的修改）
+git reset .</pre></td></tr></table>
 </div>
 </div>
     </div>
@@ -276,8 +294,8 @@ git checkout -b dev origin/dev</pre></td></tr></table>
             <span class="prev-text nav-default">Mysql对存有大数据表进行结构修改需要注意的问题</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/mysql-replicationon/">
-            <span class="next-text nav-default">MySql读写分离</span>
+        <a class="next" href="/post/mysql-proxy/">
+            <span class="next-text nav-default">Mysql主从复制-读写分离</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

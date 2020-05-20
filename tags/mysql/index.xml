@@ -56,17 +56,6 @@
     </item>
     
     <item>
-      <title>MySql读写分离</title>
-      <link>https://chinalhr.github.io/post/mysql-replicationon/</link>
-      <pubDate>Wed, 27 Jun 2018 15:55:01 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/mysql-replicationon/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;MySql读写分离相关资料记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
       <title>Mysql主从复制-读写分离</title>
       <link>https://chinalhr.github.io/post/mysql-proxy/</link>
       <pubDate>Wed, 27 Jun 2018 15:54:50 +0800</pubDate>
