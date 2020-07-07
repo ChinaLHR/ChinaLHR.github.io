@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://chinalhr.github.io/post/kubeadm-install-kubernetes-1.18/</loc>
+    <lastmod>2020-06-08T00:51:21+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/post/devops-sonar-practice/</loc>
     <lastmod>2020-04-12T15:28:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -575,8 +582,15 @@
   </url>
   
   <url>
+    <loc>https://chinalhr.github.io/tags/kubernetes/</loc>
+    <lastmod>2020-06-08T00:51:21+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2020-04-12T15:28:21+08:00</lastmod>
+    <lastmod>2020-06-08T00:51:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -625,7 +639,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/post/</loc>
-    <lastmod>2020-04-12T15:28:21+08:00</lastmod>
+    <lastmod>2020-06-08T00:51:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -843,6 +857,13 @@
   <url>
     <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E5%9F%BA%E7%A1%80%E6%9C%8D%E5%8A%A1/</loc>
     <lastmod>2019-06-25T20:37:07+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E5%AE%B9%E5%99%A8/</loc>
+    <lastmod>2020-06-08T00:51:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
