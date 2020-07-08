@@ -528,12 +528,6 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/untitled/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://chinalhr.github.io/tags/apache-ab/</loc>
     <lastmod>2018-09-16T23:07:30+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -577,6 +571,13 @@
   <url>
     <loc>https://chinalhr.github.io/tags/kotlin/</loc>
     <lastmod>2019-03-14T20:49:49+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/kubeadm/</loc>
+    <lastmod>2020-06-08T00:51:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
