@@ -3,7 +3,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://chinalhr.github.io/post/kubeadm-install-kubernetes-1.18/</loc>
+    <loc>https://chinalhr.github.io/post/kubeadm-install-kubernetes/</loc>
     <lastmod>2020-06-08T00:51:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -554,14 +554,14 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/tags/devops/</loc>
+    <loc>https://chinalhr.github.io/categories/devops/</loc>
     <lastmod>2020-04-12T15:28:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/categories/devops/</loc>
+    <loc>https://chinalhr.github.io/tags/devops/</loc>
     <lastmod>2020-04-12T15:28:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
