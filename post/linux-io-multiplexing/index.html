@@ -55,7 +55,7 @@ Unix IO模型, Linux IO多路复用 select poll epoll机制整理
 
 <meta itemprop="datePublished" content="2019-07-24T22:22:03&#43;08:00" />
 <meta itemprop="dateModified" content="2019-07-24T22:22:03&#43;08:00" />
-<meta itemprop="wordCount" content="4630">
+<meta itemprop="wordCount" content="4821">
 
 
 
@@ -146,7 +146,7 @@ Unix IO模型, Linux IO多路复用 select poll epoll机制整理
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"> 编程-操作系统 </a>
             </div>
-          <span class="more-meta"> 4630 words </span>
+          <span class="more-meta"> 4821 words </span>
           <span class="more-meta"> 10 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -330,7 +330,7 @@ asynchronous IO - 异步IO</pre></td></tr></table>
 
 <h3 id="select-poll与epoll">select、poll与epoll</h3>
 
-<p>I/O多路复用就是通过一种机制，一个进程可以监视多个描述符，一旦某个描述符就绪（一般是读就绪或者写就绪），能够通知程序进行相应的读写操作。但select，poll，epoll本质上都是同步I/O。需要在读写事件就绪后自己负责进行(阻塞)读写。</p>
+<p>I/O多路复用就是通过一种机制，可以将想要监视的文件描述符（File Descriptor）添加到select/poll/epoll函数中，由内核监视，函数阻塞。一个进程可以监视多个文件描述符，一旦某个描述符就绪（一般是读就绪或者写就绪），能够通知程序进行相应的读写操作。但select，poll，epoll本质上都是同步I/O。需要在读写事件就绪后自己负责进行(阻塞)读写。</p>
 
 <h4 id="select">select</h4>
 <div class="highlight"><div class="chroma">
@@ -515,34 +515,23 @@ EPOLLONESHOT：只监听一次事件，当监听完这次事件之后，如果�
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span><span class="lnt">5
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">LT模式(默认 支持block和no-blocksocket)：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序可以不立即处理该事件。下次调用epoll_wait时，会再次响应应用程序并通知此事件。
-
-ET模式(支持no-blocksocket)：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序必须立即处理该事件。如果不处理，下次调用epoll_wait时，不会再次响应应用程序并通知此事件。
-
-ET模式很大程度上减少了epoll事件的触发次数，因此效率比LT模式下高。</pre></td></tr></table>
-</div>
-</div>
-<ul>
-<li>epoll对比select和poll</li>
-</ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">在 select/poll中，进程只有在调用一定的方法后，内核才对所有监视的文件描述符进行扫描，而epoll事先通过epoll_ctl()来注册一 个文件描述符，一旦基于某个文件描述符就绪时，内核会采用类似callback的回调机制，迅速激活这个文件描述符，当进程调用epoll_wait() 时便得到通知。(此处去掉了遍历文件描述符，而是通过监听回调的的机制)
-
-epoll监视的描述符数量不受限制，它所支持的FD上限是最大可以打开文件的数目，远大于2048,举个例子,在1GB内存的机器上大约是10万左右，cat /proc/sys/fs/file-max察看,与系统内存有关</pre></td></tr></table>
+<pre class="chroma">水平触发（LT，Level Trigger）模式下，只要一个文件描述符就绪，就会触发通知，如果用户程序没有一次性把数据读写完，下次还会通知；
+边缘触发（ET，Edge Trigger）模式下，当描述符从未就绪变为就绪时通知一次，之后不会再通知，直到再次从未就绪变为就绪（缓冲区从不可读/写变为可读/写）。
+区别：边缘触发效率更高，减少了被重复触发的次数，函数不会返回大量用户程序可能不需要的文件描述符。
+为什么边缘触发一定要用非阻塞（non-block）IO：避免由于一个描述符的阻塞读/阻塞写操作让处理其它描述符的任务出现饥饿状态。</pre></td></tr></table>
 </div>
 </div>
 <h4 id="select-poll-epoll对比">select·poll·epoll对比</h4>
 
 <p><img src="https://user-images.githubusercontent.com/19829495/63755920-0c8d4c80-c8ea-11e9-936e-f6a1f3ba2452.png" alt="image" /></p>
+
+<ul>
+<li>select：将文件描述符放入一个集合中，调用select时，将这个集合从用户空间拷贝到内核空间（缺点1：每次都要复制，开销大），由内核根据就绪状态修改该集合的内容。（缺点2）集合大小有限制，32位机默认是1024（64位：2048）；采用水平触发机制。select函数返回后，需要通过遍历这个集合，找到就绪的文件描述符（缺点3：轮询的方式效率较低），当文件描述符的数量增加时，效率会线性下降；</li>
+<li>poll：和select几乎没有区别，区别在于文件描述符的存储方式不同，poll采用链表的方式存储，没有最大存储数量的限制；</li>
+<li>epoll：通过内核和用户空间共享内存，避免了不断复制的问题；支持的同时连接数上限很高（1G左右的内存支持10W左右的连接数）；文件描述符就绪时，采用回调机制，避免了轮询（回调函数将就绪的描述符添加到一个链表中，执行epoll_wait时，返回这个链表）；支持水平触发和边缘触发，采用边缘触发机制时，只有活跃的描述符才会触发回调函数。</li>
+</ul>
     </div>
 
     <div class="post-copyright">

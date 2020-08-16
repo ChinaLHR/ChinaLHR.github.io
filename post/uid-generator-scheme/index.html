@@ -1082,7 +1082,7 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
 <p>这里主要关注core模块：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1108,34 +1108,34 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
 </span><span class="lnt">24
 </span><span class="lnt">25
 </span><span class="lnt">26
-</span></code></pre></td>
+</span></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="err">├──</span> <span class="n">common</span>									<span class="o">-</span> <span class="n">公共包</span>
-<span class="err">│</span>   <span class="err">├──</span> <span class="n">CheckVO</span><span class="o">.</span><span class="na">java</span>						
-<span class="err">│</span>   <span class="err">├──</span> <span class="n">PropertyFactory</span><span class="o">.</span><span class="na">java</span>				<span class="o">-</span> <span class="n">leaf</span><span class="o">.</span><span class="na">properties配置获取</span>
-<span class="err">│</span>   <span class="err">├──</span> <span class="n">Result</span><span class="o">.</span><span class="na">java</span>							<span class="o">-</span> <span class="n">统一返回值</span>
-<span class="err">│</span>   <span class="err">├──</span> <span class="n">Status</span><span class="o">.</span><span class="na">java</span>							<span class="o">-</span> <span class="n">状态值</span>
-<span class="err">│</span>   <span class="err">├──</span> <span class="n">Utils</span><span class="o">.</span><span class="na">java</span>							<span class="o">-</span> <span class="n">工具类</span>
-<span class="err">│</span>   <span class="err">└──</span> <span class="n">ZeroIDGen</span><span class="o">.</span><span class="na">java</span>						<span class="o">-</span> <span class="n">生成0号ID</span>	
-<span class="err">├──</span> <span class="n">IDGen</span><span class="o">.</span><span class="na">java</span>								<span class="o">-</span> <span class="n">ID生成接口</span><span class="o">(</span><span class="n">I</span><span class="o">)</span>
-<span class="err">├──</span> <span class="n">segment</span>									
-<span class="err">│</span>   <span class="err">├──</span> <span class="n">dao</span>									<span class="o">-</span> <span class="n">号段相关Dao操作</span>
-<span class="err">│</span>   <span class="err">│</span>   <span class="err">├──</span> <span class="n">IDAllocDao</span><span class="o">.</span><span class="na">java</span>
-<span class="err">│</span>   <span class="err">│</span>   <span class="err">├──</span> <span class="n">IDAllocMapper</span><span class="o">.</span><span class="na">java</span>
-<span class="err">│</span>   <span class="err">│</span>   <span class="err">└──</span> <span class="n">impl</span>
-<span class="err">│</span>   <span class="err">│</span>       <span class="err">└──</span> <span class="n">IDAllocDaoImpl</span><span class="o">.</span><span class="na">java</span>
-<span class="err">│</span>   <span class="err">├──</span> <span class="n">model</span>								<span class="o">-</span> <span class="n">号段相关model</span>
-<span class="err">│</span>   <span class="err">│</span>   <span class="err">├──</span> <span class="n">LeafAlloc</span><span class="o">.</span><span class="na">java</span>
-<span class="err">│</span>   <span class="err">│</span>   <span class="err">├──</span> <span class="n">SegmentBuffer</span><span class="o">.</span><span class="na">java</span>
-<span class="err">│</span>   <span class="err">│</span>   <span class="err">└──</span> <span class="n">Segment</span><span class="o">.</span><span class="na">java</span>
-<span class="err">│</span>   <span class="err">└──</span> <span class="n">SegmentIDGenImpl</span><span class="o">.</span><span class="na">java</span>				<span class="o">-</span> <span class="n">号段相关ID生成实现</span>
-<span class="err">└──</span> <span class="n">snowflake</span>								
-    <span class="err">├──</span> <span class="n">exception</span>
-    <span class="err">│</span>   <span class="err">├──</span> <span class="n">CheckLastTimeException</span><span class="o">.</span><span class="na">java</span>
-    <span class="err">│</span>   <span class="err">├──</span> <span class="n">CheckOtherNodeException</span><span class="o">.</span><span class="na">java</span>
-    <span class="err">│</span>   <span class="err">└──</span> <span class="n">ClockGoBackException</span><span class="o">.</span><span class="na">java</span>
-    <span class="err">├──</span> <span class="n">SnowflakeIDGenImpl</span><span class="o">.</span><span class="na">java</span>				<span class="o">-</span> <span class="n">SnowFlakeID生成实现</span>
-    <span class="err">└──</span> <span class="n">SnowflakeZookeeperHolder</span><span class="o">.</span><span class="na">java</span>		<span class="o">-</span> <span class="n">Zookeeper相关操作类</span></code></pre></td></tr></table>
+<pre class="chroma">├── common									        - 公共包
+│   ├── CheckVO.java						
+│   ├── PropertyFactory.java				- leaf.properties配置获取
+│   ├── Result.java							    - 统一返回值
+│   ├── Status.java							    - 状态值
+│   ├── Utils.java							    - 工具类
+│   └── ZeroIDGen.java						  - 生成0号ID	
+├── IDGen.java								      - ID生成接口(I)
+├── segment									
+│   ├── dao									        - 号段相关Dao操作
+│   │   ├── IDAllocDao.java
+│   │   ├── IDAllocMapper.java
+│   │   └── impl
+│   │       └── IDAllocDaoImpl.java
+│   ├── model								        - 号段相关model
+│   │   ├── LeafAlloc.java
+│   │   ├── SegmentBuffer.java
+│   │   └── Segment.java
+│   └── SegmentIDGenImpl.java				- 号段相关ID生成实现
+└── snowflake								
+    ├── exception
+    │   ├── CheckLastTimeException.java
+    │   ├── CheckOtherNodeException.java
+    │   └── ClockGoBackException.java
+    ├── SnowflakeIDGenImpl.java			    - SnowFlakeID生成实现
+    └── SnowflakeZookeeperHolder.java		- Zookeeper相关操作类</pre></td></tr></table>
 </div>
 </div>
 <h3 id="leaf-segment号段模式">Leaf-segment号段模式</h3>
