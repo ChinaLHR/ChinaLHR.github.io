@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>权限系统设计-概念与思路 - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" 权限系统设计相关概念与思路
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/permission-system-design/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="权限系统设计-概念与思路" />
+<meta property="og:description" content="
+权限系统设计相关概念与思路
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/permission-system-design/" /><meta property="article:published_time" content="2020-09-16T23:43:49&#43;08:00"/>
+<meta property="article:modified_time" content="2020-09-16T23:43:49&#43;08:00"/>
+
+<meta itemprop="name" content="权限系统设计-概念与思路">
+<meta itemprop="description" content="
+权限系统设计相关概念与思路
+">
+
+
+<meta itemprop="datePublished" content="2020-09-16T23:43:49&#43;08:00" />
+<meta itemprop="dateModified" content="2020-09-16T23:43:49&#43;08:00" />
+<meta itemprop="wordCount" content="5099">
+
+
+
+<meta itemprop="keywords" content="系统设计," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="权限系统设计-概念与思路"/>
+<meta name="twitter:description" content="
+权限系统设计相关概念与思路
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="https://www.yuque.com/lihanrong">
+        <li class="mobile-menu-item">笔记</li>
+      </a><a href="/post/books/">
+        <li class="mobile-menu-item">书单</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">笔记</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/books/">书单</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">权限系统设计-概念与思路</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-09-16 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 编程-后端开发 </a>
+            </div>
+          <span class="more-meta"> 5099 words </span>
+          <span class="more-meta"> 11 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#权限管控分类">权限管控分类</a></li>
+<li><a href="#认证与授权">认证与授权</a>
+<ul>
+<li><a href="#认证-authentication">认证（Authentication）</a></li>
+<li><a href="#授权-authorization">授权（Authorization）</a></li>
+</ul></li>
+<li><a href="#功能权限模型">功能权限模型</a>
+<ul>
+<li><a href="#acl">ACL</a></li>
+<li><a href="#rbac">RBAC</a>
+<ul>
+<li><a href="#rbac0-rbac核心思想模型">RBAC0-RBAC核心思想模型</a></li>
+<li><a href="#rbac1-基于角色的分层模型">RBAC1-基于角色的分层模型</a></li>
+<li><a href="#rbac2-rbac约束模型">RBAC2-RBAC约束模型。</a></li>
+<li><a href="#rbac3">RBAC3</a></li>
+</ul></li>
+<li><a href="#abac">ABAC</a></li>
+<li><a href="#组织架构与功能权限">组织架构与功能权限</a></li>
+</ul></li>
+<li><a href="#数据权限">数据权限</a></li>
+<li><a href="#功能权限与数据权限系统设计实现思路">功能权限与数据权限系统设计实现思路</a>
+<ul>
+<li><a href="#表结构设计">表结构设计</a></li>
+<li><a href="#功能权限系统设计">功能权限系统设计</a></li>
+<li><a href="#数据权限设计">数据权限设计</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>权限系统设计相关概念与思路</p>
+</blockquote>
+
+<p>前言： 权限系统的设计几乎是每个系统都必需的模块，目的是对不同的人访问资源进行权限的控制，避免因权限控制缺失或操作不当引发的风险问题，如操作错误，隐私数据泄露等问题。从万物皆文件的Linux文件权限到各种CRM、CMS、OA管理系统，都可以看到权限系统的身影。</p>
+
+<h2 id="权限管控分类">权限管控分类</h2>
+
+<p>如果从控制力的角度来进行划分的话，权限管控可以分为功能级权限管控（功能权限）和数据级权限管控（数据权限）。</p>
+
+<ul>
+<li>功能权限</li>
+</ul>
+
+<p>指用户登录系统后能看到哪些模块，操作哪些按钮。常见的CRM系统，不同业务的人员，登录系统后，看到的功能模块也不尽相同；而同属于一个业务线，因为职位等级不同，拥有的操作功能也可能不同（例如组长、负责人才拥有删除权限）。</p>
+
+<ul>
+<li>数据权限</li>
+</ul>
+
+<p>指用户在某个模块里能看到哪些范围的数据，如A业务线的销售人员只能看到自己的客户数据，但是A的业务线的销售总监可以查看整个区域销售人员的客户数据。</p>
+
+<h2 id="认证与授权">认证与授权</h2>
+
+<p>权限系统进行权限控制，主要包含了两部分，认证与授权。</p>
+
+<h3 id="认证-authentication">认证（Authentication）</h3>
+
+<p><strong>身份验证</strong>（Authentication）又称“认证”、“鉴权”，是指通过一定的手段，完成对用户身份的确认。身份验证的目的是确认当前所声称为某种身份的用户，确实是所声称的用户。一般使用的技术手段有：HTTP Basic Authentication、HMAC（AK/SK）、OAuth2、JWT等，可以参考文章：<a href="https://chinalhr.github.io/post/api-auth-program">https://chinalhr.github.io/post/api-auth-program</a>。</p>
+
+<h3 id="授权-authorization">授权（Authorization）</h3>
+
+<p><strong>授权</strong>（<strong>Authorization</strong>）一般是指对信息安全或计算机安全相关的资源定义与授予访问权限，尤指访问控制。在权限系统中体现为授予认证用户的功能权限与数据权限。</p>
+
+<h2 id="功能权限模型">功能权限模型</h2>
+
+<p>主流的功能权限模型包括ACL（Access Control List）访问控制列表、RBAC（Role-based access control）基于角色的访问控制模型、ABAC(Attribute-based access control)基于属性的访问控制。</p>
+
+<h3 id="acl">ACL</h3>
+
+<p><strong>访问控制表</strong>（Access Control List，<strong>ACL</strong>），又称<strong>存取控制串列</strong>，是使用以访问控制矩阵为基础的访问控制表，每一个（文件系统内的）对象对应一个串列主体。访问控制表由访问控制条目（access control entries，ACE）组成。访问控制表描述用户或系统进程对每个对象的访问控制权限。</p>
+
+<p>ACL是一种面向资源的访问控制模型，每一项资源，都配有一个列表，这个列表记录的就是哪些用户可以对这项资源执行CRUD中的那些操作。当系统试图访问这项资源时，会首先检查这个列表中是否有关于当前用户的访问权限，从而确定当前用户可否执行相应的操作。</p>
+
+<p>ACL核心在于用户可以直接和权限挂钩，设计简单但缺点也是很明显的，由于需要维护大量的访问权限列表，所以在性能上有明显的不足，因而便有了对ACL设计的改进如RBAC、ABAC。</p>
+
+<p>访问控制矩阵如下所示：</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>资产 1</th>
+<th>资产 2</th>
+<th>文件</th>
+<th>设备</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>角色 1</td>
+<td>read, write, execute, own</td>
+<td>execute</td>
+<td>read</td>
+<td>write</td>
+</tr>
+
+<tr>
+<td>角色 2</td>
+<td>read</td>
+<td>read, write, execute, own</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/92323237-a9400980-f069-11ea-940a-7a055c7025fb.png" alt="图片" /></p>
+
+<h3 id="rbac">RBAC</h3>
+
+<p><strong>RBAC 以角色为基础的访问控制</strong>,认为权限授权的过程可以抽象地概括为：Who是否可以对What进行How的访问操作，并对这个逻辑表达式进行判断是否为True的求解过程，也即是将权限问题转换为What、How的问题，Who、What、How构成了访问权限三元组。</p>
+
+<p>包含了三个基础组成部分，分别是：用户、角色和权限。</p>
+
+<p>RBAC通过定义角色的权限，并对用户授予某个角色从而来控制用户的权限，实现了用户和权限的逻辑分离（区别于ACL模型），方便权限的管理。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/92323250-c1178d80-f069-11ea-9da2-d404b0bd944b.png" alt="图片" /></p>
+
+<h4 id="rbac0-rbac核心思想模型">RBAC0-RBAC核心思想模型</h4>
+
+<p>RBAC0是RBAC模型的核心，主要包含以下</p>
+
+<ul>
+<li>User：用户，每个用户都有唯一的UID识别，并被授予对应的角色</li>
+<li>Role：角色，不同角色具有不同的权限</li>
+<li>Permission：权限，包含所有访问功能的权限</li>
+<li>Session：会话，存储特定用户会话的基本权限信息</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/92323261-dab8d500-f069-11ea-9adb-bebc33603286.png" alt="图片" /></p>
+
+<h4 id="rbac1-基于角色的分层模型">RBAC1-基于角色的分层模型</h4>
+
+<p>RBAC1是对RBAC进行了扩展，对RBAC的角色进行了分层处理，引入了角色的继承概念，有了继承的关系就有了上下级的包含关系。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/92323270-f15f2c00-f069-11ea-9aae-b791dfddea8f.png" alt="图片" /></p>
+
+<h4 id="rbac2-rbac约束模型">RBAC2-RBAC约束模型。</h4>
+
+<p>RBAC2是对RBAC进行了扩展，主要引入了SSD（静态职责分离）和DSD（动态职责分离）。</p>
+
+<p>SSD主要应用在用户和角色之间（授权阶段），主要约束</p>
+
+<ol>
+<li>互斥角色，同一个用户不能授于互斥关系的角色</li>
+<li>基数约束，一个用户拥有的角色是有限的，一个角色拥有的许可是有限的</li>
+<li>先决条件约束，用户想得到高级权限，必须先拥有低级权限</li>
+</ol>
+
+<p>DSD是会话和角色之间的约束，主要动态决定怎么样计划角色，如：一个用户拥有5个角色，只能激活2个。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/92323274-0340cf00-f06a-11ea-805e-05378cc892e6.png" alt="图片" /></p>
+
+<h4 id="rbac3">RBAC3</h4>
+
+<p>RBAC3就是整合了RBAC1+RBAC2模式，这里不再阐述。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/92323288-16539f00-f06a-11ea-89ec-7e7b67636afe.png" alt="图片" /></p>
+
+<h3 id="abac">ABAC</h3>
+
+<p><strong>基于属性的访问控制</strong>（<strong>ABAC</strong>），也称为<strong>基于策略的访问控制(IAM)</strong>，定义了访问控制范式，其中通过使用将属性组合在一起的策略，将访问权限授予用户。这些策略可以使用任何类型的属性（用户属性，资源属性，对象，环境属性等）。该模型支持布尔逻辑，其中规则包含有关谁在发出请求，资源和操作的“ IF，THEN”语句。例如：如果请求者是管理者，则允许对敏感数据的读/写访问。</p>
+
+<p>对比RABC模型，ABAC的主要区别在于表示复杂布尔规则集的策略的概念可以评估许多不同的属性，更加灵活可控。</p>
+
+<p><strong>基于属性的访问控制维度</strong></p>
+
+<ul>
+<li>外部授权管理</li>
+<li>动态授权管理</li>
+<li>基于策略的访问控制</li>
+<li>细粒度的授权</li>
+</ul>
+
+<p><strong>ABAC组件</strong></p>
+
+<p><strong>Attribute</strong>：属性，用于表示 subject、object 或者 environment conditions 的特点，attribute 使用 key-value 的形式来存储这些信息。</p>
+
+<p><strong>Subject</strong>：指代使用系统的人或者其他使用者（non-person entity，NPE），比如说客户端程序，访问 API 的 client 或者移动设备等等。一个 subject 可以有多个的 attributes，例如用户属性等。</p>
+
+<p><strong>Object</strong>：指代 ACM 需要管理的资源，如文件，某项记录，某台机器或者某个网站， object 也可以有多项属性，比如x组的测试、生产实例。</p>
+
+<p><strong>Operation</strong>：subject需要做的操作，比如查看某条记录，使用某个功能，登录某台服务器。往往包括我们常说的读、写、修改、拷贝等等，一般 operation 是会表达在 request 中的，比如 HTTP method。</p>
+
+<p><strong>Policy</strong>：通过 subject、object 的 attribute 与 environment conditions 一起来判断 subject 的请求是否能够允许的关系表示，一般是一系列的 boolean 逻辑判断的组合。</p>
+
+<p><strong>Environment Conditions</strong>：表示目前进行的访问请求发生时的操作或情境的上下文。Environment conditions 常常用来描述环境特征，是独立于 subject 与 object 的，常用来描述系统的情况：比如时间，当前的安全等级，生产环境还是测试环境等等。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/92330450-74e83f80-f0a1-11ea-8c20-68e0c627acbb.png" alt="图片" /></p>
+
+<p>一个典型的 ABAC 场景描述如下图，当 subject 需要去读取某一条记录时，我们的访问控制机制在请求发起后遍开始运作，该机制需要计算，来自 policy 中记录的规则，subject 的 attribute，object 的 attribute 以及 environment conditions，而最后会产生一个是否允许读取的结果，也就是上图的aloow or deny。</p>
+
+<p>阿里云的RAM访问控制运用的就是ABAC模型：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"> <span class="p">{</span>
+          <span class="nt">&#34;Version&#34;</span><span class="p">:</span> <span class="s2">&#34;1&#34;</span><span class="p">,</span>
+          <span class="nt">&#34;Statement&#34;</span><span class="p">:</span>
+            <span class="p">[{</span>
+              <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
+              <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;oss:List*&#34;</span><span class="p">,</span> <span class="s2">&#34;oss:Get*&#34;</span><span class="p">],</span>
+              <span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;acs:oss:*:*:samplebucket&#34;</span><span class="p">,</span> <span class="s2">&#34;acs:oss:*:*:samplebucket/*&#34;</span><span class="p">],</span>
+              <span class="nt">&#34;Condition&#34;</span><span class="p">:</span>
+                 <span class="p">{</span>
+                    <span class="nt">&#34;IpAddress&#34;</span><span class="p">:</span>
+                     <span class="p">{</span>
+                        <span class="nt">&#34;acs:SourceIp&#34;</span><span class="p">:</span> <span class="s2">&#34;42.160.1.0&#34;</span>
+                      <span class="p">}</span>
+                  <span class="p">}</span>
+             <span class="p">}]</span>
+    <span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="组织架构与功能权限">组织架构与功能权限</h3>
+
+<p>常见的组织架构如下所示是一个树形的结构，最顶部节点为根部门，根部门对应多个子部门，子部门也可以对应多个子部门。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/93021995-d74cbd00-f618-11ea-9b34-d5a2ac63fd45.png" alt="图片" /></p>
+
+<p>每个组织部门下都会有多个岗位,比如研发部有后端开发、前端开发、技术经理、技术总监&hellip;职位,虽然都在同一部门,但是每个职位的权限是不同的,职位高的拥有更多的权限。</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/93022758-72479600-f61d-11ea-8d63-043862c7518e.png" alt="图片" /></p>
+
+<p>组织架构结合功能权限：可以把岗位与角色进行关联，用户加入某个岗位后，就会自动获得该岗位的全部角色,减少授权操作，同时用户在调岗时，角色即可批量调整。</p>
+
+<p>基于组织架构模型与RBAC0的模型图如下所示：</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/93113415-be610c00-f6eb-11ea-8174-95d35068a5d8.png" alt="图片" /></p>
+
+<h2 id="数据权限">数据权限</h2>
+
+<p>数据权限解决的是用户能看到多少数据量和什么数据的问题，例如A和B两个用户都能看到订单模块，但A能看到320条数据，B只能看到100条数据，且A能看到的320条数据中包含着B能看到的100条数据，这些都是由数据权限决定的。</p>
+
+<p>数据权限一般和组织架构相关，常见的数据权限类型有如下几种：</p>
+
+<ul>
+<li>只能查看本人数据</li>
+<li>只能查看本部门数据</li>
+
+<li><p>只能查看本部门及其子部门数据</p></li>
+
+<li><p>只能查看自定义部门数据</p></li>
+
+<li><p>只能查看自定义部门及其子部门数据</p></li>
+
+<li><p>可以查看所有部门数据</p></li>
+</ul>
+
+<p>组织架构一般为树状的架构，而常见的数据权限一般和部门产生过滤关系，且不同部门的不同岗位有着不同的数据权限，如销售部门的销售组长岗位可以看到本部门的所有数据，而销售部门的销售员岗位只能看到自己本人的数据；因此可以基于上文对组织架构与功能权限的模型，添加岗位和数据权限的关联关系，如下图所示：</p>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/93114221-e866fe00-f6ec-11ea-8f2e-c8e8e52f8909.png" alt="图片" /></p>
+
+<p>因为数据权限涉及到每张表里面的每一行数据，如何设计数据权限的查询模型，合理地利用数据库索引的特性，提高查询的效率显得至关重要；</p>
+
+<p>按照正常的思路，数据入库的时候我们会存储对应的用户ID（creator_id）与对应部门的ID（department_id）。数据权限的获取就包括了获取用户绑定的数据权限类型（枚举值）、用户可以查看哪些部门的数据（遍历部门、子部门）或者本人的数据（user_id）;权限数据的筛选我们可以通过筛选部门的ID与用户ID进行实现。</p>
+
+<p>主要优化点有两点：1. 数据权限的获取（权限部门数据获取涉及多次IO操作） 2. 权限数据的筛选（避免通过in查询筛选数据导致大数据量下存在性能问题，合理利用索引特性）；这里作者提供一种数据权限查询优化的设计思路：</p>
+
+<p><img src="/Users/dio/Library/Application Support/typora-user-images/image-20200915204353432.png" alt="image-20200915204353432" /></p>
+
+<p>为每个部门指定一个data_key，并通过一定规则进行data_key的配置，使其与自己的上级部门、下级部门产生关联，如上图所示：根部门的data_key为0，直属部门的data_key为0 001、0 002&hellip;以此类推，根据此模型，结合mysql的前置查询索引的特性，可以通过获取部门的data_key即可查询本部门数据或者本部门及其子部门数据，并且可以合理的利用索引的特性，提高性能。</p>
+
+<p>示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="c1">-- 1. 用户在所在部门data_key 0001001，数据权限：本部门
+</span><span class="c1"></span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">bill</span> <span class="k">where</span> <span class="n">data_key</span> <span class="o">=</span> <span class="s1">&#39;0001001&#39;</span><span class="p">;</span>
+<span class="c1">-- 2. 用户在所在部门data_key 0001，数据权限：本部门及其子部门
+</span><span class="c1"></span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">bill</span> <span class="k">where</span> <span class="n">data_key</span> <span class="k">like</span> <span class="s1">&#39;0001%&#39;</span><span class="p">;</span>
+<span class="c1">-- 3. 用户id 372，数据权限：本人
+</span><span class="c1"></span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">bill</span> <span class="k">where</span> <span class="n">creator_id</span> <span class="o">=</span> <span class="mi">372</span><span class="p">;</span></code></pre></td></tr></table>
+</div>
+</div>
+<h2 id="功能权限与数据权限系统设计实现思路">功能权限与数据权限系统设计实现思路</h2>
+
+<p>依据上述对功能权限，数据权限模型的描述，我们可以简单设计一个拥有组织架构、基于RBAC-0的功能权限，基于组织架构的数据权限系统。系统使用的技术栈为 Kotlin、Spring Boot&hellip;</p>
+
+<h3 id="表结构设计">表结构设计</h3>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/93289726-aaafc580-f811-11ea-9636-9387b78cc7dc.png" alt="图片" /></p>
+
+<h3 id="功能权限系统设计">功能权限系统设计</h3>
+
+<ul>
+<li>认证</li>
+</ul>
+
+<p>这里我们可以基于JWT机制实现认证，用户登录后颁发JWT Token充当用户的登录凭证，JWT Token Payload存储了用户的ID;当JWT Token过期时让用户重新登录。这里可以基于Refresh Token、Redis实现Token的刷新机制，具体细节不在本文进行讨论。</p>
+
+<ul>
+<li>授权</li>
+</ul>
+
+<p>以一个Spring Boot项目为例子，我们可以通过实现HandlerInterceptor拦截所有的api接口，在preHandle的地方解析token获取用户的id，再查询出用户所拥有的的所有接口权限、数据权限、origanization_key&hellip;，授权于本次请求（session）通过ThreadLocal存放于请求的上下文中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="cm">/**
+</span><span class="cm"> * 授权上下文对象
+</span><span class="cm"> * */</span>
+<span class="k">class</span> <span class="nc">GrantPermissionContext</span><span class="p">(</span>
+        <span class="k">var</span> <span class="py">interfacePermissionKey</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;,</span>
+        <span class="k">var</span> <span class="py">dataPermissionType</span><span class="p">:</span> <span class="n">DataPermissionType</span><span class="p">,</span>
+        <span class="k">var</span> <span class="py">adminUserId</span><span class="p">:</span> <span class="n">Long</span><span class="p">,</span>
+        <span class="k">var</span> <span class="py">organizationKey</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span>
+        <span class="k">var</span> <span class="py">enabledStatus</span><span class="p">:</span> <span class="n">EnabledStatus</span>
+
+<span class="p">)</span> <span class="p">{</span>
+
+  <span class="k">companion</span> <span class="k">object</span> <span class="p">{</span>
+    <span class="k">private</span> <span class="k">val</span> <span class="py">GRANT_PERMISSION_CONTEXT</span> <span class="p">=</span> <span class="n">ThreadLocal</span><span class="p">&lt;</span><span class="n">GrantPermissionContextV2</span><span class="p">&gt;()</span>
+
+    <span class="k">fun</span> <span class="nf">get</span><span class="p">():</span> <span class="n">GrantPermissionContextV2</span><span class="p">?</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="n">GRANT_PERMISSION_CONTEXT</span><span class="p">.</span><span class="k">get</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="k">fun</span> <span class="nf">set</span><span class="p">(</span><span class="n">interfacePermissionKey</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;,</span>
+            <span class="n">dataPermissionType</span><span class="p">:</span> <span class="n">DataPermissionType</span><span class="p">,</span>
+            <span class="n">adminUserId</span><span class="p">:</span> <span class="n">Long</span><span class="p">,</span>
+            <span class="n">enabledStatus</span><span class="p">:</span> <span class="n">EnabledStatus</span><span class="p">,</span>
+            <span class="n">organizationKey</span><span class="p">:</span> <span class="n">String</span>
+    <span class="p">)</span> <span class="p">{</span>
+      <span class="k">val</span> <span class="py">grantPermissionContext</span> <span class="p">=</span> <span class="n">GrantPermissionContextV2</span><span class="p">(</span>
+              <span class="n">interfacePermissionKey</span> <span class="p">=</span> <span class="n">interfacePermissionKey</span><span class="p">,</span>
+              <span class="n">dataPermissionType</span> <span class="p">=</span> <span class="n">dataPermissionType</span><span class="p">,</span>
+              <span class="n">adminUserId</span> <span class="p">=</span> <span class="n">adminUserId</span><span class="p">,</span>
+              <span class="n">enabledStatus</span> <span class="p">=</span> <span class="n">enabledStatus</span><span class="p">,</span>
+              <span class="n">organizationKey</span> <span class="p">=</span> <span class="n">organizationKey</span>
+      <span class="p">)</span>
+      <span class="n">GRANT_PERMISSION_CONTEXT</span><span class="p">.</span><span class="k">set</span><span class="p">(</span><span class="n">grantPermissionContext</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">fun</span> <span class="nf">clean</span><span class="p">()</span> <span class="p">{</span>
+      <span class="n">GRANT_PERMISSION_CONTEXT</span><span class="p">.</span><span class="n">remove</span><span class="p">()</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="cm">/**
+</span><span class="cm"> * 授权拦截器
+</span><span class="cm"> * */</span>
+<span class="n">@Component</span>
+<span class="k">class</span> <span class="nc">GrantPermissionInterceptor</span> <span class="p">:</span> <span class="n">HandlerInterceptor</span> <span class="p">{</span>
+
+  <span class="k">override</span> <span class="k">fun</span> <span class="nf">preHandle</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpServletRequest</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">HttpServletResponse</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span> <span class="n">Boolean</span> <span class="p">{</span>
+
+   	<span class="c1">//...解析JWT Token，获取授权信息设置到GrantPermissionContext中
+</span><span class="c1"></span>    <span class="n">GrantPermissionContext</span><span class="p">.</span><span class="k">set</span><span class="p">(</span>
+            <span class="n">interfacePermissionKey</span> <span class="p">=</span> <span class="n">interfacePermissionKey</span><span class="p">,</span>
+            <span class="n">dataPermissionType</span> <span class="p">=</span> <span class="n">dataPermissionType</span><span class="p">,</span>
+            <span class="n">adminUserId</span> <span class="p">=</span> <span class="n">userId</span><span class="p">,</span>
+            <span class="n">enabledStatus</span> <span class="p">=</span> <span class="n">enabledStatus</span><span class="err">，</span>
+            <span class="n">organizationKey</span> <span class="p">=</span> <span class="n">organizationKey</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="k">true</span>
+  <span class="p">}</span>
+
+  <span class="k">override</span> <span class="k">fun</span> <span class="nf">afterCompletion</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpServletRequest</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">HttpServletResponse</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ex</span><span class="p">:</span> <span class="n">Exception</span><span class="p">?)</span> <span class="p">{</span>
+    <span class="c1">//清除GrantPermissionContext
+</span><span class="c1"></span>    <span class="n">GrantPermissionContext</span><span class="p">.</span><span class="n">clean</span><span class="p">()</span>
+  <span class="p">}</span>
+
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>鉴权</li>
+</ul>
+
+<p>可以通过注解 + Aspect切面，对设置了对应注解的接口进行拦截鉴权</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">@Target</span><span class="p">(</span><span class="n">AnnotationTarget</span><span class="p">.</span><span class="n">FUNCTION</span><span class="p">)</span>
+<span class="n">@Retention</span><span class="p">(</span><span class="n">AnnotationRetention</span><span class="p">.</span><span class="n">RUNTIME</span><span class="p">)</span>
+<span class="k">annotation</span> <span class="k">class</span> <span class="nc">RequiresPermissions</span><span class="p">(</span><span class="k">val</span> <span class="py">permissionKey</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">@Aspect</span>
+<span class="n">@Component</span>
+<span class="n">@Order</span><span class="p">(</span><span class="n">value</span> <span class="p">=</span> <span class="m">1</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">InterfacePermissionAspect</span> <span class="p">{</span>
+
+  <span class="n">@Around</span><span class="p">(</span><span class="s">&#34;@annotation(requiresPermissions)&#34;</span><span class="p">)</span>
+  <span class="k">fun</span> <span class="nf">doInterfacePermissionBefore</span><span class="p">(</span><span class="n">joinPoint</span><span class="p">:</span> <span class="n">ProceedingJoinPoint</span><span class="p">,</span> <span class="n">requiresPermissions</span><span class="p">:</span> <span class="n">RequiresPermissions</span><span class="p">):</span> <span class="n">Any</span><span class="p">?</span> <span class="p">{</span>
+
+    <span class="k">val</span> <span class="py">grantPermissionContext</span> <span class="p">=</span> <span class="n">GrantPermissionContext</span><span class="p">.</span><span class="k">get</span><span class="p">()</span>
+    <span class="k">val</span> <span class="py">interfacePermissionKey</span> <span class="p">=</span> <span class="n">grantPermissionContext</span><span class="o">?.</span><span class="n">interfacePermissionKey</span>
+            <span class="o">?:</span> <span class="k">throw</span> <span class="n">NotInterfacePermissionException</span><span class="p">()</span>
+    <span class="k">val</span> <span class="py">permissionKey</span> <span class="p">=</span> <span class="n">requiresPermissions</span><span class="p">.</span><span class="n">permissionKey</span>
+    <span class="k">if</span> <span class="p">(!</span><span class="n">interfacePermissionKey</span><span class="p">.</span><span class="n">contains</span><span class="p">(</span><span class="n">permissionKey</span><span class="p">)</span> <span class="p">||</span> <span class="n">grantPermissionContext</span><span class="p">.</span><span class="n">enabledStatus</span> <span class="p">==</span> <span class="n">EnabledStatus</span><span class="p">.</span><span class="n">DISABLE</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">throw</span> <span class="n">NotInterfacePermissionException</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">joinPoint</span><span class="p">.</span><span class="n">proceed</span><span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="数据权限设计">数据权限设计</h3>
+
+<ul>
+<li>数据筛选</li>
+</ul>
+
+<p>可以利用MyBatis的Interceptor机制、或者 Spring Data JPA 的Filter机制，在SQL执行之前通过GrantPermissionContext获取对应的数据权限类型与organizationKey，对SQL进行统一的判断筛选，最后再进行sql的执行。</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2020-09-16
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">系统设计</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/kubeadm-install-kubernetes/">
+            <span class="next-text nav-default">使用kubeadm部署Kubernetes集群实践</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+
+</body>
+</html>
