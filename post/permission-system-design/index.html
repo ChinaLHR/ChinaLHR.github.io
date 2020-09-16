@@ -439,7 +439,7 @@
 
 <p>主要优化点有两点：1. 数据权限的获取（权限部门数据获取涉及多次IO操作） 2. 权限数据的筛选（避免通过in查询筛选数据导致大数据量下存在性能问题，合理利用索引特性）；这里作者提供一种数据权限查询优化的设计思路：</p>
 
-<p><img src="/Users/dio/Library/Application Support/typora-user-images/image-20200915204353432.png" alt="image-20200915204353432" /></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/93362305-6b688f80-f878-11ea-846e-e9dae8a219e8.png" alt="图片" /></p>
 
 <p>为每个部门指定一个data_key，并通过一定规则进行data_key的配置，使其与自己的上级部门、下级部门产生关联，如上图所示：根部门的data_key为0，直属部门的data_key为0 001、0 002&hellip;以此类推，根据此模型，结合mysql的前置查询索引的特性，可以通过获取部门的data_key即可查询本部门数据或者本部门及其子部门数据，并且可以合理的利用索引的特性，提高性能。</p>
 
