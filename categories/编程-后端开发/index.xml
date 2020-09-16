@@ -6,10 +6,21 @@
     <description>Recent content in 编程-后端开发 on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 03 Apr 2020 19:45:19 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 16 Sep 2020 23:43:49 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>权限系统设计-概念与思路</title>
+      <link>https://chinalhr.github.io/post/permission-system-design/</link>
+      <pubDate>Wed, 16 Sep 2020 23:43:49 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/permission-system-design/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;权限系统设计相关概念与思路&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Java技术域中的异步编程</title>
