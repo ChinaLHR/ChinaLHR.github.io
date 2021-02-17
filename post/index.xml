@@ -6,10 +6,43 @@
     <description>Recent content in Posts on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 16 Sep 2020 23:43:49 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 12 Jan 2021 19:51:52 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Jenkins-Kubernetes-Docker-Helm CI/CD实践</title>
+      <link>https://chinalhr.github.io/post/jenkins-kubernetes-helm-ci-cd/</link>
+      <pubDate>Tue, 12 Jan 2021 19:51:52 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/jenkins-kubernetes-helm-ci-cd/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;基于Kubernetes、Docker、Helm、Jenkins的CI/CD实践，对于前文&lt;a href=&#34;https://chinalhr.github.io/post/jenkins-java-ci-cd/&#34;&gt;Jenkins-pipeline-Docker 实现CI/CD&lt;/a&gt; 的补充扩展&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes本地调试利器-Telepresence</title>
+      <link>https://chinalhr.github.io/post/kubernetes-telepresence/</link>
+      <pubDate>Wed, 30 Dec 2020 17:08:10 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/kubernetes-telepresence/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Kubernetes环境下基于Telepresence开发调试实践&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>基于FRP的内网穿透实践</title>
+      <link>https://chinalhr.github.io/post/frp-intranet-penetration/</link>
+      <pubDate>Tue, 10 Nov 2020 16:41:13 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/frp-intranet-penetration/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;FRP内网穿透实践&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>权限系统设计-概念与思路</title>

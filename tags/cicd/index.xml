@@ -6,10 +6,21 @@
     <description>Recent content in CI&amp;CD on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 29 Dec 2019 21:46:50 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 12 Jan 2021 19:51:52 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/cicd/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Jenkins-Kubernetes-Docker-Helm CI/CD实践</title>
+      <link>https://chinalhr.github.io/post/jenkins-kubernetes-helm-ci-cd/</link>
+      <pubDate>Tue, 12 Jan 2021 19:51:52 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/jenkins-kubernetes-helm-ci-cd/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;基于Kubernetes、Docker、Helm、Jenkins的CI/CD实践，对于前文&lt;a href=&#34;https://chinalhr.github.io/post/jenkins-java-ci-cd/&#34;&gt;Jenkins-pipeline-Docker 实现CI/CD&lt;/a&gt; 的补充扩展&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Jenkins-pipeline-Docker 实现CI/CD</title>

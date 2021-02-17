@@ -266,13 +266,13 @@ docker pull jenkins/jenkins
 docker run -u root -itd --name jenkins \
 -p 10080:8080 \
 -v $(which docker):/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock \
--e TZ=&#34;Asia/Shanghai&#34; -v /etc/localtime:/etc/localtime:ro \
+-e TZ=&#34;Asia/Shanghai&#34; -v /etc/localtime:/etc/localtime \
 -e JAVA_OPTS=&#39;-Xms1024m -Xmx1024m -XX:NewSize=512m&#39; \
 -v /volume1/docker/jenkins:/var/jenkins_home jenkins/jenkins
 
 # -p 10080:8080 映射容器的8080端口到外部主机的10080端口
 # -v $(which docker):/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock 使jenkins内部可以使用docker命令
-# -e TZ=&#34;Asia/Shanghai&#34; -v /etc/localtime:/etc/localtime:ro 配置Jenkins容器的时区
+# -e TZ=&#34;Asia/Shanghai&#34; -v /etc/localtime:/etc/localtime 配置Jenkins容器的时区
 # -v /volume1/docker/jenkins:/var/jenkins_home jenkins/jenkins 将Jenkins的配置映射到外部主机卷/volume1/docker/jenkins（删除容器后可保留）</pre></td></tr></table>
 </div>
 </div>
@@ -386,7 +386,7 @@ docker run -u root -itd --name jenkins \
             }
         }
     }
-    post {
+	post {
         always {
             echo &#39;This will always run&#39;
         }
@@ -469,7 +469,7 @@ docker run -u root -itd --name jenkins \
 </span></pre></td>
 <td class="lntd">
 <pre class="chroma"> steps {
-            //checkout到master分支进行代码拉取
+			//checkout到master分支进行代码拉取
             checkout([$class: &#39;GitSCM&#39;, 
             branches: [[name: &#39;master&#39;]], 
             doGenerateSubmoduleConfigurations: false, 
@@ -519,13 +519,13 @@ docker run -u root -itd --name jenkins \
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-groovy" data-lang="groovy">   <span class="n">parameters</span> <span class="o">{</span>
-        <span class="n">gitParameter</span> <span class="nl">branchFilter:</span> <span class="s1">&#39;origin/(.*)&#39;</span><span class="o">,</span> <span class="nl">defaultValue:</span> <span class="s1">&#39;master&#39;</span><span class="o">,</span> <span class="nl">name:</span> <span class="s1">&#39;BRANCH&#39;</span><span class="o">,</span> <span class="nl">type:</span> <span class="s1">&#39;PT_BRANCH&#39;</span><span class="o">,</span> <span class="nl">sortMode:</span><span class="s1">&#39;DESCENDING&#39;</span>
+    	<span class="n">gitParameter</span> <span class="nl">branchFilter:</span> <span class="s1">&#39;origin/(.*)&#39;</span><span class="o">,</span> <span class="nl">defaultValue:</span> <span class="s1">&#39;master&#39;</span><span class="o">,</span> <span class="nl">name:</span> <span class="s1">&#39;BRANCH&#39;</span><span class="o">,</span> <span class="nl">type:</span> <span class="s1">&#39;PT_BRANCH&#39;</span><span class="o">,</span> <span class="nl">sortMode:</span><span class="s1">&#39;DESCENDING&#39;</span>
    <span class="o">}</span>
    
    <span class="n">stages</span> <span class="o">{</span>
        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Pull Source code&#39;</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">steps</span> <span class="o">{</span>
-            <span class="c1">//checkout到master 和 merge 指定分支操作
+			<span class="c1">//checkout到master 和 merge 指定分支操作
 </span><span class="c1"></span>            <span class="n">checkout</span><span class="o">([</span><span class="n">$class</span><span class="o">:</span> <span class="s1">&#39;GitSCM&#39;</span><span class="o">,</span> 
             <span class="nl">branches:</span> <span class="o">[[</span><span class="nl">name:</span> <span class="s1">&#39;master&#39;</span><span class="o">]],</span> 
             <span class="nl">doGenerateSubmoduleConfigurations:</span> <span class="kc">false</span><span class="o">,</span> 
@@ -536,19 +536,19 @@ docker run -u root -itd --name jenkins \
             <span class="nl">submoduleCfg:</span> <span class="o">[],</span> 
             <span class="nl">userRemoteConfigs:</span> <span class="o">[[</span><span class="nl">credentialsId:</span> <span class="s1">&#39;8f240564-XXX-40b7-9faf-c08167aa27a3&#39;</span><span class="o">,</span> <span class="nl">url:</span> <span class="s1">&#39;git@gitee.com:XXX/XXX.git&#39;</span><span class="o">]]])</span>
         
-            <span class="c1">//代码推送到master操作(可以将此步骤下放到远程部署后或者post阶段，确保一个完整的成功的发布后才进行分支合并提交)
-</span><span class="c1"></span>            <span class="n">sshagent</span><span class="o">([</span><span class="s1">&#39;8f240564-XXX-40b7-9faf-c08167aa27a3&#39;</span><span class="o">])</span> <span class="o">{</span>
+			<span class="c1">//代码推送到master操作(可以将此步骤下放到远程部署后或者post阶段，确保一个完整的成功的发布后才进行分支合并提交)
+</span><span class="c1"></span>			<span class="n">sshagent</span><span class="o">([</span><span class="s1">&#39;8f240564-XXX-40b7-9faf-c08167aa27a3&#39;</span><span class="o">])</span> <span class="o">{</span>
                 <span class="n">sh</span> <span class="s2">&#34;&#34;&#34;
 </span><span class="s2">                  git config --global user.email &#34;******&#34;
 </span><span class="s2">                    git config --global user.name &#34;******&#34;
-</span><span class="s2">                    git commit -m &#34;header changed ci commit automatically&#34; || true
+</span><span class="s2">				    git commit -m &#34;header changed ci commit automatically&#34; || true
 </span><span class="s2">                    git push origin HEAD:refs/heads/master
-</span><span class="s2">                &#34;&#34;&#34;</span>
-            <span class="o">}</span>
-        <span class="o">}</span>
+</span><span class="s2">				&#34;&#34;&#34;</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
       <span class="o">}</span>
-        <span class="o">...</span>
-    <span class="o">}</span></code></pre></td></tr></table>
+		<span class="o">...</span>
+	<span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
 <h4 id="mavem构建项目">mavem构建项目</h4>
@@ -886,18 +886,18 @@ docker run -u root -d --name bfreeman-api <span class="se">\
       <span class="c1">//拉取代码
 </span><span class="c1"></span>      <span class="nf">stage</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">Pull</span> <span class="nx">Source</span> <span class="nx">Code</span><span class="err">&#39;</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">steps</span> <span class="p">{</span>
-            <span class="c1">//checkout到master 和 merge 指定分支操作
-</span><span class="c1"></span>            <span class="nf">checkout</span><span class="p">([</span><span class="err">$</span><span class="nx">class</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">GitSCM</span><span class="err">&#39;</span><span class="p">,</span> 
-            <span class="nx">branches</span><span class="p">:</span> <span class="p">[[</span><span class="nx">name</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">master</span><span class="err">&#39;</span><span class="p">]],</span> 
-            <span class="nx">doGenerateSubmoduleConfigurations</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
-             <span class="nx">extensions</span><span class="p">:</span> <span class="p">[</span>
+			<span class="c1">//checkout到master 和 merge 指定分支操作
+</span><span class="c1"></span>			<span class="nf">checkout</span><span class="p">([</span><span class="err">$</span><span class="nx">class</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">GitSCM</span><span class="err">&#39;</span><span class="p">,</span> 
+			<span class="nx">branches</span><span class="p">:</span> <span class="p">[[</span><span class="nx">name</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">master</span><span class="err">&#39;</span><span class="p">]],</span> 
+			<span class="nx">doGenerateSubmoduleConfigurations</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
+			 <span class="nx">extensions</span><span class="p">:</span> <span class="p">[</span>
                 <span class="p">[</span><span class="err">$</span><span class="nx">class</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">PreBuildMerge</span><span class="err">&#39;</span><span class="p">,</span> <span class="nx">options</span><span class="p">:</span> <span class="p">[</span><span class="nx">mergeRemote</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">origin</span><span class="err">&#39;</span><span class="p">,</span> <span class="nx">mergeStrategy</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">RECURSIVE</span><span class="err">&#39;</span><span class="p">,</span> <span class="nx">mergeTarget</span><span class="p">:</span> <span class="s">&#34;${params.BRANCH}&#34;</span><span class="p">]]</span>
             <span class="p">],</span>
-            <span class="nx">submoduleCfg</span><span class="p">:</span> <span class="p">[],</span> 
-            <span class="nx">gitTool</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">Default</span><span class="err">&#39;</span><span class="p">,</span>
-            <span class="nx">userRemoteConfigs</span><span class="p">:</span> <span class="p">[[</span><span class="nx">credentialsId</span><span class="p">:</span> <span class="err">&#39;</span><span class="mi">0</span><span class="nx">baad767</span><span class="o">-</span><span class="mi">754</span><span class="nx">c</span><span class="o">-****-</span><span class="mi">8639</span><span class="o">-</span><span class="nx">be2559a124ac</span><span class="err">&#39;</span><span class="p">,</span> <span class="nx">url</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">git</span><span class="err">@</span><span class="nx">gitee</span><span class="p">.</span><span class="nx">com</span><span class="p">:</span><span class="o">****/****</span><span class="p">.</span><span class="nx">git</span><span class="err">&#39;</span><span class="p">]]]</span>
-            <span class="p">)</span>
-            <span class="p">}</span>
+			<span class="nx">submoduleCfg</span><span class="p">:</span> <span class="p">[],</span> 
+			<span class="nx">gitTool</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">Default</span><span class="err">&#39;</span><span class="p">,</span>
+			<span class="nx">userRemoteConfigs</span><span class="p">:</span> <span class="p">[[</span><span class="nx">credentialsId</span><span class="p">:</span> <span class="err">&#39;</span><span class="mi">0</span><span class="nx">baad767</span><span class="o">-</span><span class="mi">754</span><span class="nx">c</span><span class="o">-****-</span><span class="mi">8639</span><span class="o">-</span><span class="nx">be2559a124ac</span><span class="err">&#39;</span><span class="p">,</span> <span class="nx">url</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">git</span><span class="err">@</span><span class="nx">gitee</span><span class="p">.</span><span class="nx">com</span><span class="p">:</span><span class="o">****/****</span><span class="p">.</span><span class="nx">git</span><span class="err">&#39;</span><span class="p">]]]</span>
+			<span class="p">)</span>
+			<span class="p">}</span>
       <span class="p">}</span>
       
       <span class="c1">//代码静态分析
@@ -929,9 +929,9 @@ docker run -u root -d --name bfreeman-api <span class="se">\
 </span><span class="c1"></span>      <span class="nf">stage</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">Build</span> <span class="nx">Docker</span> <span class="nx">Image</span><span class="err">&#39;</span><span class="p">)</span> <span class="p">{</span>
          <span class="nx">steps</span> <span class="p">{</span>
             <span class="nx">sh</span> <span class="s">&#34;&#34;&#34;
-</span><span class="s">                    cd /var/jenkins_home/script/auto/deploy
-</span><span class="s">                    sh docker_build.sh
-</span><span class="s">                &#34;&#34;&#34;</span>
+</span><span class="s">				    cd /var/jenkins_home/script/auto/deploy
+</span><span class="s">				    sh docker_build.sh
+</span><span class="s">				&#34;&#34;&#34;</span>
          <span class="p">}</span>
       <span class="p">}</span>
       
@@ -939,9 +939,9 @@ docker run -u root -d --name bfreeman-api <span class="se">\
 </span><span class="c1"></span>      <span class="nf">stage</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">Push</span> <span class="nx">Remote</span> <span class="nx">Repositry</span><span class="err">&#39;</span><span class="p">)</span> <span class="p">{</span>
          <span class="nx">steps</span> <span class="p">{</span>
             <span class="nx">sh</span> <span class="s">&#34;&#34;&#34;
-</span><span class="s">                    cd /var/jenkins_home/script/auto/deploy
-</span><span class="s">                    sh docker_push.sh
-</span><span class="s">                &#34;&#34;&#34;</span>
+</span><span class="s">				    cd /var/jenkins_home/script/auto/deploy
+</span><span class="s">				    sh docker_push.sh
+</span><span class="s">				&#34;&#34;&#34;</span>
          <span class="p">}</span>
       <span class="p">}</span>
       
@@ -961,14 +961,14 @@ docker run -u root -d --name bfreeman-api <span class="se">\
 </span><span class="c1"></span>      <span class="nf">stage</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">Push</span> <span class="nx">Code</span><span class="err">&#39;</span><span class="p">)</span> <span class="p">{</span>
          <span class="nx">steps</span> <span class="p">{</span>
             <span class="c1">//代码推送到master操作
-</span><span class="c1"></span>            <span class="nf">sshagent</span><span class="p">([</span><span class="err">&#39;</span><span class="mi">0</span><span class="nx">baad767</span><span class="o">-****-</span><span class="mi">4122</span><span class="o">-</span><span class="mi">8639</span><span class="o">-</span><span class="nx">be2559a124ac</span><span class="err">&#39;</span><span class="p">])</span> <span class="p">{</span>
+</span><span class="c1"></span>			<span class="nf">sshagent</span><span class="p">([</span><span class="err">&#39;</span><span class="mi">0</span><span class="nx">baad767</span><span class="o">-****-</span><span class="mi">4122</span><span class="o">-</span><span class="mi">8639</span><span class="o">-</span><span class="nx">be2559a124ac</span><span class="err">&#39;</span><span class="p">])</span> <span class="p">{</span>
                 <span class="nx">sh</span> <span class="s">&#34;&#34;&#34;
 </span><span class="s">                    git config --global user.email &#34;</span><span class="o">******</span><span class="s">&#34;
 </span><span class="s">                    git config --global user.name &#34;</span><span class="o">******</span><span class="s">&#34;
-</span><span class="s">                    git commit -m &#34;</span><span class="nx">header</span> <span class="nx">changed</span> <span class="nx">ci</span> <span class="nx">commit</span> <span class="nx">automatically</span><span class="s">&#34; || true
+</span><span class="s">				    git commit -m &#34;</span><span class="nx">header</span> <span class="nx">changed</span> <span class="nx">ci</span> <span class="nx">commit</span> <span class="nx">automatically</span><span class="s">&#34; || true
 </span><span class="s">                    git push origin HEAD:refs/heads/master
-</span><span class="s">                &#34;&#34;&#34;</span>
-            <span class="p">}</span>
+</span><span class="s">				&#34;&#34;&#34;</span>
+			<span class="p">}</span>
          <span class="p">}</span>
          
       <span class="p">}</span>
@@ -1060,7 +1060,7 @@ docker run -u root -d --name bfreeman-api <span class="se">\
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2020
+    2021
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span>

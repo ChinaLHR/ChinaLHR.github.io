@@ -6,10 +6,21 @@
     <description>Recent content in 其他 on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 26 Dec 2017 19:54:40 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 10 Nov 2020 16:41:13 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/categories/%E5%85%B6%E4%BB%96/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>基于FRP的内网穿透实践</title>
+      <link>https://chinalhr.github.io/post/frp-intranet-penetration/</link>
+      <pubDate>Tue, 10 Nov 2020 16:41:13 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/frp-intranet-penetration/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;FRP内网穿透实践&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>关于</title>
