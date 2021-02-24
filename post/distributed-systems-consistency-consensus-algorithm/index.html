@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>分布式系统的一致性与共识算法：基础理论 - LiHanRong Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="LHR" /><meta name="description" content=" 记录分布式系统的一些基础理论
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+
+
+<link rel="canonical" href="https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="分布式系统的一致性与共识算法：基础理论" />
+<meta property="og:description" content="
+记录分布式系统的一些基础理论
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/" /><meta property="article:published_time" content="2021-01-25T00:20:07&#43;08:00"/>
+<meta property="article:modified_time" content="2021-01-25T00:20:07&#43;08:00"/>
+
+<meta itemprop="name" content="分布式系统的一致性与共识算法：基础理论">
+<meta itemprop="description" content="
+记录分布式系统的一些基础理论
+">
+
+
+<meta itemprop="datePublished" content="2021-01-25T00:20:07&#43;08:00" />
+<meta itemprop="dateModified" content="2021-01-25T00:20:07&#43;08:00" />
+<meta itemprop="wordCount" content="6217">
+
+
+
+<meta itemprop="keywords" content="分布式系统," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="分布式系统的一致性与共识算法：基础理论"/>
+<meta name="twitter:description" content="
+记录分布式系统的一些基础理论
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">LiHanRong Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">主页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="https://www.yuque.com/lihanrong">
+        <li class="mobile-menu-item">笔记</li>
+      </a><a href="/post/books/">
+        <li class="mobile-menu-item">书单</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">LiHanRong Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">主页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">笔记</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/books/">书单</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">分布式系统的一致性与共识算法：基础理论</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-01-25 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/"> 编程-分布式系统 </a>
+            </div>
+          <span class="more-meta"> 6217 words </span>
+          <span class="more-meta"> 13 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#分布式系统下的一致性问题">分布式系统下的一致性问题</a></li>
+<li><a href="#拜占庭将军问题">拜占庭将军问题</a></li>
+<li><a href="#共识算法">共识算法</a>
+<ul>
+<li><a href="#共识-consensus-与一致性-consistency">共识（Consensus）与一致性（Consistency）</a></li>
+<li><a href="#共识算法解决的问题">共识算法解决的问题</a></li>
+<li><a href="#共识算法分类">共识算法分类</a></li>
+</ul></li>
+<li><a href="#flp不可能定理-cap理论-acid原则与base原则">FLP不可能定理、CAP理论、ACID原则与BASE原则</a>
+<ul>
+<li><a href="#同步-异步系统模型">同步/异步系统模型</a></li>
+<li><a href="#flp不可能原理">FLP不可能原理</a></li>
+<li><a href="#cap理论">CAP理论</a></li>
+<li><a href="#acid原则与base原则">ACID原则与BASE原则</a></li>
+</ul></li>
+<li><a href="#核心问题-复制">核心问题-复制</a>
+<ul>
+<li><a href="#复制与分区">复制与分区</a></li>
+<li><a href="#基本复制方式">基本复制方式</a></li>
+<li><a href="#基本复制算法">基本复制算法</a>
+<ul>
+<li><a href="#replication-methods-that-prevent-divergence-single-copy-systems">Replication methods that prevent divergence (single copy systems)</a></li>
+<li><a href="#replication-methods-that-risk-divergence-multi-master-systems">Replication methods that risk divergence (multi-master systems)</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#参考">参考</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>记录分布式系统的一些基础理论</p>
+</blockquote>
+
+<h2 id="分布式系统下的一致性问题">分布式系统下的一致性问题</h2>
+
+<p><strong>定义：</strong>一致性为在分布式系统领域中对于多个服务节点，给定一系列操作，在约定协议的保障下，使得它们对处理结果达成某种程度的协同。</p>
+
+<p>分布式系统中的节点通信存在两种模型：共享内存（Shared memory）和消息传递（Messages passing）。基于消息传递通信模型的分布式系统，不可避免的会发生以下错误：进程可能会慢、被杀死或者重启，消息可能会延迟、丢失、重复；发生上面任意一种异常都会对分布式系统中各个节点对某一个值达成一致性产生问题。</p>
+
+<p><strong>一致性的要求：</strong></p>
+
+<ul>
+<li>可终止性（Termination）：一致的结果在有限时间内能完成（可以保障提供服务（Liveness））</li>
+<li>约同性（Agreement）：不同节点最终完成决策的结果是相同的（意味着算法要么不给出结果，任何给出的结果必定是达成了共识的，即安全性（Safety））</li>
+<li>合法性（Validity）：决策的结果必须是某个节点提出的提案（即达成的结果必须是节点执行操作的结果）</li>
+</ul>
+
+<p>解决一致性问题的核心在于对不同空间发生的事件进行全局唯一排序。</p>
+
+<p><strong>一致性模型：</strong></p>
+
+<ul>
+<li>强一致性模型
+
+<ul>
+<li>顺序一致性：所有操作都以某种顺序原子执行，该顺序与各个节点上看到的顺序一致，并且在所有节点上都相等；可以基于Lamport时间戳（逻辑时钟）进行实现。</li>
+<li>线性一致性：所有操作都按照操作的全局实时顺序一致的顺序自动执行；在顺序一致性前提下加强了进程间的操作排序，形成唯一的全局顺序；依赖于全局的时钟或锁，有很强的原子性保证，但是比较难实现。</li>
+</ul></li>
+<li>弱一致性模型
+
+<ul>
+<li>最终一致性：在未来的某个时间点进行冲突检测和修正，如DNS</li>
+<li>客户端为中心型一致性：通过在client端库中建立额外的缓存来实现，如亚马逊Dynamo</li>
+</ul></li>
+</ul>
+
+<h2 id="拜占庭将军问题">拜占庭将军问题</h2>
+
+<p>拜占庭将军问题是 Leslie Lamport 在《The Byzantine Generals Problem》论文中提出的分布式对等网络通信容错问题，为分布式领域中最复杂、最严格的容错模型；拜占庭将军问题讨论的是允许存在少数节点作恶（消息可能被伪造）场景下的如何达成共识问题。</p>
+
+<p>拜占庭是古代东罗马帝国的首都，由于地域宽广，守卫边境的多个将军（类比系统中的多个节点）需要通过信使来传递消息，达成某些一致决定。但由于将军中可能存在叛徒（类比系统中节点出错），这些叛徒将向不同的将军发送不同的消息，试图干扰共识的达成；拜占庭问题即讨论在此情况下，如何让忠诚的将军们能达成行动的一致。</p>
+
+<p>在该模型下，系统不会对集群中的节点做任何的限制，它们可以向其他节点发送随机数据、错误数据，也可以选择不响应其他节点的请求，这些无法预测的行为使得容错这一问题变得更加复杂。</p>
+
+<p><strong>早期解决方案</strong></p>
+
+<p>在“拜占庭将军”的问题可以在“军官与士官的问题”里解决，以降低将军问题的发生。而所谓的“军官与士官的问题”，就是探讨军官与他的士官是否能忠实实行命令。</p>
+
+<p>解决方案1：即使出现了伪造或错误的消息。只要有问题的将军的数量不到三分之一，仍可以达到“拜占庭容错”。比如有军官A，士官B与士官C。当A要求B进攻，却要求C撤退时。就算B与C交换所收到的命令，B与C仍不能确定是否A有问题，因为B或C可能将窜改了的消息传给对方。以函数来表示，将军的总数为*n*，*n*里面背叛者的数量为*t*，则只要<em>n</em> &gt; 3*t*就可以容错。</p>
+
+<p>解决方案2：通过数字签名实现拜占庭容错，并以此来找到有问题的将军。</p>
+
+<p><strong>实用拜占庭容错算法</strong></p>
+
+<p>Practical Byzantine Fault Tolerance，PBFT（实用拜占庭容错算法），由 Castro 和 Liskov 于论文《Practical Byzantine Fault Tolerance and Proactive Recovery》中提出，基于BFT做了改进，采用密码学相关技术（RSA 签名算法、消息验证编码和摘要）确保消息传递过程无法被篡改和破坏；该算法能提供高性能的运算，使得系统可以每秒处理成千的请求</p>
+
+<p>过程如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">1. 通过轮换或随机算法选出某个节点为主节点，此后只要主节点不切换，则称为一个视图（View）。
+2. 在某个视图中，客户端将请求 &lt;REQUEST,operation,timestamp,client&gt; 发送给主节点，主节点负责广播请求到所有其它副本节点。
+3. 所有节点处理完成请求，将处理结果 &lt;REPLY,view,timestamp,client,id_node,response&gt; 返回给客户端。客户端检查是否收到了至少 f+1 个来自不同节点的相同结果，作为最终结果。</pre></td></tr></table>
+</div>
+</div>
+<h2 id="共识算法">共识算法</h2>
+
+<h3 id="共识-consensus-与一致性-consistency">共识（Consensus）与一致性（Consistency）</h3>
+
+<p>一致性：含义比共识宽泛，在不同场景（基于事务的数据库、分布式系统等）下意义不同。在分布式系统场景下，一致性指的是多个副本对外呈现的状态。如之前提到的顺序一致性、线性一致性，描述了多节点对数据状态的共同维护能力。</p>
+
+<p>共识：特指在分布式系统中多个节点之间对某个事情达成一致看法的过程。需注意达成某种共识并不意味着就保障了一致性。</p>
+
+<h3 id="共识算法解决的问题">共识算法解决的问题</h3>
+
+<p>共识算法解决的是分布式系统对某个提案（Proposal），大部分节点达成一致意见的过程。提案泛指多个事件发生的顺序、某个键对应的值&hellip;对于分布式系而言，各个节点通常都是相同的确定性状态机模型（又称为状态机复制问题，State-Machine Replication），从相同初始状态开始接收相同顺序的指令，则可以保证相同的结果状态。</p>
+
+<p>这里共识算法需要解决两个基本问题：</p>
+
+<ol>
+<li>如何提出一个待共识的提案（令牌传递、随机选取&hellip;）</li>
+<li>如何让多个节点对提案达成共识（投票、规则验证&hellip;）</li>
+</ol>
+
+<p>现实网络环境中存在各种各样的问题，在分布式环境下，共识算法还需要解决如通信问题（网络中断、分区）、节点故障、消息伪造&hellip;</p>
+
+<h3 id="共识算法分类">共识算法分类</h3>
+
+<p>根据是否允许拜占庭错误（伪造信息恶意响应）的情况，共识算法分为 Crash Fault Tolerance (CFT) 和 Byzantine Fault Tolerance（BFT）两类。</p>
+
+<p>Crash Fault Tolerance (CFT) 算法：Paxos、Raft、ZAB&hellip;</p>
+
+<p>Byzantine Fault Tolerance(BFT) 算法：PBFT为代表的确定性系列算法、PoW为代表的概率算法&hellip;</p>
+
+<h2 id="flp不可能定理-cap理论-acid原则与base原则">FLP不可能定理、CAP理论、ACID原则与BASE原则</h2>
+
+<h3 id="同步-异步系统模型">同步/异步系统模型</h3>
+
+<p><strong>同步系统模型</strong>：指系统中的各个节点的时钟误差存在上限；并且消息传递必须在一定时间内完成，否则认为失败；同时各个节点完成处理消息的时间是一定的。因此同步系统中可以很容易地判断消息是否丢失。</p>
+
+<p><strong>异步系统模型：</strong>系统中各个节点可能存在较大的时钟差异；同时消息传输时间是任意长的；各节点对消息进行处理的时间也可能是任意长的。这就造成无法判断某个消息迟迟没有被响应是哪里出了问题（节点故障还是传输故障？）。现实生活中的系统往往都是异步系统。</p>
+
+<h3 id="flp不可能原理">FLP不可能原理</h3>
+
+<p><strong>定义：</strong>由 Fischer，Lynch 和 Patterson 三位科学家发表的《Impossibility of Distributed Consensus with One Faulty Process》论文中提出，在网络可靠，但允许节点失效（即便只有一个）的最小化异步模型系统中，不存在一个可以解决一致性问题的确定性共识算法。</p>
+
+<p><strong>描述：</strong>FLP不可能原理假定节点只能因崩溃而失败； 网络可靠，并且异步系统模型的典型时序假设成立：例如，消息延迟没有限制的情况下，假设有A、B、C三个节点进行投票，A投票0，B投票1，而C收到了A与B的投票却没办法响应，A与B就没办法在有限的时间内获知最终结果；如果进行重新投票，类似的情况重复发生，则永远无法达到共识。</p>
+
+<p>FLP 不可能原理的意义在于，告诉我们不要浪费时间去为异步分布式系统设计在任意场景上都能够实现共识的算法，异步系统完全没有办法保证能在有限时间内达成一致。</p>
+
+<h3 id="cap理论">CAP理论</h3>
+
+<p><strong>CAP定理</strong>（CAP theorem），又被称作<strong>布鲁尔定理</strong>（Brewer&rsquo;s theorem），它指出对于一个分布式计算系统来说，不可能同时满足以下三点，只能满足三项中的两项：</p>
+
+<ul>
+<li>一致性（<strong>C</strong>onsistency） （等同于所有节点访问同一份最新的数据副本）</li>
+<li>可用性（<strong>A</strong>vailability）（每次请求都能获取到非错的响应——但是不保证获取的数据为最新数据）</li>
+<li>分区容错性（<strong>P</strong>artition tolerance）（以实际效果而言，分区相当于对通信的时限要求。系统如果不能在时限内达成数据一致性，就意味着发生了分区的情况，必须就当前操作在C和A之间做出选择）</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/108621402-60400e00-746d-11eb-8356-b715eb7d4494.png" alt="图片" /></p>
+
+<p><strong>证明：</strong></p>
+
+<p>假设有两个通信中的节点出现了网络分区的情况，如果允许其中一个节点更新状态，则需要舍弃一致性（C）；如果为了保证数据一致性，将分区的节点设置为不可用，就需要舍弃可用性（A）；如果两个节点可以互相通信，才能既保证一致性又保证可用性，会丧失分区容错性（P）。</p>
+
+<p><strong>三类系统模型</strong></p>
+
+<ul>
+<li>CA（一致性+可用性）：包括完全严格的仲裁协议，例如<strong>2PC（两阶段提交）</strong>。</li>
+<li>CP（一致性+分区容错性）： 包括多数仲裁协议，其中少数分区不可用，<strong>例如Paxos</strong>。</li>
+<li>AP（可用性+分区容错性）： 包括使用冲突解决方案的协议，<strong>例如DynamoDB</strong>。</li>
+</ul>
+
+<p><strong>CA\CP区别：</strong>CA和CP系统设计均提供相同的一致性模型：高度一致性。 唯一的区别是CA系统不能容忍任何节点故障。 CP系统可以容忍 <code>f</code>在给定 <code>2f+1</code>在非拜占庭式故障模型中。</p>
+
+<p><strong>场景</strong></p>
+
+<ul>
+<li>CA：弱化了分区容错性，早期分布式关系数据库系统中使用的许多系统设计如两阶段提交，都没有考虑分区容错性。 分区容错性是现代系统的重要属性，因为如果系统在多个地理环境上分布，网络分区出现的概览就会加大。</li>
+<li>CP：弱化了可用性，一些对结果一致性很敏感的应用会选择基于此模型设计，当系统出现故障时会拒绝服务；Paxos、Raft 等共识算法，以及HBase、MongoDB等基于此模型设计。</li>
+<li>AP：弱化了一致性，一些 对结果一致性不敏感的应用会选择基于此模型设计，可以允许在新版本上线后过一段时间才最终更新成功，期间不保证一致性；分布式同步协议如 Gossip，以及DynamoDB、 CouchDB、Cassandra 数据库等基于此模型设计。</li>
+</ul>
+
+<h3 id="acid原则与base原则">ACID原则与BASE原则</h3>
+
+<p><strong>ACID原则</strong></p>
+
+<p>ACID 即 Atomicity（原子性）、Consistency（一致性）、Isolation（隔离性）、Durability（持久性）四种特性的缩写，一般出现在分布式数据库等基于事务过程的系统中；ACID 原则描述了分布式数据库需要满足的一致性需求，同时允许付出可用性的代价。</p>
+
+<ul>
+<li>Atomicity：每次事务是原子的，事务包含的所有操作要么全部成功，要么全部不执行。一旦有操作失败，则需要回退状态到执行事务之前；</li>
+<li>Consistency：数据库的状态在事务执行前后的状态是一致的和完整的，无中间状态。即只能处于成功事务提交后的状态；</li>
+<li>Isolation：各种事务可以并发执行，但彼此之间互相不影响。按照标准 SQL 规范，从弱到强可以分为未授权读取、授权读取、可重复读取和串行化四种隔离等级；</li>
+<li>Durability：状态的改变是持久的，不会失效。一旦某个事务提交，则它造成的状态变更就是永久性的。</li>
+</ul>
+
+<p><strong>BASE原则</strong></p>
+
+<p>BASE即 Basic Availability（基本可用），Soft-state（弱状态），Eventual Consistency（最终一致性），为 eBay 技术专家 Dan Pritchett 提出的与ACID相对的一个原则，主要面向大型高可用分布式系统，主张牺牲掉对强一致性的追求，而实现最终一致性，来换取一定的可用性。</p>
+
+<ul>
+<li>Basic Availability：系统在出现不可预知的故障时候，允许损失部分可用性，保证核心服务可用。</li>
+<li>Soft-state：允许系统在不同节点的数据副本之间进行数据同步的过程中存在延时（允许系统中的数据存在中间状态，不会影响系统的整体可用性）。</li>
+<li>Eventual Consistency：系统中所有的数据副本，在进过一段时间的同步后，最终能够达到一个一致的状态。</li>
+</ul>
+
+<h2 id="核心问题-复制">核心问题-复制</h2>
+
+<h3 id="复制与分区">复制与分区</h3>
+
+<ul>
+<li>分区：将数据集划分为更小的不同的独立集合; 这是用来减少数据集增长的影响，提高性能</li>
+<li>复制：在多台计算机上复制相同的数据; 允许更多的服务器参与计算，主要是为了通过为数据新副本提供额外的计算能力和带宽，从而提高性能；因为数据的独立副本必须在多台计算机上保持同步，这意味着确保复制遵循内存一致性模型</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/19829495/108691607-a57c4280-7536-11eb-8976-c97bdff45a50.png" alt="图片" /></p>
+
+<p>复制是一个组通信问题。需要考虑哪种通信方式可以为我们提供我们想要的性能和可用性特性？面对网络分区以及节点同时发生故障，我们如何确保容错性，持久性以及避免分歧。</p>
+
+<h3 id="基本复制方式">基本复制方式</h3>
+
+<ul>
+<li>同步复制：强持久化保证，系统响应慢，对网络延迟敏感</li>
+<li>异步复制：弱持久化保证，性能高，对网络延迟更加宽容</li>
+</ul>
+
+<h3 id="基本复制算法">基本复制算法</h3>
+
+<p>基本复制算法大致可以分为两类：Replication methods that prevent divergence (single copy systems) 防止差异的复制方式（单拷贝系统）与Replication methods that risk divergence (multi-master systems) 有差异风险的复制方式（多主系统）</p>
+
+<h4 id="replication-methods-that-prevent-divergence-single-copy-systems">Replication methods that prevent divergence (single copy systems)</h4>
+
+<p>防止差异的复制方式（单拷贝系统），对外表现得像一个单独的系统；当部分故障发生时，系统确保只有一个系统副本处于活动状态；系统需要确保副本始终保持一致，基于某一种共识算法去实现，一般有如下几种方式：</p>
+
+<p><strong>Master/Slave（主从复制）</strong></p>
+
+<p>所有更新都在主服务器上执行，操作日志(或者更改)通过网络传送到备份副本；涉及两种相关的变体异步主/备份复制与同步主/备份复制。</p>
+
+<p><strong>2-phase commit（两阶段提交）</strong></p>
+
+<p><strong>Quorum机制选举算法（如paxos、raft&hellip;）</strong></p>
+
+<p><strong>Quorum</strong> 机制，是一种分布式系统中常用的，用来保证数据冗余和最终一致性的投票算法，其主要数学思想来源于鸽巢原理；在分布式系统中，Quorum常用于副本的读写控制。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">假设每份数据有V个副本，每个副本对应一票，读、写操作首先要请求副本以获取其票数，定义：
+read quorum R（最小读票数）：读操作获取的票数必须大于该值才允许读；
+write quorum W（最小写票数）：写操作获取的票数必须大于该值才允许写；
+
+V、R、W必须满足：
+R + W &gt; V：保证对于每份数据，不会 同时读和写（当一个写操作请求过来的时候，它必须要获得W个写票。而剩下的
+数量是V-W是不够R的，因此不能再有读请求过来了）
+W &gt; V / 2：保证对于每份数据，不会同时出现 两个写，即写操作是串行的
+
+其他：
+没有规定 R &gt; V / 2，quorum 机制允许 多个读同时发生，即允许 并发读；
+考虑write -&gt; read序列，因为R + W &gt; V，因此 W 和 V 之间至少有一个重叠（鸽巢原理），从而保证 write 之后，
+read 操作至少会获取一个最新副本；</pre></td></tr></table>
+</div>
+</div>
+<p>在做复制冗余的时候，借助 Quorum 机制，5 个副本只需要完成 3 个写即可响应成功，大大提升了写操作的响应速度，又没有减弱可靠性；Quorum 机制本质上是把写负载转移到了读负载的一种设计权衡。</p>
+
+<p>Quorum机制无法保证强一致性，即无法实现任何时刻任何用户或节点都可以读到最近一次成功提交的副本数据；后续的一些CP模型算法如Paxos、Raft、ZAB算法都可以看到对Quorum机制的应用。</p>
+
+<h4 id="replication-methods-that-risk-divergence-multi-master-systems">Replication methods that risk divergence (multi-master systems)</h4>
+
+<p><strong>Gossip算法</strong></p>
+
+<p>Gossip算法Palo Alto研究中心在论文《Epidemic Algorithms for Replicated Database Maintenance》中提出的一种用于分布式数据库在多节点间复制同步数据的算法；特点是要同步的信息如同流言一般传播，最终一致性。</p>
+
+<p>具体的工作过程如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">1. 如果有某一项信息需要在整个网络中所有节点中传播，那从信息源开始，选择一个固定的传播周期（如1秒），随机选择它
+相连接的k个节点（称为Fan-Out）进行消息传播。
+2. 每一个节点收到消息后，如果这个消息是它之前没有收到过的，将在下一个周期内，选择除了发送消息给它的那个节点外的
+其他相邻k个节点发送相同的消息，理论上最终网络的所有节点都会拥有相同的消息。</pre></td></tr></table>
+</div>
+</div>
+<p><img src="https://user-images.githubusercontent.com/19829495/108829989-cc547a80-7603-11eb-8da1-ab3dd2afc612.png" alt="image" /></p>
+
+<p>上图从一致性、延迟、吞吐量、数据丢失和故障转移对比了各个类型共识算法实现。</p>
+
+<h2 id="参考">参考</h2>
+
+<p><a href="https://zh.wikipedia.org/wiki/%E6%8B%9C%E5%8D%A0%E5%BA%AD%E5%B0%86%E5%86%9B%E9%97%AE%E9%A2%98">https://zh.wikipedia.org/wiki/拜占庭将军问题</a></p>
+
+<p><a href="https://www.iminho.me/wiki/docs/blockchain_guide/distribute_system-intro.md">https://www.iminho.me/wiki/docs/blockchain_guide/distribute_system-intro.md</a></p>
+
+<p><a href="http://book.mixu.net/distsys/single-page.html">http://book.mixu.net/distsys/single-page.html</a></p>
+
+<p><a href="https://zh.wikipedia.org/wiki/Quorum_(%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F)">https://zh.wikipedia.org/wiki/Quorum_(分布式系统)</a></p>
+
+<p><a href="https://en.wikipedia.org/wiki/Gossip_protocol">https://en.wikipedia.org/wiki/Gossip_protocol</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">LHR</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-01-25
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/jenkins-kubernetes-helm-ci-cd/">
+            <span class="next-text nav-default">Jenkins-Kubernetes-Docker-Helm CI/CD实践</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
+  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LHR</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+<script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+
+</body>
+</html>

@@ -6,10 +6,21 @@
     <description>Recent content on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 12 Jan 2021 19:51:52 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 25 Jan 2021 00:20:07 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>分布式系统的一致性与共识算法：基础理论</title>
+      <link>https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/</link>
+      <pubDate>Mon, 25 Jan 2021 00:20:07 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;记录分布式系统的一些基础理论&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Jenkins-Kubernetes-Docker-Helm CI/CD实践</title>
