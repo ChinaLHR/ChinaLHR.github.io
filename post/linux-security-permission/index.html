@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/linux-security-permission/" />
@@ -44,7 +44,8 @@
 读《Linux命令行与shell脚本编程大全》记录
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/linux-security-permission/" /><meta property="article:published_time" content="2019-10-23T22:09:54&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/linux-security-permission/" />
+<meta property="article:published_time" content="2019-10-23T22:09:54&#43;08:00"/>
 <meta property="article:modified_time" content="2019-10-23T22:09:54&#43;08:00"/>
 
 <meta itemprop="name" content="Linux用户-权限">
@@ -582,8 +583,7 @@ x代表对象是可执行的
 <p><img src="https://user-images.githubusercontent.com/19829495/67382680-765f6500-f5c0-11e9-9751-e7e04c3d6489.png" alt="image" /></p>
 
 <ul>
-<li>umask指定在建立文件时预设的权限掩码</li>
-</ul>
+<li><p>umask指定在建立文件时预设的权限掩码</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -591,12 +591,13 @@ x代表对象是可执行的
 <td class="lntd">
 <pre class="chroma">umask [-S][权限掩码]</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="更改权限">更改权限</h4>
 
 <ul>
-<li>命令</li>
-</ul>
+<li><p>命令</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -640,7 +641,9 @@ o：将权限设置为跟其他用户一样
 
 chmod o+r newfile</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="更改所属关系">更改所属关系</h4>
 
 <p>chown命令用来改变文件的属主，chgrp命令用来改变文件的默认属组。</p>

@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/python-logging/" />
@@ -44,7 +44,8 @@
 Python Logging模块
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/python-logging/" /><meta property="article:published_time" content="2019-11-30T14:09:28&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/python-logging/" />
+<meta property="article:published_time" content="2019-11-30T14:09:28&#43;08:00"/>
 <meta property="article:modified_time" content="2019-11-30T14:09:28&#43;08:00"/>
 
 <meta itemprop="name" content="Python-Logging">
@@ -200,8 +201,7 @@ CRITICAL（50）</pre></td></tr></table>
 <h3 id="logging模块">logging模块</h3>
 
 <ul>
-<li>模块</li>
-</ul>
+<li><p>模块</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -217,9 +217,9 @@ Handler ：处理器, 将(日志记录器产生的)日志记录发送至合适�
 Filter ：过滤器, 提供了更好的粒度控制,它可以决定输出哪些日志记录。
 Formatter：格式化器, 指明了最终输出中日志记录的布局。</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>流程</li>
+</div></li>
+
+<li><p>流程</p></li>
 </ul>
 
 <p><img src="https://user-images.githubusercontent.com/19829495/69788016-8dfdbf00-11f8-11ea-9794-8eee09d33c95.png" alt="图片" /></p>
@@ -361,8 +361,7 @@ Formatter：格式化器, 指明了最终输出中日志记录的布局。</pre>
 <h3 id="基于配置文件配置">基于配置文件配置</h3>
 
 <ul>
-<li>从字典中获取配置</li>
-</ul>
+<li><p>从字典中获取配置</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -411,49 +410,48 @@ Formatter：格式化器, 指明了最终输出中日志记录的布局。</pre>
 <pre class="chroma">import logging.config
 
 config = {
-    &#39;version&#39;: 1,
-    &#39;formatters&#39;: {
-        &#39;simple&#39;: {
-            &#39;format&#39;: &#39;%(asctime)s - %(name)s - %(levelname)s - %(message)s&#39;,
-        },
-        # 其他的 formatter
+&#39;version&#39;: 1,
+&#39;formatters&#39;: {
+    &#39;simple&#39;: {
+        &#39;format&#39;: &#39;%(asctime)s - %(name)s - %(levelname)s - %(message)s&#39;,
     },
-    &#39;handlers&#39;: {
-        &#39;console&#39;: {
-            &#39;class&#39;: &#39;logging.StreamHandler&#39;,
-            &#39;level&#39;: &#39;DEBUG&#39;,
-            &#39;formatter&#39;: &#39;simple&#39;
-        },
-        &#39;file&#39;: {
-            &#39;class&#39;: &#39;logging.FileHandler&#39;,
-            &#39;filename&#39;: &#39;logging.log&#39;,
-            &#39;level&#39;: &#39;DEBUG&#39;,
-            &#39;formatter&#39;: &#39;simple&#39;
-        },
-        # 其他的 handler
+    # 其他的 formatter
+},
+&#39;handlers&#39;: {
+    &#39;console&#39;: {
+        &#39;class&#39;: &#39;logging.StreamHandler&#39;,
+        &#39;level&#39;: &#39;DEBUG&#39;,
+        &#39;formatter&#39;: &#39;simple&#39;
     },
-    &#39;loggers&#39;:{
-        &#39;StreamLogger&#39;: {
-            &#39;handlers&#39;: [&#39;console&#39;],
-            &#39;level&#39;: &#39;DEBUG&#39;,
-        },
-        &#39;FileLogger&#39;: {
-            # 既有 console Handler，还有 file Handler
-            &#39;handlers&#39;: [&#39;console&#39;, &#39;file&#39;],
-            &#39;level&#39;: &#39;DEBUG&#39;,
-        },
-        # 其他的 Logger
-    }
+    &#39;file&#39;: {
+        &#39;class&#39;: &#39;logging.FileHandler&#39;,
+        &#39;filename&#39;: &#39;logging.log&#39;,
+        &#39;level&#39;: &#39;DEBUG&#39;,
+        &#39;formatter&#39;: &#39;simple&#39;
+    },
+    # 其他的 handler
+},
+&#39;loggers&#39;:{
+    &#39;StreamLogger&#39;: {
+        &#39;handlers&#39;: [&#39;console&#39;],
+        &#39;level&#39;: &#39;DEBUG&#39;,
+    },
+    &#39;FileLogger&#39;: {
+        # 既有 console Handler，还有 file Handler
+        &#39;handlers&#39;: [&#39;console&#39;, &#39;file&#39;],
+        &#39;level&#39;: &#39;DEBUG&#39;,
+    },
+    # 其他的 Logger
+}
 }
 
 logging.config.dictConfig(config)
 StreamLogger = logging.getLogger(&#34;StreamLogger&#34;)
 FileLogger = logging.getLogger(&#34;FileLogger&#34;)</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>从配置文件中获取配置</li>
-</ul>
+</div></li>
+
+<li><p>从配置文件中获取配置</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -527,7 +525,8 @@ import logging.config
 logging.config.fileConfig(fname=&#39;test.ini&#39;, disable_existing_loggers=False)
 logger = logging.getLogger(&#34;sampleLogger&#34;)</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
     </div>
 
     <div class="post-copyright">

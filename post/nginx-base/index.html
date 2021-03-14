@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/nginx-base/" />
@@ -44,7 +44,8 @@
 Nginx相关资料阅读整理
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/nginx-base/" /><meta property="article:published_time" content="2019-06-18T22:01:04&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/nginx-base/" />
+<meta property="article:published_time" content="2019-06-18T22:01:04&#43;08:00"/>
 <meta property="article:modified_time" content="2019-06-18T22:01:04&#43;08:00"/>
 
 <meta itemprop="name" content="Nginx Base">
@@ -199,8 +200,7 @@ Nginx相关资料阅读整理
 <h3 id="linux内核参数的优化">Linux内核参数的优化</h3>
 
 <ul>
-<li>修改Linux运行时内核参数(/etc/sysctl.conf)以达到支持高并发访问的Web服务器,执行行sysctl -p命令，使上述修改生效</li>
-</ul>
+<li><p>修改Linux运行时内核参数(/etc/sysctl.conf)以达到支持高并发访问的Web服务器,执行行sysctl -p命令，使上述修改生效</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -264,7 +264,9 @@ net.core.wmem_max = 2097152
 net.ipv4.tcp_syncookies = 1
 net.ipv4.tcp_max_syn.backlog=1024</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h3 id="命令行控制">命令行控制</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

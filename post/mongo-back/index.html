@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/mongo-back/" />
@@ -44,7 +44,8 @@
 记录MongoDB备份与还原知识点与个人站点的MongoDB备份脚本
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/mongo-back/" /><meta property="article:published_time" content="2020-02-08T23:33:14&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/mongo-back/" />
+<meta property="article:published_time" content="2020-02-08T23:33:14&#43;08:00"/>
 <meta property="article:modified_time" content="2020-02-08T23:33:14&#43;08:00"/>
 
 <meta itemprop="name" content="MongoDB备份与还原">
@@ -202,8 +203,7 @@
 <p>mongodump 备份过程中会对 mongod 服务的性能产生影响，建议在业务低峰期进行操作。</p>
 
 <ul>
-<li>dump命令参数</li>
-</ul>
+<li><p>dump命令参数</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -283,7 +283,9 @@ mongodump &lt;options&gt;
 --sslAllowInvalidHostnames
 --sslFIPSMode</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <p>可以通过mongodump &ndash;help查看options</p>
 
 <h3 id="系统快照">系统快照</h3>
@@ -303,8 +305,7 @@ mongodump &lt;options&gt;
 <p>mongorestore可以创建新的数据库或将数据添加到现有的数据库，但是 <strong>mongorestore 仅仅执行insert操作，不执行update操作</strong>。这就意味着如果将文档还原到现有的数据库，现有的数据库中的文档的_id的值和要还原的文档中的_id 值是一样的，是不会将数据库原有的值覆盖的。</p>
 
 <ul>
-<li>restore命令参数</li>
-</ul>
+<li><p>restore命令参数</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -358,7 +359,9 @@ mongodump &lt;options&gt;
 --archive # 从归档文件中恢复。
 --dir # 指定还原数据储存目录。</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <p>可以通过mongorestore &ndash;help查看options</p>
 
 <h2 id="mongodb定时备份shell脚本实现">MongoDB定时备份Shell脚本实现</h2>

@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/linux-io-multiplexing/" />
@@ -44,7 +44,8 @@
 Unix IO模型, Linux IO多路复用 select poll epoll机制整理
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/linux-io-multiplexing/" /><meta property="article:published_time" content="2019-07-24T22:22:03&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/linux-io-multiplexing/" />
+<meta property="article:published_time" content="2019-07-24T22:22:03&#43;08:00"/>
 <meta property="article:modified_time" content="2019-07-24T22:22:03&#43;08:00"/>
 
 <meta itemprop="name" content="Linux IO多路复用 select poll epoll">
@@ -402,8 +403,7 @@ int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout
 </div>
 </div>
 <ul>
-<li>int epoll_create(int size)</li>
-</ul>
+<li><p>int epoll_create(int size)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -413,10 +413,9 @@ int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout
 <pre class="chroma">创建一个epoll的句柄，size用来告诉内核这个监听的数目一共有多大，不同于select()中的第一个参数，给出最大监听的fd+1的值，参数size并不是限制了epoll所能监听的描述符最大个数，只是对内核初始分配内部数据结构的一个建议。
 当创建好epoll句柄后，它就会占用一个fd值，在linux下如果查看/proc/进程id/fd/能够看到这个fd，所以在使用完epoll后，必须调用close()关闭，否则可能导致fd被耗尽。</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)</li>
-</ul>
+</div></li>
+
+<li><p>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -462,15 +461,15 @@ int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout
 结构如下
 
 struct epoll_event {
-    __uint32_t events;  /* Epoll events */
-    epoll_data_t data;  /* User data variable */
+__uint32_t events;  /* Epoll events */
+epoll_data_t data;  /* User data variable */
 };
 
 typedef union epoll_data {
-    void *ptr;
-    int fd;
-    __uint32_t u32;
-    __uint64_t u64;
+void *ptr;
+int fd;
+__uint32_t u32;
+__uint64_t u64;
 } epoll_data_t;
 
 events可以是以下几个宏的集合：
@@ -482,10 +481,9 @@ EPOLLHUP：表示对应的文件描述符被挂断；
 EPOLLET： 将EPOLL设为边缘触发(Edge Triggered)模式，这是相对于水平触发(Level Triggered)来说的。
 EPOLLONESHOT：只监听一次事件，当监听完这次事件之后，如果还需要继续监听这个socket的话，需要再次把这个socket加入到EPOLL队列里</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);</li>
-</ul>
+</div></li>
+
+<li><p>int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -505,10 +503,9 @@ EPOLLONESHOT：只监听一次事件，当监听完这次事件之后，如果�
 - maxevents 告诉内核events的大小
 - timeout 表示等待的超时事件</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>工作模式</li>
-</ul>
+</div></li>
+
+<li><p>工作模式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -522,7 +519,9 @@ EPOLLONESHOT：只监听一次事件，当监听完这次事件之后，如果�
 区别：边缘触发效率更高，减少了被重复触发的次数，函数不会返回大量用户程序可能不需要的文件描述符。
 为什么边缘触发一定要用非阻塞（non-block）IO：避免由于一个描述符的阻塞读/阻塞写操作让处理其它描述符的任务出现饥饿状态。</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="select-poll-epoll对比">select·poll·epoll对比</h4>
 
 <p><img src="https://user-images.githubusercontent.com/19829495/63755920-0c8d4c80-c8ea-11e9-936e-f6a1f3ba2452.png" alt="image" /></p>

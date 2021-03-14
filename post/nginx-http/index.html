@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/nginx-http/" />
@@ -44,7 +44,8 @@
 Nginx相关资料阅读整理
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/nginx-http/" /><meta property="article:published_time" content="2019-06-25T20:37:07&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/nginx-http/" />
+<meta property="article:published_time" content="2019-06-25T20:37:07&#43;08:00"/>
 <meta property="article:modified_time" content="2019-06-25T20:37:07&#43;08:00"/>
 
 <meta itemprop="name" content="Nginx Http Module">
@@ -196,8 +197,7 @@ Nginx相关资料阅读整理
 <p>server_name（对应用户请求中的主机域名）并通过server块来定义虚拟主机。server块就是一个虚拟主机，它只处理与之相对应的主机域名请求。</p>
 
 <ul>
-<li>监听端口 listen</li>
-</ul>
+<li><p>监听端口 listen</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -215,10 +215,9 @@ rcvbuf=size(设置监听句柄的SO_RCVBUF参数)/
 sndbuf=size(设置监听句柄的SO_SNDBUF参数)/
 ssl(在当前监听的端口上建立的连接必须基于SSL协议)</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>主机名称 server_name name[&hellip;]</li>
-</ul>
+</div></li>
+
+<li><p>主机名称 server_name name[&hellip;]</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -228,10 +227,9 @@ ssl(在当前监听的端口上建立的连接必须基于SSL协议)</pre></td><
 <pre class="chroma">nginx会取出header头中的Host，与每个server中的server_name进行匹配,决定到底由哪一个server块来处理这个请求。
 全匹配&gt;前缀通配符&gt;后缀通配符&gt;正则</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>server_name_in_redirect on|off 重定向主机名称的处理</li>
-</ul>
+</div></li>
+
+<li><p>server_name_in_redirect on|off 重定向主机名称的处理</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -239,10 +237,9 @@ ssl(在当前监听的端口上建立的连接必须基于SSL协议)</pre></td><
 <td class="lntd">
 <pre class="chroma">on打开时，表示在重定向请求时会使用server_name里配置的第一个主机名代替原先请求中的Host头部。</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>location[=|~|~*|^~|@]/uri/{&hellip;}</li>
-</ul>
+</div></li>
+
+<li><p>location[=|~|~*|^~|@]/uri/{&hellip;}</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -266,7 +263,9 @@ ssl(在当前监听的端口上建立的连接必须基于SSL协议)</pre></td><
 正则
 location  /匹配所有请求</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="文件路径">文件路径</h4>
 
 <ul>
@@ -301,8 +300,7 @@ location /download/ {
 </div>
 </div>
 <ul>
-<li>首页 index file&hellip;</li>
-</ul>
+<li><p>首页 index file&hellip;</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -316,10 +314,9 @@ location /download/ {
     index /index.html /html/index.php /index.php;
 }</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>根据HTTP返回码重定向页面(error_page code[code&hellip;][=|=answer-code]uri|@named_location)</li>
-</ul>
+</div></li>
+
+<li><p>根据HTTP返回码重定向页面(error_page code[code&hellip;][=|=answer-code]uri|@named_location)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -349,13 +346,15 @@ location @fallback (
     proxy_pass http://backend;
 )</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="请求处理时内存与磁盘资源分配配置">请求处理时内存与磁盘资源分配配置</h4>
 
 <ul>
 <li>client_body_in_file_only on|clean|off;(HTTP包体只存储到磁盘文件中,默认off)</li>
-<li>client_body_in_single_buffer on|off;(HTTP包体尽量写入到一个内存buffer，默认off)</li>
-</ul>
+
+<li><p>client_body_in_single_buffer on|off;(HTTP包体尽量写入到一个内存buffer，默认off)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -363,10 +362,9 @@ location @fallback (
 <td class="lntd">
 <pre class="chroma">因为用户请求的HTTP包体大小超过client_body_buffer_size设置的值，包体还是会写入到磁盘文件中</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>client_header_buffer_size size;(存储HTTP头部的内存buffer大小)</li>
-</ul>
+</div></li>
+
+<li><p>client_header_buffer_size size;(存储HTTP头部的内存buffer大小)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -376,10 +374,9 @@ location @fallback (
 <pre class="chroma">定义了正常情况下Nginx接收用户请求中HTTPheader部分（包括HTTP行和HTTP头部）
 时分配的内存buffer大小.</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>large_client_header_buffers number size;(存储超大HTTP头部的内存,buffer个数，buffer大小)</li>
-</ul>
+</div></li>
+
+<li><p>large_client_header_buffers number size;(存储超大HTTP头部的内存,buffer个数，buffer大小)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -387,10 +384,9 @@ location @fallback (
 <td class="lntd">
 <pre class="chroma">每一个header的大小超过单个buffer的大小，或者总和超过number * size 会报错</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>client_body_buffer_size size;(存储HTTP包体的内存buffer大小)</li>
-</ul>
+</div></li>
+
+<li><p>client_body_buffer_size size;(存储HTTP包体的内存buffer大小)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -398,10 +394,11 @@ location @fallback (
 <td class="lntd">
 <pre class="chroma">HTTP包——&gt;缓存——&gt;写入磁盘</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>connection_pool_size size;(TCP连接内存池初始大小)</li>
-<li>request_pool_size size;(HTTP请求处理内存池)</li>
+</div></li>
+
+<li><p>connection_pool_size size;(TCP连接内存池初始大小)</p></li>
+
+<li><p>request_pool_size size;(HTTP请求处理内存池)</p></li>
 </ul>
 
 <h4 id="网络连接与设置">网络连接与设置</h4>
@@ -421,8 +418,7 @@ location @fallback (
 <h4 id="对客户端请求的限制">对客户端请求的限制</h4>
 
 <ul>
-<li>limit_except method&hellip;{&hellip;}(按HTTP方法名限制用户请求)</li>
-</ul>
+<li><p>limit_except method&hellip;{&hellip;}(按HTTP方法名限制用户请求)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -436,12 +432,14 @@ location @fallback (
     deny  all;
 }</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>client_max_body_size size(HTTP请求包体Content-Length字段的最大值,默认1m)</li>
-<li>limit_rate speed(对请求的限速,默认0)</li>
-<li>limit_rate_after speed(nginx向客户端发送的响应长度超过limit<em>rate</em>
-after后才开始限默认，1m)</li>
+</div></li>
+
+<li><p>client_max_body_size size(HTTP请求包体Content-Length字段的最大值,默认1m)</p></li>
+
+<li><p>limit_rate speed(对请求的限速,默认0)</p></li>
+
+<li><p>limit_rate_after speed(nginx向客户端发送的响应长度超过limit<em>rate</em>
+after后才开始限默认，1m)</p></li>
 </ul>
 
 <h4 id="文件操作优化配置">文件操作优化配置</h4>
@@ -450,8 +448,8 @@ after后才开始限默认，1m)</li>
 <li>sendfile on|off(启用Linux的sendfile系统调用来发送文件,减少了内核态与用户态之间的两次内存复制)</li>
 <li>aio on|off(启用Linux系统上内核级别的异步文件I/O功能。与sendfile互斥)</li>
 <li>directio size|off(Linux系统上使用O_DIRECT选项去读取文件，大文件读取速度会有优化，缓冲区大小为size。与sendfile互斥)</li>
-<li>open_file_cache max=N[inactive=time]|off(文件缓存，默认off，会缓存文件句柄,文件大小，上次修改时间&hellip;减少对磁盘的操作)</li>
-</ul>
+
+<li><p>open_file_cache max=N[inactive=time]|off(文件缓存，默认off，会缓存文件句柄,文件大小，上次修改时间&hellip;减少对磁盘的操作)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -469,11 +467,13 @@ Used）算法进行淘汰。
 inactive:在inactive指定的时间段内没有被访问过的元素将会被淘汰。
 off:关闭缓存功能。</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>open_file_cache_errors on|off(是否缓存打开文件错误的信息)</li>
-<li>open_file_cache_min_uses number(不被淘汰的最小访问次数,默认1)</li>
-<li>open_file_cache_valid time(检验缓存中元素有效性的频率,默认60s)</li>
+</div></li>
+
+<li><p>open_file_cache_errors on|off(是否缓存打开文件错误的信息)</p></li>
+
+<li><p>open_file_cache_min_uses number(不被淘汰的最小访问次数,默认1)</p></li>
+
+<li><p>open_file_cache_valid time(检验缓存中元素有效性的频率,默认60s)</p></li>
 </ul>
 
 <h4 id="其他">其他</h4>
@@ -582,8 +582,7 @@ down：表示所在的上游服务器永久下线，只在使用ip_hash配置项
 <h4 id="反向代理-1">反向代理</h4>
 
 <ul>
-<li>proxy_pass URL</li>
-</ul>
+<li><p>proxy_pass URL</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -595,15 +594,19 @@ down：表示所在的上游服务器永久下线，只在使用ip_hash配置项
 
 proxy_pass http://localhost:8000/uri/;</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>proxy_method method (转发时的协议方法名)</li>
-<li>proxy_hide_header the_header;(Nginx将上游服务器的响应转发给客户端，这里指定哪些HTTP Header 字段不能被转发，默认不会转发Server、X-Pad和X-Accel-*)</li>
-<li>proxy_pass_header the_header;(允许转发的HTTP Header)</li>
-<li>proxy_pass_request_body on|off(默认on，是否向上游服务器发送HTTP包体部分)</li>
-<li>proxy_pass_request_headers on|off</li>
-<li>proxy_redirect[default|off|redirect replacement]</li>
-</ul>
+</div></li>
+
+<li><p>proxy_method method (转发时的协议方法名)</p></li>
+
+<li><p>proxy_hide_header the_header;(Nginx将上游服务器的响应转发给客户端，这里指定哪些HTTP Header 字段不能被转发，默认不会转发Server、X-Pad和X-Accel-*)</p></li>
+
+<li><p>proxy_pass_header the_header;(允许转发的HTTP Header)</p></li>
+
+<li><p>proxy_pass_request_body on|off(默认on，是否向上游服务器发送HTTP包体部分)</p></li>
+
+<li><p>proxy_pass_request_headers on|off</p></li>
+
+<li><p>proxy_redirect[default|off|redirect replacement]</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -615,7 +618,9 @@ proxy_pass http://localhost:8000/uri/;</pre></td></tr></table>
 
 proxy_redirect http://localhost:8000/free/ http://frontend/free/</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="例子">例子</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

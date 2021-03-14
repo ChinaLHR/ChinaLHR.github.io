@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/kubeadm-install-kubernetes/" />
@@ -44,7 +44,8 @@
 使用kubeadm部署Kubernetes 1.18.0 集群实践记录
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/kubeadm-install-kubernetes/" /><meta property="article:published_time" content="2020-06-08T00:51:21&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/kubeadm-install-kubernetes/" />
+<meta property="article:published_time" content="2020-06-08T00:51:21&#43;08:00"/>
 <meta property="article:modified_time" content="2020-06-08T00:51:21&#43;08:00"/>
 
 <meta itemprop="name" content="使用kubeadm部署Kubernetes集群实践">
@@ -1170,8 +1171,7 @@ default bridge： 默认网络模式。每个容器可以通过 IP 地址相互�
 </div>
 </div>
 <ul>
-<li>CNI</li>
-</ul>
+<li><p>CNI</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -1201,9 +1201,9 @@ Kubernetes 中可选的 CNI 插件如下：
 - Canal
 - Weave</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>安装calico</li>
+</div></li>
+
+<li><p>安装calico</p></li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1333,8 +1333,7 @@ etcd-0               Healthy   <span class="o">{</span><span class="s2">&#34;hea
 </div>
 </div>
 <ul>
-<li>检测master与slave节点状态</li>
-</ul>
+<li><p>检测master与slave节点状态</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -1344,9 +1343,9 @@ etcd-0               Healthy   <span class="o">{</span><span class="s2">&#34;hea
 <pre class="chroma">kubectl cluster-info
 kubectl get nodes</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>YAML配置文件</li>
+</div></li>
+
+<li><p>YAML配置文件</p></li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

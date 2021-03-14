@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/linux-zerocopy/" />
@@ -44,7 +44,8 @@
 Linux Zero-copy机制与Java NIO对Zero-copy应用
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/linux-zerocopy/" /><meta property="article:published_time" content="2019-08-23T12:26:11&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/linux-zerocopy/" />
+<meta property="article:published_time" content="2019-08-23T12:26:11&#43;08:00"/>
 <meta property="article:modified_time" content="2019-08-23T12:26:11&#43;08:00"/>
 
 <meta itemprop="name" content="Linux Zero-copy(零拷贝)">
@@ -231,8 +232,7 @@ Linux Zero-copy机制与Java NIO对Zero-copy应用
 <h3 id="传统socket传送数据">传统Socket传送数据</h3>
 
 <ul>
-<li>大部分Web应用服务器都通过文件读取数据然后将数据通过网络传输给其他的程序的方式。</li>
-</ul>
+<li><p>大部分Web应用服务器都通过文件读取数据然后将数据通过网络传输给其他的程序的方式。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -242,9 +242,9 @@ Linux Zero-copy机制与Java NIO对Zero-copy应用
 <pre class="chroma">File.read(fileDesc,tmp_buf,len);
 File.send(socket,tmp_buf,len);</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>数据从文件到socket的过程</li>
+</div></li>
+
+<li><p>数据从文件到socket的过程</p></li>
 </ul>
 
 <p><img src="https://user-images.githubusercontent.com/19829495/63423628-4fa97480-c43f-11e9-957c-491d8ff5086a.png" alt="image" /></p>
@@ -256,8 +256,7 @@ File.send(socket,tmp_buf,len);</pre></td></tr></table>
 <p><img src="https://user-images.githubusercontent.com/19829495/63423861-c6467200-c43f-11e9-90cc-c465dc25e987.png" alt="image" /></p>
 
 <ul>
-<li>涉及过程</li>
-</ul>
+<li><p>涉及过程</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -277,7 +276,9 @@ File.send(socket,tmp_buf,len);</pre></td></tr></table>
 
 4.send()系统调用返回后，就产生了第四次用户态和内核态的切换。随着DMA单独异步的将数据从内核态的缓冲区中传输到协议引擎发送到网络上，有了第四次数据的复制。</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <p><img src="https://user-images.githubusercontent.com/19829495/63424473-140faa00-c441-11e9-96ba-9d6f73bd9f4f.png" alt="image" /></p>
 
 <ul>

@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/spring-aop/" />
@@ -44,7 +44,8 @@
 Spring Aop源码分析
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/spring-aop/" /><meta property="article:published_time" content="2018-09-24T15:56:35&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/spring-aop/" />
+<meta property="article:published_time" content="2018-09-24T15:56:35&#43;08:00"/>
 <meta property="article:modified_time" content="2018-09-24T15:56:35&#43;08:00"/>
 
 <meta itemprop="name" content="Spring Aop分析">
@@ -324,8 +325,7 @@ public void addAdvice(int pos, Advice advice) throws AopConfigException {
 <h3 id="获取代理">获取代理</h3>
 
 <ul>
-<li>ProxyFactory的getProxy方法</li>
-</ul>
+<li><p>ProxyFactory的getProxy方法</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -358,32 +358,34 @@ public void addAdvice(int pos, Advice advice) throws AopConfigException {
 <td class="lntd">
 <pre class="chroma">public Object getProxy() {
 	//创建一个AOP代理
-    AopProxy proxy = createAopProxy();
-    //返回代理
-    return proxy.getProxy();
+AopProxy proxy = createAopProxy();
+//返回代理
+return proxy.getProxy();
 }
 
 protected synchronized AopProxy createAopProxy() {
-    if (!this.isActive) {
-        activate();
-    }
-    //获取AOP代理工厂，然后创建代理
-    return getAopProxyFactory().createAopProxy(this);
+if (!this.isActive) {
+    activate();
+}
+//获取AOP代理工厂，然后创建代理
+return getAopProxyFactory().createAopProxy(this);
 }
 
 public AopProxy createAopProxy(AdvisedSupport advisedSupport) throws AopConfigException {
 	//对于指定了使用CGLIB方式，或者代理的是类，或者代理的不是接口，就使用CGLIB的方式来创建代理
-    boolean useCglib = advisedSupport.getOptimize() || advisedSupport.getProxyTargetClass() || advisedSupport.getProxiedInterfaces().length == 0;
-    if (useCglib) {
-        return CglibProxyFactory.createCglibProxy(advisedSupport);
-    }
-    else {
-        //使用JDK动态代理来创建代理
-        return new JdkDynamicAopProxy(advisedSupport);
-    }
+boolean useCglib = advisedSupport.getOptimize() || advisedSupport.getProxyTargetClass() || advisedSupport.getProxiedInterfaces().length == 0;
+if (useCglib) {
+    return CglibProxyFactory.createCglibProxy(advisedSupport);
+}
+else {
+    //使用JDK动态代理来创建代理
+    return new JdkDynamicAopProxy(advisedSupport);
+}
 }</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h2 id="joinpoint-连接点">Joinpoint（连接点）</h2>
 
 <p>连接点是指那些被拦截到的点。在Spring 中,这些点指的是方法,因为 Spring 只支持方法类型的连接点。</p>
@@ -450,8 +452,7 @@ PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的�
 </div>
 </div>
 <ul>
-<li>ClassFilter接口</li>
-</ul>
+<li><p>ClassFilter接口</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -466,17 +467,16 @@ PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的�
 <td class="lntd">
 <pre class="chroma">public interface ClassFilter {
     
-    //判断给定的类是不是要拦截
-    boolean matches(Class clazz);
+//判断给定的类是不是要拦截
+boolean matches(Class clazz);
 
-    ClassFilter TRUE = TrueClassFilter.INSTANCE;
+ClassFilter TRUE = TrueClassFilter.INSTANCE;
 
 }</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>MethodMatcher接口</li>
-</ul>
+</div></li>
+
+<li><p>MethodMatcher接口</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -510,9 +510,9 @@ PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的�
 
 }</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>MethodMatcher 两个实现类
+</div></li>
+
+<li><p>MethodMatcher 两个实现类</p>
 
 <ul>
 <li>StaticMethodMatcher：不在运行时检测Joinpoint的参数(可以利用框架内缓存，性能高)</li>

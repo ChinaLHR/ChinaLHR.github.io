@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/linux-operating-record/" />
@@ -44,7 +44,8 @@
 日常Linux命令记录
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/linux-operating-record/" /><meta property="article:published_time" content="2019-04-19T22:59:11&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/linux-operating-record/" />
+<meta property="article:published_time" content="2019-04-19T22:59:11&#43;08:00"/>
 <meta property="article:modified_time" content="2019-04-19T22:59:11&#43;08:00"/>
 
 <meta itemprop="name" content="Linux命令记录">
@@ -228,8 +229,7 @@
 <h4 id="find">find</h4>
 
 <ul>
-<li>格式</li>
-</ul>
+<li><p>格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -253,9 +253,9 @@ print:find命令将匹配的文件输出到标准输出
 exec:find命令对匹配的文件执行该参数所给出的shell命令
 -ok:和-exec的作用相同，只不过以一种更为安全的模式来执行该参数所给出的shell命令，在执行每一个命令之前，都会给出提示，让用户来确定是否执行。</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>options</li>
+</div></li>
+
+<li><p>options</p></li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -335,8 +335,7 @@ find /root/logs/ -name <span class="s2">&#34;*.log&#34;</span> -size +1024M -exe
 <p>which命令的作用是在PATH变量指定的路径中，搜索某个系统命令的位置，并且返回第一个搜索结果。也就是说，使用which命令，就可以看到某个系统命令是否存在，以及执行的到底是哪一个位置的命令。</p>
 
 <ul>
-<li>格式</li>
-</ul>
+<li><p>格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -344,10 +343,9 @@ find /root/logs/ -name <span class="s2">&#34;*.log&#34;</span> -size +1024M -exe
 <td class="lntd">
 <pre class="chroma">which 可执行文件名称 </pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>命令参数</li>
-</ul>
+</div></li>
+
+<li><p>命令参数</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -361,9 +359,9 @@ find /root/logs/ -name <span class="s2">&#34;*.log&#34;</span> -size +1024M -exe
 -w 　指定输出时栏位的宽度。
 -V 　显示版本信息</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>例子</li>
+</div></li>
+
+<li><p>例子</p></li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -391,8 +389,7 @@ find /root/logs/ -name <span class="s2">&#34;*.log&#34;</span> -size +1024M -exe
 </div>
 </div>
 <ul>
-<li>命令参数</li>
-</ul>
+<li><p>命令参数</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -412,9 +409,9 @@ find /root/logs/ -name <span class="s2">&#34;*.log&#34;</span> -size +1024M -exe
 -M   指定搜索帮助文件的路径。
 -S   指定搜索源代码文件的路径。</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>例子</li>
+</div></li>
+
+<li><p>例子</p></li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -691,8 +688,7 @@ ps -ef|grep 4826</pre></td></tr></table>
 <p>telnet命令除了远程登录，还被用于确定远程服务的状态，比如确定远程服务器的某个端口是否能访问</p>
 
 <ul>
-<li>命令格式</li>
-</ul>
+<li><p>命令格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -700,7 +696,9 @@ ps -ef|grep 4826</pre></td></tr></table>
 <td class="lntd">
 <pre class="chroma">telnet[参数][HOST][PORT]</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="du">du</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -772,8 +770,7 @@ ln命令会保持每一处链接文件的同步性</pre></td></tr></table>
 </div>
 </div>
 <ul>
-<li>格式</li>
-</ul>
+<li><p>格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -785,14 +782,15 @@ ln命令会保持每一处链接文件的同步性</pre></td></tr></table>
 ln –s [源文件或目录][目标文件或目录] 软链接
 ln [源文件或目录][目标文件或目录] 硬链接</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="kill">kill</h4>
 
 <p>Linux中的kill命令用来终止指定的进程的运行</p>
 
 <ul>
-<li>格式</li>
-</ul>
+<li><p>格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -842,8 +840,8 @@ ln [源文件或目录][目标文件或目录] 硬链接</pre></td></tr></table>
 全部信号：
 
 kill -l
- 1) SIGHUP	 2) SIGINT	 3) SIGQUIT	 4) SIGILL	 5) SIGTRAP
- 6) SIGABRT	 7) SIGBUS	 8) SIGFPE	 9) SIGKILL	10) SIGUSR1
+1) SIGHUP	 2) SIGINT	 3) SIGQUIT	 4) SIGILL	 5) SIGTRAP
+6) SIGABRT	 7) SIGBUS	 8) SIGFPE	 9) SIGKILL	10) SIGUSR1
 11) SIGSEGV	12) SIGUSR2	13) SIGPIPE	14) SIGALRM	15) SIGTERM
 16) SIGSTKFLT	17) SIGCHLD	18) SIGCONT	19) SIGSTOP	20) SIGTSTP
 21) SIGTTIN	22) SIGTTOU	23) SIGURG	24) SIGXCPU	25) SIGXFSZ
@@ -866,14 +864,15 @@ KILL    9    强制终止
 CONT   18    继续（与STOP相反， fg/bg命令）
 STOP    19    暂停（同 Ctrl + Z）</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="watch">watch</h4>
 
 <p>监测一个命令的运行结果</p>
 
 <ul>
-<li>命令格式</li>
-</ul>
+<li><p>命令格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -881,10 +880,9 @@ STOP    19    暂停（同 Ctrl + Z）</pre></td></tr></table>
 <td class="lntd">
 <pre class="chroma">watch[参数][命令]</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>命令参数</li>
-</ul>
+</div></li>
+
+<li><p>命令参数</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -896,10 +894,9 @@ STOP    19    暂停（同 Ctrl + Z）</pre></td></tr></table>
 -d或--differences  用-d或--differences 选项watch 会高亮显示变化的区域。 而-d=cumulative选项会把变动过的地方(不管最近的那次有没有变动)都高亮显示出来。
 -t 或-no-title  会关闭watch命令在顶部的时间间隔,命令，当前时间的输出。</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>常用命令记录</li>
-</ul>
+</div></li>
+
+<li><p>常用命令记录</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -909,14 +906,15 @@ STOP    19    暂停（同 Ctrl + Z）</pre></td></tr></table>
 <pre class="chroma"># 监测当file文件变化，频率5s，高亮显示
 watch -n 5 -d&#39;cat /file&#39;</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="alias">alias</h4>
 
 <p>设置指令的别名。</p>
 
 <ul>
-<li>命令格式</li>
-</ul>
+<li><p>命令格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -924,10 +922,9 @@ watch -n 5 -d&#39;cat /file&#39;</pre></td></tr></table>
 <td class="lntd">
 <pre class="chroma">alias[别名]=[指令名称]</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>alias指令的有效期仅在于单次登录，可以在~/.bashrc(用户级别)或者/etc/bashrc(全局级别)文件追加配置登录指令</li>
-</ul>
+</div></li>
+
+<li><p>alias指令的有效期仅在于单次登录，可以在~/.bashrc(用户级别)或者/etc/bashrc(全局级别)文件追加配置登录指令</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -943,7 +940,9 @@ alias cdlog=&#34;cd /data/log&#34;
 # 让配置文件生效
 source ~/.bashrc </pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="nohup和-后台运行">nohup和&amp;(后台运行)</h4>
 
 <ul>
@@ -982,8 +981,7 @@ source ~/.bashrc </pre></td></tr></table>
 <p>用途：在后台运行,一般和nohup两个一起用，nohup command &amp;</p>
 
 <ul>
-<li>SpringBoot例子</li>
-</ul>
+<li><p>SpringBoot例子</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -991,14 +989,15 @@ source ~/.bashrc </pre></td></tr></table>
 <td class="lntd">
 <pre class="chroma">nohup java -jar xxx.jar &gt;bootstrap.log&amp;</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="trap">trap</h4>
 
 <p>trap作用是捕捉信号和其他事件并执行命令。</p>
 
 <ul>
-<li>命令格式</li>
-</ul>
+<li><p>命令格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -1006,10 +1005,9 @@ source ~/.bashrc </pre></td></tr></table>
 <td class="lntd">
 <pre class="chroma">trap [-lp] [[arg] signal_spec ...]</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>命令参数</li>
-</ul>
+</div></li>
+
+<li><p>命令参数</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -1019,10 +1017,9 @@ source ~/.bashrc </pre></td></tr></table>
 <pre class="chroma">-l    打印信号名称以及信号名称对应的数字。
 -p    显示与每个信号关联的trap命令。</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>常用命令</li>
-</ul>
+</div></li>
+
+<li><p>常用命令</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -1036,7 +1033,9 @@ trap &#34;exit 1&#34; HUP INT PIPE QUIT TERM
 # 捕获Kill信号(SIGTERM 15)，执行方法_kill
 trap _kill SIGTERM</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="防火墙">防火墙</h4>
 
 <p>centos7防火墙相关操作：</p>
@@ -1094,8 +1093,7 @@ du -ms filename</pre></td></tr></table>
 <h4 id="排序-sort">排序(sort)</h4>
 
 <ul>
-<li>命令格式</li>
-</ul>
+<li><p>命令格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -1129,10 +1127,9 @@ du -ms filename</pre></td></tr></table>
 -t&lt;分隔字符&gt;：指定排序时所用的栏位分隔字符；
 +&lt;起始栏位&gt;-&lt;结束栏位&gt;：以指定的栏位来排序，范围由起始栏位到结束栏位的前一栏位。</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>示例</li>
-</ul>
+</div></li>
+
+<li><p>示例</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -1142,14 +1139,15 @@ du -ms filename</pre></td></tr></table>
 <pre class="chroma"># 统计当前文件夹(目录)大小，并按文件大小降序排序
 du -sh * |sort -nr</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="搜索数据-grep">搜索数据(grep)</h4>
 
 <p>文本搜索工具，用于过滤/搜索的特定字符,它能使用正则表达式搜索文本，并把匹配的行打印出来。</p>
 
 <ul>
-<li>命令格式</li>
-</ul>
+<li><p>命令格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -1253,10 +1251,9 @@ x\{m,n\}  #重复字符x，至少m次，不多于n次，如：&#39;o\{5,10\}&#39
 \W    #\w的反置形式，匹配一个或多个非单词字符，如点号句号等。   
 \b    #单词锁定符，如: &#39;\bgrep\b&#39;只匹配grep。  </pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>常用案例</li>
-</ul>
+</div></li>
+
+<li><p>常用案例</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -1302,14 +1299,15 @@ cat info.log |grep mongo$
 # 显示包含api1或者cms1字符的内容行
 cat info.log |grep -E &#34;api1|cms1&#34;</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="压缩数据-gzip">压缩数据(gzip)</h4>
 
 <p>gzip是GNU压缩工具，用Lempel-Ziv编码压缩程序，压缩后使用&rdquo;.gz&rdquo;的扩展名</p>
 
 <ul>
-<li>命令格式</li>
-</ul>
+<li><p>命令格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -1355,10 +1353,9 @@ cat info.log |grep -E &#34;api1|cms1&#34;</pre></td></tr></table>
 -V或--version 　显示版本信息。 
 -num 用指定的数字num调整压缩的速度，-1或--fast表示最快压缩方法（低压缩比），-9或--best表示最慢压缩方法（高压缩比）。系统缺省值为6。 </pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>示例</li>
-</ul>
+</div></li>
+
+<li><p>示例</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -1380,7 +1377,9 @@ gzip -rv api
 # 递归解压目录
 gzip -dr api</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="归档数据-tar">归档数据(tar)</h4>
 
 <p>打包是指将一大堆文件或目录变成一个总的文件；压缩则是将一个大的文件通过一些压缩算法变成一个小文件。
@@ -1388,8 +1387,7 @@ gzip -dr api</pre></td></tr></table>
 然后再用压缩程序进行压缩（gzip命令）。</p>
 
 <ul>
-<li>命令格式</li>
-</ul>
+<li><p>命令格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -1549,10 +1547,9 @@ tar
 解压：rar x FileName.rar
 压缩：rar a FileName.rar DirName </pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>示例</li>
-</ul>
+</div></li>
+
+<li><p>示例</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -1582,7 +1579,9 @@ tar -zxvf log.tar.gz
 # 排除文件夹不进行打包 
 tar --exclude api/service -zcvf api.tar.gz api/* </pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h3 id="排查">排查</h3>
 
 <h4 id="排查java-cpu占用问题">排查Java CPU占用问题</h4>
@@ -1650,8 +1649,8 @@ jmap -dump:live,format<span class="o">=</span>b,file<span class="o">=</span>xxx.
 
 <ul>
 <li>先将数据盘挂载到实例上</li>
-<li>分区</li>
-</ul>
+
+<li><p>分区</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -1667,10 +1666,9 @@ Command p [选择分区类型为主分区]
 Selected partition 1 [选择分区号]
 Command w [退出]</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>格式化</li>
-</ul>
+</div></li>
+
+<li><p>格式化</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -1678,10 +1676,9 @@ Command w [退出]</pre></td></tr></table>
 <td class="lntd">
 <pre class="chroma">mkfs.ext4 /dev/vdb1</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>修改 /etc/fstab</li>
-</ul>
+</div></li>
+
+<li><p>修改 /etc/fstab</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -1695,10 +1692,9 @@ Command w [退出]</pre></td></tr></table>
 mkdir -p /data
 echo /dev/vdb1 /data ext4 defaults 0 0 &gt;&gt; /etc/fstab</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>将分区挂载到对应的文件系统路径下</li>
-</ul>
+</div></li>
+
+<li><p>将分区挂载到对应的文件系统路径下</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -1706,14 +1702,16 @@ echo /dev/vdb1 /data ext4 defaults 0 0 &gt;&gt; /etc/fstab</pre></td></tr></tabl
 <td class="lntd">
 <pre class="chroma">mount /dev/vdb1 /data</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="阿里云数据盘扩容操作">阿里云数据盘扩容操作</h4>
 
 <ul>
 <li>控制台操作对数据盘进行扩容</li>
 <li>重启机器</li>
-<li>确认分区和文件系统</li>
-</ul>
+
+<li><p>确认分区和文件系统</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -1747,10 +1745,9 @@ blkid /dev/vdb1
 # 确认文件系统状态为clean
 e2fsck -n /dev/vdb1</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>卸载数据盘(原先/dev/vdb1是挂载到/data的)</li>
-</ul>
+</div></li>
+
+<li><p>卸载数据盘(原先/dev/vdb1是挂载到/data的)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -1758,10 +1755,9 @@ e2fsck -n /dev/vdb1</pre></td></tr></table>
 <td class="lntd">
 <pre class="chroma">umount /data</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>扩展已有分区</li>
-</ul>
+</div></li>
+
+<li><p>扩展已有分区</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -1823,10 +1819,9 @@ e2fsck -n /dev/vdb1
 # 内核版本 ≥ 3.6的，通知内核更新分区表
 partprobe &lt;dst_dev_path&gt;或者partx -u &lt;dst_dev_path&gt;</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>扩容文件系统</li>
-</ul>
+</div></li>
+
+<li><p>扩容文件系统</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -1848,7 +1843,9 @@ resize2fs -f /dev/vdb1
 # 重新挂载/data
 mount /dev/vdb1 /data</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h3 id="centos环境相关配置">Centos环境相关配置</h3>
 
 <h4 id="docker">Docker</h4>

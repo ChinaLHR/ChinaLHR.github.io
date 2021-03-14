@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/git-flow/" />
@@ -44,7 +44,8 @@
 Git-flow分支策略相关整理
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/git-flow/" /><meta property="article:published_time" content="2019-11-26T23:57:12&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/git-flow/" />
+<meta property="article:published_time" content="2019-11-26T23:57:12&#43;08:00"/>
 <meta property="article:modified_time" content="2019-11-26T23:57:12&#43;08:00"/>
 
 <meta itemprop="name" content="Git Flow 分支策略">
@@ -221,8 +222,7 @@ Git-flow分支策略相关整理
 <h3 id="基于git-flow分支模型的简单实践-代码示例">基于Git Flow分支模型的简单实践(代码示例)</h3>
 
 <ul>
-<li>特性分支</li>
-</ul>
+<li><p>特性分支</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -288,10 +288,9 @@ git push --tags
 git branch -d release-0.1.0
 git push origin --delete release-0.1.0</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>hotfix</li>
-</ul>
+</div></li>
+
+<li><p>hotfix</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -335,7 +334,9 @@ git push --tags
 git branch -d hotfix-0.1.1
 git push origin --delete hotfix-0.1.1</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <p>很多时候标准方案并不是最好的，选择合适的最重要</p>
 
 <h3 id="git-flow工具">Git Flow工具</h3>

@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/aspect-dynamic/" />
@@ -44,7 +44,8 @@
 Spriing Aop中动态Pointcut的实践
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/aspect-dynamic/" /><meta property="article:published_time" content="2019-04-18T22:15:07&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/aspect-dynamic/" />
+<meta property="article:published_time" content="2019-04-18T22:15:07&#43;08:00"/>
 <meta property="article:modified_time" content="2019-04-18T22:15:07&#43;08:00"/>
 
 <meta itemprop="name" content=" javassist实现Aspect动态Pointcut">
@@ -186,8 +187,7 @@ Spriing Aop中动态Pointcut的实践
 <h4 id="pointcut的用法">@Pointcut的用法</h4>
 
 <ul>
-<li>格式</li>
-</ul>
+<li><p>格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -225,10 +225,9 @@ Spriing Aop中动态Pointcut的实践
 3）execution(* com.savage.server..*.*(..))  
 //表示匹配com.savage.server包及其子包下的所有方法 </pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>Spring中的Pointcut(Pointcut表示式(expression)和Pointcut签名(signature))</li>
-</ul>
+</div></li>
+
+<li><p>Spring中的Pointcut(Pointcut表示式(expression)和Pointcut签名(signature))</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -242,7 +241,9 @@ Spriing Aop中动态Pointcut的实践
 //Point签名
 private void log(){} </pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="动态pointcut">动态Pointcut</h4>
 
 <ul>

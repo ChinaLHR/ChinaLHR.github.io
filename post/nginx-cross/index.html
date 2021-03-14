@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/nginx-cross/" />
@@ -44,7 +44,8 @@
 Nginx相关资料阅读整理
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/nginx-cross/" /><meta property="article:published_time" content="2019-06-18T21:55:57&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/nginx-cross/" />
+<meta property="article:published_time" content="2019-06-18T21:55:57&#43;08:00"/>
 <meta property="article:modified_time" content="2019-06-18T21:55:57&#43;08:00"/>
 
 <meta itemprop="name" content="Nginx反向代理解决跨域问题">
@@ -181,8 +182,7 @@ Nginx相关资料阅读整理
 <li><p>同源策略:限制了从同一个源加载的文档或脚本如何与来自另一个源的资源进行交互。是一个用于隔离潜在恶意文件的重要安全机制。浏览器是从两个方面去做这个同源策略的，一是针对接口的请求，二是针对Dom的查询。</p></li>
 
 <li><p>同源定义
-两个页面协议/主机/端口(tuple)相同表示两个页面拥有相同的源。以<a href="http://www.lickdog.com为例子">http://www.lickdog.com为例子</a></p></li>
-</ul>
+两个页面协议/主机/端口(tuple)相同表示两个页面拥有相同的源。以<a href="http://www.lickdog.com为例子">http://www.lickdog.com为例子</a></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -194,7 +194,9 @@ Nginx相关资料阅读整理
 http://www.lickdog.com:9000 ——&gt; 不同端口
 http://www.lickpig.top ——&gt; 不同域名</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h3 id="跨域解决方案">跨域解决方案</h3>
 
 <ul>

@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/tail-recursion/" />
@@ -44,7 +44,8 @@
 尾递归与递归的对比，以及在Java与Kotlin中如何运用
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/tail-recursion/" /><meta property="article:published_time" content="2019-08-04T14:09:41&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/tail-recursion/" />
+<meta property="article:published_time" content="2019-08-04T14:09:41&#43;08:00"/>
 <meta property="article:modified_time" content="2019-08-04T14:09:41&#43;08:00"/>
 
 <meta itemprop="name" content="尾递归-Java-Kotlin">
@@ -203,8 +204,7 @@
 <h3 id="尾递归示例">尾递归示例</h3>
 
 <ul>
-<li>递归实现阶乘</li>
-</ul>
+<li><p>递归实现阶乘</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -232,8 +232,8 @@
 </span></pre></td>
 <td class="lntd">
 <pre class="chroma">public static int factorialRecursion(final int number) {
-    if (number == 1) return number;
-        else return number * factorialRecursion(number - 1);
+if (number == 1) return number;
+    else return number * factorialRecursion(number - 1);
 }
 
 当调用factorialRecursion(5)时 栈的情况:
@@ -254,10 +254,9 @@ factorialRecursion(5)
 
 为什么会扩展：因为在没有递归到底之前，程序的中间变量会一直保存着，因此每一次递归都需要开辟一个新的栈空间来保存中间变量</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>尾递归实现阶乘</li>
-</ul>
+</div></li>
+
+<li><p>尾递归实现阶乘</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -281,9 +280,9 @@ factorialRecursion(5)
 </span><span class="lnt">19
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma"> public static int factorialTailRecursion(final int factorial, final int number) {
-        if (number == 1) return factorial;
-        else return factorialTailRecursion(factorial * number, number - 1);
+<pre class="chroma">public static int factorialTailRecursion(final int factorial, final int number) {
+    if (number == 1) return factorial;
+    else return factorialTailRecursion(factorial * number, number - 1);
 }
 
 当调用factorialTailRecursion(1,5)时:
@@ -301,7 +300,9 @@ factorialTailRecursion(120, 1)
 
 总结尾递归：return后面不附带任何变量的递归写法，递归发生在函数最尾部,我们称之为&#39;尾递归&#39;。</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h3 id="尾递归优化-java">尾递归优化-Java</h3>
 
 <p>Tail-Recursion 依赖于编译器对尾递归写法的优化，Javac对Tail-Recursion并没有做特定的优化，使用尾递归的写法，该栈溢出还是栈溢出。</p>

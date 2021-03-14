@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/jenkins-java-ci-cd/" />
@@ -44,7 +44,8 @@
 基于Jenkins和Docker，对于Java应用CI/CD实践的记录。
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/jenkins-java-ci-cd/" /><meta property="article:published_time" content="2019-12-29T21:46:50&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/jenkins-java-ci-cd/" />
+<meta property="article:published_time" content="2019-12-29T21:46:50&#43;08:00"/>
 <meta property="article:modified_time" content="2019-12-29T21:46:50&#43;08:00"/>
 
 <meta itemprop="name" content="Jenkins-pipeline-Docker 实现CI/CD">
@@ -349,8 +350,7 @@ docker run -u root -itd --name jenkins \
 <h3 id="pipeline组成">pipeline组成</h3>
 
 <ul>
-<li>基本结构</li>
-</ul>
+<li><p>基本结构</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -378,31 +378,31 @@ docker run -u root -itd --name jenkins \
 </span></pre></td>
 <td class="lntd">
 <pre class="chroma">pipeline {
-    agent { docker &#39;maven:3.3.3&#39; }
-    stages {
-        stage(&#39;build&#39;) {
-            steps {
-                sh &#39;mvn --version&#39;
-            }
+agent { docker &#39;maven:3.3.3&#39; }
+stages {
+    stage(&#39;build&#39;) {
+        steps {
+            sh &#39;mvn --version&#39;
         }
     }
+}
 	post {
-        always {
-            echo &#39;This will always run&#39;
-        }
-        success {
-            echo &#39;This will run only if successful&#39;
-        }
-        failure {
-            echo &#39;This will run only if failed&#39;
-        }
-        ...
+    always {
+        echo &#39;This will always run&#39;
     }
+    success {
+        echo &#39;This will run only if successful&#39;
+    }
+    failure {
+        echo &#39;This will run only if failed&#39;
+    }
+    ...
+}
 }</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>agent</li>
+</div></li>
+
+<li><p>agent</p></li>
 </ul>
 
 <p>agent指定整个Pipeline或特定stage将在Jenkins环境中执行的位置，具体取决于该agent 部分的位置。该部分必须在pipeline块内的顶层定义，stage块内的agent是可选的。</p>

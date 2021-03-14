@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/reactive-programming-reactor/" />
@@ -44,7 +44,8 @@
 响应式编程学习
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/reactive-programming-reactor/" /><meta property="article:published_time" content="2019-01-06T22:30:19&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/reactive-programming-reactor/" />
+<meta property="article:published_time" content="2019-01-06T22:30:19&#43;08:00"/>
 <meta property="article:modified_time" content="2019-01-06T22:30:19&#43;08:00"/>
 
 <meta itemprop="name" content="响应式编程库-Reactor">
@@ -213,9 +214,10 @@
 <span class="kd">public</span> <span class="kt">void</span> <span class="nf">subscribe</span><span class="o">(</span><span class="n">Subscriber</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">s</span><span class="o">);</span>
 <span class="o">}</span></code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>Subscriber(订阅者,接收元素并做出响应的)</p>
+</div>
+<ul>
+<li>Subscriber(订阅者,接收元素并做出响应的)</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
@@ -249,9 +251,10 @@
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cancel</span><span class="o">();</span>
 <span class="o">}</span></code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>Processor(集合Publisher和Subscriber)</p>
+</div>
+<ul>
+<li>Processor(集合Publisher和Subscriber)</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
@@ -291,9 +294,10 @@
 <span class="n">Flux</span><span class="o">.</span><span class="na">fromStream</span><span class="o">(</span><span class="n">stream</span><span class="o">);</span>
 <span class="n">Flux</span><span class="o">.</span><span class="na">just</span><span class="o">(...);</span></code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>订阅</p>
+</div>
+<ul>
+<li>订阅</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt"> 1
@@ -442,13 +446,14 @@
 <pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T1</span><span class="o">,</span><span class="n">T2</span><span class="o">&gt;</span> <span class="n">Flux</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">T1</span><span class="o">,</span><span class="n">T2</span><span class="o">&gt;&gt;</span> <span class="nf">zip</span><span class="o">(</span><span class="n">Publisher</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">T1</span><span class="o">&gt;</span> <span class="n">source1</span><span class="o">,</span><span class="n">Publisher</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">T2</span><span class="o">&gt;</span> <span class="n">source2</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T1</span><span class="o">,</span> <span class="n">T2</span><span class="o">&gt;</span> <span class="n">Mono</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">T1</span><span class="o">,</span> <span class="n">T2</span><span class="o">&gt;&gt;</span> <span class="nf">zip</span><span class="o">(</span><span class="n">Mono</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">T1</span><span class="o">&gt;</span> <span class="n">p1</span><span class="o">,</span> <span class="n">Mono</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">T2</span><span class="o">&gt;</span> <span class="n">p2</span><span class="o">)</span></code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>transform - 可以将一段操作链打包为一个函数式
-    //将filter和map操作符进行了打包
-     Function<Flux<String>, Flux<String>&gt; filterAndMap =
-            f -&gt; f.filter(color -&gt; !color.equals(&ldquo;orange&rdquo;))
-                    .map(String::toUpperCase);</p>
+</div>
+<ul>
+<li>transform - 可以将一段操作链打包为一个函数式
+//将filter和map操作符进行了打包
+ Function<Flux<String>, Flux<String>&gt; filterAndMap =
+        f -&gt; f.filter(color -&gt; !color.equals(&ldquo;orange&rdquo;))
+                .map(String::toUpperCase);</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
@@ -480,21 +485,22 @@
                <span class="o">.</span><span class="na">doOnNext</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">)</span>
                <span class="o">.</span><span class="na">compose</span><span class="o">(</span><span class="n">filterAndMap</span><span class="o">);</span></code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
+</div>
 <h4 id="调度器-线程模型">调度器&amp;线程模型</h4>
 
 <ul>
-<li><p>Schedulers工具类</p>
+<li>Schedulers工具类</li>
+</ul>
 
 <p>当前线程（Schedulers.immediate()）；
 可重用的单线程（Schedulers.single()）。注意，这个方法对所有调用者都提供同一个线程来使用，直到该调度器被废弃。Schedulers.newSingle()使用独占的线程；
 弹性线程池（Schedulers.elastic()）。它根据需要创建一个线程池，重用空闲线程。线程池如果空闲时间过长 （默认为 60s）就会被废弃。对于 I/O 阻塞的场景比较适用。Schedulers.elastic()能够方便地给一个阻塞 的任务分配它自己的线程，从而不会妨碍其他任务和资源；
 固定大小线程池（Schedulers.parallel()），所创建线程池的大小与CPU个数等同；
-自定义线程池（Schedulers.fromExecutorService(ExecutorService)）基于自定义的ExecutorService创建 Scheduler</p></li>
+自定义线程池（Schedulers.fromExecutorService(ExecutorService)）基于自定义的ExecutorService创建 Scheduler</p>
 
-<li><p>示例：</p>
+<ul>
+<li>示例：</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1
@@ -569,30 +575,29 @@ doFinally</pre></td></tr></table>
 <td class="lntd">
 <pre class="chroma"><code class="language-Java" data-lang="Java"><span class="n">retry</span><span class="err">：</span><span class="n">retry对于上游Flux是采取的重订阅</span><span class="err">（</span><span class="n">re</span><span class="o">-</span><span class="n">subscribing</span><span class="err">）</span><span class="n">的方式</span><span class="err">，</span><span class="n">出错了retry会从新订阅了原始的数据流执行x次</span><span class="err">。</span></code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
+</div>
 <h4 id="backpressure背压-回压">Backpressure背压(回压)</h4>
 
 <ul>
-<li><p>背压的前提</p>
-
-<ol>
+<li>背压的前提</li>
 <li>发布者与订阅者不在同一个线程中，因为在同一个线程中的话，通常使用传统的线性逻辑，不需要进行回压处理；</li>
-<li>发布者发出数据的速度高于订阅者处理数据的速度，也就是处于“PUSH”状态下。</li>
-</ol></li>
 
-<li><p>背压策略(OverflowStrategy )</p>
+<li><p>发布者发出数据的速度高于订阅者处理数据的速度，也就是处于“PUSH”状态下。</p></li>
 
-<ul>
-<li>IGNORE: 完全忽略下游背压请求</li>
-<li>ERROR： 当下游跟不上节奏的时候发出一个错误信号。</li>
-<li>DROP：当下游没有准备好接收新的元素的时候抛弃这个元素。</li>
-<li>LATEST：让下游只得到上游最新的元素。</li>
-<li>BUFFER：缓存下游没有来得及处理的元素（如果缓存不限大小的可能导致OutOfMemoryError）。</li>
-</ul></li>
+<li><p>背压策略(OverflowStrategy )</p></li>
 
-<li><p>create声明回压策略</p>
+<li><p>IGNORE: 完全忽略下游背压请求</p></li>
+
+<li><p>ERROR： 当下游跟不上节奏的时候发出一个错误信号。</p></li>
+
+<li><p>DROP：当下游没有准备好接收新的元素的时候抛弃这个元素。</p></li>
+
+<li><p>LATEST：让下游只得到上游最新的元素。</p></li>
+
+<li><p>BUFFER：缓存下游没有来得及处理的元素（如果缓存不限大小的可能导致OutOfMemoryError）。</p></li>
+
+<li><p>create声明回压策略</p></li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-Java" data-lang="Java"><span class="lnt">1

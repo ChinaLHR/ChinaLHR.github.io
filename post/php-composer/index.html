@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/php-composer/" />
@@ -44,7 +44,8 @@
 依赖管理工具Composer记录
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/php-composer/" /><meta property="article:published_time" content="2019-11-25T22:46:32&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/php-composer/" />
+<meta property="article:published_time" content="2019-11-25T22:46:32&#43;08:00"/>
 <meta property="article:modified_time" content="2019-11-25T22:46:32&#43;08:00"/>
 
 <meta itemprop="name" content="PHP-Composer">
@@ -200,8 +201,7 @@ composer require monolog/monolog</pre></td></tr></table>
 <h3 id="composer项目生成">Composer项目生成</h3>
 
 <ol>
-<li>在文件夹下新建文件composer.json</li>
-</ol>
+<li><p>在文件夹下新建文件composer.json</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -211,21 +211,21 @@ composer require monolog/monolog</pre></td></tr></table>
 </span></pre></td>
 <td class="lntd">
 <pre class="chroma">{
-  &#34;require&#34;: {
-  }
+&#34;require&#34;: {
+}
 }</pre></td></tr></table>
 </div>
-</div>
-<ol>
-<li>命令composer update</li>
-<li>会在目标目录下生成vendor文件夹，用于安装第三扩展包</li>
+</div></li>
+
+<li><p>命令composer update</p></li>
+
+<li><p>会在目标目录下生成vendor文件夹，用于安装第三扩展包</p></li>
 </ol>
 
 <h3 id="安装扩展包">安装扩展包</h3>
 
 <ol>
-<li>添加依赖</li>
-</ol>
+<li><p>添加依赖</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -242,21 +242,20 @@ composer require monolog/monolog</pre></td></tr></table>
 </span></pre></td>
 <td class="lntd">
 <pre class="chroma">{
-    &#34;require&#34;: {
-        &#34;monolog/monolog&#34;: &#34;1.2.*&#34;
-    },
+&#34;require&#34;: {
+    &#34;monolog/monolog&#34;: &#34;1.2.*&#34;
+},
 
 # 关闭https
 
-    &#34;config&#34;: {
-        &#34;secure-http&#34;: false
-    }
+&#34;config&#34;: {
+    &#34;secure-http&#34;: false
+}
 }</pre></td></tr></table>
 </div>
-</div>
-<ol>
-<li>安装依赖</li>
-</ol>
+</div></li>
+
+<li><p>安装依赖</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -276,7 +275,9 @@ composer update
 composer require &#34;monolog/monolog:1.2.*&#34;
 composer update monolog/monolog</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ol>
+
 <h3 id="包版本约束">包版本约束</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -345,8 +346,7 @@ composer command --help 以上所有命令都可以添加 --help选项查看帮�
 <h3 id="模板仓库">模板仓库</h3>
 
 <ol>
-<li>全局配置(通过composer config -l 可以查看配置文件存放目录)</li>
-</ol>
+<li><p>全局配置(通过composer config -l 可以查看配置文件存放目录)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -361,19 +361,18 @@ composer command --help 以上所有命令都可以添加 --help选项查看帮�
 </span></pre></td>
 <td class="lntd">
 <pre class="chroma">{
-    &#34;config&#34;: {
+&#34;config&#34;: {
 
-    },
-    &#34;repositories&#34;: [
-        {&#34;type&#34;: &#34;composer&#34;, &#34;url&#34;: &#34;http://pkg.phpcomposer.com/repo/packagist/&#34;},
-        {&#34;packagist&#34;: false}
-    ]
+},
+&#34;repositories&#34;: [
+    {&#34;type&#34;: &#34;composer&#34;, &#34;url&#34;: &#34;http://pkg.phpcomposer.com/repo/packagist/&#34;},
+    {&#34;packagist&#34;: false}
+]
 }</pre></td></tr></table>
 </div>
-</div>
-<ol>
-<li>直接命令行修改</li>
-</ol>
+</div></li>
+
+<li><p>直接命令行修改</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -381,10 +380,9 @@ composer command --help 以上所有命令都可以添加 --help选项查看帮�
 <td class="lntd">
 <pre class="chroma">composer config -g repo.packagist composer https://packagist.phpcomposer.com</pre></td></tr></table>
 </div>
-</div>
-<ol>
-<li>修改当前项目的composer.json文件</li>
-</ol>
+</div></li>
+
+<li><p>修改当前项目的composer.json文件</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -404,21 +402,22 @@ composer command --help 以上所有命令都可以添加 --help选项查看帮�
 </span></pre></td>
 <td class="lntd">
 <pre class="chroma">{
-  &#34;require&#34;: {
-    &#34;noahbuscher/macaw&#34;: &#34;dev-master&#34;
-  },
-  &#34;repositories&#34;: [
-        {   
-            &#34;packagist&#34;: false
-        },  
-        {   
-            &#34;type&#34;: &#34;composer&#34;, 
-            &#34;url&#34;: &#34;http://packagist.cn&#34;
-        }   
-    ]
+&#34;require&#34;: {
+&#34;noahbuscher/macaw&#34;: &#34;dev-master&#34;
+},
+&#34;repositories&#34;: [
+    {   
+        &#34;packagist&#34;: false
+    },  
+    {   
+        &#34;type&#34;: &#34;composer&#34;, 
+        &#34;url&#34;: &#34;http://packagist.cn&#34;
+    }   
+]
 }</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ol>
     </div>
 
     <div class="post-copyright">

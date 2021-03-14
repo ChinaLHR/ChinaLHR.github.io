@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/vertx-record-1/" />
@@ -44,7 +44,8 @@
 Vert.x 官方文档阅读
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/vertx-record-1/" /><meta property="article:published_time" content="2019-04-02T22:01:56&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/vertx-record-1/" />
+<meta property="article:published_time" content="2019-04-02T22:01:56&#43;08:00"/>
 <meta property="article:modified_time" content="2019-04-02T22:01:56&#43;08:00"/>
 
 <meta itemprop="name" content="Vert.x Core Record">
@@ -215,8 +216,7 @@ Vert.x 官方文档阅读
 <h4 id="vert-x-core-vert-x-的核心api">Vert.x Core(Vert.x 的核心API)</h4>
 
 <ul>
-<li>功能</li>
-</ul>
+<li><p>功能</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -244,10 +244,9 @@ Vert.x 官方文档阅读
 - 高可用性
 - 集群</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>Vert.x 的 API 大部分都是事件驱动的,所有API都不会阻塞调用线程。</li>
-</ul>
+</div></li>
+
+<li><p>Vert.x 的 API 大部分都是事件驱动的,所有API都不会阻塞调用线程。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -255,10 +254,9 @@ Vert.x 官方文档阅读
 <td class="lntd">
 <pre class="chroma">因为Vert.x API不会阻塞线程，所以通过Vert.x您可以只使用少量的线程来处理大量的并发。</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>CompositeFuture/Future(并发异步操作)</li>
-</ul>
+</div></li>
+
+<li><p>CompositeFuture/Future(并发异步操作)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -272,10 +270,11 @@ CompositeFuture.any:任意一个成功返回成功的Future,都失败返回失�
 CompositeFuture.join:等待所有的 Future 完成，无论成败
 Future.compose:于顺序组合 Future</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>阻塞/非阻塞访问文件系统(FileSystem)</li>
-<li>HTTP/TCP/UDP支持</li>
+</div></li>
+
+<li><p>阻塞/非阻塞访问文件系统(FileSystem)</p></li>
+
+<li><p>HTTP/TCP/UDP支持</p></li>
 </ul>
 
 <h4 id="vertx实例-入口">Vertx实例(入口)</h4>
@@ -285,8 +284,7 @@ Future.compose:于顺序组合 Future</pre></td></tr></table>
 <h4 id="eventloop">Eventloop</h4>
 
 <ul>
-<li>Multi-Reactor 模式</li>
-</ul>
+<li><p>Multi-Reactor 模式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -302,14 +300,15 @@ Future.compose:于顺序组合 Future</pre></td></tr></table>
 
 默认情况下，Vert.x为每个CPU核心线程附加2个事件循环对应Verticle总是处理同一线程上的事件，因此不需要使用线程协调机制来操纵Verticle状态</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <p><img src="https://user-images.githubusercontent.com/19829495/55665502-8f4a3800-5873-11e9-8e80-bf91266b59c0.png" alt="image" />
 <img src="https://user-images.githubusercontent.com/19829495/55665506-a0934480-5873-11e9-84ef-a0652c911e6e.png" alt="image" />
 <img src="https://raw.githubusercontent.com/vert-x3/vertx-guide-for-java-devs/3.6/intro/images/verticle-threading-config.png" alt="enter description here" /></p>
 
 <ul>
-<li>在Event Loop运行阻塞代码</li>
-</ul>
+<li><p>在Event Loop运行阻塞代码</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -326,7 +325,9 @@ Worker Verticle：使用 Worker Pool 中的某个线程来执行阻塞代码</pr
 <td class="lntd">
 <pre class="chroma">Vertx vertx = Vertx.vertx();</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h4 id="context">Context</h4>
 
 <p>Context对应的是一次Handler执行过程的执行context。</p>
@@ -358,8 +359,7 @@ Worker Verticle：使用 Worker Pool 中的某个线程来执行阻塞代码</pr
 
 <li><p>当部署一个新的Verticle时，会为这个Verticle创建一个新的Context, 每个Verticle会一直关联一个context，任何在这个Verticle上面注册的handler都会通过verticle的context关联。</p></li>
 
-<li><p>Verticle 种类</p></li>
-</ul>
+<li><p>Verticle 种类</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -381,9 +381,9 @@ Worker Verticle：
 Multi-Threaded Worker Verticle：
 这类 Verticle 也会运行在 Worker Pool 中的线程上。一个实例可以由多个线程同时执行,因此需要开发者自己确保线程安全。</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>部署，设置Verticle</li>
+</div></li>
+
+<li><p>部署，设置Verticle</p></li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -610,8 +610,7 @@ Multi-Threaded Worker Verticle：
 </div>
 </div>
 <ul>
-<li>分布式锁(在集群中获取独占锁，以达到只在集群一个节点上执行某些操作或访问资源)</li>
-</ul>
+<li><p>分布式锁(在集群中获取独占锁，以达到只在集群一个节点上执行某些操作或访问资源)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -619,10 +618,9 @@ Multi-Threaded Worker Verticle：
 <td class="lntd">
 <pre class="chroma">sd.getLockWithTimeout</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>分布式计数器</li>
-</ul>
+</div></li>
+
+<li><p>分布式计数器</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -630,7 +628,9 @@ Multi-Threaded Worker Verticle：
 <td class="lntd">
 <pre class="chroma">sd.getCounter</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h3 id="数据访问库">数据访问库</h3>
 
 <ul>

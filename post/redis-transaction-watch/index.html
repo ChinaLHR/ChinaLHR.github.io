@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/redis-transaction-watch/" />
@@ -44,7 +44,8 @@
 Redis事务/Watch机制相关知识点整理
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/redis-transaction-watch/" /><meta property="article:published_time" content="2019-09-03T23:13:11&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/redis-transaction-watch/" />
+<meta property="article:published_time" content="2019-09-03T23:13:11&#43;08:00"/>
 <meta property="article:modified_time" content="2019-09-03T23:13:11&#43;08:00"/>
 
 <meta itemprop="name" content=" Redis 事务-Watch">
@@ -203,8 +204,7 @@ Redis事务/Watch机制相关知识点整理
 <p>Redis的事务没有提供rollback功能，如果一个事务中的某个命令执行出错，例如语法错误，运行错误</p>
 
 <ul>
-<li>事务相关命令</li>
-</ul>
+<li><p>事务相关命令</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -232,17 +232,16 @@ redis &gt; set t1 1
 QUEUED
 redis &gt; exec</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>Watch</li>
+</div></li>
+
+<li><p>Watch</p></li>
 </ul>
 
 <p>WATCH 命令用于在事务开始之前监视任意数量的键： 当调用 EXEC 命令执行事务时， 如果任意一个被监视的键已经被其他客户端修改了， 那么整个事务不再执行，
 直接返回失败。</p>
 
 <ul>
-<li>Watch相关命令</li>
-</ul>
+<li><p>Watch相关命令</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -270,7 +269,9 @@ QUEUED
 redis&gt; EXEC
 (nil)</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <h3 id="watch命令实现">Watch命令实现</h3>
 
 <ul>

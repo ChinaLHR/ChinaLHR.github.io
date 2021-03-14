@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/linux-oom/" />
@@ -44,7 +44,8 @@
 Linux OOM Killer排查记录
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/linux-oom/" /><meta property="article:published_time" content="2019-06-03T22:48:25&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/linux-oom/" />
+<meta property="article:published_time" content="2019-06-03T22:48:25&#43;08:00"/>
 <meta property="article:modified_time" content="2019-06-03T22:48:25&#43;08:00"/>
 
 <meta itemprop="name" content="Linux Out-Of-Memory killer">
@@ -176,8 +177,7 @@ Linux OOM Killer排查记录
 <h3 id="linux-oom-killer-java进程异常退出排查">Linux OOM Killer(Java进程异常退出排查)</h3>
 
 <ul>
-<li>dmesg命令</li>
-</ul>
+<li><p>dmesg命令</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -203,10 +203,9 @@ dmesg | grep &#34;(java)&#34;
 # 配合tail和head显示后和前n行数据
 dmesg | grep &#34;(java)&#34; | tail -20</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>dmesg排查消失的进程</li>
-</ul>
+</div></li>
+
+<li><p>dmesg排查消失的进程</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -238,9 +237,9 @@ dmesg | grep &#34;(java)&#34; | tail -20</pre></td></tr></table>
 total_vm虚拟内存使用：13.9GB
 anon-rss 程序实际使用内存：8.6GB</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>OOM Killer(Out-Of-Memory killer)</li>
+</div></li>
+
+<li><p>OOM Killer(Out-Of-Memory killer)</p></li>
 </ul>
 
 <p>OOM Killer:该机制会监控机器的内存资源消耗。当机器内存耗尽前，该机制会扫描所有的进程（按照一定规则计算，内存占用，时间等），

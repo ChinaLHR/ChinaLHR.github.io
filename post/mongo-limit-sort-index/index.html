@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/mongo-limit-sort-index/" />
@@ -44,7 +44,8 @@
 MongoDB分页/排序/索引相关知识点整理
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/mongo-limit-sort-index/" /><meta property="article:published_time" content="2019-09-02T20:33:31&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/mongo-limit-sort-index/" />
+<meta property="article:published_time" content="2019-09-02T20:33:31&#43;08:00"/>
 <meta property="article:modified_time" content="2019-09-02T20:33:31&#43;08:00"/>
 
 <meta itemprop="name" content="MongoDB分页-排序-索引">
@@ -250,8 +251,7 @@ last_id = ...</pre></td></tr></table>
 <h3 id="排序">排序</h3>
 
 <ul>
-<li>ObjectId有序性</li>
-</ul>
+<li><p>ObjectId有序性</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -273,7 +273,9 @@ last_id = ...</pre></td></tr></table>
 
 MongoDB的ObjectId随着时间而增加，如果是同一台机器的同一个进程生成的对象，是有序的。</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <p><img src="https://user-images.githubusercontent.com/19829495/64103993-ecf09b00-cda5-11e9-971a-f80fd94cb687.png" alt="image" /></p>
 
 <ul>
@@ -327,8 +329,7 @@ MongoDB的ObjectId随着时间而增加，如果是同一台机器的同一个�
 <h3 id="索引">索引</h3>
 
 <ul>
-<li>单key索引</li>
-</ul>
+<li><p>单key索引</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -336,12 +337,13 @@ MongoDB的ObjectId随着时间而增加，如果是同一台机器的同一个�
 <td class="lntd">
 <pre class="chroma">db.records.createIndex( { a: 1 } )</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <p>单key的排序使用单key索引，索引又分升序(1)和降序(-1)，索引定义的排序方向以及逆转方向可以支持sort。对于上述单key索引a，可以支持sort({a:1})升序和sort({a:-1})降序。</p>
 
 <ul>
-<li>多key索引</li>
-</ul>
+<li><p>多key索引</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -349,7 +351,9 @@ MongoDB的ObjectId随着时间而增加，如果是同一台机器的同一个�
 <td class="lntd">
 <pre class="chroma">db.records.createIndex( { a: 1, b:-1 } )</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <p>对于多字段排序使用复合(compound index)索引。复合多字段索引的顺序要和sort的字段一致才可以走索引。比如索引{a:1, b:1}, 可以支持sort({a:1, b:1})和逆序sort({a:-1, b:-1})， 但不支持sort({b:1, a:1})。</p>
 
 <p>复合索引支持sort同排序和逆序：索引{a:1, b:-1} 可以支持sort({a:1, b:-1}), 也可以支持sort({a:-1, b:1})</p>

@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.51 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/interface-idempotent/" />
@@ -44,7 +44,8 @@
 生成环境中Web接口幂等性保证实践记录
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/interface-idempotent/" /><meta property="article:published_time" content="2019-07-08T23:47:37&#43;08:00"/>
+<meta property="og:url" content="https://chinalhr.github.io/post/interface-idempotent/" />
+<meta property="article:published_time" content="2019-07-08T23:47:37&#43;08:00"/>
 <meta property="article:modified_time" content="2019-07-08T23:47:37&#43;08:00"/>
 
 <meta itemprop="name" content="Web接口幂等性">
@@ -195,8 +196,7 @@ request methods are idempotent.</p>
 <h3 id="分布式系统中接口幂等性问题">分布式系统中接口幂等性问题</h3>
 
 <ul>
-<li>一个订单流程可能会遇到的问题</li>
-</ul>
+<li><p>一个订单流程可能会遇到的问题</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -212,9 +212,9 @@ request methods are idempotent.</p>
 订单状态更新接口，调用方连续发送了两个消息，一个是已创建，一个是已付款。但是你先接收到已付款，然后又接收到了已创建。
 订单完成之后，需要发送一条短信，当一台机器接收到短信发送的消息之后，处理较慢。消息中间件又把消息投递给另外一台机器处理。</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>解决之道</li>
+</div></li>
+
+<li><p>解决之道</p></li>
 </ul>
 
 <p>保证接口幂等性，接口可重复调用，在调用方多次调用的情况下，接口最终得到的结果是一致的。</p>
@@ -226,8 +226,7 @@ request methods are idempotent.</p>
 <h3 id="分布式系统中接口幂等性保证">分布式系统中接口幂等性保证</h3>
 
 <ul>
-<li>全局唯一ID</li>
-</ul>
+<li><p>全局唯一ID</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -235,10 +234,9 @@ request methods are idempotent.</p>
 <td class="lntd">
 <pre class="chroma">根据业务的操作和内容生成一个全局ID，在执行操作前先根据这个全局唯一ID是否存在，来判断这个操作是否已经执行。如果不存在则把全局ID，存储到存储系统中，比如数据库、redis等。如果存在则表示该方法已经执行，保证幂等性。</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>使用去重表约束操作</li>
-</ul>
+</div></li>
+
+<li><p>使用去重表约束操作</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -246,10 +244,9 @@ request methods are idempotent.</p>
 <td class="lntd">
 <pre class="chroma">适用于在业务中有唯一标识的场景。在支付的流程中，因为一个订单只会支付一次，订单ID为唯一标识。新建一张去重表，用于记录已支付订单，并把订单ID作为唯一索引，把支付成功与写入去重表放在一个事务中，利用数据库的UNIQUE KEY 进行约束保证幂等性。</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>多版本控制</li>
-</ul>
+</div></li>
+
+<li><p>多版本控制</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -261,10 +258,9 @@ request methods are idempotent.</p>
 
 update commodity set name=#{newName},version=#{version} where id=#{id} and version&lt;${version}</pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li>状态机控制</li>
-</ul>
+</div></li>
+
+<li><p>状态机控制</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -276,7 +272,9 @@ update commodity set name=#{newName},version=#{version} where id=#{id} and versi
 
 update recharge_order set  paystatus = SUCCESS where orderId= &#39;orderid&#39; and paystatus = UNPAID</pre></td></tr></table>
 </div>
-</div>
+</div></li>
+</ul>
+
 <p><img src="https://user-images.githubusercontent.com/19829495/60823431-1643df00-a1da-11e9-83ac-162c78f87f0e.png" alt="image" /></p>
     </div>
 
