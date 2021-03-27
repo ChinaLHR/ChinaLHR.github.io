@@ -56,7 +56,7 @@
 
 <meta itemprop="datePublished" content="2021-01-25T00:20:07&#43;08:00" />
 <meta itemprop="dateModified" content="2021-01-25T00:20:07&#43;08:00" />
-<meta itemprop="wordCount" content="7083">
+<meta itemprop="wordCount" content="6964">
 
 
 
@@ -147,8 +147,8 @@
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/"> 编程-分布式系统 </a>
             </div>
-          <span class="more-meta"> 7083 words </span>
-          <span class="more-meta"> 15 mins read </span>
+          <span class="more-meta"> 6964 words </span>
+          <span class="more-meta"> 14 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -492,8 +492,8 @@ read 操作至少会获取一个最新副本；</pre></td></tr></table>
 问题：如第一次update，nodeA、nodeB写入a=x；第二次update，nodeB、nodeC写入a=y；如果读取a的客户端联系到nodeA和nodeB，会得到不一致的数据
 解决：对每次的写入增加全局时间戳，以后写入的优先
 
-2. 客户端没有完成一次完整的多数派写的时候进程挂掉了，会产生不一致情况
-问题：如第一次update，nodeA、nodeB写入a=x；第二次update，nodeB、nodeC写入a=y，在写入nodeB的时候客户端挂掉了；此时系统中nodeA、nodeB a=x，nodeC a=y；对外部提供的信息仍然不一致</pre></td></tr></table>
+2. 并发环境下，因为无法保证顺序执行，所以无法保证系统的正确性
+问题：</pre></td></tr></table>
 </div>
 </div>
 <p>结论：Quorum机制无法保证强一致性，即无法实现任何时刻任何用户或节点都可以读到最近一次成功提交的副本数据；后续Paxos对Quorum机制进行了改进，通过2次多数派读写, 实现了严谨的强一致共识算法。</p>
