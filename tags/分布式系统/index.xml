@@ -6,13 +6,24 @@
     <description>Recent content in 分布式系统 on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 25 Jan 2021 00:20:07 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 11 Mar 2021 23:41:59 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>分布式系统的一致性与共识算法：基础理论</title>
+      <title>分布式系统的一致性与共识算法-Paxos</title>
+      <link>https://chinalhr.github.io/post/distributed-systems-consensus-algorithm-paxos/</link>
+      <pubDate>Thu, 11 Mar 2021 23:41:59 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/distributed-systems-consensus-algorithm-paxos/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;本文讨论共识算法：Paxos&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>分布式系统的一致性与共识算法-基础理论</title>
       <link>https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/</link>
       <pubDate>Mon, 25 Jan 2021 00:20:07 +0800</pubDate>
       

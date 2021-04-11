@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://chinalhr.github.io/post/distributed-systems-consensus-algorithm-paxos/</loc>
+    <lastmod>2021-03-11T23:41:59+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/</loc>
     <lastmod>2021-01-25T00:20:07+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -612,7 +619,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2021-01-25T00:20:07+08:00</lastmod>
+    <lastmod>2021-03-11T23:41:59+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -661,7 +668,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/post/</loc>
-    <lastmod>2021-01-25T00:20:07+08:00</lastmod>
+    <lastmod>2021-03-11T23:41:59+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -772,6 +779,20 @@
   </url>
   
   <url>
+    <loc>https://chinalhr.github.io/tags/paxos/</loc>
+    <lastmod>2021-03-11T23:41:59+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2021-03-11T23:41:59+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/categories/%E5%85%B6%E4%BB%96/</loc>
     <lastmod>2020-11-10T16:41:13+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -794,7 +815,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/</loc>
-    <lastmod>2021-01-25T00:20:07+08:00</lastmod>
+    <lastmod>2021-03-11T23:41:59+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -913,7 +934,7 @@
   
   <url>
     <loc>https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/</loc>
-    <lastmod>2021-01-25T00:20:07+08:00</lastmod>
+    <lastmod>2021-03-11T23:41:59+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
