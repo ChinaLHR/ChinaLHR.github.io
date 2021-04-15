@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/linux-logrotate/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@ logrotate学习记录
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/linux-logrotate/" />
-<meta property="article:published_time" content="2020-01-31T13:55:12&#43;08:00"/>
-<meta property="article:modified_time" content="2020-01-31T13:55:12&#43;08:00"/>
-
+<meta property="article:published_time" content="2020-01-31T13:55:12+08:00" />
+<meta property="article:modified_time" content="2020-01-31T13:55:12+08:00" />
 <meta itemprop="name" content="Linux-logrotate">
 <meta itemprop="description" content="
 logrotate学习记录
 ">
-
-
 <meta itemprop="datePublished" content="2020-01-31T13:55:12&#43;08:00" />
 <meta itemprop="dateModified" content="2020-01-31T13:55:12&#43;08:00" />
-<meta itemprop="wordCount" content="1790">
+<meta itemprop="wordCount" content="1791">
 
 
 
-<meta itemprop="keywords" content="Linux," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Linux," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux-logrotate"/>
 <meta name="twitter:description" content="
 logrotate学习记录
@@ -104,12 +101,21 @@ logrotate学习记录
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@ logrotate学习记录
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -143,7 +150,7 @@ logrotate学习记录
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"> 编程-操作系统 </a>
             </div>
-          <span class="more-meta"> 1790 words </span>
+          <span class="more-meta"> 1791 words </span>
           <span class="more-meta"> 4 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -153,19 +160,17 @@ logrotate学习记录
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#关于logrotate">关于logrotate</a></li>
-<li><a href="#logrotate运行机制">logrotate运行机制</a></li>
-<li><a href="#logrotate配置">logrotate配置</a>
-<ul>
-<li><a href="#logrotate运行命令">logrotate运行命令</a></li>
-<li><a href="#配置参数">配置参数</a></li>
-</ul></li>
-<li><a href="#shell脚本实现">Shell脚本实现</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#关于logrotate">关于logrotate</a></li>
+    <li><a href="#logrotate运行机制">logrotate运行机制</a></li>
+    <li><a href="#logrotate配置">logrotate配置</a>
+      <ul>
+        <li><a href="#logrotate运行命令">logrotate运行命令</a></li>
+        <li><a href="#配置参数">配置参数</a></li>
+      </ul>
+    </li>
+    <li><a href="#shell脚本实现">Shell脚本实现</a></li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -173,32 +178,27 @@ logrotate学习记录
       <blockquote>
 <p>logrotate学习记录</p>
 </blockquote>
-
 <h2 id="关于logrotate">关于logrotate</h2>
-
 <p>logrotate 是一个 linux 系统日志的管理工具。可以对单个日志文件或者某个目录下的文件按时间 / 大小进行切割，压缩操作；指定日志保存数量；还可以在切割之后运行自定义命令。</p>
-
 <p>logrotate 是基于 crontab 运行的，查询crontab 的配置文件 /etc/anacrontab可以查询具体的配置。logrotate的配置文件，例如每天运行的在 /etc/cron.daily/logrotate配置文件里面。</p>
-
 <h2 id="logrotate运行机制">logrotate运行机制</h2>
-
 <p>测试系统为Centos7 ，查询/etc/anacrontab</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">1	5	cron.daily		nice run-parts /etc/cron.daily
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">1	5	cron.daily		nice run-parts /etc/cron.daily
 7	25	cron.weekly		nice run-parts /etc/cron.weekly
-@monthly 45	cron.monthly		nice run-parts /etc/cron.monthly</pre></td></tr></table>
+@monthly 45	cron.monthly		nice run-parts /etc/cron.monthly
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>会根据配置的周期运行/etc/cron.daily，/etc/cron.weekly和/etc/cron.monthly目录下的脚本文件，如cron.daily下的logrotate文件，内容如下：</p>
+</div><p>会根据配置的周期运行/etc/cron.daily，/etc/cron.weekly和/etc/cron.monthly目录下的脚本文件，如cron.daily下的logrotate文件，内容如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -206,6 +206,7 @@ logrotate学习记录
 </span><span class="lnt">6
 </span><span class="lnt">7
 </span><span class="lnt">8
+</span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/bin/sh
@@ -215,15 +216,15 @@ logrotate学习记录
 <span class="k">if</span> <span class="o">[</span> <span class="nv">$EXITVALUE</span> !<span class="o">=</span> <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
     /usr/bin/logger -t logrotate <span class="s2">&#34;ALERT exited abnormally with [</span><span class="nv">$EXITVALUE</span><span class="s2">]&#34;</span>
 <span class="k">fi</span>
-<span class="nb">exit</span> <span class="m">0</span></code></pre></td></tr></table>
-</div>
-</div>
-<p>这个脚本主要做的事就是以 <code>/etc/logrotate.conf</code> 为配置文件执行了 logrotate。就是这样实现了每天执行一次 logrotate。</p>
+<span class="nb">exit</span> <span class="m">0</span>
 
+</code></pre></td></tr></table>
+</div>
+</div><p>这个脚本主要做的事就是以 <code>/etc/logrotate.conf</code> 为配置文件执行了 logrotate。就是这样实现了每天执行一次 logrotate。</p>
 <p>logrotate.conf包含了/etc/logrotate.d目录下的配置文件，很多程序的会用到 logrotate 滚动日志，比如 nginx。它们安装后，会在 <code>/etc/logrotate.d</code> 这个目录下增加自己的 logrotate 的配置文件。logrotate.conf配置如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -290,15 +291,14 @@ include /etc/logrotate.d
     monthly
     create <span class="m">0600</span> root utmp
     rotate <span class="m">1</span>
-<span class="o">}</span></code></pre></td></tr></table>
+<span class="o">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h2 id="logrotate配置">logrotate配置</h2>
-
+</div><h2 id="logrotate配置">logrotate配置</h2>
 <h3 id="logrotate运行命令">logrotate运行命令</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -311,17 +311,15 @@ include /etc/logrotate.d
 -f, --force ：强制转储文件。
 -m, --mail<span class="o">=</span><span class="nb">command</span> ：压缩日志后，发送日志到指定邮箱。
 -s, --state<span class="o">=</span>statefile ：使用指定的状态文件。
--v, --verbose ：显示转储过程。</code></pre></td></tr></table>
+-v, --verbose ：显示转储过程。
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>例如，通过logrotate -f /etc/logrotate.d/nginx进行手动执行。</p>
-
+</div><p>例如，通过logrotate -f /etc/logrotate.d/nginx进行手动执行。</p>
 <h3 id="配置参数">配置参数</h3>
-
 <p>示例：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -348,11 +346,10 @@ include /etc/logrotate.d
     postrotate
         /usr/bin/killall -HUP rsyslogd
     endscript
-<span class="o">}</span></code></pre></td></tr></table>
+<span class="o">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>常用参数说明：</p>
-
+</div><p>常用参数说明：</p>
 <ul>
 <li>daily ：指定转储周期为每天</li>
 <li>weekly ：指定转储周期为每周</li>
@@ -378,11 +375,10 @@ include /etc/logrotate.d
 <li>noolddir： 转储后的日志文件和当前日志文件放在同一个目录下</li>
 <li>prerotate/endscript： 在转储以前需要执行的命令可以放入这个对，这两个关键字必须单独成行</li>
 </ul>
-
 <p>示例（10天周期，nginx日志压缩处理）：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -405,17 +401,16 @@ include /etc/logrotate.d
     compress
     sharedscripts
     postrotate
-        /bin/kill -USR1 <span class="sb">`</span>cat /run/nginx.pid <span class="m">2</span>&gt;/dev/null<span class="sb">`</span> <span class="m">2</span>&gt;/dev/null <span class="o">||</span> <span class="nb">true</span>
+        /bin/kill -USR1 <span class="sb">`</span>cat /run/nginx.pid 2&gt;/dev/null<span class="sb">`</span> 2&gt;/dev/null <span class="o">||</span> <span class="nb">true</span>
     endscript
-<span class="o">}</span></code></pre></td></tr></table>
+<span class="o">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h2 id="shell脚本实现">Shell脚本实现</h2>
-
+</div><h2 id="shell脚本实现">Shell脚本实现</h2>
 <p>如下，对java应用产生的日志进行压缩，清理操作：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -445,8 +440,8 @@ include /etc/logrotate.d
 <span class="c1"># 删除两天前的压缩文件</span>
 <span class="c1">#--------------------------------------------</span>
 
-<span class="cp">#! /bin/bash
-</span><span class="cp"></span>
+<span class="c1">#! /bin/bash</span>
+
 <span class="nv">ZIPDATE</span><span class="o">=</span><span class="k">$(</span>date +%F -d <span class="s2">&#34;-1 day&#34;</span><span class="k">)</span><span class="p">;</span>
 <span class="nv">DELDATE</span><span class="o">=</span><span class="k">$(</span>date +%F -d <span class="s2">&#34;-2 day&#34;</span><span class="k">)</span><span class="p">;</span>
 <span class="nv">SECOND</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$RANDOM</span> <span class="p">|</span> cut -c1-3<span class="k">)</span>
@@ -460,7 +455,8 @@ sleep <span class="nv">$SECOND</span>
 
         find -L <span class="nv">$i</span> -maxdepth <span class="m">1</span> -type f <span class="se">\(</span> -name <span class="s2">&#34;*</span><span class="si">${</span><span class="nv">ZIPDATE</span><span class="si">}</span><span class="s2">*&#34;</span> -a ! -name <span class="s2">&#34;*.gz&#34;</span> <span class="se">\)</span> -exec gzip <span class="o">{}</span> <span class="se">\;</span>
         find -L <span class="nv">$i</span> -maxdepth <span class="m">1</span> -type f <span class="se">\(</span> -name <span class="s2">&#34;*</span><span class="si">${</span><span class="nv">DELDATE</span><span class="si">}</span><span class="s2">*&#34;</span> -a -name <span class="s2">&#34;*.gz&#34;</span> <span class="se">\)</span> -exec rm -f <span class="o">{}</span> <span class="se">\;</span>
-<span class="k">done</span></code></pre></td></tr></table>
+<span class="k">done</span>
+</code></pre></td></tr></table>
 </div>
 </div>
     </div>
@@ -506,11 +502,11 @@ sleep <span class="nv">$SECOND</span>
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -535,10 +531,6 @@ sleep <span class="nv">$SECOND</span>
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -549,13 +541,10 @@ sleep <span class="nv">$SECOND</span>
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -566,7 +555,10 @@ sleep <span class="nv">$SECOND</span>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

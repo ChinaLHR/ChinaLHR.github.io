@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/aspect-dynamic/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@ Spriing Aop中动态Pointcut的实践
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/aspect-dynamic/" />
-<meta property="article:published_time" content="2019-04-18T22:15:07&#43;08:00"/>
-<meta property="article:modified_time" content="2019-04-18T22:15:07&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-04-18T22:15:07+08:00" />
+<meta property="article:modified_time" content="2019-04-18T22:15:07+08:00" />
 <meta itemprop="name" content=" javassist实现Aspect动态Pointcut">
 <meta itemprop="description" content="
 Spriing Aop中动态Pointcut的实践
 ">
-
-
 <meta itemprop="datePublished" content="2019-04-18T22:15:07&#43;08:00" />
 <meta itemprop="dateModified" content="2019-04-18T22:15:07&#43;08:00" />
 <meta itemprop="wordCount" content="1583">
 
 
 
-<meta itemprop="keywords" content="Java,Spring," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Java,Spring," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content=" javassist实现Aspect动态Pointcut"/>
 <meta name="twitter:description" content="
 Spriing Aop中动态Pointcut的实践
@@ -104,12 +101,21 @@ Spriing Aop中动态Pointcut的实践
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@ Spriing Aop中动态Pointcut的实践
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -153,21 +160,13 @@ Spriing Aop中动态Pointcut的实践
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#为什么需要aspectj中具有动态值的pointcut">为什么需要AspectJ中具有动态值的Pointcut</a></li>
-<li><a href="#pointcut的用法">@Pointcut的用法</a></li>
-<li><a href="#动态pointcut">动态Pointcut</a></li>
-<li><a href="#编程式aop实现动态pointcut">编程式AOP实现动态PointCut</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -175,18 +174,15 @@ Spriing Aop中动态Pointcut的实践
       <blockquote>
 <p>Spriing Aop中动态Pointcut的实践</p>
 </blockquote>
-
 <h4 id="为什么需要aspectj中具有动态值的pointcut">为什么需要AspectJ中具有动态值的Pointcut</h4>
-
 <p>工作中需要抽离出公司项目的一些监控组件打成一个公共包,需要对一些Aspect作动态适配(根据引入项目的ComponentScan进行特定package的Pointcut/配置PointCut)</p>
-
 <h4 id="pointcut的用法">@Pointcut的用法</h4>
-
 <ul>
-<li><p>格式</p>
+<li>格式</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -202,9 +198,9 @@ Spriing Aop中动态Pointcut的实践
 </span><span class="lnt">14
 </span><span class="lnt">15
 </span><span class="lnt">16
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">execution(modifiers-pattern? ret-type-pattern declaring-type-pattern? name-pattern(param-pattern)throws-pattern?) 
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">execution(modifiers-pattern? ret-type-pattern declaring-type-pattern? name-pattern(param-pattern)throws-pattern?) 
 
 修饰符匹配（modifier-pattern?）
 返回值匹配（ret-type-pattern）可以为*表示任何返回值,全路径的类名等
@@ -219,55 +215,46 @@ Spriing Aop中动态Pointcut的实践
 2）execution(public * com. savage.service.UserService.*(..))  
 //表示匹配com.savage.server.UserService中所有的公有方法  
 3）execution(* com.savage.server..*.*(..))  
-//表示匹配com.savage.server包及其子包下的所有方法 </pre></td></tr></table>
+//表示匹配com.savage.server包及其子包下的所有方法 
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>Spring中的Pointcut(Pointcut表示式(expression)和Pointcut签名(signature))</p>
+</div><ul>
+<li>Spring中的Pointcut(Pointcut表示式(expression)和Pointcut签名(signature))</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">//Pointcut表示式(可以使用&amp;&amp; || ! 这三个运算)
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">//Pointcut表示式(可以使用&amp;&amp; || ! 这三个运算)
 @Pointcut(&#34;execution(* com.savage.aop.MessageSender.*(..))&#34;)
 //Point签名
-private void log(){} </pre></td></tr></table>
+private void log(){} 
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<h4 id="动态pointcut">动态Pointcut</h4>
-
+</div><h4 id="动态pointcut">动态Pointcut</h4>
 <ul>
 <li>关于SpringAop</li>
 </ul>
-
 <p>AspectJ方式织入的核心，是一个BeanPostProcess（会扫描所有的Pointcut与遍历所有Bean,并对需要的Bean进行织入-自动代理，当对象实例化的时候，为其生成代理对象并返回）</p>
-
 <ul>
 <li>思路</li>
 </ul>
-
 <p>在Aop的BeanPostProcess执行之前( springApplication.run之前),使用javassist修改目标Aop类字节码，动态设置@Pointcut,设置 value为我们自己动态查询到的值。</p>
-
 <ul>
 <li>其他</li>
 </ul>
-
 <p>由于Spring boot的类加载机制，运行时javassist会扫描不到包，要通过insertClassPath添加扫描路径</p>
-
 <p>修改@Pointcut的切点值后，通过toClass覆盖原有类，需要通过类加载器重新加载。</p>
-
 <ul>
 <li>实现</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -380,17 +367,16 @@ private void log(){} </pre></td></tr></table>
         <span class="o">}</span>
     <span class="o">}</span>
 
-<span class="o">}</span></code></pre></td></tr></table>
+<span class="o">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="编程式aop实现动态pointcut">编程式AOP实现动态PointCut</h4>
-
+</div><h4 id="编程式aop实现动态pointcut">编程式AOP实现动态PointCut</h4>
 <ul>
 <li>PonitCut</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -423,15 +409,15 @@ private void log(){} </pre></td></tr></table>
         <span class="k">return</span> <span class="n">getAdapterServicePointcut</span><span class="o">();</span>
     <span class="o">}</span>
 
-<span class="o">}</span></code></pre></td></tr></table>
+<span class="o">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>Advice</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -446,15 +432,15 @@ private void log(){} </pre></td></tr></table>
     <span class="kd">public</span> <span class="n">Object</span> <span class="nf">invoke</span><span class="o">(</span><span class="n">MethodInvocation</span> <span class="n">invocation</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Throwable</span> <span class="o">{</span>
        <span class="c1">//做一些操作...
 </span><span class="c1"></span>    <span class="o">}</span>
-<span class="o">}</span></code></pre></td></tr></table>
+<span class="o">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>配置Advisor Bean</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -481,7 +467,8 @@ private void log(){} </pre></td></tr></table>
         <span class="n">advisor</span><span class="o">.</span><span class="na">setOrder</span><span class="o">(</span><span class="n">Ordered</span><span class="o">.</span><span class="na">HIGHEST_PRECEDENCE</span><span class="o">);</span>
         <span class="k">return</span> <span class="n">advisor</span><span class="o">;</span>
     <span class="o">}</span>
-<span class="o">}</span></code></pre></td></tr></table>
+<span class="o">}</span>
+</code></pre></td></tr></table>
 </div>
 </div>
     </div>
@@ -528,11 +515,11 @@ private void log(){} </pre></td></tr></table>
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -557,10 +544,6 @@ private void log(){} </pre></td></tr></table>
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -571,13 +554,10 @@ private void log(){} </pre></td></tr></table>
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -588,7 +568,10 @@ private void log(){} </pre></td></tr></table>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/kotlin-learn02/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@ Kotlin学习记录
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/kotlin-learn02/" />
-<meta property="article:published_time" content="2019-02-27T22:06:26&#43;08:00"/>
-<meta property="article:modified_time" content="2019-02-27T22:06:26&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-02-27T22:06:26+08:00" />
+<meta property="article:modified_time" content="2019-02-27T22:06:26+08:00" />
 <meta itemprop="name" content="Kotlin 类型系统，语言特性">
 <meta itemprop="description" content="
 Kotlin学习记录
 ">
-
-
 <meta itemprop="datePublished" content="2019-02-27T22:06:26&#43;08:00" />
 <meta itemprop="dateModified" content="2019-02-27T22:06:26&#43;08:00" />
-<meta itemprop="wordCount" content="2665">
+<meta itemprop="wordCount" content="2667">
 
 
 
-<meta itemprop="keywords" content="Kotlin," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Kotlin," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Kotlin 类型系统，语言特性"/>
 <meta name="twitter:description" content="
 Kotlin学习记录
@@ -104,12 +101,21 @@ Kotlin学习记录
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@ Kotlin学习记录
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -143,7 +150,7 @@ Kotlin学习记录
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 编程-后端开发 </a>
             </div>
-          <span class="more-meta"> 2665 words </span>
+          <span class="more-meta"> 2667 words </span>
           <span class="more-meta"> 6 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -153,22 +160,15 @@ Kotlin学习记录
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#可null性">可Null性</a></li>
-<li><a href="#数据类型">数据类型</a></li>
-<li><a href="#语言特性-约定">语言特性-约定</a>
-<ul>
-<li><a href="#重载">重载</a></li>
-<li><a href="#解构声明和组件函数">解构声明和组件函数</a></li>
-<li><a href="#委托属性">委托属性</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#可null性">可Null性</a></li>
+        <li><a href="#数据类型">数据类型</a></li>
+        <li><a href="#语言特性-约定">语言特性-约定</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -176,35 +176,33 @@ Kotlin学习记录
       <blockquote>
 <p>Kotlin学习记录</p>
 </blockquote>
-
 <h3 id="可null性">可Null性</h3>
-
 <p><strong>java类型系统缺陷：</strong></p>
-
 <p>例如String类型的变量可以持有两种值，分别是String的实例和 null，但两种值完全不一样(instanceof 运算符null不是String)。类型系统的缺陷导致即使变量拥有声明的类型 String你依然无法知道能对该变量的值做些什么，除非做额外的检查。</p>
-
 <p>Kotlin解决NullPointerException之道：把运行时的错误转变成编译期的错误</p>
-
 <ul>
-<li><p>编译器强制检测变量实参,所有常见类型默认都是非空的,可以在任何类型的后面加?来表示这个类型的变量可以存储 null 引用。<strong>但是对可null参数进行的操作也会受到限制，需要对可null参数进行null处理(判断，安全符&hellip;)才可以编译通过。</strong></p></li>
-
-<li><p>Java 中的类型在Kotlin中被解释成平台类型，允许开发者把它们当作可空或非空来对待。</p></li>
+<li>
+<p>编译器强制检测变量实参,所有常见类型默认都是非空的,可以在任何类型的后面加?来表示这个类型的变量可以存储 null 引用。<strong>但是对可null参数进行的操作也会受到限制，需要对可null参数进行null处理(判断，安全符&hellip;)才可以编译通过。</strong></p>
+</li>
+<li>
+<p>Java 中的类型在Kotlin中被解释成平台类型，允许开发者把它们当作可空或非空来对待。</p>
+</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">strLen</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">String</span><span class="p">?)</span> <span class="p">=</span> <span class="n">s</span><span class="o">?.</span><span class="n">length</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">fun</span> <span class="nf">strLen</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">String</span><span class="p">?)</span> <span class="p">=</span> <span class="n">s</span><span class="o">?.</span><span class="n">length</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>安全运算符
 <strong>?. 和 ?: 安全Null运算符</strong></li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -261,13 +259,13 @@ Kotlin学习记录
 <span class="k">fun</span> <span class="nf">Person</span><span class="p">.</span><span class="n">countryName</span><span class="p">()</span> <span class="p">:</span><span class="n">String</span><span class="p">{</span>
     <span class="k">val</span> <span class="py">companyStr</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">company</span><span class="o">?.</span><span class="n">address</span><span class="o">?.</span><span class="n">country</span>
     <span class="k">return</span> <span class="n">companyStr</span><span class="o">?:</span><span class="s">&#34;UnKnow&#34;</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><strong>as? 安全类型转换运算符</strong></p>
+</div><p><strong>as? 安全类型转换运算符</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -278,13 +276,13 @@ Kotlin学习记录
 </span><span class="cm"> * as? 尝试把值转换成指定的类型， 如果值不是合适的类型就返回 null
 </span><span class="cm"> * 配合Elvis 运算符
 </span><span class="cm"> */</span>
-<span class="k">val</span> <span class="py">otherPerson</span> <span class="p">=</span> <span class="n">o</span> <span class="k">as</span><span class="p">?</span> <span class="n">Person</span><span class="o">?:</span> <span class="k">return</span> <span class="k">false</span></code></pre></td></tr></table>
+<span class="k">val</span> <span class="py">otherPerson</span> <span class="p">=</span> <span class="n">o</span> <span class="k">as</span><span class="p">?</span> <span class="n">Person</span><span class="o">?:</span> <span class="k">return</span> <span class="k">false</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><strong>非Null断言!!</strong></p>
+</div><p><strong>非Null断言!!</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -299,13 +297,13 @@ Kotlin学习记录
 <span class="k">fun</span> <span class="nf">ignoreNulls</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">String</span><span class="p">?)</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">sNotNullVal</span> <span class="p">=</span> <span class="n">s</span><span class="o">!!</span> <span class="c1">//如果s为null,此处抛出KotlinNullPointerException异常
 </span><span class="c1"></span>    <span class="n">println</span><span class="p">(</span><span class="n">sNotNullVal</span><span class="p">)</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><strong>let</strong></p>
+</div><p><strong>let</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -318,13 +316,13 @@ Kotlin学习记录
 </span><span class="cm"> * 只在表达式不为 null 时执行 lambda,相当于
 </span><span class="cm"> * if (email != null)  sendEmailTo(email)
 </span><span class="cm"> */</span>
-<span class="n">email</span><span class="o">?.</span><span class="n">let</span> <span class="p">{</span> <span class="n">email</span> <span class="p">-&gt;</span> <span class="n">sendEmailTo</span><span class="p">(</span><span class="n">email</span><span class="p">)</span> <span class="p">}</span></code></pre></td></tr></table>
+<span class="n">email</span><span class="o">?.</span><span class="n">let</span> <span class="p">{</span> <span class="n">email</span> <span class="p">-&gt;</span> <span class="n">sendEmailTo</span><span class="p">(</span><span class="n">email</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><strong>lateinit 延迟初始化</strong></p>
+</div><p><strong>lateinit 延迟初始化</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -333,43 +331,38 @@ Kotlin学习记录
 <pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="cm">/**
 </span><span class="cm"> * 不需要在构造方法中初始化它。如果在属性被初始化之前就访问了它，会抛出异常
 </span><span class="cm"> */</span>
-<span class="k">private</span> <span class="k">lateinit</span> <span class="k">var</span> <span class="py">myService</span><span class="p">:</span> <span class="n">MyService</span></code></pre></td></tr></table>
+<span class="k">private</span> <span class="k">lateinit</span> <span class="k">var</span> <span class="py">myService</span><span class="p">:</span> <span class="n">MyService</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>Kotlin与Java Null操作
 Java 的类型系统是不支持可空性的</li>
 </ul>
-
 <p>Kotlin注解转换：Java 中的@ Nullable String 被 Kotlin 当作 String?,而@NotNull String 就是String</p>
-
 <p>Kotlin编译器无法对Java的可Null类型检测，开发者负责正确处理来自 Java 的值。</p>
-
 <h3 id="数据类型">数据类型</h3>
-
 <ul>
 <li>对比Java</li>
 </ul>
-
 <p>整数类型 Byte  Short Int Long
 浮点数类型 Float Double
 字符类型 Char
 布尔类型 Boolean</p>
-
 <p>对比Java，Kotlin不区分基本数据类型和它们的包装类。对于变量、属性、参数和返回类型Kotlin编译器会尽可能编译为基本类型，除了泛型。</p>
-
 <p>Kotiin不会自动地把数字从一种类型转换成另外一种，即便是转换成范围更大的类型。可以使用支持双向转换的函数,toByte(),toShort()&hellip; Kotlin 要求转换必须是显式的，可以避免转换数值的问题。</p>
-
 <ul>
-<li><p>根类型&rsquo;Any&rsquo; &lsquo;Any?&rsquo;
-Any类型是Kotiin所有非空类型的超类型，包括基础类型,区别于Java Object 只是所有引用类型的超类型，非基础类型</p></li>
-
-<li><p>Unit 类型 和 Nothing 类型
-Unit是Kotlin 的 &lsquo;void&rsquo; ，区别是Unit是一个完备的类型，可以作为类型参数。只存在一个值是 Unit 类型，这个值也叫作 Unit，并且（在函数中）会被隐式地返回。</p></li>
+<li>
+<p>根类型&rsquo;Any&rsquo; &lsquo;Any?&rsquo;
+Any类型是Kotiin所有非空类型的超类型，包括基础类型,区别于Java Object 只是所有引用类型的超类型，非基础类型</p>
+</li>
+<li>
+<p>Unit 类型 和 Nothing 类型
+Unit是Kotlin 的 &lsquo;void&rsquo; ，区别是Unit是一个完备的类型，可以作为类型参数。只存在一个值是 Unit 类型，这个值也叫作 Unit，并且（在函数中）会被隐式地返回。</p>
+</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -396,31 +389,24 @@ Unit是Kotlin 的 &lsquo;void&rsquo; ，区别是Unit是一个完备的类型，
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">//不需要显示return 会隐式返回Unit
 </span><span class="c1"></span>    <span class="p">}</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>Nothing 类型没有任何值,只有被当作函数返回值使用,表示函数永不返回</p>
-
+</div><p>Nothing 类型没有任何值,只有被当作函数返回值使用,表示函数永不返回</p>
 <ul>
 <li>集合数组</li>
 </ul>
-
 <p><strong>集合</strong></p>
-
-<p>List<Int?> : 列表中的单个值是可Null的 <br/>
-List<Int>? : 集合本身是可Null的,但列表中的元素保证是非空的 <br/>
-List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
-
+<p>List&lt;Int?&gt; : 列表中的单个值是可Null的 <!-- raw HTML omitted -->
+List<!-- raw HTML omitted -->? : 集合本身是可Null的,但列表中的元素保证是非空的 <!-- raw HTML omitted -->
+List&lt;Int?&gt;? :集合本身是可Null的,列表中的单个值是可Null的</p>
 <p>可以使用filterNotNull()函数过滤集合</p>
-
 <p><strong>只读集合，可变集合</strong></p>
-
 <p>对比Java,Kotlin把访问集合数据的接口和修改集合数据的接口分开了。Collection接口(读)，MutableCollection接口(写)</p>
-
 <p>优势:让程序 中的数据发生的事情更容易理解，根据入参类型是可读或者可写的，很容易实现防御性编程，</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -431,21 +417,16 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
     <span class="k">for</span> <span class="p">(</span><span class="n">item</span> <span class="k">in</span> <span class="n">source</span><span class="p">){</span>
         <span class="n">target</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
     <span class="p">}</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><strong>数组</strong></p>
-
+</div><p><strong>数组</strong></p>
 <p>Kotiin 中的一个数组是一个带有类型参数的类Array，其元素类型被指定为相应的类型参数。基本数据类型的数组使用像 IntArray 这样的特殊类来表示 。</p>
-
 <h3 id="语言特性-约定">语言特性-约定</h3>
-
 <h4 id="重载">重载</h4>
-
 <ul>
 <li>二元运算符重载</li>
 </ul>
-
 <table>
 <thead>
 <tr>
@@ -453,28 +434,23 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
 <th>函数名</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>a * b</td>
 <td>times</td>
 </tr>
-
 <tr>
 <td>a / b</td>
 <td>div</td>
 </tr>
-
 <tr>
 <td>a % b</td>
 <td>mod</td>
 </tr>
-
 <tr>
 <td>a + b</td>
 <td>plus</td>
 </tr>
-
 <tr>
 <td>a - b</td>
 <td>minus</td>
@@ -483,7 +459,7 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
 </table>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -514,15 +490,13 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
     <span class="k">val</span> <span class="py">p2</span> <span class="p">=</span> <span class="n">Point</span><span class="p">(</span><span class="m">30</span><span class="p">,</span> <span class="m">40</span><span class="p">)</span>
     <span class="n">println</span><span class="p">(</span><span class="n">p1</span> <span class="p">+</span> <span class="n">p2</span><span class="p">)</span>
 <span class="p">}</span>
-    </code></pre></td></tr></table>
+    
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>一元运算符重载</li>
 </ul>
-
 <p>用于重载一元运算符的函数，没有任何参数。</p>
-
 <table>
 <thead>
 <tr>
@@ -530,42 +504,36 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
 <th>函数名</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>+a</td>
 <td>unaryPlus</td>
 </tr>
-
 <tr>
 <td>-a</td>
 <td>unaryMinus</td>
 </tr>
-
 <tr>
 <td>!a</td>
 <td>not</td>
 </tr>
-
 <tr>
 <td>++a,a++</td>
 <td>inc</td>
 </tr>
-
 <tr>
 <td>&ndash;a,a&ndash;</td>
 <td>dec</td>
 </tr>
 </tbody>
 </table>
-
 <ul>
 <li>比较运算符重载
 如果在 Kotiin 中使用＝＝(!=)运算符，它将被转换成 equals(!equals) 方法的调用。===恒等于等效于Java的==。</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -580,15 +548,15 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
 </span><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">obj</span> <span class="p">!</span><span class="k">is</span> <span class="n">Point</span><span class="p">)</span> <span class="k">return</span> <span class="k">false</span><span class="c1">//类型检测
 </span><span class="c1"></span>        <span class="k">return</span> <span class="n">obj</span><span class="p">.</span><span class="n">x</span> <span class="p">==</span> <span class="n">x</span> <span class="p">&amp;&amp;</span> <span class="n">obj</span><span class="p">.</span><span class="n">y</span> <span class="p">==</span> <span class="n">y</span>
     <span class="p">}</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>重载(下标访问get/set),in,rangeTo,iterator</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -613,15 +581,14 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
 <span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">p1</span> <span class="p">=</span> <span class="n">Point</span><span class="p">(</span><span class="m">10</span><span class="p">,</span> <span class="m">20</span><span class="p">)</span>
     <span class="n">println</span><span class="p">(</span><span class="s">&#34;p1 x-&gt; ${p1[0]}y-&gt; ${p1[1]}&#34;</span><span class="p">)</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="解构声明和组件函数">解构声明和组件函数</h4>
-
+</div><h4 id="解构声明和组件函数">解构声明和组件函数</h4>
 <p>解构声明允许你展开单个复合值，并使用它来初始化多个单独的变量。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -645,20 +612,20 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
 
 <span class="k">fun</span> <span class="nf">splitFilename</span><span class="p">(</span><span class="n">fullName</span><span class="p">:</span> <span class="n">String</span><span class="p">):</span> <span class="n">NamesComponents</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">reslut</span> <span class="p">=</span> <span class="n">fullName</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">,</span> <span class="n">limit</span> <span class="p">=</span> <span class="m">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">NamesComponents</span><span class="p">(</span><span class="n">reslut</span><span class="na">[0]</span><span class="p">,</span> <span class="n">reslut</span><span class="na">[1]</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">NamesComponents</span><span class="p">(</span><span class="n">reslut</span><span class="p">[</span><span class="m">0</span><span class="p">],</span> <span class="n">reslut</span><span class="p">[</span><span class="m">1</span><span class="p">])</span>
 <span class="p">}</span>
 
 <span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
     <span class="c1">//解构声明展开类
 </span><span class="c1"></span>    <span class="k">val</span> <span class="err">(</span><span class="py">name</span><span class="p">,</span> <span class="n">ext</span><span class="p">)</span> <span class="p">=</span> <span class="n">splitFilename</span><span class="p">(</span><span class="s">&#34;ext.so&#34;</span><span class="p">)</span>
     <span class="n">println</span><span class="p">(</span><span class="s">&#34;name:$name ext $ext&#34;</span><span class="p">)</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>解构声明可用于集合循环</p>
+</div><p>解构声明可用于集合循环</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -667,21 +634,18 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
 <pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">for</span> <span class="p">(</span><span class="n">entry</span> <span class="k">in</span> <span class="n">map</span><span class="p">.</span><span class="n">entries</span><span class="p">)</span> <span class="p">{</span>
 <span class="k">val</span> <span class="py">key</span> <span class="p">=</span> <span class="n">entry</span><span class="p">.</span> <span class="n">cornponentl</span><span class="p">()</span>
 <span class="k">val</span> <span class="py">value</span><span class="p">=</span> <span class="n">entry</span><span class="p">.</span><span class="n">cornponent2</span><span class="p">()</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="委托属性">委托属性</h4>
-
+</div><h4 id="委托属性">委托属性</h4>
 <p>委托模式，这个模式应用于一个属性时，它也可以将访问器的逻辑委托给一个辅助对象。Kotlin中关键宇by可以用于任何符合属性委托约定规则的对象。</p>
-
 <p>用处：Observable，Listener(编译器自动实现代码)Delegates.observable 函数可以用来添加属性更改的观察者</p>
-
 <ul>
 <li>委托属性</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -697,9 +661,11 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
 </span><span class="lnt">14
 </span><span class="lnt">15
 </span><span class="lnt">16
+</span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin">
+<span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
 <span class="c1">// 对p的get/set操作调用对应Delegate的get/setValue
 </span><span class="c1"></span><span class="k">var</span> <span class="py">p</span><span class="p">:</span> <span class="n">Type</span> <span class="k">by</span> <span class="n">Delegate</span> <span class="p">()</span>
 <span class="p">}</span>
@@ -710,29 +676,32 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
     <span class="k">private</span> <span class="k">val</span> <span class="py">_attributes</span> <span class="p">=</span> <span class="n">hashMapOf</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">String</span><span class="p">&gt;</span> <span class="p">()</span>
     
     <span class="k">fun</span> <span class="nf">setAttribute</span><span class="p">(</span><span class="n">attrName</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
-        <span class="p">-</span><span class="n">attributes</span><span class="na">[attrName]</span> <span class="p">=</span><span class="n">value</span>
+        <span class="p">-</span><span class="n">attributes</span><span class="p">[</span><span class="n">attrName</span><span class="p">]</span> <span class="p">=</span><span class="n">value</span>
     <span class="p">}</span>
     <span class="c1">//将map(_attributes) 作为委托属性 set/get name自动存储到Map
 </span><span class="c1"></span>    <span class="k">val</span> <span class="py">name</span><span class="p">:</span> <span class="n">String</span> <span class="k">by</span> <span class="n">_attributes</span> 
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>惰性初始化
 相比java的if(obj==null){//初始化并返回}else{//直接返回}，Kotlin可以更简单做到</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
+</span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="k">val</span> <span class="py">name</span><span class="p">:</span><span class="n">String</span><span class="p">){</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin">
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="k">val</span> <span class="py">name</span><span class="p">:</span><span class="n">String</span><span class="p">){</span>
     <span class="k">val</span> <span class="py">email</span> <span class="k">by</span> <span class="n">lazy</span> <span class="p">{</span> <span class="n">loadEmail</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
 
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
 </div>
     </div>
@@ -778,11 +747,11 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -807,10 +776,6 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -821,13 +786,10 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -838,7 +800,10 @@ List<Int?>? :集合本身是可Null的,列表中的单个值是可Null的</p>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

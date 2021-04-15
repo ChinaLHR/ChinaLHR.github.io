@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/spring-aop/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@ Spring Aop源码分析
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/spring-aop/" />
-<meta property="article:published_time" content="2018-09-24T15:56:35&#43;08:00"/>
-<meta property="article:modified_time" content="2018-09-24T15:56:35&#43;08:00"/>
-
+<meta property="article:published_time" content="2018-09-24T15:56:35+08:00" />
+<meta property="article:modified_time" content="2018-09-24T15:56:35+08:00" />
 <meta itemprop="name" content="Spring Aop分析">
 <meta itemprop="description" content="
 Spring Aop源码分析
 ">
-
-
 <meta itemprop="datePublished" content="2018-09-24T15:56:35&#43;08:00" />
 <meta itemprop="dateModified" content="2018-09-24T15:56:35&#43;08:00" />
 <meta itemprop="wordCount" content="3434">
 
 
 
-<meta itemprop="keywords" content="Java,Spring," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Java,Spring," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Spring Aop分析"/>
 <meta name="twitter:description" content="
 Spring Aop源码分析
@@ -104,12 +101,21 @@ Spring Aop源码分析
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@ Spring Aop源码分析
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -153,27 +160,26 @@ Spring Aop源码分析
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#示例">示例</a>
-<ul>
-<li><a href="#编程式aop">编程式aop</a></li>
-</ul></li>
-<li><a href="#代理工厂proxyfactory">代理工厂ProxyFactory</a>
-<ul>
-<li><a href="#targetsource">TargetSource</a></li>
-<li><a href="#addadvice">addAdvice</a></li>
-<li><a href="#获取代理">获取代理</a></li>
-</ul></li>
-<li><a href="#joinpoint-连接点">Joinpoint（连接点）</a></li>
-<li><a href="#pointcut-切入点">Pointcut(切入点)</a></li>
-<li><a href="#advice-通知-增强">Advice（通知/增强）</a></li>
-<li><a href="#advisor-切面-增强器">Advisor(切面/增强器)</a></li>
-<li><a href="#proxy-代理">Proxy(代理)</a></li>
-<li><a href="#aop核心实现-weaving织入器">aop核心实现(Weaving织入器)</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#示例">示例</a>
+      <ul>
+        <li><a href="#编程式aop">编程式aop</a></li>
+      </ul>
+    </li>
+    <li><a href="#代理工厂proxyfactory">代理工厂ProxyFactory</a>
+      <ul>
+        <li><a href="#targetsource">TargetSource</a></li>
+        <li><a href="#addadvice">addAdvice</a></li>
+        <li><a href="#获取代理">获取代理</a></li>
+      </ul>
+    </li>
+    <li><a href="#joinpoint连接点">Joinpoint（连接点）</a></li>
+    <li><a href="#pointcut切入点">Pointcut(切入点)</a></li>
+    <li><a href="#advice通知增强">Advice（通知/增强）</a></li>
+    <li><a href="#advisor切面增强器">Advisor(切面/增强器)</a></li>
+    <li><a href="#proxy代理">Proxy(代理)</a></li>
+    <li><a href="#aop核心实现weaving织入器">aop核心实现(Weaving织入器)</a></li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -181,37 +187,32 @@ Spring Aop源码分析
       <blockquote>
 <p>Spring Aop源码分析</p>
 </blockquote>
-
 <h2 id="示例">示例</h2>
-
 <h3 id="编程式aop">编程式aop</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"> ProxyFactory proxyFactory = new ProxyFactory();//创建代理工厂
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"> ProxyFactory proxyFactory = new ProxyFactory();//创建代理工厂
  proxyFactory.setTarget(new LoginServiceImpl());//设置目标对象
  proxyFactory.addAdvice(new LogAroundLogin());//环绕增强
  LoginService loginService = (LoginService) proxyFactory.getProxy();//从代理工厂中获取代理
- loginService.login(); //执行方法</pre></td></tr></table>
+ loginService.login(); //执行方法
+</code></pre></td></tr></table>
 </div>
-</div>
-<h2 id="代理工厂proxyfactory">代理工厂ProxyFactory</h2>
-
+</div><h2 id="代理工厂proxyfactory">代理工厂ProxyFactory</h2>
 <p>ProxyFactory proxyFactory = new ProxyFactory();代理工厂的作用就是使用编程的方式创建AOP代理。ProxyFactory继承自AdvisedSupport，
 AdvicedSupport是AOP代理的配置管理器。</p>
-
 <h3 id="targetsource">TargetSource</h3>
-
 <p>TargetSource用来获取当前的Target，也就是TargetSource中会保存着我们的的实现类。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -227,9 +228,9 @@ AdvicedSupport是AOP代理的配置管理器。</p>
 </span><span class="lnt">14
 </span><span class="lnt">15
 </span><span class="lnt">16
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public interface TargetSource {
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">public interface TargetSource {
 
 	//返回目标类的类型
 	Class getTargetClass();
@@ -244,15 +245,14 @@ AdvicedSupport是AOP代理的配置管理器。</p>
 	//释放目标类
 	void releaseTarget(Object target) throws Exception;
 
-}</pre></td></tr></table>
+}
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>在AdvisedSupport中，setTarget等于设置一个SingletonTargetSource。</p>
-
+</div><p>在AdvisedSupport中，setTarget等于设置一个SingletonTargetSource。</p>
 <h3 id="addadvice">addAdvice</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -281,9 +281,9 @@ AdvicedSupport是AOP代理的配置管理器。</p>
 </span><span class="lnt">27
 </span><span class="lnt">28
 </span><span class="lnt">29
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public void addAdvice(Advice advice) throws AopConfigException {
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">public void addAdvice(Advice advice) throws AopConfigException {
 	//advisors是Advice列表，是一个LinkedList
     //如果被添加进来的是一个Interceptor，会先被包装成一个Advice
     //添加之前现获取advisor的大小，当做添加的Advice的位置
@@ -311,20 +311,18 @@ public void addAdvice(int pos, Advice advice) throws AopConfigException {
     	//添加增强器，需要先把我们的增强包装成增强器，然后添加
         addAdvisor(pos, new DefaultPointcutAdvisor(advice));
     }
-}</pre></td></tr></table>
+}
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>到添加增强的时候，实际调用添加增强器这个方法，首先需要把我们的Advice包装成一个PointCutAdvisor，然后在添加增强器。方法new DefaultPointcutAdvisor(advice)，将Advice包装成一个DefaultPointcutAdvisor。其实就是将advice和默认的Pointcut包装进DefaultPointcutAdvisor。</p>
-
+</div><p>到添加增强的时候，实际调用添加增强器这个方法，首先需要把我们的Advice包装成一个PointCutAdvisor，然后在添加增强器。方法new DefaultPointcutAdvisor(advice)，将Advice包装成一个DefaultPointcutAdvisor。其实就是将advice和默认的Pointcut包装进DefaultPointcutAdvisor。</p>
 <p>DefaultPointcutAdvisor是Advisor的最常用的一个实现，可以使用任意类型的Pointcut和Advice，但是不能使用Introduction。</p>
-
 <h3 id="获取代理">获取代理</h3>
-
 <ul>
-<li><p>ProxyFactory的getProxy方法</p>
+<li>ProxyFactory的getProxy方法</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -350,44 +348,41 @@ public void addAdvice(int pos, Advice advice) throws AopConfigException {
 </span><span class="lnt">24
 </span><span class="lnt">25
 </span><span class="lnt">26
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public Object getProxy() {
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">public Object getProxy() {
 	//创建一个AOP代理
-AopProxy proxy = createAopProxy();
-//返回代理
-return proxy.getProxy();
+    AopProxy proxy = createAopProxy();
+    //返回代理
+    return proxy.getProxy();
 }
 
 protected synchronized AopProxy createAopProxy() {
-if (!this.isActive) {
-    activate();
-}
-//获取AOP代理工厂，然后创建代理
-return getAopProxyFactory().createAopProxy(this);
+    if (!this.isActive) {
+        activate();
+    }
+    //获取AOP代理工厂，然后创建代理
+    return getAopProxyFactory().createAopProxy(this);
 }
 
 public AopProxy createAopProxy(AdvisedSupport advisedSupport) throws AopConfigException {
 	//对于指定了使用CGLIB方式，或者代理的是类，或者代理的不是接口，就使用CGLIB的方式来创建代理
-boolean useCglib = advisedSupport.getOptimize() || advisedSupport.getProxyTargetClass() || advisedSupport.getProxiedInterfaces().length == 0;
-if (useCglib) {
-    return CglibProxyFactory.createCglibProxy(advisedSupport);
+    boolean useCglib = advisedSupport.getOptimize() || advisedSupport.getProxyTargetClass() || advisedSupport.getProxiedInterfaces().length == 0;
+    if (useCglib) {
+        return CglibProxyFactory.createCglibProxy(advisedSupport);
+    }
+    else {
+        //使用JDK动态代理来创建代理
+        return new JdkDynamicAopProxy(advisedSupport);
+    }
 }
-else {
-    //使用JDK动态代理来创建代理
-    return new JdkDynamicAopProxy(advisedSupport);
-}
-}</pre></td></tr></table>
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<h2 id="joinpoint-连接点">Joinpoint（连接点）</h2>
-
+</div><h2 id="joinpoint连接点">Joinpoint（连接点）</h2>
 <p>连接点是指那些被拦截到的点。在Spring 中,这些点指的是方法,因为 Spring 只支持方法类型的连接点。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -399,9 +394,9 @@ else {
 </span><span class="lnt">10
 </span><span class="lnt">11
 </span><span class="lnt">12
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public interface Joinpoint {
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">public interface Joinpoint {
 
    //开始调用拦截器链中的下一个拦截器
    Object proceed() throws Throwable;
@@ -412,18 +407,16 @@ else {
    //
    AccessibleObject getStaticPart();   
 
-}</pre></td></tr></table>
+}
+</code></pre></td></tr></table>
 </div>
-</div>
-<h2 id="pointcut-切入点">Pointcut(切入点)</h2>
-
+</div><h2 id="pointcut切入点">Pointcut(切入点)</h2>
 <p>所谓切入点是指我们要对哪些 Joinpoint 进行拦截的定义。
 PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的类，MethodMatcher 指定特定的函数,能实现函数级别的AOP。</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/56457151-269da800-63a9-11e9-9867-ca24aa81bbfb.png" alt="输入图片说明" title="屏幕截图.png" /></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/56457151-269da800-63a9-11e9-9867-ca24aa81bbfb.png" alt="输入图片说明" title="屏幕截图.png"></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -433,9 +426,9 @@ PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的�
 </span><span class="lnt"> 8
 </span><span class="lnt"> 9
 </span><span class="lnt">10
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public interface Pointcut {
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">public interface Pointcut {
 	//类过滤器，可以知道哪些类需要拦截
 	ClassFilter getClassFilter();
 	//方法匹配器，可以知道哪些方法需要拦截
@@ -444,14 +437,15 @@ PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的�
 	// could add getFieldMatcher() without breaking most existing code
 	Pointcut TRUE = TruePointcut.INSTANCE; 
 
-}</pre></td></tr></table>
+}
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li><p>ClassFilter接口</p>
+</div><ul>
+<li>ClassFilter接口</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -459,23 +453,24 @@ PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的�
 </span><span class="lnt">6
 </span><span class="lnt">7
 </span><span class="lnt">8
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public interface ClassFilter {
-    
-//判断给定的类是不是要拦截
-boolean matches(Class clazz);
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">public interface ClassFilter {
+	
+	//判断给定的类是不是要拦截
+	boolean matches(Class clazz);
 
-ClassFilter TRUE = TrueClassFilter.INSTANCE;
+	ClassFilter TRUE = TrueClassFilter.INSTANCE;
 
-}</pre></td></tr></table>
+}
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>MethodMatcher接口</p>
+</div><ul>
+<li>MethodMatcher接口</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -489,9 +484,9 @@ ClassFilter TRUE = TrueClassFilter.INSTANCE;
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public interface MethodMatcher {
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">public interface MethodMatcher {
 	
 	/ 静态方法匹配
 	boolean matches(Method m, Class targetClass);
@@ -504,69 +499,59 @@ ClassFilter TRUE = TrueClassFilter.INSTANCE;
 	
 	MethodMatcher TRUE = TrueMethodMatcher.INSTANCE;
 
-}</pre></td></tr></table>
+}
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>MethodMatcher 两个实现类</p>
-
+</div><ul>
+<li>MethodMatcher 两个实现类
 <ul>
 <li>StaticMethodMatcher：不在运行时检测Joinpoint的参数(可以利用框架内缓存，性能高)</li>
 <li>DynamicMethodMatcher：DynamicMethodMatcher要在运行时实时检测Joinpoint的参数</li>
-</ul></li>
 </ul>
-
-<h2 id="advice-通知-增强">Advice（通知/增强）</h2>
-
+</li>
+</ul>
+<h2 id="advice通知增强">Advice（通知/增强）</h2>
 <p>Advice不属于Spring，是AOP联盟定义的接口。Advice接口并没有定义任何方法，是一个空的接口，用来做标记，实现了此接口的的类是一个通知类。
 通知是指拦截到 Joinpoint 之后所要做的事情就是通知。通知分为【前置通知】, 【后置通知】,【异常通知】,【最终通知】, 【环绕通知】(切面要完成的功能)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">BeforeAdvice，前置增强，意思是在我们的目标类之前调用的增强。这个接口也没有定义任何方法。
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">BeforeAdvice，前置增强，意思是在我们的目标类之前调用的增强。这个接口也没有定义任何方法。
 AfterReturningAdvice，方法正常返回前的增强，该增强可以看到方法的返回值，但是不能更改返回值，该接口有一个方法afterReturning
 ThrowsAdvice，抛出异常时候的增强，也是一个标志接口，没有定义任何方法。
 Interceptor，拦截器，也没有定义任何方法，表示一个通用的拦截器。不属于Spring，是AOP联盟定义的接口
-DynamicIntroductionAdvice，动态引介增强，有一个方法implementsInterface。</pre></td></tr></table>
+DynamicIntroductionAdvice，动态引介增强，有一个方法implementsInterface。
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>per-class类型的Advice（可以在目标对象类的所有实例之间共享，通常只提供方法拦截功能，不会对目标对象保存任何状态或添加新功能）</li>
 </ul>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/56457157-4339e000-63a9-11e9-9c97-567220dd93ea.png" alt="输入图片说明" title="屏幕截图.png" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/56457157-4339e000-63a9-11e9-9c97-567220dd93ea.png" alt="输入图片说明" title="屏幕截图.png"></p>
 <ul>
 <li>per-instance类型的Advice（不会在目标类所有实例之间共享，而是会为不同的实例对象保存他们各自的状态以及相关逻辑）Introduction可以在不改变目标类的定义的情况下，为对象添加新的属性与行为</li>
 </ul>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/56457167-564cb000-63a9-11e9-9e88-baba8a45ee6c.png" alt="输入图片说明" title="屏幕截图.png" /></p>
-
-<h2 id="advisor-切面-增强器">Advisor(切面/增强器)</h2>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/56457167-564cb000-63a9-11e9-9e88-baba8a45ee6c.png" alt="输入图片说明" title="屏幕截图.png"></p>
+<h2 id="advisor切面增强器">Advisor(切面/增强器)</h2>
 <p>Advisor是切入点和通知（引介）的结合。增强器，它持有一个增强Advice，还持有一个过滤器，来决定Advice可以用在哪里。</p>
-
 <p>Spring AOP的Pointcut Advisor</p>
-
 <p>AbstractPointcutAdvisor 实现了Ordered,为多个Advice指定顺序，顺序为Int类型，越小优先级越高,
 AbstractGenericPointcutAdvisor 指定了Advice，除了Introduction之外的类型</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/56457173-63699f00-63a9-11e9-8198-227db1c4e8d4.png" alt="输入图片说明" title="屏幕截图.png" /></p>
-
-<h2 id="proxy-代理">Proxy(代理)</h2>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/56457173-63699f00-63a9-11e9-8198-227db1c4e8d4.png" alt="输入图片说明" title="屏幕截图.png"></p>
+<h2 id="proxy代理">Proxy(代理)</h2>
 <p>一个类被 AOP 织入增强后，就产生一个结果代理类。
-<img src="https://user-images.githubusercontent.com/19829495/56457348-dd028c80-63ab-11e9-814f-002dccf43651.png" alt="输入图片说明" title="屏幕截图.png" />
-* ProxyConfig</p>
+<img src="https://user-images.githubusercontent.com/19829495/56457348-dd028c80-63ab-11e9-814f-002dccf43651.png" alt="输入图片说明" title="屏幕截图.png"></p>
+<ul>
+<li>ProxyConfig</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -575,9 +560,9 @@ AbstractGenericPointcutAdvisor 指定了Advice，除了Introduction之外的类�
 </span><span class="lnt">7
 </span><span class="lnt">8
 </span><span class="lnt">9
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">	private boolean proxyTargetClass = false;//true,使用CGLIB,false,使用原生
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">	private boolean proxyTargetClass = false;//true,使用CGLIB,false,使用原生
 	
 	private boolean optimize = false;//是否进行优化
 	
@@ -585,25 +570,22 @@ AbstractGenericPointcutAdvisor 指定了Advice，除了Introduction之外的类�
 	
 	boolean exposeProxy = false;//AOP生成对象时，绑定到ThreadLocal, 可以通过AopContext获取
 	
-	private boolean frozen = false;//代理信息一旦设置，是否允许改变</pre></td></tr></table>
+	private boolean frozen = false;//代理信息一旦设置，是否允许改变
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>ProxyFactory
 ProxyFactory是Spring的AOP织入器，接受Pointcut/Advice返回织入了横切逻辑的目标对象代理。</li>
 <li>ProxyFactoryBean
 本质上是一个用来生产Proxy的FactoryBean，AOP与IOC的融合。
 （如果容器中某个对象依赖于ProxyFactoryBean ，他将会使用到ProxyFactoryBean的getObject()方法返回的内容）</li>
 </ul>
-
-<h2 id="aop核心实现-weaving织入器">aop核心实现(Weaving织入器)</h2>
-
+<h2 id="aop核心实现weaving织入器">aop核心实现(Weaving织入器)</h2>
 <p>将AOP融入Bean的创建过程,AspectJ方式织入的核心，是一个BeanPostProcess（会扫描所有的Pointcut与遍历所有Bean,并对需要的Bean进行织入-自动代理，当对象实例化的时候，为其生成代理对象并返回）</p>
-
 <p>简单的实现如下:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -646,9 +628,10 @@ ProxyFactory是Spring的AOP织入器，接受Pointcut/Advice返回织入了横�
 </span><span class="lnt">41
 </span><span class="lnt">42
 </span><span class="lnt">43
-</span></pre></td>
+</span><span class="lnt">44
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor, BeanFactoryAware {
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor, BeanFactoryAware {
 
 	private AbstractBeanFactory beanFactory;
 
@@ -690,7 +673,9 @@ for (AspectJExpressionPointcutAdvisor advisor : advisors) {
 	public void setBeanFactory(BeanFactory beanFactory) throws Exception {
 		this.beanFactory = (AbstractBeanFactory) beanFactory;
 	}
-}</pre></td></tr></table>
+}
+
+</code></pre></td></tr></table>
 </div>
 </div>
     </div>
@@ -737,11 +722,11 @@ for (AspectJExpressionPointcutAdvisor advisor : advisors) {
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -766,10 +751,6 @@ for (AspectJExpressionPointcutAdvisor advisor : advisors) {
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -780,13 +761,10 @@ for (AspectJExpressionPointcutAdvisor advisor : advisors) {
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -797,7 +775,10 @@ for (AspectJExpressionPointcutAdvisor advisor : advisors) {
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/spring-cache-shrio-bug/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/spring-cache-shrio-bug/" />
-<meta property="article:published_time" content="2018-09-22T23:10:00&#43;08:00"/>
-<meta property="article:modified_time" content="2018-09-22T23:10:00&#43;08:00"/>
-
+<meta property="article:published_time" content="2018-09-22T23:10:00+08:00" />
+<meta property="article:modified_time" content="2018-09-22T23:10:00+08:00" />
 <meta itemprop="name" content="Shrio导致SpringCache缓存失效原因分析">
 <meta itemprop="description" content="
 记录Shrio与SpringCache使用过程遇到的问题
 ">
-
-
 <meta itemprop="datePublished" content="2018-09-22T23:10:00&#43;08:00" />
 <meta itemprop="dateModified" content="2018-09-22T23:10:00&#43;08:00" />
 <meta itemprop="wordCount" content="2487">
 
 
 
-<meta itemprop="keywords" content="Java,Spring," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Java,Spring," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Shrio导致SpringCache缓存失效原因分析"/>
 <meta name="twitter:description" content="
 记录Shrio与SpringCache使用过程遇到的问题
@@ -104,12 +101,21 @@
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -153,23 +160,21 @@
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#问题">问题</a></li>
-<li><a href="#分析">分析</a>
-<ul>
-<li><a href="#关于beanpostprocessor">关于BeanPostProcessor</a></li>
-<li><a href="#beanpostprocessor启动阶段对其依赖的bean造成的影响">BeanPostProcessor启动阶段对其依赖的Bean造成的影响</a></li>
-<li><a href="#关于priorityordered">关于PriorityOrdered</a></li>
-<li><a href="#spring的一些beanpostprocessor">Spring的一些BeanPostProcessor</a></li>
-<li><a href="#shiro-lifecyclebeanpostprocessor导致的问题">Shiro LifecycleBeanPostProcessor导致的问题</a></li>
-<li><a href="#lazy">@Lazy</a></li>
-</ul></li>
-<li><a href="#解决">解决</a></li>
-<li><a href="#参考">参考</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#问题">问题</a></li>
+    <li><a href="#分析">分析</a>
+      <ul>
+        <li><a href="#关于beanpostprocessor">关于BeanPostProcessor</a></li>
+        <li><a href="#beanpostprocessor启动阶段对其依赖的bean造成的影响">BeanPostProcessor启动阶段对其依赖的Bean造成的影响</a></li>
+        <li><a href="#关于priorityordered">关于PriorityOrdered</a></li>
+        <li><a href="#spring的一些beanpostprocessor">Spring的一些BeanPostProcessor</a></li>
+        <li><a href="#shiro-lifecyclebeanpostprocessor导致的问题">Shiro LifecycleBeanPostProcessor导致的问题</a></li>
+        <li><a href="#lazy">@Lazy</a></li>
+      </ul>
+    </li>
+    <li><a href="#解决">解决</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -177,35 +182,26 @@
       <blockquote>
 <p>记录Shrio与SpringCache使用过程遇到的问题</p>
 </blockquote>
-
 <h2 id="问题">问题</h2>
-
 <p>Spring Cache 和 Apache Shiro 整合时，自定义的shiroRealm中引用了service，会导致service的Cache相关注解作用失效</p>
-
 <h2 id="分析">分析</h2>
-
 <h3 id="关于beanpostprocessor">关于BeanPostProcessor</h3>
-
 <ul>
 <li>BeanPostProcessor:构建Bean的时候调用，会处理所有符合条件的对象实例(扫描所有Bean进行处理,Aop实现就是通过BeanPostProcessor找到匹配的Pointcut进行自动代理)</li>
 </ul>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/59182905-817ba080-8b9d-11e9-958c-c56cd040c332.png" alt="image" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/59182905-817ba080-8b9d-11e9-958c-c56cd040c332.png" alt="image"></p>
 <ul>
 <li>提供了postProcessBeforeInitialization与postProcessAfterInitialization方法，对所有实现了InitializingBean的Bean的afterPropertiesSet方法前后执行。</li>
 <li>BeanPostProcessor本身也是一个Bean，一般而言其实例化时机要早过普通的Bean，但是BeanPostProcessor也会依赖一些Bean，这就导致了一些Bean的实例化早于BeanPostProcessor，由此会导致一些问题。</li>
 </ul>
-
 <h3 id="beanpostprocessor启动阶段对其依赖的bean造成的影响">BeanPostProcessor启动阶段对其依赖的Bean造成的影响</h3>
-
 <ul>
 <li>AbstractApplicationContext refresh是Spring IOC容器的核心方法，这个方法的作用是创建加载Spring容器配置(包括.xml配置,property文件和数据库模式等)</li>
 <li>AbstractApplicationContext refresh()——&gt;registerBeanPostProcessors(beanFactory)方法会注册BeanPostProcessors：</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -342,47 +338,39 @@
 		<span class="c1">// Re-register post-processor for detecting inner beans as ApplicationListeners,
 </span><span class="c1"></span>		<span class="c1">// moving it to the end of the processor chain (for picking up proxies etc).
 </span><span class="c1"></span>		<span class="n">beanFactory</span><span class="o">.</span><span class="na">addBeanPostProcessor</span><span class="o">(</span><span class="k">new</span> <span class="n">ApplicationListenerDetector</span><span class="o">(</span><span class="n">applicationContext</span><span class="o">));</span>
-	<span class="o">}</span></code></pre></td></tr></table>
+	<span class="o">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>BeanPostProcessor执行顺序如下：</p>
-
+</div><p>BeanPostProcessor执行顺序如下：</p>
 <ol>
 <li>实现了PriorityOrdered接口的BeanPostProcessor</li>
 <li>实现了Ordered接口的BeanPostProcessor</li>
 <li>注册无实现任何接口的BeanPostProcessor</li>
 <li>实现了MergedBeanDefinitionPostProcessor接口的BeanPostProcessor</li>
 </ol>
-
 <h3 id="关于priorityordered">关于PriorityOrdered</h3>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/59182997-af60e500-8b9d-11e9-99a0-966aaaedc070.png" alt="image" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/59182997-af60e500-8b9d-11e9-99a0-966aaaedc070.png" alt="image"></p>
 <p>实现了PriorityOrdered的BeanPostProcessor先于其他BeanPostProcessor，并会影响到其他BeanPostProcessor的autowiring behavior</p>
-
 <h3 id="spring的一些beanpostprocessor">Spring的一些BeanPostProcessor</h3>
-
 <ul>
 <li>ScheduledAnnotationBeanPostProcessor:实现了Ordered</li>
 <li>AsyncAnnotationBeanPostProcessor:实现了Ordered</li>
 <li>AbstractAutoProxyCreator (Transactional|Cache):实现了Ordered</li>
 </ul>
-
 <h3 id="shiro-lifecyclebeanpostprocessor导致的问题">Shiro LifecycleBeanPostProcessor导致的问题</h3>
-
 <p>Spring整合shiro的系统中，需要在配置bean的时候加入LifecycleBeanPostProcessor(Shiro提供的一个BeanPostProcessor类),用来管理shiro一些bean的生命周期。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LifecycleBeanPostProcessor</span> <span class="kd">implements</span> <span class="n">DestructionAwareBeanPostProcessor</span><span class="o">,</span> <span class="n">PriorityOrdered</span> </code></pre></td></tr></table>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LifecycleBeanPostProcessor</span> <span class="kd">implements</span> <span class="n">DestructionAwareBeanPostProcessor</span><span class="o">,</span> <span class="n">PriorityOrdered</span> 
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>LifecycleBeanPostProcessor实现了BeanPostProcessor与PriorityOrdered，postProcessBeforeInitialization方法,调用了自定义Realm（AuthorizingRealm）中实现了的 init() 方法初始化授权缓存，自定义Realm中依赖的一些Bean被提前初始化了，导致Spring某些BeanPostProcessor（Ordered级别下）不能拦截到这些Bean，造成依赖功能的失效(如Transaction ,Async,Cache&hellip;)</p>
+</div><p>LifecycleBeanPostProcessor实现了BeanPostProcessor与PriorityOrdered，postProcessBeforeInitialization方法,调用了自定义Realm（AuthorizingRealm）中实现了的 init() 方法初始化授权缓存，自定义Realm中依赖的一些Bean被提前初始化了，导致Spring某些BeanPostProcessor（Ordered级别下）不能拦截到这些Bean，造成依赖功能的失效(如Transaction ,Async,Cache&hellip;)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -411,24 +399,20 @@
             <span class="n">cache</span> <span class="o">=</span> <span class="n">getAuthorizationCacheLazy</span><span class="o">();</span>
         <span class="o">}</span>
         <span class="k">return</span> <span class="n">cache</span><span class="o">;</span>
-    <span class="o">}</span></code></pre></td></tr></table>
+    <span class="o">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><img src="https://user-images.githubusercontent.com/19829495/59183019-ba1b7a00-8b9d-11e9-9e6d-13c62b143934.png" alt="image" /></p>
-
+</div><p><img src="https://user-images.githubusercontent.com/19829495/59183019-ba1b7a00-8b9d-11e9-9e6d-13c62b143934.png" alt="image"></p>
 <ul>
 <li>通过Debug查看registerBeanPostProcessors</li>
 </ul>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/59183033-c43d7880-8b9d-11e9-9b0f-f3e6348e3711.png" alt="image" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/59183033-c43d7880-8b9d-11e9-9b0f-f3e6348e3711.png" alt="image"></p>
 <h3 id="lazy">@Lazy</h3>
-
 <p>@Lazy修饰Spring Bean类,用于指定该Bean是否取消预初始化。
 容器初始化方法在AbstractApplicationContext的refresh()——&gt;finishBeanFactoryInitialization(beanFactory)——&gt;preInstantiateSingletons()</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -485,19 +469,14 @@
 						<span class="n">getBean</span><span class="o">(</span><span class="n">beanName</span><span class="o">);</span>
 					<span class="o">}</span>
 				<span class="o">}</span>
-			<span class="o">}</span></code></pre></td></tr></table>
+			<span class="o">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>添加了@Lazy注解的Bean在容器初始化的过程中不会进行依赖注入，只有当第一个getBean的时候才会实例化Bean。</p>
-
+</div><p>添加了@Lazy注解的Bean在容器初始化的过程中不会进行依赖注入，只有当第一个getBean的时候才会实例化Bean。</p>
 <h2 id="解决">解决</h2>
-
 <p>通过对自定义Realm中依赖的Bean加上@Lazy，使其延迟加载。</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/59183053-d4edee80-8b9d-11e9-963e-a87272359895.png" alt="image" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/59183053-d4edee80-8b9d-11e9-963e-a87272359895.png" alt="image"></p>
 <h2 id="参考">参考</h2>
-
 <ul>
 <li><a href="http://stackoverflow.com/questions/21512791/spring-service-with-cacheable-methods-gets-initialized-without-cache-when-autowi">http://stackoverflow.com/questions/21512791/spring-service-with-cacheable-methods-gets-initialized-without-cache-when-autowi</a></li>
 <li>《Spring揭秘》</li>
@@ -547,11 +526,11 @@
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -576,10 +555,6 @@
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -590,13 +565,10 @@
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -607,7 +579,10 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

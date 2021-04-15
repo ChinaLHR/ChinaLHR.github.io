@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/python-logging/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@ Python Logging模块
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/python-logging/" />
-<meta property="article:published_time" content="2019-11-30T14:09:28&#43;08:00"/>
-<meta property="article:modified_time" content="2019-11-30T14:09:28&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-11-30T14:09:28+08:00" />
+<meta property="article:modified_time" content="2019-11-30T14:09:28+08:00" />
 <meta itemprop="name" content="Python-Logging">
 <meta itemprop="description" content="
 Python Logging模块
 ">
-
-
 <meta itemprop="datePublished" content="2019-11-30T14:09:28&#43;08:00" />
 <meta itemprop="dateModified" content="2019-11-30T14:09:28&#43;08:00" />
-<meta itemprop="wordCount" content="930">
+<meta itemprop="wordCount" content="931">
 
 
 
-<meta itemprop="keywords" content="Python," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Python," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Python-Logging"/>
 <meta name="twitter:description" content="
 Python Logging模块
@@ -104,12 +101,21 @@ Python Logging模块
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@ Python Logging模块
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -143,7 +150,7 @@ Python Logging模块
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 编程-后端开发 </a>
             </div>
-          <span class="more-meta"> 930 words </span>
+          <span class="more-meta"> 931 words </span>
           <span class="more-meta"> 2 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -153,18 +160,16 @@ Python Logging模块
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#logging相关日志级别与对应数值">logging相关日志级别与对应数值</a></li>
-<li><a href="#logging模块">logging模块</a></li>
-<li><a href="#简单配置-工具类">简单配置(工具类)</a></li>
-<li><a href="#基于配置文件配置">基于配置文件配置</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#logging相关日志级别与对应数值">logging相关日志级别与对应数值</a></li>
+        <li><a href="#logging模块">logging模块</a></li>
+        <li><a href="#简单配置工具类">简单配置(工具类)</a></li>
+        <li><a href="#基于配置文件配置">基于配置文件配置</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -172,67 +177,63 @@ Python Logging模块
       <blockquote>
 <p>Python Logging模块</p>
 </blockquote>
-
 <h3 id="logging相关日志级别与对应数值">logging相关日志级别与对应数值</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">NOTSET（0）
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">NOTSET（0）
 DEBUG（10）
 INFO（20）
 WARNING（30）
 ERROR（40）
-CRITICAL（50）</pre></td></tr></table>
+CRITICAL（50）
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>设置日志级别，logging执行时输出大于等于设置日志级别的日志。例如设置INFO，输出INFO、WARNING、ERROR、CRITICAL</p>
-
+</div><p>设置日志级别，logging执行时输出大于等于设置日志级别的日志。例如设置INFO，输出INFO、WARNING、ERROR、CRITICAL</p>
 <h3 id="logging模块">logging模块</h3>
-
 <ul>
-<li><p>模块</p>
+<li>模块</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">Logger：日志，暴露函数给应用程序，基于日志记录器和过滤器级别决定哪些日志有效。
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">Logger：日志，暴露函数给应用程序，基于日志记录器和过滤器级别决定哪些日志有效。
 LogRecord ：日志记录器，将日志传到相应的处理器处理。
 Handler ：处理器, 将(日志记录器产生的)日志记录发送至合适的目的地。
 Filter ：过滤器, 提供了更好的粒度控制,它可以决定输出哪些日志记录。
-Formatter：格式化器, 指明了最终输出中日志记录的布局。</pre></td></tr></table>
+Formatter：格式化器, 指明了最终输出中日志记录的布局。
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>流程</p></li>
+</div><ul>
+<li>流程</li>
 </ul>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/69788016-8dfdbf00-11f8-11ea-9794-8eee09d33c95.png" alt="图片" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/69788016-8dfdbf00-11f8-11ea-9794-8eee09d33c95.png" alt="图片"></p>
 <p>大致流程：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">Logger[判断设置级别]——&gt;创建LogRecord对象——&gt;判断注册到Handler对象中的Filter对象过滤后是否返回True而放行输出日志信息——&gt;判断Handler大于等于Logger中设置的级别——&gt;输出日志</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">Logger[判断设置级别]——&gt;创建LogRecord对象——&gt;判断注册到Handler对象中的Filter对象过滤后是否返回True而放行输出日志信息——&gt;判断Handler大于等于Logger中设置的级别——&gt;输出日志
+</code></pre></td></tr></table>
 </div>
-</div>
-<h3 id="简单配置-工具类">简单配置(工具类)</h3>
+</div><h3 id="简单配置工具类">简单配置(工具类)</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -291,6 +292,7 @@ Formatter：格式化器, 指明了最终输出中日志记录的布局。</pre>
 </span><span class="lnt">57
 </span><span class="lnt">58
 </span><span class="lnt">59
+</span><span class="lnt">60
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># -*- coding: utf-8 -*-</span>
@@ -351,16 +353,17 @@ Formatter：格式化器, 指明了最终输出中日志记录的布局。</pre>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">critical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></code></pre></td></tr></table>
-</div>
-</div>
-<h3 id="基于配置文件配置">基于配置文件配置</h3>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
 
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="基于配置文件配置">基于配置文件配置</h3>
 <ul>
-<li><p>从字典中获取配置</p>
+<li>从字典中获取配置</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -401,56 +404,57 @@ Formatter：格式化器, 指明了最终输出中日志记录的布局。</pre>
 </span><span class="lnt">39
 </span><span class="lnt">40
 </span><span class="lnt">41
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">import logging.config
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">import logging.config
 
 config = {
-&#39;version&#39;: 1,
-&#39;formatters&#39;: {
-    &#39;simple&#39;: {
-        &#39;format&#39;: &#39;%(asctime)s - %(name)s - %(levelname)s - %(message)s&#39;,
+    &#39;version&#39;: 1,
+    &#39;formatters&#39;: {
+        &#39;simple&#39;: {
+            &#39;format&#39;: &#39;%(asctime)s - %(name)s - %(levelname)s - %(message)s&#39;,
+        },
+        # 其他的 formatter
     },
-    # 其他的 formatter
-},
-&#39;handlers&#39;: {
-    &#39;console&#39;: {
-        &#39;class&#39;: &#39;logging.StreamHandler&#39;,
-        &#39;level&#39;: &#39;DEBUG&#39;,
-        &#39;formatter&#39;: &#39;simple&#39;
+    &#39;handlers&#39;: {
+        &#39;console&#39;: {
+            &#39;class&#39;: &#39;logging.StreamHandler&#39;,
+            &#39;level&#39;: &#39;DEBUG&#39;,
+            &#39;formatter&#39;: &#39;simple&#39;
+        },
+        &#39;file&#39;: {
+            &#39;class&#39;: &#39;logging.FileHandler&#39;,
+            &#39;filename&#39;: &#39;logging.log&#39;,
+            &#39;level&#39;: &#39;DEBUG&#39;,
+            &#39;formatter&#39;: &#39;simple&#39;
+        },
+        # 其他的 handler
     },
-    &#39;file&#39;: {
-        &#39;class&#39;: &#39;logging.FileHandler&#39;,
-        &#39;filename&#39;: &#39;logging.log&#39;,
-        &#39;level&#39;: &#39;DEBUG&#39;,
-        &#39;formatter&#39;: &#39;simple&#39;
-    },
-    # 其他的 handler
-},
-&#39;loggers&#39;:{
-    &#39;StreamLogger&#39;: {
-        &#39;handlers&#39;: [&#39;console&#39;],
-        &#39;level&#39;: &#39;DEBUG&#39;,
-    },
-    &#39;FileLogger&#39;: {
-        # 既有 console Handler，还有 file Handler
-        &#39;handlers&#39;: [&#39;console&#39;, &#39;file&#39;],
-        &#39;level&#39;: &#39;DEBUG&#39;,
-    },
-    # 其他的 Logger
-}
+    &#39;loggers&#39;:{
+        &#39;StreamLogger&#39;: {
+            &#39;handlers&#39;: [&#39;console&#39;],
+            &#39;level&#39;: &#39;DEBUG&#39;,
+        },
+        &#39;FileLogger&#39;: {
+            # 既有 console Handler，还有 file Handler
+            &#39;handlers&#39;: [&#39;console&#39;, &#39;file&#39;],
+            &#39;level&#39;: &#39;DEBUG&#39;,
+        },
+        # 其他的 Logger
+    }
 }
 
 logging.config.dictConfig(config)
 StreamLogger = logging.getLogger(&#34;StreamLogger&#34;)
-FileLogger = logging.getLogger(&#34;FileLogger&#34;)</pre></td></tr></table>
+FileLogger = logging.getLogger(&#34;FileLogger&#34;)
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>从配置文件中获取配置</p>
+</div><ul>
+<li>从配置文件中获取配置</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -484,9 +488,9 @@ FileLogger = logging.getLogger(&#34;FileLogger&#34;)</pre></td></tr></table>
 </span><span class="lnt">32
 </span><span class="lnt">33
 </span><span class="lnt">34
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># logConfig.ini文件
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># logConfig.ini文件
 [loggers]
 keys=root,sampleLogger
 
@@ -519,10 +523,10 @@ format=%(asctime)s - %(name)s - %(levelname)s - %(message)s
 import logging.config
 
 logging.config.fileConfig(fname=&#39;test.ini&#39;, disable_existing_loggers=False)
-logger = logging.getLogger(&#34;sampleLogger&#34;)</pre></td></tr></table>
+logger = logging.getLogger(&#34;sampleLogger&#34;)
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
+</div>
     </div>
 
     <div class="post-copyright">
@@ -566,11 +570,11 @@ logger = logging.getLogger(&#34;sampleLogger&#34;)</pre></td></tr></table>
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -595,10 +599,6 @@ logger = logging.getLogger(&#34;sampleLogger&#34;)</pre></td></tr></table>
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -609,13 +609,10 @@ logger = logging.getLogger(&#34;sampleLogger&#34;)</pre></td></tr></table>
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -626,7 +623,10 @@ logger = logging.getLogger(&#34;sampleLogger&#34;)</pre></td></tr></table>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

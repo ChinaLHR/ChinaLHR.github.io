@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/mongo-back/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/mongo-back/" />
-<meta property="article:published_time" content="2020-02-08T23:33:14&#43;08:00"/>
-<meta property="article:modified_time" content="2020-02-08T23:33:14&#43;08:00"/>
-
+<meta property="article:published_time" content="2020-02-08T23:33:14+08:00" />
+<meta property="article:modified_time" content="2020-02-08T23:33:14+08:00" />
 <meta itemprop="name" content="MongoDB备份与还原">
 <meta itemprop="description" content="
 记录MongoDB备份与还原知识点与个人站点的MongoDB备份脚本
 ">
-
-
 <meta itemprop="datePublished" content="2020-02-08T23:33:14&#43;08:00" />
 <meta itemprop="dateModified" content="2020-02-08T23:33:14&#43;08:00" />
-<meta itemprop="wordCount" content="2309">
+<meta itemprop="wordCount" content="2311">
 
 
 
-<meta itemprop="keywords" content="MongoDB," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="MongoDB," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MongoDB备份与还原"/>
 <meta name="twitter:description" content="
 记录MongoDB备份与还原知识点与个人站点的MongoDB备份脚本
@@ -104,12 +101,21 @@
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -143,7 +150,7 @@
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-database/"> 编程-Database </a>
             </div>
-          <span class="more-meta"> 2309 words </span>
+          <span class="more-meta"> 2311 words </span>
           <span class="more-meta"> 5 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -153,23 +160,22 @@
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#备份">备份</a>
-<ul>
-<li><a href="#mongodb数据备份的几种方式">MongoDB数据备份的几种方式</a></li>
-<li><a href="#mongodump命令">mongodump命令</a></li>
-<li><a href="#系统快照">系统快照</a></li>
-<li><a href="#cp-or-rsync">cp or rsync</a></li>
-</ul></li>
-<li><a href="#还原">还原</a>
-<ul>
-<li><a href="#mongorestore">mongorestore</a></li>
-</ul></li>
-<li><a href="#mongodb定时备份shell脚本实现">MongoDB定时备份Shell脚本实现</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#备份">备份</a>
+      <ul>
+        <li><a href="#mongodb数据备份的几种方式">MongoDB数据备份的几种方式</a></li>
+        <li><a href="#mongodump命令">mongodump命令</a></li>
+        <li><a href="#系统快照">系统快照</a></li>
+        <li><a href="#cp-or-rsync">cp or rsync</a></li>
+      </ul>
+    </li>
+    <li><a href="#还原">还原</a>
+      <ul>
+        <li><a href="#mongorestore">mongorestore</a></li>
+      </ul>
+    </li>
+    <li><a href="#mongodb定时备份shell脚本实现">MongoDB定时备份Shell脚本实现</a></li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -177,32 +183,24 @@
       <blockquote>
 <p>记录MongoDB备份与还原知识点与个人站点的MongoDB备份脚本</p>
 </blockquote>
-
 <h2 id="备份">备份</h2>
-
 <h3 id="mongodb数据备份的几种方式">MongoDB数据备份的几种方式</h3>
-
 <ul>
 <li>mongodump命令</li>
 <li>系统快照</li>
 <li>cp or rsync</li>
 </ul>
-
 <p>官方参考文档：<a href="https://docs.mongodb.com/manual/core/backups/">https://docs.mongodb.com/manual/core/backups/</a></p>
-
 <h3 id="mongodump命令">mongodump命令</h3>
-
 <p>在Mongodb中可以使用mongodump命令来备份MongoDB数据,mongodump命令可以从 MongoDB 数据库读取数据，并生成 BSON 文件，mongodump 适合用于备份和恢复数据量较小的 MongoDB 数据库，不适用于大数据量备份。</p>
-
 <p><strong>mongodump 仅备份数据库中的文档，不备份索引，所以还原数据后需要重新生成索引。</strong></p>
-
 <p>mongodump 备份过程中会对 mongod 服务的性能产生影响，建议在业务低峰期进行操作。</p>
-
 <ul>
-<li><p>dump命令参数</p>
+<li>dump命令参数</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -239,9 +237,9 @@
 </span><span class="lnt">35
 </span><span class="lnt">36
 </span><span class="lnt">37
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 命令格式
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 命令格式
 mongodump &lt;options&gt;
 
 
@@ -277,34 +275,24 @@ mongodump &lt;options&gt;
 --sslCRLFile &lt;filename&gt;
 --sslAllowInvalidCertificates
 --sslAllowInvalidHostnames
---sslFIPSMode</pre></td></tr></table>
+--sslFIPSMode
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<p>可以通过mongodump &ndash;help查看options</p>
-
+</div><p>可以通过mongodump &ndash;help查看options</p>
 <h3 id="系统快照">系统快照</h3>
-
 <p>如果MongoDB是部署在阿里云ECS之类的云服务器，可以利用系统快照与生成策略进行定时备份。</p>
-
 <h3 id="cp-or-rsync">cp or rsync</h3>
-
 <p>直接使用cp或者rsync等工具进行mongodb的data文件复制，自复制多个文件不是一个原子操作,所以在复制前必须停止对 MongoDB 的操作。 否则复制的文件会处于无效状态。</p>
-
 <h2 id="还原">还原</h2>
-
 <h3 id="mongorestore">mongorestore</h3>
-
 <p>在Mongodb中可以使用mongorestore 命令来恢复备份的数据。</p>
-
 <p>mongorestore可以创建新的数据库或将数据添加到现有的数据库，但是 <strong>mongorestore 仅仅执行insert操作，不执行update操作</strong>。这就意味着如果将文档还原到现有的数据库，现有的数据库中的文档的_id的值和要还原的文档中的_id 值是一样的，是不会将数据库原有的值覆盖的。</p>
-
 <ul>
-<li><p>restore命令参数</p>
+<li>restore命令参数</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -328,9 +316,9 @@ mongodump &lt;options&gt;
 </span><span class="lnt">22
 </span><span class="lnt">23
 </span><span class="lnt">24
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">mongorestore &lt;options&gt; &lt;directory or file to restore&gt;
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">mongorestore &lt;options&gt; &lt;directory or file to restore&gt;
   
 --help # 查看帮助
 --quiet # 通过抑制 MongoDB的复制，连接等活动，来实现数据恢复。
@@ -353,27 +341,21 @@ mongodump &lt;options&gt;
 --numInsertionWorkersPerCollection int # 默认值为 1，指定每个集合恢复的并发数，大数据量导入增加该值可提高 恢复速度。
 --gzip # 从压缩文档中 恢复。
 --archive # 从归档文件中恢复。
---dir # 指定还原数据储存目录。</pre></td></tr></table>
+--dir # 指定还原数据储存目录。
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<p>可以通过mongorestore &ndash;help查看options</p>
-
+</div><p>可以通过mongorestore &ndash;help查看options</p>
 <h2 id="mongodb定时备份shell脚本实现">MongoDB定时备份Shell脚本实现</h2>
-
 <p>可以通过Shell脚本与linux的crontab实现定时备份，目的是做到如下几点：</p>
-
 <ul>
 <li>使用dump命令备份七天内的mongoDB数据</li>
 <li>需要对备份的数据进行压缩归档处理（mongodump并不提供压缩归档功能）</li>
 <li>过期备份数据清理，只保留七天内</li>
 </ul>
-
 <p>定时备份Shell脚本如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -413,13 +395,14 @@ mongodump &lt;options&gt;
 </span><span class="lnt">38
 </span><span class="lnt">39
 </span><span class="lnt">40
+</span><span class="lnt">41
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1">#--------------------------------------------</span>
 <span class="c1"># mongodb定时备份脚本</span>
 <span class="c1">#--------------------------------------------</span>
-<span class="cp">#! /bin/bash
-</span><span class="cp"></span>
+<span class="c1">#! /bin/bash</span>
+
 <span class="c1"># 命令执行路径</span>
 <span class="nv">MONGOD</span><span class="o">=</span>/usr/bin/mongodump
 <span class="nv">OUT_DIR</span><span class="o">=</span>/data/backup/mongo/mongod_bak_tmp
@@ -454,21 +437,23 @@ tar -zcvPf <span class="si">${</span><span class="nv">TAR_DIR</span><span class=
 <span class="k">for</span> i in <span class="sb">`</span>find <span class="si">${</span><span class="nv">TAR_DIR</span><span class="si">}</span> -maxdepth <span class="m">1</span> <span class="se">\(</span> -type d -o -type l <span class="se">\)</span><span class="sb">`</span><span class="p">;</span>
 <span class="k">do</span>
         find -L <span class="nv">$i</span> -maxdepth <span class="m">1</span> -type f <span class="se">\(</span> -name <span class="s2">&#34;*</span><span class="si">${</span><span class="nv">DEL_DATE</span><span class="si">}</span><span class="s2">*&#34;</span> -a -name <span class="s2">&#34;*.tar.gz&#34;</span> <span class="se">\)</span> -exec rm -f <span class="o">{}</span> <span class="se">\;</span>
-<span class="k">done</span></code></pre></td></tr></table>
+<span class="k">done</span>
+
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>其他：可以将添加crontab定时任务使用Shell编写，基于Jenkins控制发布，做到自动化运维与减少误操作。一般执行crontab -e命令都是直接往/var/spool/cron下创建一个文件，这个文件的名称就是你的当前用户名，内容就是你添加的任务具体内容。依据这一点可以做到自动化的crontab发布，Shell脚本大致如下：</p>
+</div><p>其他：可以将添加crontab定时任务使用Shell编写，基于Jenkins控制发布，做到自动化运维与减少误操作。一般执行crontab -e命令都是直接往/var/spool/cron下创建一个文件，这个文件的名称就是你的当前用户名，内容就是你添加的任务具体内容。依据这一点可以做到自动化的crontab发布，Shell脚本大致如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell">crontab_reload<span class="o">(){</span>
@@ -479,10 +464,11 @@ tar -zcvPf <span class="si">${</span><span class="nv">TAR_DIR</span><span class=
     <span class="nb">echo</span> <span class="s2">&#34;get current crontab&#34;</span>
     crontab -l
     <span class="nb">echo</span> <span class="s2">&#34;crontab reload done&#34;</span>
-<span class="o">}</span></code></pre></td></tr></table>
+<span class="o">}</span>
+
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>注意（echo &gt; 是输出重定向，类似于insert，echo &gt;&gt; 是输出追加重定向，类似于append）</p>
+</div><p>注意（echo &gt; 是输出重定向，类似于insert，echo &raquo; 是输出追加重定向，类似于append）</p>
     </div>
 
     <div class="post-copyright">
@@ -526,11 +512,11 @@ tar -zcvPf <span class="si">${</span><span class="nv">TAR_DIR</span><span class=
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -555,10 +541,6 @@ tar -zcvPf <span class="si">${</span><span class="nv">TAR_DIR</span><span class=
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -569,13 +551,10 @@ tar -zcvPf <span class="si">${</span><span class="nv">TAR_DIR</span><span class=
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -586,7 +565,10 @@ tar -zcvPf <span class="si">${</span><span class="nv">TAR_DIR</span><span class=
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

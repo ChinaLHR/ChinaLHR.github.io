@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/vertx-kotlin-coroutine/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@ Vert.x 利用 Kotlin协程特性优雅编写异步逻辑
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/vertx-kotlin-coroutine/" />
-<meta property="article:published_time" content="2019-05-23T21:59:46&#43;08:00"/>
-<meta property="article:modified_time" content="2019-05-23T21:59:46&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-05-23T21:59:46+08:00" />
+<meta property="article:modified_time" content="2019-05-23T21:59:46+08:00" />
 <meta itemprop="name" content="Vertx Kotlin协程">
 <meta itemprop="description" content="
 Vert.x 利用 Kotlin协程特性优雅编写异步逻辑
 ">
-
-
 <meta itemprop="datePublished" content="2019-05-23T21:59:46&#43;08:00" />
 <meta itemprop="dateModified" content="2019-05-23T21:59:46&#43;08:00" />
-<meta itemprop="wordCount" content="1527">
+<meta itemprop="wordCount" content="1521">
 
 
 
-<meta itemprop="keywords" content="Vert.x," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Vert.x," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Vertx Kotlin协程"/>
 <meta name="twitter:description" content="
 Vert.x 利用 Kotlin协程特性优雅编写异步逻辑
@@ -104,12 +101,21 @@ Vert.x 利用 Kotlin协程特性优雅编写异步逻辑
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@ Vert.x 利用 Kotlin协程特性优雅编写异步逻辑
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -143,7 +150,7 @@ Vert.x 利用 Kotlin协程特性优雅编写异步逻辑
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 编程-后端开发 </a>
             </div>
-          <span class="more-meta"> 1527 words </span>
+          <span class="more-meta"> 1521 words </span>
           <span class="more-meta"> 4 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -153,17 +160,15 @@ Vert.x 利用 Kotlin协程特性优雅编写异步逻辑
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#关于协程">关于协程</a></li>
-<li><a href="#kotlin协程">Kotlin协程</a></li>
-<li><a href="#vertx-使用协程避免callback-hell">Vertx 使用协程避免Callback Hell</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#关于协程">关于协程</a></li>
+        <li><a href="#kotlin协程">Kotlin协程</a></li>
+        <li><a href="#vertx-使用协程避免callback-hell">Vertx 使用协程避免Callback Hell</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -171,62 +176,39 @@ Vert.x 利用 Kotlin协程特性优雅编写异步逻辑
       <blockquote>
 <p>Vert.x 利用 Kotlin协程特性优雅编写异步逻辑</p>
 </blockquote>
-
 <h3 id="关于协程">关于协程</h3>
-
 <p>协程通过将复杂性放入库来简化异步编程。程序的逻辑可以在协程中顺序地表达，而底层库会为我们解决其异步性。使用协程库将用户代码的相关部分包装为回调、订阅相关事件、在不同线程（甚至不同机器）上调度执行，而代码则保持如同顺序执行一样简单。</p>
-
 <p>轻量级的线程。线程是由系统调度的，线程切换或线程阻塞的开销都比较大。而协程依赖于线程，但是协程挂起时不需要阻塞线程，几乎是无代价的，协程是由开发者控制的。所以协程也像用户态的线程，非常轻量级，一个线程中可以创建任意个协程。</p>
-
 <h3 id="kotlin协程">Kotlin协程</h3>
-
 <ul>
 <li>suspend</li>
 </ul>
-
 <p>suspend修饰符标记，修饰挂起函数。挂起函数能够以与普通函数相同的方式获取参数和返回值，但是调用函数可能挂起协程（如果相关调用的结果已经可用，库可以决定继续进行而不挂起），挂起函数挂起协程时，不会阻塞协程所在的线程。挂起函数执行完成后会恢复协程，后面的代码才会继续执行。</p>
-
 <p>挂起函数只能在协程中或其他挂起函数中调用(launch函数创建协程)</p>
-
 <ul>
 <li>CoroutineScope</li>
 </ul>
-
 <p>协程本身</p>
-
 <ul>
 <li>CoroutineContext</li>
 </ul>
-
 <p>协程上下文，包括 Job 和 CoroutineDispatcher 元素，可以代表一个协程的场景。</p>
-
 <ul>
 <li>CoroutineDispatcher</li>
 </ul>
-
 <p>协程调度器，决定协程所在的线程或线程池。标准实现Dispatchers.Default、Dispatchers.IO，Dispatchers.Main和Dispatchers.Unconfined</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">- Default一般用于 CPU 密集型的任务,特别是涉及到计算、算法的场景。它可以使用和 CPU 核数一样多的线程。
+<pre><code>- Default一般用于 CPU 密集型的任务,特别是涉及到计算、算法的场景。它可以使用和 CPU 核数一样多的线程。
 - IO一般用于输入/输出的场景。通常，涉及到会阻塞线程，需要等待另一个系统响应的任务，比如：网络请求、数据库操作、文件读写等，都可以使用它。因为它不使用 CPU ，可以同一时间运行多个线程，默认是数量为 64 的线程池。
 - Main使用UI线程/主线程
-- UnConfined不指定线程，使用的线程是不可控的</pre></td></tr></table>
-</div>
-</div>
+- UnConfined不指定线程，使用的线程是不可控的
+</code></pre>
 <ul>
 <li>Coroutine builders</li>
 </ul>
-
 <p>协程构建器</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -281,44 +263,27 @@ Vert.x 利用 Kotlin协程特性优雅编写异步逻辑
 </span><span class="c1"></span><span class="n">withContext</span> <span class="p">{}</span>
 
 <span class="c1">//async和launch 一个效果，但是有返回值
-</span><span class="c1"></span><span class="n">CoroutineScope</span><span class="p">.</span><span class="n">async</span> <span class="p">{}</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="n">CoroutineScope</span><span class="p">.</span><span class="n">async</span> <span class="p">{}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>Job &amp; Deferred</li>
 </ul>
-
 <p>launch 方法会返回一个 Job，Job 继承了协程上下文（CoroutineContext）。</p>
-
 <p>async方法返回一个Deferred 允许并行地运行多个子线程任务，它不是一个可中断方法，所以当调用 async 启动子协程的同时，后面的代码也会立即执行。async 通常需要运行在另外一个协程内部，它会返回一个特殊的 Job，叫作 Deferred。</p>
-
 <p>Job没有返回值，Deferred有返回值。一个Job可以有一个父Job，父Job可以控制子Job。</p>
-
 <p>Job封装了协程中需要执行的代码逻辑。生命周期如下:</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/58104450-64475800-7c17-11e9-8ed4-cc54edbc9e59.png" alt="enter description here" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/58104450-64475800-7c17-11e9-8ed4-cc54edbc9e59.png" alt="enter description here"></p>
 <p><strong>Job相关方法：</strong></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">- job.join(中断与当前 Job 关联的协程，直到所有子 Job 执行完成)
-- job.cancel(取消所有与其关联的子 Job)</pre></td></tr></table>
-</div>
-</div>
+<pre><code>- job.join(中断与当前 Job 关联的协程，直到所有子 Job 执行完成)
+- job.cancel(取消所有与其关联的子 Job)
+</code></pre>
 <p><strong>Deferred方法</strong>
-    - await(当我们需要获取 async 的结果时，需要调用 await() 方法等待结果。调用 await() 方法后，会中断当前协程，直到其返回结果)</p>
-
+- await(当我们需要获取 async 的结果时，需要调用 await() 方法等待结果。调用 await() 方法后，会中断当前协程，直到其返回结果)</p>
 <h3 id="vertx-使用协程避免callback-hell">Vertx 使用协程避免Callback Hell</h3>
-
 <p>vert.x的非阻塞特性导致需要编写非阻塞API。vert.x的核心API使用回调函数的风格，也可以使用发布-订阅模型的RxJava。异步的API编程比同步的更复杂更容易出错，而且不可避免
 Callback Hell。</p>
-
 <p>使用vertx-lang-kotlin-coroutines，编写同步风格的异步代码</p>
-
 <p><a href="https://github.com/ChinaLHR/vertx-kotlin-scaffold.git">示例</a></p>
     </div>
 
@@ -363,11 +328,11 @@ Callback Hell。</p>
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -392,10 +357,6 @@ Callback Hell。</p>
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -406,13 +367,10 @@ Callback Hell。</p>
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -423,7 +381,10 @@ Callback Hell。</p>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

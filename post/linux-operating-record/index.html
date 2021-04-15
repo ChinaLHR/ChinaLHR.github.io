@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/linux-operating-record/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/linux-operating-record/" />
-<meta property="article:published_time" content="2019-04-19T22:59:11&#43;08:00"/>
-<meta property="article:modified_time" content="2019-04-19T22:59:11&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-04-19T22:59:11+08:00" />
+<meta property="article:modified_time" content="2019-04-19T22:59:11+08:00" />
 <meta itemprop="name" content="Linux命令记录">
 <meta itemprop="description" content="
 日常Linux命令记录
 ">
-
-
 <meta itemprop="datePublished" content="2019-04-19T22:59:11&#43;08:00" />
 <meta itemprop="dateModified" content="2019-04-19T22:59:11&#43;08:00" />
-<meta itemprop="wordCount" content="10315">
+<meta itemprop="wordCount" content="10317">
 
 
 
-<meta itemprop="keywords" content="Linux," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Linux," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux命令记录"/>
 <meta name="twitter:description" content="
 日常Linux命令记录
@@ -104,12 +101,21 @@
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -143,7 +150,7 @@
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"> 编程-操作系统 </a>
             </div>
-          <span class="more-meta"> 10315 words </span>
+          <span class="more-meta"> 10317 words </span>
           <span class="more-meta"> 21 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -153,65 +160,18 @@
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#日常操作">日常操作</a>
-<ul>
-<li><a href="#find">find</a></li>
-<li><a href="#which">which</a></li>
-<li><a href="#whereis">whereis</a></li>
-<li><a href="#ps">ps</a></li>
-<li><a href="#tail">tail</a></li>
-<li><a href="#head">head</a></li>
-<li><a href="#more-less">more|less</a></li>
-<li><a href="#scp">scp</a></li>
-<li><a href="#crontab">crontab</a></li>
-<li><a href="#netstat">netstat</a></li>
-<li><a href="#telnet">telnet</a></li>
-<li><a href="#du">du</a></li>
-<li><a href="#ln">ln</a></li>
-<li><a href="#kill">kill</a></li>
-<li><a href="#watch">watch</a></li>
-<li><a href="#alias">alias</a></li>
-<li><a href="#nohup和-后台运行">nohup和&amp;(后台运行)</a></li>
-<li><a href="#trap">trap</a></li>
-<li><a href="#防火墙">防火墙</a></li>
-<li><a href="#其他">其他</a></li>
-</ul></li>
-<li><a href="#处理数据相关">处理数据相关</a>
-<ul>
-<li><a href="#排序-sort">排序(sort)</a></li>
-<li><a href="#搜索数据-grep">搜索数据(grep)</a></li>
-<li><a href="#压缩数据-gzip">压缩数据(gzip)</a></li>
-<li><a href="#归档数据-tar">归档数据(tar)</a></li>
-</ul></li>
-<li><a href="#排查">排查</a>
-<ul>
-<li><a href="#排查java-cpu占用问题">排查Java CPU占用问题</a></li>
-<li><a href="#排查java高内存占用问题">排查Java高内存占用问题</a></li>
-</ul></li>
-<li><a href="#阿里云相关">阿里云相关</a>
-<ul>
-<li><a href="#挂载ecs数据盘">挂载ecs数据盘</a></li>
-<li><a href="#阿里云数据盘扩容操作">阿里云数据盘扩容操作</a></li>
-</ul></li>
-<li><a href="#centos环境相关配置">Centos环境相关配置</a>
-<ul>
-<li><a href="#docker">Docker</a></li>
-<li><a href="#openjdk1-8">OpenJDK1.8</a></li>
-<li><a href="#nginx">Nginx</a></li>
-<li><a href="#mongodb">mongoDB</a></li>
-<li><a href="#maven">maven</a></li>
-<li><a href="#node-js">Node.js</a></li>
-<li><a href="#其他-1">其他</a></li>
-</ul></li>
-<li><a href="#链接">链接</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#日常操作">日常操作</a></li>
+        <li><a href="#处理数据相关">处理数据相关</a></li>
+        <li><a href="#排查">排查</a></li>
+        <li><a href="#阿里云相关">阿里云相关</a></li>
+        <li><a href="#centos环境相关配置">Centos环境相关配置</a></li>
+        <li><a href="#链接">链接</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -219,16 +179,14 @@
       <blockquote>
 <p>日常Linux命令记录</p>
 </blockquote>
-
 <h3 id="日常操作">日常操作</h3>
-
 <h4 id="find">find</h4>
-
 <ul>
-<li><p>格式</p>
+<li>格式</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -237,9 +195,9 @@
 </span><span class="lnt">7
 </span><span class="lnt">8
 </span><span class="lnt">9
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">find [path...] [expression]
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">find [path...] [expression]
 
 path:find命令所查找的目录路径。例如用.来表示当前目录，用/来表示系统根目录
 expression:expression可以分为——&#34;-options [-print -exec -ok ...]&#34;
@@ -247,15 +205,15 @@ expression:expression可以分为——&#34;-options [-print -exec -ok ...]&#34;
 options:指定find命令的常用选项，下节详细介绍
 print:find命令将匹配的文件输出到标准输出
 exec:find命令对匹配的文件执行该参数所给出的shell命令
--ok:和-exec的作用相同，只不过以一种更为安全的模式来执行该参数所给出的shell命令，在执行每一个命令之前，都会给出提示，让用户来确定是否执行。</pre></td></tr></table>
+-ok:和-exec的作用相同，只不过以一种更为安全的模式来执行该参数所给出的shell命令，在执行每一个命令之前，都会给出提示，让用户来确定是否执行。
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>options</p></li>
+</div><ul>
+<li>options</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -279,6 +237,7 @@ exec:find命令对匹配的文件执行该参数所给出的shell命令
 </span><span class="lnt">22
 </span><span class="lnt">23
 </span><span class="lnt">24
+</span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell">    -type <span class="o">[</span>查找某一类型的文件<span class="o">]</span> 
@@ -304,131 +263,129 @@ exec:find命令对匹配的文件执行该参数所给出的shell命令
     -mtime -n +n <span class="o">[</span>按照文件的更改时间来查找文件， - n表示文件更改时间距现在n天以内，+ n表示文件更改时间距现在n天以前<span class="o">]</span>
     find /var/adm -mtime +3 –print 在/var/adm目录下查找更改时间在3日以前的文件
     
-    -size n：<span class="o">[</span>c<span class="o">]</span> 查找文件长度为n块的文件，带有c时表示文件长度以字节计。</code></pre></td></tr></table>
+    -size n：<span class="o">[</span>c<span class="o">]</span> 查找文件长度为n块的文件，带有c时表示文件长度以字节计。
+
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>常用操作记录</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1">#清除/root/log 目录或者子目录下 大于1G的log文件</span>
-find /root/logs/ -name <span class="s2">&#34;*.log&#34;</span> -size +1024M -exec rm -rf <span class="o">{}</span> <span class="se">\;</span></code></pre></td></tr></table>
+find /root/logs/ -name <span class="s2">&#34;*.log&#34;</span> -size +1024M -exec rm -rf <span class="o">{}</span> <span class="se">\;</span>
+
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>参考链接</li>
 </ul>
-
 <p><a href="https://www.cnblogs.com/skynet/archive/2010/12/25/1916873.html">https://www.cnblogs.com/skynet/archive/2010/12/25/1916873.html</a></p>
-
 <h4 id="which">which</h4>
-
 <p>which命令的作用是在PATH变量指定的路径中，搜索某个系统命令的位置，并且返回第一个搜索结果。也就是说，使用which命令，就可以看到某个系统命令是否存在，以及执行的到底是哪一个位置的命令。</p>
-
 <ul>
-<li><p>格式</p>
+<li>格式</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">which 可执行文件名称 </pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">which 可执行文件名称 
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>命令参数</p>
+</div><ul>
+<li>命令参数</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">-n 　指定文件名长度，指定的长度必须大于或等于所有文件中最长的文件名。
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">-n 　指定文件名长度，指定的长度必须大于或等于所有文件中最长的文件名。
 -p 　与-n参数相同，但此处的包括了文件的路径。
 -w 　指定输出时栏位的宽度。
--V 　显示版本信息</pre></td></tr></table>
+-V 　显示版本信息
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>例子</p></li>
+</div><ul>
+<li>例子</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell">which docker
-/usr/bin/docker</code></pre></td></tr></table>
+/usr/bin/docker
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="whereis">whereis</h4>
-
+</div><h4 id="whereis">whereis</h4>
 <p>whereis命令只能用于程序名的搜索，而且只搜索二进制文件（参数-b）、man说明文件（参数-m）和源代码文件（参数-s）。 whereis查找的速度很快，因为会从数据库中查找数据，而不是像find命令那样，通 过遍历硬盘来查找（注意： 数据库文件并不是实时更新，默认情况下时一星期更新一次）</p>
-
 <ul>
 <li>命令格式</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">whereis <span class="o">[</span>-bmsu<span class="o">]</span> <span class="o">[</span>BMS 目录名 -f <span class="o">]</span> 文件名</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-shell" data-lang="shell">whereis <span class="o">[</span>-bmsu<span class="o">]</span> <span class="o">[</span>BMS 目录名 -f <span class="o">]</span> 文件名
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li><p>命令参数</p>
+</div><ul>
+<li>命令参数</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
 </span><span class="lnt">7
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">-b   定位可执行文件。
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">-b   定位可执行文件。
 -m   定位帮助文件。
 -s   定位源代码文件。
 -u   搜索默认路径下除可执行文件、源代码文件、帮助文件以外的其它文件。
 -B   指定搜索可执行文件的路径。
 -M   指定搜索帮助文件的路径。
--S   指定搜索源代码文件的路径。</pre></td></tr></table>
+-S   指定搜索源代码文件的路径。
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>例子</p></li>
+</div><ul>
+<li>例子</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell">whereis docker
-docker: /usr/bin/docker /etc/docker /usr/libexec/docker /usr/share/man/man1/docker.1.gz</code></pre></td></tr></table>
+docker: /usr/bin/docker /etc/docker /usr/libexec/docker /usr/share/man/man1/docker.1.gz
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="ps">ps</h4>
-
+</div><h4 id="ps">ps</h4>
 <p>ps命令用来列出系统中当前运行的那些进程。</p>
-
 <ul>
 <li>格式</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -487,15 +444,15 @@ u  指定用户的所有进程
 
 -au 显示较详细的资讯
 
--aux 显示所有包含其他使用者的进程 </code></pre></td></tr></table>
+-aux 显示所有包含其他使用者的进程 
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>常用操作记录</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -506,15 +463,14 @@ u  指定用户的所有进程
 ps -ef<span class="p">|</span>grep java
 
 <span class="c1"># 显示进程的层级信息</span>
-ps -ef --forest</code></pre></td></tr></table>
+ps -ef --forest
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="tail">tail</h4>
-
+</div><h4 id="tail">tail</h4>
 <p>tail 命令从指定点开始将文件写到标准输出.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -531,15 +487,14 @@ tail -f logfile.log
 <span class="c1"># 显示文件末尾内容(最后五行)</span>
 tail -n <span class="m">5</span> logfile.log
 <span class="c1"># 从第5行开始显示文件</span>
-tail -n +5 logfile.log</code></pre></td></tr></table>
+tail -n +5 logfile.log
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="head">head</h4>
-
+</div><h4 id="head">head</h4>
 <p>head 用来显示档案的开头至标准输出中</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -550,33 +505,29 @@ tail -n +5 logfile.log</code></pre></td></tr></table>
 -q 隐藏文件名
 -v 显示文件名
 -c&lt;字节&gt; 显示字节数
--n&lt;行数&gt; 显示的行数</code></pre></td></tr></table>
+-n&lt;行数&gt; 显示的行数
+</code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 显示前5行
-head -n 5 log2014.log </pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 显示前5行
+head -n 5 log2014.log 
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="more-less">more|less</h4>
-
-<p>more命令从前向后读取文件（在启动时就加载整个文件）<br/>
+</div><h4 id="moreless">more|less</h4>
+<p>more命令从前向后读取文件（在启动时就加载整个文件）<!-- raw HTML omitted -->
 空白键（space）就往下一页显示，按 b 键就会往回（back）一页显示。</p>
-
-<p>less命令<br/></p>
-
+<p>less命令<!-- raw HTML omitted --></p>
 <p>d  向后翻半页 u  向前滚动半页 空格键 滚动一页</p>
-
 <p>查询:?关键字 n 上一位 N 下一位</p>
-
 <h4 id="scp">scp</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -587,19 +538,17 @@ head -n 5 log2014.log </pre></td></tr></table>
 scp local_file remote_username@remote_ip:remote_folder
 
 <span class="c1"># 复制目录</span>
-scp -r local_folder remote_username@remote_ip:remote_folder</code></pre></td></tr></table>
+scp -r local_folder remote_username@remote_ip:remote_folder
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="crontab">crontab</h4>
-
+</div><h4 id="crontab">crontab</h4>
 <p>crond是linux下用来周期性的执行某种任务或等待处理某些事件的一个守护进程。在/etc目录下的crontab文件</p>
-
 <ul>
 <li>格式</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -646,59 +595,55 @@ crontab <span class="o">[</span>-u user<span class="o">]</span> <span class="o">
 
 -l：显示某个用户的crontab文件内容，如果不指定用户，则表示显示当前用户的crontab文件内容。
 
--r：从/var/spool/cron目录中删除某个用户的crontab文件，如果不指定用户，则默认删除当前用户的crontab文件。</code></pre></td></tr></table>
+-r：从/var/spool/cron目录中删除某个用户的crontab文件，如果不指定用户，则默认删除当前用户的crontab文件。
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>常用操作记录</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell">查看所有用户的crontab
-cat /etc/passwd <span class="p">|</span> cut -f <span class="m">1</span> -d : <span class="p">|</span>xargs -I <span class="o">{}</span> crontab -l -u <span class="o">{}</span></code></pre></td></tr></table>
+cat /etc/passwd <span class="p">|</span> cut -f <span class="m">1</span> -d : <span class="p">|</span>xargs -I <span class="o">{}</span> crontab -l -u <span class="o">{}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="netstat">netstat</h4>
+</div><h4 id="netstat">netstat</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">查询端口所占用的进程
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">查询端口所占用的进程
 netstat -ntulp | grep 10063
 查询进程的详细信息
-ps -ef|grep 4826</pre></td></tr></table>
+ps -ef|grep 4826
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="telnet">telnet</h4>
-
+</div><h4 id="telnet">telnet</h4>
 <p>telnet命令通常用来远程登录。telnet程序是基于TELNET协议的远程登录客户端程序。  telnet因为采用明文传送报文，安全性不好，很多Linux服务器都不开放telnet服务，而改用更安全的ssh方式。</p>
-
 <p>telnet命令除了远程登录，还被用于确定远程服务的状态，比如确定远程服务器的某个端口是否能访问</p>
-
 <ul>
-<li><p>命令格式</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">telnet[参数][HOST][PORT]</pre></td></tr></table>
-</div>
-</div></li>
+<li>命令格式</li>
 </ul>
-
-<h4 id="du">du</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">telnet[参数][HOST][PORT]
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="du">du</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -712,9 +657,9 @@ ps -ef|grep 4826</pre></td></tr></table>
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">du命令用来查看目录或文件所占用磁盘空间的大小
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">du命令用来查看目录或文件所占用磁盘空间的大小
 du常用的选项：
 　　-h：以人类可读的方式显示
 　　-a：显示目录占用的磁盘空间大小，还要显示其下目录和文件占用磁盘空间的大小
@@ -727,17 +672,16 @@ du常用的选项：
 du -sh : 查看当前目录总共占的容量。而不单独列出各子项占用的容量 
 du -lh --max-depth=1 : 查看当前目录下一级子文件和子目录占用的磁盘容量。
 du -sh * | sort -n 统计当前文件夹(目录)大小，并按文件大小排序
-du -sk filename 查看指定文件大小</pre></td></tr></table>
+du -sk filename 查看指定文件大小
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="ln">ln</h4>
-
+</div><h4 id="ln">ln</h4>
 <p>为某一个文件在另外一个位置建立一个同步的链接。链接又可分为两种 : 硬链接(hard link)与软链接(symbolic link)，硬链接的
 意思是一个档案可以有多个名称，而软链接的方式则是产生一个特殊的档案，该档案的内容是指向另一个档案的位置。硬链接是存在
 同一个文件系统中，而软链接却可以跨越不同的文件系统。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -749,9 +693,9 @@ du -sk filename 查看指定文件大小</pre></td></tr></table>
 </span><span class="lnt">10
 </span><span class="lnt">11
 </span><span class="lnt">12
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">软链接：
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">软链接：
 1.软链接，以路径的形式存在。类似于Windows操作系统中的快捷方式
 2.软链接可以 跨文件系统 ，硬链接不可以
 3.软链接可以对一个不存在的文件名进行链接
@@ -762,34 +706,32 @@ du -sk filename 查看指定文件大小</pre></td></tr></table>
 2.不允许给目录创建硬链接
 3.硬链接只有在同一个文件系统中才能创建
 
-ln命令会保持每一处链接文件的同步性</pre></td></tr></table>
+ln命令会保持每一处链接文件的同步性
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li><p>格式</p>
+</div><ul>
+<li>格式</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">ln [参数][源文件或目录][目标文件或目录]
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ln [参数][源文件或目录][目标文件或目录]
 ln –s [源文件或目录][目标文件或目录] 软链接
-ln [源文件或目录][目标文件或目录] 硬链接</pre></td></tr></table>
+ln [源文件或目录][目标文件或目录] 硬链接
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<h4 id="kill">kill</h4>
-
+</div><h4 id="kill">kill</h4>
 <p>Linux中的kill命令用来终止指定的进程的运行</p>
-
 <ul>
-<li><p>格式</p>
+<li>格式</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -823,9 +765,9 @@ ln [源文件或目录][目标文件或目录] 硬链接</pre></td></tr></table>
 </span><span class="lnt">32
 </span><span class="lnt">33
 </span><span class="lnt">34
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">kill[参数][进程号]
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">kill[参数][进程号]
 -l  信号，若果不加信号的编号参数，则使用“-l”参数会列出全部的信号名称
 -a  当处理当前进程时，不限制命令名和进程号的对应关系
 -p  指定kill 命令只打印相关进程的进程号，而不发送任何信号
@@ -836,8 +778,8 @@ ln [源文件或目录][目标文件或目录] 硬链接</pre></td></tr></table>
 全部信号：
 
 kill -l
-1) SIGHUP	 2) SIGINT	 3) SIGQUIT	 4) SIGILL	 5) SIGTRAP
-6) SIGABRT	 7) SIGBUS	 8) SIGFPE	 9) SIGKILL	10) SIGUSR1
+ 1) SIGHUP	 2) SIGINT	 3) SIGQUIT	 4) SIGILL	 5) SIGTRAP
+ 6) SIGABRT	 7) SIGBUS	 8) SIGFPE	 9) SIGKILL	10) SIGUSR1
 11) SIGSEGV	12) SIGUSR2	13) SIGPIPE	14) SIGALRM	15) SIGTERM
 16) SIGSTKFLT	17) SIGCHLD	18) SIGCONT	19) SIGSTOP	20) SIGTSTP
 21) SIGTTIN	22) SIGTTOU	23) SIGURG	24) SIGXCPU	25) SIGXFSZ
@@ -858,97 +800,90 @@ QUIT    3    退出（同 Ctrl + \）
 TERM   15    终止
 KILL    9    强制终止
 CONT   18    继续（与STOP相反， fg/bg命令）
-STOP    19    暂停（同 Ctrl + Z）</pre></td></tr></table>
+STOP    19    暂停（同 Ctrl + Z）
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<h4 id="watch">watch</h4>
-
+</div><h4 id="watch">watch</h4>
 <p>监测一个命令的运行结果</p>
-
 <ul>
-<li><p>命令格式</p>
+<li>命令格式</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">watch[参数][命令]</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">watch[参数][命令]
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>命令参数</p>
+</div><ul>
+<li>命令参数</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">-n或--interval  watch缺省每2秒运行一下程序，可以用-n指定间隔的时间。
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">-n或--interval  watch缺省每2秒运行一下程序，可以用-n指定间隔的时间。
 -d或--differences  用-d或--differences 选项watch 会高亮显示变化的区域。 而-d=cumulative选项会把变动过的地方(不管最近的那次有没有变动)都高亮显示出来。
--t 或-no-title  会关闭watch命令在顶部的时间间隔,命令，当前时间的输出。</pre></td></tr></table>
+-t 或-no-title  会关闭watch命令在顶部的时间间隔,命令，当前时间的输出。
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>常用命令记录</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma"># 监测当file文件变化，频率5s，高亮显示
-watch -n 5 -d&#39;cat /file&#39;</pre></td></tr></table>
-</div>
-</div></li>
+</div><ul>
+<li>常用命令记录</li>
 </ul>
-
-<h4 id="alias">alias</h4>
-
-<p>设置指令的别名。</p>
-
-<ul>
-<li><p>命令格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">alias[别名]=[指令名称]</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 监测当file文件变化，频率5s，高亮显示
+watch -n 5 -d&#39;cat /file&#39;
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>alias指令的有效期仅在于单次登录，可以在~/.bashrc(用户级别)或者/etc/bashrc(全局级别)文件追加配置登录指令</p>
+</div><h4 id="alias">alias</h4>
+<p>设置指令的别名。</p>
+<ul>
+<li>命令格式</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">alias[别名]=[指令名称]
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>alias指令的有效期仅在于单次登录，可以在~/.bashrc(用户级别)或者/etc/bashrc(全局级别)文件追加配置登录指令</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">vim ~/.bashrc 
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">vim ~/.bashrc 
 # 添加log路径的别名
 alias cdlog=&#34;cd /data/log&#34;
 # 让配置文件生效
-source ~/.bashrc </pre></td></tr></table>
+source ~/.bashrc 
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<h4 id="nohup和-后台运行">nohup和&amp;(后台运行)</h4>
-
+</div><h4 id="nohup和后台运行">nohup和&amp;(后台运行)</h4>
 <ul>
 <li>nohup</li>
 </ul>
-
 <p>用途：不挂断地运行命令。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -957,9 +892,9 @@ source ~/.bashrc </pre></td></tr></table>
 </span><span class="lnt">7
 </span><span class="lnt">8
 </span><span class="lnt">9
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">语法：nohup Command [ Arg … ] [　&amp; ]
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">语法：nohup Command [ Arg … ] [　&amp; ]
 
 无论是否将 nohup 命令的输出重定向到终端，输出都将附加到当前目录的 nohup.out 文件中。
 如果当前目录的 nohup.out 文件不可写，输出重定向到 $HOME/nohup.out 文件中。
@@ -967,132 +902,72 @@ source ~/.bashrc </pre></td></tr></table>
 退出状态：该命令返回下列出口值： 　　
 　　126 可以查找但不能调用 Command 参数指定的命令。 　　
 　　127 nohup 命令发生错误或不能查找由 Command 参数指定的命令。 　　
-　　否则，nohup 命令的退出状态是 Command 参数指定命令的退出状态。</pre></td></tr></table>
+　　否则，nohup 命令的退出状态是 Command 参数指定命令的退出状态。
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>&amp;</li>
 </ul>
-
 <p>用途：在后台运行,一般和nohup两个一起用，nohup command &amp;</p>
-
 <ul>
-<li><p>SpringBoot例子</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">nohup java -jar xxx.jar &gt;bootstrap.log&amp;</pre></td></tr></table>
-</div>
-</div></li>
+<li>SpringBoot例子</li>
 </ul>
-
-<h4 id="trap">trap</h4>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">nohup java -jar xxx.jar &gt;bootstrap.log&amp;
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="trap">trap</h4>
 <p>trap作用是捕捉信号和其他事件并执行命令。</p>
-
 <ul>
-<li><p>命令格式</p>
+<li>命令格式</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">trap [-lp] [[arg] signal_spec ...]</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">trap [-lp] [[arg] signal_spec ...]
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>命令参数</p>
+</div><ul>
+<li>命令参数</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">-l    打印信号名称以及信号名称对应的数字。
--p    显示与每个信号关联的trap命令。</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">-l    打印信号名称以及信号名称对应的数字。
+-p    显示与每个信号关联的trap命令。
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>常用命令</p>
+</div><ul>
+<li>常用命令</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 当shell收到 HUP INT PIPE QUIT TERM 这几个命令时，当前执行的程序会执行 exit 1
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 当shell收到 HUP INT PIPE QUIT TERM 这几个命令时，当前执行的程序会执行 exit 1
 trap &#34;exit 1&#34; HUP INT PIPE QUIT TERM
 # 捕获Kill信号(SIGTERM 15)，执行方法_kill
-trap _kill SIGTERM</pre></td></tr></table>
+trap _kill SIGTERM
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<h4 id="防火墙">防火墙</h4>
-
+</div><h4 id="防火墙">防火墙</h4>
 <p>centos7防火墙相关操作：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="m">1</span>.查看已开放的端口<span class="o">(</span>默认不开放任何端口<span class="o">)</span>
-firewall-cmd --list-ports
-<span class="m">2</span>.开启80端口
-firewall-cmd --zone<span class="o">=</span>public<span class="o">(</span>作用域<span class="o">)</span> --add-port<span class="o">=</span><span class="m">80</span>/tcp<span class="o">(</span>端口和访问类型<span class="o">)</span> --permanent<span class="o">(</span>永久生效<span class="o">)</span>
-firewall-cmd --zone<span class="o">=</span>public --add-port<span class="o">=</span><span class="m">80</span>/tcp --permanent
-<span class="m">3</span>.重启防火墙
-firewall-cmd --reload
-<span class="m">4</span>.停止防火墙
-systemctl stop firewalld.service
-<span class="m">5</span>.禁止防火墙开机启动
-systemctl disable firewalld.service
-<span class="m">6</span>.删除
-firewall-cmd --zone<span class="o">=</span> public --remove-port<span class="o">=</span><span class="m">80</span>/tcp --permanent</code></pre></td></tr></table>
-</div>
-</div>
-<h4 id="其他">其他</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">如何删除大文件(正在写入的大文件)，会释放占用的磁盘
-echo &#34;&#34; &gt; filename
-
-查看文件的大小
-du -ms filename</pre></td></tr></table>
-</div>
-</div>
-<h3 id="处理数据相关">处理数据相关</h3>
-
-<h4 id="排序-sort">排序(sort)</h4>
-
-<ul>
-<li><p>命令格式</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1106,9 +981,65 @@ du -ms filename</pre></td></tr></table>
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">sort[选项][参数]
+<pre class="chroma"><code class="language-shell" data-lang="shell">1.查看已开放的端口<span class="o">(</span>默认不开放任何端口<span class="o">)</span>
+firewall-cmd --list-ports
+2.开启80端口
+firewall-cmd --zone<span class="o">=</span>public<span class="o">(</span>作用域<span class="o">)</span> --add-port<span class="o">=</span>80/tcp<span class="o">(</span>端口和访问类型<span class="o">)</span> --permanent<span class="o">(</span>永久生效<span class="o">)</span>
+firewall-cmd --zone<span class="o">=</span>public --add-port<span class="o">=</span>80/tcp --permanent
+3.重启防火墙
+firewall-cmd --reload
+4.停止防火墙
+systemctl stop firewalld.service
+5.禁止防火墙开机启动
+systemctl disable firewalld.service
+6.删除
+firewall-cmd --zone<span class="o">=</span> public --remove-port<span class="o">=</span>80/tcp --permanent
+
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="其他">其他</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">如何删除大文件(正在写入的大文件)，会释放占用的磁盘
+echo &#34;&#34; &gt; filename
+
+查看文件的大小
+du -ms filename
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="处理数据相关">处理数据相关</h3>
+<h4 id="排序sort">排序(sort)</h4>
+<ul>
+<li>命令格式</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sort[选项][参数]
 
 -b：忽略每行前面开始出的空格字符；
 -c：检查文件是否已经按照顺序排序；
@@ -1121,32 +1052,30 @@ du -ms filename</pre></td></tr></table>
 -o&lt;输出文件&gt;：将排序后的结果存入制定的文件；
 -r：以相反的顺序来排序；
 -t&lt;分隔字符&gt;：指定排序时所用的栏位分隔字符；
-+&lt;起始栏位&gt;-&lt;结束栏位&gt;：以指定的栏位来排序，范围由起始栏位到结束栏位的前一栏位。</pre></td></tr></table>
++&lt;起始栏位&gt;-&lt;结束栏位&gt;：以指定的栏位来排序，范围由起始栏位到结束栏位的前一栏位。
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>示例</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma"># 统计当前文件夹(目录)大小，并按文件大小降序排序
-du -sh * |sort -nr</pre></td></tr></table>
-</div>
-</div></li>
+</div><ul>
+<li>示例</li>
 </ul>
-
-<h4 id="搜索数据-grep">搜索数据(grep)</h4>
-
-<p>文本搜索工具，用于过滤/搜索的特定字符,它能使用正则表达式搜索文本，并把匹配的行打印出来。</p>
-
-<ul>
-<li><p>命令格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 统计当前文件夹(目录)大小，并按文件大小降序排序
+du -sh * |sort -nr
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="搜索数据grep">搜索数据(grep)</h4>
+<p>文本搜索工具，用于过滤/搜索的特定字符,它能使用正则表达式搜索文本，并把匹配的行打印出来。</p>
+<ul>
+<li>命令格式</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1195,9 +1124,9 @@ du -sh * |sort -nr</pre></td></tr></table>
 </span><span class="lnt">47
 </span><span class="lnt">48
 </span><span class="lnt">49
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">grep [option] pattern file
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">grep [option] pattern file
 
 参数
 
@@ -1245,14 +1174,15 @@ x\{m,\}  #重复字符x,至少m次，如：&#39;o\{5,\}&#39;匹配至少有5个o
 x\{m,n\}  #重复字符x，至少m次，不多于n次，如：&#39;o\{5,10\}&#39;匹配5--10个o的行。   
 \w    #匹配文字和数字字符，也就是[A-Za-z0-9]，如：&#39;G\w*p&#39;匹配以G后跟零个或多个文字或数字字符，然后是p。   
 \W    #\w的反置形式，匹配一个或多个非单词字符，如点号句号等。   
-\b    #单词锁定符，如: &#39;\bgrep\b&#39;只匹配grep。  </pre></td></tr></table>
+\b    #单词锁定符，如: &#39;\bgrep\b&#39;只匹配grep。  
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>常用案例</p>
+</div><ul>
+<li>常用案例</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1272,9 +1202,9 @@ x\{m,n\}  #重复字符x，至少m次，不多于n次，如：&#39;o\{5,10\}&#39
 </span><span class="lnt">18
 </span><span class="lnt">19
 </span><span class="lnt">20
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 文件关键字提取查找(info日志查询mongo)
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 文件关键字提取查找(info日志查询mongo)
 cat info.log | grep -f mongo
 
 # 查找指定进程
@@ -1293,20 +1223,17 @@ cat info.log |grep ^mongo
 cat info.log |grep mongo$
 
 # 显示包含api1或者cms1字符的内容行
-cat info.log |grep -E &#34;api1|cms1&#34;</pre></td></tr></table>
+cat info.log |grep -E &#34;api1|cms1&#34;
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<h4 id="压缩数据-gzip">压缩数据(gzip)</h4>
-
-<p>gzip是GNU压缩工具，用Lempel-Ziv编码压缩程序，压缩后使用&rdquo;.gz&rdquo;的扩展名</p>
-
+</div><h4 id="压缩数据gzip">压缩数据(gzip)</h4>
+<p>gzip是GNU压缩工具，用Lempel-Ziv编码压缩程序，压缩后使用&rdquo;.gz&quot;的扩展名</p>
 <ul>
-<li><p>命令格式</p>
+<li>命令格式</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1326,9 +1253,9 @@ cat info.log |grep -E &#34;api1|cms1&#34;</pre></td></tr></table>
 </span><span class="lnt">18
 </span><span class="lnt">19
 </span><span class="lnt">20
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">gzip[参数][文件或者目录]
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">gzip[参数][文件或者目录]
 
 参数
 
@@ -1347,14 +1274,15 @@ cat info.log |grep -E &#34;api1|cms1&#34;</pre></td></tr></table>
 -t或--test 　测试压缩文件是否正确无误。 
 -v或--verbose 　显示指令执行过程。 
 -V或--version 　显示版本信息。 
--num 用指定的数字num调整压缩的速度，-1或--fast表示最快压缩方法（低压缩比），-9或--best表示最慢压缩方法（高压缩比）。系统缺省值为6。 </pre></td></tr></table>
+-num 用指定的数字num调整压缩的速度，-1或--fast表示最快压缩方法（低压缩比），-9或--best表示最慢压缩方法（高压缩比）。系统缺省值为6。 
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>示例</p>
+</div><ul>
+<li>示例</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -1362,31 +1290,28 @@ cat info.log |grep -E &#34;api1|cms1&#34;</pre></td></tr></table>
 </span><span class="lnt">6
 </span><span class="lnt">7
 </span><span class="lnt">8
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 压缩文件
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 压缩文件
 gzip info.log
 # 解压目录
 gzip -d info.log
 # 递归压缩目录
 gzip -rv api
 # 递归解压目录
-gzip -dr api</pre></td></tr></table>
+gzip -dr api
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<h4 id="归档数据-tar">归档数据(tar)</h4>
-
+</div><h4 id="归档数据tar">归档数据(tar)</h4>
 <p>打包是指将一大堆文件或目录变成一个总的文件；压缩则是将一个大的文件通过一些压缩算法变成一个小文件。
 由于Linux中很多压缩程序只能针对一个文件进行压缩，这样当你想要压缩一大堆文件时，你得先将这一大堆文件先打成一个包（tar命令），
 然后再用压缩程序进行压缩（gzip命令）。</p>
-
 <ul>
-<li><p>命令格式</p>
+<li>命令格式</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1463,9 +1388,9 @@ gzip -dr api</pre></td></tr></table>
 </span><span class="lnt">75
 </span><span class="lnt">76
 </span><span class="lnt">77
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">tar[必要参数][选择参数][文件] 
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">tar[必要参数][选择参数][文件] 
 
 -A 新增压缩文件到已存在的压缩
 -B 设置区块大小
@@ -1541,14 +1466,15 @@ tar
 
 .rar
 解压：rar x FileName.rar
-压缩：rar a FileName.rar DirName </pre></td></tr></table>
+压缩：rar a FileName.rar DirName 
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>示例</p>
+</div><ul>
+<li>示例</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1560,9 +1486,9 @@ tar
 </span><span class="lnt">10
 </span><span class="lnt">11
 </span><span class="lnt">12
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 打包api1 api2目录
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 打包api1 api2目录
 tar -cvf api.tar api1/ api2/
 # 列除tar文件api.tar的内容，但不提取文件
 tar -xvf api.tar
@@ -1573,19 +1499,15 @@ tar -ztvf log.tar.gz
 # 解压缩tar包
 tar -zxvf log.tar.gz
 # 排除文件夹不进行打包 
-tar --exclude api/service -zcvf api.tar.gz api/* </pre></td></tr></table>
+tar --exclude api/service -zcvf api.tar.gz api/* 
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<h3 id="排查">排查</h3>
-
+</div><h3 id="排查">排查</h3>
 <h4 id="排查java-cpu占用问题">排查Java CPU占用问题</h4>
-
 <p>1.0</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -1602,13 +1524,13 @@ ps -mp pid -o THREAD,tid,time
 <span class="c1"># 将线程ID TID转换为16进制</span>
 <span class="nb">printf</span> “%x<span class="se">\n</span>” tid
 <span class="c1"># 使用jstack打印线程堆栈信息(pid=进程id tid=我们转换的tid)</span>
-.../jvm/jstack pid <span class="p">|</span>grep tid -A <span class="m">60</span></code></pre></td></tr></table>
+.../jvm/jstack pid <span class="p">|</span>grep tid -A <span class="m">60</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>2.0</p>
+</div><p>2.0</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -1616,18 +1538,18 @@ ps -mp pid -o THREAD,tid,time
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="m">1</span>. top -c 将系统资源使用情况实时显示出来 （-c 参数可以完整显示命令）大写 P 将应用按照 CPU 使用率排序，第一个就是使用率最高的程序。
-<span class="m">2</span>.  top -Hp pid 然后输入 P 依然可以按照 CPU 使用率将线程排序。
-<span class="m">3</span>. 将线程ID TID转换为16进制printf “%x<span class="se">\n</span>” tid。
-<span class="m">4</span>. 通过 jstack pid &gt;pid.log 生成日志文件，利用刚才保存的 <span class="m">16</span> 进制进程 ID 去这个线程快照中搜索即可查看消耗 CPU 的线程日志。 
-<span class="m">5</span>. jstat -gcutil pid <span class="m">200</span> <span class="m">50</span> 将内存使用、gc 回收状况打印出来（每隔 200ms 打印 50次）。
-<span class="m">6</span>. </code></pre></td></tr></table>
+<pre class="chroma"><code class="language-shell" data-lang="shell">1. top -c 将系统资源使用情况实时显示出来 （-c 参数可以完整显示命令）大写 P 将应用按照 CPU 使用率排序，第一个就是使用率最高的程序。
+2.  top -Hp pid 然后输入 P 依然可以按照 CPU 使用率将线程排序。
+3. 将线程ID TID转换为16进制printf “%x<span class="se">\n</span>” tid。
+4. 通过 jstack pid &gt;pid.log 生成日志文件，利用刚才保存的 <span class="m">16</span> 进制进程 ID 去这个线程快照中搜索即可查看消耗 CPU 的线程日志。 
+5. jstat -gcutil pid <span class="m">200</span> <span class="m">50</span> 将内存使用、gc 回收状况打印出来（每隔 200ms 打印 50次）。
+6. 
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="排查java高内存占用问题">排查Java高内存占用问题</h4>
+</div><h4 id="排查java高内存占用问题">排查Java高内存占用问题</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -1636,81 +1558,79 @@ ps -mp pid -o THREAD,tid,time
 <pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 查看当前Java进程创建的活跃对象数目和占用内存大小</span>
 jmap -histo:live <span class="o">[</span>pid<span class="o">]</span> &gt;a.log
 <span class="c1"># 当前Java进程的内存占用情况导出来，方便用专门的内存分析工具（例如：MAT）来分析。</span>
-jmap -dump:live,format<span class="o">=</span>b,file<span class="o">=</span>xxx.xxx <span class="o">[</span>pid<span class="o">]</span></code></pre></td></tr></table>
+jmap -dump:live,format<span class="o">=</span>b,file<span class="o">=</span>xxx.xxx <span class="o">[</span>pid<span class="o">]</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h3 id="阿里云相关">阿里云相关</h3>
-
+</div><h3 id="阿里云相关">阿里云相关</h3>
 <h4 id="挂载ecs数据盘">挂载ecs数据盘</h4>
-
 <ul>
 <li>先将数据盘挂载到实例上</li>
-
-<li><p>分区</p>
+<li>分区</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">fdisk /dev/vdb
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">fdisk /dev/vdb
 Command n [新建分区]
 Command p [选择分区类型为主分区]
 Selected partition 1 [选择分区号]
-Command w [退出]</pre></td></tr></table>
+Command w [退出]
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>格式化</p>
+</div><ul>
+<li>格式化</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">mkfs.ext4 /dev/vdb1</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">mkfs.ext4 /dev/vdb1
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>修改 /etc/fstab</p>
+</div><ul>
+<li>修改 /etc/fstab</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">cp /etc/fstab /etc/fstab.bak
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">cp /etc/fstab /etc/fstab.bak
 
 mkdir -p /data
-echo /dev/vdb1 /data ext4 defaults 0 0 &gt;&gt; /etc/fstab</pre></td></tr></table>
+echo /dev/vdb1 /data ext4 defaults 0 0 &gt;&gt; /etc/fstab
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>将分区挂载到对应的文件系统路径下</p>
+</div><ul>
+<li>将分区挂载到对应的文件系统路径下</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">mount /dev/vdb1 /data</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">mount /dev/vdb1 /data
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<h4 id="阿里云数据盘扩容操作">阿里云数据盘扩容操作</h4>
-
+</div><h4 id="阿里云数据盘扩容操作">阿里云数据盘扩容操作</h4>
 <ul>
 <li>控制台操作对数据盘进行扩容</li>
 <li>重启机器</li>
-
-<li><p>确认分区和文件系统</p>
+<li>确认分区和文件系统</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1724,9 +1644,9 @@ echo /dev/vdb1 /data ext4 defaults 0 0 &gt;&gt; /etc/fstab</pre></td></tr></tabl
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 确认磁盘是否分区(fdisk -lu &lt;DeviceName&gt;)
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 确认磁盘是否分区(fdisk -lu &lt;DeviceName&gt;)
 fdisk -lu /dev/vdb
 
 展示如下:
@@ -1739,24 +1659,26 @@ blkid /dev/vdb1
 /dev/vdb1: UUID=&#34;...&#34; TYPE=&#34;ext4&#34;
 
 # 确认文件系统状态为clean
-e2fsck -n /dev/vdb1</pre></td></tr></table>
+e2fsck -n /dev/vdb1
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>卸载数据盘(原先/dev/vdb1是挂载到/data的)</p>
+</div><ul>
+<li>卸载数据盘(原先/dev/vdb1是挂载到/data的)</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">umount /data</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">umount /data
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>扩展已有分区</p>
+</div><ul>
+<li>扩展已有分区</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1784,9 +1706,9 @@ e2fsck -n /dev/vdb1</pre></td></tr></table>
 </span><span class="lnt">26
 </span><span class="lnt">27
 </span><span class="lnt">28
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 显示并记录旧分区的起始和结束的扇区位置
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 显示并记录旧分区的起始和结束的扇区位置
 fdisk -lu /dev/vdb
 
 # 删除旧分区
@@ -1813,14 +1735,15 @@ vdb    252:16   0 1000G  0 disk
 e2fsck -n /dev/vdb1
 
 # 内核版本 ≥ 3.6的，通知内核更新分区表
-partprobe &lt;dst_dev_path&gt;或者partx -u &lt;dst_dev_path&gt;</pre></td></tr></table>
+partprobe &lt;dst_dev_path&gt;或者partx -u &lt;dst_dev_path&gt;
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>扩容文件系统</p>
+</div><ul>
+<li>扩容文件系统</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -1828,26 +1751,23 @@ partprobe &lt;dst_dev_path&gt;或者partx -u &lt;dst_dev_path&gt;</pre></td></tr
 </span><span class="lnt">6
 </span><span class="lnt">7
 </span><span class="lnt">8
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 检测并修复文件系统的完整性
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 检测并修复文件系统的完整性
 e2fsck -f /dev/vdb1
 
 # 增大文件系统的大小
 resize2fs -f /dev/vdb1
 
 # 重新挂载/data
-mount /dev/vdb1 /data</pre></td></tr></table>
+mount /dev/vdb1 /data
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<h3 id="centos环境相关配置">Centos环境相关配置</h3>
-
+</div><h3 id="centos环境相关配置">Centos环境相关配置</h3>
 <h4 id="docker">Docker</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1896,9 +1816,9 @@ mount /dev/vdb1 /data</pre></td></tr></table>
 </span><span class="lnt">47
 </span><span class="lnt">48
 </span><span class="lnt">49
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 查看当前的内核版本(需要3.1.0以上版本)
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 查看当前的内核版本(需要3.1.0以上版本)
 uname -r
 
 # 更新yum包
@@ -1946,13 +1866,13 @@ vim /etc/docker/daemon.json
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 
-## docker info查看Registry Mirrors配置</pre></td></tr></table>
+## docker info查看Registry Mirrors配置
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="openjdk1-8">OpenJDK1.8</h4>
+</div><h4 id="openjdk18">OpenJDK1.8</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1965,9 +1885,9 @@ sudo systemctl restart docker
 </span><span class="lnt">11
 </span><span class="lnt">12
 </span><span class="lnt">13
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">yum -y install java-1.8.0-openjdk java-1.8.0-openjdk-devel
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">yum -y install java-1.8.0-openjdk java-1.8.0-openjdk-devel
 
 # 获取java home
 dirname $(readlink $(readlink $(which java))) 
@@ -1979,13 +1899,13 @@ export PATH=$PATH:$JAVA_HOME/bin
 export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
 
 # 使设置立即生效
-source /etc/profile.d/env_export.sh</pre></td></tr></table>
+source /etc/profile.d/env_export.sh
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="nginx">Nginx</h4>
+</div><h4 id="nginx">Nginx</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -2005,9 +1925,9 @@ source /etc/profile.d/env_export.sh</pre></td></tr></table>
 </span><span class="lnt">18
 </span><span class="lnt">19
 </span><span class="lnt">20
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 配置 EPEL源
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 配置 EPEL源
 sudo yum install -y epel-release
 sudo yum -y update
 
@@ -2026,13 +1946,13 @@ nginx -s reload
 nginx -s stop
 nginx -s quit
 nginx -t
-service nginx start</pre></td></tr></table>
+service nginx start
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="mongodb">mongoDB</h4>
+</div><h4 id="mongodb">mongoDB</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -2052,9 +1972,9 @@ service nginx start</pre></td></tr></table>
 </span><span class="lnt">18
 </span><span class="lnt">19
 </span><span class="lnt">20
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 配置MongoDB的yum源
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 配置MongoDB的yum源
 #cd /etc/yum.repos.d 
 #vim mongodb-org-4.2.repo
 
@@ -2073,13 +1993,13 @@ yum install -y mongodb-org
 
 /usr/bin/mongod --config /etc/mongod.conf #启动
 /usr/bin/mongod --shutdown --config /etc/mongod.conf #停止
-mongo 						#进入控制台</pre></td></tr></table>
+mongo 						#进入控制台
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="maven">maven</h4>
+</div><h4 id="maven">maven</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -2093,9 +2013,9 @@ mongo 						#进入控制台</pre></td></tr></table>
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 下载maven
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 下载maven
 wget http://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
 
 # 解压安装
@@ -2108,13 +2028,13 @@ M2_HOME=/opt/tools/apache-maven-3.3.9
 export PATH=${M2_HOME}/bin:${PATH}
 
 # 重载/etc/profile
-source /etc/profile</pre></td></tr></table>
+source /etc/profile
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="node-js">Node.js</h4>
+</div><h4 id="nodejs">Node.js</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -2128,9 +2048,9 @@ source /etc/profile</pre></td></tr></table>
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 确认系统是否已经安装了epel-release包
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 确认系统是否已经安装了epel-release包
 yum info epel-release
 # 安装epel-release
 yum install epel-release
@@ -2143,28 +2063,27 @@ n latest
 # 安装指定版本
 n 8.11.3
 # 选择已安装的版本
-n</pre></td></tr></table>
+n
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="其他-1">其他</h4>
+</div><h4 id="其他-1">其他</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 修改主机名
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 修改主机名
 hostnamectl set-hostname name
 
 # 修改ssh端口
-vim /etc/ssh/sshd_config（修改Port值）</pre></td></tr></table>
+vim /etc/ssh/sshd_config（修改Port值）
+</code></pre></td></tr></table>
 </div>
-</div>
-<h3 id="链接">链接</h3>
-
+</div><h3 id="链接">链接</h3>
 <p><a href="https://www.cnblogs.com/peida/tag/%E6%AF%8F%E6%97%A5%E4%B8%80linux%E5%91%BD%E4%BB%A4/">每日一linux命令</a></p>
     </div>
 
@@ -2209,11 +2128,11 @@ vim /etc/ssh/sshd_config（修改Port值）</pre></td></tr></table>
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -2238,10 +2157,6 @@ vim /etc/ssh/sshd_config（修改Port值）</pre></td></tr></table>
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -2252,13 +2167,10 @@ vim /etc/ssh/sshd_config（修改Port值）</pre></td></tr></table>
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -2269,7 +2181,10 @@ vim /etc/ssh/sshd_config（修改Port值）</pre></td></tr></table>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

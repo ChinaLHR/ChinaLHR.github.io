@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/kubernetes-telepresence/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@ Kubernetes环境下基于Telepresence开发调试实践
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/kubernetes-telepresence/" />
-<meta property="article:published_time" content="2020-12-30T17:08:10&#43;08:00"/>
-<meta property="article:modified_time" content="2020-12-30T17:08:10&#43;08:00"/>
-
+<meta property="article:published_time" content="2020-12-30T17:08:10+08:00" />
+<meta property="article:modified_time" content="2020-12-30T17:08:10+08:00" />
 <meta itemprop="name" content="Kubernetes本地调试利器-Telepresence">
 <meta itemprop="description" content="
 Kubernetes环境下基于Telepresence开发调试实践
 ">
-
-
 <meta itemprop="datePublished" content="2020-12-30T17:08:10&#43;08:00" />
 <meta itemprop="dateModified" content="2020-12-30T17:08:10&#43;08:00" />
-<meta itemprop="wordCount" content="2155">
+<meta itemprop="wordCount" content="2148">
 
 
 
-<meta itemprop="keywords" content="Kubernetes,Telepresence," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Kubernetes,Telepresence," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Kubernetes本地调试利器-Telepresence"/>
 <meta name="twitter:description" content="
 Kubernetes环境下基于Telepresence开发调试实践
@@ -104,12 +101,21 @@ Kubernetes环境下基于Telepresence开发调试实践
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@ Kubernetes环境下基于Telepresence开发调试实践
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -143,7 +150,7 @@ Kubernetes环境下基于Telepresence开发调试实践
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E4%BA%91%E5%8E%9F%E7%94%9F/"> 编程-云原生 </a>
             </div>
-          <span class="more-meta"> 2155 words </span>
+          <span class="more-meta"> 2148 words </span>
           <span class="more-meta"> 5 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -153,20 +160,18 @@ Kubernetes环境下基于Telepresence开发调试实践
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#以kubernetes为基础的微服务下开发本地调试面临的问题">以Kubernetes为基础的微服务下开发本地调试面临的问题</a></li>
-<li><a href="#telepresence简介">Telepresence简介</a></li>
-<li><a href="#telepresence使用">Telepresence使用</a>
-<ul>
-<li><a href="#连接到远程kubernetes集群">连接到远程Kubernetes集群</a></li>
-<li><a href="#远程kubernetes集群内部服务与本地服务联调">远程Kubernetes集群内部服务与本地服务联调</a></li>
-<li><a href="#一些参数">一些参数</a></li>
-</ul></li>
-<li><a href="#参考">参考</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#以kubernetes为基础的微服务下开发本地调试面临的问题">以Kubernetes为基础的微服务下开发本地调试面临的问题</a></li>
+    <li><a href="#telepresence简介">Telepresence简介</a></li>
+    <li><a href="#telepresence使用">Telepresence使用</a>
+      <ul>
+        <li><a href="#连接到远程kubernetes集群">连接到远程Kubernetes集群</a></li>
+        <li><a href="#远程kubernetes集群内部服务与本地服务联调">远程Kubernetes集群内部服务与本地服务联调</a></li>
+        <li><a href="#一些参数">一些参数</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -174,60 +179,44 @@ Kubernetes环境下基于Telepresence开发调试实践
       <blockquote>
 <p>Kubernetes环境下基于Telepresence开发调试实践</p>
 </blockquote>
-
 <h2 id="以kubernetes为基础的微服务下开发本地调试面临的问题">以Kubernetes为基础的微服务下开发本地调试面临的问题</h2>
-
 <p>微服务是随着领域驱动设计，持续交付，容器化技术，基础设施自动化，小型自治团队，大型集群系统的实践与流行，而总结出来的一种逐渐流行的模式；基于Kubernetes作为微服务应用载体的架构，kubernetes提供了服务注册、配置管理、负载均衡、故障隔离、业务恢复、自动扩容等能力。相比于传统的Spring Cloud微服务体系，将更多的基础服务下层到基础设施上，让应用层更关注业务开发，同时对多平台语言有了更好的支持。</p>
-
 <p>但是在以Kubernetes为基础的微服务下进行开发、调试；就会面临下面几个问题：</p>
-
 <ul>
 <li>由于服务依赖关系复杂，服务众多，本地进行调试的话需要把关联的服务都搭建-启动起来</li>
 <li>微服务依赖的基础设施也需要在本地环境进行搭建-启动，如消息队列、数据库、配置中心、调度中心&hellip;</li>
 </ul>
-
 <p><strong>一些解决方案</strong></p>
-
 <ol>
 <li>通过Docker Compose在本地运行整个多服务应用程序；这种方式并未在Kubernetes内部运行服务，一些基础设施也不容易在本地使用。</li>
 <li>通过类似Telepresence的工具，通过将Kubernetes环境中的数据（连接、环境变量、volumes）代理到本地进程以方便本地进行调试。</li>
 </ol>
-
 <h2 id="telepresence简介">Telepresence简介</h2>
-
 <p>Telepresence是CNCF 基金会下的一个项目，使用Telepresence可让您在本地运行单个服务，同时将该服务连接到远程Kubernetes群集。 这使在微服务下开发人员可以：</p>
-
 <ol>
 <li>本地单个服务依赖于群集中的其他服务，也可以进行本地开发与调试</li>
 <li>可以在本地使用IDE调试服务</li>
 <li>使本地开发机器像Kubernetes集群一样运行</li>
 </ol>
-
 <p><strong>实现原理</strong></p>
-
 <p>Telepresence在Kubernetes集群中运行的Pod中部署了双向网络代理，将Kubernetes环境中的数据（连接、环境变量、volumes）代理到本地进程。本地进程的网络透明覆盖，因此DNS调用和TCP连接通过代理路由到远程Kubernetes集群。实现了：</p>
-
 <ol>
 <li>本地服务具有对远程群集中其他服务的完全访问权限</li>
 <li>本地服务可以访问Kubernetes的环境变量，secrets，ConfigMap</li>
 <li>远程服务可以访问到本地服务</li>
 </ol>
-
 <p>实现方式如下：</p>
-
 <ol>
 <li>默认使用 <code>--method vpn-tcp</code>，默认情况下，使用程序创建类似VPN的隧道程序sshuttle，sshuttle通过SSH连接建立数据包的隧道，并将DNS查询转发到群集中的DNS代理。</li>
 <li>使用 <code>--method inject-tcp</code>，使用在Linux / OSX上 机制来实现 <code>LD_PRELOAD</code>/ <code>DYLD_INSERT_LIBRARIES</code> ，其中可以将共享库注入到进程中并覆盖库调用；会覆盖DNS解析和TCP连接，并通过SOCKS代理将它们路由到群集。</li>
 </ol>
-
 <p><strong>安装</strong></p>
-
 <ul>
 <li>mac上安装Telepresence</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -236,32 +225,27 @@ Kubernetes环境下基于Telepresence开发调试实践
 <pre class="chroma"><code class="language-bash" data-lang="bash">brew install kubectl
 <span class="c1"># 配置相关的kube config...</span>
 brew cask install osxfuse
-brew install datawire/blackbird/telepresence</code></pre></td></tr></table>
+brew install datawire/blackbird/telepresence
+</code></pre></td></tr></table>
 </div>
-</div>
-<h2 id="telepresence使用">Telepresence使用</h2>
-
+</div><h2 id="telepresence使用">Telepresence使用</h2>
 <h3 id="连接到远程kubernetes集群">连接到远程Kubernetes集群</h3>
-
 <p><strong>场景</strong></p>
-
 <p>在context为dev的kubernetes集群内，服务A依赖于服务B，需要在本地对服务A进行调试。</p>
-
 <p><strong>操作</strong></p>
-
 <p>启动Telepresence，连接对应集群</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">telepresence --context dev</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">telepresence --context dev
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>对应启动日志</p>
+</div><p>对应启动日志</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -270,9 +254,9 @@ brew install datawire/blackbird/telepresence</code></pre></td></tr></table>
 </span><span class="lnt">7
 </span><span class="lnt">8
 </span><span class="lnt">9
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">T: Starting proxy with method &#39;vpn-tcp&#39;, which has the following limitations: All processes are affected, only one telepresence can run per machine, and you can&#39;t use other VPNs. You may need to add cloud hosts and headless services with --also-proxy. For a full list of
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">T: Starting proxy with method &#39;vpn-tcp&#39;, which has the following limitations: All processes are affected, only one telepresence can run per machine, and you can&#39;t use other VPNs. You may need to add cloud hosts and headless services with --also-proxy. For a full list of
 T: method limitations see https://telepresence.io/reference/methods.html
 T: Volumes are rooted at $TELEPRESENCE_ROOT. See https://telepresence.io/howto/volumes.html for details.
 T: Starting network proxy to cluster using new Pod telepresence-1611716361-290886-47290
@@ -280,72 +264,60 @@ T: Starting network proxy to cluster using new Pod telepresence-1611716361-29088
 T: No traffic is being forwarded from the remote Deployment to your local machine. You can use the --expose option to specify which ports you want to forward.
 
 T: Connected. Flushing DNS cache.
-T: Setup complete. Launching your command.</pre></td></tr></table>
+T: Setup complete. Launching your command.
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>当运行 Telepresence 命令的时候，默认使用vpn-tcp模式；它创建了一个<code>Deployment</code>，对应的 Spec 是负责转发流量的代理容器；对应的pod为上面启动日志的<code>telepresence-1611716361-290886-47290</code>；同时Telepresence在本地创建了一个全局VPN；使得本地的所有程序都可以访问到集群中的服务。</p>
-
+</div><p>当运行 Telepresence 命令的时候，默认使用vpn-tcp模式；它创建了一个<code>Deployment</code>，对应的 Spec 是负责转发流量的代理容器；对应的pod为上面启动日志的<code>telepresence-1611716361-290886-47290</code>；同时Telepresence在本地创建了一个全局VPN；使得本地的所有程序都可以访问到集群中的服务。</p>
 <p>这时候就可以把本地环境的Service A启动起来进行调试，所有的环境变量可以基于上文的dev环境配置。</p>
-
-<p><img width="437" alt="图片" src="https://user-images.githubusercontent.com/19829495/105940605-a7b5c300-6096-11eb-87f1-3d1db0e74292.png"></p>
-
+<!-- raw HTML omitted -->
 <h3 id="远程kubernetes集群内部服务与本地服务联调">远程Kubernetes集群内部服务与本地服务联调</h3>
-
 <p><strong>场景</strong></p>
-
 <p>在context为dev的kubernetes集群内，服务A依赖于服务B，需要在本地对服务B进行调试；这里调试的前提是我们要有正式的来着服务A的调用流量。</p>
-
 <p><strong>操作</strong></p>
-
-<p>使用Telepresence提供的参数<code>--swap-deployment DEPLOYMENT_NAME[:CONTAINER], -s DEPLOYMENT_NAME[:CONTAINER]</code> 将集群中的一个 Deployment 替换为本地的服务；使用<code>--expose PORT[:REMOTE_PORT]</code>进行本地-集群Deployment绑定的端口转发。启动本地进程板顶对应expose的PORT进行调试。</p>
+<p>使用Telepresence提供的参数<code>--swap-deployment DEPLOYMENT_NAME[:CONTAINER], -s DEPLOYMENT_NAME[:CONTAINER]</code> 将集群中的一个 Deployment 替换为本地的服务；使用<code> --expose PORT[:REMOTE_PORT]</code>进行本地-集群Deployment绑定的端口转发。启动本地进程板顶对应expose的PORT进行调试。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 这里替换了 context为dev、namespace为test的 service-a 到本地服务；并对集群内service-b：8080的流量转发到本地10080端口</span>
-telepresence --context dev --namespace <span class="nb">test</span> --swap-deployment service-b --expose <span class="m">10080</span>:8088</code></pre></td></tr></table>
+telepresence --context dev --namespace <span class="nb">test</span> --swap-deployment service-b --expose 10080:8088
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>这里Telepresence操作的过程如下：</p>
-
+</div><p>这里Telepresence操作的过程如下：</p>
 <ol>
 <li>在集群中创建一个代理Deployment复制service-b的所有Label</li>
 <li>建立一个路由通道，将代理容器的所有流量转发到本地 10080 端口</li>
 <li>将service-b的 replicas 设置为0，kubernetes Service 的 selector 就只能匹配到刚刚创建的代理容器上</li>
 </ol>
-
-<p><img width="452" alt="图片" src="https://user-images.githubusercontent.com/19829495/105940980-5fe36b80-6097-11eb-8bb6-5ea97e2898cd.png"></p>
-
+<!-- raw HTML omitted -->
 <h3 id="一些参数">一些参数</h3>
-
 <ul>
 <li>帮助文档</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">telepresence --help</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">telepresence --help
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>新建一个deployment用于测试本地服务访问远程服务</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># --new-deployment:创建一个名为 server-c 的 deployment</span>
-telepresence --new-deployment server-c --run-shell --also-proxy</code></pre></td></tr></table>
+telepresence --new-deployment server-c --run-shell --also-proxy
+</code></pre></td></tr></table>
 </div>
-</div>
-<h2 id="参考">参考</h2>
-
+</div><h2 id="参考">参考</h2>
 <p><a href="https://www.telepresence.io/">https://www.telepresence.io/</a></p>
     </div>
 
@@ -391,11 +363,11 @@ telepresence --new-deployment server-c --run-shell --also-proxy</code></pre></td
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -420,10 +392,6 @@ telepresence --new-deployment server-c --run-shell --also-proxy</code></pre></td
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -434,13 +402,10 @@ telepresence --new-deployment server-c --run-shell --also-proxy</code></pre></td
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -451,7 +416,10 @@ telepresence --new-deployment server-c --run-shell --also-proxy</code></pre></td
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

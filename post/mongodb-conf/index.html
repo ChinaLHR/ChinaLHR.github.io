@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/mongodb-conf/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@ MongoDB配置相关知识点整理
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/mongodb-conf/" />
-<meta property="article:published_time" content="2019-10-16T22:36:58&#43;08:00"/>
-<meta property="article:modified_time" content="2019-10-16T22:36:58&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-10-16T22:36:58+08:00" />
+<meta property="article:modified_time" content="2019-10-16T22:36:58+08:00" />
 <meta itemprop="name" content="MongoDB配置相关">
 <meta itemprop="description" content="
 MongoDB配置相关知识点整理
 ">
-
-
 <meta itemprop="datePublished" content="2019-10-16T22:36:58&#43;08:00" />
 <meta itemprop="dateModified" content="2019-10-16T22:36:58&#43;08:00" />
 <meta itemprop="wordCount" content="2809">
 
 
 
-<meta itemprop="keywords" content="MongoDB," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="MongoDB," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MongoDB配置相关"/>
 <meta name="twitter:description" content="
 MongoDB配置相关知识点整理
@@ -104,12 +101,21 @@ MongoDB配置相关知识点整理
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@ MongoDB配置相关知识点整理
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -153,17 +160,15 @@ MongoDB配置相关知识点整理
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#两种mongodb的启动方式">两种MongoDB的启动方式</a></li>
-<li><a href="#mongodb的配置文件格式使用了yaml格式-mongod-conf的几个大块">MongoDB的配置文件格式使用了YAML格式,mongod.conf的几个大块</a></li>
-<li><a href="#mongodb的配置文件模块">MongoDB的配置文件模块</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#两种mongodb的启动方式">两种MongoDB的启动方式</a></li>
+        <li><a href="#mongodb的配置文件格式使用了yaml格式mongodconf的几个大块">MongoDB的配置文件格式使用了YAML格式,mongod.conf的几个大块</a></li>
+        <li><a href="#mongodb的配置文件模块">MongoDB的配置文件模块</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -171,19 +176,16 @@ MongoDB配置相关知识点整理
       <blockquote>
 <p>MongoDB配置相关知识点整理</p>
 </blockquote>
-
 <h3 id="两种mongodb的启动方式">两种MongoDB的启动方式</h3>
-
 <p>1.直接启动，配置参数写在命令中 mongod &ndash;dbpath=data/db &ndash;logpath=log/log.log &ndash;fork
 2.以配置文件启动 mongod -f /etc/mongod.conf或者mongod &ndash;config /etc/mongod.conf(一般都采用这种方式)</p>
-
-<h3 id="mongodb的配置文件格式使用了yaml格式-mongod-conf的几个大块">MongoDB的配置文件格式使用了YAML格式,mongod.conf的几个大块</h3>
-
+<h3 id="mongodb的配置文件格式使用了yaml格式mongodconf的几个大块">MongoDB的配置文件格式使用了YAML格式,mongod.conf的几个大块</h3>
 <ul>
-<li><p>配置模块</p>
+<li>配置模块</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -194,9 +196,9 @@ MongoDB配置相关知识点整理
 </span><span class="lnt"> 9
 </span><span class="lnt">10
 </span><span class="lnt">11
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">systemLog:        #日志
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">systemLog:        #日志
 storage:          #存储
 processManagement:        #进程管理
 net:        #网络
@@ -206,14 +208,15 @@ replication:        #主从复制
 sharding:        #架构
 setParameter:        #自定义变量
 auditLog:        #检测日志
-snmp:        #</pre></td></tr></table>
+snmp:        #
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>单机常用配置</p>
+</div><ul>
+<li>单机常用配置</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -221,23 +224,24 @@ snmp:        #</pre></td></tr></table>
 </span><span class="lnt">6
 </span><span class="lnt">7
 </span><span class="lnt">8
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">dbpath=/var/lib/mongodb  
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">dbpath=/var/lib/mongodb  
 logpath=/var/log/mongodb/mongodb.log 
 pidfilepath=/var/log/mongodb/master.pid  
 directoryperdb=true  
 logappend=true  
 bind_ip=127.0.0.1 
 port=27017  
-fork=true </pre></td></tr></table>
+fork=true 
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>集群常用配置</p>
+</div><ul>
+<li>集群常用配置</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -247,9 +251,9 @@ fork=true </pre></td></tr></table>
 </span><span class="lnt"> 8
 </span><span class="lnt"> 9
 </span><span class="lnt">10
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">dbpath=/var/lib/mongodb  
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">dbpath=/var/lib/mongodb  
 logpath=/var/log/mongodb/mongodb.log 
 pidfilepath=/var/log/mongodb/master.pid  
 directoryperdb=true  
@@ -258,18 +262,16 @@ replSet=name
 bind_ip=127.0.0.1 
 port=27017  
 fork=true  
-noprealloc=true </pre></td></tr></table>
+noprealloc=true 
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<h3 id="mongodb的配置文件模块">MongoDB的配置文件模块</h3>
-
+</div><h3 id="mongodb的配置文件模块">MongoDB的配置文件模块</h3>
 <ul>
-<li><p>systemLog(日志相关参数)</p>
+<li>systemLog(日志相关参数)</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -284,30 +286,31 @@ noprealloc=true </pre></td></tr></table>
 </span><span class="lnt">13
 </span><span class="lnt">14
 </span><span class="lnt">15
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">systemLog:
-verbosity: &lt;int&gt;                #日志级别，默认0,1-5均会包含debug信息
-quiet: &lt;boolean&gt;                #安静，true时mongod将会减少日志的输出量
-traceAllExceptions: &lt;boolean&gt;        #打印异常详细信息
-syslogFacility:  &lt;string&gt;                #指定用于登录时信息到syslog Facility水平，前提是启用syslog
-path:  &lt;string&gt;          #日志路径，默认情况下，MongoDB将覆盖现有的日志文件
-logAppend: &lt;boolean&gt;        #mongod重启后，在现有日志后继续添加日志，否则备份当前日志，然后创建新日志 默认false
-logRotate: rename|reopen        #日志轮询，防止一个日志文件特别大。rename重命名日志文件，默认值；reopen使用Linuxrotate特性，关闭并重新打开日志文件，前提为logAppend: 默认true
-destination: &lt;string&gt;        #日志输出目的地，可为file或syslog，若不指定，则会输出到 std out
-timeStampFormat: &lt;string&gt;        #指定日志格式的时间戳，有 ctime, Iso869-utc, iso8691-local
-component:            #为不同的组件指定各自的日志信息级别
-  accessControl:
-      verbosity: &lt;int&gt;
-  command:
-      verbosity: &lt;int&gt;</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">systemLog:
+  verbosity: &lt;int&gt;                #日志级别，默认0,1-5均会包含debug信息
+  quiet: &lt;boolean&gt;                #安静，true时mongod将会减少日志的输出量
+  traceAllExceptions: &lt;boolean&gt;        #打印异常详细信息
+  syslogFacility:  &lt;string&gt;                #指定用于登录时信息到syslog Facility水平，前提是启用syslog
+  path:  &lt;string&gt;          #日志路径，默认情况下，MongoDB将覆盖现有的日志文件
+  logAppend: &lt;boolean&gt;        #mongod重启后，在现有日志后继续添加日志，否则备份当前日志，然后创建新日志 默认false
+  logRotate: rename|reopen        #日志轮询，防止一个日志文件特别大。rename重命名日志文件，默认值；reopen使用Linuxrotate特性，关闭并重新打开日志文件，前提为logAppend: 默认true
+  destination: &lt;string&gt;        #日志输出目的地，可为file或syslog，若不指定，则会输出到 std out
+  timeStampFormat: &lt;string&gt;        #指定日志格式的时间戳，有 ctime, Iso869-utc, iso8691-local
+  component:            #为不同的组件指定各自的日志信息级别
+      accessControl:
+          verbosity: &lt;int&gt;
+      command:
+          verbosity: &lt;int&gt;
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>storage</p>
+</div><ul>
+<li>storage</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -340,62 +343,64 @@ component:            #为不同的组件指定各自的日志信息级别
 </span><span class="lnt">31
 </span><span class="lnt">32
 </span><span class="lnt">33
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">storage:
-dbPath: &lt;string&gt;        #mongodb进程存储数据目录，此配置进队此mongod进程有效，你使用配置文件开启的mongod就可以指定额外的数据目录
-indexBuildRetry:  &lt;boolean&gt;        #当构件索引时mongod意外关闭，那么在此启动是否重建索引，默认true
-repairPath: &lt;string&gt;        #在repair期间使用此目录存储临时数据，repair结束后此目录下数据将被删除
-journal:        
-  enabled: &lt;boolean&gt;        #journal日志持久存储，journal日志用来数据恢复，通常用于故障恢复，建议开启
-  commitIntervalMs: &lt;num&gt;        #mongod日志刷新值，范围1-500毫秒，默认100，不建议修改
-directoryPerDB:  &lt;boolean&gt;        #是否将不同的数据存储在不同的目录中，dbPath子目录
-syncPeriodSecs:  &lt;int&gt;        #fsync操作将数据flush到磁盘的时间间隔，默认为60秒，不建议修改
-engine:  &lt;string&gt;        #存储引擎
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">storage:
+  dbPath: &lt;string&gt;        #mongodb进程存储数据目录，此配置进队此mongod进程有效，你使用配置文件开启的mongod就可以指定额外的数据目录
+  indexBuildRetry:  &lt;boolean&gt;        #当构件索引时mongod意外关闭，那么在此启动是否重建索引，默认true
+  repairPath: &lt;string&gt;        #在repair期间使用此目录存储临时数据，repair结束后此目录下数据将被删除
+  journal:        
+      enabled: &lt;boolean&gt;        #journal日志持久存储，journal日志用来数据恢复，通常用于故障恢复，建议开启
+      commitIntervalMs: &lt;num&gt;        #mongod日志刷新值，范围1-500毫秒，默认100，不建议修改
+  directoryPerDB:  &lt;boolean&gt;        #是否将不同的数据存储在不同的目录中，dbPath子目录
+  syncPeriodSecs:  &lt;int&gt;        #fsync操作将数据flush到磁盘的时间间隔，默认为60秒，不建议修改
+  engine:  &lt;string&gt;        #存储引擎
 
-mmapv1:    #mmapv1存储引擎，3.2前默认
-  preallocDataFiles:  &lt;boolean&gt;
-  nsSize: &lt;int&gt;
-  quota:
-      enforced: &lt;boolean&gt;
-      maxFilesPerDB: &lt;int&gt;
-  smallFiles: &lt;boolean&gt;
-  journal:
-      debugFlags: &lt;int&gt;
-      commitIntervalMs: &lt;num&gt;
-wiredTiger:    #WiredTiger存储引擎，3.2后默认
-  engineConfig:
-      cacheSizeGB: &lt;number&gt;    #最大缓存大小
-      journalCompressor: &lt;string&gt;    #日志压缩算法，可选值有 none，snappy(默认)，zlib
-      directoryForIndexes: &lt;boolean&gt;    #是否将索引和collections数据分别存储在dbPath单独的目录中
-  collectionConfig:
-      blockCompressor: &lt;string&gt;    #collection数据压缩算法，可选none, snappy，zlib
-  indexConfig:
-      prefixCompression: &lt;boolean&gt;    #是否对索引数据使用前缀压缩。对那些经过排序的值存储有很大帮助，可有效减少索引数据的内存使用量。
-inMemory:    #inMemory内存存储引擎，bate版
-  engineConfig:
-      inMemorySizeGB: &lt;number&gt;</pre></td></tr></table>
+  mmapv1:    #mmapv1存储引擎，3.2前默认
+      preallocDataFiles:  &lt;boolean&gt;
+      nsSize: &lt;int&gt;
+      quota:
+          enforced: &lt;boolean&gt;
+          maxFilesPerDB: &lt;int&gt;
+      smallFiles: &lt;boolean&gt;
+      journal:
+          debugFlags: &lt;int&gt;
+          commitIntervalMs: &lt;num&gt;
+  wiredTiger:    #WiredTiger存储引擎，3.2后默认
+      engineConfig:
+          cacheSizeGB: &lt;number&gt;    #最大缓存大小
+          journalCompressor: &lt;string&gt;    #日志压缩算法，可选值有 none，snappy(默认)，zlib
+          directoryForIndexes: &lt;boolean&gt;    #是否将索引和collections数据分别存储在dbPath单独的目录中
+      collectionConfig:
+          blockCompressor: &lt;string&gt;    #collection数据压缩算法，可选none, snappy，zlib
+      indexConfig:
+          prefixCompression: &lt;boolean&gt;    #是否对索引数据使用前缀压缩。对那些经过排序的值存储有很大帮助，可有效减少索引数据的内存使用量。
+  inMemory:    #inMemory内存存储引擎，bate版
+      engineConfig:
+          inMemorySizeGB: &lt;number&gt;
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>processManagement(进程相关参数)</p>
+</div><ul>
+<li>processManagement(进程相关参数)</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">processManagement:
-fork: &lt;boolean&gt;        #是否以fork模式运行mongod进程，默认情况下，mongod不作为守护进程运行
-pidFilePath: &lt;string&gt;        #将mongod进程ID写入指定文件，如未指定，将不会创建PID文件</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">processManagement:
+  fork: &lt;boolean&gt;        #是否以fork模式运行mongod进程，默认情况下，mongod不作为守护进程运行
+  pidFilePath: &lt;string&gt;        #将mongod进程ID写入指定文件，如未指定，将不会创建PID文件
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>net(网络相关参数)</p>
+</div><ul>
+<li>net(网络相关参数)</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -425,45 +430,46 @@ pidFilePath: &lt;string&gt;        #将mongod进程ID写入指定文件，如未
 </span><span class="lnt">28
 </span><span class="lnt">29
 </span><span class="lnt">30
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">net:
-prot: &lt;int&gt;    #监听端口，默认27017
-bindIp: &lt;string&gt;    #绑定IP，如果此值是“0.0.0.0”则绑定所有接口,默认配置为127.0.0.1,若不限制IP，务必确保认证安全，多个Ip用逗号分隔
-maxIncomingConnections: &lt;int&gt;    #mongod进程允许的最大连接数，如果此值超过系统配置的连接数阈值，将不会生效(ulimit)
-wireObjectCheck: &lt;boolean&gt;    #当客户端写入数据时，检查数据的有效性（BSON）。如果数据格式不良，update,insert等操作将会被拒绝
-ipv6: &lt;boolean&gt;    #是否支持多实例之间使用ipv6
-unixDomainSocker:    #适用于Unix系统
-  enabled: &lt;boolean&gt;		#默认true   
-  pathPrefix: &lt;string&gt;		#路径前缀，默认/temp
-  filePermissions: &lt;int&gt;	#文件权限 默认0700
-http:    #警告 确保生产环境禁用HTTP status接口、REST API以及JSON API以防止数据暴露和漏洞攻击
-  enabled: &lt;boolean&gt;	#是否启用HTTP接口、启用会增加网络暴露。3.2版本后停止使用HTTP interface
-  JSONEnabled: &lt;boolean&gt;	#JSONP的HTTP接口
-  RESTInterfaceEnabled: &lt;boolean&gt;	#REST API接口
-ssl:
-  sslOnNormalPorts: &lt;boolean&gt;
-  mode: &lt;string&gt;
-  PEMKeyFile: &lt;string&gt;
-  PEMKeyPassword: &lt;string&gt;
-  clusterFile: &lt;string&gt;
-  clusterPassword: &lt;string&gt;
-  CAFile: &lt;string&gt;
-  CRLFile: &lt;string&gt;
-  allowConnectionsWithoutCertificates: &lt;boolean&gt;
-  allowInvalidCertificates: &lt;boolean&gt;
-  allowInvalidHostnames: &lt;boolean&gt;
-  disabledProtocols: &lt;string&gt;
-  FIPSMode: &lt;boolean&gt;
-compression:
-  compressors: &lt;string&gt;  </pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">net:
+  prot: &lt;int&gt;    #监听端口，默认27017
+  bindIp: &lt;string&gt;    #绑定IP，如果此值是“0.0.0.0”则绑定所有接口,默认配置为127.0.0.1,若不限制IP，务必确保认证安全，多个Ip用逗号分隔
+  maxIncomingConnections: &lt;int&gt;    #mongod进程允许的最大连接数，如果此值超过系统配置的连接数阈值，将不会生效(ulimit)
+  wireObjectCheck: &lt;boolean&gt;    #当客户端写入数据时，检查数据的有效性（BSON）。如果数据格式不良，update,insert等操作将会被拒绝
+  ipv6: &lt;boolean&gt;    #是否支持多实例之间使用ipv6
+  unixDomainSocker:    #适用于Unix系统
+      enabled: &lt;boolean&gt;		#默认true   
+      pathPrefix: &lt;string&gt;		#路径前缀，默认/temp
+      filePermissions: &lt;int&gt;	#文件权限 默认0700
+  http:    #警告 确保生产环境禁用HTTP status接口、REST API以及JSON API以防止数据暴露和漏洞攻击
+      enabled: &lt;boolean&gt;	#是否启用HTTP接口、启用会增加网络暴露。3.2版本后停止使用HTTP interface
+      JSONEnabled: &lt;boolean&gt;	#JSONP的HTTP接口
+      RESTInterfaceEnabled: &lt;boolean&gt;	#REST API接口
+  ssl:
+      sslOnNormalPorts: &lt;boolean&gt;
+      mode: &lt;string&gt;
+      PEMKeyFile: &lt;string&gt;
+      PEMKeyPassword: &lt;string&gt;
+      clusterFile: &lt;string&gt;
+      clusterPassword: &lt;string&gt;
+      CAFile: &lt;string&gt;
+      CRLFile: &lt;string&gt;
+      allowConnectionsWithoutCertificates: &lt;boolean&gt;
+      allowInvalidCertificates: &lt;boolean&gt;
+      allowInvalidHostnames: &lt;boolean&gt;
+      disabledProtocols: &lt;string&gt;
+      FIPSMode: &lt;boolean&gt;
+  compression:
+      compressors: &lt;string&gt;  
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>security(安全相关参数)</p>
+</div><ul>
+<li>security(安全相关参数)</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -498,128 +504,133 @@ compression:
 </span><span class="lnt">33
 </span><span class="lnt">34
 </span><span class="lnt">35
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">security:
-authorization: enabled    	#enabled/disabled #开启客户端认证
-keyFile: /path/mongo.key    #MongoDB副本集节点身份验证密钥文件
-clusterAuthMode: &lt;string&gt;    #集群members间的认证模式
-transitionToAuth: &lt;boolean&gt;
-javascriptEnabled:  &lt;boolean&gt;    #启用或禁用服务器端JavaScript执行
-redactClientLogData: &lt;boolean&gt;
-sasl:
-  hostName: &lt;string&gt;
-  serviceName: &lt;string&gt;
-  saslauthdSocketPath: &lt;string&gt;
-enableEncryption: &lt;boolean&gt;
-encryptionCipherMode: &lt;string&gt;
-encryptionKeyFile: &lt;string&gt;
-kmip:
-  keyIdentifier: &lt;string&gt;
-  rotateMasterKey: &lt;boolean&gt;
-  serverName: &lt;string&gt;
-  port: &lt;string&gt;
-  clientCertificateFile: &lt;string&gt;
-  clientCertificatePassword: &lt;string&gt;
-  serverCAFile: &lt;string&gt;
-ldap:
-  servers: &lt;string&gt;
-  bind:
-     method: &lt;string&gt;
-     saslMechanism: &lt;string&gt;
-     queryUser: &lt;string&gt;
-     queryPassword: &lt;string&gt;
-     useOSDefaults: &lt;boolean&gt;
-  transportSecurity: &lt;string&gt;
-  timeoutMS: &lt;int&gt;
-  userToDNMapping: &lt;string&gt;
-  authz:
-     queryTemplate: &lt;string&gt;</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">security:
+  authorization: enabled    	#enabled/disabled #开启客户端认证
+  keyFile: /path/mongo.key    #MongoDB副本集节点身份验证密钥文件
+  clusterAuthMode: &lt;string&gt;    #集群members间的认证模式
+  transitionToAuth: &lt;boolean&gt;
+   javascriptEnabled:  &lt;boolean&gt;    #启用或禁用服务器端JavaScript执行
+   redactClientLogData: &lt;boolean&gt;
+   sasl:
+      hostName: &lt;string&gt;
+      serviceName: &lt;string&gt;
+      saslauthdSocketPath: &lt;string&gt;
+   enableEncryption: &lt;boolean&gt;
+   encryptionCipherMode: &lt;string&gt;
+   encryptionKeyFile: &lt;string&gt;
+   kmip:
+      keyIdentifier: &lt;string&gt;
+      rotateMasterKey: &lt;boolean&gt;
+      serverName: &lt;string&gt;
+      port: &lt;string&gt;
+      clientCertificateFile: &lt;string&gt;
+      clientCertificatePassword: &lt;string&gt;
+      serverCAFile: &lt;string&gt;
+   ldap:
+      servers: &lt;string&gt;
+      bind:
+         method: &lt;string&gt;
+         saslMechanism: &lt;string&gt;
+         queryUser: &lt;string&gt;
+         queryPassword: &lt;string&gt;
+         useOSDefaults: &lt;boolean&gt;
+      transportSecurity: &lt;string&gt;
+      timeoutMS: &lt;int&gt;
+      userToDNMapping: &lt;string&gt;
+      authz:
+         queryTemplate: &lt;string&gt;
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>operationProfiling(慢查询相关)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">operationProfiling:
-slowOpThresholdMs: &lt;int&gt;    #数据库profiler判定一个操作是“慢查询”的时间阈值，单位毫秒。mongod会把慢查询记录到日志中，默认100ms
-mode: &lt;string&gt;    #数据库profiler级别，操作的性能信息将会被写入日志文件中，可选值“off”--关闭profiling，“slowOp”--只包包含慢操作，“all”--记录所有操作
-#数据库profiling会影响性能，建议只在性能调试阶段开启</pre></td></tr></table>
-</div>
-</div></li>
-
-<li><p>replication(副本集)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">replication:
-oplogSizeMB: &lt;int&gt;    #replication操作日志的最大尺寸，如果太小，secondary将不能通过oplog来同步数据，只能全量同步
-replSetName: &lt;string&gt;    #副本集名称，副本集中所有的mongod实例都必须有相同的名字，Sharding分布式下，不同的sharding应该使用不同的repSetName
-secondaryIndexPrefetch: &lt;string&gt;    #副本集中的secondary，从oplog中应用变更操作之前，将会先把索引加载到内存
-enalbeMajorityReadConcern: &lt;boolean&gt;    #允许readConcern的级别为“majority”</pre></td></tr></table>
-</div>
-</div></li>
-
-<li><p>sharding(分片相关参数)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">sharding:
-clusterRole: &lt;string&gt;    #在sharding集群中，此mongod实例可选的角色。configsvr,默认监听27019端口 和 shardsvr,默认监听27018端口
-archiveMovedChunks: &lt;boolean&gt;    #当chunks因为“负载均衡”而迁移到其他节点时，mongod是否将这些chunks归档，并保存在dbPath/movechunk目录下，mongod不会删除moveChunk下的文件</pre></td></tr></table>
-</div>
-</div></li>
-
-<li><p>setParameter(自定义变量)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">setParameter:
-&lt;parameter1&gt;: &lt;value1&gt;
-&lt;parameter2&gt;: &lt;value2&gt;
-enableLocalhostAuthBypass: false    #例子</pre></td></tr></table>
-</div>
-</div></li>
-
-<li><p>auditLog(审计相关参数)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">auditLog:
-destination: &lt;string&gt;    #指定审计记录的输出方式，有syslog, console, file
-format: &lt;string&gt;    #输出格式，有JSON 和 BSON
-path: &lt;string&gt;    #如果审计时间输入为文件，那么就需要指定文件完整路径及文件名
-filter: &lt;string&gt;    #过滤器，可限制审计系统记录的操作类型，该选项需要一个表单的查询文档的字符串表示形式</pre></td></tr></table>
-</div>
-</div></li>
+</div><ul>
+<li>operationProfiling(慢查询相关)</li>
 </ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">operationProfiling:
+  slowOpThresholdMs: &lt;int&gt;    #数据库profiler判定一个操作是“慢查询”的时间阈值，单位毫秒。mongod会把慢查询记录到日志中，默认100ms
+  mode: &lt;string&gt;    #数据库profiler级别，操作的性能信息将会被写入日志文件中，可选值“off”--关闭profiling，“slowOp”--只包包含慢操作，“all”--记录所有操作
+  #数据库profiling会影响性能，建议只在性能调试阶段开启
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>replication(副本集)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">replication:
+  oplogSizeMB: &lt;int&gt;    #replication操作日志的最大尺寸，如果太小，secondary将不能通过oplog来同步数据，只能全量同步
+  replSetName: &lt;string&gt;    #副本集名称，副本集中所有的mongod实例都必须有相同的名字，Sharding分布式下，不同的sharding应该使用不同的repSetName
+  secondaryIndexPrefetch: &lt;string&gt;    #副本集中的secondary，从oplog中应用变更操作之前，将会先把索引加载到内存
+  enalbeMajorityReadConcern: &lt;boolean&gt;    #允许readConcern的级别为“majority”
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>sharding(分片相关参数)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sharding:
+  clusterRole: &lt;string&gt;    #在sharding集群中，此mongod实例可选的角色。configsvr,默认监听27019端口 和 shardsvr,默认监听27018端口
+  archiveMovedChunks: &lt;boolean&gt;    #当chunks因为“负载均衡”而迁移到其他节点时，mongod是否将这些chunks归档，并保存在dbPath/movechunk目录下，mongod不会删除moveChunk下的文件
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>setParameter(自定义变量)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">setParameter:
+  &lt;parameter1&gt;: &lt;value1&gt;
+  &lt;parameter2&gt;: &lt;value2&gt;
+  enableLocalhostAuthBypass: false    #例子
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>auditLog(审计相关参数)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">auditLog:
+  destination: &lt;string&gt;    #指定审计记录的输出方式，有syslog, console, file
+  format: &lt;string&gt;    #输出格式，有JSON 和 BSON
+  path: &lt;string&gt;    #如果审计时间输入为文件，那么就需要指定文件完整路径及文件名
+  filter: &lt;string&gt;    #过滤器，可限制审计系统记录的操作类型，该选项需要一个表单的查询文档的字符串表示形式
+</code></pre></td></tr></table>
+</div>
+</div>
     </div>
 
     <div class="post-copyright">
@@ -663,11 +674,11 @@ filter: &lt;string&gt;    #过滤器，可限制审计系统记录的操作类�
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -692,10 +703,6 @@ filter: &lt;string&gt;    #过滤器，可限制审计系统记录的操作类�
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -706,13 +713,10 @@ filter: &lt;string&gt;    #过滤器，可限制审计系统记录的操作类�
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -723,7 +727,10 @@ filter: &lt;string&gt;    #过滤器，可限制审计系统记录的操作类�
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

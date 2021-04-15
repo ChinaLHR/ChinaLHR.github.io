@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/mysql-deadlock-record/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/mysql-deadlock-record/" />
-<meta property="article:published_time" content="2019-04-08T22:14:43&#43;08:00"/>
-<meta property="article:modified_time" content="2019-04-08T22:14:43&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-04-08T22:14:43+08:00" />
+<meta property="article:modified_time" content="2019-04-08T22:14:43+08:00" />
 <meta itemprop="name" content="Mysql死锁排查记录">
 <meta itemprop="description" content="
 记一次MySql死锁排查
 ">
-
-
 <meta itemprop="datePublished" content="2019-04-08T22:14:43&#43;08:00" />
 <meta itemprop="dateModified" content="2019-04-08T22:14:43&#43;08:00" />
-<meta itemprop="wordCount" content="2399">
+<meta itemprop="wordCount" content="2408">
 
 
 
-<meta itemprop="keywords" content="MySql," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="MySql," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Mysql死锁排查记录"/>
 <meta name="twitter:description" content="
 记一次MySql死锁排查
@@ -104,12 +101,21 @@
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -143,7 +150,7 @@
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-database/"> 编程-Database </a>
             </div>
-          <span class="more-meta"> 2399 words </span>
+          <span class="more-meta"> 2408 words </span>
           <span class="more-meta"> 5 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -153,28 +160,14 @@
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#情况-uniq-duplicate-key检查">情况(uniq duplicate key检查)</a>
-<ul>
-<li><a href="#业务">业务</a></li>
-<li><a href="#伪-表结构">(伪)表结构</a></li>
-<li><a href="#分析死锁原因">分析死锁原因</a></li>
-<li><a href="#并发的情况下-发生死锁情况">并发的情况下，发生死锁情况</a></li>
-<li><a href="#解决">解决</a></li>
-</ul></li>
-<li><a href="#另一种死锁情况-非主键索引更新引起的死锁">另一种死锁情况(非主键索引更新引起的死锁)</a>
-<ul>
-<li><a href="#业务-1">业务</a></li>
-<li><a href="#非主键索引行锁相关">非主键索引行锁相关</a></li>
-<li><a href="#并发情况下-死锁发生">并发情况下,死锁发生</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#情况uniq-duplicate-key检查">情况(uniq duplicate key检查)</a></li>
+        <li><a href="#另一种死锁情况非主键索引更新引起的死锁">另一种死锁情况(非主键索引更新引起的死锁)</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -182,19 +175,15 @@
       <blockquote>
 <p>记一次MySql死锁排查</p>
 </blockquote>
-
-<h3 id="情况-uniq-duplicate-key检查">情况(uniq duplicate key检查)</h3>
-
+<h3 id="情况uniq-duplicate-key检查">情况(uniq duplicate key检查)</h3>
 <h4 id="业务">业务</h4>
-
 <p>用户通过访问他人的个人主页删除访问用户-被访用户记录，并重新插入。(为什么删除再插入而不是update,由于另一套库里的访客不存在 customerId, targetCustomerId 的唯一索引, 所以肯定会有脏数据. 这里直接删掉规避更新异常)</p>
-
 <ul>
 <li>伪代码</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -209,13 +198,13 @@
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">saveOrUpdate</span><span class="o">(</span><span class="n">Long</span> <span class="n">customerId</span><span class="o">,</span> <span class="n">Long</span> <span class="n">visitCustomerId</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">deleteVisit</span><span class="o">(</span><span class="n">customerId</span><span class="o">,</span> <span class="n">visitCustomerId</span><span class="o">);</span>
         <span class="n">customerVisitDao</span><span class="o">.</span><span class="na">insertVisit</span><span class="o">(</span><span class="n">customerId</span><span class="o">,</span> <span class="n">visitCustomerId</span><span class="o">);</span>
-    <span class="o">}</span></code></pre></td></tr></table>
+    <span class="o">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="伪-表结构">(伪)表结构</h4>
+</div><h4 id="伪表结构">(伪)表结构</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -236,15 +225,14 @@
   <span class="k">UNIQUE</span> <span class="k">KEY</span> <span class="o">`</span><span class="n">uniq_customer_id_visit_customer_id</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">customer_id</span><span class="o">`</span><span class="p">,</span><span class="o">`</span><span class="n">visit_customer_id</span><span class="o">`</span><span class="p">),</span>
   <span class="k">KEY</span> <span class="o">`</span><span class="n">index_customer_id</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">customer_id</span><span class="o">`</span><span class="p">),</span>
   <span class="k">KEY</span> <span class="o">`</span><span class="n">index_visit_customer_id</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">visit_customer_id</span><span class="o">`</span><span class="p">)</span>
-<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span> <span class="k">COMMENT</span><span class="o">=</span><span class="s1">&#39;访客记录&#39;</span><span class="p">;</span></code></pre></td></tr></table>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span> <span class="k">COMMENT</span><span class="o">=</span><span class="s1">&#39;访客记录&#39;</span><span class="p">;</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="分析死锁原因">分析死锁原因</h4>
-
+</div><h4 id="分析死锁原因">分析死锁原因</h4>
 <p>通过<code>show engine innodb status</code>查看最近一次的死锁日志</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -303,9 +291,10 @@
 </span><span class="lnt">57
 </span><span class="lnt">58
 </span><span class="lnt">59
-</span></pre></td>
+</span><span class="lnt">60
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">------------------------
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">------------------------
 LATEST DETECTED DEADLOCK
 ------------------------
 2019-04-08 22:58:23 7f8d2fbff700
@@ -363,13 +352,12 @@ RECORD LOCKS space id 47 page no 25368 n bits 616 index `uniq_customer_id_visit_
 Record lock, heap no 502 PHYSICAL RECORD: n_fields 3; compact format; info bits 32
  0: len 8; hex 800000000462ed68; asc      b h;;
  1: len 8; hex 8000000003b97a96; asc       z ;;
- 2: len 8; hex 8000000000eb5fb1; asc       _ ;;</pre></td></tr></table>
-</div>
-</div>
-<p>综上，推测出死锁原因:对于同一个的字段的锁申请是需要排队的，针对uniq_customer_id_visit_customer_id索引,T2 insert申请的S锁之前,T1的delete在申请X锁,而T1的X锁又在等待T2 Delete申请的X锁释放，T2的S锁在等待T1的X锁申请，形成循环等待，导致死锁。</p>
+ 2: len 8; hex 8000000000eb5fb1; asc       _ ;;
 
-<h4 id="并发的情况下-发生死锁情况">并发的情况下，发生死锁情况</h4>
-
+</code></pre></td></tr></table>
+</div>
+</div><p>综上，推测出死锁原因:对于同一个的字段的锁申请是需要排队的，针对uniq_customer_id_visit_customer_id索引,T2 insert申请的S锁之前,T1的delete在申请X锁,而T1的X锁又在等待T2 Delete申请的X锁释放，T2的S锁在等待T1的X锁申请，形成循环等待，导致死锁。</p>
+<h4 id="并发的情况下发生死锁情况">并发的情况下，发生死锁情况</h4>
 <table>
 <thead>
 <tr>
@@ -377,66 +365,48 @@ Record lock, heap no 502 PHYSICAL RECORD: n_fields 3; compact format; info bits 
 <th>事务2</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td></td>
 <td>begin</td>
 </tr>
-
 <tr>
 <td></td>
 <td>DELETE FROM customer_visit where customer_id = 1001 and visit_customer_id =1002[执行成功，事务2占有1001-1002uniq的X锁，类型为记录锁]</td>
 </tr>
-
 <tr>
 <td>begin</td>
 <td></td>
 </tr>
-
 <tr>
 <td>DELETE FROM customer_visit where customer_id = 1001 and visit_customer_id =1002[事务1希望申请1001-1002uniq的X锁,事务2已经申请到了,事务wait，X锁申请进入锁请求队列]</td>
 <td></td>
 </tr>
-
 <tr>
 <td>Deadlock</td>
 <td>insert customer_visit(customer_id,visit_customer_id) values (1001,1002)[事务2需要申请1001-1002uniq的S锁以便检查duplicate key，排在事务1的1001-1002uniq的X之后,形成循环等待 事务1等待事务2commit,事务2等待事务1commit，造成死锁]</td>
 </tr>
 </tbody>
 </table>
-
 <h4 id="解决">解决</h4>
-
 <p>消除uniq_customer_id_visit_customer_id的X锁等待，在事务delete之前，先进行select查询是否存在记录，不存在则不进行delete操作，避免事务获取到X锁，避免循环等待。</p>
-
-<h3 id="另一种死锁情况-非主键索引更新引起的死锁">另一种死锁情况(非主键索引更新引起的死锁)</h3>
-
+<h3 id="另一种死锁情况非主键索引更新引起的死锁">另一种死锁情况(非主键索引更新引起的死锁)</h3>
 <h4 id="业务-1">业务</h4>
-
 <p>数据库表相比情况一缺少了uniq_customer_id_visit_customer_id这个唯一索引(主要是历史问题导致的,一开始就没有唯一索引，后续已经产生了很多脏数据不好添加索引)，业务逻辑是相同的。</p>
-
 <h4 id="非主键索引行锁相关">非主键索引行锁相关</h4>
-
-<p><strong>关于MySql行锁：</strong><br/>
+<p>**关于MySql行锁：**<!-- raw HTML omitted -->
 行级锁并不是直接锁记录，而是锁索引，如果一条SQL语句用到了主键索引，mysql会锁住主键索引；如果一条语句操作了非主键索引，mysql会先锁住非主键索引，再锁定主键索引。</p>
-
-<p><strong>依据索引执行DELETE/UPDATE的执行步骤：</strong><br/></p>
-
+<p>**依据索引执行DELETE/UPDATE的执行步骤：**<!-- raw HTML omitted --></p>
 <ol>
 <li>由于用到了非主键索引，首先需要获取index_customer_id|index_visit_customer_id上的行级锁(锁非聚簇索引)</li>
 <li>根据主键进行更新，所以需要获取主键上的行级锁(锁聚簇索引)</li>
 <li>更新完毕，提交并释放所有的锁</li>
 </ol>
-
 <p><strong>语句分析EXPLAIN</strong>
 发现执行的时候使用的type是index merge。在mysql5.0之前，一个表仅仅能使用一个索引，从5.1开始，引入了 index merge 优化技术，对同一个表可以使用多个索引分别进行条件扫描。
 使用index merge的情况下 ，update/delete 需要对多个非主键索引相继获取锁，再获取主键上的锁。</p>
-
-<h4 id="并发情况下-死锁发生">并发情况下,死锁发生</h4>
-
+<h4 id="并发情况下死锁发生">并发情况下,死锁发生</h4>
 <p>在并发情况下，可能会出现</p>
-
 <table>
 <thead>
 <tr>
@@ -444,28 +414,23 @@ Record lock, heap no 502 PHYSICAL RECORD: n_fields 3; compact format; info bits 
 <th>事务2</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td></td>
 <td>begin</td>
 </tr>
-
 <tr>
 <td></td>
 <td>DELETE FROM customer_visit where customer_id = 1003 and visit_customer_id =1002[走主键索引，获取pk锁]</td>
 </tr>
-
 <tr>
 <td>begin</td>
 <td></td>
 </tr>
-
 <tr>
 <td>DELETE FROM customer_visit where customer_id = 1001 and visit_customer_id =1002[走非主键索引：获取index锁]</td>
 <td></td>
 </tr>
-
 <tr>
 <td>Deadlock</td>
 <td>事务2等待获取index锁，事务1等待获取pk锁，形成循环等待，导致死锁</td>
@@ -515,11 +480,11 @@ Record lock, heap no 502 PHYSICAL RECORD: n_fields 3; compact format; info bits 
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -544,10 +509,6 @@ Record lock, heap no 502 PHYSICAL RECORD: n_fields 3; compact format; info bits 
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -558,13 +519,10 @@ Record lock, heap no 502 PHYSICAL RECORD: n_fields 3; compact format; info bits 
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -575,7 +533,10 @@ Record lock, heap no 502 PHYSICAL RECORD: n_fields 3; compact format; info bits 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

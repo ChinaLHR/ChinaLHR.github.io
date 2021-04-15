@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/code-optimize/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/code-optimize/" />
-<meta property="article:published_time" content="2018-11-03T21:44:31&#43;08:00"/>
-<meta property="article:modified_time" content="2018-11-03T21:44:31&#43;08:00"/>
-
+<meta property="article:published_time" content="2018-11-03T21:44:31+08:00" />
+<meta property="article:modified_time" content="2018-11-03T21:44:31+08:00" />
 <meta itemprop="name" content="编码技巧：防御性编程|表驱动法">
 <meta itemprop="description" content="
 读&lt;代码大全&gt;
 ">
-
-
 <meta itemprop="datePublished" content="2018-11-03T21:44:31&#43;08:00" />
 <meta itemprop="dateModified" content="2018-11-03T21:44:31&#43;08:00" />
 <meta itemprop="wordCount" content="585">
 
 
 
-<meta itemprop="keywords" content="编码技巧," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="编码技巧," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="编码技巧：防御性编程|表驱动法"/>
 <meta name="twitter:description" content="
 读&lt;代码大全&gt;
@@ -104,12 +101,21 @@
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -153,22 +160,21 @@
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#防御性编程">防御性编程</a>
-<ul>
-<li><a href="#主要思想-子程序不因传入错误数据而被破坏">主要思想：子程序不因传入错误数据而被破坏</a></li>
-</ul></li>
-<li><a href="#表驱动法">表驱动法</a>
-<ul>
-<li><a href="#主要思想-表驱动法是一种编程模式-从表里面查找信息而不使用逻辑语句-if-case-作用是使逻辑语句更直白健壮">主要思想：表驱动法是一种编程模式，从表里面查找信息而不使用逻辑语句(if&amp;case)，作用是使逻辑语句更直白健壮。</a></li>
-<li><a href="#1-直接访问表">1.直接访问表</a></li>
-<li><a href="#2-索引表访问">2.索引表访问</a></li>
-<li><a href="#3-阶梯访问表">3.阶梯访问表</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#防御性编程">防御性编程</a>
+      <ul>
+        <li><a href="#主要思想子程序不因传入错误数据而被破坏">主要思想：子程序不因传入错误数据而被破坏</a></li>
+      </ul>
+    </li>
+    <li><a href="#表驱动法">表驱动法</a>
+      <ul>
+        <li><a href="#主要思想表驱动法是一种编程模式从表里面查找信息而不使用逻辑语句ifcase作用是使逻辑语句更直白健壮">主要思想：表驱动法是一种编程模式，从表里面查找信息而不使用逻辑语句(if&amp;case)，作用是使逻辑语句更直白健壮。</a></li>
+        <li><a href="#1直接访问表">1.直接访问表</a></li>
+        <li><a href="#2索引表访问">2.索引表访问</a></li>
+        <li><a href="#3阶梯访问表">3.阶梯访问表</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -176,45 +182,35 @@
       <blockquote>
 <p>读&lt;代码大全&gt;</p>
 </blockquote>
-
 <h2 id="防御性编程">防御性编程</h2>
-
-<h3 id="主要思想-子程序不因传入错误数据而被破坏">主要思想：子程序不因传入错误数据而被破坏</h3>
-
+<h3 id="主要思想子程序不因传入错误数据而被破坏">主要思想：子程序不因传入错误数据而被破坏</h3>
 <ol>
 <li>避免非法输入数据的破坏(校验输入的数据)</li>
 <li>断言(建立断言机制如Guava的Preconditions)</li>
 </ol>
-
 <h2 id="表驱动法">表驱动法</h2>
-
-<h3 id="主要思想-表驱动法是一种编程模式-从表里面查找信息而不使用逻辑语句-if-case-作用是使逻辑语句更直白健壮">主要思想：表驱动法是一种编程模式，从表里面查找信息而不使用逻辑语句(if&amp;case)，作用是使逻辑语句更直白健壮。</h3>
-
+<h3 id="主要思想表驱动法是一种编程模式从表里面查找信息而不使用逻辑语句ifcase作用是使逻辑语句更直白健壮">主要思想：表驱动法是一种编程模式，从表里面查找信息而不使用逻辑语句(if&amp;case)，作用是使逻辑语句更直白健壮。</h3>
 <p>两个问题：</p>
-
 <p>①如何从表中查询条目</p>
-
 <p>②表里面存储什么</p>
-
-<h3 id="1-直接访问表">1.直接访问表</h3>
-
+<h3 id="1直接访问表">1.直接访问表</h3>
 <p>示例1：获取月份的天数</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Integer</span><span class="o">[]</span> <span class="n">daysPerMonth</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Integer</span><span class="o">[]{</span><span class="n">31</span><span class="o">,</span> <span class="n">28</span><span class="o">,</span> <span class="n">31</span><span class="o">,</span> <span class="n">30</span><span class="o">,</span> <span class="n">31</span><span class="o">,</span> <span class="n">30</span><span class="o">,</span> <span class="n">31</span><span class="o">,</span> <span class="n">31</span><span class="o">,</span> <span class="n">30</span><span class="o">,</span> <span class="n">31</span><span class="o">,</span> <span class="n">30</span><span class="o">,</span> <span class="n">30</span><span class="o">};</span>
 <span class="c1">//获取三月的天数,避免过多的if case
-</span><span class="c1"></span><span class="n">Integer</span> <span class="n">marDays</span> <span class="o">=</span> <span class="n">daysPerMonth</span><span class="o">[</span><span class="n">3</span> <span class="o">-</span> <span class="n">1</span><span class="o">];</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="n">Integer</span> <span class="n">marDays</span> <span class="o">=</span> <span class="n">daysPerMonth</span><span class="o">[</span><span class="n">3</span> <span class="o">-</span> <span class="n">1</span><span class="o">];</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>示例2：营业类型对应提成</p>
+</div><p>示例2：营业类型对应提成</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -243,22 +239,18 @@
  <span class="n">MALECONSUME</span><span class="o">,</span><span class="n">MALEINCOME</span><span class="o">,</span><span class="n">FEMALECONSUME</span><span class="o">,</span><span class="n">FEMALEINCOME</span>
 <span class="o">}</span>
 <span class="c1">//获取男生消费提成
-</span><span class="c1"></span><span class="n">Integer</span> <span class="n">maleConsumePush</span> <span class="o">=</span> <span class="n">businessTable</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">BusinessType</span><span class="o">.</span><span class="na">MALECONSUME</span><span class="o">);</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="n">Integer</span> <span class="n">maleConsumePush</span> <span class="o">=</span> <span class="n">businessTable</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">BusinessType</span><span class="o">.</span><span class="na">MALECONSUME</span><span class="o">);</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h3 id="2-索引表访问">2.索引表访问</h3>
-
+</div><h3 id="2索引表访问">2.索引表访问</h3>
 <p>索引表访问先用一个基本数据类型从索引表中查出一个键值，再根据键值去主查询表中查询数据。
-<img src="https://user-images.githubusercontent.com/19829495/47961987-7af9d900-e050-11e8-98af-37452a7518eb.png" alt="image" /></p>
-
-<h3 id="3-阶梯访问表">3.阶梯访问表</h3>
-
+<img src="https://user-images.githubusercontent.com/19829495/47961987-7af9d900-e050-11e8-98af-37452a7518eb.png" alt="image"></p>
+<h3 id="3阶梯访问表">3.阶梯访问表</h3>
 <p>相对于索引表访问，阶梯访问对于不同数据范围有效，而不是不同数据点有效。</p>
-
 <p>示例：成绩类型-分数</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -327,7 +319,8 @@
 </span><span class="cm">     */</span>
     <span class="kd">private</span> <span class="kd">enum</span> <span class="n">LadderType</span> <span class="o">{</span>
         <span class="n">A</span><span class="o">,</span> <span class="n">B</span><span class="o">,</span> <span class="n">C</span><span class="o">,</span> <span class="n">D</span><span class="o">,</span> <span class="n">E</span><span class="o">,</span> <span class="n">F</span>
-    <span class="o">}</span></code></pre></td></tr></table>
+    <span class="o">}</span>
+</code></pre></td></tr></table>
 </div>
 </div>
     </div>
@@ -373,11 +366,11 @@
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -402,10 +395,6 @@
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -416,13 +405,10 @@
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -433,7 +419,10 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

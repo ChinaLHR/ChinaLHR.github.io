@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/os-heart-process/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/os-heart-process/" />
-<meta property="article:published_time" content="2018-11-15T22:30:30&#43;08:00"/>
-<meta property="article:modified_time" content="2018-11-15T22:30:30&#43;08:00"/>
-
+<meta property="article:published_time" content="2018-11-15T22:30:30+08:00" />
+<meta property="article:modified_time" content="2018-11-15T22:30:30+08:00" />
 <meta itemprop="name" content="计算机的心智-进程">
 <meta itemprop="description" content="
 读《计算机的心智》,另一个角度看操作系统
 ">
-
-
 <meta itemprop="datePublished" content="2018-11-15T22:30:30&#43;08:00" />
 <meta itemprop="dateModified" content="2018-11-15T22:30:30&#43;08:00" />
 <meta itemprop="wordCount" content="1504">
 
 
 
-<meta itemprop="keywords" content="操作系统," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="操作系统," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="计算机的心智-进程"/>
 <meta name="twitter:description" content="
 读《计算机的心智》,另一个角度看操作系统
@@ -104,12 +101,21 @@
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -153,21 +160,16 @@
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#关于进程">关于进程</a></li>
-<li><a href="#进程调度">进程调度</a></li>
-<li><a href="#进程调度算法">进程调度算法</a></li>
-<li><a href="#进程通信-ipc">进程通信(IPC)</a>
-<ul>
-<li><a href="#权衡">权衡</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#关于进程">关于进程</a></li>
+        <li><a href="#进程调度">进程调度</a></li>
+        <li><a href="#进程调度算法">进程调度算法</a></li>
+        <li><a href="#进程通信ipc">进程通信(IPC)</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -175,23 +177,15 @@
       <blockquote>
 <p>读《计算机的心智》,另一个角度看操作系统</p>
 </blockquote>
-
 <h3 id="关于进程">关于进程</h3>
-
 <p>进展中的程序，一个程序被加载到内存后就变成进程。对于操作系统，进程是其提供的一种抽象，目的是通过并发提高系统CPU利用率，缩短响应时间。</p>
-
 <ul>
 <li>进程的三种典型状态</li>
 </ul>
-
-<p align="center">
-    <img src="https://user-images.githubusercontent.com/19829495/48848073-0c51a500-edde-11e8-9779-6f82ec240dfd.png" width="60%">
-    <br />
-</p>
-
+<!-- raw HTML omitted -->
 <ul>
-<li><p>进程的创建过程</p>
-
+<li>
+<p>进程的创建过程</p>
 <ol>
 <li>分配进程控制块</li>
 <li>初始化机器寄存器</li>
@@ -199,135 +193,106 @@
 <li>将程序代码从磁盘读取到内存</li>
 <li>将处理器状态设置为用户态</li>
 <li>跳转到程序的起始地址(设置程序计数器)</li>
-</ol></li>
+</ol>
+</li>
 </ul>
-
 <p>UNIX 创建进程:1.fork[创建一个与自己完全一样的新进程] 2.exec[新进程的地址空间用另一个程序覆盖，跳转到新进程的起始地址完成启动]</p>
-
 <p>Window CreateProcess函数:CreateProcess[传递进来新的程序名称，创建新的页表]</p>
-
-<hr />
-
+<hr>
 <h3 id="进程调度">进程调度</h3>
-
 <ul>
-<li><p>程序使用CPU的三种模式</p>
-
+<li>
+<p>程序使用CPU的三种模式</p>
 <ol>
 <li>计算密集型(科学计算,矩阵乘法&hellip;)</li>
 <li>IO密集型(游戏,人机交互&hellip;)</li>
 <li>平衡程序(网页浏览，下载，网络视频&hellip;)</li>
-</ol></li>
-
-<li><p>进程调度的目标</p></li>
+</ol>
+</li>
+<li>
+<p>进程调度的目标</p>
+</li>
 </ul>
-
 <p>极小化平均响应时间，极大化系统吞吐，保持各个系统功能部件处于繁忙和维持公平机制。</p>
-
-<hr />
-
+<hr>
 <h3 id="进程调度算法">进程调度算法</h3>
-
 <ul>
 <li>First Come First Server(先来先服务算法)</li>
 </ul>
-
 <p>顾名思义&hellip;</p>
-
 <ul>
 <li>时间片轮转算法</li>
 </ul>
-
 <p>周期性地进行进程切换&hellip;</p>
-
 <ul>
 <li>Shorted Time to Completion First(短任务优先算法)</li>
 </ul>
-
 <p>非抢占式:CPU上的程序运行到阻塞或者结束，从候选程序中选择执行时间最短的进行执行。
 抢占式：新增一个进程时，就从所有进程中选择执行时间最短的运行。</p>
-
 <ul>
 <li>优先级调度算法</li>
 </ul>
-
 <p>对每个进行赋予优先级，按照优先级调度</p>
-
 <ul>
 <li>保证调度算法</li>
 </ul>
-
 <p>众生平等策略，如果系统有n个进程，保证每个进程的CPU占用时间为1/n。</p>
-
 <ul>
-<li><p>实时调度算法</p>
-
+<li>
+<p>实时调度算法</p>
 <ol>
 <li>动态优先调度(EDF)
-动态计算每个任务的截止时间进行动态调度优先级。由STCF算法改进而来，EDF就是最早截至的任务先运行，如果新进程比正在运行的进程的截止时间更靠前，就抢占当前任务进行调度。
-<br /></li>
+动态计算每个任务的截止时间进行动态调度优先级。由STCF算法改进而来，EDF就是最早截至的任务先运行，如果新进程比正在运行的进程的截止时间更靠前，就抢占当前任务进行调度。</li>
 </ol>
-
 <p>缺陷：需要动态计算任务截止时间，消耗CPU资源，所以就有了静态调度算法</p>
-
-<ol>
+<ol start="2">
 <li>静态优先调度(RMS)
-在进行调度之前，先计算出所有任务的优先级，按照计算的优先级进行调度，任务执行过程中不接受新进程也不进行优先级调整与CPU抢占。
-<br /></li>
+在进行调度之前，先计算出所有任务的优先级，按照计算的优先级进行调度，任务执行过程中不接受新进程也不进行优先级调整与CPU抢占。</li>
 </ol>
-
-<p>缺陷：没有动态优先调度灵活</p></li>
+<p>缺陷：没有动态优先调度灵活</p>
+</li>
 </ul>
-
-<hr />
-
-<h3 id="进程通信-ipc">进程通信(IPC)</h3>
-
+<hr>
+<h3 id="进程通信ipc">进程通信(IPC)</h3>
 <ul>
 <li>管道通信(类UNIX下)
 通过Shell的 | :sort &lt; file |grep li [在排序sort与查找grep之间建立管道。数据从sort流向grep，作用是对file进行排序，排序结果作为grep程序的输入，在结果中找出包括li的文本行]</li>
 </ul>
-
 <p>通过pipe函数</p>
-
 <p>管道：用于管道的读与写。半双工的，具有固定的读端和写端(他只能用于具有亲缘关系的进程之间的通信)。可以看成是一种特殊的文件，对于它的读写也可以使用普通的read、write 等函数。但是它不是普通的文件，并不属于其他任何文件系统，并且只存在于内存中。</p>
-
 <ul>
 <li>FIFO(命名管道，是一种文件类型)
 FIFO可以在无关的进程之间交换数据，与无名管道不同。</li>
 </ul>
-
 <p>FIFO有路径名与之相关联，它以一种特殊设备文件形式存在于文件系统中。</p>
-
 <ul>
-<li><p>Socket套接字
-分为本地(UNIX域)套接字，网域套接字</p></li>
-
-<li><p>信号
-利用CPU内中断进行通信</p></li>
+<li>
+<p>Socket套接字
+分为本地(UNIX域)套接字，网域套接字</p>
+</li>
+<li>
+<p>信号
+利用CPU内中断进行通信</p>
+</li>
 </ul>
-
 <p>在计算机里，信号就是一个内核对象(数据结构)。发送方将该数据结构的内容填好，并指明该信号的目标进程后，发出特定的软件中断。操作系统接收到特定的中断请求后，知道是有进程要发送信号，于是到特定的内核数据结构里查找信号接收方，并进行通知。接到通知的进程则对信号进行相应处理。</p>
-
 <ul>
-<li><p>共享内存
-&hellip;</p></li>
-
-<li><p>消息队列
-无固定读写进程，支持多进程，多对多而并非管道之类的点对点。<br/>
-消息队列是消息的链接表，存放在内核中。一个消息队列由一个标识符（即队列ID）来标识。</p></li>
+<li>
+<p>共享内存
+&hellip;</p>
+</li>
+<li>
+<p>消息队列
+无固定读写进程，支持多进程，多对多而并非管道之类的点对点。<!-- raw HTML omitted -->
+消息队列是消息的链接表，存放在内核中。一个消息队列由一个标识符（即队列ID）来标识。</p>
+</li>
 </ul>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/49161049-0b32f180-f363-11e8-9da0-536211ebae9a.png" alt="image" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/49161049-0b32f180-f363-11e8-9da0-536211ebae9a.png" alt="image"></p>
 <ul>
 <li>参考：</li>
 </ul>
-
 <p><a href="https://songlee24.github.io/2015/04/21/linux-IPC/">https://songlee24.github.io/2015/04/21/linux-IPC/</a></p>
-
 <h4 id="权衡">权衡</h4>
-
 <ul>
 <li>管道通信,Socket套接字消耗系统资源大</li>
 <li>信号:小数据量通信</li>
@@ -376,11 +341,11 @@ FIFO可以在无关的进程之间交换数据，与无名管道不同。</li>
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -405,10 +370,6 @@ FIFO可以在无关的进程之间交换数据，与无名管道不同。</li>
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -419,13 +380,10 @@ FIFO可以在无关的进程之间交换数据，与无名管道不同。</li>
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -436,7 +394,10 @@ FIFO可以在无关的进程之间交换数据，与无名管道不同。</li>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

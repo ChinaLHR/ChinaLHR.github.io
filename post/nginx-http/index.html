@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/nginx-http/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@ Nginx相关资料阅读整理
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/nginx-http/" />
-<meta property="article:published_time" content="2019-06-25T20:37:07&#43;08:00"/>
-<meta property="article:modified_time" content="2019-06-25T20:37:07&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-06-25T20:37:07+08:00" />
+<meta property="article:modified_time" content="2019-06-25T20:37:07+08:00" />
 <meta itemprop="name" content="Nginx Http Module">
 <meta itemprop="description" content="
 Nginx相关资料阅读整理
 ">
-
-
 <meta itemprop="datePublished" content="2019-06-25T20:37:07&#43;08:00" />
 <meta itemprop="dateModified" content="2019-06-25T20:37:07&#43;08:00" />
-<meta itemprop="wordCount" content="3315">
+<meta itemprop="wordCount" content="3351">
 
 
 
-<meta itemprop="keywords" content="Nginx," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Nginx," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Nginx Http Module"/>
 <meta name="twitter:description" content="
 Nginx相关资料阅读整理
@@ -104,12 +101,21 @@ Nginx相关资料阅读整理
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@ Nginx相关资料阅读整理
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -143,7 +150,7 @@ Nginx相关资料阅读整理
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%9F%BA%E7%A1%80%E6%9C%8D%E5%8A%A1/"> 编程-基础服务 </a>
             </div>
-          <span class="more-meta"> 3315 words </span>
+          <span class="more-meta"> 3351 words </span>
           <span class="more-meta"> 7 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -153,31 +160,14 @@ Nginx相关资料阅读整理
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#ngx-http-core-module模块">ngx_http_core_module模块</a>
-<ul>
-<li><a href="#虚拟主机与请求的分发">虚拟主机与请求的分发</a></li>
-<li><a href="#文件路径">文件路径</a></li>
-<li><a href="#请求处理时内存与磁盘资源分配配置">请求处理时内存与磁盘资源分配配置</a></li>
-<li><a href="#网络连接与设置">网络连接与设置</a></li>
-<li><a href="#对客户端请求的限制">对客户端请求的限制</a></li>
-<li><a href="#文件操作优化配置">文件操作优化配置</a></li>
-<li><a href="#其他">其他</a></li>
-<li><a href="#结构">结构</a></li>
-</ul></li>
-<li><a href="#反向代理">反向代理</a>
-<ul>
-<li><a href="#负载均衡">负载均衡</a></li>
-<li><a href="#反向代理-1">反向代理</a></li>
-<li><a href="#例子">例子</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#ngx_http_core_module模块">ngx_http_core_module模块</a></li>
+        <li><a href="#反向代理">反向代理</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -185,60 +175,60 @@ Nginx相关资料阅读整理
       <blockquote>
 <p>Nginx相关资料阅读整理</p>
 </blockquote>
-
-<h3 id="ngx-http-core-module模块">ngx_http_core_module模块</h3>
-
+<h3 id="ngx_http_core_module模块">ngx_http_core_module模块</h3>
 <h4 id="虚拟主机与请求的分发">虚拟主机与请求的分发</h4>
-
 <p>server_name（对应用户请求中的主机域名）并通过server块来定义虚拟主机。server块就是一个虚拟主机，它只处理与之相对应的主机域名请求。</p>
-
 <ul>
-<li><p>监听端口 listen</p>
+<li>监听端口 listen</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">listen address:port 其他参数
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">listen address:port 其他参数
 其他参数：default_server(默认server块)/
 backlog=num(表示TCP中backlog队列的大小)/
 rcvbuf=size(设置监听句柄的SO_RCVBUF参数)/
 sndbuf=size(设置监听句柄的SO_SNDBUF参数)/
-ssl(在当前监听的端口上建立的连接必须基于SSL协议)</pre></td></tr></table>
+ssl(在当前监听的端口上建立的连接必须基于SSL协议)
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>主机名称 server_name name[&hellip;]</p>
+</div><ul>
+<li>主机名称 server_name name[&hellip;]</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">nginx会取出header头中的Host，与每个server中的server_name进行匹配,决定到底由哪一个server块来处理这个请求。
-全匹配&gt;前缀通配符&gt;后缀通配符&gt;正则</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">nginx会取出header头中的Host，与每个server中的server_name进行匹配,决定到底由哪一个server块来处理这个请求。
+全匹配&gt;前缀通配符&gt;后缀通配符&gt;正则
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>server_name_in_redirect on|off 重定向主机名称的处理</p>
+</div><ul>
+<li>server_name_in_redirect on|off 重定向主机名称的处理</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">on打开时，表示在重定向请求时会使用server_name里配置的第一个主机名代替原先请求中的Host头部。</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">on打开时，表示在重定向请求时会使用server_name里配置的第一个主机名代替原先请求中的Host头部。
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>location[=|~|~*|^~|@]/uri/{&hellip;}</p>
+</div><ul>
+<li>location[=|~|~*|^~|@]/uri/{&hellip;}</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -247,9 +237,9 @@ ssl(在当前监听的端口上建立的连接必须基于SSL协议)</pre></td><
 </span><span class="lnt">7
 </span><span class="lnt">8
 </span><span class="lnt">9
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">尝试根据用户请求中的URI来匹配上面的/uri表达式，
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">尝试根据用户请求中的URI来匹配上面的/uri表达式，
 如果可以匹配，就选择location{}块中的配置来处理用户请求。
 
 匹配方式(有顺序 )
@@ -257,21 +247,17 @@ ssl(在当前监听的端口上建立的连接必须基于SSL协议)</pre></td><
 ~表示匹配URI时是字母大小写敏感的
 ~*表示匹配URI时忽略字母大小写问题
 正则
-location  /匹配所有请求</pre></td></tr></table>
+location  /匹配所有请求
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<h4 id="文件路径">文件路径</h4>
-
+</div><h4 id="文件路径">文件路径</h4>
 <ul>
 <li>root path (默认root html) 和alias path</li>
 </ul>
-
 <p>root可以放置到http、server、location或if块中，而alias只能放置到location块</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -281,9 +267,10 @@ location  /匹配所有请求</pre></td></tr></table>
 </span><span class="lnt"> 8
 </span><span class="lnt"> 9
 </span><span class="lnt">10
-</span></pre></td>
+</span><span class="lnt">11
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 个请求的URI是/download/test.html，那么Web服务器将会返回服务器上/opt/web/html/download/test.html文件的内容
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 个请求的URI是/download/test.html，那么Web服务器将会返回服务器上/opt/web/html/download/test.html文件的内容
 
 location /download/ {
    root /opt/web/html/;
@@ -292,30 +279,33 @@ location /download/ {
 # alias写法
 location /download/ {
    alias /opt/web/html/download;
-}</pre></td></tr></table>
+}
+
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
-<li><p>首页 index file&hellip;</p>
+</div><ul>
+<li>首页 index file&hellip;</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">location / {
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">location / {
     root   path;
     index /index.html /html/index.php /index.php;
-}</pre></td></tr></table>
+}
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>根据HTTP返回码重定向页面(error_page code[code&hellip;][=|=answer-code]uri|@named_location)</p>
+</div><ul>
+<li>根据HTTP返回码重定向页面(error_page code[code&hellip;][=|=answer-code]uri|@named_location)</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -327,9 +317,9 @@ location /download/ {
 </span><span class="lnt">10
 </span><span class="lnt">11
 </span><span class="lnt">12
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">error_page   404          /404.html;
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">error_page   404          /404.html;
 
 # 更改错误码
 error_page 404 =200 /empty.gif;
@@ -340,65 +330,62 @@ location / (
 )
 location @fallback (
     proxy_pass http://backend;
-)</pre></td></tr></table>
+)
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<h4 id="请求处理时内存与磁盘资源分配配置">请求处理时内存与磁盘资源分配配置</h4>
-
+</div><h4 id="请求处理时内存与磁盘资源分配配置">请求处理时内存与磁盘资源分配配置</h4>
 <ul>
 <li>client_body_in_file_only on|clean|off;(HTTP包体只存储到磁盘文件中,默认off)</li>
-
-<li><p>client_body_in_single_buffer on|off;(HTTP包体尽量写入到一个内存buffer，默认off)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">因为用户请求的HTTP包体大小超过client_body_buffer_size设置的值，包体还是会写入到磁盘文件中</pre></td></tr></table>
-</div>
-</div></li>
-
-<li><p>client_header_buffer_size size;(存储HTTP头部的内存buffer大小)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">定义了正常情况下Nginx接收用户请求中HTTPheader部分（包括HTTP行和HTTP头部）
-时分配的内存buffer大小.</pre></td></tr></table>
-</div>
-</div></li>
-
-<li><p>large_client_header_buffers number size;(存储超大HTTP头部的内存,buffer个数，buffer大小)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">每一个header的大小超过单个buffer的大小，或者总和超过number * size 会报错</pre></td></tr></table>
-</div>
-</div></li>
-
-<li><p>client_body_buffer_size size;(存储HTTP包体的内存buffer大小)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">HTTP包——&gt;缓存——&gt;写入磁盘</pre></td></tr></table>
-</div>
-</div></li>
-
-<li><p>connection_pool_size size;(TCP连接内存池初始大小)</p></li>
-
-<li><p>request_pool_size size;(HTTP请求处理内存池)</p></li>
+<li>client_body_in_single_buffer on|off;(HTTP包体尽量写入到一个内存buffer，默认off)</li>
 </ul>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">因为用户请求的HTTP包体大小超过client_body_buffer_size设置的值，包体还是会写入到磁盘文件中
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>client_header_buffer_size size;(存储HTTP头部的内存buffer大小)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">定义了正常情况下Nginx接收用户请求中HTTPheader部分（包括HTTP行和HTTP头部）
+时分配的内存buffer大小.
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>large_client_header_buffers number size;(存储超大HTTP头部的内存,buffer个数，buffer大小)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">每一个header的大小超过单个buffer的大小，或者总和超过number * size 会报错
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>client_body_buffer_size size;(存储HTTP包体的内存buffer大小)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">HTTP包——&gt;缓存——&gt;写入磁盘
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>connection_pool_size size;(TCP连接内存池初始大小)</li>
+<li>request_pool_size size;(HTTP请求处理内存池)</li>
+</ul>
 <h4 id="网络连接与设置">网络连接与设置</h4>
-
 <ul>
 <li>client_header_timeout time（读取HTTP头部的超时时间 默认单位：秒 60）</li>
 <li>client_body_timeout time (读取HTTP包体的超时时间 默认单位：秒 60)</li>
@@ -410,84 +397,74 @@ location @fallback (
 <li>keepalive_timeout time(keepalive超时时间)</li>
 <li>keepalive_requests n;(默认100 一个keepalive长连接上允许承载的请求最大数)</li>
 </ul>
-
 <h4 id="对客户端请求的限制">对客户端请求的限制</h4>
-
 <ul>
-<li><p>limit_except method&hellip;{&hellip;}(按HTTP方法名限制用户请求)</p>
+<li>limit_except method&hellip;{&hellip;}(按HTTP方法名限制用户请求)</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">limit_except GET {
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">limit_except GET {
     allow 192.168.1.0/32;
     deny  all;
-}</pre></td></tr></table>
+}
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>client_max_body_size size(HTTP请求包体Content-Length字段的最大值,默认1m)</p></li>
-
-<li><p>limit_rate speed(对请求的限速,默认0)</p></li>
-
-<li><p>limit_rate_after speed(nginx向客户端发送的响应长度超过limit<em>rate</em>
-after后才开始限默认，1m)</p></li>
+</div><ul>
+<li>client_max_body_size size(HTTP请求包体Content-Length字段的最大值,默认1m)</li>
+<li>limit_rate speed(对请求的限速,默认0)</li>
+<li>limit_rate_after speed(nginx向客户端发送的响应长度超过limit_rate_
+after后才开始限默认，1m)</li>
 </ul>
-
 <h4 id="文件操作优化配置">文件操作优化配置</h4>
-
 <ul>
 <li>sendfile on|off(启用Linux的sendfile系统调用来发送文件,减少了内核态与用户态之间的两次内存复制)</li>
 <li>aio on|off(启用Linux系统上内核级别的异步文件I/O功能。与sendfile互斥)</li>
 <li>directio size|off(Linux系统上使用O_DIRECT选项去读取文件，大文件读取速度会有优化，缓冲区大小为size。与sendfile互斥)</li>
-
-<li><p>open_file_cache max=N[inactive=time]|off(文件缓存，默认off，会缓存文件句柄,文件大小，上次修改时间&hellip;减少对磁盘的操作)</p>
+<li>open_file_cache max=N[inactive=time]|off(文件缓存，默认off，会缓存文件句柄,文件大小，上次修改时间&hellip;减少对磁盘的操作)</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">open_file_cache max=1000 inactive=20s;
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">open_file_cache max=1000 inactive=20s;
 
 max:表示在内存中存储元素的最大个数。达到最大限制数量后，将采用LRU（Least Recently
 Used）算法进行淘汰。
 inactive:在inactive指定的时间段内没有被访问过的元素将会被淘汰。
-off:关闭缓存功能。</pre></td></tr></table>
+off:关闭缓存功能。
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>open_file_cache_errors on|off(是否缓存打开文件错误的信息)</p></li>
-
-<li><p>open_file_cache_min_uses number(不被淘汰的最小访问次数,默认1)</p></li>
-
-<li><p>open_file_cache_valid time(检验缓存中元素有效性的频率,默认60s)</p></li>
+</div><ul>
+<li>open_file_cache_errors on|off(是否缓存打开文件错误的信息)</li>
+<li>open_file_cache_min_uses number(不被淘汰的最小访问次数,默认1)</li>
+<li>open_file_cache_valid time(检验缓存中元素有效性的频率,默认60s)</li>
 </ul>
-
 <h4 id="其他">其他</h4>
-
 <ul>
 <li>ignore_invalid_headers on|off(忽略不合法的HTTP头部，默认on)</li>
 <li>underscores_in_headers on|off(HTTP头部是否允许下划线,默认off)</li>
-<li>if_modified_since<a href="Modified-Since头部的处理策略">off|exact|before</a></li>
+<li>if_modified_since<a href="Modified-Since%E5%A4%B4%E9%83%A8%E7%9A%84%E5%A4%84%E7%90%86%E7%AD%96%E7%95%A5">off|exact|before</a></li>
 <li>log_not_found on|off(文件未找到时是否记录到error日志)</li>
 <li>resolver address&hellip;(DNS解析地址)</li>
 <li>resolver_timeout time(DNS解析的超时时间，默认30s)</li>
 <li>server_tokens on|off(返回错误页面时是否在Server中注明Nginx版本)</li>
 </ul>
-
 <h4 id="结构">结构</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -513,9 +490,9 @@ off:关闭缓存功能。</pre></td></tr></table>
 </span><span class="lnt">24
 </span><span class="lnt">25
 </span><span class="lnt">26
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">http {
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">http {
     gzip on;
     upstream {
            …
@@ -540,87 +517,75 @@ off:关闭缓存功能。</pre></td></tr></table>
     server {
            …
     }
-}</pre></td></tr></table>
+}
+</code></pre></td></tr></table>
 </div>
-</div>
-<h3 id="反向代理">反向代理</h3>
-
+</div><h3 id="反向代理">反向代理</h3>
 <p>反向代理:用代理服务器来接受Internet上的连接请求，然后将请求转发给内部网络中的上游服务器，并将从上游服务器上得到的结果返回给Internet上请求连接的客户端。</p>
-
 <p>Nginx并不会立刻转发到上游服务器，而是先把用户的请求（包括HTTP包体）完整地接收到Nginx所在服务器的硬盘或者内存中，然后再向上游服务器发起连接，把缓存的客户端请求转发到上游服务器。[增加了一点请求处理时间,但降低了上游服务器的负载，把压力放在了Nginx上]</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/60446933-f601a680-9c54-11e9-8ec0-e20abb939ebd.png" alt="image" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/60446933-f601a680-9c54-11e9-8ec0-e20abb939ebd.png" alt="image"></p>
 <h4 id="负载均衡">负载均衡</h4>
-
 <ul>
 <li>upstream name{&hellip;} (定义了一个上游服务器的集群，便于反向代理中的proxy_pass使用)</li>
-<li>server name<a href="指定一台上游服务器的，可以是域名，IP:PROT,UNIX句柄">parameters</a></li>
+<li>server name[parameters] (指定一台上游服务器的，可以是域名，IP:PROT,UNIX句柄)</li>
 </ul>
-
 <p>server参数：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">weight=num:上游服务器转发的权重。
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">weight=num:上游服务器转发的权重。
 max_fails=num(def 1) fail_timeout=time(def 10s)：表示该时间段内转发失败多少次后就认为上游服务器暂时不可用，用于优化反向代理功能。
 down：表示所在的上游服务器永久下线，只在使用ip_hash配置项时才有用。
 ·backup：在使用ip_hash配置项时它是无效的。它表示所在的上游服务器只是备份服务器，
-只有在所有的非备份上游服务器都失效后，才会向所在的上游服务器转发请求。</pre></td></tr></table>
+只有在所有的非备份上游服务器都失效后，才会向所在的上游服务器转发请求。
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="反向代理-1">反向代理</h4>
-
+</div><h4 id="反向代理-1">反向代理</h4>
 <ul>
-<li><p>proxy_pass URL</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">将当前请求反向代理到URL参数指定的服务器上，URL可以是主机名/IP:PROT/UNIX句柄/upstream块的形式。
-
-proxy_pass http://localhost:8000/uri/;</pre></td></tr></table>
-</div>
-</div></li>
-
-<li><p>proxy_method method (转发时的协议方法名)</p></li>
-
-<li><p>proxy_hide_header the_header;(Nginx将上游服务器的响应转发给客户端，这里指定哪些HTTP Header 字段不能被转发，默认不会转发Server、X-Pad和X-Accel-*)</p></li>
-
-<li><p>proxy_pass_header the_header;(允许转发的HTTP Header)</p></li>
-
-<li><p>proxy_pass_request_body on|off(默认on，是否向上游服务器发送HTTP包体部分)</p></li>
-
-<li><p>proxy_pass_request_headers on|off</p></li>
-
-<li><p>proxy_redirect[default|off|redirect replacement]</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">上游服务器返回的响应是重定向或刷新请求，proxy_redirect可以重设HTTP头部的location或refresh字段。
-
-proxy_redirect http://localhost:8000/free/ http://frontend/free/</pre></td></tr></table>
-</div>
-</div></li>
+<li>proxy_pass URL</li>
 </ul>
-
-<h4 id="例子">例子</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">将当前请求反向代理到URL参数指定的服务器上，URL可以是主机名/IP:PROT/UNIX句柄/upstream块的形式。
+
+proxy_pass http://localhost:8000/uri/;
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>proxy_method method (转发时的协议方法名)</li>
+<li>proxy_hide_header the_header;(Nginx将上游服务器的响应转发给客户端，这里指定哪些HTTP Header 字段不能被转发，默认不会转发Server、X-Pad和X-Accel-*)</li>
+<li>proxy_pass_header the_header;(允许转发的HTTP Header)</li>
+<li>proxy_pass_request_body on|off(默认on，是否向上游服务器发送HTTP包体部分)</li>
+<li>proxy_pass_request_headers on|off</li>
+<li>proxy_redirect[default|off|redirect replacement]</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">上游服务器返回的响应是重定向或刷新请求，proxy_redirect可以重设HTTP头部的location或refresh字段。
+
+proxy_redirect http://localhost:8000/free/ http://frontend/free/
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="例子">例子</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -634,9 +599,9 @@ proxy_redirect http://localhost:8000/free/ http://frontend/free/</pre></td></tr
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">upstream backend {
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">upstream backend {
 
   ip_hash;(负载均衡策略)
 
@@ -649,7 +614,8 @@ server {
   location / {
     proxy_pass  http://backend;
   }
-}</pre></td></tr></table>
+}
+</code></pre></td></tr></table>
 </div>
 </div>
     </div>
@@ -695,11 +661,11 @@ server {
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -724,10 +690,6 @@ server {
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -738,13 +700,10 @@ server {
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -755,7 +714,10 @@ server {
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/php-composer/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/php-composer/" />
-<meta property="article:published_time" content="2019-11-25T22:46:32&#43;08:00"/>
-<meta property="article:modified_time" content="2019-11-25T22:46:32&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-11-25T22:46:32+08:00" />
+<meta property="article:modified_time" content="2019-11-25T22:46:32+08:00" />
 <meta itemprop="name" content="PHP-Composer">
 <meta itemprop="description" content="
 依赖管理工具Composer记录
 ">
-
-
 <meta itemprop="datePublished" content="2019-11-25T22:46:32&#43;08:00" />
 <meta itemprop="dateModified" content="2019-11-25T22:46:32&#43;08:00" />
 <meta itemprop="wordCount" content="1146">
 
 
 
-<meta itemprop="keywords" content="PHP," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="PHP," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="PHP-Composer"/>
 <meta name="twitter:description" content="
 依赖管理工具Composer记录
@@ -104,12 +101,21 @@
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -153,22 +160,20 @@
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#关于composer">关于Composer</a></li>
-<li><a href="#作用">作用</a></li>
-<li><a href="#composer项目生成">Composer项目生成</a></li>
-<li><a href="#安装扩展包">安装扩展包</a></li>
-<li><a href="#包版本约束">包版本约束</a></li>
-<li><a href="#自动加载机制">自动加载机制</a></li>
-<li><a href="#命令汇总">命令汇总</a></li>
-<li><a href="#模板仓库">模板仓库</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#关于composer">关于Composer</a></li>
+        <li><a href="#作用">作用</a></li>
+        <li><a href="#composer项目生成">Composer项目生成</a></li>
+        <li><a href="#安装扩展包">安装扩展包</a></li>
+        <li><a href="#包版本约束">包版本约束</a></li>
+        <li><a href="#自动加载机制">自动加载机制</a></li>
+        <li><a href="#命令汇总">命令汇总</a></li>
+        <li><a href="#模板仓库">模板仓库</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -176,55 +181,49 @@
       <blockquote>
 <p>依赖管理工具Composer记录</p>
 </blockquote>
-
 <h3 id="关于composer">关于Composer</h3>
-
 <p>PHP 用来管理依赖（dependency）关系的工具。你可以在自己的项目中声明所依赖的外部工具库（libraries），Composer 会帮你安装这些依赖的库文件。</p>
-
 <h3 id="作用">作用</h3>
-
 <p>安装PHP包，依赖库，可以在 <a href="https://packagist.org/">https://packagist.org/</a> 找到你需要的库。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 安装monolog库
-composer require monolog/monolog</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 安装monolog库
+composer require monolog/monolog
+</code></pre></td></tr></table>
 </div>
-</div>
-<h3 id="composer项目生成">Composer项目生成</h3>
-
+</div><h3 id="composer项目生成">Composer项目生成</h3>
 <ol>
-<li><p>在文件夹下新建文件composer.json</p>
+<li>在文件夹下新建文件composer.json</li>
+</ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">{
-&#34;require&#34;: {
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{
+  &#34;require&#34;: {
+  }
 }
-}</pre></td></tr></table>
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>命令composer update</p></li>
-
-<li><p>会在目标目录下生成vendor文件夹，用于安装第三扩展包</p></li>
+</div><ol start="2">
+<li>命令composer update</li>
+<li>会在目标目录下生成vendor文件夹，用于安装第三扩展包</li>
 </ol>
-
 <h3 id="安装扩展包">安装扩展包</h3>
-
 <ol>
-<li><p>添加依赖</p>
+<li>添加依赖</li>
+</ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -235,85 +234,83 @@ composer require monolog/monolog</pre></td></tr></table>
 </span><span class="lnt"> 9
 </span><span class="lnt">10
 </span><span class="lnt">11
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">{
-&#34;require&#34;: {
-    &#34;monolog/monolog&#34;: &#34;1.2.*&#34;
-},
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{
+    &#34;require&#34;: {
+        &#34;monolog/monolog&#34;: &#34;1.2.*&#34;
+    },
 
 # 关闭https
 
-&#34;config&#34;: {
-    &#34;secure-http&#34;: false
+    &#34;config&#34;: {
+        &#34;secure-http&#34;: false
+    }
 }
-}</pre></td></tr></table>
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>安装依赖</p>
+</div><ol start="2">
+<li>安装依赖</li>
+</ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
 </span><span class="lnt">7
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">## 安装或者更新所有的包
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">## 安装或者更新所有的包
 composer install
 composer update
 
 ## 只安装制定的版本或者包
 composer require &#34;monolog/monolog:1.2.*&#34;
-composer update monolog/monolog</pre></td></tr></table>
+composer update monolog/monolog
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ol>
-
-<h3 id="包版本约束">包版本约束</h3>
+</div><h3 id="包版本约束">包版本约束</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">精确版本：1.0.2
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">精确版本：1.0.2
 范围版本：&gt;=1.0 &lt;2.0
 通配符版本：1.0.*
-折音号版本：^1.2.3(相当于&gt;=1.2.3 &lt;2.0.0)</pre></td></tr></table>
+折音号版本：^1.2.3(相当于&gt;=1.2.3 &lt;2.0.0)
+</code></pre></td></tr></table>
 </div>
-</div>
-<h3 id="自动加载机制">自动加载机制</h3>
+</div><h3 id="自动加载机制">自动加载机制</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">require &#39;vendor/autoload.php&#39;</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">require &#39;vendor/autoload.php&#39;
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>files选项：需要composer自动帮我们加载的函数库（不含类），只要在后面的数组中将函数库的文件路径写入即可
-psr-4选项：是一个基于psr-4（<a href="http://www.php-fig.org/psr/psr-4/）规则的类库自动加载对应关系，只要在其后的对象中，以">http://www.php-fig.org/psr/psr-4/）规则的类库自动加载对应关系，只要在其后的对象中，以</a> &ldquo;命名空间&rdquo;: &ldquo;路径&rdquo; 的方式写入自己的类库信息即可</p>
-
+</div><p>files选项：需要composer自动帮我们加载的函数库（不含类），只要在后面的数组中将函数库的文件路径写入即可
+psr-4选项：是一个基于psr-4（http://www.php-fig.org/psr/psr-4/）规则的类库自动加载对应关系，只要在其后的对象中，以 &ldquo;命名空间&rdquo;: &ldquo;路径&rdquo; 的方式写入自己的类库信息即可</p>
 <p>添加完成自动依赖后，执行composer update完成对应操作，可以在项目中使用如下方式加载自定义类库：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">new \Core\View() -&gt; composer的autoload将会自动包含”./core/view.php”，并找到其中的Core命名空间下的View类</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">new \Core\View() -&gt; composer的autoload将会自动包含”./core/view.php”，并找到其中的Core命名空间下的View类
+</code></pre></td></tr></table>
 </div>
-</div>
-<h3 id="命令汇总">命令汇总</h3>
+</div><h3 id="命令汇总">命令汇总</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -324,9 +321,9 @@ psr-4选项：是一个基于psr-4（<a href="http://www.php-fig.org/psr/psr-4/�
 </span><span class="lnt"> 9
 </span><span class="lnt">10
 </span><span class="lnt">11
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">composer list  列出所有可用的命令
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">composer list  列出所有可用的命令
 composer init   初始化composer.json文件(就不劳我们自己费力创建啦)，会要求输入一些信息来描述我们当前的项目，还会要求输入依赖包
 composer install  读取composer.json内容，解析依赖关系，安装依赖包到vendor目录下
 composer update   更新最新的依赖关系到compsoer.lock文件，解析最新的依赖关系并且写入composer.lock文件
@@ -336,16 +333,16 @@ composer show packagename
 composer self-update 更新 composer.phar文件自身
 composer dump-autoload --optimize 优化一下自动加载
 
-composer command --help 以上所有命令都可以添加 --help选项查看帮助信息</pre></td></tr></table>
+composer command --help 以上所有命令都可以添加 --help选项查看帮助信息
+</code></pre></td></tr></table>
 </div>
-</div>
-<h3 id="模板仓库">模板仓库</h3>
-
+</div><h3 id="模板仓库">模板仓库</h3>
 <ol>
-<li><p>全局配置(通过composer config -l 可以查看配置文件存放目录)</p>
+<li>全局配置(通过composer config -l 可以查看配置文件存放目录)</li>
+</ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -354,34 +351,36 @@ composer command --help 以上所有命令都可以添加 --help选项查看帮�
 </span><span class="lnt">7
 </span><span class="lnt">8
 </span><span class="lnt">9
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">{
-&#34;config&#34;: {
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{
+    &#34;config&#34;: {
 
-},
-&#34;repositories&#34;: [
-    {&#34;type&#34;: &#34;composer&#34;, &#34;url&#34;: &#34;http://pkg.phpcomposer.com/repo/packagist/&#34;},
-    {&#34;packagist&#34;: false}
-]
-}</pre></td></tr></table>
+    },
+    &#34;repositories&#34;: [
+        {&#34;type&#34;: &#34;composer&#34;, &#34;url&#34;: &#34;http://pkg.phpcomposer.com/repo/packagist/&#34;},
+        {&#34;packagist&#34;: false}
+    ]
+}
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>直接命令行修改</p>
+</div><ol start="2">
+<li>直接命令行修改</li>
+</ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">composer config -g repo.packagist composer https://packagist.phpcomposer.com</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">composer config -g repo.packagist composer https://packagist.phpcomposer.com
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>修改当前项目的composer.json文件</p>
+</div><ol start="3">
+<li>修改当前项目的composer.json文件</li>
+</ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -395,25 +394,25 @@ composer command --help 以上所有命令都可以添加 --help选项查看帮�
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">{
-&#34;require&#34;: {
-&#34;noahbuscher/macaw&#34;: &#34;dev-master&#34;
-},
-&#34;repositories&#34;: [
-    {   
-        &#34;packagist&#34;: false
-    },  
-    {   
-        &#34;type&#34;: &#34;composer&#34;, 
-        &#34;url&#34;: &#34;http://packagist.cn&#34;
-    }   
-]
-}</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{
+  &#34;require&#34;: {
+    &#34;noahbuscher/macaw&#34;: &#34;dev-master&#34;
+  },
+  &#34;repositories&#34;: [
+        {   
+            &#34;packagist&#34;: false
+        },  
+        {   
+            &#34;type&#34;: &#34;composer&#34;, 
+            &#34;url&#34;: &#34;http://packagist.cn&#34;
+        }   
+    ]
+}
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ol>
+</div>
     </div>
 
     <div class="post-copyright">
@@ -457,11 +456,11 @@ composer command --help 以上所有命令都可以添加 --help选项查看帮�
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -486,10 +485,6 @@ composer command --help 以上所有命令都可以添加 --help选项查看帮�
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -500,13 +495,10 @@ composer command --help 以上所有命令都可以添加 --help选项查看帮�
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -517,7 +509,10 @@ composer command --help 以上所有命令都可以添加 --help选项查看帮�
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

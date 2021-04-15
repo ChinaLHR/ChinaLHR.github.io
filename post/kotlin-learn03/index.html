@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/kotlin-learn03/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@ Kotlin学习记录
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/kotlin-learn03/" />
-<meta property="article:published_time" content="2019-03-14T20:49:49&#43;08:00"/>
-<meta property="article:modified_time" content="2019-03-14T20:49:49&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-03-14T20:49:49+08:00" />
+<meta property="article:modified_time" content="2019-03-14T20:49:49+08:00" />
 <meta itemprop="name" content="Kotlin 泛型,注解,DSL">
 <meta itemprop="description" content="
 Kotlin学习记录
 ">
-
-
 <meta itemprop="datePublished" content="2019-03-14T20:49:49&#43;08:00" />
 <meta itemprop="dateModified" content="2019-03-14T20:49:49&#43;08:00" />
-<meta itemprop="wordCount" content="3872">
+<meta itemprop="wordCount" content="3897">
 
 
 
-<meta itemprop="keywords" content="Kotlin," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Kotlin," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Kotlin 泛型,注解,DSL"/>
 <meta name="twitter:description" content="
 Kotlin学习记录
@@ -104,12 +101,21 @@ Kotlin学习记录
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@ Kotlin学习记录
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -143,7 +150,7 @@ Kotlin学习记录
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 编程-后端开发 </a>
             </div>
-          <span class="more-meta"> 3872 words </span>
+          <span class="more-meta"> 3897 words </span>
           <span class="more-meta"> 8 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -153,28 +160,17 @@ Kotlin学习记录
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#泛型">泛型</a></li>
-<li><a href="#泛型协变-逆变和不变">泛型协变、逆变和不变</a>
-<ul>
-<li><a href="#概念">概念</a></li>
-<li><a href="#java">Java</a></li>
-<li><a href="#kotlin">Kotlin</a></li>
-</ul></li>
-<li><a href="#注解">注解</a></li>
-<li><a href="#dsl">DSL</a>
-<ul>
-<li><a href="#关于dsl">关于DSL</a></li>
-<li><a href="#kotlin-dsl使用">Kotlin DSL使用</a></li>
-</ul></li>
-<li><a href="#协程相关">协程相关</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#泛型">泛型</a></li>
+        <li><a href="#泛型协变逆变和不变">泛型协变、逆变和不变</a></li>
+        <li><a href="#注解">注解</a></li>
+        <li><a href="#dsl">DSL</a></li>
+        <li><a href="#协程相关">协程相关</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -182,29 +178,22 @@ Kotlin学习记录
       <blockquote>
 <p>Kotlin学习记录</p>
 </blockquote>
-
 <h3 id="泛型">泛型</h3>
-
 <ul>
 <li>对比Java</li>
 </ul>
-
 <p>和 Java 不同， Kotlin 始终要求类型实参要么被显式地说明，要么能被编译器推导出来。(因为Java有历史包袱,1.5才引入泛型)</p>
-
 <ul>
 <li>泛型类型约束</li>
 </ul>
-
 <p>约束上界 : &lt; T : Number&gt; T sum(List &lt; T&gt; list)</p>
-
 <ul>
 <li>擦除和实化类型参数</li>
 </ul>
-
 <p>JVM 上的泛型一般是通过类型擦除实现的，泛型类实例的类型实参在运行时是不保留的。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -227,15 +216,14 @@ Kotlin学习记录
 
         <span class="c1">//...
 </span><span class="c1"></span>    <span class="p">}</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><strong>声明带实化类型参数的函数(基于inline内联函数)</strong></p>
-
+</div><p><strong>声明带实化类型参数的函数(基于inline内联函数)</strong></p>
 <p>Kotlin 有特殊的语法结构可以允许你在函数体中使用具体的类型泛型实参，但只有 inline 函数可以。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -278,38 +266,33 @@ Kotlin学习记录
 <span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">list</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&#34;123&#34;</span><span class="p">,</span> <span class="s">&#34;456&#34;</span><span class="p">,</span> <span class="m">999</span><span class="p">)</span>
     <span class="n">println</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">filterIsInstance</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;())</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h3 id="泛型协变-逆变和不变">泛型协变、逆变和不变</h3>
-
+</div><h3 id="泛型协变逆变和不变">泛型协变、逆变和不变</h3>
 <h4 id="概念">概念</h4>
-
-<p>假设Orange类是Fruit类的子类，Crate<T> 是一个泛型类</p>
+<p>假设Orange类是Fruit类的子类，Crate<!-- raw HTML omitted --> 是一个泛型类</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">type variance（型变）:指我们是否允许对参数类型进行子类型转换
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">type variance（型变）:指我们是否允许对参数类型进行子类型转换
 invariance（不型变）：也就是说，Crate&lt;Orange&gt; 和 Crate&lt;Fruit&gt; 之间没有关系
 covariance（协变）：也就是说，Crate&lt;Orange&gt; 是 Crate&lt;Fruit&gt; 的子类型[Java Crate&lt;Orange&gt; 是 Crate&lt;? extends Fruit&gt; 的子类型]
-contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Orange&gt; 的子类型。[Crate&lt;Fruit&gt; 是 Crate&lt;? super Orange&gt; 的子类型]</pre></td></tr></table>
+contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Orange&gt; 的子类型。[Crate&lt;Fruit&gt; 是 Crate&lt;? super Orange&gt; 的子类型]
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><img src="https://user-images.githubusercontent.com/19829495/54437743-415c7b80-4770-11e9-9d1a-752a81c0c794.png" alt="image" /></p>
-
+</div><p><img src="https://user-images.githubusercontent.com/19829495/54437743-415c7b80-4770-11e9-9d1a-752a81c0c794.png" alt="image"></p>
 <h4 id="java">Java</h4>
-
 <p>Java处理型变的做法概括起来是：Java中的泛型类在正常使用时是不型变的，要想型变必须在使用处通过通配符进行（称为使用处型变）。</p>
-
 <p><strong>协变</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -324,19 +307,16 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 </span><span class="c1">//fruits.add(new Fruit());
 </span><span class="c1">//fruits.add(new Object());
 </span><span class="c1">//我们知道，返回值肯定是Fruit
-</span><span class="c1"></span><span class="n">Fruit</span> <span class="n">f</span> <span class="p">=</span> <span class="n">fruits</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="m">0</span><span class="p">);</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="n">Fruit</span> <span class="n">f</span> <span class="p">=</span> <span class="n">fruits</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="m">0</span><span class="p">);</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>fruits的类型是List&lt;? extends Fruit&gt;，代表Fruit类型或者从Fruit继承的类型的List，fruits可以引用诸如Fruit或Orange这样类型的List，然后向上转型为了List&lt;? extends Fruit&gt;。我们并不关心fruits具体引用的是ArrayList<Orange>()，还是ArrayList<Fruit>()，对于类型 List&lt;? extends Fruit&gt; 我们所能知道的就是：调用一个返回Fruit的方法是安全的，因为你知道，这个List中的任何对象至少具有Fruit类型。</p>
-
-<p>我们之所以可以安全地将 ArrayList<Orange> 向上转型为 List&lt;? extends Fruit&gt;，是因为编译器限制了我们对于 List&lt;? extends Fruit&gt; 类型部分方法的调用。例如void add(T t)方法，以及一切参数中含有 T 的方法（称为消费者方法）。因为这些方法可能会破坏类型安全，只要限制这些方法的调用，就可以安全地将 ArrayList<Orange> 转型为 List&lt;? extends Fruit&gt;。</p>
-
+</div><p>fruits的类型是List&lt;? extends Fruit&gt;，代表Fruit类型或者从Fruit继承的类型的List，fruits可以引用诸如Fruit或Orange这样类型的List，然后向上转型为了List&lt;? extends Fruit&gt;。我们并不关心fruits具体引用的是ArrayList<!-- raw HTML omitted -->()，还是ArrayList<!-- raw HTML omitted -->()，对于类型 List&lt;? extends Fruit&gt; 我们所能知道的就是：调用一个返回Fruit的方法是安全的，因为你知道，这个List中的任何对象至少具有Fruit类型。</p>
+<p>我们之所以可以安全地将 ArrayList<!-- raw HTML omitted --> 向上转型为 List&lt;? extends Fruit&gt;，是因为编译器限制了我们对于 List&lt;? extends Fruit&gt; 类型部分方法的调用。例如void add(T t)方法，以及一切参数中含有 T 的方法（称为消费者方法）。因为这些方法可能会破坏类型安全，只要限制这些方法的调用，就可以安全地将 ArrayList<!-- raw HTML omitted --> 转型为 List&lt;? extends Fruit&gt;。</p>
 <p>协变：通过限制对于消费者方法的调用，使得像 List&lt;? extends Fruit&gt; 这样的类型成为单纯的“生产者”，以保证运行时的类型安全</p>
-
 <p><strong>逆变</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -361,27 +341,20 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 </span><span class="c1">//Fruit f = canContainFruits.get(0);
 </span><span class="c1"></span>
 <span class="c1">//总是可以读取为Object，然而这并没有太多意义
-</span><span class="c1"></span><span class="n">Object</span> <span class="n">o</span> <span class="p">=</span> <span class="n">canContainFruits</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="m">1</span><span class="p">);</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="n">Object</span> <span class="n">o</span> <span class="p">=</span> <span class="n">canContainFruits</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="m">1</span><span class="p">);</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p>canContainFruits的类型是List&lt;? super Fruit&gt;，代表Fruit类型或者Fruit基类型的List，canContainFruits可以引用诸如Fruit或Object这样类型的List，然后向上转型为了List&lt;? super Fruit&gt;。对于List中的 T get(int pos) 方法，当指定类型是 “？ super Fruit”  时，get方法的返回类型就变成了 “？ super Fruit”，也就是说，返回类型可能是Fruit或者任意Fruit的基类型，我们不能确定，因此编译器拒绝调用任何返回类型为 T 的方法（除非我们只是读取为Object类）</p>
-
-<p>逆变：编译器限制了我们对于 List&lt;? super Fruit&gt; 类型部分方法的调用。例如T get(int  pos)方法，以及一切返回类型为 T 的方法（称为生产者方法），因为我们不能确定这些方法的返回类型，只要限制这些方法的调用，就可以安全地将 ArrayList<Object> 转型为 List&lt;? super Fruit&gt;。这就是所谓的逆变，通过限制对于生产者方法的调用，使得像 List&lt;? super Fruit&gt; 这样的类型成为单纯的“消费者”。</p>
-
+</div><p>canContainFruits的类型是List&lt;? super Fruit&gt;，代表Fruit类型或者Fruit基类型的List，canContainFruits可以引用诸如Fruit或Object这样类型的List，然后向上转型为了List&lt;? super Fruit&gt;。对于List中的 T get(int pos) 方法，当指定类型是 “？ super Fruit”  时，get方法的返回类型就变成了 “？ super Fruit”，也就是说，返回类型可能是Fruit或者任意Fruit的基类型，我们不能确定，因此编译器拒绝调用任何返回类型为 T 的方法（除非我们只是读取为Object类）</p>
+<p>逆变：编译器限制了我们对于 List&lt;? super Fruit&gt; 类型部分方法的调用。例如T get(int  pos)方法，以及一切返回类型为 T 的方法（称为生产者方法），因为我们不能确定这些方法的返回类型，只要限制这些方法的调用，就可以安全地将 ArrayList<!-- raw HTML omitted --> 转型为 List&lt;? super Fruit&gt;。这就是所谓的逆变，通过限制对于生产者方法的调用，使得像 List&lt;? super Fruit&gt; 这样的类型成为单纯的“消费者”。</p>
 <p><strong>总结</strong></p>
-
 <p>extends限定了通配符类型的上界，所以我们可以安全地从其中读取；而super限定了通配符类型的下界，所以我们可以安全地向其中写入。</p>
-
 <h4 id="kotlin">Kotlin</h4>
-
 <p>Kotlin中的泛型类在定义时即可标明型变类型（协变或逆变，当然也可以不标明，那就是不型变的），在使用处可以直接型变（称为声明处型变）。</p>
-
 <p><strong>协变</strong></p>
-
-<p>使用out修饰符，表明类型参数 T 在泛型类中仅作为方法的返回值，不作为方法的参数，因此，这个泛型类是个协变的。回报是，使用时Source<Orange>可以作为Source<Fruit>的子类型。</p>
+<p>使用out修饰符，表明类型参数 T 在泛型类中仅作为方法的返回值，不作为方法的参数，因此，这个泛型类是个协变的。回报是，使用时Source<!-- raw HTML omitted -->可以作为Source<!-- raw HTML omitted -->的子类型。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -398,15 +371,14 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 <span class="k">fun</span> <span class="nf">demo</span><span class="p">(</span><span class="n">oranges</span><span class="p">:</span> <span class="n">Source</span><span class="p">&lt;</span><span class="n">Orange</span><span class="p">&gt;)</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">fruits</span><span class="p">:</span> <span class="n">Source</span><span class="p">&lt;</span><span class="n">Fruit</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">oranges</span> <span class="c1">// 没问题，因为 T 是一个 out-参数，Source&lt;T&gt;是协变的
 </span><span class="c1"></span>    <span class="k">val</span> <span class="py">oneFruit</span><span class="p">:</span> <span class="n">Fruit</span> <span class="p">=</span> <span class="n">fruits</span><span class="p">.</span><span class="n">nextT</span><span class="p">()</span> <span class="c1">//可以安全读取
-</span><span class="c1"></span><span class="p">}</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><strong>逆变</strong></p>
-
-<p>使用in修饰符，表明类型参数 T 在泛型类中仅作为方法的参数，不作为方法的返回值，因此，这个泛型类是个逆变的。回报是，使用时Comparable<Number>可以作为Comparable<Double>的子类型。</p>
+</div><p><strong>逆变</strong></p>
+<p>使用in修饰符，表明类型参数 T 在泛型类中仅作为方法的参数，不作为方法的返回值，因此，这个泛型类是个逆变的。回报是，使用时Comparable<!-- raw HTML omitted -->可以作为Comparable<!-- raw HTML omitted -->的子类型。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -425,25 +397,26 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 <span class="k">fun</span> <span class="nf">demo</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Comparable</span><span class="p">&lt;</span><span class="n">Number</span><span class="p">&gt;)</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">y</span><span class="p">:</span> <span class="n">Comparable</span><span class="p">&lt;</span><span class="n">Double</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">x</span> <span class="c1">// OK！逆变，Comparable&lt;Number&gt;可以作为Comparable&lt;Double&gt;的子类型
 </span><span class="c1"></span>    <span class="n">y</span><span class="p">.</span><span class="n">compareTo</span><span class="p">(</span><span class="m">1.0</span><span class="p">)</span> <span class="c1">//1.0 拥有类型 Double
-</span><span class="c1"></span><span class="p">}</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><strong>总结</strong></p>
-
+</div><p><strong>总结</strong></p>
 <p>out和in修饰符是自解释的。out代表泛型类中，类型参数 T 只能存在于方法的返回值中，即是作为输出，因此，泛型类是生产者/协变的；in代表泛型类中，类型参数T只能存在于方法的参数中，即是作为输入，因此，泛型类是消费者/逆变的。</p>
-
 <h3 id="注解">注解</h3>
-
 <ul>
-<li><p>注解实参需要在编译期就是己知的，所以你不能引用任意的属性作为实参。要把属性当作注解实参使用，你需要用const修饰符标记它，来告知编译器这个属性是编译期常量。</p></li>
-
-<li><p>Kotlin 允许你对任意的表达式应用注解，而不仅仅是类和函数的声明及类型。</p></li>
-
-<li><p>用注解控制JavaAPI</p></li>
+<li>
+<p>注解实参需要在编译期就是己知的，所以你不能引用任意的属性作为实参。要把属性当作注解实参使用，你需要用const修饰符标记它，来告知编译器这个属性是编译期常量。</p>
+</li>
+<li>
+<p>Kotlin 允许你对任意的表达式应用注解，而不仅仅是类和函数的声明及类型。</p>
+</li>
+<li>
+<p>用注解控制JavaAPI</p>
+</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -472,15 +445,15 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 </span><span class="c1"></span><span class="n">@JvmOverloads</span>
 <span class="c1">//应用于一个属性，把这个属性暴露成一个没有访问器的
 </span><span class="c1"></span><span class="err">公有</span> <span class="n">Java</span> <span class="err">字段。</span>
-<span class="n">@JvmField</span> </code></pre></td></tr></table>
+<span class="n">@JvmField</span> 
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>注解使用</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -489,36 +462,37 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 <pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="c1">//声明注解
 </span><span class="c1">//@Target 元注解
 </span><span class="c1"></span><span class="n">@Target</span><span class="p">(</span><span class="n">AnnotationTarget</span><span class="p">.</span><span class="n">PROPERTY</span><span class="p">)</span>
-<span class="k">annotation</span> <span class="k">class</span> <span class="nc">xxx</span></code></pre></td></tr></table>
+<span class="k">annotation</span> <span class="k">class</span> <span class="nc">xxx</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h3 id="dsl">DSL</h3>
-
+</div><h3 id="dsl">DSL</h3>
 <h4 id="关于dsl">关于DSL</h4>
-
 <ul>
-<li><p>DSL
-DSL 也就是 Domain Specific Language 的简称，是指为某些特定领域（domain）设计的专用语言。最常见的 DSL 就是 SQL和正则表达式。和通用编程语言相反，DSL大部分是声明式的(声明式语言描述了想要的结果并将执行细节留给了解释它的引擎)。</p></li>
-
-<li><p>内部DSL
+<li>
+<p>DSL
+DSL 也就是 Domain Specific Language 的简称，是指为某些特定领域（domain）设计的专用语言。最常见的 DSL 就是 SQL和正则表达式。和通用编程语言相反，DSL大部分是声明式的(声明式语言描述了想要的结果并将执行细节留给了解释它的引擎)。</p>
+</li>
+<li>
+<p>内部DSL
 与有着自己独立语法的外部 DSL 不同，内部 DSL是用通用编程语言编写的程序的一部分，使用了和通用编程语言完全一致的语法。实际上，内部 DSL 不是完全独立的语言，而是使用主要语言的特定方式，同时保留具有独立语法的 DSL 的主要优点。
-[使用Kotlin 语言开发的，解决特定领域问题，具备独特代码结构的 API]</p></li>
-
-<li><p>DSL结构
+[使用Kotlin 语言开发的，解决特定领域问题，具备独特代码结构的 API]</p>
+</li>
+<li>
+<p>DSL结构
 DSL 通常会依赖在其他上下文中也会广泛使用的语言特性，比如说中缀调用和运算符重载。DSL与API不同的显著特征是结构/文法。
 与API的命令查询不同, DSL 的方法调用存在于由 DSL 文法定义的
-更大的结构中。</p></li>
-
-<li><p>Kotlin DSL
-Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好的 IDE 支持]。</p></li>
+更大的结构中。</p>
+</li>
+<li>
+<p>Kotlin DSL
+Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好的 IDE 支持]。</p>
+</li>
 </ul>
-
 <h4 id="kotlin-dsl使用">Kotlin DSL使用</h4>
-
 <p><strong>利用带接收者的lambda和扩展函数实现HTML Table Sample DSL</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -609,17 +583,15 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
             <span class="p">}</span>
     <span class="c1">//&lt;table&gt;&lt;tr&gt;&lt;td&gt; &lt;/td&gt;&lt;td&gt; &lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;
 </span><span class="c1"></span>    <span class="n">println</span><span class="p">(</span><span class="n">createTable</span><span class="p">())</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><strong>关于带接收者的lambda与扩展函数</strong></p>
-
+</div><p><strong>关于带接收者的lambda与扩展函数</strong></p>
 <p>让我们使用一个结构来构建 API。当函数被调用的时候需要提供这个对象，它在函数体内是可用的。实际上 ，一个扩展函数类型描述了一个可以被当作扩展函数来调用的代码块。</p>
-
 <p>调用扩展函数类型lamdba时，可以像调用一个扩展函数那样调用 lambda，而不是将对象作为参数传递给 lambda。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -648,15 +620,14 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 
 <span class="k">var</span> <span class="py">s</span> <span class="p">=</span> <span class="n">buildString</span> <span class="p">{</span>
     <span class="n">append</span><span class="p">(</span><span class="s">&#34;are you ok&#34;</span><span class="p">)</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><strong>invoke约定</strong></p>
-
+</div><p><strong>invoke约定</strong></p>
 <p>invoke约定允许把自定义类型的对象当作函数一样调用。(类似于运算符重载)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -670,6 +641,7 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
+</span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="k">val</span> <span class="py">name</span><span class="p">:</span> <span class="n">String</span><span class="p">){</span>
@@ -685,13 +657,14 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
     <span class="k">val</span> <span class="py">person</span> <span class="p">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">&#34;lhr&#34;</span><span class="p">)</span>
     <span class="n">person</span><span class="p">(</span><span class="s">&#34;cp272727&#34;</span><span class="p">)</span><span class="c1">//实际上调用的是person.invoke
 </span><span class="c1"></span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><strong>中缀调用 DSL清晰的语法</strong></p>
+</div><p><strong>中缀调用 DSL清晰的语法</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -724,13 +697,13 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 
 <span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
     <span class="s">&#34;kotlin&#34;</span> <span class="n">should</span> <span class="n">start</span> <span class="n">with</span> <span class="s">&#34;ko&#34;</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><strong>基本数据类型扩展</strong></p>
+</div><p><strong>基本数据类型扩展</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -753,11 +726,10 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 <span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">{</span>
     <span class="c1">//获取一天前日期
 </span><span class="c1"></span>    <span class="n">println</span><span class="p">(</span><span class="m">1.</span><span class="n">days</span><span class="p">.</span><span class="n">ago</span><span class="p">)</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h3 id="协程相关">协程相关</h3>
-
+</div><h3 id="协程相关">协程相关</h3>
 <p>参考: <a href="http://johnnyshieh.me/categories/kotlin/">http://johnnyshieh.me/categories/kotlin/</a></p>
     </div>
 
@@ -802,11 +774,11 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -831,10 +803,6 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -845,13 +813,10 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -862,7 +827,10 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

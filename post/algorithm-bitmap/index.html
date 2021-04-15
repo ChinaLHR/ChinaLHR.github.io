@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/algorithm-bitmap/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@ Bit-map算法学习
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/algorithm-bitmap/" />
-<meta property="article:published_time" content="2019-01-27T22:17:36&#43;08:00"/>
-<meta property="article:modified_time" content="2019-01-27T22:17:36&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-01-27T22:17:36+08:00" />
+<meta property="article:modified_time" content="2019-01-27T22:17:36+08:00" />
 <meta itemprop="name" content="Bit-map算法及应用">
 <meta itemprop="description" content="
 Bit-map算法学习
 ">
-
-
 <meta itemprop="datePublished" content="2019-01-27T22:17:36&#43;08:00" />
 <meta itemprop="dateModified" content="2019-01-27T22:17:36&#43;08:00" />
-<meta itemprop="wordCount" content="1288">
+<meta itemprop="wordCount" content="1286">
 
 
 
-<meta itemprop="keywords" content="算法," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="算法," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Bit-map算法及应用"/>
 <meta name="twitter:description" content="
 Bit-map算法学习
@@ -104,12 +101,21 @@ Bit-map算法学习
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@ Bit-map算法学习
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -143,7 +150,7 @@ Bit-map算法学习
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E7%AE%97%E6%B3%95/"> 编程-算法 </a>
             </div>
-          <span class="more-meta"> 1288 words </span>
+          <span class="more-meta"> 1286 words </span>
           <span class="more-meta"> 3 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -153,22 +160,13 @@ Bit-map算法学习
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#little-endian和big-endian">little-endian和big-endian</a></li>
-<li><a href="#关于bit-map">关于Bit-map</a></li>
-<li><a href="#思想">思想</a></li>
-<li><a href="#算法实现-java">算法实现[Java]</a></li>
-<li><a href="#常见实例">常见实例😮</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -176,27 +174,18 @@ Bit-map算法学习
       <blockquote>
 <p>Bit-map算法学习</p>
 </blockquote>
-
 <h4 id="little-endian和big-endian">little-endian和big-endian</h4>
-
 <p>Big endian 认为第一个字节是最高位字节（按照从低地址到高地址的顺序存放数据的高位字节到低位字节）；而 Little endian 则相反，它认为第一个字节是最低位字节（按照从低地址到高地址的顺序存放据的低位字节到高位字节）。</p>
-
 <h4 id="关于bit-map">关于Bit-map</h4>
-
 <p>用一个bit位来标记某个元素对应的Value， key0|1表示该元素是否存在(类似于桶排序算法)，由于采用了Bit为单位来存储数据，因此在存储空间方面，可以大大节省。</p>
-
 <p>假设我们要对0-7内的6个不重复元素排序，开辟一个8个Bit(1Bytes)的内存空间，此时所有的bit位为0，遍历6个元素，将对应下标的bit位置为1 (采用big-endian)。处理完所有元素后，对Bytes区域进行遍历，将该位是一的位的编号输出，达到排序的目的。对于更多的元素排序，可以扩展为Bytes数组进行存储排序。</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/52029742-8bd2c180-254f-11e9-9311-e17415452373.png" alt="image" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/52029742-8bd2c180-254f-11e9-9311-e17415452373.png" alt="image"></p>
 <h4 id="思想">思想</h4>
-
 <p>使用bit数组来表示某些元素是否存在，达到节省空间的目的。</p>
-
-<h4 id="算法实现-java">算法实现[Java]</h4>
+<h4 id="算法实现java">算法实现[Java]</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -299,31 +288,21 @@ Bit-map算法学习
 </span><span class="c1"></span>        <span class="k">return</span> <span class="o">(</span><span class="n">bitArray</span><span class="o">[</span><span class="n">arrayIndex</span><span class="o">]</span> <span class="o">&amp;</span> <span class="o">(</span><span class="n">1</span> <span class="o">&lt;&lt;</span> <span class="n">position</span><span class="o">))</span> <span class="o">!=</span><span class="n">0</span><span class="o">;</span>
     <span class="o">}</span>
 
-<span class="o">}</span></code></pre></td></tr></table>
+<span class="o">}</span>
+</code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="常见实例">常见实例😮</h4>
-
+</div><h4 id="常见实例">常见实例😮</h4>
 <ol>
-<li><p>给40亿个不重复的unsigned int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">Bitmap的方法，申请512M的内存，一个bit位代表一个unsigned int值。读入40亿个数，设置相应的bit位，读入要查询的数，查看相应bit位是否为1，为1表示存在，为0表示不存在。</pre></td></tr></table>
-</div>
-</div></li>
-
-<li><p>在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">采用2-Bitmap（每个数分配2bit，00表示不存在，01表示出现一次，10表示多次，11无意义）进行，共需内存2^32 * 2 bit=1 GB内存。扫描这2.5亿个整数，查看Bitmap中相对应位，如果是00变01，01变10，10保持不变。所描完事后，查看bitmap，把对应位是01的整数输出即可。</pre></td></tr></table>
-</div>
-</div></li>
+<li>
+<p>给40亿个不重复的unsigned int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？</p>
+<pre><code> Bitmap的方法，申请512M的内存，一个bit位代表一个unsigned int值。读入40亿个数，设置相应的bit位，读入要查询的数，查看相应bit位是否为1，为1表示存在，为0表示不存在。
+</code></pre>
+</li>
+<li>
+<p>在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数</p>
+<pre><code> 采用2-Bitmap（每个数分配2bit，00表示不存在，01表示出现一次，10表示多次，11无意义）进行，共需内存2^32 * 2 bit=1 GB内存。扫描这2.5亿个整数，查看Bitmap中相对应位，如果是00变01，01变10，10保持不变。所描完事后，查看bitmap，把对应位是01的整数输出即可。
+</code></pre>
+</li>
 </ol>
     </div>
 
@@ -368,11 +347,11 @@ Bit-map算法学习
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -397,10 +376,6 @@ Bit-map算法学习
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -411,13 +386,10 @@ Bit-map算法学习
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -428,7 +400,10 @@ Bit-map算法学习
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

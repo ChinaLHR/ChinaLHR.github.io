@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/redis-transaction-watch/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@ Redis事务/Watch机制相关知识点整理
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/redis-transaction-watch/" />
-<meta property="article:published_time" content="2019-09-03T23:13:11&#43;08:00"/>
-<meta property="article:modified_time" content="2019-09-03T23:13:11&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-09-03T23:13:11+08:00" />
+<meta property="article:modified_time" content="2019-09-03T23:13:11+08:00" />
 <meta itemprop="name" content=" Redis 事务-Watch">
 <meta itemprop="description" content="
 Redis事务/Watch机制相关知识点整理
 ">
-
-
 <meta itemprop="datePublished" content="2019-09-03T23:13:11&#43;08:00" />
 <meta itemprop="dateModified" content="2019-09-03T23:13:11&#43;08:00" />
-<meta itemprop="wordCount" content="1407">
+<meta itemprop="wordCount" content="1404">
 
 
 
-<meta itemprop="keywords" content="Redis," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Redis," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content=" Redis 事务-Watch"/>
 <meta name="twitter:description" content="
 Redis事务/Watch机制相关知识点整理
@@ -104,12 +101,21 @@ Redis事务/Watch机制相关知识点整理
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@ Redis事务/Watch机制相关知识点整理
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -143,7 +150,7 @@ Redis事务/Watch机制相关知识点整理
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-database/"> 编程-Database </a>
             </div>
-          <span class="more-meta"> 1407 words </span>
+          <span class="more-meta"> 1404 words </span>
           <span class="more-meta"> 3 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -153,17 +160,15 @@ Redis事务/Watch机制相关知识点整理
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#redis事务">Redis事务</a></li>
-<li><a href="#watch命令实现">Watch命令实现</a></li>
-<li><a href="#参考">参考</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#redis事务">Redis事务</a></li>
+        <li><a href="#watch命令实现">Watch命令实现</a></li>
+        <li><a href="#参考">参考</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -171,39 +176,32 @@ Redis事务/Watch机制相关知识点整理
       <blockquote>
 <p>Redis事务/Watch机制相关知识点整理</p>
 </blockquote>
-
 <h3 id="redis事务">Redis事务</h3>
-
 <ul>
 <li>关于Redis事务</li>
 </ul>
-
 <p>Redis transaction是一组命令的集合。 transaction命令和普通的Redis命令一样是Redis的最小执行单位，具有原子性（一个事物中的命令，要么都执行，要么都不执行）</p>
-
 <p>原理:先将属于一个事务的命令MULTI发送给Redis，MULTI 执行之后，客户端可以继续向服务器发送任意多条命令，这些命令不会立即被执行，
 而是被放到一个队列中,然后当EXEC命令被调用时，再让Redis依次执行队列里的命令。</p>
-
-<p>事务从执行到开始三个阶段：
-1. 开始事务
-2. 命令入队
-3. 执行事务</p>
-
+<p>事务从执行到开始三个阶段：</p>
+<ol>
+<li>开始事务</li>
+<li>命令入队</li>
+<li>执行事务</li>
+</ol>
 <p>Redis保证一个事务中的所有命令要么都执行，要么都不执行。如果在发送EXEC命令前客户端断线了，则Redis会清空事务队列，事务中的所有命令都不会执行。
 而一旦客户端发送了EXEC命令，所有的命令就都会被执行，即使此后客户端断线也没关系，因为Redis中已经记录了所有要执行的命令。</p>
-
 <p>Redis保证一个事务内的命令依次执行而不被其他命令插入。(避免多台机器同时发送命令导致并发问题)</p>
-
 <ul>
 <li>和传统RDBS事务的区别</li>
 </ul>
-
 <p>Redis的事务没有提供rollback功能，如果一个事务中的某个命令执行出错，例如语法错误，运行错误</p>
-
 <ul>
-<li><p>事务相关命令</p>
+<li>事务相关命令</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -214,9 +212,9 @@ Redis事务/Watch机制相关知识点整理
 </span><span class="lnt"> 9
 </span><span class="lnt">10
 </span><span class="lnt">11
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># MULTI 命令的执行标记着事务的开始(客户端从非事务状态切换到事务状态)
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># MULTI 命令的执行标记着事务的开始(客户端从非事务状态切换到事务状态)
 # EXEC 命令服务器根据客户端所保存的事务队列，以先进先出（FIFO）的方式执行事务队列中的命令
 #DISCARD 命令用于取消一个事务， 它清空客户端的整个事务队列， 然后将客户端从事务状态调整回非事务状态，返回字符串 OK 给客户端
 
@@ -226,21 +224,20 @@ redis &gt; incr foo
 QUEUED
 redis &gt; set t1 1
 QUEUED
-redis &gt; exec</pre></td></tr></table>
+redis &gt; exec
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>Watch</p></li>
+</div><ul>
+<li>Watch</li>
 </ul>
-
 <p>WATCH 命令用于在事务开始之前监视任意数量的键： 当调用 EXEC 命令执行事务时， 如果任意一个被监视的键已经被其他客户端修改了， 那么整个事务不再执行，
 直接返回失败。</p>
-
 <ul>
-<li><p>Watch相关命令</p>
+<li>Watch相关命令</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -251,9 +248,9 @@ redis &gt; exec</pre></td></tr></table>
 </span><span class="lnt"> 9
 </span><span class="lnt">10
 </span><span class="lnt">11
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">redis&gt; WATCH name
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">redis&gt; WATCH name
 OK
 
 redis&gt; MULTI
@@ -263,51 +260,38 @@ redis&gt; SET name peter
 QUEUED
 
 redis&gt; EXEC
-(nil)</pre></td></tr></table>
+(nil)
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<h3 id="watch命令实现">Watch命令实现</h3>
-
+</div><h3 id="watch命令实现">Watch命令实现</h3>
 <ul>
 <li>watched_keys字典</li>
 </ul>
-
 <p>在每个代表数据库的 redis.h/redisDb 结构类型中， 都保存了一个 watched_keys 字典， 字典的键是这个数据库被监视的键， 而字典的值则是一个链表， 链表中保存了所有监视这个键的客户端。</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/64306279-d07e7980-cfc4-11e9-9e77-cd4dd66aeccb.png" alt="image" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/64306279-d07e7980-cfc4-11e9-9e77-cd4dd66aeccb.png" alt="image"></p>
 <p>WATCH 命令的作用， 就是将当前客户端和要监视的键在 watched_keys 中进行关联。</p>
-
 <p>通过 watched_keys 字典， 如果程序想检查某个键是否被监视， 那么它只要检查字典中是否存在这个键即可； 如果程序要获取监视某个键的所有客户端， 那么只要取出键的值（一个链表）， 然后对链表进行遍历即可。</p>
-
 <ul>
 <li>watch触发</li>
 </ul>
-
 <p>在任何对数据库键空间（key space）进行修改的命令成功执行之后 （比如 FLUSHDB 、 SET 、 DEL 、 LPUSH 、 SADD 、 ZREM ，诸如此类）， multi.c/touchWatchedKey 函数都会被调用 —— 它检查数据库的 watched_keys 字典， 看是否有客户端在监视已经被命令修改的键， 如果有的话， 程序将所有监视这个/这些被修改键的客户端的 REDIS_DIRTY_CAS 选项打开：</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/64306899-dd9c6800-cfc6-11e9-92f9-782a0ac91c4b.png" alt="image" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/64306899-dd9c6800-cfc6-11e9-92f9-782a0ac91c4b.png" alt="image"></p>
 <p>当客户端发送 EXEC 命令、触发事务执行时， 服务器会对客户端的状态进行检查：</p>
-
 <p>如果客户端的 REDIS_DIRTY_CAS 选项已经被打开，那么说明被客户端监视的键至少有一个已经被修改了，事务的安全性已经被破坏。服务器会放弃执行这个事务，直接向客户端返回空回复，表示事务执行失败。
 如果 REDIS_DIRTY_CAS 选项没有被打开，那么说明所有监视键都安全，服务器正式执行事务。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">1. client3对 key1 进行了修改
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">1. client3对 key1 进行了修改
 2. 所有监视 key1 的客户端(client2,client5,client6)的 REDIS_DIRTY_CAS 选项都会被打开
-3. 当client2,client5,client6执行 EXEC 的时候， 它们的事务都会失败</pre></td></tr></table>
+3. 当client2,client5,client6执行 EXEC 的时候， 它们的事务都会失败
+</code></pre></td></tr></table>
 </div>
-</div>
-<h3 id="参考">参考</h3>
-
+</div><h3 id="参考">参考</h3>
 <p><a href="https://redisbook.readthedocs.io/en/latest/feature/transaction.html#durability">https://redisbook.readthedocs.io/en/latest/feature/transaction.html#durability</a></p>
     </div>
 
@@ -352,11 +336,11 @@ redis&gt; EXEC
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -381,10 +365,6 @@ redis&gt; EXEC
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -395,13 +375,10 @@ redis&gt; EXEC
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -412,7 +389,10 @@ redis&gt; EXEC
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

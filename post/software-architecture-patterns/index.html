@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/software-architecture-patterns/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/software-architecture-patterns/" />
-<meta property="article:published_time" content="2020-03-12T23:48:19&#43;08:00"/>
-<meta property="article:modified_time" content="2020-03-12T23:48:19&#43;08:00"/>
-
+<meta property="article:published_time" content="2020-03-12T23:48:19+08:00" />
+<meta property="article:modified_time" content="2020-03-12T23:48:19+08:00" />
 <meta itemprop="name" content="软件架构模式分析">
 <meta itemprop="description" content="
 基于O&rsquo;Reilly 《Software Architecture Patterns》,整理分析几种常见软件架构模式
 ">
-
-
 <meta itemprop="datePublished" content="2020-03-12T23:48:19&#43;08:00" />
 <meta itemprop="dateModified" content="2020-03-12T23:48:19&#43;08:00" />
-<meta itemprop="wordCount" content="7214">
+<meta itemprop="wordCount" content="7220">
 
 
 
-<meta itemprop="keywords" content="架构模式," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="架构模式," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="软件架构模式分析"/>
 <meta name="twitter:description" content="
 基于O&rsquo;Reilly 《Software Architecture Patterns》,整理分析几种常见软件架构模式
@@ -104,12 +101,21 @@
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -143,7 +150,7 @@
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E6%9E%B6%E6%9E%84/"> 编程-架构 </a>
             </div>
-          <span class="more-meta"> 7214 words </span>
+          <span class="more-meta"> 7220 words </span>
           <span class="more-meta"> 15 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -153,59 +160,44 @@
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#五种最常见的软件架构">五种最常见的软件架构</a></li>
-<li><a href="#分层架构-layered-architecture">分层架构（Layered Architecture）</a>
-<ul>
-<li><a href="#模式说明">模式说明</a></li>
-<li><a href="#特点">特点</a>
-<ul>
-<li><a href="#污水池反模式-architecture-sinkhole-anti-pattern">污水池反模式（architecture sinkhole anti-pattern）</a></li>
-<li><a href="#巨石应用-monolith">巨石应用（Monolith）</a></li>
-</ul></li>
-<li><a href="#模式分析">模式分析</a></li>
-</ul></li>
-<li><a href="#事件驱动架构-event-driven-architecture">事件驱动架构（Event-Driven Architecture）</a>
-<ul>
-<li><a href="#模式说明-1">模式说明</a>
-<ul>
-<li><a href="#中介拓扑结构-mediator-topology">中介拓扑结构（Mediator Topology）</a></li>
-<li><a href="#代理拓扑结构-broker-topology">代理拓扑结构（Broker Topology）</a></li>
-</ul></li>
-<li><a href="#特点-1">特点</a></li>
-<li><a href="#模式分析-1">模式分析</a></li>
-</ul></li>
-<li><a href="#微内核架构-插件架构-microkernel-architecture">微内核架构-插件架构（Microkernel Architecture）</a>
-<ul>
-<li><a href="#模式说明-2">模式说明</a></li>
-<li><a href="#特点-2">特点</a></li>
-<li><a href="#api网关的插件化">API网关的插件化</a></li>
-<li><a href="#模式分析-2">模式分析</a></li>
-</ul></li>
-<li><a href="#微服务架构-microservices-architecture">微服务架构（Microservices architecture）</a>
-<ul>
-<li><a href="#模式说明-3">模式说明</a>
-<ul>
-<li><a href="#api-rest-based拓扑结构">API REST-based拓扑结构</a></li>
-<li><a href="#applicaiton-rest-based拓扑结构">Applicaiton REST-based拓扑结构</a></li>
-<li><a href="#集中式消息拓扑结构">集中式消息拓扑结构</a></li>
-</ul></li>
-<li><a href="#服务组件间通信">服务组件间通信</a></li>
-<li><a href="#模式分析-3">模式分析</a></li>
-</ul></li>
-<li><a href="#基于空间的架构-云架构-space-based-architecture">基于空间的架构-云架构（Space-Based Architecture）</a>
-<ul>
-<li><a href="#模型说明">模型说明</a>
-<ul>
-<li><a href="#模块间合作-虚拟化中间件组件">模块间合作（虚拟化中间件组件）</a></li>
-<li><a href="#特点-3">特点</a></li>
-</ul></li>
-<li><a href="#模式分析-4">模式分析</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#五种最常见的软件架构">五种最常见的软件架构</a></li>
+    <li><a href="#分层架构layered-architecture">分层架构（Layered Architecture）</a>
+      <ul>
+        <li><a href="#模式说明">模式说明</a></li>
+        <li><a href="#特点">特点</a></li>
+        <li><a href="#模式分析">模式分析</a></li>
+      </ul>
+    </li>
+    <li><a href="#事件驱动架构event-driven-architecture">事件驱动架构（Event-Driven Architecture）</a>
+      <ul>
+        <li><a href="#模式说明-1">模式说明</a></li>
+        <li><a href="#特点-1">特点</a></li>
+        <li><a href="#模式分析-1">模式分析</a></li>
+      </ul>
+    </li>
+    <li><a href="#微内核架构-插件架构microkernel-architecture">微内核架构-插件架构（Microkernel Architecture）</a>
+      <ul>
+        <li><a href="#模式说明-2">模式说明</a></li>
+        <li><a href="#特点-2">特点</a></li>
+        <li><a href="#api网关的插件化">API网关的插件化</a></li>
+        <li><a href="#模式分析-2">模式分析</a></li>
+      </ul>
+    </li>
+    <li><a href="#微服务架构microservices-architecture">微服务架构（Microservices architecture）</a>
+      <ul>
+        <li><a href="#模式说明-3">模式说明</a></li>
+        <li><a href="#服务组件间通信">服务组件间通信</a></li>
+        <li><a href="#模式分析-3">模式分析</a></li>
+      </ul>
+    </li>
+    <li><a href="#基于空间的架构-云架构space-based-architecture">基于空间的架构-云架构（Space-Based Architecture）</a>
+      <ul>
+        <li><a href="#模型说明">模型说明</a></li>
+        <li><a href="#模式分析-4">模式分析</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -213,15 +205,10 @@
       <blockquote>
 <p>基于O&rsquo;Reilly 《Software Architecture Patterns》,整理分析几种常见软件架构模式</p>
 </blockquote>
-
 <h2 id="五种最常见的软件架构">五种最常见的软件架构</h2>
-
 <p>软件架构（software architecture）即软件的基本结构。软件架构经常伴随着架构模式，架构模式是一个通用的、可重用的解决方案，用于在给定上下文中的软件体系结构中经常出现的问题。架构模式与软件设计模式类似，但具有更广泛的范围。</p>
-
 <p>参考：<a href="https://www.oreilly.com/programming/free/files/software-architecture-patterns.pdf">software-architecture-patterns</a>, 中文版连接 <a href="https://github.com/hehonghui/android-tech-frontier/tree/master/software-architecture-patterns">software-architecture-patterns中文版</a></p>
-
 <p>常见的架构模式有如下五种：</p>
-
 <ul>
 <li>分层架构</li>
 <li>事件驱动架构</li>
@@ -229,52 +216,34 @@
 <li>微服务架构</li>
 <li>云架构</li>
 </ul>
-
-<h2 id="分层架构-layered-architecture">分层架构（Layered Architecture）</h2>
-
+<h2 id="分层架构layered-architecture">分层架构（Layered Architecture）</h2>
 <h3 id="模式说明">模式说明</h3>
-
 <p>分层架构也叫N层架构，是一种很常见的架构模式，是大多数Jave EE单体应用的实际标准。分层架构模式里的组件被分成几个平行的层次，每一层都代表了应用的一个功能，大多数的结构都分成四个层次:展示层，业务层，持久层，和数据层。</p>
-
 <p>在传统MVC模式中各层职责如下：</p>
-
 <ol>
 <li>展示层：处理界面展示与交互逻辑</li>
 <li>业务层：负责处理请求对应的业务</li>
 <li>持久层：提供数据，操作数据</li>
 <li>数据层：数据存储</li>
 </ol>
-
 <h3 id="特点">特点</h3>
-
-<p><strong>关注点分离，</strong>每一层只会处理本层的逻辑，每一层都是封闭的，层层传递，这是分层架构最重要的特点。很容易做到<strong>层隔离</strong>，某一层的改变不会影响到其他层。应用更容易开发，重构，测试，管理与维护。</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/76158080-dc522080-614c-11ea-83f5-9d69e9d1968c.png" alt="图片" /></p>
-
+<p><strong>关注点分离，<strong>每一层只会处理本层的逻辑，每一层都是封闭的，层层传递，这是分层架构最重要的特点。很容易做到</strong>层隔离</strong>，某一层的改变不会影响到其他层。应用更容易开发，重构，测试，管理与维护。</p>
+<p><img src="https://user-images.githubusercontent.com/19829495/76158080-dc522080-614c-11ea-83f5-9d69e9d1968c.png" alt="图片"></p>
 <p>基本请求流程：</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/76158093-f986ef00-614c-11ea-973d-88a7c035c1ce.png" alt="图片" /></p>
-
-<h4 id="污水池反模式-architecture-sinkhole-anti-pattern">污水池反模式（architecture sinkhole anti-pattern）</h4>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/76158093-f986ef00-614c-11ea-973d-88a7c035c1ce.png" alt="图片"></p>
+<h4 id="污水池反模式architecture-sinkhole-anti-pattern">污水池反模式（architecture sinkhole anti-pattern）</h4>
 <p>需要注意防止架构陷入<strong>污水池反模式</strong> ，这种反模式描述了请求流只是简单的穿过层次，但没做任何处理或者只处理了很少的事（例如从展示层到数据层只做了Request的传递，然后到持久层进行简单sql查询后返回查询的数据，不做其他操作处理）。利用80-20原则可以帮助确定架构是否陷入污水池反模式。大概有百分之二十的请求仅仅是做简单的穿透，百分之八十的请求会做一些业务逻辑操作是正常的情况。然而，如果这个比例反过来，大部分的请求都是仅仅穿过层，不做逻辑操作，架构就陷入了<strong>污水池反模式</strong>，可以对一些架构层进行开放或者减少层级关系。</p>
-
-<h4 id="巨石应用-monolith">巨石应用（Monolith）</h4>
-
+<h4 id="巨石应用monolith">巨石应用（Monolith）</h4>
 <p>分层架构容易演变为<strong>巨石应用（Monolith）</strong>，导致代码库难以维护。
 将所有功能都部署在一个web容器中运行的系统就叫做巨石型应用。巨石型应用的好处是IDE都是为开发单个应用设计的容易开发、容易测试，容易部署——直接打包为一个完整的包，拷贝到web容器的某个目录下即可运行。</p>
-
 <p>但对于大规模的复杂应用，巨石型应用会显得特别笨重：</p>
-
 <ul>
 <li>要修改一个地方就要将整个应用全部部署</li>
 <li>编译时间过长；回归测试周期过长</li>
 <li>开发效率降低等</li>
 <li>巨石应用不利于更新技术框架（全部重写）</li>
 </ul>
-
 <h3 id="模式分析">模式分析</h3>
-
 <table>
 <thead>
 <tr>
@@ -282,103 +251,69 @@
 <th>Reviews</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td align="right">整体灵活性</td>
 <td>较低（组件之间是强耦合的）</td>
 </tr>
-
 <tr>
 <td align="right">部署难易度</td>
 <td>较低（小改动就需要整体发布）</td>
 </tr>
-
 <tr>
 <td align="right">可测试性</td>
 <td>较高（因为层隔离的关系，可以对各层进行隔绝测试，模拟其他层数据）</td>
 </tr>
-
 <tr>
 <td align="right">性能</td>
 <td>较低（因为一次Request要穿透所有架构层，会带来不必要的操作）</td>
 </tr>
-
 <tr>
 <td align="right">伸缩性</td>
 <td>较低（分层架构构建的程序一般是单体应用，把各个层分成单独的物理模块或者把整个程序分成多个节点来扩展分层架构，但是总体的关系过于紧密，很难扩展）</td>
 </tr>
-
 <tr>
 <td align="right">易开发性</td>
 <td>较高（实现难度低，结构简单，容易理解，不同技能的程序员可以分工，负责不同的层）</td>
 </tr>
 </tbody>
 </table>
-
-<h2 id="事件驱动架构-event-driven-architecture">事件驱动架构（Event-Driven Architecture）</h2>
-
+<h2 id="事件驱动架构event-driven-architecture">事件驱动架构（Event-Driven Architecture）</h2>
 <h3 id="模式说明-1">模式说明</h3>
-
 <p>事件驱动架构模式是一种主流的异步分发事件架构模式，用于创建可伸缩的应用程序。事件驱动架构模式由高度解耦、单一目的的事件处理组件构成，这些组件负责异步接收和处理事件。</p>
-
 <p>事件驱动架构模式包含了两种主要的拓扑结构：中介拓扑结构（Mediator Topology）和代理拓扑结构（Broker Topology）。中介拓扑结构会在一个事件内用一个核心中介分配协调多个步骤之间的关系，执行顺序；代理拓扑结构则不需要中介进行协调。</p>
-
-<h4 id="中介拓扑结构-mediator-topology">中介拓扑结构（Mediator Topology）</h4>
-
+<h4 id="中介拓扑结构mediator-topology">中介拓扑结构（Mediator Topology）</h4>
 <p>中介拓扑结构适合用于拥有多个步骤，并需要在处理事件时能通过某种程度的协调将事件进行分层处理的场景。</p>
-
 <p><strong>主要有四种组件：</strong></p>
-
 <ul>
 <li>事件队列（event queue）</li>
 <li>事件中介（event mediator）</li>
 <li>事件通道（event channel）</li>
 <li>事件处理器（event processor）</li>
 </ul>
-
 <p><strong>组件功能（事件流处理过程）：</strong></p>
-
 <p>客户端将一个事件发送到某个事件队列中，消息队列将其运输给事件中介进行处理和分发。事件中介接收到事件消息后进行分配、协调，通过将额外的异步事件发送给事件通道，事件处理器监听事件通道消息，对其进行消费处理。</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/76160398-0283ba80-6165-11ea-8cc6-b8df6ed5bc5e.png" alt="图片" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/76160398-0283ba80-6165-11ea-8cc6-b8df6ed5bc5e.png" alt="图片"></p>
 <p>事件驱动架构模式中主要有两种事件：初始事件（中介所接收到的最原始的事件）待处理事件（由事件中介生成，由事件处理器接收的事件）。事件中介负责分配、协调初始事件中的各个待执行步骤，为每一个初始事件中的步骤发送一个特定的待处理事件到事件通道中，触发事件处理器接收和处理该待处理事件。</p>
-
 <p>事件中介通过事件通道将与初始事件每一个执行步骤相关联的特定待处理事件传递给事件处理器。事件队列既可以是消息队列，也可以是消息topic，大部分是消息topic，这样可以由多个消息处理器处理同一个消息。</p>
-
 <p>事件处理器作为事件驱动架构中的组件，不依赖于其他组件，独立运作，高度解耦，在应用或系统中完成特定的任务。一般来说，每一个事件处理器组件都只完成一项唯一的业务工作，在完成其特定的业务工作时不能依赖其他事件处理器（事件处理器是解耦合的）。</p>
-
 <p><strong>相关实现：</strong></p>
-
 <p>Eclipse基金会下的Vert.x就是典型的基于中介拓扑结构的应用框架，Vert.x中的部署单位称为Verticle，Verticle通过事件循环处理传入事件到事件队列中（event queue），其中Event Loop对事件进行高速分发（event mediator与event channel），通过Context关联的Handler进行事件异步处理（event processor）。</p>
-
-<h4 id="代理拓扑结构-broker-topology">代理拓扑结构（Broker Topology）</h4>
-
+<h4 id="代理拓扑结构broker-topology">代理拓扑结构（Broker Topology）</h4>
 <p>代理拓扑结构不使用任何集中的编排，没有核心的事件中介，而是在事件处理器之间使用简单的队列或者集线器，事件处理器知道处理事件的下一个事件处理器。所有的事件通过一个轻量级的消息中间件如RabbitMQ，ActiveMQ等串联起来。如果你的消息比较简单，不需要重新编排，就可以使用这种结构。</p>
-
 <p><strong>主要有两种组件：</strong></p>
-
 <ul>
 <li>代理（可被集中或相互关联在一起使用，包含所有事件流中使用的事件通道）</li>
 <li>事件处理器</li>
 <li>事件通道（存在于代理组件中的事件通道可以是消息队列，消息主题,或者是两者的组合）</li>
 </ul>
-
 <p><strong>组件功能：</strong></p>
-
 <p>代理拓扑结构大致如下图，包含两个组件代理（broker）和 事件处理器（event processor）。其中没有一个核心的事件中介组件控制和分发初始事件；相反，每一个事件处理器只负责处理一个事件，并向外发送一个事件，以标明其刚刚执行的动作。</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/76222284-5a015380-6255-11ea-8097-5fd95c6ada6a.png" alt="图片" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/76222284-5a015380-6255-11ea-8097-5fd95c6ada6a.png" alt="图片"></p>
 <h3 id="特点-1">特点</h3>
-
 <p>实现事件驱动架构模式相对于实现其他架构模式会更困难一些，因为它通过异步处理进行事件分发。使用这种架构模式会面对，比如网络分区、中介分发失败、重新连接逻辑等。</p>
-
 <p>需要注意，处理单个业务逻辑时，这种架构模式不能处理细粒度的事务。因为事件处理器都高度解耦、并且广泛分布，使得在这些事件处理器中维持一个业务单元变得非常困难。因此，使用这种架构模式时，需要考虑哪些事件能单独被处理，哪些不能，并为此设计相应事件处理器的处理粒度。如果特别依赖事务，可以选择引入一些分布式事务的框架进行处理。</p>
-
 <h3 id="模式分析-1">模式分析</h3>
-
 <table>
 <thead>
 <tr>
@@ -386,79 +321,54 @@
 <th>Reviews</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td align="right">整体灵活性</td>
 <td>高（事件处理器组件是单一的，独立的，高度解耦的）</td>
 </tr>
-
 <tr>
 <td align="right">部署难易度</td>
 <td>较低（事件处理器可以分开部署）</td>
 </tr>
-
 <tr>
 <td align="right">可测试性</td>
 <td>较低（事件驱动架构模式是异步进行事件分发的，异步处理带来测试难度）</td>
 </tr>
-
 <tr>
 <td align="right">性能</td>
 <td>高（高度解耦，异步并行操作大大减少了传递消息过程中带来的时间开销）</td>
 </tr>
-
 <tr>
 <td align="right">伸缩性</td>
 <td>高（因为高度解耦、相互独立的事件处理器组件的存在，架构具有高扩展性）</td>
 </tr>
-
 <tr>
 <td align="right">易开发性</td>
 <td>较低（架构的异步处理机制、协议创建流程，并且需要对事件处理器和操作失败的代理提供错误控制，提高了开发难度）</td>
 </tr>
 </tbody>
 </table>
-
-<h2 id="微内核架构-插件架构-microkernel-architecture">微内核架构-插件架构（Microkernel Architecture）</h2>
-
+<h2 id="微内核架构-插件架构microkernel-architecture">微内核架构-插件架构（Microkernel Architecture）</h2>
 <p>微内核架构（Microkernel architecture）模式也被称为插件架构（plugin architecture）模式，可以用来实现基于产品的应用程序，微内核架构模式可以通过插件的形式添加额外的特性到核心系统中，提供了很好的扩展性，使得新特性与核心系统隔离开来。例如一些IDE类的产品，如Eclipse基于插件化开发的，eclipse核心是一个微内核，其他的功能如android，c++，J2EE，UML等支持可以通过安装插件的形式添加到eclipse中。</p>
-
 <h3 id="模式说明-2">模式说明</h3>
-
 <p>微内核架构主要包含两种组件:</p>
-
 <ul>
 <li>核心系统</li>
 <li>插件模块</li>
 </ul>
-
 <p>应用逻辑被划分为独立的插件模块和核心系统，提供良好的可扩展性、灵活性，应用的新特性和自定义处理逻辑也会被隔离。</p>
-
 <p>如下图所示，微内核架构的核心系统一般情况下只包含一个能够使系统运作起来的最小化模块。核心系统通常是为特定的使用场景、规则、或者复杂条件处理定义了通用的业务逻辑，而插件模块根据这些规则实现了具体的业务逻辑。</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/76321351-e0349d00-631c-11ea-9b33-a2479b2ed352.png" alt="图片" /></p>
-
-<p><strong>核心模块：</strong>了解插件模块的可用性与获取插件的方式。可以通过插件注册表的方式维护插件的信息（名称，数据规约，访问协议&hellip;）。</p>
-
-<p><strong>插件模块：</strong>绑定到核心模块，可以通过OSGi 、消息机制、web服务或者点对点的绑定。</p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/76321351-e0349d00-631c-11ea-9b33-a2479b2ed352.png" alt="图片"></p>
+<p>**核心模块：**了解插件模块的可用性与获取插件的方式。可以通过插件注册表的方式维护插件的信息（名称，数据规约，访问协议&hellip;）。</p>
+<p>**插件模块：**绑定到核心模块，可以通过OSGi 、消息机制、web服务或者点对点的绑定。</p>
 <h3 id="特点-2">特点</h3>
-
 <p>微内核架构模式可以嵌入或用作另一种架构模式的一部分。例如可以利用微内核架构解决应用中一部分易变领域的特定的问题。</p>
-
 <p>微内核架构对渐进式设计和增量开发提供了很好的支持。可以先构建一个单纯的核心系统，随着应用的演进逐渐添加越来越多的特性和功能，插件化的迭代升级不会引起核心系统的重大变化。</p>
-
 <h3 id="api网关的插件化">API网关的插件化</h3>
-
 <p>API网关特别适合基于插件架构进行设计。其大部分功能如鉴权、WAF、黑白名单、限流、路由、协议转换、熔断等都是适用于各个场景的，很多时候对于一些服务网关层并不需要这些功能的实现，因此对这部分功能进行插件化与热插拔功能实现可以大大提升网关自身的灵活性与可扩展性。像一些著名的网关如Kong，SpringCloud Gateway，Soul都是基于插件架构设计的。</p>
-
 <p>拦截过滤器模式（Intercepting Filter Pattern）用于对应用程序的请求或响应做一些预处理/后处理。定义过滤器，并在把请求传给实际目标应用程序之前应用在请求上。Soul网关就是基于这个设计模式进行插件架构设计。</p>
-
 <p>具体模式实现可参考：<a href="https://www.tutorialspoint.com/design_pattern/intercepting_filter_pattern.htm">https://www.tutorialspoint.com/design_pattern/intercepting_filter_pattern.htm</a></p>
-
 <h3 id="模式分析-2">模式分析</h3>
-
 <table>
 <thead>
 <tr>
@@ -466,90 +376,62 @@
 <th>Reviews</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td align="right">整体灵活性</td>
 <td>高（插件模块的松耦合实现，可以将变化隔离起来，并且快速满足需求）</td>
 </tr>
-
 <tr>
 <td align="right">部署难易度</td>
 <td>较低（插件模块可以在运行时被动态地添加到核心系统中 （ 比如，热部署 ）,避免重复部署）</td>
 </tr>
-
 <tr>
 <td align="right">可测试性</td>
 <td>高（插件模块能够被独立的测试，而且很容易模拟演示）</td>
 </tr>
-
 <tr>
 <td align="right">性能</td>
 <td>高（高度解耦，高度可定制性可以只加载需要的功能减小性能消耗）</td>
 </tr>
-
 <tr>
 <td align="right">伸缩性</td>
 <td>低（微内核架构的实现是基于产品的，通常以独立单元的形式实现，伸缩性较低）</td>
 </tr>
-
 <tr>
 <td align="right">易开发性</td>
 <td>较低（需要详尽周全的设计和规约管理，插件的注册，粒度，连接选择等导致架构实现较复杂）</td>
 </tr>
 </tbody>
 </table>
-
-<h2 id="微服务架构-microservices-architecture">微服务架构（Microservices architecture）</h2>
-
+<h2 id="微服务架构microservices-architecture">微服务架构（Microservices architecture）</h2>
 <h3 id="模式说明-3">模式说明</h3>
-
 <p><strong>微服务架构的几个概念：</strong></p>
-
 <ul>
 <li>单独部署单元：微服务架构的每个组件都作为一个独立单元进行部署，让每个单元可以通过有效、简化的传输管道进行通信，且具有扩展性，应用和组件之间高度解耦，使得部署更为简单。</li>
 <li>服务组件：服务组件包含一个或多个模块，提供一个单一功能（如，根据地区获取天气情况）或作为一个大型商业应用的一个独立部分（费率计算），需要权衡考虑如何正确设计服务组件的粒度。</li>
-<li>*分布式*的架构：架构内部的所有组件之间是完全解耦的，通过某种远程访问协议（如，REST,Dubbo，Grpc等）进行访问。</li>
+<li><em>分布式</em>的架构：架构内部的所有组件之间是完全解耦的，通过某种远程访问协议（如，REST,Dubbo，Grpc等）进行访问。</li>
 <li>微服务架构由其他常见架构模式存在的问题演化来的（非作为一个解决方案被创造出来），主要是从分层架构模式的单体应用和面向服务架构的分布式应用，由持续交付开发促成。</li>
 </ul>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/76429304-d2991900-63e9-11ea-9b7f-171ad7f7cf71.png" alt="图片" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/76429304-d2991900-63e9-11ea-9b7f-171ad7f7cf71.png" alt="图片"></p>
 <p>如图所示，每一个微服务的组件都被分隔成一个独立的单元。服务组件（service component）从粒度上讲它可以是单一的模块或者多个模块组成的应用程序，代表单一功能。</p>
-
 <p>实现微服务架构，可以通过如下三个主要的拓扑模式：</p>
-
 <h4 id="api-rest-based拓扑结构">API REST-based拓扑结构</h4>
-
 <p>基于REST的API拓扑通过某些API（application programming interface）对外提供小型的、自包含的服务，由粒度非常细的服务组件组成，这些服务组件包含一个或两个模块并独立于其他服务来执行特定业务功能。这些细粒度的服务组件通常被REST-based的接口访问，而这个接口是通过一个单独部署的web API层实现的。常见于基于云的RESTful web service。</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/76432650-3de4ea00-63ee-11ea-8ce2-3ce52fe11695.png" alt="图片" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/76432650-3de4ea00-63ee-11ea-8ce2-3ce52fe11695.png" alt="图片"></p>
 <h4 id="applicaiton-rest-based拓扑结构">Applicaiton REST-based拓扑结构</h4>
-
 <p>Applicaiton REST-based不同于上面的架构，客户端看到的是web界面或者富客户端程序，而不是调用API层。应用的用户接口层（user interface layer）是一个web应用，可以通过简单的REST-based接口访问单独部署的服务组件（业务功能）。与API REST-based拓扑结构不同，服务组件往往会更大、粒度更粗、代表整个业务应用程序的一小部分，而不是细粒度的、单一操作的服务。常见于Saas类的企业应用。</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/76433132-ded3a500-63ee-11ea-8c8c-320a5fbd99a9.png" alt="图片" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/76433132-ded3a500-63ee-11ea-8c8c-320a5fbd99a9.png" alt="图片"></p>
 <h4 id="集中式消息拓扑结构">集中式消息拓扑结构</h4>
-
 <p>集中式消息拓扑结构与Applicaiton REST-based拓扑结构类似，但是使用一个轻量级的消息broker取代RESTful的服务调用（例如MQ中间件）。不同于SOA，轻量级消息代理（Lightweight Message Broker）不执行任何编排,转换,或复杂的路由;它只是一个轻量级访问远程服务组件的传输工具。</p>
-
 <p>集中式消息拓扑结构通常应用在较大的业务应用程序中，具有排队机制、异步消息传递、监控、错误处理和更好的负载均衡和可扩展性。</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/76433589-7c2ed900-63ef-11ea-940a-695b0750ace7.png" alt="图片" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/76433589-7c2ed900-63ef-11ea-940a-695b0750ace7.png" alt="图片"></p>
 <h3 id="服务组件间通信">服务组件间通信</h3>
-
 <p>服务组件间通信一般可以通过两种大的方式</p>
-
 <ul>
 <li><strong>Remote Procedure Call</strong>：基于HTTP协议或者私有协议的RPC调用（同步/异步）</li>
 <li><strong>AMQP-based</strong>：基于消息队列的异步消息处理机制（异步）</li>
 </ul>
-
 <h3 id="模式分析-3">模式分析</h3>
-
 <table>
 <thead>
 <tr>
@@ -557,102 +439,70 @@
 <th>Reviews</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td align="right">整体灵活性</td>
 <td>高（服务组件隔离变化，松耦合的架构，更好地支持持续交付）</td>
 </tr>
-
 <tr>
 <td align="right">部署难易度</td>
 <td>较低（单独部署单元，更好地支持持续集成持续发布）</td>
 </tr>
-
 <tr>
 <td align="right">可测试性</td>
 <td>高（业务功能被分离成独立的应用模块,可以在局部范围内进行测试）</td>
 </tr>
-
 <tr>
 <td align="right">性能</td>
 <td>低（整体上由于微服务架构模式的分布式特性带来的远程调用，链路边长等性能损耗，并不适用于高性能的应用程序）</td>
 </tr>
-
 <tr>
 <td align="right">扩展性</td>
 <td>高（应用程序被分为单独的部署单元,每个服务组件可以单独扩展，扩展性较高）</td>
 </tr>
-
 <tr>
 <td align="right">易开发性</td>
 <td>高（功能被分隔成不同的服务组件，开发范围更小且被隔离，开发变得更简单而且可以减少开发人员或开发团队之间的协调）</td>
 </tr>
 </tbody>
 </table>
-
-<h2 id="基于空间的架构-云架构-space-based-architecture">基于空间的架构-云架构（Space-Based Architecture）</h2>
-
+<h2 id="基于空间的架构-云架构space-based-architecture">基于空间的架构-云架构（Space-Based Architecture）</h2>
 <p>一般基于web的应用随着用户负载的增加会出现瓶颈，先在web服务器层，后是应用服务器层，最后到数据库层。一般的解决办法就是<strong>向外扩展</strong>，例如扩展服务器数量。最终会陷入一个金字塔式的情形，在金字塔最下面是web服务器，它会出现最多的问题，但也最好伸缩。金字塔顶部是数据库服务器，问题不多，但最难伸缩。虽然有各种缓存技术和数据库伸缩产品都在帮助解决这个问题，但数据库难以伸缩的现实并没有改变。</p>
-
 <p>基于空间的架构模型是为了<strong>解决伸缩性和并发问题</strong>而设计的。目的在架构上解决这个伸缩性问题。</p>
-
 <h3 id="模型说明">模型说明</h3>
-
 <p>基于空间的架构模型（云架构模型）旨在减少限制应用伸缩的因素，名字来源于分布式共享内存中的 tuple space（数组空间）概念。通过去除中心数据库的限制做到高伸缩性，数据基于分布式共享内存进行数据共享。进程可以动态的随着用户数量增减而启动或结束，去除了中心数据库瓶颈的限制，以此来解决伸缩性问题和扩展性问题。</p>
-
 <p><strong>主要模块：</strong></p>
-
 <ul>
 <li>处理单元（processing unit）</li>
 </ul>
-
 <p>处理单元中包含着应用模块、内存中数据框架、处理异步数据恢复的组件和复制引擎的处理单元架构。</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/76535402-c24e7000-64b5-11ea-815d-2cc8533f0462.png" alt="图片" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/76535402-c24e7000-64b5-11ea-815d-2cc8533f0462.png" alt="图片"></p>
 <ul>
 <li>虚拟化中间件（virtualized middleware）</li>
 </ul>
-
 <p>虚拟化中间件负责保护自身以及通信。它包含用于数据同步和处理请求的模块，以及通信框架，数据框架，处理框架和部署管理器。</p>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/76527663-924d9f80-64aa-11ea-9c76-ae4a5325d698.png" alt="图片" /></p>
-
-<h4 id="模块间合作-虚拟化中间件组件">模块间合作（虚拟化中间件组件）</h4>
-
+<p><img src="https://user-images.githubusercontent.com/19829495/76527663-924d9f80-64aa-11ea-9c76-ae4a5325d698.png" alt="图片"></p>
+<h4 id="模块间合作虚拟化中间件组件">模块间合作（虚拟化中间件组件）</h4>
 <ul>
 <li>通信框架（Messaging Grid）</li>
 </ul>
-
 <p>通信框架管理输入请求和会话信息。当有请求进入虚拟化中间件，通信框架就决定有哪个处理单元可用，并将请求通过负载算法传递给这个处理单元。</p>
-
 <ul>
 <li>数据框架（Data Grid）</li>
 </ul>
-
 <p>数据框架与各个处理单元的数据复制引擎交互，在数据更新时来管理数据复制功能。</p>
-
 <ul>
 <li>处理框架（Processing Grid）</li>
 </ul>
-
 <p>处理框架负责管理在有多个处理单元时的分布式请求处理。</p>
-
 <ul>
 <li>部署管理器（Deployment Manager）</li>
 </ul>
-
 <p>部署管理器根据负载情况管理处理单元的动态启动和关闭。它持续监控响应时间和用户负载，在负载增加时启动新的处理单元，在负载下降时关闭处理单元，以达到实现架构的高伸缩性。</p>
-
 <h4 id="特点-3">特点</h4>
-
 <p>基于空间的架构是一个复杂而昂贵的模式，适合于小型的负载可变的web应用，对于拥有大量的传统大规模关系型数据库应用不适用。</p>
-
 <p>虽然基于空间的架构模型不需要集中式的数据储存，但是需要一个进行初始化内存中数据框架，和异步的更新各处理单元数据的框架，通常会创建一个单独的分区以减少处理单元之间对对方内存数据的依赖。</p>
-
 <h3 id="模式分析-4">模式分析</h3>
-
 <table>
 <thead>
 <tr>
@@ -660,33 +510,27 @@
 <th>Reviews</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td align="right">整体灵活性</td>
 <td>高（处理单元隔离变化，松耦合的架构，更好地支持持续交付）</td>
 </tr>
-
 <tr>
 <td align="right">部署难易度</td>
 <td>较低（单独部署处理单元，更好地支持持续集成持续发布）</td>
 </tr>
-
 <tr>
 <td align="right">可测试性</td>
 <td>低（测试高用户负载很昂贵而且很耗时）</td>
 </tr>
-
 <tr>
 <td align="right">性能</td>
 <td>高（数据在内存中存取以及支持缓存机制）</td>
 </tr>
-
 <tr>
 <td align="right">伸缩性</td>
 <td>高（几乎不依赖集中式的数据库，可以轻松进行单元扩展）</td>
 </tr>
-
 <tr>
 <td align="right">易开发性</td>
 <td>低（分布式内存数据管理框架提高开发难度）</td>
@@ -736,11 +580,11 @@
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -765,10 +609,6 @@
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -779,13 +619,10 @@
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -796,7 +633,10 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/python-requests/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@ Python Requests模块
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/python-requests/" />
-<meta property="article:published_time" content="2019-11-26T23:54:39&#43;08:00"/>
-<meta property="article:modified_time" content="2019-11-26T23:54:39&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-11-26T23:54:39+08:00" />
+<meta property="article:modified_time" content="2019-11-26T23:54:39+08:00" />
 <meta itemprop="name" content="Python-Requests">
 <meta itemprop="description" content="
 Python Requests模块
 ">
-
-
 <meta itemprop="datePublished" content="2019-11-26T23:54:39&#43;08:00" />
 <meta itemprop="dateModified" content="2019-11-26T23:54:39&#43;08:00" />
 <meta itemprop="wordCount" content="316">
 
 
 
-<meta itemprop="keywords" content="Python," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Python," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Python-Requests"/>
 <meta name="twitter:description" content="
 Python Requests模块
@@ -104,12 +101,21 @@ Python Requests模块
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@ Python Requests模块
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -153,17 +160,15 @@ Python Requests模块
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#安装">安装</a></li>
-<li><a href="#请求">请求</a></li>
-<li><a href="#response">response</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#安装">安装</a></li>
+        <li><a href="#请求">请求</a></li>
+        <li><a href="#response">response</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -171,11 +176,10 @@ Python Requests模块
       <blockquote>
 <p>Python Requests模块</p>
 </blockquote>
-
 <h3 id="安装">安装</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -188,9 +192,9 @@ Python Requests模块
 </span><span class="lnt">11
 </span><span class="lnt">12
 </span><span class="lnt">13
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 1 直接install
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 1 直接install
 pip install requests
 
 # 2 在requirements.txt中配置 在requirements.txt类似于maven的pom文件
@@ -202,135 +206,142 @@ pip freeze &gt; requirements.txt
 requests==2.22.0
 
 ## 安装依赖(所有)
-pip install -r requirements.txt</pre></td></tr></table>
+pip install -r requirements.txt
+</code></pre></td></tr></table>
 </div>
-</div>
-<h3 id="请求">请求</h3>
-
+</div><h3 id="请求">请求</h3>
 <ul>
-<li><p>导入相关包</p>
+<li>导入相关包</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">import requests</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">import requests
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>无参数的get请求</p>
+</div><ul>
+<li>无参数的get请求</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">r=requests.get(&#34;http://www.bfreeman.cn&#34;)</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">r=requests.get(&#34;http://www.bfreeman.cn&#34;)
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>带参数的get请求</p>
+</div><ul>
+<li>带参数的get请求</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">params = {&#39;key1&#39;: &#39;value1&#39;, &#39;key2&#39;: &#39;value2&#39;}
-r = requests.get(&#34;http://www.bfreeman.cn&#34;, params=params)</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">params = {&#39;key1&#39;: &#39;value1&#39;, &#39;key2&#39;: &#39;value2&#39;}
+r = requests.get(&#34;http://www.bfreeman.cn&#34;, params=params)
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>post请求</p>
+</div><ul>
+<li>post请求</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">r = requests.post(&#34;http://www.bfreeman.cn&#34;, data = {&#34;key&#34;:&#34;value&#34;})</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">r = requests.post(&#34;http://www.bfreeman.cn&#34;, data = {&#34;key&#34;:&#34;value&#34;})
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>post json请求</p>
+</div><ul>
+<li>post json请求</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">params = {&#34;key&#34;:&#34;value&#34;}
-r = requests.post(&#34;http://www.bfreeman.cn&#34;, json = params)</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">params = {&#34;key&#34;:&#34;value&#34;}
+r = requests.post(&#34;http://www.bfreeman.cn&#34;, json = params)
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>文件发送</p>
+</div><ul>
+<li>文件发送</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">files = {&#39;file&#39;: open(&#39;report.xls&#39;, &#39;rb&#39;)}
-r = requests.post(&#34;http://www.bfreeman.cn&#34;, files=files)</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">files = {&#39;file&#39;: open(&#39;report.xls&#39;, &#39;rb&#39;)}
+r = requests.post(&#34;http://www.bfreeman.cn&#34;, files=files)
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>文件发送指定额外信息</p>
+</div><ul>
+<li>文件发送指定额外信息</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">files = {&#39;file&#39;: (&#39;report.xls&#39;, open(&#39;report.xls&#39;, &#39;rb&#39;), &#39;application/vnd.ms-excel&#39;, {&#39;Expires&#39;: &#39;0&#39;})}
-r = requests.post(&#34;http://www.bfreeman.cn&#34;, files=files)</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">files = {&#39;file&#39;: (&#39;report.xls&#39;, open(&#39;report.xls&#39;, &#39;rb&#39;), &#39;application/vnd.ms-excel&#39;, {&#39;Expires&#39;: &#39;0&#39;})}
+r = requests.post(&#34;http://www.bfreeman.cn&#34;, files=files)
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>headers</p>
+</div><ul>
+<li>headers</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">headers = {&#39;content-type&#39;: &#39;application/json&#39;}
-r= requests.get(&#34;http://www.bfreeman.cn&#34;,headers=headers)</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+r= requests.get(&#34;http://www.bfreeman.cn&#34;,headers=headers)
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>cookie</p>
+</div><ul>
+<li>cookie</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">cookies={&#39;cookies_are&#39;:&#39;working&#39;}
-r = requests.get(&#34;http://www.bfreeman.cn&#34;, cookies=cookies)</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">cookies={&#39;cookies_are&#39;:&#39;working&#39;}
+r = requests.get(&#34;http://www.bfreeman.cn&#34;, cookies=cookies)
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>session</p>
+</div><ul>
+<li>session</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">s=requests.Session()
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">s=requests.Session()
 login_data={&#39;form_email&#39;:&#39;youremail@example.com&#39;,&#39;form_password&#39;:&#39;yourpassword&#39;}
 s.post(&#34;http://www.bfreeman.cn/login&#34;,login_data)
-r = s.get(&#34;http://www.bfreeman.cn&#34;)</pre></td></tr></table>
+r = s.get(&#34;http://www.bfreeman.cn&#34;)
+</code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-
-<h3 id="response">response</h3>
+</div><h3 id="response">response</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -338,16 +349,17 @@ r = s.get(&#34;http://www.bfreeman.cn&#34;)</pre></td></tr></table>
 </span><span class="lnt">6
 </span><span class="lnt">7
 </span><span class="lnt">8
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"># 返回文本
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 返回文本
 r.text
 # 返回字节流
 r.content
 # 返回json
 r.json
 # 返回状态码
-r.status_code</pre></td></tr></table>
+r.status_code
+</code></pre></td></tr></table>
 </div>
 </div>
     </div>
@@ -393,11 +405,11 @@ r.status_code</pre></td></tr></table>
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -422,10 +434,6 @@ r.status_code</pre></td></tr></table>
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -436,13 +444,10 @@ r.status_code</pre></td></tr></table>
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -453,7 +458,10 @@ r.status_code</pre></td></tr></table>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

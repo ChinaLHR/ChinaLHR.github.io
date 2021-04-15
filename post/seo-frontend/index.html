@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/seo-frontend/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@ SEO与前端开发中的实践
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/seo-frontend/" />
-<meta property="article:published_time" content="2019-10-09T12:51:57&#43;08:00"/>
-<meta property="article:modified_time" content="2019-10-09T12:51:57&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-10-09T12:51:57+08:00" />
+<meta property="article:modified_time" content="2019-10-09T12:51:57+08:00" />
 <meta itemprop="name" content="SEO-前端优化">
 <meta itemprop="description" content="
 SEO与前端开发中的实践
 ">
-
-
 <meta itemprop="datePublished" content="2019-10-09T12:51:57&#43;08:00" />
 <meta itemprop="dateModified" content="2019-10-09T12:51:57&#43;08:00" />
-<meta itemprop="wordCount" content="1920">
+<meta itemprop="wordCount" content="1912">
 
 
 
-<meta itemprop="keywords" content="SEO优化," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="SEO优化," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="SEO-前端优化"/>
 <meta name="twitter:description" content="
 SEO与前端开发中的实践
@@ -104,12 +101,21 @@ SEO与前端开发中的实践
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@ SEO与前端开发中的实践
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -143,7 +150,7 @@ SEO与前端开发中的实践
         <div class="post-category">
             <a href="/categories/seo/"> SEO </a>
             </div>
-          <span class="more-meta"> 1920 words </span>
+          <span class="more-meta"> 1912 words </span>
           <span class="more-meta"> 4 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -153,21 +160,19 @@ SEO与前端开发中的实践
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#关于seo">关于SEO</a></li>
-<li><a href="#seo优化点">SEO优化点</a>
-<ul>
-<li><a href="#网站标题-关键字-描述">网站标题、关键字、描述</a></li>
-<li><a href="#robot-txt">Robot.txt</a></li>
-<li><a href="#站点地图site-map">站点地图site map</a></li>
-<li><a href="#外链">外链</a></li>
-<li><a href="#网站结构布局优化">网站结构布局优化</a></li>
-<li><a href="#代码seo优化">代码SEO优化</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#关于seo">关于SEO</a></li>
+    <li><a href="#seo优化点">SEO优化点</a>
+      <ul>
+        <li><a href="#网站标题关键字描述">网站标题、关键字、描述</a></li>
+        <li><a href="#robottxt">Robot.txt</a></li>
+        <li><a href="#站点地图site-map">站点地图site map</a></li>
+        <li><a href="#外链">外链</a></li>
+        <li><a href="#网站结构布局优化">网站结构布局优化</a></li>
+        <li><a href="#代码seo优化">代码SEO优化</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -175,15 +180,11 @@ SEO与前端开发中的实践
       <blockquote>
 <p>SEO与前端开发中的实践</p>
 </blockquote>
-
 <h2 id="关于seo">关于SEO</h2>
-
 <p>SEO由英文Search Engine Optimization缩写而来，
 中文意译为“搜索引擎优化”。SEO是指从自然搜索结果获得网站流量的技术和过程，是在了解搜索引擎自然排名机制的基础上，
 对网站进行内部及外部的调整优化， 改进网站在搜索引擎中的关键词自然排名， 获得更多流量， 从而达成网站销售及品牌建设的目标。</p>
-
 <h2 id="seo优化点">SEO优化点</h2>
-
 <ul>
 <li>网站标题、关键字、描述</li>
 <li>网站内容优化(原创/持续更新)</li>
@@ -193,61 +194,50 @@ SEO与前端开发中的实践
 <li>网站结构布局优化</li>
 <li>网页代码优化</li>
 </ul>
-
-<h3 id="网站标题-关键字-描述">网站标题、关键字、描述</h3>
-
-<p>对应HTML文档中head的title,meta name=&ldquo;keywords&rdquo;和meta name=&ldquo;description&rdquo;</p>
-
+<h3 id="网站标题关键字描述">网站标题、关键字、描述</h3>
+<p>对应HTML文档中head的title,meta name=&quot;keywords&quot;和meta name=&quot;description&rdquo;</p>
 <ul>
 <li>Title</li>
 </ul>
-
 <p>网站标题，显示在浏览器最上边的文字，也是搜索结果页每条搜索结果的标题，标题中的关键词相对keywords、description权重都要高得多。</p>
-
 <p>title写法</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">首页:网站名称 – 主做的几个词语或简单描述
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">首页:网站名称 – 主做的几个词语或简单描述
 分类页:分类名 – 网站名称
-内容页:内容标题 – 分类名 – 网站名称</pre></td></tr></table>
+内容页:内容标题 – 分类名 – 网站名称
+</code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>Keywords</li>
 </ul>
-
 <p>网页关键词，用户不能直接在网页中看到，主要是把网页的内容用几个简明扼要的词来反馈给搜索引擎。写法就是直接提取几个对应网页相关且主要优化的几个关键词。(3~5个)</p>
-
 <ul>
 <li>Description</li>
 </ul>
-
 <p>网页的描述，用一句完整通顺的话，对网页进行简要概括，用户在网页上看不到，但是在搜索结果页一般标题下面展现的内容就是description。</p>
-
 <p>description写法</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">首页,分类页:根据网页主要展示的内容并穿插一些主要优化的关键词，整理成一句通顺、让用户有点击欲望的话
-内容页:简介或者导语，200个字符以内</pre></td></tr></table>
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">首页,分类页:根据网页主要展示的内容并穿插一些主要优化的关键词，整理成一句通顺、让用户有点击欲望的话
+内容页:简介或者导语，200个字符以内
+</code></pre></td></tr></table>
 </div>
-</div>
-<h3 id="robot-txt">Robot.txt</h3>
-
+</div><h3 id="robottxt">Robot.txt</h3>
 <p>robots协议（也称爬虫协议、机器人协议等），“全称是网络爬虫扫除规范“（Robots Exclusion Protocol）。经过robots协议告诉搜索引擎哪些页面能够抓取，哪些页面不能够抓取。</p>
-
 <p>说明</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -257,9 +247,9 @@ SEO与前端开发中的实践
 </span><span class="lnt"> 8
 </span><span class="lnt"> 9
 </span><span class="lnt">10
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">User-agent: *
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">User-agent: *
 代表所有搜索引擎，后面的*号可以自定义为想要设置的搜索引擎（如Baiduspider）
 Disallow：/目录名/（作用：隐藏相应目录）
 allow：/目录名/（作用：允许相应目录）
@@ -268,70 +258,55 @@ Disallow: /abc
 Disallow: /abc/
 后面有“/”表示abc目录不被蜘蛛抓取，但不包括子目录。
 
-Robot.txt文件最后可以写上站点地图的地址，方便蜘蛛更全更快的索引你的站点。</pre></td></tr></table>
+Robot.txt文件最后可以写上站点地图的地址，方便蜘蛛更全更快的索引你的站点。
+</code></pre></td></tr></table>
 </div>
-</div>
-<p><a href="http://tools.jb51.net/aideddesign/createrobots">robot.txt在线生成</a></p>
-
+</div><p><a href="http://tools.jb51.net/aideddesign/createrobots">robot.txt在线生成</a></p>
 <h3 id="站点地图site-map">站点地图site map</h3>
-
 <p>Sitemap 可方便网站管理员通知搜索引擎他们网站上有哪些可供抓取的网页。最简单的 Sitemap 形式，就是XML 文件，在其中列出网站中的网址以及关于每个网址的其他元数据（上次更新的时间、更改的频率以及相对于网站上其他网址的重要程度为何等），以便搜索引擎可以更加智能地抓取网站。</p>
-
 <p>Sitemap分为三种格式：txt文本格式、xml格式、Sitemap索引格式。</p>
-
 <p><a href="https://baike.baidu.com/item/sitemap/6241567">Sitemap格式参考</a>
 <a href="http://tools.bugscaner.com/sitemapspider">Sitemap在线生成</a></p>
-
 <h3 id="外链">外链</h3>
-
 <p>外链全称外部链接，需要运用互联网上在别的网站平台发布自己的网站链接，目的就是提高内页的权重。</p>
-
 <p>类型包括：纯文本URL/带超链接的URL/锚文本URL(关键字加链接)</p>
-
 <h3 id="网站结构布局优化">网站结构布局优化</h3>
-
 <p>使用扁平化结构。网站的目录层级要尽可能少，中小型网站不要超过3级。</p>
-
 <ol>
-<li><p>控制首页的链接数量（网站首页的权重最高）。保证链接的有效性，爬虫通过首页的连接到达内页，如果没有有效的链接就会直接影响网站的收录数量。中小企业网站首页的链接数量应该在100个以内。链接的性质可以是页面导航、锚链。</p></li>
-
-<li><p>扁平化的目录层次。尽量让Spider跳转3次就可以到达网站的任意一个内页。</p></li>
+<li>
+<p>控制首页的链接数量（网站首页的权重最高）。保证链接的有效性，爬虫通过首页的连接到达内页，如果没有有效的链接就会直接影响网站的收录数量。中小企业网站首页的链接数量应该在100个以内。链接的性质可以是页面导航、锚链。</p>
+</li>
+<li>
+<p>扁平化的目录层次。尽量让Spider跳转3次就可以到达网站的任意一个内页。</p>
+</li>
 </ol>
-
-<p><img src="https://user-images.githubusercontent.com/19829495/66446894-e5946f80-ea7e-11e9-9c57-2cfeb063983f.png" alt="image" /></p>
-
-<ol>
+<p><img src="https://user-images.githubusercontent.com/19829495/66446894-e5946f80-ea7e-11e9-9c57-2cfeb063983f.png" alt="image"></p>
+<ol start="3">
 <li>导航SEO优化。导航可以分为主导航和父导航。导航应该使用文字，如果为了用户体验采用图片导航，则应该为图片设置必要的alt和title属性。</li>
 </ol>
-
 <h3 id="代码seo优化">代码SEO优化</h3>
-
 <ul>
 <li>title创建唯一且准确的网页标题，使用 meta 的 keywords 元数据来提炼网页重要关键字，以及 description 元数据准确总结网页内容。</li>
-
-<li><p>使用语义化元素</p>
+<li>使用语义化元素</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
-</span></pre></td>
+</span></code></pre></td>
 <td class="lntd">
-<pre class="chroma">正文标题要使用&lt;h1&gt;标记，副标题要使用&lt;h2&gt;。可以让“蜘蛛”知道这是很重要的内容。
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">正文标题要使用&lt;h1&gt;标记，副标题要使用&lt;h2&gt;。可以让“蜘蛛”知道这是很重要的内容。
 使用 &lt;em&gt; 或 &lt;strong&gt; 来表示强调。
-导航使用&lt;nav&gt;,通过使用ol、ul组成路径集合。</pre></td></tr></table>
+导航使用&lt;nav&gt;,通过使用ol、ul组成路径集合。
+</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>利用 <img> 中的 alt 属性alt 属性可以在图片未成功显示时候，使用文本来代替图片的呈现，使“蜘蛛”可以抓取到这个信息。此外它还可以解决浏览器禁用图像或屏幕阅读器解析等问题。</p></li>
-
-<li><p>a标记要加上说明（title属性）</p></li>
-
-<li><p>设置rel=&lsquo;nofollow&rsquo; 忽略跟踪如果某个a的链接不需要跟踪，那么添加 rel=&lsquo;nofollow&rsquo; 即可通知“蜘蛛”忽略跟踪。</p></li>
-
-<li><p>尽量保证 HTML 的纯粹和高质量——结构（HTML）、表现（CSS）及行为（JavaScript）三者分离。</p></li>
-
-<li><p>尽量少使用iframe框架。</p></li>
+</div><ul>
+<li>利用 <!-- raw HTML omitted --> 中的 alt 属性alt 属性可以在图片未成功显示时候，使用文本来代替图片的呈现，使“蜘蛛”可以抓取到这个信息。此外它还可以解决浏览器禁用图像或屏幕阅读器解析等问题。</li>
+<li>a标记要加上说明（title属性）</li>
+<li>设置rel='nofollow&rsquo; 忽略跟踪如果某个a的链接不需要跟踪，那么添加 rel='nofollow&rsquo; 即可通知“蜘蛛”忽略跟踪。</li>
+<li>尽量保证 HTML 的纯粹和高质量——结构（HTML）、表现（CSS）及行为（JavaScript）三者分离。</li>
+<li>尽量少使用iframe框架。</li>
 </ul>
     </div>
 
@@ -376,11 +351,11 @@ Robot.txt文件最后可以写上站点地图的地址，方便蜘蛛更全更�
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -405,10 +380,6 @@ Robot.txt文件最后可以写上站点地图的地址，方便蜘蛛更全更�
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -419,13 +390,10 @@ Robot.txt文件最后可以写上站点地图的地址，方便蜘蛛更全更�
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -436,7 +404,10 @@ Robot.txt文件最后可以写上站点地图的地址，方便蜘蛛更全更�
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];

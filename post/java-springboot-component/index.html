@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.54.0 with even 4.0.0" />
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
 <link rel="canonical" href="https://chinalhr.github.io/post/java-springboot-component/" />
@@ -35,7 +35,8 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+
+<link href="/sass/main.min.2e81bbed97b8b282c1aeb57488cc71c8d8c8ec559f3931531bd396bf31e0d4dd.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -45,23 +46,19 @@ Spring Retry与Scheduled使用记录
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chinalhr.github.io/post/java-springboot-component/" />
-<meta property="article:published_time" content="2018-06-24T20:53:59&#43;08:00"/>
-<meta property="article:modified_time" content="2018-06-24T20:53:59&#43;08:00"/>
-
+<meta property="article:published_time" content="2018-06-24T20:53:59+08:00" />
+<meta property="article:modified_time" content="2018-06-24T20:53:59+08:00" />
 <meta itemprop="name" content="Spring Boot组件-Retry|Scheduled">
 <meta itemprop="description" content="
 Spring Retry与Scheduled使用记录
 ">
-
-
 <meta itemprop="datePublished" content="2018-06-24T20:53:59&#43;08:00" />
 <meta itemprop="dateModified" content="2018-06-24T20:53:59&#43;08:00" />
-<meta itemprop="wordCount" content="728">
+<meta itemprop="wordCount" content="678">
 
 
 
-<meta itemprop="keywords" content="Spring," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Spring," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Spring Boot组件-Retry|Scheduled"/>
 <meta name="twitter:description" content="
 Spring Retry与Scheduled使用记录
@@ -104,12 +101,21 @@ Spring Retry与Scheduled使用记录
         <li class="mobile-menu-item">about</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">LiHanRong Blog</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -128,6 +134,7 @@ Spring Retry与Scheduled使用记录
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -143,7 +150,7 @@ Spring Retry与Scheduled使用记录
         <div class="post-category">
             <a href="/categories/%E7%BC%96%E7%A8%8B-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 编程-后端开发 </a>
             </div>
-          <span class="more-meta"> 728 words </span>
+          <span class="more-meta"> 678 words </span>
           <span class="more-meta"> 2 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -153,22 +160,21 @@ Spring Retry与Scheduled使用记录
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#spring-boot-retry-重试机制">Spring Boot Retry(重试机制)</a>
-<ul>
-<li><a href="#配置">配置</a></li>
-<li><a href="#使用">使用</a></li>
-</ul></li>
-<li><a href="#spring-boot-scheduled-定时任务">Spring Boot Scheduled(定时任务)</a>
-<ul>
-<li><a href="#配置-1">配置</a></li>
-<li><a href="#使用-1">使用</a></li>
-<li><a href="#cron表达式">cron表达式</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#spring-boot-retry重试机制">Spring Boot Retry(重试机制)</a>
+      <ul>
+        <li><a href="#配置">配置</a></li>
+        <li><a href="#使用">使用</a></li>
+      </ul>
+    </li>
+    <li><a href="#spring-boot-scheduled定时任务">Spring Boot Scheduled(定时任务)</a>
+      <ul>
+        <li><a href="#配置-1">配置</a></li>
+        <li><a href="#使用-1">使用</a></li>
+        <li><a href="#cron表达式">cron表达式</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -176,123 +182,44 @@ Spring Retry与Scheduled使用记录
       <blockquote>
 <p>Spring Retry与Scheduled使用记录</p>
 </blockquote>
-
-<h2 id="spring-boot-retry-重试机制">Spring Boot Retry(重试机制)</h2>
-
+<h2 id="spring-boot-retry重试机制">Spring Boot Retry(重试机制)</h2>
 <h3 id="配置">配置</h3>
-
 <p>pom文件中添加依赖</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">  &lt;dependency&gt;
+<pre><code>  &lt;dependency&gt;
      &lt;groupId&gt;org.springframework.retry&lt;/groupId&gt;
      &lt;artifactId&gt;spring-retry&lt;/artifactId&gt;
  &lt;/dependency&gt;
  &lt;dependency&gt;
      &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
      &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
- &lt;/dependency&gt;</pre></td></tr></table>
-</div>
-</div>
+ &lt;/dependency&gt;
+</code></pre>
 <p>在Application类中增加@EnableRetry注解启用</p>
-
 <h3 id="使用">使用</h3>
-
 <p>在需要重试的方法上面加入@Retryable注解</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">  @Retryable(value = Exception.class,maxAttempts = 3,backoff = @Backoff(delay = 2000,multiplier = 1.5))
+<pre><code>  @Retryable(value = Exception.class,maxAttempts = 3,backoff = @Backoff(delay = 2000,multiplier = 1.5))
     1.value：哪些异常出现的时候触发重试
     2.maxAttempts：最大重试次数
     3.delay：重试延迟时间
-    4.multiplier：上一次延时时间是这一次的倍数（1.5 第一次2s，第二次3s...）</pre></td></tr></table>
-</div>
-</div>
+    4.multiplier：上一次延时时间是这一次的倍数（1.5 第一次2s，第二次3s...）
+</code></pre>
 <p>重试到最后一次失败的时候会抛出异常或者执行在同一个类里@Recover注解了的回调方法</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">@Recover
+<pre><code>@Recover
 public int recover(Exception e){
     //执行回调
-}</pre></td></tr></table>
-</div>
-</div>
-<h2 id="spring-boot-scheduled-定时任务">Spring Boot Scheduled(定时任务)</h2>
-
+}
+</code></pre>
+<h2 id="spring-boot-scheduled定时任务">Spring Boot Scheduled(定时任务)</h2>
 <h3 id="配置-1">配置</h3>
-
 <p>在Application类中增加@EnableScheduling注解启用</p>
-
 <h3 id="使用-1">使用</h3>
-
 <p>在需要定时调用的方法上面加入@Scheduled注解</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">/**
+<pre><code>/**
  * 使用cron表达式实现每5秒打印一次
  */
-@Scheduled(cron=&#34;0/5 * *  * * ? &#34;)
+@Scheduled(cron=&quot;0/5 * *  * * ? &quot;)
 public void cronPrintTask(){
-    System.out.println(&#34;cronPrintTask ：&#34;+new Date(System.currentTimeMillis()));
+    System.out.println(&quot;cronPrintTask ：&quot;+new Date(System.currentTimeMillis()));
 }
 
 /**
@@ -320,11 +247,9 @@ public void fixedDelay() throws InterruptedException {
 @Scheduled(initialDelay = 1000 * 10,fixedDelay = 1000 * 1)
 public void initialDelayPrintTask(){
     //执行方法
-}</pre></td></tr></table>
-</div>
-</div>
+}
+</code></pre>
 <h3 id="cron表达式">cron表达式</h3>
-
 <p>参考<a href="http://cron.qqe2.com/" title="http://cron.qqe2.com/">http://cron.qqe2.com/</a></p>
     </div>
 
@@ -369,11 +294,11 @@ public void initialDelayPrintTask(){
 
       var appid = 'cyvob1sks';
       var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth; 
+      var width = window.innerWidth || document.documentElement.clientWidth;
       if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
     })();
     </script>
-  
+
   
 
   
@@ -398,10 +323,6 @@ public void initialDelayPrintTask(){
     Theme - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-      友情链接：<a class="theme-link" href="https://www.bfreeman.cn">云主机活动网</a>
-  </span>
 
   <div class="busuanzi-footer">
     <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
@@ -412,13 +333,10 @@ public void initialDelayPrintTask(){
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">LHR</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
@@ -429,7 +347,10 @@ public void initialDelayPrintTask(){
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
 
 <script id="baidu_analytics">
   var _hmt = _hmt || [];
