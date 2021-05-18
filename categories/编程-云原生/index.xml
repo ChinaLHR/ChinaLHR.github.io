@@ -6,10 +6,21 @@
     <description>Recent content in 编程-云原生 on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 30 Dec 2020 17:08:10 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 15 Apr 2021 22:39:56 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/categories/%E7%BC%96%E7%A8%8B-%E4%BA%91%E5%8E%9F%E7%94%9F/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docker容器运行时引擎-runC分析</title>
+      <link>https://chinalhr.github.io/post/docker-runc/</link>
+      <pubDate>Thu, 15 Apr 2021 22:39:56 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/docker-runc/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;容器技术的演进，标准的OCI Runtime实现-runC源码分析&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Kubernetes本地调试利器-Telepresence</title>

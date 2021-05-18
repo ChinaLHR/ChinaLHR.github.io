@@ -6,10 +6,21 @@
     <description>Recent content in Posts on LiHanRong Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 11 Mar 2021 23:41:59 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 15 Apr 2021 22:39:56 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docker容器运行时引擎-runC分析</title>
+      <link>https://chinalhr.github.io/post/docker-runc/</link>
+      <pubDate>Thu, 15 Apr 2021 22:39:56 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/docker-runc/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;容器技术的演进，标准的OCI Runtime实现-runC源码分析&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>分布式系统的一致性与共识算法-Paxos</title>

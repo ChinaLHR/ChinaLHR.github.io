@@ -55,5 +55,27 @@
 &lt;/blockquote&gt;</description>
     </item>
     
+    <item>
+      <title>Git Flow 分支策略</title>
+      <link>https://chinalhr.github.io/post/git-flow/</link>
+      <pubDate>Tue, 26 Nov 2019 23:57:12 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/git-flow/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Git-flow分支策略相关整理&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Git记录</title>
+      <link>https://chinalhr.github.io/post/git-basic/</link>
+      <pubDate>Sun, 08 Jul 2018 15:49:09 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/git-basic/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;记录Git操作&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
   </channel>
 </rss>

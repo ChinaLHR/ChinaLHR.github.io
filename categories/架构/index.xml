@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>架构 on LiHanRong Blog</title>
+    <link>https://chinalhr.github.io/categories/%E6%9E%B6%E6%9E%84/</link>
+    <description>Recent content in 架构 on LiHanRong Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 12 Mar 2020 23:48:19 +0800</lastBuildDate>
+    
+	<atom:link href="https://chinalhr.github.io/categories/%E6%9E%B6%E6%9E%84/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>软件架构模式分析</title>
+      <link>https://chinalhr.github.io/post/software-architecture-patterns/</link>
+      <pubDate>Thu, 12 Mar 2020 23:48:19 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/software-architecture-patterns/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;基于O&amp;rsquo;Reilly 《Software Architecture Patterns》,整理分析几种常见软件架构模式&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
