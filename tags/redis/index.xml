@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>Redis持久化 RDB-AOF</title>
+      <title>Redis 持久化 RDB-AOF</title>
       <link>https://chinalhr.github.io/post/redis-rdb-aof/</link>
       <pubDate>Fri, 06 Sep 2019 22:43:23 +0800</pubDate>
       
@@ -23,24 +23,13 @@
     </item>
     
     <item>
-      <title> Redis 事务-Watch</title>
+      <title>Redis 事务-Watch</title>
       <link>https://chinalhr.github.io/post/redis-transaction-watch/</link>
       <pubDate>Tue, 03 Sep 2019 23:13:11 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/redis-transaction-watch/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Redis事务/Watch机制相关知识点整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>消息队列QPS优化(使用Redis做MQ的Buff)</title>
-      <link>https://chinalhr.github.io/post/redis-do-mqbuff/</link>
-      <pubDate>Tue, 10 Jul 2018 22:01:41 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/redis-do-mqbuff/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;使用Redis做阿里MQ发送的缓存，一种控制MQ发送QPS的方案&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

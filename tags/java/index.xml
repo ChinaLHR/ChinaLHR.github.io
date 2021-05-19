@@ -34,7 +34,7 @@
     </item>
     
     <item>
-      <title>Linux Zero-copy(零拷贝)</title>
+      <title>Linux Zero-copy(零拷贝)机制</title>
       <link>https://chinalhr.github.io/post/linux-zerocopy/</link>
       <pubDate>Fri, 23 Aug 2019 12:26:11 +0800</pubDate>
       
@@ -118,28 +118,6 @@
       <guid>https://chinalhr.github.io/post/spring-cache-shrio-bug/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记录Shrio与SpringCache使用过程遇到的问题&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Java在Stream中异常处理问题</title>
-      <link>https://chinalhr.github.io/post/java-lambda-exception/</link>
-      <pubDate>Wed, 25 Jul 2018 23:20:01 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/java-lambda-exception/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Java Lamdba Api缺陷&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>RedisTemplate问题</title>
-      <link>https://chinalhr.github.io/post/redis-template_problem/</link>
-      <pubDate>Fri, 13 Jul 2018 22:17:22 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/redis-template_problem/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;记录RedisTemplate使用过程的问题&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

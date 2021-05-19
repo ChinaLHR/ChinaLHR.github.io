@@ -67,46 +67,24 @@
     </item>
     
     <item>
-      <title>Python-Logging</title>
-      <link>https://chinalhr.github.io/post/python-logging/</link>
-      <pubDate>Sat, 30 Nov 2019 14:09:28 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/python-logging/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Python Logging模块&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Python-Requests</title>
-      <link>https://chinalhr.github.io/post/python-requests/</link>
-      <pubDate>Tue, 26 Nov 2019 23:54:39 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/python-requests/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Python Requests模块&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>PHP-Composer</title>
-      <link>https://chinalhr.github.io/post/php-composer/</link>
-      <pubDate>Mon, 25 Nov 2019 22:46:32 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/php-composer/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;依赖管理工具Composer记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Web接口幂等性</title>
+      <title>Web-接口幂等性保证机制</title>
       <link>https://chinalhr.github.io/post/interface-idempotent/</link>
       <pubDate>Mon, 08 Jul 2019 23:47:37 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/interface-idempotent/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;生成环境中Web接口幂等性保证实践记录&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>跨域问题与解决方式</title>
+      <link>https://chinalhr.github.io/post/nginx-cross/</link>
+      <pubDate>Tue, 18 Jun 2019 21:55:57 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/nginx-cross/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Nginx相关资料阅读整理&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -133,7 +111,7 @@
     </item>
     
     <item>
-      <title>Maven Plugin 记录</title>
+      <title>Maven Plugin</title>
       <link>https://chinalhr.github.io/post/maven-plugs-record/</link>
       <pubDate>Wed, 17 Apr 2019 23:54:47 +0800</pubDate>
       
@@ -144,7 +122,7 @@
     </item>
     
     <item>
-      <title>Vert.x Web Record</title>
+      <title>Vert.x基础：Web模块</title>
       <link>https://chinalhr.github.io/post/vertx-record-2/</link>
       <pubDate>Sat, 06 Apr 2019 23:56:26 +0800</pubDate>
       
@@ -155,7 +133,7 @@
     </item>
     
     <item>
-      <title>Vert.x Core Record</title>
+      <title>Vert.x基础：Core模块</title>
       <link>https://chinalhr.github.io/post/vertx-record-1/</link>
       <pubDate>Tue, 02 Apr 2019 22:01:56 +0800</pubDate>
       
@@ -166,7 +144,7 @@
     </item>
     
     <item>
-      <title>Kotlin 泛型,注解,DSL</title>
+      <title>Kotlin基础：泛型、注解、DSL</title>
       <link>https://chinalhr.github.io/post/kotlin-learn03/</link>
       <pubDate>Thu, 14 Mar 2019 20:49:49 +0800</pubDate>
       
@@ -177,7 +155,7 @@
     </item>
     
     <item>
-      <title>Kotlin 类型系统，语言特性</title>
+      <title>Kotlin基础：类型系统、语言特性</title>
       <link>https://chinalhr.github.io/post/kotlin-learn02/</link>
       <pubDate>Wed, 27 Feb 2019 22:06:26 +0800</pubDate>
       
@@ -188,7 +166,7 @@
     </item>
     
     <item>
-      <title>Kotlin 函数,对象,Lamdba</title>
+      <title>Kotlin基础：函数、对象、Lamdba</title>
       <link>https://chinalhr.github.io/post/kotlin-learn01/</link>
       <pubDate>Sun, 13 Jan 2019 23:02:40 +0800</pubDate>
       
@@ -283,39 +261,6 @@
       <guid>https://chinalhr.github.io/post/spring-cache-shrio-bug/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记录Shrio与SpringCache使用过程遇到的问题&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Java在Stream中异常处理问题</title>
-      <link>https://chinalhr.github.io/post/java-lambda-exception/</link>
-      <pubDate>Wed, 25 Jul 2018 23:20:01 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/java-lambda-exception/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Java Lamdba Api缺陷&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>分布式锁实现(基于Redis|Zookeeper)</title>
-      <link>https://chinalhr.github.io/post/distributed-locks/</link>
-      <pubDate>Sun, 15 Jul 2018 18:38:26 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/distributed-locks/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;学习分布式锁实现&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>RedisTemplate问题</title>
-      <link>https://chinalhr.github.io/post/redis-template_problem/</link>
-      <pubDate>Fri, 13 Jul 2018 22:17:22 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/redis-template_problem/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;记录RedisTemplate使用过程的问题&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

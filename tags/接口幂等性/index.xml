@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>Web接口幂等性</title>
+      <title>Web-接口幂等性保证机制</title>
       <link>https://chinalhr.github.io/post/interface-idempotent/</link>
       <pubDate>Mon, 08 Jul 2019 23:47:37 +0800</pubDate>
       

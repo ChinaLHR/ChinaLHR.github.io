@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>Linux-logrotate</title>
+      <title>Linux-logrotate详解</title>
       <link>https://chinalhr.github.io/post/linux-logrotate/</link>
       <pubDate>Fri, 31 Jan 2020 13:55:12 +0800</pubDate>
       
@@ -34,7 +34,7 @@
     </item>
     
     <item>
-      <title>Linux Zero-copy(零拷贝)</title>
+      <title>Linux Zero-copy(零拷贝)机制</title>
       <link>https://chinalhr.github.io/post/linux-zerocopy/</link>
       <pubDate>Fri, 23 Aug 2019 12:26:11 +0800</pubDate>
       
@@ -45,7 +45,7 @@
     </item>
     
     <item>
-      <title>Linux IO多路复用 select poll epoll</title>
+      <title>Linux IO多路复用实现：select、poll与epoll</title>
       <link>https://chinalhr.github.io/post/linux-io-multiplexing/</link>
       <pubDate>Wed, 24 Jul 2019 22:22:03 +0800</pubDate>
       
