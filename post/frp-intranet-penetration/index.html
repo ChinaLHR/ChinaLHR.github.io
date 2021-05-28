@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>基于FRP的内网穿透实践 - LiHanRong Blog</title>
+  <title>基于FRP的内网穿透实践 - LiHanRong</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -95,8 +95,6 @@ FRP内网穿透实践
         <li class="mobile-menu-item">tags</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">categories</li>
-      </a><a href="https://www.yuque.com/lihanrong">
-        <li class="mobile-menu-item">notes</li>
       </a><a href="/post/about/">
         <li class="mobile-menu-item">about</li>
       </a>
@@ -127,8 +125,6 @@ FRP内网穿透实践
         <a class="menu-item-link" href="/tags/">tags</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">notes</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/post/about/">about</a>
       </li>
@@ -161,22 +157,26 @@ FRP内网穿透实践
   <div class="post-toc-content">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#什么是内网穿透nat穿透">什么是内网穿透（NAT穿透）</a>
+    <li>
       <ul>
-        <li><a href="#nat地址转换">NAT地址转换</a></li>
-        <li><a href="#ddns">DDNS</a></li>
-        <li><a href="#内网穿透的障碍">内网穿透的障碍</a></li>
-        <li><a href="#内网穿透的常见方案">内网穿透的常见方案</a></li>
+        <li><a href="#什么是内网穿透nat穿透">什么是内网穿透（NAT穿透）</a>
+          <ul>
+            <li><a href="#nat地址转换">NAT地址转换</a></li>
+            <li><a href="#ddns">DDNS</a></li>
+            <li><a href="#内网穿透的障碍">内网穿透的障碍</a></li>
+            <li><a href="#内网穿透的常见方案">内网穿透的常见方案</a></li>
+          </ul>
+        </li>
+        <li><a href="#frp内网穿透原理">FRP内网穿透原理</a></li>
+        <li><a href="#frp实践">FRP实践</a>
+          <ul>
+            <li><a href="#服务器部署frps">服务器部署frps</a></li>
+            <li><a href="#内网设备安装frpc">内网设备安装frpc</a></li>
+          </ul>
+        </li>
+        <li><a href="#参考">参考</a></li>
       </ul>
     </li>
-    <li><a href="#frp内网穿透原理">FRP内网穿透原理</a></li>
-    <li><a href="#frp实践">FRP实践</a>
-      <ul>
-        <li><a href="#服务器部署frps">服务器部署frps</a></li>
-        <li><a href="#内网设备安装frpc">内网设备安装frpc</a></li>
-      </ul>
-    </li>
-    <li><a href="#参考">参考</a></li>
   </ul>
 </nav>
   </div>

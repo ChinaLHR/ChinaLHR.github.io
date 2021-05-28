@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>分布式ID解决方案分析 - LiHanRong Blog</title>
+  <title>分布式ID解决方案分析 - LiHanRong</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -95,8 +95,6 @@
         <li class="mobile-menu-item">tags</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">categories</li>
-      </a><a href="https://www.yuque.com/lihanrong">
-        <li class="mobile-menu-item">notes</li>
       </a><a href="/post/about/">
         <li class="mobile-menu-item">about</li>
       </a>
@@ -127,8 +125,6 @@
         <a class="menu-item-link" href="/tags/">tags</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">notes</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/post/about/">about</a>
       </li>
@@ -161,37 +157,83 @@
   <div class="post-toc-content">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#为什么需要分布式id">为什么需要分布式ID</a></li>
-    <li><a href="#分布式id特性">分布式ID特性</a>
+    <li>
       <ul>
-        <li><a href="#基本特性">基本特性</a></li>
-        <li><a href="#设计要求">设计要求</a></li>
-      </ul>
-    </li>
-    <li><a href="#分析几种分布式id生成方案">分析几种分布式ID生成方案</a>
-      <ul>
-        <li><a href="#简单方案uuid数据库自增idredis-incr">简单方案[UUID/数据库自增ID/Redis incr]</a></li>
-        <li><a href="#基于数据库集群模式">基于数据库集群模式</a></li>
-        <li><a href="#基于数据库号段模式">基于数据库号段模式</a></li>
-        <li><a href="#基于雪花算法的id生成">基于雪花算法的ID生成</a></li>
-      </ul>
-    </li>
-    <li><a href="#分布式id开源项目分析-百度uid-generator项目">分布式ID开源项目分析-百度uid-generator项目</a>
-      <ul>
-        <li><a href="#数据结构">数据结构</a></li>
-        <li><a href="#项目结构">项目结构</a></li>
-        <li><a href="#defaultuidgenerator实现方式">DefaultUidGenerator实现方式</a></li>
-        <li><a href="#ringbuffer">RingBuffer</a></li>
-        <li><a href="#cacheduidgenerator实现方式">CachedUidGenerator实现方式</a></li>
-        <li><a href="#总结">总结</a></li>
-      </ul>
-    </li>
-    <li><a href="#分布式id开源项目分析-美团leaf项目">分布式ID开源项目分析-美团Leaf项目</a>
-      <ul>
-        <li><a href="#项目结构-1">项目结构</a></li>
-        <li><a href="#leaf-segment号段模式">Leaf-segment号段模式</a></li>
-        <li><a href="#leaf-snowflake模式">Leaf-snowflake模式</a></li>
-        <li><a href="#总结-1">总结</a></li>
+        <li><a href="#为什么需要分布式id">为什么需要分布式ID</a></li>
+        <li><a href="#分布式id特性">分布式ID特性</a>
+          <ul>
+            <li><a href="#基本特性">基本特性</a></li>
+            <li><a href="#设计要求">设计要求</a></li>
+          </ul>
+        </li>
+        <li><a href="#分析几种分布式id生成方案">分析几种分布式ID生成方案</a>
+          <ul>
+            <li><a href="#简单方案uuid数据库自增idredis-incr">简单方案[UUID/数据库自增ID/Redis incr]</a>
+              <ul>
+                <li><a href="#uuid">UUID</a></li>
+                <li><a href="#基于数据库自增id">基于数据库自增ID</a></li>
+                <li><a href="#基于redis的incr命令">基于Redis的incr命令</a></li>
+              </ul>
+            </li>
+            <li><a href="#基于数据库集群模式">基于数据库集群模式</a>
+              <ul>
+                <li><a href="#实现方式">实现方式</a></li>
+                <li><a href="#方案分析">方案分析</a></li>
+              </ul>
+            </li>
+            <li><a href="#基于数据库号段模式">基于数据库号段模式</a>
+              <ul>
+                <li><a href="#实现方式-1">实现方式</a></li>
+                <li><a href="#方案分析-1">方案分析</a></li>
+              </ul>
+            </li>
+            <li><a href="#基于雪花算法的id生成">基于雪花算法的ID生成</a>
+              <ul>
+                <li><a href="#方案分析-2">方案分析</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#分布式id开源项目分析-百度uid-generator项目">分布式ID开源项目分析-百度uid-generator项目</a>
+          <ul>
+            <li><a href="#数据结构">数据结构</a></li>
+            <li><a href="#项目结构">项目结构</a></li>
+            <li><a href="#defaultuidgenerator实现方式">DefaultUidGenerator实现方式</a></li>
+            <li><a href="#ringbuffer">RingBuffer</a>
+              <ul>
+                <li><a href="#ringbuffer-of-uid">RingBuffer Of UID</a></li>
+                <li><a href="#ringbuffer-of-flag">RingBuffer Of Flag</a></li>
+                <li><a href="#配置参数">配置参数</a></li>
+                <li><a href="#cacheline补齐">CacheLine补齐</a></li>
+              </ul>
+            </li>
+            <li><a href="#cacheduidgenerator实现方式">CachedUidGenerator实现方式</a>
+              <ul>
+                <li><a href="#初始化">初始化</a></li>
+                <li><a href="#ringbufferput填充">RingBuffer.put（填充）</a></li>
+                <li><a href="#ringbuffertake取值">RingBuffer.take（取值）</a></li>
+              </ul>
+            </li>
+            <li><a href="#总结">总结</a></li>
+          </ul>
+        </li>
+        <li><a href="#分布式id开源项目分析-美团leaf项目">分布式ID开源项目分析-美团Leaf项目</a>
+          <ul>
+            <li><a href="#项目结构-1">项目结构</a></li>
+            <li><a href="#leaf-segment号段模式">Leaf-segment号段模式</a>
+              <ul>
+                <li><a href="#数据库表结构">数据库表结构</a></li>
+                <li><a href="#实现方式-2">实现方式</a></li>
+              </ul>
+            </li>
+            <li><a href="#leaf-snowflake模式">Leaf-snowflake模式</a>
+              <ul>
+                <li><a href="#实现方式-3">实现方式</a></li>
+              </ul>
+            </li>
+            <li><a href="#总结-1">总结</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>

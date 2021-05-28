@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Linux Zero-copy(零拷贝)机制 - LiHanRong Blog</title>
+  <title>Linux Zero-copy(零拷贝)机制 - LiHanRong</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -95,8 +95,6 @@ Linux Zero-copy机制与Java NIO对Zero-copy应用
         <li class="mobile-menu-item">tags</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">categories</li>
-      </a><a href="https://www.yuque.com/lihanrong">
-        <li class="mobile-menu-item">notes</li>
       </a><a href="/post/about/">
         <li class="mobile-menu-item">about</li>
       </a>
@@ -127,8 +125,6 @@ Linux Zero-copy机制与Java NIO对Zero-copy应用
         <a class="menu-item-link" href="/tags/">tags</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">notes</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/post/about/">about</a>
       </li>
@@ -163,11 +159,28 @@ Linux Zero-copy机制与Java NIO对Zero-copy应用
   <ul>
     <li>
       <ul>
-        <li><a href="#关于zero-copy零拷贝">关于Zero-copy(零拷贝)</a></li>
-        <li><a href="#linux-io机制">Linux I/O机制</a></li>
-        <li><a href="#传统socket传送数据">传统Socket传送数据</a></li>
-        <li><a href="#linux-zero-copy">Linux Zero-copy</a></li>
-        <li><a href="#java-nio-对linux-zero-copy机制支持">Java NIO 对Linux Zero-copy机制支持</a></li>
+        <li>
+          <ul>
+            <li><a href="#关于zero-copy零拷贝">关于Zero-copy(零拷贝)</a></li>
+            <li><a href="#linux-io机制">Linux I/O机制</a></li>
+            <li><a href="#传统socket传送数据">传统Socket传送数据</a></li>
+            <li><a href="#linux-zero-copy">Linux Zero-copy</a>
+              <ul>
+                <li><a href="#mmap内存映射">mmap(内存映射)</a></li>
+                <li><a href="#sendfile">sendfile</a></li>
+                <li><a href="#sendfile-with-dma-scattergather-copy">Sendfile With DMA Scatter/Gather Copy</a></li>
+                <li><a href="#splice">splice</a></li>
+                <li><a href="#zero-copy机制对比">Zero-copy机制对比</a></li>
+              </ul>
+            </li>
+            <li><a href="#java-nio-对linux-zero-copy机制支持">Java NIO 对Linux Zero-copy机制支持</a>
+              <ul>
+                <li><a href="#nio中的mmap">NIO中的mmap</a></li>
+                <li><a href="#nio中的sendfile">NIO中的sendfile</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>

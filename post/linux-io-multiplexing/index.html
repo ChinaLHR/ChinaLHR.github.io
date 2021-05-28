@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Linux IO多路复用实现：select、poll与epoll - LiHanRong Blog</title>
+  <title>Linux IO多路复用实现：select、poll与epoll - LiHanRong</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -95,8 +95,6 @@ Unix IO模型, Linux IO多路复用 select poll epoll机制整理
         <li class="mobile-menu-item">tags</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">categories</li>
-      </a><a href="https://www.yuque.com/lihanrong">
-        <li class="mobile-menu-item">notes</li>
       </a><a href="/post/about/">
         <li class="mobile-menu-item">about</li>
       </a>
@@ -127,8 +125,6 @@ Unix IO模型, Linux IO多路复用 select poll epoll机制整理
         <a class="menu-item-link" href="/tags/">tags</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">notes</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/post/about/">about</a>
       </li>
@@ -163,10 +159,42 @@ Unix IO模型, Linux IO多路复用 select poll epoll机制整理
   <ul>
     <li>
       <ul>
-        <li><a href="#unix-io模型">Unix IO模型</a></li>
-        <li><a href="#同步-异步-阻塞-非阻塞">同步-异步-阻塞-非阻塞</a></li>
-        <li><a href="#操作系统相关">操作系统相关</a></li>
-        <li><a href="#selectpoll与epoll">select、poll与epoll</a></li>
+        <li>
+          <ul>
+            <li><a href="#unix-io模型">Unix IO模型</a>
+              <ul>
+                <li><a href="#blocking-io---阻塞io">Blocking IO - 阻塞IO</a></li>
+                <li><a href="#noneblockingio---非阻塞io">NoneBlockingIO - 非阻塞IO</a></li>
+                <li><a href="#io-multiplexing---io多路复用select为例子">IO multiplexing - IO多路复用(select为例子)</a></li>
+                <li><a href="#asynchronous-io---异步io">asynchronous IO - 异步IO</a></li>
+                <li><a href="#对比">对比</a></li>
+              </ul>
+            </li>
+            <li><a href="#同步-异步-阻塞-非阻塞">同步-异步-阻塞-非阻塞</a>
+              <ul>
+                <li><a href="#同步-异步">同步-异步</a></li>
+                <li><a href="#阻塞与非阻塞">阻塞与非阻塞</a></li>
+              </ul>
+            </li>
+            <li><a href="#操作系统相关">操作系统相关</a>
+              <ul>
+                <li><a href="#用户空间与内核空间">用户空间与内核空间</a></li>
+                <li><a href="#进程切换">进程切换</a></li>
+                <li><a href="#进程阻塞">进程阻塞</a></li>
+                <li><a href="#文件描述符fd">文件描述符fd</a></li>
+                <li><a href="#缓存-io">缓存 I/O</a></li>
+              </ul>
+            </li>
+            <li><a href="#selectpoll与epoll">select、poll与epoll</a>
+              <ul>
+                <li><a href="#select">select</a></li>
+                <li><a href="#poll">poll</a></li>
+                <li><a href="#epoll">epoll</a></li>
+                <li><a href="#selectpollepoll对比">select·poll·epoll对比</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Shrio导致SpringCache缓存失效原因分析 - LiHanRong Blog</title>
+  <title>Shrio导致SpringCache缓存失效原因分析 - LiHanRong</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -95,8 +95,6 @@
         <li class="mobile-menu-item">tags</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">categories</li>
-      </a><a href="https://www.yuque.com/lihanrong">
-        <li class="mobile-menu-item">notes</li>
       </a><a href="/post/about/">
         <li class="mobile-menu-item">about</li>
       </a>
@@ -127,8 +125,6 @@
         <a class="menu-item-link" href="/tags/">tags</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">notes</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/post/about/">about</a>
       </li>
@@ -161,19 +157,23 @@
   <div class="post-toc-content">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#问题">问题</a></li>
-    <li><a href="#分析">分析</a>
+    <li>
       <ul>
-        <li><a href="#关于beanpostprocessor">关于BeanPostProcessor</a></li>
-        <li><a href="#beanpostprocessor启动阶段对其依赖的bean造成的影响">BeanPostProcessor启动阶段对其依赖的Bean造成的影响</a></li>
-        <li><a href="#关于priorityordered">关于PriorityOrdered</a></li>
-        <li><a href="#spring的一些beanpostprocessor">Spring的一些BeanPostProcessor</a></li>
-        <li><a href="#shiro-lifecyclebeanpostprocessor导致的问题">Shiro LifecycleBeanPostProcessor导致的问题</a></li>
-        <li><a href="#lazy">@Lazy</a></li>
+        <li><a href="#问题">问题</a></li>
+        <li><a href="#分析">分析</a>
+          <ul>
+            <li><a href="#关于beanpostprocessor">关于BeanPostProcessor</a></li>
+            <li><a href="#beanpostprocessor启动阶段对其依赖的bean造成的影响">BeanPostProcessor启动阶段对其依赖的Bean造成的影响</a></li>
+            <li><a href="#关于priorityordered">关于PriorityOrdered</a></li>
+            <li><a href="#spring的一些beanpostprocessor">Spring的一些BeanPostProcessor</a></li>
+            <li><a href="#shiro-lifecyclebeanpostprocessor导致的问题">Shiro LifecycleBeanPostProcessor导致的问题</a></li>
+            <li><a href="#lazy">@Lazy</a></li>
+          </ul>
+        </li>
+        <li><a href="#解决">解决</a></li>
+        <li><a href="#参考">参考</a></li>
       </ul>
     </li>
-    <li><a href="#解决">解决</a></li>
-    <li><a href="#参考">参考</a></li>
   </ul>
 </nav>
   </div>

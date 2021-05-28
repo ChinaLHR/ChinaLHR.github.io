@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Maven Plugin - LiHanRong Blog</title>
+  <title>Maven Plugin - LiHanRong</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -95,8 +95,6 @@ Maven Plugin使用记录
         <li class="mobile-menu-item">tags</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">categories</li>
-      </a><a href="https://www.yuque.com/lihanrong">
-        <li class="mobile-menu-item">notes</li>
       </a><a href="/post/about/">
         <li class="mobile-menu-item">about</li>
       </a>
@@ -127,8 +125,6 @@ Maven Plugin使用记录
         <a class="menu-item-link" href="/tags/">tags</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">notes</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/post/about/">about</a>
       </li>
@@ -163,9 +159,27 @@ Maven Plugin使用记录
   <ul>
     <li>
       <ul>
-        <li><a href="#maven插件机制">Maven插件机制</a></li>
-        <li><a href="#其他插件">其他插件</a></li>
-        <li><a href="#参考">参考</a></li>
+        <li>
+          <ul>
+            <li><a href="#maven插件机制">Maven插件机制</a>
+              <ul>
+                <li><a href="#插件机制的目的">插件机制的目的</a></li>
+                <li><a href="#插件的绑定">插件的绑定</a></li>
+                <li><a href="#插件配置">插件配置</a></li>
+              </ul>
+            </li>
+            <li><a href="#其他插件">其他插件</a>
+              <ul>
+                <li><a href="#maven-release-plugin">maven-release-plugin</a></li>
+                <li><a href="#maven-checkstyle-plugin">maven-checkstyle-plugin</a></li>
+                <li><a href="#maven-shade-plugin">maven-shade-plugin</a></li>
+                <li><a href="#maven-resources-plugin">maven-resources-plugin</a></li>
+                <li><a href="#maven-source-plugin">maven-source-plugin</a></li>
+              </ul>
+            </li>
+            <li><a href="#参考">参考</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>

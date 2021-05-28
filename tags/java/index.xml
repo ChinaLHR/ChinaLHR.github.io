@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Java on LiHanRong Blog</title>
+    <title>Java on LiHanRong</title>
     <link>https://chinalhr.github.io/tags/java/</link>
-    <description>Recent content in Java on LiHanRong Blog</description>
+    <description>Recent content in Java on LiHanRong</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Fri, 03 Apr 2020 19:45:19 +0800</lastBuildDate>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Mysql主从复制-读写分离 - LiHanRong Blog</title>
+  <title>Mysql主从复制-读写分离 - LiHanRong</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -95,8 +95,6 @@ Mysql主从复制，读写分离相关资料整理记录
         <li class="mobile-menu-item">tags</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">categories</li>
-      </a><a href="https://www.yuque.com/lihanrong">
-        <li class="mobile-menu-item">notes</li>
       </a><a href="/post/about/">
         <li class="mobile-menu-item">about</li>
       </a>
@@ -127,8 +125,6 @@ Mysql主从复制，读写分离相关资料整理记录
         <a class="menu-item-link" href="/tags/">tags</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">notes</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/post/about/">about</a>
       </li>
@@ -161,20 +157,31 @@ Mysql主从复制，读写分离相关资料整理记录
   <div class="post-toc-content">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#主从复制">主从复制</a>
+    <li>
       <ul>
-        <li><a href="#解决的问题">解决的问题</a></li>
-        <li><a href="#复制工作原理">复制工作原理</a></li>
-        <li><a href="#复制拓扑">复制拓扑</a></li>
-      </ul>
-    </li>
-    <li><a href="#读写分离">读写分离</a>
-      <ul>
-        <li><a href="#关于读写分离">关于读写分离</a></li>
-        <li><a href="#原因">原因</a></li>
-        <li><a href="#场景">场景</a></li>
-        <li><a href="#读写分离与主从复制的关系">读写分离与主从复制的关系</a></li>
-        <li><a href="#实现">实现</a></li>
+        <li><a href="#主从复制">主从复制</a>
+          <ul>
+            <li><a href="#解决的问题">解决的问题</a></li>
+            <li><a href="#复制工作原理">复制工作原理</a>
+              <ul>
+                <li><a href="#mysql支持的复制类型">mysql支持的复制类型</a></li>
+                <li><a href="#复制用到的文件">复制用到的文件</a></li>
+                <li><a href="#配置步骤">配置步骤</a></li>
+                <li><a href="#让备库变成其他服务器的主库">让备库变成其他服务器的主库</a></li>
+              </ul>
+            </li>
+            <li><a href="#复制拓扑">复制拓扑</a></li>
+          </ul>
+        </li>
+        <li><a href="#读写分离">读写分离</a>
+          <ul>
+            <li><a href="#关于读写分离">关于读写分离</a></li>
+            <li><a href="#原因">原因</a></li>
+            <li><a href="#场景">场景</a></li>
+            <li><a href="#读写分离与主从复制的关系">读写分离与主从复制的关系</a></li>
+            <li><a href="#实现">实现</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>

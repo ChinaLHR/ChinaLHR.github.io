@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Jenkins-pipeline-Docker 实现CI/CD - LiHanRong Blog</title>
+  <title>Jenkins-pipeline-Docker 实现CI/CD - LiHanRong</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -95,8 +95,6 @@
         <li class="mobile-menu-item">tags</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">categories</li>
-      </a><a href="https://www.yuque.com/lihanrong">
-        <li class="mobile-menu-item">notes</li>
       </a><a href="/post/about/">
         <li class="mobile-menu-item">about</li>
       </a>
@@ -127,8 +125,6 @@
         <a class="menu-item-link" href="/tags/">tags</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">notes</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/post/about/">about</a>
       </li>
@@ -161,34 +157,48 @@
   <div class="post-toc-content">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#关于cicd">关于CI/CD</a>
+    <li>
       <ul>
-        <li><a href="#持续集成ci">持续集成(CI)</a></li>
-        <li><a href="#持续交付cd">持续交付(CD)</a></li>
-        <li><a href="#持续部署cd">持续部署(CD)</a></li>
+        <li><a href="#关于cicd">关于CI/CD</a>
+          <ul>
+            <li><a href="#持续集成ci">持续集成(CI)</a></li>
+            <li><a href="#持续交付cd">持续交付(CD)</a></li>
+            <li><a href="#持续部署cd">持续部署(CD)</a></li>
+          </ul>
+        </li>
+        <li><a href="#jenkins安装配置基于docker">jenkins安装/配置(基于Docker)</a>
+          <ul>
+            <li><a href="#安装">安装</a></li>
+            <li><a href="#插件推荐">插件推荐</a></li>
+            <li><a href="#配置">配置</a></li>
+          </ul>
+        </li>
+        <li><a href="#jenkins-pipeline">Jenkins Pipeline</a>
+          <ul>
+            <li><a href="#什么是pipline">什么是Pipline</a></li>
+            <li><a href="#pipeline优势">pipeline优势</a></li>
+            <li><a href="#pipeline组成">pipeline组成</a></li>
+          </ul>
+        </li>
+        <li><a href="#jenkins-pipeline实现cicd">Jenkins Pipeline实现CI/CD</a>
+          <ul>
+            <li><a href="#基本流程">基本流程</a></li>
+            <li><a href="#pipeline实现">Pipeline实现</a>
+              <ul>
+                <li><a href="#jenkins拉取git代码">Jenkins拉取Git代码</a></li>
+                <li><a href="#mavem构建项目">mavem构建项目</a></li>
+                <li><a href="#单元测试">单元测试</a></li>
+                <li><a href="#build-docker镜像">build docker镜像</a></li>
+                <li><a href="#push-docker镜像到镜像仓库">push docker镜像到镜像仓库</a></li>
+                <li><a href="#远程部署镜像pull重新部署">远程部署(镜像Pull，重新部署)</a></li>
+                <li><a href="#相关pipeline">相关pipeline</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#参考">参考</a></li>
       </ul>
     </li>
-    <li><a href="#jenkins安装配置基于docker">jenkins安装/配置(基于Docker)</a>
-      <ul>
-        <li><a href="#安装">安装</a></li>
-        <li><a href="#插件推荐">插件推荐</a></li>
-        <li><a href="#配置">配置</a></li>
-      </ul>
-    </li>
-    <li><a href="#jenkins-pipeline">Jenkins Pipeline</a>
-      <ul>
-        <li><a href="#什么是pipline">什么是Pipline</a></li>
-        <li><a href="#pipeline优势">pipeline优势</a></li>
-        <li><a href="#pipeline组成">pipeline组成</a></li>
-      </ul>
-    </li>
-    <li><a href="#jenkins-pipeline实现cicd">Jenkins Pipeline实现CI/CD</a>
-      <ul>
-        <li><a href="#基本流程">基本流程</a></li>
-        <li><a href="#pipeline实现">Pipeline实现</a></li>
-      </ul>
-    </li>
-    <li><a href="#参考">参考</a></li>
   </ul>
 </nav>
   </div>

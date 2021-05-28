@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>软件架构模式分析 - LiHanRong Blog</title>
+  <title>软件架构模式分析 - LiHanRong</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -95,8 +95,6 @@
         <li class="mobile-menu-item">tags</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">categories</li>
-      </a><a href="https://www.yuque.com/lihanrong">
-        <li class="mobile-menu-item">notes</li>
       </a><a href="/post/about/">
         <li class="mobile-menu-item">about</li>
       </a>
@@ -127,8 +125,6 @@
         <a class="menu-item-link" href="/tags/">tags</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">notes</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/post/about/">about</a>
       </li>
@@ -161,40 +157,65 @@
   <div class="post-toc-content">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#五种最常见的软件架构">五种最常见的软件架构</a></li>
-    <li><a href="#分层架构layered-architecture">分层架构（Layered Architecture）</a>
+    <li>
       <ul>
-        <li><a href="#模式说明">模式说明</a></li>
-        <li><a href="#特点">特点</a></li>
-        <li><a href="#模式分析">模式分析</a></li>
-      </ul>
-    </li>
-    <li><a href="#事件驱动架构event-driven-architecture">事件驱动架构（Event-Driven Architecture）</a>
-      <ul>
-        <li><a href="#模式说明-1">模式说明</a></li>
-        <li><a href="#特点-1">特点</a></li>
-        <li><a href="#模式分析-1">模式分析</a></li>
-      </ul>
-    </li>
-    <li><a href="#微内核架构-插件架构microkernel-architecture">微内核架构-插件架构（Microkernel Architecture）</a>
-      <ul>
-        <li><a href="#模式说明-2">模式说明</a></li>
-        <li><a href="#特点-2">特点</a></li>
-        <li><a href="#api网关的插件化">API网关的插件化</a></li>
-        <li><a href="#模式分析-2">模式分析</a></li>
-      </ul>
-    </li>
-    <li><a href="#微服务架构microservices-architecture">微服务架构（Microservices architecture）</a>
-      <ul>
-        <li><a href="#模式说明-3">模式说明</a></li>
-        <li><a href="#服务组件间通信">服务组件间通信</a></li>
-        <li><a href="#模式分析-3">模式分析</a></li>
-      </ul>
-    </li>
-    <li><a href="#基于空间的架构-云架构space-based-architecture">基于空间的架构-云架构（Space-Based Architecture）</a>
-      <ul>
-        <li><a href="#模型说明">模型说明</a></li>
-        <li><a href="#模式分析-4">模式分析</a></li>
+        <li><a href="#五种最常见的软件架构">五种最常见的软件架构</a></li>
+        <li><a href="#分层架构layered-architecture">分层架构（Layered Architecture）</a>
+          <ul>
+            <li><a href="#模式说明">模式说明</a></li>
+            <li><a href="#特点">特点</a>
+              <ul>
+                <li><a href="#污水池反模式architecture-sinkhole-anti-pattern">污水池反模式（architecture sinkhole anti-pattern）</a></li>
+                <li><a href="#巨石应用monolith">巨石应用（Monolith）</a></li>
+              </ul>
+            </li>
+            <li><a href="#模式分析">模式分析</a></li>
+          </ul>
+        </li>
+        <li><a href="#事件驱动架构event-driven-architecture">事件驱动架构（Event-Driven Architecture）</a>
+          <ul>
+            <li><a href="#模式说明-1">模式说明</a>
+              <ul>
+                <li><a href="#中介拓扑结构mediator-topology">中介拓扑结构（Mediator Topology）</a></li>
+                <li><a href="#代理拓扑结构broker-topology">代理拓扑结构（Broker Topology）</a></li>
+              </ul>
+            </li>
+            <li><a href="#特点-1">特点</a></li>
+            <li><a href="#模式分析-1">模式分析</a></li>
+          </ul>
+        </li>
+        <li><a href="#微内核架构-插件架构microkernel-architecture">微内核架构-插件架构（Microkernel Architecture）</a>
+          <ul>
+            <li><a href="#模式说明-2">模式说明</a></li>
+            <li><a href="#特点-2">特点</a></li>
+            <li><a href="#api网关的插件化">API网关的插件化</a></li>
+            <li><a href="#模式分析-2">模式分析</a></li>
+          </ul>
+        </li>
+        <li><a href="#微服务架构microservices-architecture">微服务架构（Microservices architecture）</a>
+          <ul>
+            <li><a href="#模式说明-3">模式说明</a>
+              <ul>
+                <li><a href="#api-rest-based拓扑结构">API REST-based拓扑结构</a></li>
+                <li><a href="#applicaiton-rest-based拓扑结构">Applicaiton REST-based拓扑结构</a></li>
+                <li><a href="#集中式消息拓扑结构">集中式消息拓扑结构</a></li>
+              </ul>
+            </li>
+            <li><a href="#服务组件间通信">服务组件间通信</a></li>
+            <li><a href="#模式分析-3">模式分析</a></li>
+          </ul>
+        </li>
+        <li><a href="#基于空间的架构-云架构space-based-architecture">基于空间的架构-云架构（Space-Based Architecture）</a>
+          <ul>
+            <li><a href="#模型说明">模型说明</a>
+              <ul>
+                <li><a href="#模块间合作虚拟化中间件组件">模块间合作（虚拟化中间件组件）</a></li>
+                <li><a href="#特点-3">特点</a></li>
+              </ul>
+            </li>
+            <li><a href="#模式分析-4">模式分析</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>

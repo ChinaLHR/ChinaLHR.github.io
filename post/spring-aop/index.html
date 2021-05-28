@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Spring Aop分析 - LiHanRong Blog</title>
+  <title>Spring Aop分析 - LiHanRong</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -95,8 +95,6 @@ Spring Aop源码分析
         <li class="mobile-menu-item">tags</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">categories</li>
-      </a><a href="https://www.yuque.com/lihanrong">
-        <li class="mobile-menu-item">notes</li>
       </a><a href="/post/about/">
         <li class="mobile-menu-item">about</li>
       </a>
@@ -127,8 +125,6 @@ Spring Aop源码分析
         <a class="menu-item-link" href="/tags/">tags</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">notes</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/post/about/">about</a>
       </li>
@@ -161,24 +157,28 @@ Spring Aop源码分析
   <div class="post-toc-content">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#示例">示例</a>
+    <li>
       <ul>
-        <li><a href="#编程式aop">编程式aop</a></li>
+        <li><a href="#示例">示例</a>
+          <ul>
+            <li><a href="#编程式aop">编程式aop</a></li>
+          </ul>
+        </li>
+        <li><a href="#代理工厂proxyfactory">代理工厂ProxyFactory</a>
+          <ul>
+            <li><a href="#targetsource">TargetSource</a></li>
+            <li><a href="#addadvice">addAdvice</a></li>
+            <li><a href="#获取代理">获取代理</a></li>
+          </ul>
+        </li>
+        <li><a href="#joinpoint连接点">Joinpoint（连接点）</a></li>
+        <li><a href="#pointcut切入点">Pointcut(切入点)</a></li>
+        <li><a href="#advice通知增强">Advice（通知/增强）</a></li>
+        <li><a href="#advisor切面增强器">Advisor(切面/增强器)</a></li>
+        <li><a href="#proxy代理">Proxy(代理)</a></li>
+        <li><a href="#aop核心实现weaving织入器">aop核心实现(Weaving织入器)</a></li>
       </ul>
     </li>
-    <li><a href="#代理工厂proxyfactory">代理工厂ProxyFactory</a>
-      <ul>
-        <li><a href="#targetsource">TargetSource</a></li>
-        <li><a href="#addadvice">addAdvice</a></li>
-        <li><a href="#获取代理">获取代理</a></li>
-      </ul>
-    </li>
-    <li><a href="#joinpoint连接点">Joinpoint（连接点）</a></li>
-    <li><a href="#pointcut切入点">Pointcut(切入点)</a></li>
-    <li><a href="#advice通知增强">Advice（通知/增强）</a></li>
-    <li><a href="#advisor切面增强器">Advisor(切面/增强器)</a></li>
-    <li><a href="#proxy代理">Proxy(代理)</a></li>
-    <li><a href="#aop核心实现weaving织入器">aop核心实现(Weaving织入器)</a></li>
   </ul>
 </nav>
   </div>

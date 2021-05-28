@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>paxos on LiHanRong Blog</title>
+    <title>paxos on LiHanRong</title>
     <link>https://chinalhr.github.io/tags/paxos/</link>
-    <description>Recent content in paxos on LiHanRong Blog</description>
+    <description>Recent content in paxos on LiHanRong</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Thu, 11 Mar 2021 23:41:59 +0800</lastBuildDate>

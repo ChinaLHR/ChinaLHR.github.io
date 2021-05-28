@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>权限系统设计-概念与思路 - LiHanRong Blog</title>
+  <title>权限系统设计-概念与思路 - LiHanRong</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -95,8 +95,6 @@
         <li class="mobile-menu-item">tags</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">categories</li>
-      </a><a href="https://www.yuque.com/lihanrong">
-        <li class="mobile-menu-item">notes</li>
       </a><a href="/post/about/">
         <li class="mobile-menu-item">about</li>
       </a>
@@ -127,8 +125,6 @@
         <a class="menu-item-link" href="/tags/">tags</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">notes</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/post/about/">about</a>
       </li>
@@ -161,27 +157,38 @@
   <div class="post-toc-content">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#权限管控分类">权限管控分类</a></li>
-    <li><a href="#认证与授权">认证与授权</a>
+    <li>
       <ul>
-        <li><a href="#认证authentication">认证（Authentication）</a></li>
-        <li><a href="#授权authorization">授权（Authorization）</a></li>
-      </ul>
-    </li>
-    <li><a href="#功能权限模型">功能权限模型</a>
-      <ul>
-        <li><a href="#acl">ACL</a></li>
-        <li><a href="#rbac">RBAC</a></li>
-        <li><a href="#abac">ABAC</a></li>
-        <li><a href="#组织架构与功能权限">组织架构与功能权限</a></li>
-      </ul>
-    </li>
-    <li><a href="#数据权限">数据权限</a></li>
-    <li><a href="#功能权限与数据权限系统设计实现思路">功能权限与数据权限系统设计实现思路</a>
-      <ul>
-        <li><a href="#表结构设计">表结构设计</a></li>
-        <li><a href="#功能权限系统设计">功能权限系统设计</a></li>
-        <li><a href="#数据权限设计">数据权限设计</a></li>
+        <li><a href="#权限管控分类">权限管控分类</a></li>
+        <li><a href="#认证与授权">认证与授权</a>
+          <ul>
+            <li><a href="#认证authentication">认证（Authentication）</a></li>
+            <li><a href="#授权authorization">授权（Authorization）</a></li>
+          </ul>
+        </li>
+        <li><a href="#功能权限模型">功能权限模型</a>
+          <ul>
+            <li><a href="#acl">ACL</a></li>
+            <li><a href="#rbac">RBAC</a>
+              <ul>
+                <li><a href="#rbac0-rbac核心思想模型">RBAC0-RBAC核心思想模型</a></li>
+                <li><a href="#rbac1-基于角色的分层模型">RBAC1-基于角色的分层模型</a></li>
+                <li><a href="#rbac2-rbac约束模型">RBAC2-RBAC约束模型。</a></li>
+                <li><a href="#rbac3">RBAC3</a></li>
+              </ul>
+            </li>
+            <li><a href="#abac">ABAC</a></li>
+            <li><a href="#组织架构与功能权限">组织架构与功能权限</a></li>
+          </ul>
+        </li>
+        <li><a href="#数据权限">数据权限</a></li>
+        <li><a href="#功能权限与数据权限系统设计实现思路">功能权限与数据权限系统设计实现思路</a>
+          <ul>
+            <li><a href="#表结构设计">表结构设计</a></li>
+            <li><a href="#功能权限系统设计">功能权限系统设计</a></li>
+            <li><a href="#数据权限设计">数据权限设计</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>

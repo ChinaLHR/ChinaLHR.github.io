@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Java技术域中的异步编程 - LiHanRong Blog</title>
+  <title>Java技术域中的异步编程 - LiHanRong</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -95,8 +95,6 @@ Java技术域异步编程总结
         <li class="mobile-menu-item">tags</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">categories</li>
-      </a><a href="https://www.yuque.com/lihanrong">
-        <li class="mobile-menu-item">notes</li>
       </a><a href="/post/about/">
         <li class="mobile-menu-item">about</li>
       </a>
@@ -127,8 +125,6 @@ Java技术域异步编程总结
         <a class="menu-item-link" href="/tags/">tags</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">notes</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/post/about/">about</a>
       </li>
@@ -161,16 +157,62 @@ Java技术域异步编程总结
   <div class="post-toc-content">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#异步编程优势">异步编程优势</a></li>
-    <li><a href="#java异步编程技术实现方式">Java异步编程技术实现方式</a>
+    <li>
       <ul>
-        <li><a href="#线程池">线程池</a></li>
-        <li><a href="#jdk的future">JDK的Future</a></li>
-        <li><a href="#jdk的completablefuture">JDK的CompletableFuture</a></li>
-        <li><a href="#rxjava与reactor">RxJava与Reactor</a></li>
-        <li><a href="#spring的taskexecutor">Spring的TaskExecutor</a></li>
-        <li><a href="#servlet异步编程">Servlet异步编程</a></li>
-        <li><a href="#netty">Netty</a></li>
+        <li><a href="#异步编程优势">异步编程优势</a></li>
+        <li><a href="#java异步编程技术实现方式">Java异步编程技术实现方式</a>
+          <ul>
+            <li><a href="#线程池">线程池</a>
+              <ul>
+                <li><a href="#核心理念">核心理念</a></li>
+                <li><a href="#线程池构造">线程池构造</a></li>
+                <li><a href="#线程池投递任务原理简述">线程池投递任务原理简述</a></li>
+                <li><a href="#线程池关闭">线程池关闭</a></li>
+                <li><a href="#总结">总结</a></li>
+              </ul>
+            </li>
+            <li><a href="#jdk的future">JDK的Future</a>
+              <ul>
+                <li><a href="#futuretask">FutureTask</a></li>
+                <li><a href="#futuretask构造">FutureTask构造</a></li>
+                <li><a href="#futuretask执行与获取">FutureTask执行与获取</a></li>
+                <li><a href="#总结-1">总结</a></li>
+              </ul>
+            </li>
+            <li><a href="#jdk的completablefuture">JDK的CompletableFuture</a>
+              <ul>
+                <li><a href="#显式设置completablefuture结果">显式设置CompletableFuture结果</a></li>
+                <li><a href="#异步计算与结果转换">异步计算与结果转换</a></li>
+                <li><a href="#多completablefuture组合运算">多CompletableFuture组合运算</a></li>
+                <li><a href="#异常处理">异常处理</a></li>
+                <li><a href="#stream与completablefuture">Stream与CompletableFuture</a></li>
+              </ul>
+            </li>
+            <li><a href="#rxjava与reactor">RxJava与Reactor</a>
+              <ul>
+                <li><a href="#基于rxjava实现异步编程">基于RxJava实现异步编程</a></li>
+                <li><a href="#基于reactor实现异步编程">基于Reactor实现异步编程</a></li>
+              </ul>
+            </li>
+            <li><a href="#spring的taskexecutor">Spring的TaskExecutor</a>
+              <ul>
+                <li><a href="#在springboot中使用taskexecutor进行异步处理">在SpringBoot中使用TaskExecutor进行异步处理</a></li>
+                <li><a href="#async注解执行原理">@Async注解执行原理</a></li>
+              </ul>
+            </li>
+            <li><a href="#servlet异步编程">Servlet异步编程</a>
+              <ul>
+                <li><a href="#servlet30-提供的异步处理">Servlet3.0 提供的异步处理</a></li>
+                <li><a href="#servlet31-提供的非阻塞io处理">Servlet3.1 提供的非阻塞IO处理</a></li>
+              </ul>
+            </li>
+            <li><a href="#netty">Netty</a>
+              <ul>
+                <li><a href="#线程模型">线程模型</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>

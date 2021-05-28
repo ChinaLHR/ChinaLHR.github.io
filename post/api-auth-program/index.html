@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>API认证与授权方案 - LiHanRong Blog</title>
+  <title>API认证与授权方案 - LiHanRong</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -95,8 +95,6 @@ Api认证授权方案总结
         <li class="mobile-menu-item">tags</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">categories</li>
-      </a><a href="https://www.yuque.com/lihanrong">
-        <li class="mobile-menu-item">notes</li>
       </a><a href="/post/about/">
         <li class="mobile-menu-item">about</li>
       </a>
@@ -127,8 +125,6 @@ Api认证授权方案总结
         <a class="menu-item-link" href="/tags/">tags</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">notes</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/post/about/">about</a>
       </li>
@@ -161,13 +157,46 @@ Api认证授权方案总结
   <div class="post-toc-content">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#关于认证授权与凭证">关于认证，授权与凭证</a></li>
-    <li><a href="#api开发中常用的认证授权技术">API开发中常用的认证，授权技术</a>
+    <li>
       <ul>
-        <li><a href="#http-basic-authentication">HTTP Basic Authentication</a></li>
-        <li><a href="#hmacaksk认证">HMAC（AK/SK）认证</a></li>
-        <li><a href="#oauth2">OAuth2</a></li>
-        <li><a href="#jwt">JWT</a></li>
+        <li><a href="#关于认证授权与凭证">关于认证，授权与凭证</a></li>
+        <li><a href="#api开发中常用的认证授权技术">API开发中常用的认证，授权技术</a>
+          <ul>
+            <li><a href="#http-basic-authentication">HTTP Basic Authentication</a>
+              <ul>
+                <li><a href="#流程">流程</a></li>
+                <li><a href="#缺陷">缺陷</a></li>
+              </ul>
+            </li>
+            <li><a href="#hmacaksk认证">HMAC（AK/SK）认证</a>
+              <ul>
+                <li><a href="#签名生成">签名生成</a></li>
+                <li><a href="#鉴权">鉴权</a></li>
+                <li><a href="#质疑应答算法">质疑/应答算法</a></li>
+              </ul>
+            </li>
+            <li><a href="#oauth2">OAuth2</a>
+              <ul>
+                <li><a href="#oauth2角色">OAuth2角色</a></li>
+                <li><a href="#oauth2的部署与授权流程">OAuth2的部署与授权流程</a></li>
+                <li><a href="#四种授权许可方式authorization-grant">四种授权许可方式（<strong>Authorization Grant</strong>）</a></li>
+                <li><a href="#authorization-code">Authorization Code</a></li>
+                <li><a href="#implicit">Implicit</a></li>
+                <li><a href="#resource-owner-password-credentials">Resource Owner Password Credentials</a></li>
+                <li><a href="#client-credentials">Client Credentials</a></li>
+                <li><a href="#oauth2参考">OAuth2参考</a></li>
+              </ul>
+            </li>
+            <li><a href="#jwt">JWT</a>
+              <ul>
+                <li><a href="#json-web-token">JSON Web Token</a></li>
+                <li><a href="#jwt工作流程">JWT工作流程</a></li>
+                <li><a href="#jwt组成">JWT组成</a></li>
+                <li><a href="#服务端验证">服务端验证</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>

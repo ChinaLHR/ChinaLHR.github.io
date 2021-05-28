@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>缓存更新策略 - LiHanRong Blog</title>
+  <title>缓存更新策略 - LiHanRong</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -95,8 +95,6 @@
         <li class="mobile-menu-item">tags</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">categories</li>
-      </a><a href="https://www.yuque.com/lihanrong">
-        <li class="mobile-menu-item">notes</li>
       </a><a href="/post/about/">
         <li class="mobile-menu-item">about</li>
       </a>
@@ -127,8 +125,6 @@
         <a class="menu-item-link" href="/tags/">tags</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">notes</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/post/about/">about</a>
       </li>
@@ -161,21 +157,25 @@
   <div class="post-toc-content">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#更新缓存的四种设计模式">更新缓存的四种设计模式</a>
+    <li>
       <ul>
-        <li><a href="#cache-aside-pattern">Cache Aside Pattern</a></li>
-        <li><a href="#readwrite-through-pattern">Read/Write Through Pattern</a></li>
-        <li><a href="#write-behind-caching-pattern">Write Behind Caching Pattern</a></li>
+        <li><a href="#更新缓存的四种设计模式">更新缓存的四种设计模式</a>
+          <ul>
+            <li><a href="#cache-aside-pattern">Cache Aside Pattern</a></li>
+            <li><a href="#readwrite-through-pattern">Read/Write Through Pattern</a></li>
+            <li><a href="#write-behind-caching-pattern">Write Behind Caching Pattern</a></li>
+          </ul>
+        </li>
+        <li><a href="#java系统中缓存与事务带来的问题">Java系统中缓存与事务带来的问题</a></li>
+        <li><a href="#两种分布式缓存更新的方案">两种分布式缓存更新的方案</a>
+          <ul>
+            <li><a href="#基于阿里云dts进行缓存刷新">基于阿里云DTS进行缓存刷新</a></li>
+            <li><a href="#基于spring-transaction后置处理机制">基于Spring Transaction后置处理机制</a></li>
+          </ul>
+        </li>
+        <li><a href="#参考">参考</a></li>
       </ul>
     </li>
-    <li><a href="#java系统中缓存与事务带来的问题">Java系统中缓存与事务带来的问题</a></li>
-    <li><a href="#两种分布式缓存更新的方案">两种分布式缓存更新的方案</a>
-      <ul>
-        <li><a href="#基于阿里云dts进行缓存刷新">基于阿里云DTS进行缓存刷新</a></li>
-        <li><a href="#基于spring-transaction后置处理机制">基于Spring Transaction后置处理机制</a></li>
-      </ul>
-    </li>
-    <li><a href="#参考">参考</a></li>
   </ul>
 </nav>
   </div>

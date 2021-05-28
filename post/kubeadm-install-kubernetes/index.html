@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>使用kubeadm部署Kubernetes集群实践 - LiHanRong Blog</title>
+  <title>使用kubeadm部署Kubernetes集群实践 - LiHanRong</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -95,8 +95,6 @@
         <li class="mobile-menu-item">tags</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">categories</li>
-      </a><a href="https://www.yuque.com/lihanrong">
-        <li class="mobile-menu-item">notes</li>
       </a><a href="/post/about/">
         <li class="mobile-menu-item">about</li>
       </a>
@@ -127,8 +125,6 @@
         <a class="menu-item-link" href="/tags/">tags</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://www.yuque.com/lihanrong">notes</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/post/about/">about</a>
       </li>
@@ -161,33 +157,37 @@
   <div class="post-toc-content">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#kubeadm">kubeadm</a></li>
-    <li><a href="#前置准备">前置准备</a>
+    <li>
       <ul>
-        <li><a href="#系统准备">系统准备</a></li>
-        <li><a href="#kube-proxy开启ipvs设置">kube-proxy开启ipvs设置</a></li>
-        <li><a href="#安装并设置docker">安装并设置docker</a></li>
-        <li><a href="#安装kubeadmkubectl和kubelet">安装kubeadm,kubectl和kubelet</a></li>
+        <li><a href="#kubeadm">kubeadm</a></li>
+        <li><a href="#前置准备">前置准备</a>
+          <ul>
+            <li><a href="#系统准备">系统准备</a></li>
+            <li><a href="#kube-proxy开启ipvs设置">kube-proxy开启ipvs设置</a></li>
+            <li><a href="#安装并设置docker">安装并设置docker</a></li>
+            <li><a href="#安装kubeadmkubectl和kubelet">安装kubeadm,kubectl和kubelet</a></li>
+          </ul>
+        </li>
+        <li><a href="#kubeadm部署kubernetes集群">kubeadm部署kubernetes集群</a>
+          <ul>
+            <li><a href="#kubeadm-init-配置kubernetes-master节点">kubeadm init 配置kubernetes master节点</a></li>
+            <li><a href="#kubeadm-join-配置kubernetes-slave节点">kubeadm join 配置kubernetes slave节点</a></li>
+            <li><a href="#配置网络插件">配置网络插件</a></li>
+            <li><a href="#kube-proxy开启ipvs">kube-proxy开启ipvs</a></li>
+            <li><a href="#kubectl-部署nginx">kubectl 部署Nginx</a></li>
+          </ul>
+        </li>
+        <li><a href="#kubernetes常用组件部署">Kubernetes常用组件部署</a>
+          <ul>
+            <li><a href="#helm">Helm</a></li>
+            <li><a href="#使用helm部署ingress-nginx">使用Helm部署Ingress-nginx</a></li>
+            <li><a href="#使用helm部署kubernetes-dashboard">使用Helm部署kubernetes-dashboard</a></li>
+            <li><a href="#使用helm部署metrics-server">使用Helm部署metrics-server</a></li>
+          </ul>
+        </li>
+        <li><a href="#faq">FAQ</a></li>
       </ul>
     </li>
-    <li><a href="#kubeadm部署kubernetes集群">kubeadm部署kubernetes集群</a>
-      <ul>
-        <li><a href="#kubeadm-init-配置kubernetes-master节点">kubeadm init 配置kubernetes master节点</a></li>
-        <li><a href="#kubeadm-join-配置kubernetes-slave节点">kubeadm join 配置kubernetes slave节点</a></li>
-        <li><a href="#配置网络插件">配置网络插件</a></li>
-        <li><a href="#kube-proxy开启ipvs">kube-proxy开启ipvs</a></li>
-        <li><a href="#kubectl-部署nginx">kubectl 部署Nginx</a></li>
-      </ul>
-    </li>
-    <li><a href="#kubernetes常用组件部署">Kubernetes常用组件部署</a>
-      <ul>
-        <li><a href="#helm">Helm</a></li>
-        <li><a href="#使用helm部署ingress-nginx">使用Helm部署Ingress-nginx</a></li>
-        <li><a href="#使用helm部署kubernetes-dashboard">使用Helm部署kubernetes-dashboard</a></li>
-        <li><a href="#使用helm部署metrics-server">使用Helm部署metrics-server</a></li>
-      </ul>
-    </li>
-    <li><a href="#faq">FAQ</a></li>
   </ul>
 </nav>
   </div>

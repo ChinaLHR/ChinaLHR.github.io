@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>MyBatis on LiHanRong Blog</title>
+    <title>MyBatis on LiHanRong</title>
     <link>https://chinalhr.github.io/tags/mybatis/</link>
-    <description>Recent content in MyBatis on LiHanRong Blog</description>
+    <description>Recent content in MyBatis on LiHanRong</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Mon, 12 Nov 2018 22:51:04 +0800</lastBuildDate>
