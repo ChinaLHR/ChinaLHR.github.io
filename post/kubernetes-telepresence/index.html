@@ -269,7 +269,7 @@ T: Setup complete. Launching your command.
 </div>
 </div><p>当运行 Telepresence 命令的时候，默认使用vpn-tcp模式；它创建了一个<code>Deployment</code>，对应的 Spec 是负责转发流量的代理容器；对应的pod为上面启动日志的<code>telepresence-1611716361-290886-47290</code>；同时Telepresence在本地创建了一个全局VPN；使得本地的所有程序都可以访问到集群中的服务。</p>
 <p>这时候就可以把本地环境的Service A启动起来进行调试，所有的环境变量可以基于上文的dev环境配置。</p>
-<!-- raw HTML omitted -->
+<p><img src="https://user-images.githubusercontent.com/19829495/105940605-a7b5c300-6096-11eb-87f1-3d1db0e74292.png" alt="image1"></p>
 <h3 id="远程kubernetes集群内部服务与本地服务联调">远程Kubernetes集群内部服务与本地服务联调</h3>
 <p><strong>场景</strong></p>
 <p>在context为dev的kubernetes集群内，服务A依赖于服务B，需要在本地对服务B进行调试；这里调试的前提是我们要有正式的来着服务A的调用流量。</p>
@@ -291,7 +291,7 @@ telepresence --context dev --namespace <span class="nb">test</span> --swap-deplo
 <li>建立一个路由通道，将代理容器的所有流量转发到本地 10080 端口</li>
 <li>将service-b的 replicas 设置为0，kubernetes Service 的 selector 就只能匹配到刚刚创建的代理容器上</li>
 </ol>
-<!-- raw HTML omitted -->
+<p><img src="https://user-images.githubusercontent.com/19829495/105940980-5fe36b80-6097-11eb-8bb6-5ea97e2898cd.png" alt="image2"></p>
 <h3 id="一些参数">一些参数</h3>
 <ul>
 <li>帮助文档</li>
