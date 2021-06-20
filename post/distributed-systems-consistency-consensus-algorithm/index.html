@@ -54,7 +54,7 @@
 ">
 <meta itemprop="datePublished" content="2021-01-25T00:20:07&#43;08:00" />
 <meta itemprop="dateModified" content="2021-01-25T00:20:07&#43;08:00" />
-<meta itemprop="wordCount" content="6976">
+<meta itemprop="wordCount" content="6956">
 
 
 
@@ -146,7 +146,7 @@
         <div class="post-category">
             <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/"> 分布式系统 </a>
             </div>
-          <span class="more-meta"> 6976 words </span>
+          <span class="more-meta"> 6956 words </span>
           <span class="more-meta"> 14 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -200,16 +200,16 @@
 <p>记录分布式系统的一些基础理论</p>
 </blockquote>
 <h2 id="分布式系统下的一致性问题">分布式系统下的一致性问题</h2>
-<p>**定义：**一致性为在分布式系统领域中对于多个服务节点，给定一系列操作，在约定协议的保障下，使得它们对处理结果达成某种程度的协同。</p>
+<p><strong>定义</strong>：一致性为在分布式系统领域中对于多个服务节点，给定一系列操作，在约定协议的保障下，使得它们对处理结果达成某种程度的协同。</p>
 <p>分布式系统中的节点通信存在两种模型：共享内存（Shared memory）和消息传递（Messages passing）。基于消息传递通信模型的分布式系统，不可避免的会发生以下错误：进程可能会慢、被杀死或者重启，消息可能会延迟、丢失、重复；发生上面任意一种异常都会对分布式系统中各个节点对某一个值达成一致性产生问题。</p>
-<p><strong>一致性的要求：</strong></p>
+<p><strong>一致性的要求</strong>：</p>
 <ul>
 <li>可终止性（Termination）：一致的结果在有限时间内能完成（可以保障提供服务（Liveness））</li>
 <li>约同性（Agreement）：不同节点最终完成决策的结果是相同的（意味着算法要么不给出结果，任何给出的结果必定是达成了共识的，即安全性（Safety））</li>
 <li>合法性（Validity）：决策的结果必须是某个节点提出的提案（即达成的结果必须是节点执行操作的结果）</li>
 </ul>
 <p>解决一致性问题的核心在于对不同空间发生的事件进行全局唯一排序。</p>
-<p><strong>一致性模型：</strong></p>
+<p><strong>一致性模型</strong>：</p>
 <ul>
 <li>强一致性模型
 <ul>
@@ -266,10 +266,10 @@
 <h2 id="flp不可能定理cap理论acid原则与base原则">FLP不可能定理、CAP理论、ACID原则与BASE原则</h2>
 <h3 id="同步异步系统模型">同步/异步系统模型</h3>
 <p><strong>同步系统模型</strong>：指系统中的各个节点的时钟误差存在上限；并且消息传递必须在一定时间内完成，否则认为失败；同时各个节点完成处理消息的时间是一定的。因此同步系统中可以很容易地判断消息是否丢失。</p>
-<p>**异步系统模型：**系统中各个节点可能存在较大的时钟差异；同时消息传输时间是任意长的；各节点对消息进行处理的时间也可能是任意长的。这就造成无法判断某个消息迟迟没有被响应是哪里出了问题（节点故障还是传输故障）。现实生活中的系统往往都是异步系统。</p>
+<p><strong>异步系统模型</strong>：系统中各个节点可能存在较大的时钟差异；同时消息传输时间是任意长的；各节点对消息进行处理的时间也可能是任意长的。这就造成无法判断某个消息迟迟没有被响应是哪里出了问题（节点故障还是传输故障）。现实生活中的系统往往都是异步系统。</p>
 <h3 id="flp不可能原理">FLP不可能原理</h3>
-<p>**定义：**由 Fischer，Lynch 和 Patterson 三位科学家发表的《Impossibility of Distributed Consensus with One Faulty Process》论文中提出，在网络可靠，但允许节点失效（即便只有一个）的最小化异步模型系统中，不存在一个可以解决一致性问题的确定性共识算法。</p>
-<p>**描述：**FLP不可能原理假定节点只能因崩溃而失败； 网络可靠，并且异步系统模型的典型时序假设成立：例如，消息延迟没有限制的情况下，假设有A、B、C三个节点进行投票，A投票0，B投票1，而C收到了A与B的投票却没办法响应，A与B就没办法在有限的时间内获知最终结果；如果进行重新投票，类似的情况重复发生，则永远无法达到共识。</p>
+<p><strong>定义</strong>：由 Fischer，Lynch 和 Patterson 三位科学家发表的《Impossibility of Distributed Consensus with One Faulty Process》论文中提出，在网络可靠，但允许节点失效（即便只有一个）的最小化异步模型系统中，不存在一个可以解决一致性问题的确定性共识算法。</p>
+<p><strong>描述</strong>：FLP不可能原理假定节点只能因崩溃而失败； 网络可靠，并且异步系统模型的典型时序假设成立：例如，消息延迟没有限制的情况下，假设有A、B、C三个节点进行投票，A投票0，B投票1，而C收到了A与B的投票却没办法响应，A与B就没办法在有限的时间内获知最终结果；如果进行重新投票，类似的情况重复发生，则永远无法达到共识。</p>
 <p>FLP 不可能原理的意义在于，告诉我们不要浪费时间去为异步分布式系统设计在任意场景上都能够实现共识的算法，异步系统完全没有办法保证能在有限时间内达成一致。</p>
 <h3 id="cap理论">CAP理论</h3>
 <p><strong>CAP定理</strong>（CAP theorem），又被称作<strong>布鲁尔定理</strong>（Brewer&rsquo;s theorem），它指出对于一个分布式计算系统来说，不可能同时满足以下三点，只能满足三项中的两项：</p>
@@ -279,7 +279,7 @@
 <li>分区容错性（<strong>P</strong>artition tolerance）（以实际效果而言，分区相当于对通信的时限要求。系统如果不能在时限内达成数据一致性，就意味着发生了分区的情况，必须就当前操作在C和A之间做出选择）</li>
 </ul>
 <p><img src="https://user-images.githubusercontent.com/19829495/108621402-60400e00-746d-11eb-8356-b715eb7d4494.png" alt="图片"></p>
-<p><strong>证明：</strong></p>
+<p><strong>证明</strong>：</p>
 <p>假设有两个通信中的节点出现了网络分区的情况，如果允许其中一个节点更新状态，则需要舍弃一致性（C）；如果为了保证数据一致性，将分区的节点设置为不可用，就需要舍弃可用性（A）；如果两个节点可以互相通信，才能既保证一致性又保证可用性，会丧失分区容错性（P）。</p>
 <p><strong>三类系统模型</strong></p>
 <ul>
@@ -287,7 +287,7 @@
 <li>CP（一致性+分区容错性）： 包括多数仲裁协议，其中少数分区不可用，<strong>例如Paxos</strong>。</li>
 <li>AP（可用性+分区容错性）： 包括使用冲突解决方案的协议，<strong>例如DynamoDB</strong>。</li>
 </ul>
-<p>**CA\CP区别：**CA和CP系统设计均提供相同的一致性模型：高度一致性。 唯一的区别是CA系统不能容忍任何节点故障。 CP系统可以容忍 <code>f</code>在给定 <code>2f+1</code>在非拜占庭式故障模型中。</p>
+<p><strong>CA\CP区别</strong>：CA和CP系统设计均提供相同的一致性模型：高度一致性。 唯一的区别是CA系统不能容忍任何节点故障。 CP系统可以容忍 <code>f</code>在给定 <code>2f+1</code>在非拜占庭式故障模型中。</p>
 <p><strong>场景</strong></p>
 <ul>
 <li>CA：弱化了分区容错性，早期分布式关系数据库系统中使用的许多系统设计如两阶段提交，都没有考虑分区容错性。 分区容错性是现代系统的重要属性，因为如果系统在多个地理环境上分布，网络分区出现的概览就会加大。</li>
@@ -408,7 +408,7 @@ read 操作至少会获取一个最新副本；
 </code></pre></td></tr></table>
 </div>
 </div><p>在做复制冗余的时候，借助 Quorum 机制，5 个副本只需要完成 3 个写即可响应成功，提升了写操作的响应速度，又没有减弱可靠性；Quorum 机制本质上是把写负载转移到了读负载的一种设计权衡。</p>
-<p><strong>问题：</strong></p>
+<p><strong>问题</strong>：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1

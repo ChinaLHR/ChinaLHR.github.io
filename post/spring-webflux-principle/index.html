@@ -54,7 +54,7 @@ Spring WebFlux源码分析与适用场景
 ">
 <meta itemprop="datePublished" content="2020-02-13T16:38:02&#43;08:00" />
 <meta itemprop="dateModified" content="2020-02-13T16:38:02&#43;08:00" />
-<meta itemprop="wordCount" content="4190">
+<meta itemprop="wordCount" content="4186">
 
 
 
@@ -146,7 +146,7 @@ Spring WebFlux源码分析与适用场景
         <div class="post-category">
             <a href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 后端开发 </a>
             </div>
-          <span class="more-meta"> 4190 words </span>
+          <span class="more-meta"> 4186 words </span>
           <span class="more-meta"> 9 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -234,7 +234,7 @@ Spring WebFlux源码分析与适用场景
 <p><img src="https://user-images.githubusercontent.com/19829495/74248065-ff420e00-4d21-11ea-81fb-5efb2bdf679c.png" alt="图片"></p>
 <p><img src="https://user-images.githubusercontent.com/19829495/74248685-eb4adc00-4d22-11ea-9437-57724a8ef677.png" alt="图片"></p>
 <p>对于运行在异步IO的之上的WebFlux应用来说，其工作线程数量始终维持在一个固定的数量上，通常这个固定的数量等于CPU核数。从测试图中可以看到，随着用户数的增多，webflux吞吐量基本呈线性增多的趋势，95%的响应都在100ms+的可控范围内返回了，并未出现延时的情况。而SpringMVC线程数达到200/400前，95%的请求响应时长是正常的，之后呈直线上升的态势；</p>
-<p>**结论：**非阻塞的处理方式规避了线程排队等待的情况，从而可以用少量而固定的线程处理应对大量请求的处理，提升应用的吞吐量和伸缩性。</p>
+<p><strong>结论</strong>：非阻塞的处理方式规避了线程排队等待的情况，从而可以用少量而固定的线程处理应对大量请求的处理，提升应用的吞吐量和伸缩性。</p>
 <p><a href="https://blog.csdn.net/get_set/article/details/79492439">参考链接</a></p>
 <h2 id="webflux请求分发">WebFlux请求分发</h2>
 <h3 id="reactor的mapflatmapconcatmap">reactor的map，flatMap，concatMap</h3>

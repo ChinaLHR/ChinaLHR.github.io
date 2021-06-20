@@ -274,7 +274,7 @@ Vert.x 利用 Kotlin协程特性优雅编写异步逻辑
 <p>Job没有返回值，Deferred有返回值。一个Job可以有一个父Job，父Job可以控制子Job。</p>
 <p>Job封装了协程中需要执行的代码逻辑。生命周期如下:</p>
 <p><img src="https://user-images.githubusercontent.com/19829495/58104450-64475800-7c17-11e9-8ed4-cc54edbc9e59.png" alt="enter description here"></p>
-<p><strong>Job相关方法：</strong></p>
+<p><strong>Job相关方法</strong>：</p>
 <pre><code>- job.join(中断与当前 Job 关联的协程，直到所有子 Job 执行完成)
 - job.cancel(取消所有与其关联的子 Job)
 </code></pre>

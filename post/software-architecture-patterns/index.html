@@ -54,7 +54,7 @@
 ">
 <meta itemprop="datePublished" content="2020-03-12T23:48:19&#43;08:00" />
 <meta itemprop="dateModified" content="2020-03-12T23:48:19&#43;08:00" />
-<meta itemprop="wordCount" content="7220">
+<meta itemprop="wordCount" content="7212">
 
 
 
@@ -146,7 +146,7 @@
         <div class="post-category">
             <a href="/categories/%E6%9E%B6%E6%9E%84/"> 架构 </a>
             </div>
-          <span class="more-meta"> 7220 words </span>
+          <span class="more-meta"> 7212 words </span>
           <span class="more-meta"> 15 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -305,30 +305,30 @@
 <p>事件驱动架构模式包含了两种主要的拓扑结构：中介拓扑结构（Mediator Topology）和代理拓扑结构（Broker Topology）。中介拓扑结构会在一个事件内用一个核心中介分配协调多个步骤之间的关系，执行顺序；代理拓扑结构则不需要中介进行协调。</p>
 <h4 id="中介拓扑结构mediator-topology">中介拓扑结构（Mediator Topology）</h4>
 <p>中介拓扑结构适合用于拥有多个步骤，并需要在处理事件时能通过某种程度的协调将事件进行分层处理的场景。</p>
-<p><strong>主要有四种组件：</strong></p>
+<p><strong>主要有四种组件</strong>：</p>
 <ul>
 <li>事件队列（event queue）</li>
 <li>事件中介（event mediator）</li>
 <li>事件通道（event channel）</li>
 <li>事件处理器（event processor）</li>
 </ul>
-<p><strong>组件功能（事件流处理过程）：</strong></p>
+<p><strong>组件功能（事件流处理过程）</strong>：</p>
 <p>客户端将一个事件发送到某个事件队列中，消息队列将其运输给事件中介进行处理和分发。事件中介接收到事件消息后进行分配、协调，通过将额外的异步事件发送给事件通道，事件处理器监听事件通道消息，对其进行消费处理。</p>
 <p><img src="https://user-images.githubusercontent.com/19829495/76160398-0283ba80-6165-11ea-8cc6-b8df6ed5bc5e.png" alt="图片"></p>
 <p>事件驱动架构模式中主要有两种事件：初始事件（中介所接收到的最原始的事件）待处理事件（由事件中介生成，由事件处理器接收的事件）。事件中介负责分配、协调初始事件中的各个待执行步骤，为每一个初始事件中的步骤发送一个特定的待处理事件到事件通道中，触发事件处理器接收和处理该待处理事件。</p>
 <p>事件中介通过事件通道将与初始事件每一个执行步骤相关联的特定待处理事件传递给事件处理器。事件队列既可以是消息队列，也可以是消息topic，大部分是消息topic，这样可以由多个消息处理器处理同一个消息。</p>
 <p>事件处理器作为事件驱动架构中的组件，不依赖于其他组件，独立运作，高度解耦，在应用或系统中完成特定的任务。一般来说，每一个事件处理器组件都只完成一项唯一的业务工作，在完成其特定的业务工作时不能依赖其他事件处理器（事件处理器是解耦合的）。</p>
-<p><strong>相关实现：</strong></p>
+<p><strong>相关实现</strong>：</p>
 <p>Eclipse基金会下的Vert.x就是典型的基于中介拓扑结构的应用框架，Vert.x中的部署单位称为Verticle，Verticle通过事件循环处理传入事件到事件队列中（event queue），其中Event Loop对事件进行高速分发（event mediator与event channel），通过Context关联的Handler进行事件异步处理（event processor）。</p>
 <h4 id="代理拓扑结构broker-topology">代理拓扑结构（Broker Topology）</h4>
 <p>代理拓扑结构不使用任何集中的编排，没有核心的事件中介，而是在事件处理器之间使用简单的队列或者集线器，事件处理器知道处理事件的下一个事件处理器。所有的事件通过一个轻量级的消息中间件如RabbitMQ，ActiveMQ等串联起来。如果你的消息比较简单，不需要重新编排，就可以使用这种结构。</p>
-<p><strong>主要有两种组件：</strong></p>
+<p><strong>主要有两种组件</strong>：</p>
 <ul>
 <li>代理（可被集中或相互关联在一起使用，包含所有事件流中使用的事件通道）</li>
 <li>事件处理器</li>
 <li>事件通道（存在于代理组件中的事件通道可以是消息队列，消息主题,或者是两者的组合）</li>
 </ul>
-<p><strong>组件功能：</strong></p>
+<p><strong>组件功能</strong>：</p>
 <p>代理拓扑结构大致如下图，包含两个组件代理（broker）和 事件处理器（event processor）。其中没有一个核心的事件中介组件控制和分发初始事件；相反，每一个事件处理器只负责处理一个事件，并向外发送一个事件，以标明其刚刚执行的动作。</p>
 <p><img src="https://user-images.githubusercontent.com/19829495/76222284-5a015380-6255-11ea-8097-5fd95c6ada6a.png" alt="图片"></p>
 <h3 id="特点-1">特点</h3>
@@ -380,8 +380,8 @@
 <p>应用逻辑被划分为独立的插件模块和核心系统，提供良好的可扩展性、灵活性，应用的新特性和自定义处理逻辑也会被隔离。</p>
 <p>如下图所示，微内核架构的核心系统一般情况下只包含一个能够使系统运作起来的最小化模块。核心系统通常是为特定的使用场景、规则、或者复杂条件处理定义了通用的业务逻辑，而插件模块根据这些规则实现了具体的业务逻辑。</p>
 <p><img src="https://user-images.githubusercontent.com/19829495/76321351-e0349d00-631c-11ea-9b33-a2479b2ed352.png" alt="图片"></p>
-<p>**核心模块：**了解插件模块的可用性与获取插件的方式。可以通过插件注册表的方式维护插件的信息（名称，数据规约，访问协议&hellip;）。</p>
-<p>**插件模块：**绑定到核心模块，可以通过OSGi 、消息机制、web服务或者点对点的绑定。</p>
+<p><strong>核心模块</strong>：了解插件模块的可用性与获取插件的方式。可以通过插件注册表的方式维护插件的信息（名称，数据规约，访问协议&hellip;）。</p>
+<p><strong>插件模块</strong>：绑定到核心模块，可以通过OSGi 、消息机制、web服务或者点对点的绑定。</p>
 <h3 id="特点-2">特点</h3>
 <p>微内核架构模式可以嵌入或用作另一种架构模式的一部分。例如可以利用微内核架构解决应用中一部分易变领域的特定的问题。</p>
 <p>微内核架构对渐进式设计和增量开发提供了很好的支持。可以先构建一个单纯的核心系统，随着应用的演进逐渐添加越来越多的特性和功能，插件化的迭代升级不会引起核心系统的重大变化。</p>
@@ -426,7 +426,7 @@
 </table>
 <h2 id="微服务架构microservices-architecture">微服务架构（Microservices architecture）</h2>
 <h3 id="模式说明-3">模式说明</h3>
-<p><strong>微服务架构的几个概念：</strong></p>
+<p><strong>微服务架构的几个概念</strong>：</p>
 <ul>
 <li>单独部署单元：微服务架构的每个组件都作为一个独立单元进行部署，让每个单元可以通过有效、简化的传输管道进行通信，且具有扩展性，应用和组件之间高度解耦，使得部署更为简单。</li>
 <li>服务组件：服务组件包含一个或多个模块，提供一个单一功能（如，根据地区获取天气情况）或作为一个大型商业应用的一个独立部分（费率计算），需要权衡考虑如何正确设计服务组件的粒度。</li>
@@ -492,7 +492,7 @@
 <p>基于空间的架构模型是为了<strong>解决伸缩性和并发问题</strong>而设计的。目的在架构上解决这个伸缩性问题。</p>
 <h3 id="模型说明">模型说明</h3>
 <p>基于空间的架构模型（云架构模型）旨在减少限制应用伸缩的因素，名字来源于分布式共享内存中的 tuple space（数组空间）概念。通过去除中心数据库的限制做到高伸缩性，数据基于分布式共享内存进行数据共享。进程可以动态的随着用户数量增减而启动或结束，去除了中心数据库瓶颈的限制，以此来解决伸缩性问题和扩展性问题。</p>
-<p><strong>主要模块：</strong></p>
+<p><strong>主要模块</strong>：</p>
 <ul>
 <li>处理单元（processing unit）</li>
 </ul>

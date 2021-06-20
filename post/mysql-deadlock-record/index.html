@@ -54,7 +54,7 @@
 ">
 <meta itemprop="datePublished" content="2019-04-08T22:14:43&#43;08:00" />
 <meta itemprop="dateModified" content="2019-04-08T22:14:43&#43;08:00" />
-<meta itemprop="wordCount" content="2408">
+<meta itemprop="wordCount" content="2400">
 
 
 
@@ -146,7 +146,7 @@
         <div class="post-category">
             <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"> 数据库 </a>
             </div>
-          <span class="more-meta"> 2408 words </span>
+          <span class="more-meta"> 2400 words </span>
           <span class="more-meta"> 5 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -408,9 +408,9 @@ Record lock, heap no 502 PHYSICAL RECORD: n_fields 3; compact format; info bits 
 <h4 id="业务-1">业务</h4>
 <p>数据库表相比情况一缺少了uniq_customer_id_visit_customer_id这个唯一索引(主要是历史问题导致的,一开始就没有唯一索引，后续已经产生了很多脏数据不好添加索引)，业务逻辑是相同的。</p>
 <h4 id="非主键索引行锁相关">非主键索引行锁相关</h4>
-<p>**关于MySql行锁：**<!-- raw HTML omitted -->
+<p><strong>关于MySql行锁</strong>：<!-- raw HTML omitted -->
 行级锁并不是直接锁记录，而是锁索引，如果一条SQL语句用到了主键索引，mysql会锁住主键索引；如果一条语句操作了非主键索引，mysql会先锁住非主键索引，再锁定主键索引。</p>
-<p>**依据索引执行DELETE/UPDATE的执行步骤：**<!-- raw HTML omitted --></p>
+<p><strong>依据索引执行DELETE/UPDATE的执行步骤</strong>：<!-- raw HTML omitted --></p>
 <ol>
 <li>由于用到了非主键索引，首先需要获取index_customer_id|index_visit_customer_id上的行级锁(锁非聚簇索引)</li>
 <li>根据主键进行更新，所以需要获取主键上的行级锁(锁聚簇索引)</li>

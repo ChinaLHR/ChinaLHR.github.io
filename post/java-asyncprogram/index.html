@@ -54,7 +54,7 @@ Java技术域异步编程总结
 ">
 <meta itemprop="datePublished" content="2020-04-03T19:45:19&#43;08:00" />
 <meta itemprop="dateModified" content="2020-04-03T19:45:19&#43;08:00" />
-<meta itemprop="wordCount" content="9385">
+<meta itemprop="wordCount" content="9345">
 
 
 
@@ -146,7 +146,7 @@ Java技术域异步编程总结
         <div class="post-category">
             <a href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 后端开发 </a>
             </div>
-          <span class="more-meta"> 9385 words </span>
+          <span class="more-meta"> 9345 words </span>
           <span class="more-meta"> 19 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -557,8 +557,8 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="异步计算与结果转换">异步计算与结果转换</h4>
-<p>**方法命名规律：**以run为例子，不以Async结尾的方法由原来的线程计算，以Async结尾的方法由默认的线程池ForkJoinPool.commonPool()或者指定的线程池executor运行。</p>
-<p>**runAsync：**无返回值的异步计算</p>
+<p><strong>方法命名规律</strong>：以run为例子，不以Async结尾的方法由原来的线程计算，以Async结尾的方法由默认的线程池ForkJoinPool.commonPool()或者指定的线程池executor运行。</p>
+<p><strong>runAsync</strong>：无返回值的异步计算</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -567,7 +567,7 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">static</span> <span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;</span> <span class="nf">runAsync</span><span class="o">(</span><span class="n">Runnable</span> <span class="n">runnable</span><span class="o">,</span><span class="n">Executor</span> <span class="n">executor</span><span class="o">)</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>**supplyAsync：**带有返回值的异步计算，可以通过get方法获取返回值</p>
+</div><p><strong>supplyAsync</strong>：带有返回值的异步计算，可以通过get方法获取返回值</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -576,7 +576,7 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">static</span> <span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="nf">supplyAsync</span><span class="o">(</span><span class="n">Supplier</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="n">supplier</span><span class="o">,</span><span class="n">Executor</span> <span class="n">executor</span><span class="o">)</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>**thenRunAsync：**执行完成任务后，激活其他任务（其他任务拿不到之前任务的返回值）</p>
+</div><p><strong>thenRunAsync</strong>：执行完成任务后，激活其他任务（其他任务拿不到之前任务的返回值）</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -585,7 +585,7 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断
 <pre class="chroma"><code class="language-java" data-lang="java"> <span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;</span> <span class="nf">thenRunAsync</span><span class="o">(</span><span class="n">Runnable</span> <span class="n">action</span><span class="o">,</span><span class="n">Executor</span> <span class="n">executor</span><span class="o">)</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>**thenAcceptAsync：**执行完成任务后，激活其他任务（其他任务可以拿到之前任务的返回值）</p>
+</div><p><strong>thenAcceptAsync</strong>：执行完成任务后，激活其他任务（其他任务可以拿到之前任务的返回值）</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -604,7 +604,7 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断
 
 </code></pre></td></tr></table>
 </div>
-</div><p>**whenCompleteAsync：**设置回调函数，通过回调的方式，不会阻塞调用线程</p>
+</div><p><strong>whenCompleteAsync</strong>：设置回调函数，通过回调的方式，不会阻塞调用线程</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -624,7 +624,7 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="多completablefuture组合运算">多CompletableFuture组合运算</h4>
-<p>**thenCompose：**当一个CompletableFuture执行完毕后，执行另外一个CompletableFuture</p>
+<p><strong>thenCompose</strong>：当一个CompletableFuture执行完毕后，执行另外一个CompletableFuture</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -635,7 +635,7 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断
         <span class="n">Function</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">,</span> <span class="o">?</span> <span class="kd">extends</span> <span class="n">CompletionStage</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span> <span class="n">fn</span><span class="o">)</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>**thenCombine：**当两个并发运行的CompletableFuture任务都完成后，使用两者的结果作为参数再执行一个异步任务</p>
+</div><p><strong>thenCombine</strong>：当两个并发运行的CompletableFuture任务都完成后，使用两者的结果作为参数再执行一个异步任务</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -670,7 +670,7 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断
 
 </code></pre></td></tr></table>
 </div>
-</div><p>**allOf：**等待多个并发运行的CompletableFuture任务执行完毕</p>
+</div><p><strong>allOf</strong>：等待多个并发运行的CompletableFuture任务执行完毕</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -693,7 +693,7 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断
         <span class="n">CompletableFuture</span><span class="o">.</span><span class="na">allOf</span><span class="o">(</span><span class="n">futures</span><span class="o">.</span><span class="na">toArray</span><span class="o">(</span><span class="k">new</span> <span class="n">CompletableFuture</span><span class="o">[</span><span class="n">futures</span><span class="o">.</span><span class="na">size</span><span class="o">()])).</span><span class="na">get</span><span class="o">();</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>**anyOf：**等多个并发运行的CompletableFuture任务任意一个执行完毕</p>
+</div><p><strong>anyOf</strong>：等多个并发运行的CompletableFuture任务任意一个执行完毕</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -744,7 +744,7 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断
 <p>Java提供了两种异步编程模型</p>
 <p>CallBacks：异步方法没有返回值，绑定回调函数在结果可用时调用。</p>
 <p>Futures：异步方法立即返回Future，异步线程计算任务，并当结果计算出来后设置到Future。</p>
-<p><strong>CallBacks与Futures局限性：</strong></p>
+<p><strong>CallBacks与Futures局限性</strong>：</p>
 <p>多个Callback组合在一起后，容易形成回调地狱（Callback Hell）；多个Future难以编排，尽管是改进后的CompletableFuture，也存在不支持延迟计算和高级错误处理的缺陷。</p>
 <p>响应式编程库基于声明式编程，比较Callbacks更通俗易懂，同时自带很多操作符，提供高级特性，简化处理。</p>
 <p>参考对比：<a href="https://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html#_%E5%BC%82%E6%AD%A5%E5%8F%AF%E4%BB%A5%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98%E5%90%97">Reactor 3 参考文档</a></p>
