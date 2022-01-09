@@ -54,7 +54,7 @@
 ">
 <meta itemprop="datePublished" content="2019-04-19T22:59:11&#43;08:00" />
 <meta itemprop="dateModified" content="2019-04-19T22:59:11&#43;08:00" />
-<meta itemprop="wordCount" content="10317">
+<meta itemprop="wordCount" content="10571">
 
 
 
@@ -146,8 +146,8 @@
         <div class="post-category">
             <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"> 操作系统 </a>
             </div>
-          <span class="more-meta"> 10317 words </span>
-          <span class="more-meta"> 21 mins read </span>
+          <span class="more-meta"> 10571 words </span>
+          <span class="more-meta"> 22 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -181,6 +181,7 @@
                 <li><a href="#alias">alias</a></li>
                 <li><a href="#nohup和后台运行">nohup和&amp;(后台运行)</a></li>
                 <li><a href="#trap">trap</a></li>
+                <li><a href="#xargs">xargs</a></li>
                 <li><a href="#防火墙">防火墙</a></li>
                 <li><a href="#其他">其他</a></li>
               </ul>
@@ -1011,6 +1012,73 @@ source ~/.bashrc
 trap &#34;exit 1&#34; HUP INT PIPE QUIT TERM
 # 捕获Kill信号(SIGTERM 15)，执行方法_kill
 trap _kill SIGTERM
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="xargs">xargs</h4>
+<p><code>xargs</code>命令的作用，是将标准输入转为命令行参数。</p>
+<ul>
+<li>命令格式</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"> xargs <span class="o">[</span>-options<span class="o">]</span> <span class="o">[</span>command<span class="o">]</span> 
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>命令参数</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">-d 更改分隔符,如：
+$ <span class="nb">echo</span> -e <span class="s2">&#34;a\tb\tc&#34;</span> <span class="p">|</span> xargs -d <span class="s2">&#34;\t&#34;</span> <span class="nb">echo</span>
+a b c
+
+-p 打印出要执行的命令，询问用户是否要执行
+-t 打印出最终要执行的命令
+-L 指定多少行作为一个命令行参数
+-n 指定每次将多少项，作为命令行参数
+<span class="nb">echo</span> <span class="o">{</span>0..9<span class="o">}</span> <span class="p">|</span> xargs -n <span class="m">2</span> <span class="nb">echo</span>
+<span class="m">0</span> <span class="m">1</span>
+<span class="m">2</span> <span class="m">3</span>
+<span class="m">4</span> <span class="m">5</span>
+<span class="m">6</span> <span class="m">7</span>
+<span class="m">8</span> <span class="m">9</span>
+
+--max-procs xargs默认只用一个进程执行命令。如果命令要执行多次，必须等上一次执行完，才能执行下一次。--max-procs参数指定同时用多少个进程并行执行命令
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>常用命令</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 配合find使用</span>
+find . -name <span class="s1">&#39;datasource.properties&#39;</span> <span class="p">|</span>xargs -t cat
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="防火墙">防火墙</h4>
@@ -2220,7 +2288,7 @@ vim /etc/ssh/sshd_config（修改Port值）
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
 

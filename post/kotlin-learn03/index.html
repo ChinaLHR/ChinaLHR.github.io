@@ -54,7 +54,7 @@ Kotlin学习记录
 ">
 <meta itemprop="datePublished" content="2019-03-14T20:49:49&#43;08:00" />
 <meta itemprop="dateModified" content="2019-03-14T20:49:49&#43;08:00" />
-<meta itemprop="wordCount" content="3897">
+<meta itemprop="wordCount" content="3924">
 
 
 
@@ -146,7 +146,7 @@ Kotlin学习记录
         <div class="post-category">
             <a href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 后端开发 </a>
             </div>
-          <span class="more-meta"> 3897 words </span>
+          <span class="more-meta"> 3924 words </span>
           <span class="more-meta"> 8 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -312,7 +312,7 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">List</span><span class="p">&lt;?</span> <span class="n">extends</span> <span class="n">Fruit</span><span class="p">&gt;</span> <span class="n">fruits</span> <span class="p">=</span> <span class="n">new</span> <span class="n">ArrayList</span><span class="p">&lt;</span><span class="n">Orange</span><span class="p">&gt;();</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">List</span><span class="p">&lt;?</span> <span class="n">extends</span> <span class="n">Fruit</span><span class="p">&gt;</span> <span class="n">fruits</span> <span class="p">=</span> <span class="n">new</span> <span class="n">ArrayList</span><span class="p">&lt;&gt;();</span>
 <span class="c1">//编译错误:不能添加任何类型的对象
 </span><span class="c1">//fruits.add(new Orange());
 </span><span class="c1">//fruits.add(new Fruit());
@@ -321,7 +321,7 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 </span><span class="c1"></span><span class="n">Fruit</span> <span class="n">f</span> <span class="p">=</span> <span class="n">fruits</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="m">0</span><span class="p">);</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>fruits的类型是List&lt;? extends Fruit&gt;，代表Fruit类型或者从Fruit继承的类型的List，fruits可以引用诸如Fruit或Orange这样类型的List，然后向上转型为了List&lt;? extends Fruit&gt;。我们并不关心fruits具体引用的是ArrayList<!-- raw HTML omitted -->()，还是ArrayList<!-- raw HTML omitted -->()，对于类型 List&lt;? extends Fruit&gt; 我们所能知道的就是：调用一个返回Fruit的方法是安全的，因为你知道，这个List中的任何对象至少具有Fruit类型。</p>
+</div><p>fruits的类型是List&lt;? extends Fruit&gt;，代表Fruit类型或者从Fruit继承的类型的List，fruits可以引用诸如Fruit或Orange这样类型的List，然后向上转型为了List&lt;? extends Fruit&gt;。我们并不关心fruits具体引用的是<code>ArrayList&lt;Orange&gt;()</code>，还是<code>ArrayList&lt;Fruit&gt;()</code>，对于类型 List&lt;? extends Fruit&gt; 我们所能知道的就是：调用一个返回Fruit的方法是安全的，因为你知道，这个List中的任何对象至少具有Fruit类型。</p>
 <p>我们之所以可以安全地将 ArrayList<!-- raw HTML omitted --> 向上转型为 List&lt;? extends Fruit&gt;，是因为编译器限制了我们对于 List&lt;? extends Fruit&gt; 类型部分方法的调用。例如void add(T t)方法，以及一切参数中含有 T 的方法（称为消费者方法）。因为这些方法可能会破坏类型安全，只要限制这些方法的调用，就可以安全地将 ArrayList<!-- raw HTML omitted --> 转型为 List&lt;? extends Fruit&gt;。</p>
 <p>协变：通过限制对于消费者方法的调用，使得像 List&lt;? extends Fruit&gt; 这样的类型成为单纯的“生产者”，以保证运行时的类型安全</p>
 <p><strong>逆变</strong></p>
@@ -341,7 +341,7 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">List</span><span class="p">&lt;</span><span class="n">Object</span><span class="p">&gt;</span> <span class="n">objs</span> <span class="p">=</span> <span class="n">new</span> <span class="n">ArrayList</span><span class="p">&lt;</span><span class="n">Object</span><span class="p">&gt;();</span>
+<pre class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="n">List</span><span class="p">&lt;</span><span class="n">Object</span><span class="p">&gt;</span> <span class="n">objs</span> <span class="p">=</span> <span class="n">new</span> <span class="n">ArrayList</span><span class="p">&lt;&gt;();</span>
 <span class="n">objs</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Object</span><span class="p">());</span>
 <span class="n">List</span><span class="p">&lt;?</span> <span class="k">super</span> <span class="n">Fruit</span><span class="p">&gt;</span> <span class="n">canContainFruits</span> <span class="p">=</span> <span class="n">objs</span><span class="p">;</span>
 <span class="c1">//没有问题，可以写入Fruit类及其子类
@@ -827,7 +827,7 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
   </span>
 </div>
 
