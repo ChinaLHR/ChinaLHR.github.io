@@ -1,198 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Linux用户-权限 - LiHanRong</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  <head>
+    <meta charset="utf-8" />
+<title>Linux用户-权限</title>
 
 
-<meta name="author" content="LHR" /><meta name="description" content=" 读《Linux命令行与shell脚本编程大全》记录
-" /><meta name="keywords" content="Hugo, theme, even" />
+  
 
 
 
 
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://chinalhr.github.io/post/linux-security-permission/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.2fe01a8d6a1e524ccbed1cdfa4e66fc6e8e49ad88327a16803150a0fbceff06c.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="Linux用户-权限" />
-<meta property="og:description" content="
-读《Linux命令行与shell脚本编程大全》记录
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/linux-security-permission/" />
-<meta property="article:published_time" content="2019-10-23T22:09:54+08:00" />
-<meta property="article:modified_time" content="2019-10-23T22:09:54+08:00" />
-<meta itemprop="name" content="Linux用户-权限">
-<meta itemprop="description" content="
-读《Linux命令行与shell脚本编程大全》记录
-">
-<meta itemprop="datePublished" content="2019-10-23T22:09:54&#43;08:00" />
-<meta itemprop="dateModified" content="2019-10-23T22:09:54&#43;08:00" />
-<meta itemprop="wordCount" content="2428">
-
-
-
-<meta itemprop="keywords" content="Linux," /><meta name="twitter:card" content="summary"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux用户-权限"/>
 <meta name="twitter:description" content="
 读《Linux命令行与shell脚本编程大全》记录
 "/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
 
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">LiHanRong Blog</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">categories</li>
-      </a><a href="/post/about/">
-        <li class="mobile-menu-item">about</li>
-      </a>
-  </ul>
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
 
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
   
 
 
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">LiHanRong Blog</a>
-</div>
 
 
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/about/">about</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <header>
+    <nav class="navbar">
+  <div class="nav">
     
-    <header class="post-header">
-      <h1 class="post-title">Linux用户-权限</h1>
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
 
-      <div class="post-meta">
-        <span class="post-time"> 2019-10-23 </span>
-        <div class="post-category">
-            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"> 操作系统 </a>
-            </div>
-          <span class="more-meta"> 2428 words </span>
-          <span class="more-meta"> 5 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#安全性">安全性</a></li>
-            <li><a href="#用户">用户</a>
-              <ul>
-                <li><a href="#添加用户">添加用户</a></li>
-                <li><a href="#删除用户">删除用户</a></li>
-                <li><a href="#修改用户">修改用户</a></li>
-              </ul>
-            </li>
-            <li><a href="#用户组">用户组</a>
-              <ul>
-                <li><a href="#创建组">创建组</a></li>
-                <li><a href="#修改组">修改组</a></li>
-                <li><a href="#删除组">删除组</a></li>
-              </ul>
-            </li>
-            <li><a href="#权限">权限</a>
-              <ul>
-                <li><a href="#文件权限符">文件权限符</a></li>
-                <li><a href="#权限掩码">权限掩码</a></li>
-                <li><a href="#更改权限">更改权限</a></li>
-                <li><a href="#更改所属关系">更改所属关系</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
   </div>
-</div>
-    <div class="post-content">
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              Linux用户-权限
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Oct 23, 2019
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"
+        >操作系统</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
       <blockquote>
 <p>读《Linux命令行与shell脚本编程大全》记录</p>
 </blockquote>
@@ -202,21 +178,7 @@
 </ul>
 <p>Linux系统使用/etc/passwd文件来将用户的登录名匹配到对应的UID值。root管理员账户固定分配给它的UID是0。</p>
 <p>/etc/passwd包含的信息</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">登录用户名
+<pre><code>登录用户名
 用户密码（x显示）
 用户账户的UID（数字形式）
 用户账户的组ID（GID）（数字形式）
@@ -225,31 +187,13 @@
 用户的默认shell
 
 例如
-root❌0:0:root:/root:/bin/bash
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+root:x:0:0:root:/root:/bin/bash
+</code></pre><ul>
 <li>/etc/shadow</li>
 </ul>
 <p>Linux系统使用/etc/shadow文件对Linux系统密码管理提供了更多的控制。只有root用户才能访问/etc/shadow文件。</p>
 <p>/etc/shadow包含的信息</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">与/etc/passwd文件中的登录名字段对应的登录名
+<pre><code>与/etc/passwd文件中的登录名字段对应的登录名
 加密后的密码
 自上次修改密码后过去的天数密码（自1970年1月1日开始计算）
 多少天后才能更改密码
@@ -261,41 +205,9 @@ root❌0:0:root:/root:/bin/bash
 
 例如
 rich:$1$.FfcK0ns$f1UgiyHQ25wrB/hykCn020:11627:0:99999:7:::
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="用户">用户</h3>
+</code></pre><h3 id="用户">用户</h3>
 <h4 id="添加用户">添加用户</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">useradd [选项][用户名]
+<pre><code>useradd [选项][用户名]
 
 -c comment 给新用户添加备注
 -d home_dir 为主目录指定一个名字（如果不想用登录名作为主目录名的话）
@@ -311,7 +223,7 @@ rich:$1$.FfcK0ns$f1UgiyHQ25wrB/hykCn020:11627:0:99999:7:::
 -r 创建系统账户
 -p passwd 为用户账户指定默认密码
 -s shell 指定默认的登录shell
--u uid 为账户指定唯一的UID&#39;
+-u uid 为账户指定唯一的UID'
 
 # 更改默认参数
 -b default_home 更改默认的创建用户HOME目录的位置
@@ -321,23 +233,12 @@ rich:$1$.FfcK0ns$f1UgiyHQ25wrB/hykCn020:11627:0:99999:7:::
 -s shell 更改默认的登录shell
 
 useradd -m test
-</code></pre></td></tr></table>
-</div>
-</div><p>在创建新用户时，如果你不在命令行中指定具体的值， useradd命令就会使用-D选项所显示的那些默认值。</p>
+</code></pre><p>在创建新用户时，如果你不在命令行中指定具体的值， useradd命令就会使用-D选项所显示的那些默认值。</p>
 <h4 id="删除用户">删除用户</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">userdel [选项][用户名]
+<pre><code>userdel [选项][用户名]
 
 -r 把用户的主目录一起删除
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="修改用户">修改用户</h4>
+</code></pre><h4 id="修改用户">修改用户</h4>
 <p>linux提供了修改已有用户账户信息的工具。</p>
 <table>
 <thead>
@@ -374,44 +275,15 @@ useradd -m test
 </tbody>
 </table>
 <p>usermod用来修改/etc/passwd文件中的大部分字段</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">usermod[选项][用户名]
+<pre><code>usermod[选项][用户名]
 
 参数参考useradd，新增改为修改
 -l修改用户账户的登录名。
 -L锁定账户，使用户无法登录。
 -p修改账户的密码。
 -U解除锁定，使用户能够登录
-</code></pre></td></tr></table>
-</div>
-</div><p>passwd</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">passwd [选项][用户名]
+</code></pre><p>passwd</p>
+<pre><code>passwd [选项][用户名]
 
 -l 锁定口令，即禁用账号。
 -u 口令解锁。
@@ -423,58 +295,24 @@ passwd test
 
 New password:******* 
 Re-enter new password:*******
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="用户组">用户组</h3>
+</code></pre><h3 id="用户组">用户组</h3>
 <p>组权限允许多个用户对系统中的对象（比如文件、目录或设备等）共享一组共用的权限。</p>
 <p>/etc/group文件包含系统上用到的每个组的信息。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">组名:组密码:GID:属于该组的用户列表
+<pre><code>组名:组密码:GID:属于该组的用户列表
 
-root❌0:root
-bin❌1:root,bin,daemon
-daemon❌2:root,bin,daemon
-sys❌3:root,bin,adm
-adm❌4:root,adm,daemon
-rich❌500:
-mama❌501:
-katie❌502:
-jessica❌503:
-mysql❌27:
-test❌504:
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="创建组">创建组</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">groupadd[选项][用户组]
+root:x:0:root
+bin:x:1:root,bin,daemon
+daemon:x:2:root,bin,daemon
+sys:x:3:root,bin,adm
+adm:x:4:root,adm,daemon
+rich:x:500:
+mama:x:501:
+katie:x:502:
+jessica:x:503:
+mysql:x:27:
+test:x:504:
+</code></pre><h4 id="创建组">创建组</h4>
+<pre><code>groupadd[选项][用户组]
 
 -g GID 指定新用户组的组标识号（GID）。
 -o 一般与-g选项同时使用，表示新用户组的GID可以与系统已有用户组的GID相同。
@@ -483,63 +321,20 @@ test❌504:
 groupadd test
 # usermod将用户添加进组
 usermod -G test lhr
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="修改组">修改组</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">groupmod[选项][用户组]
+</code></pre><h4 id="修改组">修改组</h4>
+<pre><code>groupmod[选项][用户组]
 
 -g 修改已有组的GID
 -n 修改已有组的组名
 
 # 修改 test 组为 tester
 groupmod -n tester test
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="删除组">删除组</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">groupdel[用户组]
+</code></pre><h4 id="删除组">删除组</h4>
+<pre><code>groupdel[用户组]
 groupdel test
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="权限">权限</h3>
+</code></pre><h3 id="权限">权限</h3>
 <h4 id="文件权限符">文件权限符</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">drwxrwxr-x 2 rich rich 4096 2010-09-03 15:12 test1
+<pre><code>drwxrwxr-x 2 rich rich 4096 2010-09-03 15:12 test1
 
 第一个字符代表了对象的类型:
 -代表文件
@@ -555,9 +350,7 @@ w代表对象是可写的
 x代表对象是可执行的
 
 3组权限分别对应对象的3个安全级别
-</code></pre></td></tr></table>
-</div>
-</div><p><img src="https://user-images.githubusercontent.com/19829495/67378468-e0c0d700-f5b9-11e9-8f08-3c504221f382.png" alt="image"></p>
+</code></pre><p><img src="https://user-images.githubusercontent.com/19829495/67378468-e0c0d700-f5b9-11e9-8f08-3c504221f382.png" alt="image"></p>
 <h4 id="权限掩码">权限掩码</h4>
 <p>八进制模式的安全性设置先获取这3个rwx权限的值，然后将其转换成3位二进制值，用一个八进制值来表示。在这个二进制表示中，每个位置代表一个二进制位。因此，如果读权限是唯一
 置位的权限，权限值就是r&ndash;，转换成二进制值就是100，代表的八进制值是4。</p>
@@ -565,42 +358,12 @@ x代表对象是可执行的
 <ul>
 <li>umask指定在建立文件时预设的权限掩码</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">umask [-S][权限掩码]
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="更改权限">更改权限</h4>
+<pre><code>umask [-S][权限掩码]
+</code></pre><h4 id="更改权限">更改权限</h4>
 <ul>
 <li>命令</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">chmod options mode file
+<pre><code>chmod options mode file
 
 # 通过权限掩码更改权限
 chmod 760 newfile
@@ -619,148 +382,103 @@ g：将权限设置为跟属组一样。
 o：将权限设置为跟其他用户一样
 
 chmod o+r newfile
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="更改所属关系">更改所属关系</h4>
+</code></pre><h4 id="更改所属关系">更改所属关系</h4>
 <p>chown命令用来改变文件的属主，chgrp命令用来改变文件的默认属组。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">chown options owner[.group] file
+<pre><code>chown options owner[.group] file
 
 # 改变文件属主为dan
 chown dan newfile
 # 改变文件的默认属组为tester
 chgrp tester newfile
-</code></pre></td></tr></table>
-</div>
-</div>
-    </div>
+</code></pre>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">LHR</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2019-10-23
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/linux/">Linux</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/git-flow/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Git Flow 分支策略</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/mongodb-user-auth/">
-            <span class="next-text nav-default">MongoDB用户-权限</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/linux/"
+              >Linux</a
+            >&nbsp;
+          
         </div>
-        <div id="SOHUCS" sid="/post/linux-security-permission/"></div>
-    <script type="text/javascript">
-    (function(){
-      if (window.location.hostname === 'localhost') return;
+      
+    </article>
+    
+      <script>
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      document.getElementById('backtotopButton').style.opacity = '1'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    } else {
+      document.getElementById('backtotopButton').style.opacity = '0'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    }
+  })
 
-      var appid = 'cyvob1sks';
-      var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth;
-      if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
-    })();
-    </script>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
-      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
-  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-<div class="friend-links">
-  <span class="division">Friends:</span>
-  <span class="theme-info"><a class="theme-link" href="https://kii.la">vincent</a> </span>
-</div>
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-
-<script id="baidu_analytics">
-  var _hmt = _hmt || [];
-  (function() {
-    if (window.location.hostname === 'localhost') return;
-    var hm = document.createElement("script"); hm.async = true;
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
 </script>
 
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
 
 
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
 
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
 
-
-</body>
+  </body>
 </html>

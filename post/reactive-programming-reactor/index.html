@@ -1,190 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>响应式编程库-Reactor - LiHanRong</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  <head>
+    <meta charset="utf-8" />
+<title>响应式编程库-Reactor</title>
 
 
-<meta name="author" content="LHR" /><meta name="description" content=" 响应式编程学习
-" /><meta name="keywords" content="Hugo, theme, even" />
+  
 
 
 
 
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://chinalhr.github.io/post/reactive-programming-reactor/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.2fe01a8d6a1e524ccbed1cdfa4e66fc6e8e49ad88327a16803150a0fbceff06c.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="响应式编程库-Reactor" />
-<meta property="og:description" content="
-响应式编程学习
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/reactive-programming-reactor/" />
-<meta property="article:published_time" content="2019-01-06T22:30:19+08:00" />
-<meta property="article:modified_time" content="2019-01-06T22:30:19+08:00" />
-<meta itemprop="name" content="响应式编程库-Reactor">
-<meta itemprop="description" content="
-响应式编程学习
-">
-<meta itemprop="datePublished" content="2019-01-06T22:30:19&#43;08:00" />
-<meta itemprop="dateModified" content="2019-01-06T22:30:19&#43;08:00" />
-<meta itemprop="wordCount" content="3252">
-
-
-
-<meta itemprop="keywords" content="响应式编程,Reactor," /><meta name="twitter:card" content="summary"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="响应式编程库-Reactor"/>
 <meta name="twitter:description" content="
 响应式编程学习
 "/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
 
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">LiHanRong Blog</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">categories</li>
-      </a><a href="/post/about/">
-        <li class="mobile-menu-item">about</li>
-      </a>
-  </ul>
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
 
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
   
 
 
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">LiHanRong Blog</a>
-</div>
 
 
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/about/">about</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <header>
+    <nav class="navbar">
+  <div class="nav">
     
-    <header class="post-header">
-      <h1 class="post-title">响应式编程库-Reactor</h1>
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
 
-      <div class="post-meta">
-        <span class="post-time"> 2019-01-06 </span>
-        <div class="post-category">
-            <a href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 后端开发 </a>
-            </div>
-          <span class="more-meta"> 3252 words </span>
-          <span class="more-meta"> 7 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#响应式流规范">响应式流规范</a>
-              <ul>
-                <li><a href="#响应式流接口">响应式流接口</a></li>
-              </ul>
-            </li>
-            <li><a href="#reactor">Reactor</a>
-              <ul>
-                <li><a href="#flux与mono">Flux与Mono</a></li>
-                <li><a href="#调试">调试</a></li>
-                <li><a href="#operator操作符">Operator(操作符)</a></li>
-                <li><a href="#调度器线程模型">调度器&amp;线程模型</a></li>
-                <li><a href="#错误处理重试">错误处理&amp;重试</a></li>
-                <li><a href="#backpressure背压回压">Backpressure背压(回压)</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
   </div>
-</div>
-    <div class="post-content">
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              响应式编程库-Reactor
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Jan 6, 2019
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"
+        >后端开发</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
       <blockquote>
 <p>响应式编程学习</p>
 </blockquote>
@@ -201,70 +185,31 @@
 <ul>
 <li>
 <p>Publisher(发布者,发出元素)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Publisher</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">subscribe</span><span class="o">(</span><span class="n">Subscriber</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">s</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Publisher</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>Subscriber<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> T<span style="color:#f92672">&gt;</span> s<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div></li>
 <li>
 <p>Subscriber(订阅者,接收元素并做出响应的)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Subscriber</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onSubscribe</span><span class="o">(</span><span class="n">Subscription</span> <span class="n">s</span><span class="o">);</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNext</span><span class="o">(</span><span class="n">T</span> <span class="n">t</span><span class="o">);</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onError</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">t</span><span class="o">);</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onComplete</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Subscriber</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onSubscribe</span><span style="color:#f92672">(</span>Subscription s<span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>T t<span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onError</span><span style="color:#f92672">(</span>Throwable t<span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onComplete</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div></li>
 <li>
 <p>Subscription</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Subscription</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">request</span><span class="o">(</span><span class="kt">long</span> <span class="n">n</span><span class="o">);</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cancel</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Subscription</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">request</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> n<span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">cancel</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div></li>
 <li>
 <p>Processor(集合Publisher和Subscriber)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Processor</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">R</span><span class="o">&gt;</span> <span class="kd">extends</span>             <span class="n">Subscriber</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;,</span> <span class="n">Publisher</span><span class="o">&lt;</span><span class="n">R</span><span class="o">&gt;</span> <span class="o">{</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Processor</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> R<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">extends</span>             Subscriber<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;,</span> Publisher<span style="color:#f92672">&lt;</span>R<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+<span style="color:#f92672">}</span>
+</code></pre></div></li>
 </ul>
 <p>当执行subscribe方法时，发布者会回调订阅者的onSubscribe方法，订阅者借助传入的Subscription的request方法向发布者请求n个数据。发布者通过不断调用订阅者的onNext方法向订阅者发出最多n个数据。如果数据全部发完，则会调用onComplete告知订阅者流已经发完；如果有错误发生，则通过onError发出错误数据，同样也会终止流。</p>
 <p>简单实现：<a href="https://github.com/ChinaLHR/reactor-stream">https://github.com/ChinaLHR/reactor-stream</a></p>
@@ -275,149 +220,72 @@
 <ul>
 <li>
 <p>创建数据流</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="n">Flux</span><span class="o">.</span><span class="na">fromArray</span><span class="o">(</span><span class="n">array</span><span class="o">);</span>
-<span class="n">Flux</span><span class="o">.</span><span class="na">fromIterable</span><span class="o">(</span><span class="n">list</span><span class="o">);</span>
-<span class="n">Flux</span><span class="o">.</span><span class="na">fromStream</span><span class="o">(</span><span class="n">stream</span><span class="o">);</span>
-<span class="n">Flux</span><span class="o">.</span><span class="na">just</span><span class="o">(...);</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java">Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromArray</span><span style="color:#f92672">(</span>array<span style="color:#f92672">);</span>
+Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromIterable</span><span style="color:#f92672">(</span>list<span style="color:#f92672">);</span>
+Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromStream</span><span style="color:#f92672">(</span>stream<span style="color:#f92672">);</span>
+Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(...);</span>
+</code></pre></div></li>
 <li>
 <p>订阅</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="c1">// 订阅并触发数据流
-</span><span class="c1"></span><span class="n">subscribe</span><span class="o">();</span> 
-<span class="c1">// 订阅并指定对正常数据元素如何处理
-</span><span class="c1"></span><span class="n">subscribe</span><span class="o">(</span><span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">consumer</span><span class="o">);</span> 
-<span class="c1">// 订阅并定义对正常数据元素和错误信号的处理
-</span><span class="c1"></span><span class="n">subscribe</span><span class="o">(</span><span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">consumer</span><span class="o">,</span>
-          <span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Throwable</span><span class="o">&gt;</span> <span class="n">errorConsumer</span><span class="o">);</span> 
-<span class="c1">// 订阅并定义对正常数据元素、错误信号和完成信号的处理
-</span><span class="c1"></span><span class="n">subscribe</span><span class="o">(</span><span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">consumer</span><span class="o">,</span>
-          <span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Throwable</span><span class="o">&gt;</span> <span class="n">errorConsumer</span><span class="o">,</span>
-          <span class="n">Runnable</span> <span class="n">completeConsumer</span><span class="o">);</span> 
-<span class="c1">// 订阅并定义对正常数据元素、错误信号和完成信号的处理，以及订阅发生时的处理逻辑
-</span><span class="c1"></span><span class="n">subscribe</span><span class="o">(</span><span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">consumer</span><span class="o">,</span>
-          <span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Throwable</span><span class="o">&gt;</span> <span class="n">errorConsumer</span><span class="o">,</span>
-          <span class="n">Runnable</span> <span class="n">completeConsumer</span><span class="o">,</span>
-          <span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Subscription</span><span class="o">&gt;</span> <span class="n">subscriptionConsumer</span><span class="o">);</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#75715e">// 订阅并触发数据流
+</span><span style="color:#75715e"></span>subscribe<span style="color:#f92672">();</span> 
+<span style="color:#75715e">// 订阅并指定对正常数据元素如何处理
+</span><span style="color:#75715e"></span>subscribe<span style="color:#f92672">(</span>Consumer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> T<span style="color:#f92672">&gt;</span> consumer<span style="color:#f92672">);</span> 
+<span style="color:#75715e">// 订阅并定义对正常数据元素和错误信号的处理
+</span><span style="color:#75715e"></span>subscribe<span style="color:#f92672">(</span>Consumer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> T<span style="color:#f92672">&gt;</span> consumer<span style="color:#f92672">,</span>
+          Consumer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> Throwable<span style="color:#f92672">&gt;</span> errorConsumer<span style="color:#f92672">);</span> 
+<span style="color:#75715e">// 订阅并定义对正常数据元素、错误信号和完成信号的处理
+</span><span style="color:#75715e"></span>subscribe<span style="color:#f92672">(</span>Consumer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> T<span style="color:#f92672">&gt;</span> consumer<span style="color:#f92672">,</span>
+          Consumer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> Throwable<span style="color:#f92672">&gt;</span> errorConsumer<span style="color:#f92672">,</span>
+          Runnable completeConsumer<span style="color:#f92672">);</span> 
+<span style="color:#75715e">// 订阅并定义对正常数据元素、错误信号和完成信号的处理，以及订阅发生时的处理逻辑
+</span><span style="color:#75715e"></span>subscribe<span style="color:#f92672">(</span>Consumer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> T<span style="color:#f92672">&gt;</span> consumer<span style="color:#f92672">,</span>
+          Consumer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> Throwable<span style="color:#f92672">&gt;</span> errorConsumer<span style="color:#f92672">,</span>
+          Runnable completeConsumer<span style="color:#f92672">,</span>
+          Consumer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> Subscription<span style="color:#f92672">&gt;</span> subscriptionConsumer<span style="color:#f92672">);</span>
+</code></pre></div></li>
 <li>
 <p>自定义数据流-generate</p>
 </li>
 </ul>
 <p>generate是一种同步地，逐个地发出数据的方法。因为它提供的sink是一个SynchronousSink， 而且其next()方法在每次回调的时候最多只能被调用一次。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Flux</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">generate</span><span class="o">(</span><span class="n">Consumer</span><span class="o">&lt;</span><span class="n">SynchronousSink</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="n">generator</span><span class="o">)</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">generate</span><span style="color:#f92672">(</span>Consumer<span style="color:#f92672">&lt;</span>SynchronousSink<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;</span> generator<span style="color:#f92672">)</span>
 
-<span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">S</span><span class="o">&gt;</span> <span class="n">Flux</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">generate</span><span class="o">(</span><span class="n">Callable</span><span class="o">&lt;</span><span class="n">S</span><span class="o">&gt;</span> <span class="n">stateSupplier</span><span class="o">,</span> <span class="n">BiFunction</span><span class="o">&lt;</span><span class="n">S</span><span class="o">,</span> <span class="n">SynchronousSink</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;,</span> <span class="n">S</span><span class="o">&gt;</span> <span class="n">generator</span><span class="o">)</span> 
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> S<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">generate</span><span style="color:#f92672">(</span>Callable<span style="color:#f92672">&lt;</span>S<span style="color:#f92672">&gt;</span> stateSupplier<span style="color:#f92672">,</span> BiFunction<span style="color:#f92672">&lt;</span>S<span style="color:#f92672">,</span> SynchronousSink<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;,</span> S<span style="color:#f92672">&gt;</span> generator<span style="color:#f92672">)</span> 
 
-<span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">S</span><span class="o">&gt;</span> <span class="n">Flux</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">generate</span><span class="o">(</span><span class="n">Callable</span><span class="o">&lt;</span><span class="n">S</span><span class="o">&gt;</span> <span class="n">stateSupplier</span><span class="o">,</span> <span class="n">BiFunction</span><span class="o">&lt;</span><span class="n">S</span><span class="o">,</span> <span class="n">SynchronousSink</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;,</span> <span class="n">S</span><span class="o">&gt;</span> <span class="n">generator</span><span class="o">,</span> <span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">S</span><span class="o">&gt;</span> <span class="n">stateConsumer</span><span class="o">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> S<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">generate</span><span style="color:#f92672">(</span>Callable<span style="color:#f92672">&lt;</span>S<span style="color:#f92672">&gt;</span> stateSupplier<span style="color:#f92672">,</span> BiFunction<span style="color:#f92672">&lt;</span>S<span style="color:#f92672">,</span> SynchronousSink<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;,</span> S<span style="color:#f92672">&gt;</span> generator<span style="color:#f92672">,</span> Consumer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> S<span style="color:#f92672">&gt;</span> stateConsumer<span style="color:#f92672">)</span>
+</code></pre></div><ul>
 <li>自定义数据流-create</li>
 </ul>
 <p>高级的创建Flux的方法，其生成数据流的方式既可以是同步的，也可以是异步的，并且还可以每次发出多个元素。(create 常用的场景就是将现有的 API 转为响应式，比如监听器的异步方法)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="n">MyEventSource</span> <span class="n">eventSource</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyEventSource</span><span class="o">();</span>    
-    <span class="n">Flux</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">sink</span> <span class="o">-&gt;</span> <span class="o">{</span>
-				<span class="c1">//向事件源注册用匿名内部类创建的监听器
-</span><span class="c1"></span>                <span class="n">eventSource</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="k">new</span> <span class="n">MyEventListener</span><span class="o">()</span> <span class="o">{</span>    
-                    <span class="nd">@Override</span>
-                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNewEvent</span><span class="o">(</span><span class="n">MyEventSource</span><span class="o">.</span><span class="na">MyEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
-						<span class="c1">//监听器在收到事件回调的时候通过sink将事件再发出
-</span><span class="c1"></span>                        <span class="n">sink</span><span class="o">.</span><span class="na">next</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
-                    <span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java">MyEventSource eventSource <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MyEventSource<span style="color:#f92672">();</span>    
+    Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>sink <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+				<span style="color:#75715e">//向事件源注册用匿名内部类创建的监听器
+</span><span style="color:#75715e"></span>                eventSource<span style="color:#f92672">.</span><span style="color:#a6e22e">register</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> MyEventListener<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>    
+                    <span style="color:#a6e22e">@Override</span>
+                    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onNewEvent</span><span style="color:#f92672">(</span>MyEventSource<span style="color:#f92672">.</span><span style="color:#a6e22e">MyEvent</span> event<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+						<span style="color:#75715e">//监听器在收到事件回调的时候通过sink将事件再发出
+</span><span style="color:#75715e"></span>                        sink<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">(</span>event<span style="color:#f92672">);</span>
+                    <span style="color:#f92672">}</span>
 
-                    <span class="nd">@Override</span>
-                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onEventStopped</span><span class="o">()</span> <span class="o">{</span>
-						<span class="c1">//监听器在收到事件源停止的回调的时候通过sink发出完成信号
-</span><span class="c1"></span>                        <span class="n">sink</span><span class="o">.</span><span class="na">complete</span><span class="o">();</span>        
-                    <span class="o">}</span>
-                <span class="o">});</span>
-            <span class="o">}</span>
-    <span class="o">).</span><span class="na">subscribe</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="调试">调试</h4>
+                    <span style="color:#a6e22e">@Override</span>
+                    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onEventStopped</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+						<span style="color:#75715e">//监听器在收到事件源停止的回调的时候通过sink发出完成信号
+</span><span style="color:#75715e"></span>                        sink<span style="color:#f92672">.</span><span style="color:#a6e22e">complete</span><span style="color:#f92672">();</span>        
+                    <span style="color:#f92672">}</span>
+                <span style="color:#f92672">});</span>
+            <span style="color:#f92672">}</span>
+    <span style="color:#f92672">).</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+</code></pre></div><h4 id="调试">调试</h4>
 <ul>
 <li>单元测试工具StepVerifier</li>
 </ul>
 <p>expectNext用于测试下一个期望的数据元素，expectErrorMessage用于校验下一个元素是否为错误信号，expectComplete用于测试下一个元素是否为完成信号。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java">    <span class="n">StepVerifier</span><span class="o">.</span><span class="na">create</span><span class="o">(...)</span>
-        <span class="o">.</span><span class="na">expectNext</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">,</span> <span class="n">4</span><span class="o">,</span> <span class="n">5</span><span class="o">,</span> <span class="n">6</span><span class="o">)</span>
-        <span class="o">.</span><span class="na">expectComplete</span><span class="o">()</span>
-        <span class="o">.</span><span class="na">verify</span><span class="o">();</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>​</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java">    StepVerifier<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(...)</span>
+        <span style="color:#f92672">.</span><span style="color:#a6e22e">expectNext</span><span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> 2<span style="color:#f92672">,</span> 3<span style="color:#f92672">,</span> 4<span style="color:#f92672">,</span> 5<span style="color:#f92672">,</span> 6<span style="color:#f92672">)</span>
+        <span style="color:#f92672">.</span><span style="color:#a6e22e">expectComplete</span><span style="color:#f92672">()</span>
+        <span style="color:#f92672">.</span><span style="color:#a6e22e">verify</span><span style="color:#f92672">();</span>
+</code></pre></div><p>​</p>
 <h4 id="operator操作符">Operator(操作符)</h4>
 <p>操作符选择器：<a href="https://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html#which.create">https://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html#which.create</a></p>
 <ul>
@@ -432,57 +300,28 @@
 </li>
 <li>
 <p>zip - 一对一合并:对两个Flux/Mono流每次各取一个元素，合并为一个二元组（Tuple2）</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T1</span><span class="o">,</span><span class="n">T2</span><span class="o">&gt;</span> <span class="n">Flux</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">T1</span><span class="o">,</span><span class="n">T2</span><span class="o">&gt;&gt;</span> <span class="nf">zip</span><span class="o">(</span><span class="n">Publisher</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">T1</span><span class="o">&gt;</span> <span class="n">source1</span><span class="o">,</span><span class="n">Publisher</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">T2</span><span class="o">&gt;</span> <span class="n">source2</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T1</span><span class="o">,</span> <span class="n">T2</span><span class="o">&gt;</span> <span class="n">Mono</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">T1</span><span class="o">,</span> <span class="n">T2</span><span class="o">&gt;&gt;</span> <span class="nf">zip</span><span class="o">(</span><span class="n">Mono</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">T1</span><span class="o">&gt;</span> <span class="n">p1</span><span class="o">,</span> <span class="n">Mono</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">T2</span><span class="o">&gt;</span> <span class="n">p2</span><span class="o">)</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T1<span style="color:#f92672">,</span>T2<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>Tuple2<span style="color:#f92672">&lt;</span>T1<span style="color:#f92672">,</span>T2<span style="color:#f92672">&gt;&gt;</span> <span style="color:#a6e22e">zip</span><span style="color:#f92672">(</span>Publisher<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> T1<span style="color:#f92672">&gt;</span> source1<span style="color:#f92672">,</span>Publisher<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> T2<span style="color:#f92672">&gt;</span> source2<span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T1<span style="color:#f92672">,</span> T2<span style="color:#f92672">&gt;</span> Mono<span style="color:#f92672">&lt;</span>Tuple2<span style="color:#f92672">&lt;</span>T1<span style="color:#f92672">,</span> T2<span style="color:#f92672">&gt;&gt;</span> <span style="color:#a6e22e">zip</span><span style="color:#f92672">(</span>Mono<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> T1<span style="color:#f92672">&gt;</span> p1<span style="color:#f92672">,</span> Mono<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> T2<span style="color:#f92672">&gt;</span> p2<span style="color:#f92672">)</span>
+</code></pre></div></li>
 <li>
 <p>transform - 可以将一段操作链打包为一个函数式
 //将filter和map操作符进行了打包
 Function&lt;Flux<!-- raw HTML omitted -->, Flux<!-- raw HTML omitted -->&gt; filterAndMap =
 f -&gt; f.filter(color -&gt; !color.equals(&ldquo;orange&rdquo;))
 .map(String::toUpperCase);</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="n">Flux</span><span class="o">.</span><span class="na">fromIterable</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;blue&#34;</span><span class="o">,</span> <span class="s">&#34;green&#34;</span><span class="o">,</span> <span class="s">&#34;orange&#34;</span><span class="o">,</span> <span class="s">&#34;purple&#34;</span><span class="o">))</span>
-        <span class="o">.</span><span class="na">doOnNext</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">)</span>
-        <span class="c1">//将包装的函数拼装到操作链
-</span><span class="c1"></span>        <span class="o">.</span><span class="na">transform</span><span class="o">(</span><span class="n">filterAndMap</span><span class="o">)</span>
-        <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">d</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Subscriber to Transformed MapAndFilter: &#34;</span><span class="o">+</span><span class="n">d</span><span class="o">));</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java">Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromIterable</span><span style="color:#f92672">(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;blue&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;green&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;orange&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;purple&#34;</span><span style="color:#f92672">))</span>
+        <span style="color:#f92672">.</span><span style="color:#a6e22e">doOnNext</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">)</span>
+        <span style="color:#75715e">//将包装的函数拼装到操作链
+</span><span style="color:#75715e"></span>        <span style="color:#f92672">.</span><span style="color:#a6e22e">transform</span><span style="color:#f92672">(</span>filterAndMap<span style="color:#f92672">)</span>
+        <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>d <span style="color:#f92672">-&gt;</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Subscriber to Transformed MapAndFilter: &#34;</span><span style="color:#f92672">+</span>d<span style="color:#f92672">));</span>
+</code></pre></div></li>
 <li>
 <p>compose - 与 transform类似，将几个操作符封装到一个函数式中。区别是，这个函数式是针对每一个订阅者起作用的。对每一个subscription可以生成不同的操作链。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="n">Flux</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">composedFlux</span> <span class="o">=</span>
-      <span class="n">Flux</span><span class="o">.</span><span class="na">fromIterable</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;blue&#34;</span><span class="o">,</span> <span class="s">&#34;green&#34;</span><span class="o">,</span> <span class="s">&#34;orange&#34;</span><span class="o">,</span> <span class="s">&#34;purple&#34;</span><span class="o">))</span>
-              <span class="o">.</span><span class="na">doOnNext</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">)</span>
-              <span class="o">.</span><span class="na">compose</span><span class="o">(</span><span class="n">filterAndMap</span><span class="o">);</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java">Flux<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> composedFlux <span style="color:#f92672">=</span>
+      Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromIterable</span><span style="color:#f92672">(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;blue&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;green&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;orange&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;purple&#34;</span><span style="color:#f92672">))</span>
+              <span style="color:#f92672">.</span><span style="color:#a6e22e">doOnNext</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">)</span>
+              <span style="color:#f92672">.</span><span style="color:#a6e22e">compose</span><span style="color:#f92672">(</span>filterAndMap<span style="color:#f92672">);</span>
+</code></pre></div></li>
 </ul>
 <h4 id="调度器线程模型">调度器&amp;线程模型</h4>
 <ul>
@@ -496,23 +335,12 @@ f -&gt; f.filter(color -&gt; !color.equals(&ldquo;orange&rdquo;))
 </li>
 <li>
 <p>示例：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="c1">// 基于Callable的Mono
-</span><span class="c1"></span><span class="n">Mono</span><span class="o">.</span><span class="na">fromCallable</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">getStringSync</span><span class="o">())</span>   
-<span class="c1">// 使用subscribeOn将任务调度到Schedulers内置的弹性线程池执行
-</span><span class="c1"></span>       <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">elastic</span><span class="o">())</span> 
-       <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#75715e">// 基于Callable的Mono
+</span><span style="color:#75715e"></span>Mono<span style="color:#f92672">.</span><span style="color:#a6e22e">fromCallable</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> getStringSync<span style="color:#f92672">())</span>   
+<span style="color:#75715e">// 使用subscribeOn将任务调度到Schedulers内置的弹性线程池执行
+</span><span style="color:#75715e"></span>       <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribeOn</span><span style="color:#f92672">(</span>Schedulers<span style="color:#f92672">.</span><span style="color:#a6e22e">elastic</span><span style="color:#f92672">())</span> 
+       <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+</code></pre></div></li>
 <li>
 <p>publishOn与subscribeOn：</p>
 <p>publishOn会影响链中其后的操作符
@@ -545,15 +373,8 @@ subscribeOn无论出现在什么位置，都只影响源头的执行环境</p>
 </li>
 <li>
 <p>重试</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="n">retry</span><span class="err">：</span><span class="n">retry对于上游Flux是采取的重订阅</span><span class="err">（</span><span class="n">re</span><span class="o">-</span><span class="n">subscribing</span><span class="err">）</span><span class="n">的方式</span><span class="err">，</span><span class="n">出错了retry会从新订阅了原始的数据流执行x次</span><span class="err">。</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java">retry<span style="color:#960050;background-color:#1e0010">：</span>retry对于上游Flux是采取的重订阅<span style="color:#960050;background-color:#1e0010">（</span>re<span style="color:#f92672">-</span>subscribing<span style="color:#960050;background-color:#1e0010">）</span>的方式<span style="color:#960050;background-color:#1e0010">，</span>出错了retry会从新订阅了原始的数据流执行x次<span style="color:#960050;background-color:#1e0010">。</span>
+</code></pre></div></li>
 </ul>
 <h4 id="backpressure背压回压">Backpressure背压(回压)</h4>
 <ul>
@@ -576,15 +397,8 @@ subscribeOn无论出现在什么位置，都只影响源头的执行环境</p>
 </li>
 <li>
 <p>create声明回压策略</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Flux</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">create</span><span class="o">(</span><span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">FluxSink</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="n">emitter</span><span class="o">,</span> <span class="n">OverflowStrategy</span> <span class="n">backpressure</span><span class="o">)</span> 
-</code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>Consumer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> FluxSink<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;</span> emitter<span style="color:#f92672">,</span> OverflowStrategy backpressure<span style="color:#f92672">)</span> 
+</code></pre></div></li>
 <li>
 <p>操作符调整背压策略</p>
 <ul>
@@ -608,158 +422,113 @@ subscribeOn无论出现在什么位置，都只影响源头的执行环境</p>
 </li>
 <li>
 <p>通过BaseSubscriber定义自己的Subscriber进行上游流量控制</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="n">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">BaseSubscriber</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>  
-                <span class="nd">@Override</span>
-                <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">hookOnSubscribe</span><span class="o">(</span><span class="n">Subscription</span> <span class="n">subscription</span><span class="o">)</span> <span class="o">{</span> 
-                    <span class="c1">//hookOnSubscribe定义在订阅的时候执行的操作，订阅时首先向上游请求1个元素
-</span><span class="c1"></span>                    <span class="n">request</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
-                <span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java">subscribe<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> BaseSubscriber<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;()</span> <span style="color:#f92672">{</span>  
+                <span style="color:#a6e22e">@Override</span>
+                <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hookOnSubscribe</span><span style="color:#f92672">(</span>Subscription subscription<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> 
+                    <span style="color:#75715e">//hookOnSubscribe定义在订阅的时候执行的操作，订阅时首先向上游请求1个元素
+</span><span style="color:#75715e"></span>                    request<span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+                <span style="color:#f92672">}</span>
   
-                <span class="nd">@Override</span>
-                <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">hookOnNext</span><span class="o">(</span><span class="n">Integer</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>  
-                    <span class="c1">//hookOnNext定义每次在收到一个元素的时候的操作，每次处理完1个元素后再请求1个。
-</span><span class="c1"></span>                    <span class="n">request</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
-                <span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
+                <span style="color:#a6e22e">@Override</span>
+                <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hookOnNext</span><span style="color:#f92672">(</span>Integer value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+                    <span style="color:#75715e">//hookOnNext定义每次在收到一个元素的时候的操作，每次处理完1个元素后再请求1个。
+</span><span style="color:#75715e"></span>                    request<span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+                <span style="color:#f92672">}</span>
+</code></pre></div></li>
 </ul>
-    </div>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">LHR</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2019-01-06
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/">响应式编程</a>
-          <a href="/tags/reactor/">Reactor</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/kotlin-learn01/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Kotlin基础：函数、对象、Lamdba</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/reactive-programming/">
-            <span class="next-text nav-default">响应式编程</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/"
+              >响应式编程</a
+            >&nbsp;
+          
+            <a
+              href="https://chinalhr.github.io/tags/reactor/"
+              >Reactor</a
+            >&nbsp;
+          
         </div>
-        <div id="SOHUCS" sid="/post/reactive-programming-reactor/"></div>
-    <script type="text/javascript">
-    (function(){
-      if (window.location.hostname === 'localhost') return;
+      
+    </article>
+    
+      <script>
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      document.getElementById('backtotopButton').style.opacity = '1'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    } else {
+      document.getElementById('backtotopButton').style.opacity = '0'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    }
+  })
 
-      var appid = 'cyvob1sks';
-      var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth;
-      if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
-    })();
-    </script>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
-      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
-  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-<div class="friend-links">
-  <span class="division">Friends:</span>
-  <span class="theme-info"><a class="theme-link" href="https://kii.la">vincent</a> </span>
-</div>
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-
-<script id="baidu_analytics">
-  var _hmt = _hmt || [];
-  (function() {
-    if (window.location.hostname === 'localhost') return;
-    var hm = document.createElement("script"); hm.async = true;
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
 </script>
 
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
 
 
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
 
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
 
-
-</body>
+  </body>
 </html>

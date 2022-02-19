@@ -1,184 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Bit-map算法及应用 - LiHanRong</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  <head>
+    <meta charset="utf-8" />
+<title>Bit-map算法及应用</title>
 
 
-<meta name="author" content="LHR" /><meta name="description" content=" Bit-map算法学习
-" /><meta name="keywords" content="Hugo, theme, even" />
+  
 
 
 
 
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://chinalhr.github.io/post/algorithm-bitmap/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.2fe01a8d6a1e524ccbed1cdfa4e66fc6e8e49ad88327a16803150a0fbceff06c.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="Bit-map算法及应用" />
-<meta property="og:description" content="
-Bit-map算法学习
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/algorithm-bitmap/" />
-<meta property="article:published_time" content="2019-01-27T22:17:36+08:00" />
-<meta property="article:modified_time" content="2019-01-27T22:17:36+08:00" />
-<meta itemprop="name" content="Bit-map算法及应用">
-<meta itemprop="description" content="
-Bit-map算法学习
-">
-<meta itemprop="datePublished" content="2019-01-27T22:17:36&#43;08:00" />
-<meta itemprop="dateModified" content="2019-01-27T22:17:36&#43;08:00" />
-<meta itemprop="wordCount" content="1286">
-
-
-
-<meta itemprop="keywords" content="算法," /><meta name="twitter:card" content="summary"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Bit-map算法及应用"/>
 <meta name="twitter:description" content="
 Bit-map算法学习
 "/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
 
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">LiHanRong Blog</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">categories</li>
-      </a><a href="/post/about/">
-        <li class="mobile-menu-item">about</li>
-      </a>
-  </ul>
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
 
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
   
 
 
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">LiHanRong Blog</a>
-</div>
 
 
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/about/">about</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <header>
+    <nav class="navbar">
+  <div class="nav">
     
-    <header class="post-header">
-      <h1 class="post-title">Bit-map算法及应用</h1>
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
 
-      <div class="post-meta">
-        <span class="post-time"> 2019-01-27 </span>
-        <div class="post-category">
-            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
-            </div>
-          <span class="more-meta"> 1286 words </span>
-          <span class="more-meta"> 3 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li>
-          <ul>
-            <li>
-              <ul>
-                <li><a href="#little-endian和big-endian">little-endian和big-endian</a></li>
-                <li><a href="#关于bit-map">关于Bit-map</a></li>
-                <li><a href="#思想">思想</a></li>
-                <li><a href="#算法实现java">算法实现[Java]</a></li>
-                <li><a href="#常见实例">常见实例😮</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
   </div>
-</div>
-    <div class="post-content">
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              Bit-map算法及应用
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Jan 27, 2019
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/%E7%AE%97%E6%B3%95/"
+        >算法</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
       <blockquote>
 <p>Bit-map算法学习</p>
 </blockquote>
@@ -191,115 +181,58 @@ Bit-map算法学习
 <h4 id="思想">思想</h4>
 <p>使用bit数组来表示某些元素是否存在，达到节省空间的目的。</p>
 <h4 id="算法实现java">算法实现[Java]</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BitmapTest</span> <span class="o">{</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BitmapTest</span> <span style="color:#f92672">{</span>
 
-    <span class="c1">//保存数据的
-</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">bitArray</span><span class="o">;</span>
+    <span style="color:#75715e">//保存数据的
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> bitArray<span style="color:#f92672">;</span>
 
-    <span class="c1">//能够存储多少bit数据
-</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">int</span> <span class="n">capacity</span><span class="o">;</span>
+    <span style="color:#75715e">//能够存储多少bit数据
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> capacity<span style="color:#f92672">;</span>
 
-    <span class="kd">public</span> <span class="nf">BitmapTest</span><span class="o">(</span><span class="kt">int</span> <span class="n">capacity</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">capacity</span> <span class="o">=</span> <span class="n">capacity</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">bitArray</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[(</span><span class="n">capacity</span> <span class="o">&gt;&gt;</span><span class="n">3</span> <span class="o">)+</span><span class="n">1</span><span class="o">];</span>
-    <span class="o">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">BitmapTest</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> capacity<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">capacity</span> <span style="color:#f92672">=</span> capacity<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">bitArray</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[(</span>capacity <span style="color:#f92672">&gt;&gt;</span>3 <span style="color:#f92672">)+</span>1<span style="color:#f92672">];</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="cm">/**
-</span><span class="cm">     * byte[index] ——&gt; Index(N) = N/8 = N &gt;&gt; 3;
-</span><span class="cm">     * bit位Position ——&gt; Position(N) = N%8 = N &amp; 0x07;
-</span><span class="cm">     */</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="kt">int</span> <span class="n">num</span><span class="o">){</span>
-        <span class="c1">// byte[]的index
-</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">arrayIndex</span> <span class="o">=</span> <span class="n">num</span> <span class="o">&gt;&gt;</span> <span class="n">3</span><span class="o">;</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * byte[index] ——&gt; Index(N) = N/8 = N &gt;&gt; 3;
+</span><span style="color:#75715e">     * bit位Position ——&gt; Position(N) = N%8 = N &amp; 0x07;
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> num<span style="color:#f92672">){</span>
+        <span style="color:#75715e">// byte[]的index
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> arrayIndex <span style="color:#f92672">=</span> num <span style="color:#f92672">&gt;&gt;</span> 3<span style="color:#f92672">;</span>
 
-        <span class="c1">// byte[index]的Position位置
-</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">position</span> <span class="o">=</span> <span class="n">num</span> <span class="o">&amp;</span> <span class="n">0x07</span><span class="o">;</span>
+        <span style="color:#75715e">// byte[index]的Position位置
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> position <span style="color:#f92672">=</span> num <span style="color:#f92672">&amp;</span> 0x07<span style="color:#f92672">;</span>
 
-        <span class="c1">//将1左移position后，Position位置置为1，然后和byte里的数据做|操作，byte数据里的position为1。
-</span><span class="c1"></span>        <span class="n">bitArray</span><span class="o">[</span><span class="n">arrayIndex</span><span class="o">]</span> <span class="o">|=</span> <span class="n">1</span> <span class="o">&lt;&lt;</span> <span class="n">position</span><span class="o">;</span>
-    <span class="o">}</span>
+        <span style="color:#75715e">//将1左移position后，Position位置置为1，然后和byte里的数据做|操作，byte数据里的position为1。
+</span><span style="color:#75715e"></span>        bitArray<span style="color:#f92672">[</span>arrayIndex<span style="color:#f92672">]</span> <span style="color:#f92672">|=</span> 1 <span style="color:#f92672">&lt;&lt;</span> position<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">clear</span><span class="o">(</span><span class="kt">int</span> <span class="n">num</span><span class="o">){</span>
-        <span class="c1">// byte[]的index
-</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">arrayIndex</span> <span class="o">=</span> <span class="n">num</span> <span class="o">&gt;&gt;</span> <span class="n">3</span><span class="o">;</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clear</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> num<span style="color:#f92672">){</span>
+        <span style="color:#75715e">// byte[]的index
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> arrayIndex <span style="color:#f92672">=</span> num <span style="color:#f92672">&gt;&gt;</span> 3<span style="color:#f92672">;</span>
 
-        <span class="c1">// byte[index]的Position位置
-</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">position</span> <span class="o">=</span> <span class="n">num</span> <span class="o">&amp;</span> <span class="n">0x07</span><span class="o">;</span>
+        <span style="color:#75715e">// byte[index]的Position位置
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> position <span style="color:#f92672">=</span> num <span style="color:#f92672">&amp;</span> 0x07<span style="color:#f92672">;</span>
 
-        <span class="c1">//将1左移position后，Position位置置为1，然后对取反，再与byte里的数据做&amp;操作，即可清除当前的位置了.
-</span><span class="c1"></span>        <span class="n">bitArray</span><span class="o">[</span><span class="n">arrayIndex</span><span class="o">]</span> <span class="o">&amp;=</span> <span class="o">~(</span><span class="n">1</span> <span class="o">&lt;&lt;</span> <span class="n">position</span><span class="o">);</span>
-    <span class="o">}</span>
+        <span style="color:#75715e">//将1左移position后，Position位置置为1，然后对取反，再与byte里的数据做&amp;操作，即可清除当前的位置了.
+</span><span style="color:#75715e"></span>        bitArray<span style="color:#f92672">[</span>arrayIndex<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;=</span> <span style="color:#f92672">~(</span>1 <span style="color:#f92672">&lt;&lt;</span> position<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">contain</span><span class="o">(</span><span class="kt">int</span> <span class="n">num</span><span class="o">){</span>
-        <span class="c1">// num/8得到byte[]的index
-</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">arrayIndex</span> <span class="o">=</span> <span class="n">num</span> <span class="o">&gt;&gt;</span> <span class="n">3</span><span class="o">;</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">contain</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> num<span style="color:#f92672">){</span>
+        <span style="color:#75715e">// num/8得到byte[]的index
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> arrayIndex <span style="color:#f92672">=</span> num <span style="color:#f92672">&gt;&gt;</span> 3<span style="color:#f92672">;</span>
 
-        <span class="c1">// num%8得到在byte[index]的Position位置
-</span><span class="c1"></span>    	<span class="kt">int</span> <span class="n">position</span> <span class="o">=</span> <span class="n">num</span> <span class="o">&amp;</span> <span class="n">0x07</span><span class="o">;</span>
+        <span style="color:#75715e">// num%8得到在byte[index]的Position位置
+</span><span style="color:#75715e"></span>    	<span style="color:#66d9ef">int</span> position <span style="color:#f92672">=</span> num <span style="color:#f92672">&amp;</span> 0x07<span style="color:#f92672">;</span>
 
-        <span class="c1">//将1左移position后，Position位置置为1，然后与byte里的数据做&amp;，判断是否为0即可
-</span><span class="c1"></span>        <span class="k">return</span> <span class="o">(</span><span class="n">bitArray</span><span class="o">[</span><span class="n">arrayIndex</span><span class="o">]</span> <span class="o">&amp;</span> <span class="o">(</span><span class="n">1</span> <span class="o">&lt;&lt;</span> <span class="n">position</span><span class="o">))</span> <span class="o">!=</span><span class="n">0</span><span class="o">;</span>
-    <span class="o">}</span>
+        <span style="color:#75715e">//将1左移position后，Position位置置为1，然后与byte里的数据做&amp;，判断是否为0即可
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>bitArray<span style="color:#f92672">[</span>arrayIndex<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> <span style="color:#f92672">(</span>1 <span style="color:#f92672">&lt;&lt;</span> position<span style="color:#f92672">))</span> <span style="color:#f92672">!=</span>0<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="常见实例">常见实例😮</h4>
+<span style="color:#f92672">}</span>
+</code></pre></div><h4 id="常见实例">常见实例😮</h4>
 <ol>
 <li>
 <p>给40亿个不重复的unsigned int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？</p>
@@ -312,125 +245,94 @@ Bit-map算法学习
 </code></pre>
 </li>
 </ol>
-    </div>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">LHR</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2019-01-27
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/kotlin-learn02/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Kotlin基础：类型系统、语言特性</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/mysql-bigdata-optimization/">
-            <span class="next-text nav-default">MySql大数据表优化</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/%E7%AE%97%E6%B3%95/"
+              >算法</a
+            >&nbsp;
+          
         </div>
-        <div id="SOHUCS" sid="/post/algorithm-bitmap/"></div>
-    <script type="text/javascript">
-    (function(){
-      if (window.location.hostname === 'localhost') return;
+      
+    </article>
+    
+      <script>
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      document.getElementById('backtotopButton').style.opacity = '1'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    } else {
+      document.getElementById('backtotopButton').style.opacity = '0'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    }
+  })
 
-      var appid = 'cyvob1sks';
-      var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth;
-      if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
-    })();
-    </script>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
-      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
-  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-<div class="friend-links">
-  <span class="division">Friends:</span>
-  <span class="theme-info"><a class="theme-link" href="https://kii.la">vincent</a> </span>
-</div>
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-
-<script id="baidu_analytics">
-  var _hmt = _hmt || [];
-  (function() {
-    if (window.location.hostname === 'localhost') return;
-    var hm = document.createElement("script"); hm.async = true;
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
 </script>
 
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
 
 
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
 
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
 
-
-</body>
+  </body>
 </html>

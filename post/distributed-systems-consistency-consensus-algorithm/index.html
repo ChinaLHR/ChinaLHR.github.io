@@ -1,161 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>分布式系统的一致性与共识算法-基础理论 - LiHanRong</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  <head>
+    <meta charset="utf-8" />
+<title>分布式系统的一致性与共识算法-基础理论</title>
 
 
-<meta name="author" content="LHR" /><meta name="description" content=" 记录分布式系统的一些基础理论
-" /><meta name="keywords" content="Hugo, theme, even" />
+  
 
 
 
 
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.2fe01a8d6a1e524ccbed1cdfa4e66fc6e8e49ad88327a16803150a0fbceff06c.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="分布式系统的一致性与共识算法-基础理论" />
-<meta property="og:description" content="
-记录分布式系统的一些基础理论
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/" />
-<meta property="article:published_time" content="2021-01-25T00:20:07+08:00" />
-<meta property="article:modified_time" content="2021-01-25T00:20:07+08:00" />
-<meta itemprop="name" content="分布式系统的一致性与共识算法-基础理论">
-<meta itemprop="description" content="
-记录分布式系统的一些基础理论
-">
-<meta itemprop="datePublished" content="2021-01-25T00:20:07&#43;08:00" />
-<meta itemprop="dateModified" content="2021-01-25T00:20:07&#43;08:00" />
-<meta itemprop="wordCount" content="6956">
-
-
-
-<meta itemprop="keywords" content="分布式系统," /><meta name="twitter:card" content="summary"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="分布式系统的一致性与共识算法-基础理论"/>
 <meta name="twitter:description" content="
 记录分布式系统的一些基础理论
 "/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
 
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">LiHanRong Blog</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">categories</li>
-      </a><a href="/post/about/">
-        <li class="mobile-menu-item">about</li>
-      </a>
-  </ul>
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
 
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
   
 
 
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">LiHanRong Blog</a>
-</div>
 
 
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/about/">about</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <header>
+    <nav class="navbar">
+  <div class="nav">
     
-    <header class="post-header">
-      <h1 class="post-title">分布式系统的一致性与共识算法-基础理论</h1>
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
 
-      <div class="post-meta">
-        <span class="post-time"> 2021-01-25 </span>
-        <div class="post-category">
-            <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/"> 分布式系统 </a>
-            </div>
-          <span class="more-meta"> 6956 words </span>
-          <span class="more-meta"> 14 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
+  </div>
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              分布式系统的一致性与共识算法-基础理论
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Jan 25, 2021
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/"
+        >分布式系统</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
       </div>
-    </header>
+    </div>
+  </header>
+  
 
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
+      <blockquote>
+<p>记录分布式系统的一些基础理论</p>
+</blockquote>
+<nav id="TableOfContents">
   <ul>
     <li>
       <ul>
@@ -192,14 +209,7 @@
       </ul>
     </li>
   </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <blockquote>
-<p>记录分布式系统的一些基础理论</p>
-</blockquote>
-<h2 id="分布式系统下的一致性问题">分布式系统下的一致性问题</h2>
+</nav><h2 id="分布式系统下的一致性问题">分布式系统下的一致性问题</h2>
 <p><strong>定义</strong>：一致性为在分布式系统领域中对于多个服务节点，给定一系列操作，在约定协议的保障下，使得它们对处理结果达成某种程度的协同。</p>
 <p>分布式系统中的节点通信存在两种模型：共享内存（Shared memory）和消息传递（Messages passing）。基于消息传递通信模型的分布式系统，不可避免的会发生以下错误：进程可能会慢、被杀死或者重启，消息可能会延迟、丢失、重复；发生上面任意一种异常都会对分布式系统中各个节点对某一个值达成一致性产生问题。</p>
 <p><strong>一致性的要求</strong>：</p>
@@ -235,19 +245,10 @@
 <p><strong>实用拜占庭容错算法</strong></p>
 <p>Practical Byzantine Fault Tolerance，PBFT（实用拜占庭容错算法），由 Castro 和 Liskov 于论文《Practical Byzantine Fault Tolerance and Proactive Recovery》中提出，基于BFT做了改进，采用密码学相关技术（RSA 签名算法、消息验证编码和摘要）确保消息传递过程无法被篡改和破坏；该算法能提供高性能的运算，使得系统可以每秒处理成千的请求</p>
 <p>过程如下：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">1. 通过轮换或随机算法选出某个节点为主节点，此后只要主节点不切换，则称为一个视图（View）。
+<pre><code>1. 通过轮换或随机算法选出某个节点为主节点，此后只要主节点不切换，则称为一个视图（View）。
 2. 在某个视图中，客户端将请求 &lt;REQUEST,operation,timestamp,client&gt; 发送给主节点，主节点负责广播请求到所有其它副本节点。
 3. 所有节点处理完成请求，将处理结果 &lt;REPLY,view,timestamp,client,id_node,response&gt; 返回给客户端。客户端检查是否收到了至少 f+1 个来自不同节点的相同结果，作为最终结果。
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="共识算法">共识算法</h2>
+</code></pre><h2 id="共识算法">共识算法</h2>
 <h3 id="共识consensus与一致性consistency">共识（Consensus）与一致性（Consistency）</h3>
 <p>一致性：含义比共识宽泛，在不同场景（基于事务的数据库、分布式系统等）下意义不同。在分布式系统场景下，一致性指的是多个副本对外呈现的状态。如之前提到的顺序一致性、线性一致性，描述了多节点对数据状态的共同维护能力。</p>
 <p>共识：特指在分布式系统中多个节点之间对某个事情达成一致看法的过程。需注意达成某种共识并不意味着就保障了一致性。</p>
@@ -330,40 +331,15 @@
 <p>防止差异的复制方式（单拷贝系统），对外表现得像一个单独的系统；当部分故障发生时，系统确保只有一个系统副本处于活动状态；系统需要确保副本始终保持一致，基于某一种共识算法去实现，一般有如下几种方式：</p>
 <p><strong>Master/Slave（主从复制）</strong></p>
 <p>所有更新都在主服务器上执行，操作日志(或者更改)通过网络传送到备份副本；涉及两种相关的变体异步主/备份、同步主/备份、半同步主/备复制。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">1. 同步复制
+<pre><code>1. 同步复制
 直到数据真的安全的复制到全部的机器上之后, master才告知客户端数据已经完成同步
 问题：强一致性持久化保证，但是系统响应慢，对网络延迟的变化非常敏感；系统的可用性随着副本数量指数降低
 2. 异步复制
 问题：性能高，但是为弱一致性持久化保证，数据存在丢失风险，会造成数据不一致的情况。
 3. 半同步复制
 要求master在应答客户端之前必须把数据复制到足够多的机器上, 而非全部机器. 这样副本数够多可以提供比较高的可靠性; 1台机器宕机也不会让整个系统停止写入;但系统中还是会存在数据不一致的情况。
-</code></pre></td></tr></table>
-</div>
-</div><p><strong>2-phase commit（两阶段提交）</strong></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">[ Coordinator ] -&gt; OK to commit?     [ Peers ]
+</code></pre><p><strong>2-phase commit（两阶段提交）</strong></p>
+<pre><code>[ Coordinator ] -&gt; OK to commit?     [ Peers ]
                 &lt;- Yes / No
 [ Coordinator ] -&gt; Commit / Rollback [ Peers ]
                 &lt;- ACK
@@ -371,28 +347,9 @@
 阶段一：投票阶段，协调人向所有参与者发送更新信息。每个参与者处理更新，并投票决定是提交还是放弃。当投票决定提交时，参与者将更新存储到一个临时区域（write-ahead log）。
 阶段二：协调程序决定结果并通知每个参与者。如果所有参与者投票提交，那么更新将从临时区域获得并永久化。
 问题：强一致性持久化保证，但是系统响应慢，对网络延迟的变化非常敏感；系统的可用性随着副本数量指数降低
-</code></pre></td></tr></table>
-</div>
-</div><p><strong>Quorum机制（多数派）</strong></p>
+</code></pre><p><strong>Quorum机制（多数派）</strong></p>
 <p><strong>Quorum</strong> 机制，是一种分布式系统中常用的，用来保证数据冗余和最终一致性的投票算法，其主要数学思想来源于鸽巢原理；在分布式系统中，Quorum常用于副本的读写控制。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">假设每份数据有V个副本，每个副本对应一票，读、写操作首先要请求副本以获取其票数，定义：
+<pre><code>假设每份数据有V个副本，每个副本对应一票，读、写操作首先要请求副本以获取其票数，定义：
 read quorum R（最小读票数）：读操作获取的票数必须大于该值才允许读；
 write quorum W（最小写票数）：写操作获取的票数必须大于该值才允许写；
 
@@ -405,48 +362,24 @@ W &gt; V / 2：保证对于每份数据，不会同时出现 两个写，即写�
 没有规定 R &gt; V / 2，quorum 机制允许 多个读同时发生，即允许 并发读；
 考虑write -&gt; read序列，因为R + W &gt; V，因此 W 和 V 之间至少有一个重叠（鸽巢原理），从而保证 write 之后，
 read 操作至少会获取一个最新副本；
-</code></pre></td></tr></table>
-</div>
-</div><p>在做复制冗余的时候，借助 Quorum 机制，5 个副本只需要完成 3 个写即可响应成功，提升了写操作的响应速度，又没有减弱可靠性；Quorum 机制本质上是把写负载转移到了读负载的一种设计权衡。</p>
+</code></pre><p>在做复制冗余的时候，借助 Quorum 机制，5 个副本只需要完成 3 个写即可响应成功，提升了写操作的响应速度，又没有减弱可靠性；Quorum 机制本质上是把写负载转移到了读负载的一种设计权衡。</p>
 <p><strong>问题</strong>：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">1. 对于一条数据的更新时, 会产生不一致的状态
+<pre><code>1. 对于一条数据的更新时, 会产生不一致的状态
 问题：如第一次update，nodeA、nodeB写入a=x；第二次update，nodeB、nodeC写入a=y；如果读取a的客户端联系到nodeA和nodeB，会得到不一致的数据
 解决：对每次的写入增加全局时间戳，以后写入的优先
 
 2. 并发环境下，因为无法保证顺序执行，所以无法保证系统的正确性
 问题：
-</code></pre></td></tr></table>
-</div>
-</div><p>结论：Quorum机制无法保证强一致性，即无法实现任何时刻任何用户或节点都可以读到最近一次成功提交的副本数据；后续Paxos对Quorum机制进行了改进，通过2次多数派读写, 实现了严谨的强一致共识算法。</p>
+</code></pre><p>结论：Quorum机制无法保证强一致性，即无法实现任何时刻任何用户或节点都可以读到最近一次成功提交的副本数据；后续Paxos对Quorum机制进行了改进，通过2次多数派读写, 实现了严谨的强一致共识算法。</p>
 <h4 id="replication-methods-that-risk-divergence-multi-master-systems">Replication methods that risk divergence (multi-master systems)</h4>
 <p><strong>Gossip算法</strong></p>
 <p>Gossip算法Palo Alto研究中心在论文《Epidemic Algorithms for Replicated Database Maintenance》中提出的一种用于分布式数据库在多节点间复制同步数据的算法；特点是要同步的信息如同流言一般传播，最终一致性。</p>
 <p>具体的工作过程如下：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">1. 如果有某一项信息需要在整个网络中所有节点中传播，那从信息源开始，选择一个固定的传播周期（如1秒），随机选择它
+<pre><code>1. 如果有某一项信息需要在整个网络中所有节点中传播，那从信息源开始，选择一个固定的传播周期（如1秒），随机选择它
 相连接的k个节点（称为Fan-Out）进行消息传播。
 2. 每一个节点收到消息后，如果这个消息是它之前没有收到过的，将在下一个周期内，选择除了发送消息给它的那个节点外的
 其他相邻k个节点发送相同的消息，理论上最终网络的所有节点都会拥有相同的消息。
-</code></pre></td></tr></table>
-</div>
-</div><p><img src="https://user-images.githubusercontent.com/19829495/108829989-cc547a80-7603-11eb-8da1-ab3dd2afc612.png" alt="image"></p>
+</code></pre><p><img src="https://user-images.githubusercontent.com/19829495/108829989-cc547a80-7603-11eb-8da1-ab3dd2afc612.png" alt="image"></p>
 <p>上图从一致性、延迟、吞吐量、数据丢失和故障转移对比了各个类型共识算法实现。</p>
 <h2 id="参考">参考</h2>
 <p><a href="https://zh.wikipedia.org/wiki/%E6%8B%9C%E5%8D%A0%E5%BA%AD%E5%B0%86%E5%86%9B%E9%97%AE%E9%A2%98">https://zh.wikipedia.org/wiki/拜占庭将军问题</a></p>
@@ -454,125 +387,94 @@ read 操作至少会获取一个最新副本；
 <p><a href="http://book.mixu.net/distsys/single-page.html">http://book.mixu.net/distsys/single-page.html</a></p>
 <p><a href="https://zh.wikipedia.org/wiki/Quorum_(%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F)">https://zh.wikipedia.org/wiki/Quorum_(分布式系统)</a></p>
 <p><a href="https://en.wikipedia.org/wiki/Gossip_protocol">https://en.wikipedia.org/wiki/Gossip_protocol</a></p>
-    </div>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">LHR</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2021-01-25
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/distributed-systems-consensus-algorithm-paxos/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">分布式系统的一致性与共识算法-Paxos</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/jenkins-kubernetes-helm-ci-cd/">
-            <span class="next-text nav-default">Jenkins-Kubernetes-Docker-Helm CI/CD实践</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/"
+              >分布式系统</a
+            >&nbsp;
+          
         </div>
-        <div id="SOHUCS" sid="/post/distributed-systems-consistency-consensus-algorithm/"></div>
-    <script type="text/javascript">
-    (function(){
-      if (window.location.hostname === 'localhost') return;
+      
+    </article>
+    
+      <script>
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      document.getElementById('backtotopButton').style.opacity = '1'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    } else {
+      document.getElementById('backtotopButton').style.opacity = '0'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    }
+  })
 
-      var appid = 'cyvob1sks';
-      var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth;
-      if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
-    })();
-    </script>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
-      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
-  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-<div class="friend-links">
-  <span class="division">Friends:</span>
-  <span class="theme-info"><a class="theme-link" href="https://kii.la">vincent</a> </span>
-</div>
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-
-<script id="baidu_analytics">
-  var _hmt = _hmt || [];
-  (function() {
-    if (window.location.hostname === 'localhost') return;
-    var hm = document.createElement("script"); hm.async = true;
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
 </script>
 
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
 
 
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
 
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
 
-
-</body>
+  </body>
 </html>

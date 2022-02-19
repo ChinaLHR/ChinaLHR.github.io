@@ -1,161 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>函数式接口-Supplier|Predicate|Consumer|Function - LiHanRong</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  <head>
+    <meta charset="utf-8" />
+<title>函数式接口-Supplier|Predicate|Consumer|Function</title>
 
 
-<meta name="author" content="LHR" /><meta name="description" content=" Java函数式接口相关记录
-" /><meta name="keywords" content="Hugo, theme, even" />
+  
 
 
 
 
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://chinalhr.github.io/post/java-supplier-predicate-consumer/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.2fe01a8d6a1e524ccbed1cdfa4e66fc6e8e49ad88327a16803150a0fbceff06c.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="函数式接口-Supplier|Predicate|Consumer|Function" />
-<meta property="og:description" content="
-Java函数式接口相关记录
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/java-supplier-predicate-consumer/" />
-<meta property="article:published_time" content="2018-07-11T21:19:59+08:00" />
-<meta property="article:modified_time" content="2018-07-11T21:19:59+08:00" />
-<meta itemprop="name" content="函数式接口-Supplier|Predicate|Consumer|Function">
-<meta itemprop="description" content="
-Java函数式接口相关记录
-">
-<meta itemprop="datePublished" content="2018-07-11T21:19:59&#43;08:00" />
-<meta itemprop="dateModified" content="2018-07-11T21:19:59&#43;08:00" />
-<meta itemprop="wordCount" content="545">
-
-
-
-<meta itemprop="keywords" content="Java," /><meta name="twitter:card" content="summary"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="函数式接口-Supplier|Predicate|Consumer|Function"/>
 <meta name="twitter:description" content="
 Java函数式接口相关记录
 "/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
 
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">LiHanRong Blog</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">categories</li>
-      </a><a href="/post/about/">
-        <li class="mobile-menu-item">about</li>
-      </a>
-  </ul>
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
 
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
   
 
 
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">LiHanRong Blog</a>
-</div>
 
 
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/about/">about</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <header>
+    <nav class="navbar">
+  <div class="nav">
     
-    <header class="post-header">
-      <h1 class="post-title">函数式接口-Supplier|Predicate|Consumer|Function</h1>
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
 
-      <div class="post-meta">
-        <span class="post-time"> 2018-07-11 </span>
-        <div class="post-category">
-            <a href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 后端开发 </a>
-            </div>
-          <span class="more-meta"> 545 words </span>
-          <span class="more-meta"> 2 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
+  </div>
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              函数式接口-Supplier|Predicate|Consumer|Function
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Jul 11, 2018
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"
+        >后端开发</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
       </div>
-    </header>
+    </div>
+  </header>
+  
 
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
+      <blockquote>
+<p>Java函数式接口相关记录</p>
+</blockquote>
+<nav id="TableOfContents">
   <ul>
     <li>
       <ul>
@@ -166,241 +183,146 @@ Java函数式接口相关记录
       </ul>
     </li>
   </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <blockquote>
-<p>Java函数式接口相关记录</p>
-</blockquote>
-<h2 id="supplier">Supplier</h2>
+</nav><h2 id="supplier">Supplier</h2>
 <ul>
 <li>Supplier<!-- raw HTML omitted -->接口没有入参，通过调用T get()返回一个T类型的对象</li>
 <li>开发中通过supplier实时获取配置(配置使用json写在数据库中)</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java">	<span class="c1">//设置Supplier获取函数为从数据库获取
-</span><span class="c1"></span>	<span class="n">zSetRedisConsumer</span><span class="o">.</span><span class="na">setBatchProcessSize</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">hkConfigService</span><span class="o">.</span><span class="na">findRedisBuffConfig</span><span class="o">().</span><span class="na">getBatchProcessSize</span><span class="o">());</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#75715e">//设置Supplier获取函数为从数据库获取
+</span><span style="color:#75715e"></span>	zSetRedisConsumer<span style="color:#f92672">.</span><span style="color:#a6e22e">setBatchProcessSize</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> hkConfigService<span style="color:#f92672">.</span><span style="color:#a6e22e">findRedisBuffConfig</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getBatchProcessSize</span><span style="color:#f92672">());</span>
 
-	<span class="kd">private</span> <span class="n">Supplier</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span> <span class="n">fixDelayMilliseconds</span><span class="o">;</span>
-	<span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="n">RedisConsumer</span> <span class="nf">setFixDelayMilliseconds</span><span class="o">(</span><span class="n">Supplier</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span> <span class="n">fixDelayMilliseconds</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">fixDelayMilliseconds</span> <span class="o">=</span> <span class="n">fixDelayMilliseconds</span><span class="o">;</span>
-        <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
-    <span class="o">}</span>
-	<span class="c1">//通过调用batchProcessSize.get()实时获取配置
-</span><span class="c1"></span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="predicate">Predicate</h2>
+	<span style="color:#66d9ef">private</span> Supplier<span style="color:#f92672">&lt;</span>Long<span style="color:#f92672">&gt;</span> fixDelayMilliseconds<span style="color:#f92672">;</span>
+	<span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> RedisConsumer <span style="color:#a6e22e">setFixDelayMilliseconds</span><span style="color:#f92672">(</span>Supplier<span style="color:#f92672">&lt;</span>Long<span style="color:#f92672">&gt;</span> fixDelayMilliseconds<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">fixDelayMilliseconds</span> <span style="color:#f92672">=</span> fixDelayMilliseconds<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+	<span style="color:#75715e">//通过调用batchProcessSize.get()实时获取配置
+</span><span style="color:#75715e"></span>
+</code></pre></div><h2 id="predicate">Predicate</h2>
 <ul>
 <li>Predicate函数式接口的主要作用就是提供一个boolean test(T t)方法(断言)，接受一个参数返回一个布尔类型</li>
 <li>开发中使用Predicate进行StreamFilter</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PredicateDemo</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(...);</span>
-        <span class="n">PredicateTest</span> <span class="n">predicateTest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PredicateTest</span><span class="o">();</span>
-        <span class="c1">//输出大于5的数字
-</span><span class="c1"></span>        <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">predicateTest</span><span class="o">.</span><span class="na">conditionFilter</span><span class="o">(</span><span class="n">list</span><span class="o">,</span> <span class="n">integer</span> <span class="o">-&gt;</span> <span class="n">integer</span> <span class="o">&gt;</span> <span class="n">5</span><span class="o">);</span>
-        <span class="n">result</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
-    <span class="o">}</span>
-    <span class="c1">//抽象方法
-</span><span class="c1"></span>    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">conditionFilter</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">predicate</span><span class="o">){</span>
-        <span class="k">return</span> <span class="n">list</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">predicate</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="consumer">Consumer</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PredicateDemo</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        List<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> list <span style="color:#f92672">=</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(...);</span>
+        PredicateTest predicateTest <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PredicateTest<span style="color:#f92672">();</span>
+        <span style="color:#75715e">//输出大于5的数字
+</span><span style="color:#75715e"></span>        List<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> result <span style="color:#f92672">=</span> predicateTest<span style="color:#f92672">.</span><span style="color:#a6e22e">conditionFilter</span><span style="color:#f92672">(</span>list<span style="color:#f92672">,</span> integer <span style="color:#f92672">-&gt;</span> integer <span style="color:#f92672">&gt;</span> 5<span style="color:#f92672">);</span>
+        result<span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//抽象方法
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> List<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">conditionFilter</span><span style="color:#f92672">(</span>List<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> list<span style="color:#f92672">,</span> Predicate<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> predicate<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">return</span> list<span style="color:#f92672">.</span><span style="color:#a6e22e">stream</span><span style="color:#f92672">().</span><span style="color:#a6e22e">filter</span><span style="color:#f92672">(</span>predicate<span style="color:#f92672">).</span><span style="color:#a6e22e">collect</span><span style="color:#f92672">(</span>Collectors<span style="color:#f92672">.</span><span style="color:#a6e22e">toList</span><span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="consumer">Consumer</h2>
 <ul>
 <li>Consumer函数式接口的主要作用就是提供一个void accept(T t)方法(进行消费)，执行带有副作用的操作。forEach源码使用的Consumer接口。</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Consumer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">printString</span> <span class="o">=</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
-        <span class="n">printString</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="s">&#34;helloWorld!&#34;</span><span class="o">);</span>
-        <span class="c1">//控制台输出 helloWorld!
-</span></code></pre></td></tr></table>
-</div>
-</div><h2 id="function">Function</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Consumer<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> printString <span style="color:#f92672">=</span> s <span style="color:#f92672">-&gt;</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
+        printString<span style="color:#f92672">.</span><span style="color:#a6e22e">accept</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;helloWorld!&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#75715e">//控制台输出 helloWorld!
+</span></code></pre></div><h2 id="function">Function</h2>
 <ul>
 <li>Function函数式接口主要作用是提供一个R apply(T t)方法(进行计算并返回结果)</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">validInput</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">inputStr</span> <span class="o">-&gt;</span> <span class="n">inputStr</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()</span> <span class="o">?</span> <span class="s">&#34;名字不能为空&#34;</span><span class="o">:</span><span class="n">inputStr</span><span class="o">));</span>
-<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">validInput</span><span class="o">(</span><span class="n">name1</span><span class="o">,</span> <span class="n">inputStr</span> <span class="o">-&gt;</span> <span class="n">inputStr</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">3</span> <span class="o">?</span> <span class="s">&#34;名字过长&#34;</span><span class="o">:</span><span class="n">inputStr</span><span class="o">));</span>
-<span class="c1">//抽象方法
-</span><span class="c1"></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">validInput</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span><span class="n">Function</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">function</span><span class="o">)</span> <span class="o">{</span>
-		<span class="k">return</span> <span class="n">function</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div>
-    </div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>validInput<span style="color:#f92672">(</span>name<span style="color:#f92672">,</span> inputStr <span style="color:#f92672">-&gt;</span> inputStr<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">()</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;名字不能为空&#34;</span><span style="color:#f92672">:</span>inputStr<span style="color:#f92672">));</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>validInput<span style="color:#f92672">(</span>name1<span style="color:#f92672">,</span> inputStr <span style="color:#f92672">-&gt;</span> inputStr<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()</span> <span style="color:#f92672">&gt;</span> 3 <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;名字过长&#34;</span><span style="color:#f92672">:</span>inputStr<span style="color:#f92672">));</span>
+<span style="color:#75715e">//抽象方法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String <span style="color:#a6e22e">validInput</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">,</span>Function<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span>String<span style="color:#f92672">&gt;</span> function<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		<span style="color:#66d9ef">return</span> function<span style="color:#f92672">.</span><span style="color:#a6e22e">apply</span><span style="color:#f92672">(</span>name<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">LHR</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2018-07-11
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/java/">Java</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/mysql-paging/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">MySql大数据量表分页</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/mysql-alter/">
-            <span class="next-text nav-default">Mysql对存有大数据表进行结构修改需要注意的问题</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/java/"
+              >Java</a
+            >&nbsp;
+          
         </div>
-        <div id="SOHUCS" sid="/post/java-supplier-predicate-consumer/"></div>
-    <script type="text/javascript">
-    (function(){
-      if (window.location.hostname === 'localhost') return;
+      
+    </article>
+    
+      <script>
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      document.getElementById('backtotopButton').style.opacity = '1'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    } else {
+      document.getElementById('backtotopButton').style.opacity = '0'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    }
+  })
 
-      var appid = 'cyvob1sks';
-      var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth;
-      if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
-    })();
-    </script>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
-      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
-  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-<div class="friend-links">
-  <span class="division">Friends:</span>
-  <span class="theme-info"><a class="theme-link" href="https://kii.la">vincent</a> </span>
-</div>
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-
-<script id="baidu_analytics">
-  var _hmt = _hmt || [];
-  (function() {
-    if (window.location.hostname === 'localhost') return;
-    var hm = document.createElement("script"); hm.async = true;
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
 </script>
 
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
 
 
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
 
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
 
-
-</body>
+  </body>
 </html>

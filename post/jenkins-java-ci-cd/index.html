@@ -1,161 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Jenkins-pipeline-Docker 实现CI/CD - LiHanRong</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  <head>
+    <meta charset="utf-8" />
+<title>Jenkins-pipeline-Docker 实现CI/CD</title>
 
 
-<meta name="author" content="LHR" /><meta name="description" content=" 基于Jenkins和Docker，对于Java应用CI/CD实践的记录。
-" /><meta name="keywords" content="Hugo, theme, even" />
+  
 
 
 
 
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://chinalhr.github.io/post/jenkins-java-ci-cd/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.2fe01a8d6a1e524ccbed1cdfa4e66fc6e8e49ad88327a16803150a0fbceff06c.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="Jenkins-pipeline-Docker 实现CI/CD" />
-<meta property="og:description" content="
-基于Jenkins和Docker，对于Java应用CI/CD实践的记录。
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/jenkins-java-ci-cd/" />
-<meta property="article:published_time" content="2019-12-29T21:46:50+08:00" />
-<meta property="article:modified_time" content="2019-12-29T21:46:50+08:00" />
-<meta itemprop="name" content="Jenkins-pipeline-Docker 实现CI/CD">
-<meta itemprop="description" content="
-基于Jenkins和Docker，对于Java应用CI/CD实践的记录。
-">
-<meta itemprop="datePublished" content="2019-12-29T21:46:50&#43;08:00" />
-<meta itemprop="dateModified" content="2019-12-29T21:46:50&#43;08:00" />
-<meta itemprop="wordCount" content="3513">
-
-
-
-<meta itemprop="keywords" content="jenkins,CI&amp;CD," /><meta name="twitter:card" content="summary"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Jenkins-pipeline-Docker 实现CI/CD"/>
 <meta name="twitter:description" content="
 基于Jenkins和Docker，对于Java应用CI/CD实践的记录。
 "/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
 
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">LiHanRong Blog</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">categories</li>
-      </a><a href="/post/about/">
-        <li class="mobile-menu-item">about</li>
-      </a>
-  </ul>
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
 
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
   
 
 
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">LiHanRong Blog</a>
-</div>
 
 
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/about/">about</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <header>
+    <nav class="navbar">
+  <div class="nav">
     
-    <header class="post-header">
-      <h1 class="post-title">Jenkins-pipeline-Docker 实现CI/CD</h1>
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
 
-      <div class="post-meta">
-        <span class="post-time"> 2019-12-29 </span>
-        <div class="post-category">
-            <a href="/categories/devops/"> DevOps </a>
-            </div>
-          <span class="more-meta"> 3513 words </span>
-          <span class="more-meta"> 8 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
+  </div>
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              Jenkins-pipeline-Docker 实现CI/CD
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Dec 29, 2019
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/devops/"
+        >DevOps</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
       </div>
-    </header>
+    </div>
+  </header>
+  
 
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
+      <blockquote>
+<p>基于Jenkins和Docker，对于Java应用CI/CD实践的记录。</p>
+</blockquote>
+<nav id="TableOfContents">
   <ul>
     <li>
       <ul>
@@ -200,14 +217,7 @@
       </ul>
     </li>
   </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <blockquote>
-<p>基于Jenkins和Docker，对于Java应用CI/CD实践的记录。</p>
-</blockquote>
-<h2 id="关于cicd">关于CI/CD</h2>
+</nav><h2 id="关于cicd">关于CI/CD</h2>
 <h3 id="持续集成ci">持续集成(CI)</h3>
 <p>持续集成开发人员能够频繁地将其代码集成到公共代码仓库的主分支中。 开发人员能够在任何时候多次向仓库提交作品，而不是独立地开发每个功能模块并在开发周期结束时一一提交。主要目的是尽早发现集成错误，使团队更加紧密结合，更好地协作。</p>
 <p><strong>目的</strong></p>
@@ -231,43 +241,22 @@
 </ul>
 <h2 id="jenkins安装配置基于docker">jenkins安装/配置(基于Docker)</h2>
 <h3 id="安装">安装</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback"># docker获取jenkins镜像
+<pre><code># docker获取jenkins镜像
 docker pull jenkins/jenkins
 
 # 启动Jenkins
 docker run -u root -itd --name jenkins \
 -p 10080:8080 \
 -v $(which docker):/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock \
--e TZ=&#34;Asia/Shanghai&#34; -v /etc/localtime:/etc/localtime \
--e JAVA_OPTS=&#39;-Xms1024m -Xmx1024m -XX:NewSize=512m&#39; \
+-e TZ=&quot;Asia/Shanghai&quot; -v /etc/localtime:/etc/localtime \
+-e JAVA_OPTS='-Xms1024m -Xmx1024m -XX:NewSize=512m' \
 -v /volume1/docker/jenkins:/var/jenkins_home jenkins/jenkins
 
 # -p 10080:8080 映射容器的8080端口到外部主机的10080端口
 # -v $(which docker):/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock 使jenkins内部可以使用docker命令
-# -e TZ=&#34;Asia/Shanghai&#34; -v /etc/localtime:/etc/localtime 配置Jenkins容器的时区
+# -e TZ=&quot;Asia/Shanghai&quot; -v /etc/localtime:/etc/localtime 配置Jenkins容器的时区
 # -v /volume1/docker/jenkins:/var/jenkins_home jenkins/jenkins 将Jenkins的配置映射到外部主机卷/volume1/docker/jenkins（删除容器后可保留）
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="插件推荐">插件推荐</h3>
+</code></pre><h3 id="插件推荐">插件推荐</h3>
 <table>
 <thead>
 <tr>
@@ -323,57 +312,29 @@ docker run -u root -itd --name jenkins \
 <ul>
 <li>基本结构</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">pipeline {
-    agent { docker &#39;maven:3.3.3&#39; }
+<pre><code>pipeline {
+    agent { docker 'maven:3.3.3' }
     stages {
-        stage(&#39;build&#39;) {
+        stage('build') {
             steps {
-                sh &#39;mvn --version&#39;
+                sh 'mvn --version'
             }
         }
     }
 	post {
         always {
-            echo &#39;This will always run&#39;
+            echo 'This will always run'
         }
         success {
-            echo &#39;This will run only if successful&#39;
+            echo 'This will run only if successful'
         }
         failure {
-            echo &#39;This will run only if failed&#39;
+            echo 'This will run only if failed'
         }
         ...
     }
 }
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+</code></pre><ul>
 <li>agent</li>
 </ul>
 <p>agent指定整个Pipeline或特定stage将在Jenkins环境中执行的位置，具体取决于该agent 部分的位置。该部分必须在pipeline块内的顶层定义，stage块内的agent是可选的。</p>
@@ -408,648 +369,344 @@ docker run -u root -itd --name jenkins \
 <h3 id="pipeline实现">Pipeline实现</h3>
 <h4 id="jenkins拉取git代码">Jenkins拉取Git代码</h4>
 <p>可以使用checkout插件进行Git代码拉取（利用pipeline-syntax生成pipeline流水线脚本）</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback"> steps {
+<pre><code> steps {
 			//checkout到master分支进行代码拉取
-            checkout([$class: &#39;GitSCM&#39;, 
-            branches: [[name: &#39;master&#39;]], 
+            checkout([$class: 'GitSCM', 
+            branches: [[name: 'master']], 
             doGenerateSubmoduleConfigurations: false, 
-            gitTool: &#39;Default&#39;, 
+            gitTool: 'Default', 
             extensions: [],
             submoduleCfg: [], 
-            userRemoteConfigs: [[credentialsId: &#39;8f240564-XXX-40b7-9faf-c08167aa27a3&#39;, url: &#39;git@gitee.com:XXX/XXX.git&#39;]]])
+            userRemoteConfigs: [[credentialsId: '8f240564-XXX-40b7-9faf-c08167aa27a3', url: 'git@gitee.com:XXX/XXX.git']]])
         }
-</code></pre></td></tr></table>
-</div>
-</div><p>适配git-flow分支模型，实现发布前进行merge操作和push代码操作。勾选参数化构建过程,选择Git Parameter,然后在pipeline实现相关参数。</p>
+</code></pre><p>适配git-flow分支模型，实现发布前进行merge操作和push代码操作。勾选参数化构建过程,选择Git Parameter,然后在pipeline实现相关参数。</p>
 <p><img src="https://user-images.githubusercontent.com/19829495/76158868-7c13ac80-6155-11ea-9ed2-62bc6ae95ce5.png" alt="图片"></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-groovy" data-lang="groovy">
-   <span class="n">parameters</span> <span class="o">{</span>
-    	<span class="n">gitParameter</span> <span class="nl">branchFilter:</span> <span class="s1">&#39;origin/(.*)&#39;</span><span class="o">,</span> <span class="nl">defaultValue:</span> <span class="s1">&#39;master&#39;</span><span class="o">,</span> <span class="nl">name:</span> <span class="s1">&#39;BRANCH&#39;</span><span class="o">,</span> <span class="nl">type:</span> <span class="s1">&#39;PT_BRANCH&#39;</span><span class="o">,</span> <span class="nl">sortMode:</span><span class="s1">&#39;DESCENDING&#39;</span>
-   <span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">
+   parameters <span style="color:#f92672">{</span>
+    	gitParameter branchFilter: <span style="color:#e6db74">&#39;origin/(.*)&#39;</span><span style="color:#f92672">,</span> defaultValue: <span style="color:#e6db74">&#39;master&#39;</span><span style="color:#f92672">,</span> name: <span style="color:#e6db74">&#39;BRANCH&#39;</span><span style="color:#f92672">,</span> type: <span style="color:#e6db74">&#39;PT_BRANCH&#39;</span><span style="color:#f92672">,</span> sortMode:<span style="color:#e6db74">&#39;DESCENDING&#39;</span>
+   <span style="color:#f92672">}</span>
    
-   <span class="n">stages</span> <span class="o">{</span>
-       <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Pull Source code&#39;</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">steps</span> <span class="o">{</span>
-			<span class="c1">//checkout到master 和 merge 指定分支操作
-</span><span class="c1"></span>            <span class="n">checkout</span><span class="o">([</span><span class="n">$class</span><span class="o">:</span> <span class="s1">&#39;GitSCM&#39;</span><span class="o">,</span> 
-            <span class="nl">branches:</span> <span class="o">[[</span><span class="nl">name:</span> <span class="s1">&#39;master&#39;</span><span class="o">]],</span> 
-            <span class="nl">doGenerateSubmoduleConfigurations:</span> <span class="kc">false</span><span class="o">,</span> 
-            <span class="nl">gitTool:</span> <span class="s1">&#39;Default&#39;</span><span class="o">,</span> 
-            <span class="nl">extensions:</span> <span class="o">[</span>
-                <span class="o">[</span><span class="n">$class</span><span class="o">:</span> <span class="s1">&#39;PreBuildMerge&#39;</span><span class="o">,</span> <span class="nl">options:</span> <span class="o">[</span><span class="nl">mergeRemote:</span> <span class="s1">&#39;origin&#39;</span><span class="o">,</span> <span class="nl">mergeStrategy:</span> <span class="s1">&#39;RECURSIVE&#39;</span><span class="o">,</span> <span class="nl">mergeTarget:</span> <span class="s2">&#34;${params.BRANCH}&#34;</span><span class="o">]]</span>
-            <span class="o">],</span>
-            <span class="nl">submoduleCfg:</span> <span class="o">[],</span> 
-            <span class="nl">userRemoteConfigs:</span> <span class="o">[[</span><span class="nl">credentialsId:</span> <span class="s1">&#39;8f240564-XXX-40b7-9faf-c08167aa27a3&#39;</span><span class="o">,</span> <span class="nl">url:</span> <span class="s1">&#39;git@gitee.com:XXX/XXX.git&#39;</span><span class="o">]]])</span>
+   stages <span style="color:#f92672">{</span>
+       stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Pull Source code&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        steps <span style="color:#f92672">{</span>
+			<span style="color:#75715e">//checkout到master 和 merge 指定分支操作
+</span><span style="color:#75715e"></span>            checkout<span style="color:#f92672">([</span>$class<span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;GitSCM&#39;</span><span style="color:#f92672">,</span> 
+            branches: <span style="color:#f92672">[[</span>name: <span style="color:#e6db74">&#39;master&#39;</span><span style="color:#f92672">]],</span> 
+            doGenerateSubmoduleConfigurations: <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> 
+            gitTool: <span style="color:#e6db74">&#39;Default&#39;</span><span style="color:#f92672">,</span> 
+            extensions: <span style="color:#f92672">[</span>
+                <span style="color:#f92672">[</span>$class<span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;PreBuildMerge&#39;</span><span style="color:#f92672">,</span> options: <span style="color:#f92672">[</span>mergeRemote: <span style="color:#e6db74">&#39;origin&#39;</span><span style="color:#f92672">,</span> mergeStrategy: <span style="color:#e6db74">&#39;RECURSIVE&#39;</span><span style="color:#f92672">,</span> mergeTarget: <span style="color:#e6db74">&#34;${params.BRANCH}&#34;</span><span style="color:#f92672">]]</span>
+            <span style="color:#f92672">],</span>
+            submoduleCfg: <span style="color:#f92672">[],</span> 
+            userRemoteConfigs: <span style="color:#f92672">[[</span>credentialsId: <span style="color:#e6db74">&#39;8f240564-XXX-40b7-9faf-c08167aa27a3&#39;</span><span style="color:#f92672">,</span> url: <span style="color:#e6db74">&#39;git@gitee.com:XXX/XXX.git&#39;</span><span style="color:#f92672">]]])</span>
         
-			<span class="c1">//代码推送到master操作(可以将此步骤下放到远程部署后或者post阶段，确保一个完整的成功的发布后才进行分支合并提交)
-</span><span class="c1"></span>			<span class="n">sshagent</span><span class="o">([</span><span class="s1">&#39;8f240564-XXX-40b7-9faf-c08167aa27a3&#39;</span><span class="o">])</span> <span class="o">{</span>
-                <span class="n">sh</span> <span class="s2">&#34;&#34;&#34;
-</span><span class="s2">                  git config --global user.email &#34;******&#34;
-</span><span class="s2">                    git config --global user.name &#34;******&#34;
-</span><span class="s2">				    git commit -m &#34;header changed ci commit automatically&#34; || true
-</span><span class="s2">                    git push origin HEAD:refs/heads/master
-</span><span class="s2">				&#34;&#34;&#34;</span>
-			<span class="o">}</span>
-		<span class="o">}</span>
-      <span class="o">}</span>
-		<span class="o">...</span>
-	<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="mavem构建项目">mavem构建项目</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Build&#39;</span><span class="o">)</span> <span class="o">{</span>
-         <span class="n">steps</span> <span class="o">{</span>
-          <span class="n">withMaven</span><span class="o">(</span><span class="nl">maven:</span> <span class="s1">&#39;Maven3.6.3&#39;</span><span class="o">,</span> <span class="nl">mavenSettingsConfig:</span> <span class="s1">&#39;f6f97751-3c04-4394-876f-cee0879cfc02&#39;</span><span class="o">)</span> <span class="o">{</span>
-              <span class="c1">//这里使用了maven-resources-plugin插件对资源进行统一的COPY到path目录
-</span><span class="c1"></span>                 <span class="n">sh</span> <span class="s1">&#39;mvn clean package -Dmaven.test.skip=true -Dbuild.path=/var/jenkins_home/build/bfreeman -f pom.xml&#39;</span>
-            <span class="o">}</span>
-         <span class="o">}</span>
-      <span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="单元测试">单元测试</h4>
+			<span style="color:#75715e">//代码推送到master操作(可以将此步骤下放到远程部署后或者post阶段，确保一个完整的成功的发布后才进行分支合并提交)
+</span><span style="color:#75715e"></span>			sshagent<span style="color:#f92672">([</span><span style="color:#e6db74">&#39;8f240564-XXX-40b7-9faf-c08167aa27a3&#39;</span><span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
+                sh <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">                  git config --global user.email &#34;******&#34;
+</span><span style="color:#e6db74">                    git config --global user.name &#34;******&#34;
+</span><span style="color:#e6db74">				    git commit -m &#34;header changed ci commit automatically&#34; || true
+</span><span style="color:#e6db74">                    git push origin HEAD:refs/heads/master
+</span><span style="color:#e6db74">				&#34;&#34;&#34;</span>
+			<span style="color:#f92672">}</span>
+		<span style="color:#f92672">}</span>
+      <span style="color:#f92672">}</span>
+		<span style="color:#f92672">...</span>
+	<span style="color:#f92672">}</span>
+</code></pre></div><h4 id="mavem构建项目">mavem构建项目</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Build&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         steps <span style="color:#f92672">{</span>
+          withMaven<span style="color:#f92672">(</span>maven: <span style="color:#e6db74">&#39;Maven3.6.3&#39;</span><span style="color:#f92672">,</span> mavenSettingsConfig: <span style="color:#e6db74">&#39;f6f97751-3c04-4394-876f-cee0879cfc02&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+              <span style="color:#75715e">//这里使用了maven-resources-plugin插件对资源进行统一的COPY到path目录
+</span><span style="color:#75715e"></span>                 sh <span style="color:#e6db74">&#39;mvn clean package -Dmaven.test.skip=true -Dbuild.path=/var/jenkins_home/build/bfreeman -f pom.xml&#39;</span>
+            <span style="color:#f92672">}</span>
+         <span style="color:#f92672">}</span>
+      <span style="color:#f92672">}</span>
+</code></pre></div><h4 id="单元测试">单元测试</h4>
 <p>简单的单元测试可以基于maven-shade-plugin插件，配合Junit跑单元测试。也可以 配合jacoco插件和 maven-jacoco-plugin 进行测试覆盖率的检测。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Unit testing&#39;</span><span class="o">)</span> <span class="o">{</span>
-         <span class="n">steps</span> <span class="o">{</span>
-             <span class="n">withMaven</span><span class="o">(</span><span class="nl">maven:</span> <span class="s1">&#39;Maven3.6.3&#39;</span><span class="o">,</span> <span class="nl">mavenSettingsConfig:</span> <span class="s1">&#39;f6f97751-3c04-4394-876f-cee0879cfc02&#39;</span><span class="o">)</span> <span class="o">{</span>
-                 <span class="c1">//这里使用了maven-shade-plugin插件进行单元测试
-</span><span class="c1"></span>                 <span class="n">sh</span> <span class="s1">&#39;mvn clean test&#39;</span>
-            <span class="o">}</span>
-         <span class="o">}</span>
-      <span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="build-docker镜像">build docker镜像</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Unit testing&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         steps <span style="color:#f92672">{</span>
+             withMaven<span style="color:#f92672">(</span>maven: <span style="color:#e6db74">&#39;Maven3.6.3&#39;</span><span style="color:#f92672">,</span> mavenSettingsConfig: <span style="color:#e6db74">&#39;f6f97751-3c04-4394-876f-cee0879cfc02&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                 <span style="color:#75715e">//这里使用了maven-shade-plugin插件进行单元测试
+</span><span style="color:#75715e"></span>                 sh <span style="color:#e6db74">&#39;mvn clean test&#39;</span>
+            <span style="color:#f92672">}</span>
+         <span style="color:#f92672">}</span>
+      <span style="color:#f92672">}</span>
+</code></pre></div><h4 id="build-docker镜像">build docker镜像</h4>
 <ul>
 <li>编写Dockerfile</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">FROM</span><span class="s"> openjdk:8u212-jdk</span><span class="err">
-</span><span class="err"></span><span class="k">COPY</span> /dev/* /build/conf/dev/<span class="err">
-</span><span class="err"></span><span class="k">COPY</span> /production/* /build/conf/production/<span class="err">
-</span><span class="err"></span><span class="k">COPY</span> api-1.0.0-fat.jar /build/api.jar<span class="err">
-</span><span class="err"></span><span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;java&#34;</span><span class="p">,</span> <span class="s2">&#34;-jar&#34;</span><span class="p">,</span><span class="s2">&#34;/build/api.jar&#34;</span><span class="p">,</span><span class="s2">&#34;--vertx-id=&#39;bfreeman-api&#39;&#34;</span><span class="p">,</span><span class="s2">&#34;--java-opts=&#39;-Xms512m -Xmx512m -XX:NewSize=256m&#39;&#34;</span><span class="p">,</span><span class="s2">&#34;-conf /build/conf/production/conf.json&#34;</span><span class="p">]</span><span class="err">
-</span></code></pre></td></tr></table>
-</div>
-</div><p>大致为COPY jar和配置文件到指定目录，ENTRYPOINT指定JVM参数和vertx参数</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> openjdk:8u212-jdk</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /dev/* /build/conf/dev/<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /production/* /build/conf/production/<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> api-1.0.0-fat.jar /build/api.jar<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;java&#34;</span>, <span style="color:#e6db74">&#34;-jar&#34;</span>,<span style="color:#e6db74">&#34;/build/api.jar&#34;</span>,<span style="color:#e6db74">&#34;--vertx-id=&#39;bfreeman-api&#39;&#34;</span>,<span style="color:#e6db74">&#34;--java-opts=&#39;-Xms512m -Xmx512m -XX:NewSize=256m&#39;&#34;</span>,<span style="color:#e6db74">&#34;-conf /build/conf/production/conf.json&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>大致为COPY jar和配置文件到指定目录，ENTRYPOINT指定JVM参数和vertx参数</p>
 <ul>
 <li>执行docker build相关Shell脚本</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#! /bin/bash
-</span><span class="cp"></span>
-<span class="nb">cd</span> /var/jenkins_home/build/bfreeman
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#! /bin/bash
+</span><span style="color:#75715e"></span>
+cd /var/jenkins_home/build/bfreeman
 docker build -t bfreeman/api:1.0.0 .
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="push-docker镜像到镜像仓库">push docker镜像到镜像仓库</h4>
+</code></pre></div><h4 id="push-docker镜像到镜像仓库">push docker镜像到镜像仓库</h4>
 <p>这里使用的是阿里云容器镜像服务，<a href="https://help.aliyun.com/product/60716.html">参考文档</a></p>
 <p>相关Shell脚本如下</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#! /bin/bash
-</span><span class="cp"></span>
-<span class="c1"># 1. 获取构建的image id</span>
-<span class="nv">IMAGES_ID</span><span class="o">=</span><span class="sb">`</span>docker images<span class="p">|</span>grep -i bfreeman/api<span class="p">|</span>awk <span class="s1">&#39;{print $3}&#39;</span><span class="sb">`</span>
-<span class="c1"># 2. 设置repository相关信息</span>
-<span class="nv">REPOSITORY</span><span class="o">=</span><span class="s2">&#34;bfreeman/web&#34;</span>
-<span class="nv">TAG</span><span class="o">=</span><span class="s2">&#34;1.0.0&#34;</span>
-<span class="c1"># 3. 登录Docker Registry ，使用docker tag命令重命名镜像并推送至登录Docker Registry</span>
-docker login -u<span class="o">=</span>xx -p<span class="o">=</span>xx registry.cn-hangzhou.aliyuncs.com
-docker tag <span class="si">${</span><span class="nv">IMAGES_ID</span><span class="si">}</span> registry.cn-hangzhou.aliyuncs.com/<span class="si">${</span><span class="nv">REPOSITORY</span><span class="si">}</span>:<span class="si">${</span><span class="nv">TAG</span><span class="si">}</span>
-docker push registry.cn-hangzhou.aliyuncs.com/<span class="si">${</span><span class="nv">REPOSITORY</span><span class="si">}</span>:<span class="si">${</span><span class="nv">TAG</span><span class="si">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="远程部署镜像pull重新部署">远程部署(镜像Pull，重新部署)</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#! /bin/bash
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e"># 1. 获取构建的image id</span>
+IMAGES_ID<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>docker images|grep -i bfreeman/api|awk <span style="color:#e6db74">&#39;{print $3}&#39;</span><span style="color:#e6db74">`</span>
+<span style="color:#75715e"># 2. 设置repository相关信息</span>
+REPOSITORY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bfreeman/web&#34;</span>
+TAG<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1.0.0&#34;</span>
+<span style="color:#75715e"># 3. 登录Docker Registry ，使用docker tag命令重命名镜像并推送至登录Docker Registry</span>
+docker login -u<span style="color:#f92672">=</span>xx -p<span style="color:#f92672">=</span>xx registry.cn-hangzhou.aliyuncs.com
+docker tag <span style="color:#e6db74">${</span>IMAGES_ID<span style="color:#e6db74">}</span> registry.cn-hangzhou.aliyuncs.com/<span style="color:#e6db74">${</span>REPOSITORY<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>TAG<span style="color:#e6db74">}</span>
+docker push registry.cn-hangzhou.aliyuncs.com/<span style="color:#e6db74">${</span>REPOSITORY<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>TAG<span style="color:#e6db74">}</span>
+</code></pre></div><h4 id="远程部署镜像pull重新部署">远程部署(镜像Pull，重新部署)</h4>
 <ul>
 <li>jenkins pipeline sshagent实现远程执行shell脚本</li>
 </ul>
 <p>生成ssh密钥对，并将私钥配置到jenkins的凭证中，将公钥配置到对应部署服务器的.ssh/authorized_keys文件中，pipeline脚本如下：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">sshagent</span><span class="o">([</span><span class="s1">&#39;feb51b70-****-45a5-a69b-319e41f7f146&#39;</span><span class="o">])</span> <span class="o">{</span>
-                    <span class="n">sh</span> <span class="s2">&#34;&#34;&#34;
-</span><span class="s2">                   ...
-</span><span class="s2">                    &#34;&#34;&#34;</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">sshagent<span style="color:#f92672">([</span><span style="color:#e6db74">&#39;feb51b70-****-45a5-a69b-319e41f7f146&#39;</span><span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
+                    sh <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">                   ...
+</span><span style="color:#e6db74">                    &#34;&#34;&#34;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
 <li>镜像Pull</li>
 </ul>
 <p>相关Shell脚本如下</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#! /bin/bash
-</span><span class="cp"></span>
-<span class="c1"># 1. 设置repository相关信息</span>
-<span class="nv">REPOSITORY</span><span class="o">=</span><span class="s2">&#34;bfreeman/web&#34;</span>
-<span class="nv">TAG</span><span class="o">=</span><span class="s2">&#34;1.0.0&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#! /bin/bash
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e"># 1. 设置repository相关信息</span>
+REPOSITORY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bfreeman/web&#34;</span>
+TAG<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1.0.0&#34;</span>
 
-<span class="c1"># 2. 登录Docker Registry ，从Docker Registry中拉取镜像</span>
-docker login -u<span class="o">=</span>xx -p<span class="o">=</span>xx registry.cn-hangzhou.aliyuncs.com
-docker pull registry.cn-hangzhou.aliyuncs.com/<span class="si">${</span><span class="nv">REPOSITORY</span><span class="si">}</span>:<span class="si">${</span><span class="nv">TAG</span><span class="si">}</span>
+<span style="color:#75715e"># 2. 登录Docker Registry ，从Docker Registry中拉取镜像</span>
+docker login -u<span style="color:#f92672">=</span>xx -p<span style="color:#f92672">=</span>xx registry.cn-hangzhou.aliyuncs.com
+docker pull registry.cn-hangzhou.aliyuncs.com/<span style="color:#e6db74">${</span>REPOSITORY<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>TAG<span style="color:#e6db74">}</span>
 
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+</code></pre></div><ul>
 <li>重新部署</li>
 </ul>
 <p>相关Shell脚本如下</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#! /bin/bash
-</span><span class="cp"></span>
-<span class="c1"># 1. 设置repository相关信息</span>
-<span class="nv">REPOSITORY</span><span class="o">=</span><span class="s2">&#34;bfreeman/web&#34;</span>
-<span class="nv">TAG</span><span class="o">=</span><span class="s2">&#34;1.0.0&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#! /bin/bash
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e"># 1. 设置repository相关信息</span>
+REPOSITORY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bfreeman/web&#34;</span>
+TAG<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1.0.0&#34;</span>
 
 docker stop bfreeman-api
 docker container rm bfreeman-api
-docker run -u root -d --name bfreeman-api <span class="se">\
-</span><span class="se"></span>-p 10010:10010  <span class="se">\
-</span><span class="se"></span>-p 10030:10030  <span class="se">\
-</span><span class="se"></span>-v /volume1/docker/java:/data registry.cn-hangzhou.aliyuncs.com/<span class="si">${</span><span class="nv">REPOSITORY</span><span class="si">}</span>:<span class="si">${</span><span class="nv">TAG</span><span class="si">}</span>
+docker run -u root -d --name bfreeman-api <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-p 10010:10010  <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-p 10030:10030  <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-v /volume1/docker/java:/data registry.cn-hangzhou.aliyuncs.com/<span style="color:#e6db74">${</span>REPOSITORY<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>TAG<span style="color:#e6db74">}</span>
 
-</code></pre></td></tr></table>
-</div>
-</div><p>此处可以基于k8s进行改造，实现jenkins部署到k8s集群。</p>
+</code></pre></div><p>此处可以基于k8s进行改造，实现jenkins部署到k8s集群。</p>
 <h4 id="相关pipeline">相关pipeline</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">  1
-</span><span class="lnt">  2
-</span><span class="lnt">  3
-</span><span class="lnt">  4
-</span><span class="lnt">  5
-</span><span class="lnt">  6
-</span><span class="lnt">  7
-</span><span class="lnt">  8
-</span><span class="lnt">  9
-</span><span class="lnt"> 10
-</span><span class="lnt"> 11
-</span><span class="lnt"> 12
-</span><span class="lnt"> 13
-</span><span class="lnt"> 14
-</span><span class="lnt"> 15
-</span><span class="lnt"> 16
-</span><span class="lnt"> 17
-</span><span class="lnt"> 18
-</span><span class="lnt"> 19
-</span><span class="lnt"> 20
-</span><span class="lnt"> 21
-</span><span class="lnt"> 22
-</span><span class="lnt"> 23
-</span><span class="lnt"> 24
-</span><span class="lnt"> 25
-</span><span class="lnt"> 26
-</span><span class="lnt"> 27
-</span><span class="lnt"> 28
-</span><span class="lnt"> 29
-</span><span class="lnt"> 30
-</span><span class="lnt"> 31
-</span><span class="lnt"> 32
-</span><span class="lnt"> 33
-</span><span class="lnt"> 34
-</span><span class="lnt"> 35
-</span><span class="lnt"> 36
-</span><span class="lnt"> 37
-</span><span class="lnt"> 38
-</span><span class="lnt"> 39
-</span><span class="lnt"> 40
-</span><span class="lnt"> 41
-</span><span class="lnt"> 42
-</span><span class="lnt"> 43
-</span><span class="lnt"> 44
-</span><span class="lnt"> 45
-</span><span class="lnt"> 46
-</span><span class="lnt"> 47
-</span><span class="lnt"> 48
-</span><span class="lnt"> 49
-</span><span class="lnt"> 50
-</span><span class="lnt"> 51
-</span><span class="lnt"> 52
-</span><span class="lnt"> 53
-</span><span class="lnt"> 54
-</span><span class="lnt"> 55
-</span><span class="lnt"> 56
-</span><span class="lnt"> 57
-</span><span class="lnt"> 58
-</span><span class="lnt"> 59
-</span><span class="lnt"> 60
-</span><span class="lnt"> 61
-</span><span class="lnt"> 62
-</span><span class="lnt"> 63
-</span><span class="lnt"> 64
-</span><span class="lnt"> 65
-</span><span class="lnt"> 66
-</span><span class="lnt"> 67
-</span><span class="lnt"> 68
-</span><span class="lnt"> 69
-</span><span class="lnt"> 70
-</span><span class="lnt"> 71
-</span><span class="lnt"> 72
-</span><span class="lnt"> 73
-</span><span class="lnt"> 74
-</span><span class="lnt"> 75
-</span><span class="lnt"> 76
-</span><span class="lnt"> 77
-</span><span class="lnt"> 78
-</span><span class="lnt"> 79
-</span><span class="lnt"> 80
-</span><span class="lnt"> 81
-</span><span class="lnt"> 82
-</span><span class="lnt"> 83
-</span><span class="lnt"> 84
-</span><span class="lnt"> 85
-</span><span class="lnt"> 86
-</span><span class="lnt"> 87
-</span><span class="lnt"> 88
-</span><span class="lnt"> 89
-</span><span class="lnt"> 90
-</span><span class="lnt"> 91
-</span><span class="lnt"> 92
-</span><span class="lnt"> 93
-</span><span class="lnt"> 94
-</span><span class="lnt"> 95
-</span><span class="lnt"> 96
-</span><span class="lnt"> 97
-</span><span class="lnt"> 98
-</span><span class="lnt"> 99
-</span><span class="lnt">100
-</span><span class="lnt">101
-</span><span class="lnt">102
-</span><span class="lnt">103
-</span><span class="lnt">104
-</span><span class="lnt">105
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">pipeline</span> <span class="p">{</span>
-  <span class="nx">agent</span> <span class="nx">any</span>
+<pre><code>pipeline {
+  agent any
   
-  <span class="nx">environment</span> <span class="p">{</span>
-       <span class="nx">imageid</span> <span class="p">=</span> <span class="s">&#34;&#34;</span>
-  <span class="p">}</span>
+  environment {
+       imageid = &quot;&quot;
+  }
    
-  <span class="nx">parameters</span> <span class="p">{</span>
-    <span class="nx">gitParameter</span> <span class="nx">branchFilter</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">origin</span><span class="o">/</span><span class="p">(.</span><span class="o">*</span><span class="p">)</span><span class="err">&#39;</span><span class="p">,</span> <span class="nx">defaultValue</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">master</span><span class="err">&#39;</span><span class="p">,</span> <span class="nx">name</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">BRANCH</span><span class="err">&#39;</span><span class="p">,</span> <span class="kd">type</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">PT_BRANCH</span><span class="err">&#39;</span><span class="p">,</span> <span class="nx">sortMode</span><span class="p">:</span><span class="err">&#39;</span><span class="nx">DESCENDING</span><span class="err">&#39;</span>
-  <span class="p">}</span>
+  parameters {
+    gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH', sortMode:'DESCENDING'
+  }
    
-   <span class="nx">stages</span> <span class="p">{</span>
-      <span class="c1">//拉取代码
-</span><span class="c1"></span>      <span class="nf">stage</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">Pull</span> <span class="nx">Source</span> <span class="nx">Code</span><span class="err">&#39;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">steps</span> <span class="p">{</span>
-			<span class="c1">//checkout到master 和 merge 指定分支操作
-</span><span class="c1"></span>			<span class="nf">checkout</span><span class="p">([</span><span class="err">$</span><span class="nx">class</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">GitSCM</span><span class="err">&#39;</span><span class="p">,</span> 
-			<span class="nx">branches</span><span class="p">:</span> <span class="p">[[</span><span class="nx">name</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">master</span><span class="err">&#39;</span><span class="p">]],</span> 
-			<span class="nx">doGenerateSubmoduleConfigurations</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
-			 <span class="nx">extensions</span><span class="p">:</span> <span class="p">[</span>
-                <span class="p">[</span><span class="err">$</span><span class="nx">class</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">PreBuildMerge</span><span class="err">&#39;</span><span class="p">,</span> <span class="nx">options</span><span class="p">:</span> <span class="p">[</span><span class="nx">mergeRemote</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">origin</span><span class="err">&#39;</span><span class="p">,</span> <span class="nx">mergeStrategy</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">RECURSIVE</span><span class="err">&#39;</span><span class="p">,</span> <span class="nx">mergeTarget</span><span class="p">:</span> <span class="s">&#34;${params.BRANCH}&#34;</span><span class="p">]]</span>
-            <span class="p">],</span>
-			<span class="nx">submoduleCfg</span><span class="p">:</span> <span class="p">[],</span> 
-			<span class="nx">gitTool</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">Default</span><span class="err">&#39;</span><span class="p">,</span>
-			<span class="nx">userRemoteConfigs</span><span class="p">:</span> <span class="p">[[</span><span class="nx">credentialsId</span><span class="p">:</span> <span class="err">&#39;</span><span class="mi">0</span><span class="nx">baad767</span><span class="o">-</span><span class="mi">754</span><span class="nx">c</span><span class="o">-****-</span><span class="mi">8639</span><span class="o">-</span><span class="nx">be2559a124ac</span><span class="err">&#39;</span><span class="p">,</span> <span class="nx">url</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">git</span><span class="err">@</span><span class="nx">gitee</span><span class="p">.</span><span class="nx">com</span><span class="p">:</span><span class="o">****/****</span><span class="p">.</span><span class="nx">git</span><span class="err">&#39;</span><span class="p">]]]</span>
-			<span class="p">)</span>
-			<span class="p">}</span>
-      <span class="p">}</span>
+   stages {
+      //拉取代码
+      stage('Pull Source Code') {
+        steps {
+			//checkout到master 和 merge 指定分支操作
+			checkout([$class: 'GitSCM', 
+			branches: [[name: 'master']], 
+			doGenerateSubmoduleConfigurations: false, 
+			 extensions: [
+                [$class: 'PreBuildMerge', options: [mergeRemote: 'origin', mergeStrategy: 'RECURSIVE', mergeTarget: &quot;${params.BRANCH}&quot;]]
+            ],
+			submoduleCfg: [], 
+			gitTool: 'Default',
+			userRemoteConfigs: [[credentialsId: '0baad767-754c-****-8639-be2559a124ac', url: 'git@gitee.com:****/****.git']]]
+			)
+			}
+      }
       
-      <span class="c1">//代码静态分析
-</span><span class="c1"></span>      <span class="nf">stage</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">Static</span> <span class="nx">Analysis</span><span class="err">&#39;</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">steps</span> <span class="p">{</span>
-            <span class="nx">echo</span> <span class="err">&#39;</span><span class="nx">Program</span> <span class="nx">Static</span> <span class="nx">Analysis</span><span class="err">&#39;</span> 
-         <span class="p">}</span>
-      <span class="p">}</span>
+      //代码静态分析
+      stage('Static Analysis') {
+         steps {
+            echo 'Program Static Analysis' 
+         }
+      }
       
-      <span class="c1">//构建代码
-</span><span class="c1"></span>      <span class="nf">stage</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">Build</span><span class="err">&#39;</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">steps</span> <span class="p">{</span>
-          <span class="nf">withMaven</span><span class="p">(</span><span class="nx">maven</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">Maven3</span><span class="mf">.6.3</span><span class="err">&#39;</span><span class="p">,</span> <span class="nx">mavenSettingsConfig</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">f6f97751</span><span class="o">-****-</span><span class="mi">4394</span><span class="o">-</span><span class="mi">876</span><span class="nx">f</span><span class="o">-</span><span class="nx">cee0879cfc02</span><span class="err">&#39;</span><span class="p">)</span> <span class="p">{</span>
-                 <span class="nx">sh</span> <span class="err">&#39;</span><span class="nx">mvn</span> <span class="nx">clean</span> <span class="kn">package</span> <span class="o">-</span><span class="nx">Dmaven</span><span class="p">.</span><span class="nx">test</span><span class="p">.</span><span class="nx">skip</span><span class="p">=</span><span class="kc">true</span> <span class="o">-</span><span class="nx">Dbuild</span><span class="p">.</span><span class="nx">path</span><span class="p">=</span><span class="o">/</span><span class="kd">var</span><span class="o">/</span><span class="nx">jenkins_home</span><span class="o">/</span><span class="nx">build</span><span class="o">/</span><span class="nx">bfreeman</span> <span class="o">-</span><span class="nx">f</span> <span class="nx">pom</span><span class="p">.</span><span class="nx">xml</span><span class="err">&#39;</span>
-            <span class="p">}</span>
-         <span class="p">}</span>
-      <span class="p">}</span>
+      //构建代码
+      stage('Build') {
+         steps {
+          withMaven(maven: 'Maven3.6.3', mavenSettingsConfig: 'f6f97751-****-4394-876f-cee0879cfc02') {
+                 sh 'mvn clean package -Dmaven.test.skip=true -Dbuild.path=/var/jenkins_home/build/bfreeman -f pom.xml'
+            }
+         }
+      }
       
-      <span class="c1">//单元测试
-</span><span class="c1"></span>      <span class="nf">stage</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">Unit</span> <span class="nx">testing</span><span class="err">&#39;</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">steps</span> <span class="p">{</span>
-             <span class="nf">withMaven</span><span class="p">(</span><span class="nx">maven</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">Maven3</span><span class="mf">.6.3</span><span class="err">&#39;</span><span class="p">,</span> <span class="nx">mavenSettingsConfig</span><span class="p">:</span> <span class="err">&#39;</span><span class="nx">f6f97751</span><span class="o">-****-</span><span class="mi">4394</span><span class="o">-</span><span class="mi">876</span><span class="nx">f</span><span class="o">-</span><span class="nx">cee0879cfc02</span><span class="err">&#39;</span><span class="p">)</span> <span class="p">{</span>
-                 <span class="nx">sh</span> <span class="err">&#39;</span><span class="nx">mvn</span> <span class="nx">clean</span> <span class="nx">test</span><span class="err">&#39;</span>
-            <span class="p">}</span>
-         <span class="p">}</span>
-      <span class="p">}</span>
+      //单元测试
+      stage('Unit testing') {
+         steps {
+             withMaven(maven: 'Maven3.6.3', mavenSettingsConfig: 'f6f97751-****-4394-876f-cee0879cfc02') {
+                 sh 'mvn clean test'
+            }
+         }
+      }
       
-      <span class="c1">//构建Docker镜像
-</span><span class="c1"></span>      <span class="nf">stage</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">Build</span> <span class="nx">Docker</span> <span class="nx">Image</span><span class="err">&#39;</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">steps</span> <span class="p">{</span>
-            <span class="nx">sh</span> <span class="s">&#34;&#34;&#34;
-</span><span class="s">				    cd /var/jenkins_home/script/auto/deploy
-</span><span class="s">				    sh docker_build.sh
-</span><span class="s">				&#34;&#34;&#34;</span>
-         <span class="p">}</span>
-      <span class="p">}</span>
+      //构建Docker镜像
+      stage('Build Docker Image') {
+         steps {
+            sh &quot;&quot;&quot;
+				    cd /var/jenkins_home/script/auto/deploy
+				    sh docker_build.sh
+				&quot;&quot;&quot;
+         }
+      }
       
-      <span class="c1">//推送Docker镜像到远程仓库
-</span><span class="c1"></span>      <span class="nf">stage</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">Push</span> <span class="nx">Remote</span> <span class="nx">Repositry</span><span class="err">&#39;</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">steps</span> <span class="p">{</span>
-            <span class="nx">sh</span> <span class="s">&#34;&#34;&#34;
-</span><span class="s">				    cd /var/jenkins_home/script/auto/deploy
-</span><span class="s">				    sh docker_push.sh
-</span><span class="s">				&#34;&#34;&#34;</span>
-         <span class="p">}</span>
-      <span class="p">}</span>
+      //推送Docker镜像到远程仓库
+      stage('Push Remote Repositry') {
+         steps {
+            sh &quot;&quot;&quot;
+				    cd /var/jenkins_home/script/auto/deploy
+				    sh docker_push.sh
+				&quot;&quot;&quot;
+         }
+      }
       
-      <span class="c1">//部署代码
-</span><span class="c1"></span>      <span class="nf">stage</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">Deploy</span><span class="err">&#39;</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">steps</span> <span class="p">{</span>
-            <span class="nf">sshagent</span><span class="p">([</span><span class="err">&#39;</span><span class="nx">feb51b70</span><span class="o">-****-</span><span class="mi">45</span><span class="nx">a5</span><span class="o">-</span><span class="nx">a69b</span><span class="o">-</span><span class="mf">319e41</span><span class="nx">f7f146</span><span class="err">&#39;</span><span class="p">])</span> <span class="p">{</span>
-                    <span class="nx">sh</span> <span class="s">&#34;&#34;&#34;
-</span><span class="s">                    ssh -p 16022 root@**** &#34;</span><span class="nx">sh</span> <span class="o">/</span><span class="nx">home</span><span class="o">/</span><span class="nx">bfreeman</span><span class="o">/</span><span class="nx">script</span><span class="o">/</span><span class="nx">auto</span><span class="o">/</span><span class="nx">deploy</span><span class="o">/</span><span class="nx">docker_pull</span><span class="p">.</span><span class="nx">sh</span><span class="s">&#34;
-</span><span class="s">                     ssh -p 16022 root@**** &#34;</span><span class="nx">sh</span> <span class="o">/</span><span class="nx">home</span><span class="o">/</span><span class="nx">bfreeman</span><span class="o">/</span><span class="nx">script</span><span class="o">/</span><span class="nx">auto</span><span class="o">/</span><span class="nx">deploy</span><span class="o">/</span><span class="nx">docker_run</span><span class="p">.</span><span class="nx">sh</span><span class="s">&#34;
-</span><span class="s">                    &#34;&#34;&#34;</span>
-                <span class="p">}</span>
-         <span class="p">}</span>
-      <span class="p">}</span>
+      //部署代码
+      stage('Deploy') {
+         steps {
+            sshagent(['feb51b70-****-45a5-a69b-319e41f7f146']) {
+                    sh &quot;&quot;&quot;
+                    ssh -p 16022 root@**** &quot;sh /home/bfreeman/script/auto/deploy/docker_pull.sh&quot;
+                     ssh -p 16022 root@**** &quot;sh /home/bfreeman/script/auto/deploy/docker_run.sh&quot;
+                    &quot;&quot;&quot;
+                }
+         }
+      }
       
-      <span class="c1">//推送代码
-</span><span class="c1"></span>      <span class="nf">stage</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">Push</span> <span class="nx">Code</span><span class="err">&#39;</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">steps</span> <span class="p">{</span>
-            <span class="c1">//代码推送到master操作
-</span><span class="c1"></span>			<span class="nf">sshagent</span><span class="p">([</span><span class="err">&#39;</span><span class="mi">0</span><span class="nx">baad767</span><span class="o">-****-</span><span class="mi">4122</span><span class="o">-</span><span class="mi">8639</span><span class="o">-</span><span class="nx">be2559a124ac</span><span class="err">&#39;</span><span class="p">])</span> <span class="p">{</span>
-                <span class="nx">sh</span> <span class="s">&#34;&#34;&#34;
-</span><span class="s">                    git config --global user.email &#34;</span><span class="o">******</span><span class="s">&#34;
-</span><span class="s">                    git config --global user.name &#34;</span><span class="o">******</span><span class="s">&#34;
-</span><span class="s">				    git commit -m &#34;</span><span class="nx">header</span> <span class="nx">changed</span> <span class="nx">ci</span> <span class="nx">commit</span> <span class="nx">automatically</span><span class="s">&#34; || true
-</span><span class="s">                    git push origin HEAD:refs/heads/master
-</span><span class="s">				&#34;&#34;&#34;</span>
-			<span class="p">}</span>
-         <span class="p">}</span>
+      //推送代码
+      stage('Push Code') {
+         steps {
+            //代码推送到master操作
+			sshagent(['0baad767-****-4122-8639-be2559a124ac']) {
+                sh &quot;&quot;&quot;
+                    git config --global user.email &quot;******&quot;
+                    git config --global user.name &quot;******&quot;
+				    git commit -m &quot;header changed ci commit automatically&quot; || true
+                    git push origin HEAD:refs/heads/master
+				&quot;&quot;&quot;
+			}
+         }
          
-      <span class="p">}</span>
+      }
       
-   <span class="p">}</span>
+   }
    
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="参考">参考</h2>
+}
+</code></pre><h2 id="参考">参考</h2>
 <p><a href="https://jenkins.io/zh/doc/">https://jenkins.io/zh/doc/</a></p>
 <p><a href="https://www.jianshu.com/nb/30544461">https://www.jianshu.com/nb/30544461</a></p>
-    </div>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">LHR</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2019-12-29
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/jenkins/">jenkins</a>
-          <a href="/tags/cicd/">CI&amp;CD</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/agile-devops/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">认知-敏捷开发与DevOps</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/git-flow/">
-            <span class="next-text nav-default">Git Flow 分支策略</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/jenkins/"
+              >jenkins</a
+            >&nbsp;
+          
+            <a
+              href="https://chinalhr.github.io/tags/cicd/"
+              >CI&amp;CD</a
+            >&nbsp;
+          
         </div>
-        <div id="SOHUCS" sid="/post/jenkins-java-ci-cd/"></div>
-    <script type="text/javascript">
-    (function(){
-      if (window.location.hostname === 'localhost') return;
+      
+    </article>
+    
+      <script>
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      document.getElementById('backtotopButton').style.opacity = '1'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    } else {
+      document.getElementById('backtotopButton').style.opacity = '0'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    }
+  })
 
-      var appid = 'cyvob1sks';
-      var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth;
-      if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
-    })();
-    </script>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
-      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
-  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-<div class="friend-links">
-  <span class="division">Friends:</span>
-  <span class="theme-info"><a class="theme-link" href="https://kii.la">vincent</a> </span>
-</div>
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-
-<script id="baidu_analytics">
-  var _hmt = _hmt || [];
-  (function() {
-    if (window.location.hostname === 'localhost') return;
-    var hm = document.createElement("script"); hm.async = true;
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
 </script>
 
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
 
 
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
 
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
 
-
-</body>
+  </body>
 </html>

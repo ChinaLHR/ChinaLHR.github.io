@@ -1,178 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>高可用的HttpClient - LiHanRong</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  <head>
+    <meta charset="utf-8" />
+<title>高可用的HttpClient</title>
 
 
-<meta name="author" content="LHR" /><meta name="description" content=" 对HttpClient的优化，基于HttpClient4.4&#43;的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。
-" /><meta name="keywords" content="Hugo, theme, even" />
+  
 
 
 
 
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://chinalhr.github.io/post/highavailability-httpclient/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.2fe01a8d6a1e524ccbed1cdfa4e66fc6e8e49ad88327a16803150a0fbceff06c.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="高可用的HttpClient" />
-<meta property="og:description" content="
-对HttpClient的优化，基于HttpClient4.4&#43;的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/highavailability-httpclient/" />
-<meta property="article:published_time" content="2018-10-17T22:48:08+08:00" />
-<meta property="article:modified_time" content="2018-10-17T22:48:08+08:00" />
-<meta itemprop="name" content="高可用的HttpClient">
-<meta itemprop="description" content="
-对HttpClient的优化，基于HttpClient4.4&#43;的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。
-">
-<meta itemprop="datePublished" content="2018-10-17T22:48:08&#43;08:00" />
-<meta itemprop="dateModified" content="2018-10-17T22:48:08&#43;08:00" />
-<meta itemprop="wordCount" content="624">
-
-
-
-<meta itemprop="keywords" content="Java," /><meta name="twitter:card" content="summary"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="高可用的HttpClient"/>
 <meta name="twitter:description" content="
 对HttpClient的优化，基于HttpClient4.4&#43;的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。
 "/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
 
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">LiHanRong Blog</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">categories</li>
-      </a><a href="/post/about/">
-        <li class="mobile-menu-item">about</li>
-      </a>
-  </ul>
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
 
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
   
 
 
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">LiHanRong Blog</a>
-</div>
 
 
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/about/">about</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <header>
+    <nav class="navbar">
+  <div class="nav">
     
-    <header class="post-header">
-      <h1 class="post-title">高可用的HttpClient</h1>
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
 
-      <div class="post-meta">
-        <span class="post-time"> 2018-10-17 </span>
-        <div class="post-category">
-            <a href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 后端开发 </a>
-            </div>
-          <span class="more-meta"> 624 words </span>
-          <span class="more-meta"> 2 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#httpclient优化点">HttpClient优化点</a></li>
-            <li><a href="#httpclient与resttemplate实现">HttpClient与RestTemplate实现</a></li>
-            <li><a href="#参考">参考</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
   </div>
-</div>
-    <div class="post-content">
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              高可用的HttpClient
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Oct 17, 2018
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"
+        >后端开发</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
       <blockquote>
 <p>对HttpClient的优化，基于HttpClient4.4+的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。</p>
 </blockquote>
@@ -187,131 +183,63 @@
 <ol>
 <li>配置PoolingHttpClientConnectionManager连接池</li>
 </ol>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="n">CloseableHttpClient</span> <span class="nf">getCloseableHttpClient</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">isRetry</span><span class="o">)</span> <span class="o">{</span>
-	<span class="c1">// 长连接保持30秒
-</span><span class="c1"></span>	<span class="n">PoolingHttpClientConnectionManager</span> <span class="n">pollingConnectionManager</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PoolingHttpClientConnectionManager</span><span class="o">(</span><span class="n">30</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">);</span>
-	<span class="c1">// 总连接数
-</span><span class="c1"></span>	<span class="n">pollingConnectionManager</span><span class="o">.</span><span class="na">setMaxTotal</span><span class="o">(</span><span class="n">200</span><span class="o">);</span>
-	<span class="c1">// 默认同路由的并发数
-</span><span class="c1"></span>	<span class="n">pollingConnectionManager</span><span class="o">.</span><span class="na">setDefaultMaxPerRoute</span><span class="o">(</span><span class="n">100</span><span class="o">);</span>
-	<span class="n">HttpClientBuilder</span> <span class="n">httpClientBuilder</span> <span class="o">=</span> <span class="n">HttpClients</span><span class="o">.</span><span class="na">custom</span><span class="o">();</span>
-	<span class="n">httpClientBuilder</span><span class="o">.</span><span class="na">setConnectionManager</span><span class="o">(</span><span class="n">pollingConnectionManager</span><span class="o">);</span>
-	<span class="c1">// 重试次数，默认是3次，设置为2次，没有开启
-</span><span class="c1"></span>	<span class="k">if</span> <span class="o">(</span><span class="n">isRetry</span><span class="o">)</span> <span class="o">{</span>
-	    <span class="n">httpClientBuilder</span><span class="o">.</span><span class="na">setRetryHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">DefaultHttpRequestRetryHandler</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="kc">true</span><span class="o">));</span>
-	<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-	    <span class="n">httpClientBuilder</span><span class="o">.</span><span class="na">setRetryHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">DefaultHttpRequestRetryHandler</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="kc">false</span><span class="o">));</span>
-	<span class="o">}</span>
-	<span class="c1">// 保持长连接配置，需要在头添加Keep-Alive
-</span><span class="c1"></span>	<span class="n">httpClientBuilder</span><span class="o">.</span><span class="na">setKeepAliveStrategy</span><span class="o">(</span><span class="n">DefaultConnectionKeepAliveStrategy</span><span class="o">.</span><span class="na">INSTANCE</span><span class="o">);</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> CloseableHttpClient <span style="color:#a6e22e">getCloseableHttpClient</span><span style="color:#f92672">(</span><span style="color:#66d9ef">boolean</span> isRetry<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	<span style="color:#75715e">// 长连接保持30秒
+</span><span style="color:#75715e"></span>	PoolingHttpClientConnectionManager pollingConnectionManager <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PoolingHttpClientConnectionManager<span style="color:#f92672">(</span>30<span style="color:#f92672">,</span> TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">SECONDS</span><span style="color:#f92672">);</span>
+	<span style="color:#75715e">// 总连接数
+</span><span style="color:#75715e"></span>	pollingConnectionManager<span style="color:#f92672">.</span><span style="color:#a6e22e">setMaxTotal</span><span style="color:#f92672">(</span>200<span style="color:#f92672">);</span>
+	<span style="color:#75715e">// 默认同路由的并发数
+</span><span style="color:#75715e"></span>	pollingConnectionManager<span style="color:#f92672">.</span><span style="color:#a6e22e">setDefaultMaxPerRoute</span><span style="color:#f92672">(</span>100<span style="color:#f92672">);</span>
+	HttpClientBuilder httpClientBuilder <span style="color:#f92672">=</span> HttpClients<span style="color:#f92672">.</span><span style="color:#a6e22e">custom</span><span style="color:#f92672">();</span>
+	httpClientBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">setConnectionManager</span><span style="color:#f92672">(</span>pollingConnectionManager<span style="color:#f92672">);</span>
+	<span style="color:#75715e">// 重试次数，默认是3次，设置为2次，没有开启
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isRetry<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	    httpClientBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">setRetryHandler</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> DefaultHttpRequestRetryHandler<span style="color:#f92672">(</span>2<span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">));</span>
+	<span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+	    httpClientBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">setRetryHandler</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> DefaultHttpRequestRetryHandler<span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">));</span>
+	<span style="color:#f92672">}</span>
+	<span style="color:#75715e">// 保持长连接配置，需要在头添加Keep-Alive
+</span><span style="color:#75715e"></span>	httpClientBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">setKeepAliveStrategy</span><span style="color:#f92672">(</span>DefaultConnectionKeepAliveStrategy<span style="color:#f92672">.</span><span style="color:#a6e22e">INSTANCE</span><span style="color:#f92672">);</span>
 	
-	<span class="n">CloseableHttpClient</span> <span class="n">httpClient</span> <span class="o">=</span> <span class="n">httpClientBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+	CloseableHttpClient httpClient <span style="color:#f92672">=</span> httpClientBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
 	
-	<span class="n">runIdleConnectionMonitor</span><span class="o">(</span><span class="n">pollingConnectionManager</span><span class="o">);</span>
-	<span class="k">return</span> <span class="n">httpClient</span><span class="o">;</span>
-<span class="o">}</span>	
-</code></pre></td></tr></table>
-</div>
-</div><ol start="2">
+	runIdleConnectionMonitor<span style="color:#f92672">(</span>pollingConnectionManager<span style="color:#f92672">);</span>
+	<span style="color:#66d9ef">return</span> httpClient<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>	
+</code></pre></div><ol start="2">
 <li>自定义keepAliveStrategy</li>
 </ol>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="n">ConnectionKeepAliveStrategy</span> <span class="nf">getConnectionKeepAliveStrategy</span><span class="o">(){</span>
-	<span class="k">return</span> <span class="o">(</span><span class="n">response</span><span class="o">,</span> <span class="n">context</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
-	    <span class="n">HeaderElementIterator</span> <span class="n">it</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BasicHeaderElementIterator</span>
-	            <span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">headerIterator</span><span class="o">(</span><span class="n">HTTP</span><span class="o">.</span><span class="na">CONN_KEEP_ALIVE</span><span class="o">));</span>
-	    <span class="k">while</span> <span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span> <span class="o">{</span>
-	        <span class="n">HeaderElement</span> <span class="n">he</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="na">nextElement</span><span class="o">();</span>
-	        <span class="n">String</span> <span class="n">param</span> <span class="o">=</span> <span class="n">he</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
-	        <span class="n">String</span> <span class="n">value</span> <span class="o">=</span> <span class="n">he</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
-	        <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">param</span><span class="o">.</span><span class="na">equalsIgnoreCase</span>
-	                <span class="o">(</span><span class="s">&#34;timeout&#34;</span><span class="o">))</span> <span class="o">{</span>
-	            <span class="k">return</span> <span class="n">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">value</span><span class="o">)</span> <span class="o">*</span> <span class="n">1000</span><span class="o">;</span>
-	        <span class="o">}</span>
-	    <span class="o">}</span>
-	    <span class="k">return</span> <span class="n">60</span> <span class="o">*</span> <span class="n">1000</span><span class="o">;</span><span class="c1">//如果没有约定，则默认定义时长为60s
-</span><span class="c1"></span>	<span class="o">};</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><ol start="3">
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> ConnectionKeepAliveStrategy <span style="color:#a6e22e">getConnectionKeepAliveStrategy</span><span style="color:#f92672">(){</span>
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>response<span style="color:#f92672">,</span> context<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+	    HeaderElementIterator it <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BasicHeaderElementIterator
+	            <span style="color:#f92672">(</span>response<span style="color:#f92672">.</span><span style="color:#a6e22e">headerIterator</span><span style="color:#f92672">(</span>HTTP<span style="color:#f92672">.</span><span style="color:#a6e22e">CONN_KEEP_ALIVE</span><span style="color:#f92672">));</span>
+	    <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>it<span style="color:#f92672">.</span><span style="color:#a6e22e">hasNext</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+	        HeaderElement he <span style="color:#f92672">=</span> it<span style="color:#f92672">.</span><span style="color:#a6e22e">nextElement</span><span style="color:#f92672">();</span>
+	        String param <span style="color:#f92672">=</span> he<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">();</span>
+	        String value <span style="color:#f92672">=</span> he<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">();</span>
+	        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>value <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> param<span style="color:#f92672">.</span><span style="color:#a6e22e">equalsIgnoreCase</span>
+	                <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;timeout&#34;</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+	            <span style="color:#66d9ef">return</span> Long<span style="color:#f92672">.</span><span style="color:#a6e22e">parseLong</span><span style="color:#f92672">(</span>value<span style="color:#f92672">)</span> <span style="color:#f92672">*</span> 1000<span style="color:#f92672">;</span>
+	        <span style="color:#f92672">}</span>
+	    <span style="color:#f92672">}</span>
+	    <span style="color:#66d9ef">return</span> 60 <span style="color:#f92672">*</span> 1000<span style="color:#f92672">;</span><span style="color:#75715e">//如果没有约定，则默认定义时长为60s
+</span><span style="color:#75715e"></span>	<span style="color:#f92672">};</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ol start="3">
 <li>定时监控清理实现连接关闭</li>
 </ol>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">runIdleConnectionMonitor</span><span class="o">(</span><span class="n">HttpClientConnectionManager</span> <span class="n">clientConnectionManager</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">FixedRateSchedule</span> <span class="n">schedule</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FixedRateScheduleImpl</span><span class="o">();</span>
-    <span class="n">schedule</span><span class="o">.</span><span class="na">setPoolTag</span><span class="o">(</span><span class="s">&#34;IDLE_CONNECTION_MONITOR_POOL&#34;</span><span class="o">);</span>
-    <span class="n">schedule</span><span class="o">.</span><span class="na">init</span><span class="o">();</span>
-    <span class="n">schedule</span><span class="o">.</span><span class="na">schedule</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
-        <span class="c1">//关闭过期的链接
-</span><span class="c1"></span>        <span class="n">clientConnectionManager</span><span class="o">.</span><span class="na">closeExpiredConnections</span><span class="o">();</span>
-        <span class="c1">//关闭闲置超过30s的链接
-</span><span class="c1"></span>        <span class="n">clientConnectionManager</span><span class="o">.</span><span class="na">closeIdleConnections</span><span class="o">(</span><span class="n">30</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">);</span>
-    <span class="o">},</span> <span class="n">IDLE_INITIALDELAY</span><span class="o">,</span> <span class="n">IDLE_PERIOD</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MILLISECONDS</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><ol start="4">
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">runIdleConnectionMonitor</span><span style="color:#f92672">(</span>HttpClientConnectionManager clientConnectionManager<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    FixedRateSchedule schedule <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FixedRateScheduleImpl<span style="color:#f92672">();</span>
+    schedule<span style="color:#f92672">.</span><span style="color:#a6e22e">setPoolTag</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;IDLE_CONNECTION_MONITOR_POOL&#34;</span><span style="color:#f92672">);</span>
+    schedule<span style="color:#f92672">.</span><span style="color:#a6e22e">init</span><span style="color:#f92672">();</span>
+    schedule<span style="color:#f92672">.</span><span style="color:#a6e22e">schedule</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">//关闭过期的链接
+</span><span style="color:#75715e"></span>        clientConnectionManager<span style="color:#f92672">.</span><span style="color:#a6e22e">closeExpiredConnections</span><span style="color:#f92672">();</span>
+        <span style="color:#75715e">//关闭闲置超过30s的链接
+</span><span style="color:#75715e"></span>        clientConnectionManager<span style="color:#f92672">.</span><span style="color:#a6e22e">closeIdleConnections</span><span style="color:#f92672">(</span>30<span style="color:#f92672">,</span> TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">SECONDS</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">},</span> IDLE_INITIALDELAY<span style="color:#f92672">,</span> IDLE_PERIOD<span style="color:#f92672">,</span> TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">MILLISECONDS</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ol start="4">
 <li>代码</li>
 </ol>
 <p><a href="https://github.com/ChinaLHR/HttpClientOptimization">https://github.com/ChinaLHR/HttpClientOptimization</a></p>
@@ -319,125 +247,94 @@
 <p><a href="https://www.cnblogs.com/bethunebtj/p/8493379.html">https://www.cnblogs.com/bethunebtj/p/8493379.html</a></p>
 <p><a href="https://hc.apache.org/httpcomponents-client-ga/tutorial/html/connmgmt.html">https://hc.apache.org/httpcomponents-client-ga/tutorial/html/connmgmt.html</a></p>
 <p><a href="https://www.oschina.net/question/2011290_2199294">https://www.oschina.net/question/2011290_2199294</a></p>
-    </div>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">LHR</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2018-10-17
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/java/">Java</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/code-optimize/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">编码技巧：防御性编程|表驱动法</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/joda-datetime-record/">
-            <span class="next-text nav-default">Joda DateTime记录</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/java/"
+              >Java</a
+            >&nbsp;
+          
         </div>
-        <div id="SOHUCS" sid="/post/highavailability-httpclient/"></div>
-    <script type="text/javascript">
-    (function(){
-      if (window.location.hostname === 'localhost') return;
+      
+    </article>
+    
+      <script>
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      document.getElementById('backtotopButton').style.opacity = '1'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    } else {
+      document.getElementById('backtotopButton').style.opacity = '0'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    }
+  })
 
-      var appid = 'cyvob1sks';
-      var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth;
-      if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
-    })();
-    </script>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
-      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
-  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-<div class="friend-links">
-  <span class="division">Friends:</span>
-  <span class="theme-info"><a class="theme-link" href="https://kii.la">vincent</a> </span>
-</div>
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-
-<script id="baidu_analytics">
-  var _hmt = _hmt || [];
-  (function() {
-    if (window.location.hostname === 'localhost') return;
-    var hm = document.createElement("script"); hm.async = true;
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
 </script>
 
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
 
 
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
 
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
 
-
-</body>
+  </body>
 </html>

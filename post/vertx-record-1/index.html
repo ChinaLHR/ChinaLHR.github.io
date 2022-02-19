@@ -1,191 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Vert.x基础：Core模块 - LiHanRong</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  <head>
+    <meta charset="utf-8" />
+<title>Vert.x基础：Core模块</title>
 
 
-<meta name="author" content="LHR" /><meta name="description" content=" Vert.x 官方文档阅读
-" /><meta name="keywords" content="Hugo, theme, even" />
+  
 
 
 
 
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://chinalhr.github.io/post/vertx-record-1/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.2fe01a8d6a1e524ccbed1cdfa4e66fc6e8e49ad88327a16803150a0fbceff06c.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="Vert.x基础：Core模块" />
-<meta property="og:description" content="
-Vert.x 官方文档阅读
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/vertx-record-1/" />
-<meta property="article:published_time" content="2019-04-02T22:01:56+08:00" />
-<meta property="article:modified_time" content="2019-04-02T22:01:56+08:00" />
-<meta itemprop="name" content="Vert.x基础：Core模块">
-<meta itemprop="description" content="
-Vert.x 官方文档阅读
-">
-<meta itemprop="datePublished" content="2019-04-02T22:01:56&#43;08:00" />
-<meta itemprop="dateModified" content="2019-04-02T22:01:56&#43;08:00" />
-<meta itemprop="wordCount" content="4170">
-
-
-
-<meta itemprop="keywords" content="Vert.x," /><meta name="twitter:card" content="summary"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Vert.x基础：Core模块"/>
 <meta name="twitter:description" content="
 Vert.x 官方文档阅读
 "/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
 
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">LiHanRong Blog</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">categories</li>
-      </a><a href="/post/about/">
-        <li class="mobile-menu-item">about</li>
-      </a>
-  </ul>
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
 
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
   
 
 
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">LiHanRong Blog</a>
-</div>
 
 
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/about/">about</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <header>
+    <nav class="navbar">
+  <div class="nav">
     
-    <header class="post-header">
-      <h1 class="post-title">Vert.x基础：Core模块</h1>
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
 
-      <div class="post-meta">
-        <span class="post-time"> 2019-04-02 </span>
-        <div class="post-category">
-            <a href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 后端开发 </a>
-            </div>
-          <span class="more-meta"> 4170 words </span>
-          <span class="more-meta"> 9 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#三大优势">三大优势</a></li>
-            <li><a href="#线程和编程模型">线程和编程模型</a></li>
-            <li><a href="#组件">组件</a>
-              <ul>
-                <li><a href="#vertx-corevertx-的核心api">Vert.x Core(Vert.x 的核心API)</a></li>
-                <li><a href="#vertx实例入口">Vertx实例(入口)</a></li>
-                <li><a href="#eventloop">Eventloop</a></li>
-                <li><a href="#context">Context</a></li>
-                <li><a href="#verticle">Verticle</a></li>
-                <li><a href="#abstractverticle">AbstractVerticle</a></li>
-                <li><a href="#event-bus">Event Bus</a></li>
-                <li><a href="#vertx-共享数据">Vert.x 共享数据</a></li>
-              </ul>
-            </li>
-            <li><a href="#数据访问库">数据访问库</a></li>
-            <li><a href="#参考">参考</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
   </div>
-</div>
-    <div class="post-content">
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              Vert.x基础：Core模块
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Apr 2, 2019
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"
+        >后端开发</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
       <blockquote>
 <p>Vert.x 官方文档阅读</p>
 </blockquote>
@@ -208,22 +191,7 @@ Vert.x 官方文档阅读
 <ul>
 <li>功能</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">- 编写 TCP 客户端和服务端
+<pre><code>- 编写 TCP 客户端和服务端
 - 编写支持 WebSocket 的 HTTP 客户端和服务端
 - 事件总线
 - 共享数据 —— 本地的Map和分布式集群Map
@@ -234,37 +202,18 @@ Vert.x 官方文档阅读
 - 文件系统访问
 - 高可用性
 - 集群
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+</code></pre><ul>
 <li>Vert.x 的 API 大部分都是事件驱动的,所有API都不会阻塞调用线程。</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">因为Vert.x API不会阻塞线程，所以通过Vert.x您可以只使用少量的线程来处理大量的并发。
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+<pre><code>因为Vert.x API不会阻塞线程，所以通过Vert.x您可以只使用少量的线程来处理大量的并发。
+</code></pre><ul>
 <li>CompositeFuture/Future(并发异步操作)</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">CompositeFuture.all:接受多个 Future,都成功返回成功的 Future，任意一个失败返回失败的Future
+<pre><code>CompositeFuture.all:接受多个 Future,都成功返回成功的 Future，任意一个失败返回失败的Future
 CompositeFuture.any:任意一个成功返回成功的Future,都失败返回失败的 Future
 CompositeFuture.join:等待所有的 Future 完成，无论成败
 Future.compose:于顺序组合 Future
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+</code></pre><ul>
 <li>阻塞/非阻塞访问文件系统(FileSystem)</li>
 <li>HTTP/TCP/UDP支持</li>
 </ul>
@@ -274,47 +223,21 @@ Future.compose:于顺序组合 Future
 <ul>
 <li>Multi-Reactor 模式</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">每个 Vertx 实例维护的是 多个Event Loop线程。默认情况下根据机器上可用的核数量来设置 Event Loop 的数量。通过Event driven的方式，将Events分发到handlers中进行处理。
+<pre><code>每个 Vertx 实例维护的是 多个Event Loop线程。默认情况下根据机器上可用的核数量来设置 Event Loop 的数量。通过Event driven的方式，将Events分发到handlers中进行处理。
 
 任何event都不会阻塞Eventloop线程，这样Eventloop线程可以一直保持高速分发Events的速度。如果QPS为100/s的服务，需要在1s内分发到每个event，Eventloop数量为1，Eventloop必须能在10ms内分发完每个event，一旦Eventloop被阻塞，整个服务器吞吐量都会受到极大影响。所以Eventloop绝对不应该被阻塞住，所有交给Eventloop去处理的event都应该是non-blocking(I/O)的方式或者CPU执行时间较短的，才能确保每个event得到及时的分发。
 
 默认情况下，Vert.x为每个CPU核心线程附加2个事件循环对应Verticle总是处理同一线程上的事件，因此不需要使用线程协调机制来操纵Verticle状态
-</code></pre></td></tr></table>
-</div>
-</div><p><img src="https://user-images.githubusercontent.com/19829495/55665502-8f4a3800-5873-11e9-8e80-bf91266b59c0.png" alt="image">
+</code></pre><p><img src="https://user-images.githubusercontent.com/19829495/55665502-8f4a3800-5873-11e9-8e80-bf91266b59c0.png" alt="image">
 <img src="https://user-images.githubusercontent.com/19829495/55665506-a0934480-5873-11e9-84ef-a0652c911e6e.png" alt="image">
 <img src="https://raw.githubusercontent.com/vert-x3/vertx-guide-for-java-devs/3.6/intro/images/verticle-threading-config.png" alt="enter description here"></p>
 <ul>
 <li>在Event Loop运行阻塞代码</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">executeBlocking: 异步执行指定阻塞式代码
+<pre><code>executeBlocking: 异步执行指定阻塞式代码
 Worker Verticle：使用 Worker Pool 中的某个线程来执行阻塞代码
-</code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">Vertx vertx = Vertx.vertx();
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="context">Context</h4>
+</code></pre><pre><code>Vertx vertx = Vertx.vertx();
+</code></pre><h4 id="context">Context</h4>
 <p>Context对应的是一次Handler执行过程的执行context。</p>
 <p>Vert.x 传递一个事件给处理器或者调用 Verticle 的 start 或 stop 方法时，它会关联一个 Context 对象(绑定到了一个特定的 Event Loop 线程上),此 Verticle 上所有的普通代码都会在此 Context 上执行。</p>
 <ul>
@@ -343,19 +266,7 @@ Worker Verticle：使用 Worker Pool 中的某个线程来执行阻塞代码
 <p>Verticle 种类</p>
 </li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">Stardand Verticle：
+<pre><code>Stardand Verticle：
 这种Verticle会被指派到创建和启动时的Eventloop线程上,Vert.x会保证你在这个Verticle实例上调用任何的handler操作将在同样的eventloop线程上面执行。
 
 Worker Verticle：
@@ -363,46 +274,24 @@ Worker Verticle：
 
 Multi-Threaded Worker Verticle：
 这类 Verticle 也会运行在 Worker Pool 中的线程上。一个实例可以由多个线程同时执行,因此需要开发者自己确保线程安全。
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+</code></pre><ul>
 <li>部署，设置Verticle</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//部署
-</span><span class="c1"></span><span class="n">vertx</span><span class="o">.</span><span class="na">deployVerticle</span><span class="o">(</span><span class="s">&#34;com.mycompany.MyOrderProcessorVerticle&#34;</span><span class="o">,</span><span class="n">options</span><span class="o">);</span>
-<span class="c1">//撤销
-</span><span class="c1"></span><span class="n">vertx</span><span class="o">.</span><span class="na">undeploy</span><span class="o">(</span><span class="n">deploymentID</span><span class="o">,</span> <span class="n">res</span> <span class="o">-&gt;</span> <span class="o">{</span>
-  <span class="k">if</span> <span class="o">(</span><span class="n">res</span><span class="o">.</span><span class="na">succeeded</span><span class="o">())</span> <span class="o">{</span>
-    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Undeployed ok&#34;</span><span class="o">);</span>
-  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Undeploy failed!&#34;</span><span class="o">);</span>
-  <span class="o">}</span>
-<span class="o">});</span>
-<span class="c1">//配置 Verticle相关参数(部署多个实例来利用所有的CPU)
-</span><span class="c1"></span><span class="n">DeploymentOptions</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DeploymentOptions</span><span class="o">().</span><span class="na">setInstances</span><span class="o">(</span><span class="n">16</span><span class="o">);</span>
-<span class="c1">//设置JSON参数，
-</span><span class="c1"></span><span class="n">DeploymentOptions</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DeploymentOptions</span><span class="o">().</span><span class="na">setConfig</span><span class="o">(</span><span class="n">config</span><span class="o">);</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//部署
+</span><span style="color:#75715e"></span>vertx<span style="color:#f92672">.</span><span style="color:#a6e22e">deployVerticle</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.mycompany.MyOrderProcessorVerticle&#34;</span><span style="color:#f92672">,</span>options<span style="color:#f92672">);</span>
+<span style="color:#75715e">//撤销
+</span><span style="color:#75715e"></span>vertx<span style="color:#f92672">.</span><span style="color:#a6e22e">undeploy</span><span style="color:#f92672">(</span>deploymentID<span style="color:#f92672">,</span> res <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>res<span style="color:#f92672">.</span><span style="color:#a6e22e">succeeded</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Undeployed ok&#34;</span><span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Undeploy failed!&#34;</span><span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">});</span>
+<span style="color:#75715e">//配置 Verticle相关参数(部署多个实例来利用所有的CPU)
+</span><span style="color:#75715e"></span>DeploymentOptions options <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DeploymentOptions<span style="color:#f92672">().</span><span style="color:#a6e22e">setInstances</span><span style="color:#f92672">(</span>16<span style="color:#f92672">);</span>
+<span style="color:#75715e">//设置JSON参数，
+</span><span style="color:#75715e"></span>DeploymentOptions options <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DeploymentOptions<span style="color:#f92672">().</span><span style="color:#a6e22e">setConfig</span><span style="color:#f92672">(</span>config<span style="color:#f92672">);</span>
+</code></pre></div><ul>
 <li>简单总结
 <ol>
 <li><code>Verticle</code>是个类，通常我们继承<code>AbstractVerticle</code>来实现自己的业务。</li>
@@ -432,100 +321,49 @@ Multi-Threaded Worker Verticle：
 <ul>
 <li>基本</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//获取Event Bus
-</span><span class="c1"></span><span class="n">EventBus</span> <span class="n">eb</span> <span class="o">=</span> <span class="n">vertx</span><span class="o">.</span><span class="na">eventBus</span><span class="o">();</span>
-<span class="c1">//注册handler
-</span><span class="c1"></span><span class="n">MessageConsumer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">consumer</span> <span class="o">=</span> <span class="n">eb</span><span class="o">.</span><span class="na">consumer</span><span class="o">(</span><span class="s">&#34;news.uk.sport&#34;</span><span class="o">);</span>
-<span class="n">consumer</span><span class="o">.</span><span class="na">handler</span><span class="o">(</span><span class="n">message</span> <span class="o">-&gt;</span> <span class="o">{</span>
-  <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;I have received a message: &#34;</span> <span class="o">+</span> <span class="n">message</span><span class="o">.</span><span class="na">body</span><span class="o">());</span>
-<span class="o">});</span>
-<span class="c1">//注销handler
-</span><span class="c1"></span><span class="n">consumer</span><span class="o">.</span><span class="na">unregister</span><span class="o">(</span><span class="n">res</span> <span class="o">-&gt;</span> <span class="o">{</span>
-  <span class="k">if</span> <span class="o">(</span><span class="n">res</span><span class="o">.</span><span class="na">succeeded</span><span class="o">())</span> <span class="o">{</span>
-    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;The handler un-registration has reached all nodes&#34;</span><span class="o">);</span>
-  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Un-registration failed!&#34;</span><span class="o">);</span>
-  <span class="o">}</span>
-<span class="o">});</span>
-<span class="c1">//一对多发布消息(发送给所有注册handler)
-</span><span class="c1"></span><span class="n">eb</span><span class="o">.</span><span class="na">publish</span><span class="o">(</span><span class="s">&#34;news.uk.sport&#34;</span><span class="o">,</span> <span class="s">&#34;Yay! Someone kicked a ball&#34;</span><span class="o">);</span>
-<span class="c1">//一对一发布消息(发送给一个注册handler)
-</span><span class="c1"></span><span class="n">eventBus</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="s">&#34;news.uk.sport&#34;</span><span class="o">,</span> <span class="s">&#34;Yay! Someone kicked a ball&#34;</span><span class="o">);</span>
-<span class="c1">//设置参数
-</span><span class="c1"></span><span class="n">DeliveryOptions</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DeliveryOptions</span><span class="o">();</span>
-<span class="n">options</span><span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">&#34;some-header&#34;</span><span class="o">,</span> <span class="s">&#34;some-value&#34;</span><span class="o">);</span>
-<span class="n">eventBus</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="s">&#34;news.uk.sport&#34;</span><span class="o">,</span> <span class="s">&#34;Yay! Someone kicked a ball&#34;</span><span class="o">,</span> <span class="n">options</span><span class="o">);</span>
-<span class="c1">//应答消息(消费者可以通过调用 reply 方法来应答这个消息)
-</span><span class="c1"></span><span class="n">MessageConsumer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">consumer</span> <span class="o">=</span> <span class="n">eventBus</span><span class="o">.</span><span class="na">consumer</span><span class="o">(</span><span class="s">&#34;news.uk.sport&#34;</span><span class="o">);</span>
-<span class="n">consumer</span><span class="o">.</span><span class="na">handler</span><span class="o">(</span><span class="n">message</span> <span class="o">-&gt;</span> <span class="o">{</span>
-  <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;I have received a message: &#34;</span> <span class="o">+</span> <span class="n">message</span><span class="o">.</span><span class="na">body</span><span class="o">());</span>
-  <span class="n">message</span><span class="o">.</span><span class="na">reply</span><span class="o">(</span><span class="s">&#34;how interesting!&#34;</span><span class="o">);</span>
-<span class="o">});</span>
-<span class="c1">//接收消息
-</span><span class="c1"></span><span class="n">eventBus</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="s">&#34;news.uk.sport&#34;</span><span class="o">,</span> <span class="s">&#34;Yay! Someone kicked a ball across a patch of grass&#34;</span><span class="o">,</span> <span class="n">ar</span> <span class="o">-&gt;</span> <span class="o">{</span>
-  <span class="k">if</span> <span class="o">(</span><span class="n">ar</span><span class="o">.</span><span class="na">succeeded</span><span class="o">())</span> <span class="o">{</span>
-    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Received reply: &#34;</span> <span class="o">+</span> <span class="n">ar</span><span class="o">.</span><span class="na">result</span><span class="o">().</span><span class="na">body</span><span class="o">());</span>
-  <span class="o">}</span>
-<span class="o">});</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//获取Event Bus
+</span><span style="color:#75715e"></span>EventBus eb <span style="color:#f92672">=</span> vertx<span style="color:#f92672">.</span><span style="color:#a6e22e">eventBus</span><span style="color:#f92672">();</span>
+<span style="color:#75715e">//注册handler
+</span><span style="color:#75715e"></span>MessageConsumer<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> consumer <span style="color:#f92672">=</span> eb<span style="color:#f92672">.</span><span style="color:#a6e22e">consumer</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;news.uk.sport&#34;</span><span style="color:#f92672">);</span>
+consumer<span style="color:#f92672">.</span><span style="color:#a6e22e">handler</span><span style="color:#f92672">(</span>message <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I have received a message: &#34;</span> <span style="color:#f92672">+</span> message<span style="color:#f92672">.</span><span style="color:#a6e22e">body</span><span style="color:#f92672">());</span>
+<span style="color:#f92672">});</span>
+<span style="color:#75715e">//注销handler
+</span><span style="color:#75715e"></span>consumer<span style="color:#f92672">.</span><span style="color:#a6e22e">unregister</span><span style="color:#f92672">(</span>res <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>res<span style="color:#f92672">.</span><span style="color:#a6e22e">succeeded</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;The handler un-registration has reached all nodes&#34;</span><span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Un-registration failed!&#34;</span><span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">});</span>
+<span style="color:#75715e">//一对多发布消息(发送给所有注册handler)
+</span><span style="color:#75715e"></span>eb<span style="color:#f92672">.</span><span style="color:#a6e22e">publish</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;news.uk.sport&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Yay! Someone kicked a ball&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#75715e">//一对一发布消息(发送给一个注册handler)
+</span><span style="color:#75715e"></span>eventBus<span style="color:#f92672">.</span><span style="color:#a6e22e">send</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;news.uk.sport&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Yay! Someone kicked a ball&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#75715e">//设置参数
+</span><span style="color:#75715e"></span>DeliveryOptions options <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DeliveryOptions<span style="color:#f92672">();</span>
+options<span style="color:#f92672">.</span><span style="color:#a6e22e">addHeader</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;some-header&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;some-value&#34;</span><span style="color:#f92672">);</span>
+eventBus<span style="color:#f92672">.</span><span style="color:#a6e22e">send</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;news.uk.sport&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Yay! Someone kicked a ball&#34;</span><span style="color:#f92672">,</span> options<span style="color:#f92672">);</span>
+<span style="color:#75715e">//应答消息(消费者可以通过调用 reply 方法来应答这个消息)
+</span><span style="color:#75715e"></span>MessageConsumer<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> consumer <span style="color:#f92672">=</span> eventBus<span style="color:#f92672">.</span><span style="color:#a6e22e">consumer</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;news.uk.sport&#34;</span><span style="color:#f92672">);</span>
+consumer<span style="color:#f92672">.</span><span style="color:#a6e22e">handler</span><span style="color:#f92672">(</span>message <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I have received a message: &#34;</span> <span style="color:#f92672">+</span> message<span style="color:#f92672">.</span><span style="color:#a6e22e">body</span><span style="color:#f92672">());</span>
+  message<span style="color:#f92672">.</span><span style="color:#a6e22e">reply</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;how interesting!&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">});</span>
+<span style="color:#75715e">//接收消息
+</span><span style="color:#75715e"></span>eventBus<span style="color:#f92672">.</span><span style="color:#a6e22e">send</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;news.uk.sport&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Yay! Someone kicked a ball across a patch of grass&#34;</span><span style="color:#f92672">,</span> ar <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>ar<span style="color:#f92672">.</span><span style="color:#a6e22e">succeeded</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Received reply: &#34;</span> <span style="color:#f92672">+</span> ar<span style="color:#f92672">.</span><span style="color:#a6e22e">result</span><span style="color:#f92672">().</span><span style="color:#a6e22e">body</span><span style="color:#f92672">());</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">});</span>
+</code></pre></div><ul>
 <li>编解码</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//为Event Bus注册编解码器 MessageCodec，需要在DeliveryOptions指定名称，也可以为某个类指定特定的编解码
-</span><span class="c1"></span><span class="n">eventBus</span><span class="o">.</span><span class="na">registerCodec</span><span class="o">(</span><span class="n">myCodec</span><span class="o">);</span>
-<span class="n">DeliveryOptions</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DeliveryOptions</span><span class="o">().</span><span class="na">setCodecName</span><span class="o">(</span><span class="n">myCodec</span><span class="o">.</span><span class="na">name</span><span class="o">());</span>
-<span class="n">eventBus</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="s">&#34;orders&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">MyPOJO</span><span class="o">(),</span> <span class="n">options</span><span class="o">);</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//为Event Bus注册编解码器 MessageCodec，需要在DeliveryOptions指定名称，也可以为某个类指定特定的编解码
+</span><span style="color:#75715e"></span>eventBus<span style="color:#f92672">.</span><span style="color:#a6e22e">registerCodec</span><span style="color:#f92672">(</span>myCodec<span style="color:#f92672">);</span>
+DeliveryOptions options <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DeliveryOptions<span style="color:#f92672">().</span><span style="color:#a6e22e">setCodecName</span><span style="color:#f92672">(</span>myCodec<span style="color:#f92672">.</span><span style="color:#a6e22e">name</span><span style="color:#f92672">());</span>
+eventBus<span style="color:#f92672">.</span><span style="color:#a6e22e">send</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;orders&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> MyPOJO<span style="color:#f92672">(),</span> options<span style="color:#f92672">);</span>
+</code></pre></div><ul>
 <li>EventBusOptions(Event Bus相关配置)</li>
 </ul>
 <h4 id="vertx-共享数据">Vert.x 共享数据</h4>
@@ -533,78 +371,35 @@ Multi-Threaded Worker Verticle：
 <ul>
 <li>本地共享Map(LocalMap)</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">在同一个</span> <span class="n">Vert</span><span class="o">.</span><span class="na">x</span> <span class="n">实例中的不同</span> <span class="n">Event</span> <span class="n">Loop</span><span class="err">（</span><span class="n">如不同的</span> <span class="n">Verticle</span> <span class="n">中</span><span class="err">）</span><span class="n">之间安全共享数据</span><span class="err">。</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">在同一个 Vert<span style="color:#f92672">.</span><span style="color:#a6e22e">x</span> 实例中的不同 Event Loop<span style="color:#960050;background-color:#1e0010">（</span>如不同的 Verticle 中<span style="color:#960050;background-color:#1e0010">）</span>之间安全共享数据<span style="color:#960050;background-color:#1e0010">。</span>
 
-<span class="n">SharedData</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">vertx</span><span class="o">.</span><span class="na">sharedData</span><span class="o">();</span>
-<span class="n">LocalMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map1</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="na">getLocalMap</span><span class="o">(</span><span class="s">&#34;mymap1&#34;</span><span class="o">);</span>
-<span class="c1">// String是不可变的，所以不需要复制
-</span><span class="c1"></span><span class="n">map1</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;foo&#34;</span><span class="o">,</span> <span class="s">&#34;bar&#34;</span><span class="o">);</span> 
-<span class="n">LocalMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Buffer</span><span class="o">&gt;</span> <span class="n">map2</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="na">getLocalMap</span><span class="o">(</span><span class="s">&#34;mymap2&#34;</span><span class="o">);</span>
-<span class="c1">// Buffer将会在添加到Map之前拷贝
-</span><span class="c1"></span><span class="n">map2</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;eek&#34;</span><span class="o">,</span> <span class="n">Buffer</span><span class="o">.</span><span class="na">buffer</span><span class="o">().</span><span class="na">appendInt</span><span class="o">(</span><span class="n">123</span><span class="o">));</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+SharedData sd <span style="color:#f92672">=</span> vertx<span style="color:#f92672">.</span><span style="color:#a6e22e">sharedData</span><span style="color:#f92672">();</span>
+LocalMap<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> String<span style="color:#f92672">&gt;</span> map1 <span style="color:#f92672">=</span> sd<span style="color:#f92672">.</span><span style="color:#a6e22e">getLocalMap</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;mymap1&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#75715e">// String是不可变的，所以不需要复制
+</span><span style="color:#75715e"></span>map1<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;foo&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;bar&#34;</span><span style="color:#f92672">);</span> 
+LocalMap<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Buffer<span style="color:#f92672">&gt;</span> map2 <span style="color:#f92672">=</span> sd<span style="color:#f92672">.</span><span style="color:#a6e22e">getLocalMap</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;mymap2&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#75715e">// Buffer将会在添加到Map之前拷贝
+</span><span style="color:#75715e"></span>map2<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;eek&#34;</span><span style="color:#f92672">,</span> Buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">buffer</span><span style="color:#f92672">().</span><span style="color:#a6e22e">appendInt</span><span style="color:#f92672">(</span>123<span style="color:#f92672">));</span>
+</code></pre></div><ul>
 <li>分布式异步Map(允许从集群的任何节点将数据放到 Map 中，并从任何其他节点读取)</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">SharedData</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">vertx</span><span class="o">.</span><span class="na">sharedData</span><span class="o">();</span>
-<span class="n">sd</span><span class="o">.&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span><span class="n">getClusterWideMap</span><span class="o">(</span><span class="s">&#34;mymap&#34;</span><span class="o">,</span> <span class="n">res</span> <span class="o">-&gt;</span> <span class="o">{</span>
-  <span class="k">if</span> <span class="o">(</span><span class="n">res</span><span class="o">.</span><span class="na">succeeded</span><span class="o">())</span> <span class="o">{</span>
-    <span class="n">AsyncMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="na">result</span><span class="o">();</span>
-  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-  <span class="c1">//...
-</span><span class="c1"></span>  <span class="o">}</span>
-<span class="o">});</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">SharedData sd <span style="color:#f92672">=</span> vertx<span style="color:#f92672">.</span><span style="color:#a6e22e">sharedData</span><span style="color:#f92672">();</span>
+sd<span style="color:#f92672">.&lt;</span>String<span style="color:#f92672">,</span> String<span style="color:#f92672">&gt;</span>getClusterWideMap<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;mymap&#34;</span><span style="color:#f92672">,</span> res <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>res<span style="color:#f92672">.</span><span style="color:#a6e22e">succeeded</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+    AsyncMap<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> String<span style="color:#f92672">&gt;</span> map <span style="color:#f92672">=</span> res<span style="color:#f92672">.</span><span style="color:#a6e22e">result</span><span style="color:#f92672">();</span>
+  <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+  <span style="color:#75715e">//...
+</span><span style="color:#75715e"></span>  <span style="color:#f92672">}</span>
+<span style="color:#f92672">});</span>
+</code></pre></div><ul>
 <li>分布式锁(在集群中获取独占锁，以达到只在集群一个节点上执行某些操作或访问资源)</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">sd.getLockWithTimeout
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+<pre><code>sd.getLockWithTimeout
+</code></pre><ul>
 <li>分布式计数器</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">sd.getCounter
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="数据访问库">数据访问库</h3>
+<pre><code>sd.getCounter
+</code></pre><h3 id="数据访问库">数据访问库</h3>
 <ul>
 <li>JDBC client</li>
 </ul>
@@ -615,125 +410,94 @@ Multi-Threaded Worker Verticle：
 <p>基于Mauricio Linhares的异步驱动模型实现的(已废弃)，后续使用jasync异步驱动库实现，不会有线程切换等高负荷操作存在。</p>
 <h3 id="参考">参考</h3>
 <p><a href="http://vertxchina.github.io/vertx-translation-chinese/">Vert.x 官方文档中文翻译</a></p>
-    </div>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">LHR</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2019-04-02
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/vert.x/">Vert.x</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/vertx-record-2/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Vert.x基础：Web模块</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/kotlin-learn03/">
-            <span class="next-text nav-default">Kotlin基础：泛型、注解、DSL</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/vert.x/"
+              >Vert.x</a
+            >&nbsp;
+          
         </div>
-        <div id="SOHUCS" sid="/post/vertx-record-1/"></div>
-    <script type="text/javascript">
-    (function(){
-      if (window.location.hostname === 'localhost') return;
+      
+    </article>
+    
+      <script>
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      document.getElementById('backtotopButton').style.opacity = '1'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    } else {
+      document.getElementById('backtotopButton').style.opacity = '0'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    }
+  })
 
-      var appid = 'cyvob1sks';
-      var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth;
-      if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
-    })();
-    </script>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
-      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
-  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-<div class="friend-links">
-  <span class="division">Friends:</span>
-  <span class="theme-info"><a class="theme-link" href="https://kii.la">vincent</a> </span>
-</div>
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-
-<script id="baidu_analytics">
-  var _hmt = _hmt || [];
-  (function() {
-    if (window.location.hostname === 'localhost') return;
-    var hm = document.createElement("script"); hm.async = true;
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
 </script>
 
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
 
 
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
 
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
 
-
-</body>
+  </body>
 </html>

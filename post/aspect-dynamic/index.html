@@ -1,183 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title> javassist实现Aspect动态Pointcut - LiHanRong</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  <head>
+    <meta charset="utf-8" />
+<title> javassist实现Aspect动态Pointcut</title>
 
 
-<meta name="author" content="LHR" /><meta name="description" content=" Spriing Aop中动态Pointcut的实践
-" /><meta name="keywords" content="Hugo, theme, even" />
+  
 
 
 
 
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://chinalhr.github.io/post/aspect-dynamic/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.2fe01a8d6a1e524ccbed1cdfa4e66fc6e8e49ad88327a16803150a0fbceff06c.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content=" javassist实现Aspect动态Pointcut" />
-<meta property="og:description" content="
-Spriing Aop中动态Pointcut的实践
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/aspect-dynamic/" />
-<meta property="article:published_time" content="2019-04-18T22:15:07+08:00" />
-<meta property="article:modified_time" content="2019-04-18T22:15:07+08:00" />
-<meta itemprop="name" content=" javassist实现Aspect动态Pointcut">
-<meta itemprop="description" content="
-Spriing Aop中动态Pointcut的实践
-">
-<meta itemprop="datePublished" content="2019-04-18T22:15:07&#43;08:00" />
-<meta itemprop="dateModified" content="2019-04-18T22:15:07&#43;08:00" />
-<meta itemprop="wordCount" content="1583">
-
-
-
-<meta itemprop="keywords" content="Java,Spring," /><meta name="twitter:card" content="summary"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content=" javassist实现Aspect动态Pointcut"/>
 <meta name="twitter:description" content="
 Spriing Aop中动态Pointcut的实践
 "/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
 
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">LiHanRong Blog</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">categories</li>
-      </a><a href="/post/about/">
-        <li class="mobile-menu-item">about</li>
-      </a>
-  </ul>
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
 
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
   
 
 
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">LiHanRong Blog</a>
-</div>
 
 
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/about/">about</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <header>
+    <nav class="navbar">
+  <div class="nav">
     
-    <header class="post-header">
-      <h1 class="post-title"> javassist实现Aspect动态Pointcut</h1>
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
 
-      <div class="post-meta">
-        <span class="post-time"> 2019-04-18 </span>
-        <div class="post-category">
-            <a href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 后端开发 </a>
-            </div>
-          <span class="more-meta"> 1583 words </span>
-          <span class="more-meta"> 4 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li>
-          <ul>
-            <li>
-              <ul>
-                <li><a href="#为什么需要aspectj中具有动态值的pointcut">为什么需要AspectJ中具有动态值的Pointcut</a></li>
-                <li><a href="#pointcut的用法">@Pointcut的用法</a></li>
-                <li><a href="#动态pointcut">动态Pointcut</a></li>
-                <li><a href="#编程式aop实现动态pointcut">编程式AOP实现动态PointCut</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
   </div>
-</div>
-    <div class="post-content">
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+               javassist实现Aspect动态Pointcut
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Apr 18, 2019
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"
+        >后端开发</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
       <blockquote>
 <p>Spriing Aop中动态Pointcut的实践</p>
 </blockquote>
@@ -187,27 +178,7 @@ Spriing Aop中动态Pointcut的实践
 <ul>
 <li>格式</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">execution(modifiers-pattern? ret-type-pattern declaring-type-pattern? name-pattern(param-pattern)throws-pattern?) 
+<pre><code>execution(modifiers-pattern? ret-type-pattern declaring-type-pattern? name-pattern(param-pattern)throws-pattern?) 
 
 修饰符匹配（modifier-pattern?）
 返回值匹配（ret-type-pattern）可以为*表示任何返回值,全路径的类名等
@@ -223,26 +194,14 @@ Spriing Aop中动态Pointcut的实践
 //表示匹配com.savage.server.UserService中所有的公有方法  
 3）execution(* com.savage.server..*.*(..))  
 //表示匹配com.savage.server包及其子包下的所有方法 
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+</code></pre><ul>
 <li>Spring中的Pointcut(Pointcut表示式(expression)和Pointcut签名(signature))</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">//Pointcut表示式(可以使用&amp;&amp; || ! 这三个运算)
-@Pointcut(&#34;execution(* com.savage.aop.MessageSender.*(..))&#34;)
+<pre><code>//Pointcut表示式(可以使用&amp;&amp; || ! 这三个运算)
+@Pointcut(&quot;execution(* com.savage.aop.MessageSender.*(..))&quot;)
 //Point签名
 private void log(){} 
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="动态pointcut">动态Pointcut</h4>
+</code></pre><h4 id="动态pointcut">动态Pointcut</h4>
 <ul>
 <li>关于SpringAop</li>
 </ul>
@@ -259,345 +218,202 @@ private void log(){}
 <ul>
 <li>实现</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span><span class="lnt">52
-</span><span class="lnt">53
-</span><span class="lnt">54
-</span><span class="lnt">55
-</span><span class="lnt">56
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@SpringBootApplication</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UidServerApplication</span> <span class="kd">extends</span> <span class="n">SpringBootServletInitializer</span> <span class="o">{</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@SpringBootApplication</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UidServerApplication</span> <span style="color:#66d9ef">extends</span> SpringBootServletInitializer <span style="color:#f92672">{</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">AspectPoincutScan</span><span class="o">();</span>
-        <span class="n">SpringApplication</span> <span class="n">springApplication</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpringApplication</span><span class="o">(</span><span class="n">UidServerApplication</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-        <span class="n">springApplication</span><span class="o">.</span><span class="na">addInitializers</span><span class="o">(</span><span class="k">new</span> <span class="n">UidApplicationContextInitializer</span><span class="o">());</span>
-        <span class="n">springApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
-    <span class="o">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        AspectPoincutScan<span style="color:#f92672">();</span>
+        SpringApplication springApplication <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SpringApplication<span style="color:#f92672">(</span>UidServerApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+        springApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">addInitializers</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> UidApplicationContextInitializer<span style="color:#f92672">());</span>
+        springApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>args<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="n">SpringApplicationBuilder</span> <span class="nf">configure</span><span class="o">(</span>
-            <span class="n">SpringApplicationBuilder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">AspectPoincutScan</span><span class="o">();</span>
-        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">sources</span><span class="o">(</span><span class="n">UidServerApplication</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">initializers</span><span class="o">(</span><span class="k">new</span> <span class="n">UidApplicationContextInitializer</span><span class="o">())</span>
-                <span class="o">.</span><span class="na">listeners</span><span class="o">(</span><span class="k">new</span> <span class="n">UidApplicationRefreshedListener</span><span class="o">())</span>
-                <span class="o">.</span><span class="na">listeners</span><span class="o">(</span><span class="k">new</span> <span class="n">UidApplicationCloseListener</span><span class="o">());</span>
-    <span class="o">}</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">protected</span> SpringApplicationBuilder <span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>
+            SpringApplicationBuilder builder<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        AspectPoincutScan<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">return</span> builder<span style="color:#f92672">.</span><span style="color:#a6e22e">sources</span><span style="color:#f92672">(</span>UidServerApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">initializers</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> UidApplicationContextInitializer<span style="color:#f92672">())</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">listeners</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> UidApplicationRefreshedListener<span style="color:#f92672">())</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">listeners</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> UidApplicationCloseListener<span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
 
 
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">AspectPoincutScan</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">try</span> <span class="o">{</span>
-            <span class="n">ClassPool</span> <span class="n">pool</span> <span class="o">=</span> <span class="n">ClassPool</span><span class="o">.</span><span class="na">getDefault</span><span class="o">();</span>
-            <span class="c1">// 添加包的扫描路径
-</span><span class="c1"></span>            <span class="n">ClassClassPath</span> <span class="n">classPath</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ClassClassPath</span><span class="o">(</span><span class="n">UidServerApplication</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-            <span class="n">pool</span><span class="o">.</span><span class="na">insertClassPath</span><span class="o">(</span><span class="n">classPath</span><span class="o">);</span>
-            <span class="c1">//获取要修改的Class
-</span><span class="c1"></span>            <span class="n">CtClass</span> <span class="n">ct</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;mobi.meishuo.uidserver.monitor.springaop.ServiceMonitorAop&#34;</span><span class="o">);</span>
-            <span class="n">CtMethod</span><span class="o">[]</span> <span class="n">cms</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="na">getDeclaredMethods</span><span class="o">();</span>
-            <span class="k">for</span> <span class="o">(</span><span class="n">CtMethod</span> <span class="n">cm</span> <span class="o">:</span> <span class="n">cms</span><span class="o">)</span> <span class="o">{</span>
-                <span class="c1">//找到@pointcut 注解的方法
-</span><span class="c1"></span>                <span class="k">if</span> <span class="o">(</span><span class="n">cm</span><span class="o">.</span><span class="na">getName</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">&#34;pointcut&#34;</span><span class="o">))</span> <span class="o">{</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">AspectPoincutScan</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            ClassPool pool <span style="color:#f92672">=</span> ClassPool<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefault</span><span style="color:#f92672">();</span>
+            <span style="color:#75715e">// 添加包的扫描路径
+</span><span style="color:#75715e"></span>            ClassClassPath classPath <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassClassPath<span style="color:#f92672">(</span>UidServerApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+            pool<span style="color:#f92672">.</span><span style="color:#a6e22e">insertClassPath</span><span style="color:#f92672">(</span>classPath<span style="color:#f92672">);</span>
+            <span style="color:#75715e">//获取要修改的Class
+</span><span style="color:#75715e"></span>            CtClass ct <span style="color:#f92672">=</span> pool<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;mobi.meishuo.uidserver.monitor.springaop.ServiceMonitorAop&#34;</span><span style="color:#f92672">);</span>
+            CtMethod<span style="color:#f92672">[]</span> cms <span style="color:#f92672">=</span> ct<span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredMethods</span><span style="color:#f92672">();</span>
+            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>CtMethod cm <span style="color:#f92672">:</span> cms<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#75715e">//找到@pointcut 注解的方法
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cm<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">().</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;pointcut&#34;</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
 
-                    <span class="n">MethodInfo</span> <span class="n">methodInfo</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="na">getMethodInfo</span><span class="o">();</span>
-                    <span class="n">ConstPool</span> <span class="n">cPool</span> <span class="o">=</span> <span class="n">methodInfo</span><span class="o">.</span><span class="na">getConstPool</span><span class="o">();</span>
+                    MethodInfo methodInfo <span style="color:#f92672">=</span> cm<span style="color:#f92672">.</span><span style="color:#a6e22e">getMethodInfo</span><span style="color:#f92672">();</span>
+                    ConstPool cPool <span style="color:#f92672">=</span> methodInfo<span style="color:#f92672">.</span><span style="color:#a6e22e">getConstPool</span><span style="color:#f92672">();</span>
 
-                    <span class="n">AnnotationsAttribute</span> <span class="n">attribute</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AnnotationsAttribute</span><span class="o">(</span><span class="n">cPool</span><span class="o">,</span> <span class="n">AnnotationsAttribute</span><span class="o">.</span><span class="na">visibleTag</span><span class="o">);</span>
-                    <span class="c1">//获取@pointcut 注解，修改其value值
-</span><span class="c1"></span>                    <span class="n">Annotation</span> <span class="n">annotation</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Annotation</span><span class="o">(</span><span class="s">&#34;org.aspectj.lang.annotation.Pointcut&#34;</span><span class="o">,</span> <span class="n">cPool</span><span class="o">);</span>
-                    <span class="n">annotation</span><span class="o">.</span><span class="na">addMemberValue</span><span class="o">(</span><span class="s">&#34;value&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">StringMemberValue</span><span class="o">(</span><span class="s">&#34;execution(xxxx&#34;</span><span class="o">,</span> <span class="n">cPool</span><span class="o">));</span>
-                    <span class="n">attribute</span><span class="o">.</span><span class="na">setAnnotation</span><span class="o">(</span><span class="n">annotation</span><span class="o">);</span>
-                    <span class="n">methodInfo</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="n">attribute</span><span class="o">);</span>
+                    AnnotationsAttribute attribute <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AnnotationsAttribute<span style="color:#f92672">(</span>cPool<span style="color:#f92672">,</span> AnnotationsAttribute<span style="color:#f92672">.</span><span style="color:#a6e22e">visibleTag</span><span style="color:#f92672">);</span>
+                    <span style="color:#75715e">//获取@pointcut 注解，修改其value值
+</span><span style="color:#75715e"></span>                    Annotation annotation <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Annotation<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.aspectj.lang.annotation.Pointcut&#34;</span><span style="color:#f92672">,</span> cPool<span style="color:#f92672">);</span>
+                    annotation<span style="color:#f92672">.</span><span style="color:#a6e22e">addMemberValue</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;value&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> StringMemberValue<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;execution(xxxx&#34;</span><span style="color:#f92672">,</span> cPool<span style="color:#f92672">));</span>
+                    attribute<span style="color:#f92672">.</span><span style="color:#a6e22e">setAnnotation</span><span style="color:#f92672">(</span>annotation<span style="color:#f92672">);</span>
+                    methodInfo<span style="color:#f92672">.</span><span style="color:#a6e22e">addAttribute</span><span style="color:#f92672">(</span>attribute<span style="color:#f92672">);</span>
 
-                    <span class="c1">//覆盖原有类
-</span><span class="c1"></span>                    <span class="n">ct</span><span class="o">.</span><span class="na">toClass</span><span class="o">();</span>
-                    <span class="c1">//使用类加载器重新加载Aop类
-</span><span class="c1"></span>                    <span class="n">pool</span><span class="o">.</span><span class="na">getClassLoader</span><span class="o">().</span><span class="na">loadClass</span><span class="o">(</span><span class="s">&#34;mobi.meishuo.uidserver.monitor.springaop.ServiceMonitorAop&#34;</span><span class="o">);</span>
-                <span class="o">}</span>
-            <span class="o">}</span>
-        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
+                    <span style="color:#75715e">//覆盖原有类
+</span><span style="color:#75715e"></span>                    ct<span style="color:#f92672">.</span><span style="color:#a6e22e">toClass</span><span style="color:#f92672">();</span>
+                    <span style="color:#75715e">//使用类加载器重新加载Aop类
+</span><span style="color:#75715e"></span>                    pool<span style="color:#f92672">.</span><span style="color:#a6e22e">getClassLoader</span><span style="color:#f92672">().</span><span style="color:#a6e22e">loadClass</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;mobi.meishuo.uidserver.monitor.springaop.ServiceMonitorAop&#34;</span><span style="color:#f92672">);</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
 
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="编程式aop实现动态pointcut">编程式AOP实现动态PointCut</h4>
+<span style="color:#f92672">}</span>
+</code></pre></div><h4 id="编程式aop实现动态pointcut">编程式AOP实现动态PointCut</h4>
 <ul>
 <li>PonitCut</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"> <span class="kd">public</span> <span class="kd">static</span> <span class="n">Pointcut</span> <span class="nf">getAdapterServicePointcut</span><span class="o">(){</span>
-        <span class="n">AspectJExpressionPointcut</span> <span class="n">adapterPointcut</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AspectJExpressionPointcut</span><span class="o">();</span>
-        <span class="c1">//从配置文件中获取PointCut表达式
-</span><span class="c1"></span>        <span class="n">adapterPointcut</span><span class="o">.</span><span class="na">setExpression</span><span class="o">(</span><span class="n">MonitorPropertyConfig</span><span class="o">.</span><span class="na">getPoinitcutAdapter</span><span class="o">());</span>
-        <span class="k">return</span> <span class="n">adapterPointcut</span><span class="o">;}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Pointcut <span style="color:#a6e22e">getAdapterServicePointcut</span><span style="color:#f92672">(){</span>
+        AspectJExpressionPointcut adapterPointcut <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AspectJExpressionPointcut<span style="color:#f92672">();</span>
+        <span style="color:#75715e">//从配置文件中获取PointCut表达式
+</span><span style="color:#75715e"></span>        adapterPointcut<span style="color:#f92672">.</span><span style="color:#a6e22e">setExpression</span><span style="color:#f92672">(</span>MonitorPropertyConfig<span style="color:#f92672">.</span><span style="color:#a6e22e">getPoinitcutAdapter</span><span style="color:#f92672">());</span>
+        <span style="color:#66d9ef">return</span> adapterPointcut<span style="color:#f92672">;}</span>
         
-<span class="c1">//扩展Spring中AbstractBeanFactoryPointcutAdvisor
-</span><span class="c1"></span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AdapterServiceAdvisor</span> <span class="kd">extends</span> <span class="n">AbstractBeanFactoryPointcutAdvisor</span> <span class="o">{</span>
+<span style="color:#75715e">//扩展Spring中AbstractBeanFactoryPointcutAdvisor
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AdapterServiceAdvisor</span> <span style="color:#66d9ef">extends</span> AbstractBeanFactoryPointcutAdvisor <span style="color:#f92672">{</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="n">Pointcut</span> <span class="nf">getPointcut</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">getAdapterServicePointcut</span><span class="o">();</span>
-    <span class="o">}</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Pointcut <span style="color:#a6e22e">getPointcut</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> getAdapterServicePointcut<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
 
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
 <li>Advice</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AdapterServiceMonitorInterceptor</span> <span class="kd">implements</span> <span class="n">MethodInterceptor</span> <span class="o">{</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AdapterServiceMonitorInterceptor</span> <span style="color:#66d9ef">implements</span> MethodInterceptor <span style="color:#f92672">{</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">invoke</span><span class="o">(</span><span class="n">MethodInvocation</span> <span class="n">invocation</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Throwable</span> <span class="o">{</span>
-       <span class="c1">//做一些操作...
-</span><span class="c1"></span>    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>MethodInvocation invocation<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Throwable <span style="color:#f92672">{</span>
+       <span style="color:#75715e">//做一些操作...
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
 <li>配置Advisor Bean</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Configuration</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MonitorProxyConfiguration</span> <span class="o">{</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Configuration</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MonitorProxyConfiguration</span> <span style="color:#f92672">{</span>
 
-    <span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#34;adapterServiceAdvisor&#34;</span><span class="o">)</span>
-    <span class="nd">@Role</span><span class="o">(</span><span class="n">BeanDefinition</span><span class="o">.</span><span class="na">ROLE_INFRASTRUCTURE</span><span class="o">)</span>
-    <span class="kd">public</span> <span class="n">AdapterServiceAdvisor</span> <span class="nf">adapterServiceAdvisor</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">AdapterServiceAdvisor</span> <span class="n">advisor</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AdapterServiceAdvisor</span><span class="o">();</span>
-        <span class="n">advisor</span><span class="o">.</span><span class="na">setAdviceBeanName</span><span class="o">(</span><span class="s">&#34;adapterServiceAdvice&#34;</span><span class="o">);</span>
-        <span class="n">advisor</span><span class="o">.</span><span class="na">setAdvice</span><span class="o">(</span><span class="k">new</span> <span class="n">AdapterServiceMonitorInterceptor</span><span class="o">());</span>
-        <span class="n">advisor</span><span class="o">.</span><span class="na">setOrder</span><span class="o">(</span><span class="n">Ordered</span><span class="o">.</span><span class="na">HIGHEST_PRECEDENCE</span><span class="o">);</span>
-        <span class="k">return</span> <span class="n">advisor</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div>
-    </div>
+    <span style="color:#a6e22e">@Bean</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;adapterServiceAdvisor&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#a6e22e">@Role</span><span style="color:#f92672">(</span>BeanDefinition<span style="color:#f92672">.</span><span style="color:#a6e22e">ROLE_INFRASTRUCTURE</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> AdapterServiceAdvisor <span style="color:#a6e22e">adapterServiceAdvisor</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        AdapterServiceAdvisor advisor <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AdapterServiceAdvisor<span style="color:#f92672">();</span>
+        advisor<span style="color:#f92672">.</span><span style="color:#a6e22e">setAdviceBeanName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;adapterServiceAdvice&#34;</span><span style="color:#f92672">);</span>
+        advisor<span style="color:#f92672">.</span><span style="color:#a6e22e">setAdvice</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> AdapterServiceMonitorInterceptor<span style="color:#f92672">());</span>
+        advisor<span style="color:#f92672">.</span><span style="color:#a6e22e">setOrder</span><span style="color:#f92672">(</span>Ordered<span style="color:#f92672">.</span><span style="color:#a6e22e">HIGHEST_PRECEDENCE</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> advisor<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">LHR</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2019-04-18
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/java/">Java</a>
-          <a href="/tags/spring/">Spring</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/linux-operating-record/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Linux命令记录</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/maven-plugs-record/">
-            <span class="next-text nav-default">Maven Plugin</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/java/"
+              >Java</a
+            >&nbsp;
+          
+            <a
+              href="https://chinalhr.github.io/tags/spring/"
+              >Spring</a
+            >&nbsp;
+          
         </div>
-        <div id="SOHUCS" sid="/post/aspect-dynamic/"></div>
-    <script type="text/javascript">
-    (function(){
-      if (window.location.hostname === 'localhost') return;
+      
+    </article>
+    
+      <script>
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      document.getElementById('backtotopButton').style.opacity = '1'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    } else {
+      document.getElementById('backtotopButton').style.opacity = '0'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    }
+  })
 
-      var appid = 'cyvob1sks';
-      var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth;
-      if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
-    })();
-    </script>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
-      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
-  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-<div class="friend-links">
-  <span class="division">Friends:</span>
-  <span class="theme-info"><a class="theme-link" href="https://kii.la">vincent</a> </span>
-</div>
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-
-<script id="baidu_analytics">
-  var _hmt = _hmt || [];
-  (function() {
-    if (window.location.hostname === 'localhost') return;
-    var hm = document.createElement("script"); hm.async = true;
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
 </script>
 
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
 
 
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
 
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
 
-
-</body>
+  </body>
 </html>

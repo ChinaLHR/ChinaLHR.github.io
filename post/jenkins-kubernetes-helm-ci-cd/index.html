@@ -1,161 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Jenkins-Kubernetes-Docker-Helm CI/CD实践 - LiHanRong</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  <head>
+    <meta charset="utf-8" />
+<title>Jenkins-Kubernetes-Docker-Helm CI/CD实践</title>
 
 
-<meta name="author" content="LHR" /><meta name="description" content=" 基于Kubernetes、Docker、Helm、Jenkins的CI/CD实践，对于前文Jenkins-pipeline-Docker 实现CI/CD 的补充扩展
-" /><meta name="keywords" content="Hugo, theme, even" />
+  
 
 
 
 
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://chinalhr.github.io/post/jenkins-kubernetes-helm-ci-cd/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.2fe01a8d6a1e524ccbed1cdfa4e66fc6e8e49ad88327a16803150a0fbceff06c.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="Jenkins-Kubernetes-Docker-Helm CI/CD实践" />
-<meta property="og:description" content="
-基于Kubernetes、Docker、Helm、Jenkins的CI/CD实践，对于前文Jenkins-pipeline-Docker 实现CI/CD 的补充扩展
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/jenkins-kubernetes-helm-ci-cd/" />
-<meta property="article:published_time" content="2021-01-12T19:51:52+08:00" />
-<meta property="article:modified_time" content="2021-01-12T19:51:52+08:00" />
-<meta itemprop="name" content="Jenkins-Kubernetes-Docker-Helm CI/CD实践">
-<meta itemprop="description" content="
-基于Kubernetes、Docker、Helm、Jenkins的CI/CD实践，对于前文Jenkins-pipeline-Docker 实现CI/CD 的补充扩展
-">
-<meta itemprop="datePublished" content="2021-01-12T19:51:52&#43;08:00" />
-<meta itemprop="dateModified" content="2021-01-12T19:51:52&#43;08:00" />
-<meta itemprop="wordCount" content="2161">
-
-
-
-<meta itemprop="keywords" content="jenkins,CI&amp;CD,kubernetes," /><meta name="twitter:card" content="summary"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Jenkins-Kubernetes-Docker-Helm CI/CD实践"/>
 <meta name="twitter:description" content="
 基于Kubernetes、Docker、Helm、Jenkins的CI/CD实践，对于前文Jenkins-pipeline-Docker 实现CI/CD 的补充扩展
 "/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
 
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">LiHanRong Blog</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">categories</li>
-      </a><a href="/post/about/">
-        <li class="mobile-menu-item">about</li>
-      </a>
-  </ul>
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
 
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
   
 
 
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">LiHanRong Blog</a>
-</div>
 
 
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/about/">about</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <header>
+    <nav class="navbar">
+  <div class="nav">
     
-    <header class="post-header">
-      <h1 class="post-title">Jenkins-Kubernetes-Docker-Helm CI/CD实践</h1>
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
 
-      <div class="post-meta">
-        <span class="post-time"> 2021-01-12 </span>
-        <div class="post-category">
-            <a href="/categories/devops/"> DevOps </a>
-            </div>
-          <span class="more-meta"> 2161 words </span>
-          <span class="more-meta"> 5 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
+  </div>
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              Jenkins-Kubernetes-Docker-Helm CI/CD实践
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Jan 12, 2021
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/devops/"
+        >DevOps</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
       </div>
-    </header>
+    </div>
+  </header>
+  
 
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
+      <blockquote>
+<p>基于Kubernetes、Docker、Helm、Jenkins的CI/CD实践，对于前文<a href="https://chinalhr.github.io/post/jenkins-java-ci-cd/">Jenkins-pipeline-Docker 实现CI/CD</a> 的补充扩展</p>
+</blockquote>
+<nav id="TableOfContents">
   <ul>
     <li>
       <ul>
@@ -181,14 +198,7 @@
       </ul>
     </li>
   </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <blockquote>
-<p>基于Kubernetes、Docker、Helm、Jenkins的CI/CD实践，对于前文<a href="https://chinalhr.github.io/post/jenkins-java-ci-cd/">Jenkins-pipeline-Docker 实现CI/CD</a> 的补充扩展</p>
-</blockquote>
-<h2 id="helm">Helm</h2>
+</nav><h2 id="helm">Helm</h2>
 <p>Helm是Kubernetes生态系统中的一个包管理工具；Helm使用的包格式称为 <em>charts</em>，chart就是一个描述Kubernetes相关资源的文件集合。</p>
 <h3 id="kubernetes应用部署面临的一些问题">Kubernetes应用部署面临的一些问题</h3>
 <p>kubernetes提供了基于容器的应用集群管理，容器编排，路由网关、水平扩展、监控、备份、灾难恢复等运维功能。用户通过使用kubernetes  API对象来描述应用程序规格，如Pod，Service，Volume，Namespace，ReplicaSet，Deployment，Job&hellip;；而对这些对象的操作都需要写入到yaml文件通过kubectl进行部署；这时就会遇到如下的几个问题：</p>
@@ -229,37 +239,7 @@
 <p>本次实践的项目是一个简单的Spring Boot 后端服务</p>
 <p>仓库地址为：<a href="https://github.com/ChinaLHR/shovel-kubernetes-helm-devops">https://github.com/ChinaLHR/shovel-kubernetes-helm-devops</a></p>
 <p>项目目录如下：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">├── Jenkinsfile （Jenkins Pipeline Script）
+<pre><code>├── Jenkinsfile （Jenkins Pipeline Script）
 ├── Makefile （打包构建相关markfile）
 ├── README.md
 ├── chart （chart文件夹）
@@ -285,9 +265,7 @@
     │   └── resources
     └── test
         └── java
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="jenkins-pipeline">Jenkins Pipeline</h3>
+</code></pre><h3 id="jenkins-pipeline">Jenkins Pipeline</h3>
 <ul>
 <li>Jenkins流水线项目配置</li>
 </ul>
@@ -298,325 +276,196 @@
 <li>代码拉取</li>
 </ul>
 <p>这里使用Jenkins Checkout插件进行Git代码拉取</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Clone target repo&#39;</span><span class="o">)</span> <span class="o">{</span>
-             <span class="n">checkout</span><span class="o">([</span><span class="n">$class</span><span class="o">:</span> <span class="s1">&#39;GitSCM&#39;</span><span class="o">,</span> <span class="nl">branches:</span> <span class="o">[[</span><span class="nl">name:</span> <span class="n">branch</span><span class="o">]],</span>
-             <span class="nl">doGenerateSubmoduleConfigurations:</span> <span class="kc">false</span><span class="o">,</span> <span class="nl">extensions:</span> <span class="o">[],</span> <span class="nl">submoduleCfg:</span> <span class="o">[],</span>
-             <span class="nl">userRemoteConfigs:</span> <span class="o">[[</span><span class="nl">credentialsId:</span> <span class="s1">&#39;deploy&#39;</span><span class="o">,</span> <span class="nl">url:</span> <span class="s1">&#39;https://gitee.com/***.git&#39;</span><span class="o">]]])</span>
-        <span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Clone target repo&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+             checkout<span style="color:#f92672">([</span>$class<span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;GitSCM&#39;</span><span style="color:#f92672">,</span> branches: <span style="color:#f92672">[[</span>name: branch<span style="color:#f92672">]],</span>
+             doGenerateSubmoduleConfigurations: <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> extensions: <span style="color:#f92672">[],</span> submoduleCfg: <span style="color:#f92672">[],</span>
+             userRemoteConfigs: <span style="color:#f92672">[[</span>credentialsId: <span style="color:#e6db74">&#39;deploy&#39;</span><span style="color:#f92672">,</span> url: <span style="color:#e6db74">&#39;https://gitee.com/***.git&#39;</span><span style="color:#f92672">]]])</span>
+        <span style="color:#f92672">}</span>
+</code></pre></div><ul>
 <li>代码编译打包-Docker镜像构建</li>
 </ul>
 <p>这里使用Docker多阶段构建，第一阶段使用<code>maven:3-jdk-8</code>基础镜像对项目进行打包，第二阶段将第一阶段生成的jar与项目的script部署脚本添加到镜像中进行镜像打包。</p>
 <p>最后编写makefile，使用make命令进行构建打包镜像、项目打包操作、构建项目镜像、推送项目镜像到远程Docker仓库的操作。</p>
 <p>具体可以参考项目对应<code>package.Dockerfile</code>、<code>release.Dockerfile</code>、<code>Makefile</code>、<code>deploy.sh</code>文件；相关pipeline script如下：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Build package&#39;</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">sh</span> <span class="s2">&#34;make build-package-image package-image=${packageImage}&#34;</span>
-            <span class="n">sh</span> <span class="s2">&#34;make package package-image=${packageImage}&#34;</span>
-<span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Build package&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            sh <span style="color:#e6db74">&#34;make build-package-image package-image=${packageImage}&#34;</span>
+            sh <span style="color:#e6db74">&#34;make package package-image=${packageImage}&#34;</span>
+<span style="color:#f92672">}</span>
 
-<span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Build release&#39;</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">sh</span> <span class="s2">&#34;make build-release-image release-image=${releaseImage}&#34;</span>
-<span class="o">}</span>
+stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Build release&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            sh <span style="color:#e6db74">&#34;make build-release-image release-image=${releaseImage}&#34;</span>
+<span style="color:#f92672">}</span>
 
-<span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Push release image to registry&#39;</span><span class="o">)</span> <span class="o">{</span>
-						<span class="n">withDockerRegistry</span><span class="o">(</span><span class="nl">credentialsId:</span> <span class="s1">&#39;docker-user&#39;</span><span class="o">,</span> <span class="nl">url:</span> <span class="s1">&#39;https://registry.cn-hangzhou.aliyuncs.com&#39;</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">sh</span> <span class="s2">&#34;docker push ${releaseImage}&#34;</span>
-            <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Push release image to registry&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+						withDockerRegistry<span style="color:#f92672">(</span>credentialsId: <span style="color:#e6db74">&#39;docker-user&#39;</span><span style="color:#f92672">,</span> url: <span style="color:#e6db74">&#39;https://registry.cn-hangzhou.aliyuncs.com&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                sh <span style="color:#e6db74">&#34;docker push ${releaseImage}&#34;</span>
+            <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
 <li>Helm Chart更新 Release到Kubernetes集群中</li>
 </ul>
 <p>初始化Helm Chart：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">helm create shovel
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm create shovel
 mv shovel chart
-<span class="c1"># 删除非必要文件</span>
-<span class="nb">cd</span> chart-copy/templates <span class="o">&amp;&amp;</span> rm hpa.yaml <span class="o">&amp;&amp;</span> rm ingress.yaml
-</code></pre></td></tr></table>
-</div>
-</div><p>修改Chart配置文件：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="c"># values.yaml文件</span><span class="w">
-</span><span class="w"></span><span class="c"># 修改镜像image相关配置，去除ingress相关配置，增加自定义配置如下：</span><span class="w">
-</span><span class="w"></span><span class="k">env</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">app</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">port</span><span class="p">:</span><span class="w"> </span><span class="m">8088</span><span class="w">
-</span><span class="w">    </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>shovel-server-app<span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="c"># templates/deployment.yaml</span><span class="w">
-</span><span class="w"></span><span class="c"># 修改containers下的configMap、ports、livenessProbe标签配置</span><span class="w">
-</span><span class="w"></span><span class="k">containers</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span>.Chart.Name<span class="w"> </span>}}<span class="w">
-</span><span class="w">          </span><span class="k">securityContext</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span>{{- toYaml<span class="w"> </span>.Values.securityContext<span class="w"> </span>|<span class="w"> </span>nindent<span class="w"> </span><span class="m">12</span><span class="w"> </span>}}<span class="w">
-</span><span class="w">          </span><span class="k">image</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}&#34;</span><span class="w">
-</span><span class="w">          </span><span class="k">imagePullPolicy</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span>.Values.image.pullPolicy<span class="w"> </span>}}<span class="w">
-</span><span class="w">          </span><span class="k">envFrom</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span>- <span class="k">configMapRef</span><span class="p">:</span><span class="w">
-</span><span class="w">                </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span>include<span class="w"> </span><span class="s2">&#34;shovel.fullname&#34;</span><span class="w"> </span>.<span class="w"> </span>}}<span class="w">
-</span><span class="w">          </span><span class="k">ports</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>http<span class="w">
-</span><span class="w">              </span><span class="k">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">8088</span><span class="w">
-</span><span class="w">              </span><span class="k">protocol</span><span class="p">:</span><span class="w"> </span>TCP<span class="w">
-</span><span class="w">          </span><span class="k">livenessProbe</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span><span class="k">httpGet</span><span class="p">:</span><span class="w">
-</span><span class="w">              </span><span class="k">path</span><span class="p">:</span><span class="w"> </span>/ping<span class="w">
-</span><span class="w">              </span><span class="k">port</span><span class="p">:</span><span class="w"> </span>http<span class="w">
-</span><span class="w">          </span><span class="k">readinessProbe</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span><span class="k">httpGet</span><span class="p">:</span><span class="w">
-</span><span class="w">              </span><span class="k">path</span><span class="p">:</span><span class="w"> </span>/ping<span class="w">
-</span><span class="w">              </span><span class="k">port</span><span class="p">:</span><span class="w"> </span>http<span class="w">
-</span><span class="w">          </span><span class="k">resources</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span>{{- toYaml<span class="w"> </span>.Values.resources<span class="w"> </span>|<span class="w"> </span>nindent<span class="w"> </span><span class="m">12</span><span class="w"> </span>}}<span class="w">
-</span><span class="w">            
-</span><span class="w"></span><span class="c"># 添加templates/configmap.yaml设置应用的环境变量</span><span class="w">
-</span><span class="w"></span><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>v1<span class="w">
-</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ConfigMap<span class="w">
-</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span>include<span class="w"> </span><span class="s2">&#34;shovel.fullname&#34;</span><span class="w"> </span>.<span class="w"> </span>}}<span class="w">
-</span><span class="w">  </span><span class="k">labels</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span>{{- include<span class="w"> </span><span class="s2">&#34;shovel.labels&#34;</span><span class="w"> </span>.<span class="w"> </span>|<span class="w"> </span>nindent<span class="w"> </span><span class="m">4</span><span class="w"> </span>}}<span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="k">data</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">SERVER_PORT</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;{{ .Values.env.app.port}}&#34;</span><span class="w">
-</span><span class="w">  </span><span class="k">APPLICATION_NAME</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span>.Values.env.app.name<span class="w"> </span>}}<span class="w">
-</span></code></pre></td></tr></table>
-</div>
-</div><ul>
+<span style="color:#75715e"># 删除非必要文件</span>
+cd chart-copy/templates <span style="color:#f92672">&amp;&amp;</span> rm hpa.yaml <span style="color:#f92672">&amp;&amp;</span> rm ingress.yaml
+</code></pre></div><p>修改Chart配置文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># values.yaml文件</span>
+<span style="color:#75715e"># 修改镜像image相关配置，去除ingress相关配置，增加自定义配置如下：</span>
+<span style="color:#66d9ef">env</span>:
+  <span style="color:#66d9ef">app</span>:
+    <span style="color:#66d9ef">port</span>: <span style="color:#ae81ff">8088</span>
+    <span style="color:#66d9ef">name</span>: shovel-server-app
+
+<span style="color:#75715e"># templates/deployment.yaml</span>
+<span style="color:#75715e"># 修改containers下的configMap、ports、livenessProbe标签配置</span>
+<span style="color:#66d9ef">containers</span>:
+        - <span style="color:#66d9ef">name</span>: {{ .Chart.Name }}
+          <span style="color:#66d9ef">securityContext</span>:
+            {{- toYaml .Values.securityContext | nindent <span style="color:#ae81ff">12</span> }}
+          <span style="color:#66d9ef">image</span>: <span style="color:#e6db74">&#34;{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}&#34;</span>
+          <span style="color:#66d9ef">imagePullPolicy</span>: {{ .Values.image.pullPolicy }}
+          <span style="color:#66d9ef">envFrom</span>:
+            - <span style="color:#66d9ef">configMapRef</span>:
+                <span style="color:#66d9ef">name</span>: {{ include <span style="color:#e6db74">&#34;shovel.fullname&#34;</span> . }}
+          <span style="color:#66d9ef">ports</span>:
+            - <span style="color:#66d9ef">name</span>: http
+              <span style="color:#66d9ef">containerPort</span>: <span style="color:#ae81ff">8088</span>
+              <span style="color:#66d9ef">protocol</span>: TCP
+          <span style="color:#66d9ef">livenessProbe</span>:
+            <span style="color:#66d9ef">httpGet</span>:
+              <span style="color:#66d9ef">path</span>: /ping
+              <span style="color:#66d9ef">port</span>: http
+          <span style="color:#66d9ef">readinessProbe</span>:
+            <span style="color:#66d9ef">httpGet</span>:
+              <span style="color:#66d9ef">path</span>: /ping
+              <span style="color:#66d9ef">port</span>: http
+          <span style="color:#66d9ef">resources</span>:
+            {{- toYaml .Values.resources | nindent <span style="color:#ae81ff">12</span> }}
+            
+<span style="color:#75715e"># 添加templates/configmap.yaml设置应用的环境变量</span>
+<span style="color:#66d9ef">apiVersion</span>: v1
+<span style="color:#66d9ef">kind</span>: ConfigMap
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: {{ include <span style="color:#e6db74">&#34;shovel.fullname&#34;</span> . }}
+  <span style="color:#66d9ef">labels</span>:
+  {{- include <span style="color:#e6db74">&#34;shovel.labels&#34;</span> . | nindent <span style="color:#ae81ff">4</span> }}
+
+<span style="color:#66d9ef">data</span>:
+  <span style="color:#66d9ef">SERVER_PORT</span>: <span style="color:#e6db74">&#34;{{ .Values.env.app.port}}&#34;</span>
+  <span style="color:#66d9ef">APPLICATION_NAME</span>: {{ .Values.env.app.name }}
+</code></pre></div><ul>
 <li>使用Helm发布/更新服务</li>
 </ul>
 <p>切换当前context到dev（这里的env可以通过jenkins parameters 进行传递），使用Helm发布/更新服务</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Deploy&#39;</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">sh</span> <span class="s2">&#34;&#34;&#34;
-</span><span class="s2">               kubectl config use-context dev
-</span><span class="s2">               helm -n ${namespace} upgrade ${project} chart \
-</span><span class="s2">                    -f chart/values.yaml \
-</span><span class="s2">                    --set-string image.tag=${imageTag} \
-</span><span class="s2">                    --wait --install
-</span><span class="s2">                &#34;&#34;&#34;</span>
-        <span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div>
-    </div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Deploy&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            sh <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">               kubectl config use-context dev
+</span><span style="color:#e6db74">               helm -n ${namespace} upgrade ${project} chart \
+</span><span style="color:#e6db74">                    -f chart/values.yaml \
+</span><span style="color:#e6db74">                    --set-string image.tag=${imageTag} \
+</span><span style="color:#e6db74">                    --wait --install
+</span><span style="color:#e6db74">                &#34;&#34;&#34;</span>
+        <span style="color:#f92672">}</span>
+</code></pre></div>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">LHR</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2021-01-12
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/jenkins/">jenkins</a>
-          <a href="/tags/cicd/">CI&amp;CD</a>
-          <a href="/tags/kubernetes/">kubernetes</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/distributed-systems-consistency-consensus-algorithm/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">分布式系统的一致性与共识算法-基础理论</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/kubernetes-telepresence/">
-            <span class="next-text nav-default">Kubernetes本地调试利器-Telepresence</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/jenkins/"
+              >jenkins</a
+            >&nbsp;
+          
+            <a
+              href="https://chinalhr.github.io/tags/cicd/"
+              >CI&amp;CD</a
+            >&nbsp;
+          
+            <a
+              href="https://chinalhr.github.io/tags/kubernetes/"
+              >kubernetes</a
+            >&nbsp;
+          
         </div>
-        <div id="SOHUCS" sid="/post/jenkins-kubernetes-helm-ci-cd/"></div>
-    <script type="text/javascript">
-    (function(){
-      if (window.location.hostname === 'localhost') return;
+      
+    </article>
+    
+      <script>
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      document.getElementById('backtotopButton').style.opacity = '1'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    } else {
+      document.getElementById('backtotopButton').style.opacity = '0'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    }
+  })
 
-      var appid = 'cyvob1sks';
-      var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth;
-      if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
-    })();
-    </script>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
-      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
-  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-<div class="friend-links">
-  <span class="division">Friends:</span>
-  <span class="theme-info"><a class="theme-link" href="https://kii.la">vincent</a> </span>
-</div>
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-
-<script id="baidu_analytics">
-  var _hmt = _hmt || [];
-  (function() {
-    if (window.location.hostname === 'localhost') return;
-    var hm = document.createElement("script"); hm.async = true;
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
 </script>
 
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
 
 
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
 
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
 
-
-</body>
+  </body>
 </html>

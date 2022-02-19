@@ -1,178 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>MongoDB分页-排序-索引 - LiHanRong</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  <head>
+    <meta charset="utf-8" />
+<title>MongoDB分页-排序-索引</title>
 
 
-<meta name="author" content="LHR" /><meta name="description" content=" MongoDB分页/排序/索引相关知识点整理
-" /><meta name="keywords" content="Hugo, theme, even" />
+  
 
 
 
 
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://chinalhr.github.io/post/mongo-limit-sort-index/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.2fe01a8d6a1e524ccbed1cdfa4e66fc6e8e49ad88327a16803150a0fbceff06c.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="MongoDB分页-排序-索引" />
-<meta property="og:description" content="
-MongoDB分页/排序/索引相关知识点整理
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/mongo-limit-sort-index/" />
-<meta property="article:published_time" content="2019-09-02T20:33:31+08:00" />
-<meta property="article:modified_time" content="2019-09-02T20:33:31+08:00" />
-<meta itemprop="name" content="MongoDB分页-排序-索引">
-<meta itemprop="description" content="
-MongoDB分页/排序/索引相关知识点整理
-">
-<meta itemprop="datePublished" content="2019-09-02T20:33:31&#43;08:00" />
-<meta itemprop="dateModified" content="2019-09-02T20:33:31&#43;08:00" />
-<meta itemprop="wordCount" content="1209">
-
-
-
-<meta itemprop="keywords" content="MongoDB," /><meta name="twitter:card" content="summary"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MongoDB分页-排序-索引"/>
 <meta name="twitter:description" content="
 MongoDB分页/排序/索引相关知识点整理
 "/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
 
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">LiHanRong Blog</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">categories</li>
-      </a><a href="/post/about/">
-        <li class="mobile-menu-item">about</li>
-      </a>
-  </ul>
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
 
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
   
 
 
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">LiHanRong Blog</a>
-</div>
 
 
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/about/">about</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <header>
+    <nav class="navbar">
+  <div class="nav">
     
-    <header class="post-header">
-      <h1 class="post-title">MongoDB分页-排序-索引</h1>
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
 
-      <div class="post-meta">
-        <span class="post-time"> 2019-09-02 </span>
-        <div class="post-category">
-            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"> 数据库 </a>
-            </div>
-          <span class="more-meta"> 1209 words </span>
-          <span class="more-meta"> 3 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#分页">分页</a></li>
-            <li><a href="#排序">排序</a></li>
-            <li><a href="#索引">索引</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
   </div>
-</div>
-    <div class="post-content">
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              MongoDB分页-排序-索引
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Sep 2, 2019
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"
+        >数据库</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
       <blockquote>
 <p>MongoDB分页/排序/索引相关知识点整理</p>
 </blockquote>
@@ -181,22 +177,7 @@ MongoDB分页/排序/索引相关知识点整理
 <li>limit offset分页方法</li>
 </ul>
 <p>MonogDB实现分页</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">入参 pageNum=1 pageSize=5
+<pre><code>入参 pageNum=1 pageSize=5
 
 skip()方法来跳过指定数量的数据
 limit()方法来读取指定数量的数据
@@ -204,62 +185,31 @@ limit()方法来读取指定数量的数据
 利用skip(pageSize*(n-1)).limit(pageSize)实现分页
 
 当pageNum=1 pageSize=5
-db.getCollection(&#39;user&#39;).find().skip(0).limit(5)
+db.getCollection('user').find().skip(0).limit(5)
 当pageNum=2 pageSize=5
-db.getCollection(&#39;user&#39;).find().skip(5).limit(5)
-</code></pre></td></tr></table>
-</div>
-</div><p>缺陷：会进行Table Scan,扫描全部文档再返回结果，数据量大的时候会出现慢查询问题。</p>
+db.getCollection('user').find().skip(5).limit(5)
+</code></pre><p>缺陷：会进行Table Scan,扫描全部文档再返回结果，数据量大的时候会出现慢查询问题。</p>
 <ul>
 <li>Seek Method分页方法</li>
 </ul>
 <p>seek method方式翻页,只用find + limit，不再使用skip,在find中加了一个条件：上一批的最后一个document的_id(比较的基准字段可以是任何有序的字段，例如时间戳，该字段必须有Index才有意义)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">//第一页
+<pre><code>//第一页
 db.users.find().limit(pageSize);
 //找到此页面中最后一个文档的ID为lastId
 last_id = ...
 
 //第二页
 db.user.find({
-   &#34;_id&#34;:{&#34;$gt&#34;:&#34;5d6c7b8304f4757af5636e81&#34;}
+   &quot;_id&quot;:{&quot;$gt&quot;:&quot;5d6c7b8304f4757af5636e81&quot;}
 }).limit(10)
 //使用此页面中最后一个文档的ID更新lastId
 last_id = ...
-</code></pre></td></tr></table>
-</div>
-</div><p>缺陷：无法像传统分页一样进行跳页，总页数展示</p>
+</code></pre><p>缺陷：无法像传统分页一样进行跳页，总页数展示</p>
 <h3 id="排序">排序</h3>
 <ul>
 <li>ObjectId有序性</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">ObjectId 类似唯一主键，可以很快的去生成和排序，包含 12 bytes，含义是：
+<pre><code>ObjectId 类似唯一主键，可以很快的去生成和排序，包含 12 bytes，含义是：
 
 - 前 4 个字节表示创建 unix 时间戳,格林尼治时间 UTC 时间，比北京时间晚了 8 个小时
 - 接下来的 3 个字节是机器标识码
@@ -267,50 +217,26 @@ last_id = ...
 - 最后三个字节是随机数
 
 MongoDB的ObjectId随着时间而增加，如果是同一台机器的同一个进程生成的对象，是有序的。
-</code></pre></td></tr></table>
-</div>
-</div><p><img src="https://user-images.githubusercontent.com/19829495/64103993-ecf09b00-cda5-11e9-971a-f80fd94cb687.png" alt="image"></p>
+</code></pre><p><img src="https://user-images.githubusercontent.com/19829495/64103993-ecf09b00-cda5-11e9-971a-f80fd94cb687.png" alt="image"></p>
 <ul>
 <li>降序</li>
 </ul>
 <p>id降序，第一页是最大的，下一页的id比上一页的最后的id还小</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">db.user.find({
-   &#34;_id&#34;:{&#34;$lt&#34;:&#34;5d6c7ba804f4757af5636e84&#34;}
+<pre><code>db.user.find({
+   &quot;_id&quot;:{&quot;$lt&quot;:&quot;5d6c7ba804f4757af5636e84&quot;}
 })
-.sort({&#34;_id&#34;:-1})
+.sort({&quot;_id&quot;:-1})
 .limit(5)
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+</code></pre><ul>
 <li>升序</li>
 </ul>
 <p>id升序， 第一页最小，下一页的id比上一页的最后一条记录id还大</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">db.user.find({
-   &#34;_id&#34;:{&#34;$gt&#34;:&#34;5d6c7ba804f4757af5636e84&#34;}
+<pre><code>db.user.find({
+   &quot;_id&quot;:{&quot;$gt&quot;:&quot;5d6c7ba804f4757af5636e84&quot;}
 })
-.sort({&#34;_id&#34;:1})
+.sort({&quot;_id&quot;:1})
 .limit(5)
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+</code></pre><ul>
 <li>排序性能</li>
 </ul>
 <p>MongoDB的sort和find函数，先find查询符合条件的结果，然后在结果集中排序。从2.6开始，sort只排序100M以内的数据，超过将会报错。可以通过设置allowDiskUse来允许排序大容量数据。有索引的排序会比没有索引的排序快，MongoDB官方推荐为需要排序的key建立索引。</p>
@@ -318,152 +244,107 @@ MongoDB的ObjectId随着时间而增加，如果是同一台机器的同一个�
 <ul>
 <li>单key索引</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">db.records.createIndex( { a: 1 } )
-</code></pre></td></tr></table>
-</div>
-</div><p>单key的排序使用单key索引，索引又分升序(1)和降序(-1)，索引定义的排序方向以及逆转方向可以支持sort。对于上述单key索引a，可以支持sort({a:1})升序和sort({a:-1})降序。</p>
+<pre><code>db.records.createIndex( { a: 1 } )
+</code></pre><p>单key的排序使用单key索引，索引又分升序(1)和降序(-1)，索引定义的排序方向以及逆转方向可以支持sort。对于上述单key索引a，可以支持sort({a:1})升序和sort({a:-1})降序。</p>
 <ul>
 <li>多key索引</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">db.records.createIndex( { a: 1, b:-1 } )
-</code></pre></td></tr></table>
-</div>
-</div><p>对于多字段排序使用复合(compound index)索引。复合多字段索引的顺序要和sort的字段一致才可以走索引。比如索引{a:1, b:1}, 可以支持sort({a:1, b:1})和逆序sort({a:-1, b:-1})， 但不支持sort({b:1, a:1})。</p>
+<pre><code>db.records.createIndex( { a: 1, b:-1 } )
+</code></pre><p>对于多字段排序使用复合(compound index)索引。复合多字段索引的顺序要和sort的字段一致才可以走索引。比如索引{a:1, b:1}, 可以支持sort({a:1, b:1})和逆序sort({a:-1, b:-1})， 但不支持sort({b:1, a:1})。</p>
 <p>复合索引支持sort同排序和逆序：索引{a:1, b:-1} 可以支持sort({a:1, b:-1}), 也可以支持sort({a:-1, b:1})</p>
 <p>复合索引可以前缀子集支持sort {a:1, b:1, c:1}相当于{ a: 1 } + { a: 1, b: 1 } + { a: 1, b: 1, c: 1 }</p>
 <ul>
 <li>示例</li>
 </ul>
 <p><img src="https://user-images.githubusercontent.com/19829495/64108264-f7fbf900-cdae-11e9-9ccc-c07cb82491d2.png" alt="image"></p>
-    </div>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">LHR</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2019-09-02
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/mongodb/">MongoDB</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/redis-transaction-watch/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Redis 事务-Watch</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/linux-zerocopy/">
-            <span class="next-text nav-default">Linux Zero-copy(零拷贝)机制</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/mongodb/"
+              >MongoDB</a
+            >&nbsp;
+          
         </div>
-        <div id="SOHUCS" sid="/post/mongo-limit-sort-index/"></div>
-    <script type="text/javascript">
-    (function(){
-      if (window.location.hostname === 'localhost') return;
+      
+    </article>
+    
+      <script>
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      document.getElementById('backtotopButton').style.opacity = '1'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    } else {
+      document.getElementById('backtotopButton').style.opacity = '0'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    }
+  })
 
-      var appid = 'cyvob1sks';
-      var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth;
-      if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
-    })();
-    </script>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
-      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
-  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-<div class="friend-links">
-  <span class="division">Friends:</span>
-  <span class="theme-info"><a class="theme-link" href="https://kii.la">vincent</a> </span>
-</div>
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-
-<script id="baidu_analytics">
-  var _hmt = _hmt || [];
-  (function() {
-    if (window.location.hostname === 'localhost') return;
-    var hm = document.createElement("script"); hm.async = true;
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
 </script>
 
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
 
 
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
 
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
 
-
-</body>
+  </body>
 </html>

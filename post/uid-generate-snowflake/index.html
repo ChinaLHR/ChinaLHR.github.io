@@ -1,161 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>基于SnowFlake的分布式UID生成服务 - LiHanRong</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  <head>
+    <meta charset="utf-8" />
+<title>基于SnowFlake的分布式UID生成服务</title>
 
 
-<meta name="author" content="LHR" /><meta name="description" content=" 分析与改造SnowFlake算法
-" /><meta name="keywords" content="Hugo, theme, even" />
+  
 
 
 
 
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://chinalhr.github.io/post/uid-generate-snowflake/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.2fe01a8d6a1e524ccbed1cdfa4e66fc6e8e49ad88327a16803150a0fbceff06c.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="基于SnowFlake的分布式UID生成服务" />
-<meta property="og:description" content="
-分析与改造SnowFlake算法
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/uid-generate-snowflake/" />
-<meta property="article:published_time" content="2018-09-08T23:02:55+08:00" />
-<meta property="article:modified_time" content="2018-09-08T23:02:55+08:00" />
-<meta itemprop="name" content="基于SnowFlake的分布式UID生成服务">
-<meta itemprop="description" content="
-分析与改造SnowFlake算法
-">
-<meta itemprop="datePublished" content="2018-09-08T23:02:55&#43;08:00" />
-<meta itemprop="dateModified" content="2018-09-08T23:02:55&#43;08:00" />
-<meta itemprop="wordCount" content="3052">
-
-
-
-<meta itemprop="keywords" content="分布式UID,算法," /><meta name="twitter:card" content="summary"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="基于SnowFlake的分布式UID生成服务"/>
 <meta name="twitter:description" content="
 分析与改造SnowFlake算法
 "/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
 
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">LiHanRong Blog</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">categories</li>
-      </a><a href="/post/about/">
-        <li class="mobile-menu-item">about</li>
-      </a>
-  </ul>
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
 
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
   
 
 
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">LiHanRong Blog</a>
-</div>
 
 
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/about/">about</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <header>
+    <nav class="navbar">
+  <div class="nav">
     
-    <header class="post-header">
-      <h1 class="post-title">基于SnowFlake的分布式UID生成服务</h1>
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
 
-      <div class="post-meta">
-        <span class="post-time"> 2018-09-08 </span>
-        <div class="post-category">
-            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
-            </div>
-          <span class="more-meta"> 3052 words </span>
-          <span class="more-meta"> 7 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
+  </div>
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              基于SnowFlake的分布式UID生成服务
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Sep 8, 2018
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/%E7%AE%97%E6%B3%95/"
+        >算法</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
       </div>
-    </header>
+    </div>
+  </header>
+  
 
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
+      <blockquote>
+<p>分析与改造SnowFlake算法</p>
+</blockquote>
+<nav id="TableOfContents">
   <ul>
     <li>
       <ul>
@@ -178,14 +195,7 @@
       </ul>
     </li>
   </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <blockquote>
-<p>分析与改造SnowFlake算法</p>
-</blockquote>
-<h2 id="背景">背景</h2>
+</nav><h2 id="背景">背景</h2>
 <p>公司原本订单ID的生成是基于Java Random与Hash算法的单机UID生成策略，但是后端系统的生成环境是基于SLB，Nginx与Java多进程的分布式环境，导致出现了UID 碰撞,产生线上问题。现准备基于Twitter的SnowFlake，将UID生成独立出来做一个统一的全局ID生成服务。</p>
 <h2 id="snowflake概述">SnowFlake概述</h2>
 <p>SnowFlake算法用来生成64位的ID，刚好可以用long整型存储，能够用于分布式系统中生产唯一的ID， 并且生成的ID有大致的顺序。 生成的64位ID可以分成5个部分：</p>
@@ -222,249 +232,117 @@
 <ul>
 <li>Java 实现</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">  1
-</span><span class="lnt">  2
-</span><span class="lnt">  3
-</span><span class="lnt">  4
-</span><span class="lnt">  5
-</span><span class="lnt">  6
-</span><span class="lnt">  7
-</span><span class="lnt">  8
-</span><span class="lnt">  9
-</span><span class="lnt"> 10
-</span><span class="lnt"> 11
-</span><span class="lnt"> 12
-</span><span class="lnt"> 13
-</span><span class="lnt"> 14
-</span><span class="lnt"> 15
-</span><span class="lnt"> 16
-</span><span class="lnt"> 17
-</span><span class="lnt"> 18
-</span><span class="lnt"> 19
-</span><span class="lnt"> 20
-</span><span class="lnt"> 21
-</span><span class="lnt"> 22
-</span><span class="lnt"> 23
-</span><span class="lnt"> 24
-</span><span class="lnt"> 25
-</span><span class="lnt"> 26
-</span><span class="lnt"> 27
-</span><span class="lnt"> 28
-</span><span class="lnt"> 29
-</span><span class="lnt"> 30
-</span><span class="lnt"> 31
-</span><span class="lnt"> 32
-</span><span class="lnt"> 33
-</span><span class="lnt"> 34
-</span><span class="lnt"> 35
-</span><span class="lnt"> 36
-</span><span class="lnt"> 37
-</span><span class="lnt"> 38
-</span><span class="lnt"> 39
-</span><span class="lnt"> 40
-</span><span class="lnt"> 41
-</span><span class="lnt"> 42
-</span><span class="lnt"> 43
-</span><span class="lnt"> 44
-</span><span class="lnt"> 45
-</span><span class="lnt"> 46
-</span><span class="lnt"> 47
-</span><span class="lnt"> 48
-</span><span class="lnt"> 49
-</span><span class="lnt"> 50
-</span><span class="lnt"> 51
-</span><span class="lnt"> 52
-</span><span class="lnt"> 53
-</span><span class="lnt"> 54
-</span><span class="lnt"> 55
-</span><span class="lnt"> 56
-</span><span class="lnt"> 57
-</span><span class="lnt"> 58
-</span><span class="lnt"> 59
-</span><span class="lnt"> 60
-</span><span class="lnt"> 61
-</span><span class="lnt"> 62
-</span><span class="lnt"> 63
-</span><span class="lnt"> 64
-</span><span class="lnt"> 65
-</span><span class="lnt"> 66
-</span><span class="lnt"> 67
-</span><span class="lnt"> 68
-</span><span class="lnt"> 69
-</span><span class="lnt"> 70
-</span><span class="lnt"> 71
-</span><span class="lnt"> 72
-</span><span class="lnt"> 73
-</span><span class="lnt"> 74
-</span><span class="lnt"> 75
-</span><span class="lnt"> 76
-</span><span class="lnt"> 77
-</span><span class="lnt"> 78
-</span><span class="lnt"> 79
-</span><span class="lnt"> 80
-</span><span class="lnt"> 81
-</span><span class="lnt"> 82
-</span><span class="lnt"> 83
-</span><span class="lnt"> 84
-</span><span class="lnt"> 85
-</span><span class="lnt"> 86
-</span><span class="lnt"> 87
-</span><span class="lnt"> 88
-</span><span class="lnt"> 89
-</span><span class="lnt"> 90
-</span><span class="lnt"> 91
-</span><span class="lnt"> 92
-</span><span class="lnt"> 93
-</span><span class="lnt"> 94
-</span><span class="lnt"> 95
-</span><span class="lnt"> 96
-</span><span class="lnt"> 97
-</span><span class="lnt"> 98
-</span><span class="lnt"> 99
-</span><span class="lnt">100
-</span><span class="lnt">101
-</span><span class="lnt">102
-</span><span class="lnt">103
-</span><span class="lnt">104
-</span><span class="lnt">105
-</span><span class="lnt">106
-</span><span class="lnt">107
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
-</span><span class="cm"> * @Author : lhr
-</span><span class="cm"> * @Date : 12:03 2018/9/14
-</span><span class="cm"> * &lt;p&gt;
-</span><span class="cm"> * 基于Twitter SnowFlake算法 UID生成类
-</span><span class="cm"> * 0 - 41位时间戳 - 10位机器标识 - 12位序列号
-</span><span class="cm"> * 41位时间戳：时间戳的差值（当前时间-固定的开始时间START_STMP）
-</span><span class="cm"> * 10位机器标识:固定值,取IP地址后八位
-</span><span class="cm"> * 12位序列号：同一毫秒内同一个节点可以生成4096个ID
-</span><span class="cm"> * &lt;p&gt;
-</span><span class="cm"> * 0 - 000000000 0000000000 0000000000 0000000000 0 - 000000000 - 0000000000 00
-</span><span class="cm"> */</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SnowFlakeUidGenerate</span> <span class="o">{</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * @Author : lhr
+</span><span style="color:#75715e"> * @Date : 12:03 2018/9/14
+</span><span style="color:#75715e"> * &lt;p&gt;
+</span><span style="color:#75715e"> * 基于Twitter SnowFlake算法 UID生成类
+</span><span style="color:#75715e"> * 0 - 41位时间戳 - 10位机器标识 - 12位序列号
+</span><span style="color:#75715e"> * 41位时间戳：时间戳的差值（当前时间-固定的开始时间START_STMP）
+</span><span style="color:#75715e"> * 10位机器标识:固定值,取IP地址后八位
+</span><span style="color:#75715e"> * 12位序列号：同一毫秒内同一个节点可以生成4096个ID
+</span><span style="color:#75715e"> * &lt;p&gt;
+</span><span style="color:#75715e"> * 0 - 000000000 0000000000 0000000000 0000000000 0 - 000000000 - 0000000000 00
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SnowFlakeUidGenerate</span> <span style="color:#f92672">{</span>
 
-    <span class="cm">/**
-</span><span class="cm">     * 起始时间戳 2018-09-10 00:00:00
-</span><span class="cm">     */</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">START_STMP</span> <span class="o">=</span> <span class="n">1536508800000L</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="n">ReentrantLock</span> <span class="n">reentrantLock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReentrantLock</span><span class="o">();</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 起始时间戳 2018-09-10 00:00:00
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> START_STMP <span style="color:#f92672">=</span> 1536508800000L<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> ReentrantLock reentrantLock <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ReentrantLock<span style="color:#f92672">();</span>
 
-    <span class="cm">/**
-</span><span class="cm">     * 每一部分占用的位数
-</span><span class="cm">     * SEQUENCE_BIT:序列号占用的位数
-</span><span class="cm">     * MACHINE_BIT:机器标识占用的位数(0-1024)
-</span><span class="cm">     */</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">SEQUENCE_BIT</span> <span class="o">=</span> <span class="n">12</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">MACHINE_BIT</span> <span class="o">=</span> <span class="n">10</span><span class="o">;</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 每一部分占用的位数
+</span><span style="color:#75715e">     * SEQUENCE_BIT:序列号占用的位数
+</span><span style="color:#75715e">     * MACHINE_BIT:机器标识占用的位数(0-1024)
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> SEQUENCE_BIT <span style="color:#f92672">=</span> 12<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> MACHINE_BIT <span style="color:#f92672">=</span> 10<span style="color:#f92672">;</span>
 
-    <span class="cm">/**
-</span><span class="cm">     * 每一部分占用的最大值
-</span><span class="cm">     * MAX_SEQUENCE_NUM:序列号最大值
-</span><span class="cm">     * MAX_MACHINE_NUM:机器标识最大值
-</span><span class="cm">     */</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">MAX_SEQUENCE_NUM</span> <span class="o">=</span> <span class="o">-</span><span class="n">1L</span> <span class="o">^</span> <span class="o">(-</span><span class="n">1L</span> <span class="o">&lt;&lt;</span> <span class="n">SEQUENCE_BIT</span><span class="o">);</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">MAX_MACHINE_NUM</span> <span class="o">=</span> <span class="o">-</span><span class="n">1L</span> <span class="o">^</span> <span class="o">(-</span><span class="n">1L</span> <span class="o">&lt;&lt;</span> <span class="n">MACHINE_BIT</span><span class="o">);</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 每一部分占用的最大值
+</span><span style="color:#75715e">     * MAX_SEQUENCE_NUM:序列号最大值
+</span><span style="color:#75715e">     * MAX_MACHINE_NUM:机器标识最大值
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> MAX_SEQUENCE_NUM <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>1L <span style="color:#f92672">^</span> <span style="color:#f92672">(-</span>1L <span style="color:#f92672">&lt;&lt;</span> SEQUENCE_BIT<span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> MAX_MACHINE_NUM <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>1L <span style="color:#f92672">^</span> <span style="color:#f92672">(-</span>1L <span style="color:#f92672">&lt;&lt;</span> MACHINE_BIT<span style="color:#f92672">);</span>
 
-    <span class="cm">/**
-</span><span class="cm">     * 每一部分向左移动
-</span><span class="cm">     */</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">MACHINE_LEFT</span> <span class="o">=</span> <span class="n">SEQUENCE_BIT</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">TIMESTMP_LEFT</span> <span class="o">=</span> <span class="n">SEQUENCE_BIT</span> <span class="o">+</span> <span class="n">MACHINE_BIT</span><span class="o">;</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 每一部分向左移动
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> MACHINE_LEFT <span style="color:#f92672">=</span> SEQUENCE_BIT<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> TIMESTMP_LEFT <span style="color:#f92672">=</span> SEQUENCE_BIT <span style="color:#f92672">+</span> MACHINE_BIT<span style="color:#f92672">;</span>
 
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">machineId</span> <span class="o">=</span> <span class="n">0L</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">sequence</span> <span class="o">=</span> <span class="n">0L</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">lastStmp</span> <span class="o">=</span> <span class="o">-</span><span class="n">1L</span><span class="o">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> machineId <span style="color:#f92672">=</span> 0L<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> sequence <span style="color:#f92672">=</span> 0L<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> lastStmp <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>1L<span style="color:#f92672">;</span>
 
-    <span class="cm">/**
-</span><span class="cm">     * 产生下一个Id
-</span><span class="cm">     *
-</span><span class="cm">     * @return
-</span><span class="cm">     */</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">nextId</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">reentrantLock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
-        <span class="k">try</span> <span class="o">{</span>
-            <span class="kt">long</span> <span class="n">currStmp</span> <span class="o">=</span> <span class="n">getNewstmp</span><span class="o">();</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">currStmp</span> <span class="o">&lt;</span> <span class="n">lastStmp</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">String</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;SnowFlakeUidGenerate: 机器时钟发生错误,无法生成UID &#34;</span> <span class="o">+</span>
-                        <span class="s">&#34;machineId:{} ; currStmp:{} ; lastStmp:{}&#34;</span><span class="o">,</span> <span class="n">machineId</span><span class="o">,</span> <span class="n">currStmp</span><span class="o">,</span> <span class="n">lastStmp</span><span class="o">);</span>
-                <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="n">msg</span><span class="o">);</span>
-            <span class="o">}</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 产生下一个Id
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @return
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">nextId</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        reentrantLock<span style="color:#f92672">.</span><span style="color:#a6e22e">lock</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">long</span> currStmp <span style="color:#f92672">=</span> getNewstmp<span style="color:#f92672">();</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>currStmp <span style="color:#f92672">&lt;</span> lastStmp<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                String msg <span style="color:#f92672">=</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">format</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SnowFlakeUidGenerate: 机器时钟发生错误,无法生成UID &#34;</span> <span style="color:#f92672">+</span>
+                        <span style="color:#e6db74">&#34;machineId:{} ; currStmp:{} ; lastStmp:{}&#34;</span><span style="color:#f92672">,</span> machineId<span style="color:#f92672">,</span> currStmp<span style="color:#f92672">,</span> lastStmp<span style="color:#f92672">);</span>
+                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span>msg<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
 
-            <span class="k">if</span> <span class="o">(</span><span class="n">currStmp</span> <span class="o">==</span> <span class="n">lastStmp</span><span class="o">)</span> <span class="o">{</span>
-                <span class="c1">//相同毫秒内，序列号自增
-</span><span class="c1"></span>                <span class="n">sequence</span> <span class="o">=</span> <span class="o">(</span><span class="n">sequence</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span> <span class="o">&amp;</span> <span class="n">MAX_SEQUENCE_NUM</span><span class="o">;</span>
-                <span class="c1">//同一毫秒的序列数已经达到最大
-</span><span class="c1"></span>                <span class="k">if</span> <span class="o">(</span><span class="n">sequence</span> <span class="o">==</span> <span class="n">0L</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="n">currStmp</span> <span class="o">=</span> <span class="n">getNextMill</span><span class="o">();</span>
-                <span class="o">}</span>
-            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                <span class="c1">//不同毫秒内，序列号置为0
-</span><span class="c1"></span>                <span class="n">sequence</span> <span class="o">=</span> <span class="n">0L</span><span class="o">;</span>
-            <span class="o">}</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>currStmp <span style="color:#f92672">==</span> lastStmp<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#75715e">//相同毫秒内，序列号自增
+</span><span style="color:#75715e"></span>                sequence <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>sequence <span style="color:#f92672">+</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;</span> MAX_SEQUENCE_NUM<span style="color:#f92672">;</span>
+                <span style="color:#75715e">//同一毫秒的序列数已经达到最大
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>sequence <span style="color:#f92672">==</span> 0L<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    currStmp <span style="color:#f92672">=</span> getNextMill<span style="color:#f92672">();</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                <span style="color:#75715e">//不同毫秒内，序列号置为0
+</span><span style="color:#75715e"></span>                sequence <span style="color:#f92672">=</span> 0L<span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
 
-            <span class="n">lastStmp</span> <span class="o">=</span> <span class="n">currStmp</span><span class="o">;</span>
+            lastStmp <span style="color:#f92672">=</span> currStmp<span style="color:#f92672">;</span>
 
-            <span class="k">return</span> <span class="o">((</span><span class="n">currStmp</span> <span class="o">-</span> <span class="n">START_STMP</span><span class="o">)</span> <span class="o">&lt;&lt;</span> <span class="n">TIMESTMP_LEFT</span><span class="o">)</span>
-                    <span class="o">|</span> <span class="n">machineId</span> <span class="o">&lt;&lt;</span> <span class="n">MACHINE_LEFT</span>
-                    <span class="o">|</span> <span class="n">sequence</span><span class="o">;</span>
-        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
-            <span class="n">reentrantLock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#f92672">((</span>currStmp <span style="color:#f92672">-</span> START_STMP<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;&lt;</span> TIMESTMP_LEFT<span style="color:#f92672">)</span>
+                    <span style="color:#f92672">|</span> machineId <span style="color:#f92672">&lt;&lt;</span> MACHINE_LEFT
+                    <span style="color:#f92672">|</span> sequence<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
+            reentrantLock<span style="color:#f92672">.</span><span style="color:#a6e22e">unlock</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">getNextMill</span><span class="o">()</span> <span class="o">{</span>
-        <span class="kt">long</span> <span class="n">mill</span> <span class="o">=</span> <span class="n">getNewstmp</span><span class="o">();</span>
-        <span class="k">while</span> <span class="o">(</span><span class="n">mill</span> <span class="o">&lt;=</span> <span class="n">lastStmp</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">mill</span> <span class="o">=</span> <span class="n">getNewstmp</span><span class="o">();</span>
-        <span class="o">}</span>
-        <span class="k">return</span> <span class="n">mill</span><span class="o">;</span>
-    <span class="o">}</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">getNextMill</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">long</span> mill <span style="color:#f92672">=</span> getNewstmp<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>mill <span style="color:#f92672">&lt;=</span> lastStmp<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            mill <span style="color:#f92672">=</span> getNewstmp<span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> mill<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">getNewstmp</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
-    <span class="o">}</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">getNewstmp</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">initMachineId</span><span class="o">(</span><span class="kt">long</span> <span class="n">currentMachineId</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">currentMachineId</span> <span class="o">&gt;</span> <span class="n">MAX_MACHINE_NUM</span> <span class="o">||</span> <span class="n">currentMachineId</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">String</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;SnowFlakeUidGenerate 机器标识不正确 machineId:{}&#34;</span><span class="o">,</span> <span class="n">machineId</span><span class="o">);</span>
-            <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="n">msg</span><span class="o">);</span>
-        <span class="o">}</span>
-        <span class="n">machineId</span> <span class="o">=</span> <span class="n">currentMachineId</span><span class="o">;</span>
-    <span class="o">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">initMachineId</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> currentMachineId<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>currentMachineId <span style="color:#f92672">&gt;</span> MAX_MACHINE_NUM <span style="color:#f92672">||</span> currentMachineId <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            String msg <span style="color:#f92672">=</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">format</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SnowFlakeUidGenerate 机器标识不正确 machineId:{}&#34;</span><span style="color:#f92672">,</span> machineId<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span>msg<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        machineId <span style="color:#f92672">=</span> currentMachineId<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">getMachineId</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">machineId</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">getMachineId</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> machineId<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
 <li>核心操作</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">((currStmp - START_STMP) &lt;&lt; TIMESTMP_LEFT)
+<pre><code>((currStmp - START_STMP) &lt;&lt; TIMESTMP_LEFT)
 使用当前时间戳减去开始时间戳得到时间戳数值,时间戳数值左移22位进行bit位对齐
 0 [000 0000 0000 0000 0000 0000 0000 0000 0000 0000 00]00 0000 0000 0000 0000 0000
 
@@ -479,394 +357,232 @@
 | sequence
 12位的序列号与上述二进制数值进行|或操作,进行bit位对齐 得到
 0 [000 0000 0000 0000 0000 0000 0000 0000 0000 0000 00][00 0000 0000][0000 0000 0000]
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="snowflake改造">SnowFlake改造</h2>
+</code></pre><h2 id="snowflake改造">SnowFlake改造</h2>
 <h3 id="固定长度uid改造">固定长度UID改造</h3>
 <p>Snowflake生成的ID长度不是固定的，和设置的起始时间有关系。多数订单号需要一个统一长度的订单ID。可以在64位数前面使用01达到确定位数，对机器ID与序列号进行取舍。(对于机房小的小型公司可以采用缩减机器ID的方式，对于并发性不高的业务可以采用缩减序列号的方式，减小毫秒级别UID的生成数量)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">  1
-</span><span class="lnt">  2
-</span><span class="lnt">  3
-</span><span class="lnt">  4
-</span><span class="lnt">  5
-</span><span class="lnt">  6
-</span><span class="lnt">  7
-</span><span class="lnt">  8
-</span><span class="lnt">  9
-</span><span class="lnt"> 10
-</span><span class="lnt"> 11
-</span><span class="lnt"> 12
-</span><span class="lnt"> 13
-</span><span class="lnt"> 14
-</span><span class="lnt"> 15
-</span><span class="lnt"> 16
-</span><span class="lnt"> 17
-</span><span class="lnt"> 18
-</span><span class="lnt"> 19
-</span><span class="lnt"> 20
-</span><span class="lnt"> 21
-</span><span class="lnt"> 22
-</span><span class="lnt"> 23
-</span><span class="lnt"> 24
-</span><span class="lnt"> 25
-</span><span class="lnt"> 26
-</span><span class="lnt"> 27
-</span><span class="lnt"> 28
-</span><span class="lnt"> 29
-</span><span class="lnt"> 30
-</span><span class="lnt"> 31
-</span><span class="lnt"> 32
-</span><span class="lnt"> 33
-</span><span class="lnt"> 34
-</span><span class="lnt"> 35
-</span><span class="lnt"> 36
-</span><span class="lnt"> 37
-</span><span class="lnt"> 38
-</span><span class="lnt"> 39
-</span><span class="lnt"> 40
-</span><span class="lnt"> 41
-</span><span class="lnt"> 42
-</span><span class="lnt"> 43
-</span><span class="lnt"> 44
-</span><span class="lnt"> 45
-</span><span class="lnt"> 46
-</span><span class="lnt"> 47
-</span><span class="lnt"> 48
-</span><span class="lnt"> 49
-</span><span class="lnt"> 50
-</span><span class="lnt"> 51
-</span><span class="lnt"> 52
-</span><span class="lnt"> 53
-</span><span class="lnt"> 54
-</span><span class="lnt"> 55
-</span><span class="lnt"> 56
-</span><span class="lnt"> 57
-</span><span class="lnt"> 58
-</span><span class="lnt"> 59
-</span><span class="lnt"> 60
-</span><span class="lnt"> 61
-</span><span class="lnt"> 62
-</span><span class="lnt"> 63
-</span><span class="lnt"> 64
-</span><span class="lnt"> 65
-</span><span class="lnt"> 66
-</span><span class="lnt"> 67
-</span><span class="lnt"> 68
-</span><span class="lnt"> 69
-</span><span class="lnt"> 70
-</span><span class="lnt"> 71
-</span><span class="lnt"> 72
-</span><span class="lnt"> 73
-</span><span class="lnt"> 74
-</span><span class="lnt"> 75
-</span><span class="lnt"> 76
-</span><span class="lnt"> 77
-</span><span class="lnt"> 78
-</span><span class="lnt"> 79
-</span><span class="lnt"> 80
-</span><span class="lnt"> 81
-</span><span class="lnt"> 82
-</span><span class="lnt"> 83
-</span><span class="lnt"> 84
-</span><span class="lnt"> 85
-</span><span class="lnt"> 86
-</span><span class="lnt"> 87
-</span><span class="lnt"> 88
-</span><span class="lnt"> 89
-</span><span class="lnt"> 90
-</span><span class="lnt"> 91
-</span><span class="lnt"> 92
-</span><span class="lnt"> 93
-</span><span class="lnt"> 94
-</span><span class="lnt"> 95
-</span><span class="lnt"> 96
-</span><span class="lnt"> 97
-</span><span class="lnt"> 98
-</span><span class="lnt"> 99
-</span><span class="lnt">100
-</span><span class="lnt">101
-</span><span class="lnt">102
-</span><span class="lnt">103
-</span><span class="lnt">104
-</span><span class="lnt">105
-</span><span class="lnt">106
-</span><span class="lnt">107
-</span><span class="lnt">108
-</span><span class="lnt">109
-</span><span class="lnt">110
-</span><span class="lnt">111
-</span><span class="lnt">112
-</span><span class="lnt">113
-</span><span class="lnt">114
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
-</span><span class="cm"> * @Author : lhr
-</span><span class="cm"> * @Date : 14:06 2019/7/30
-</span><span class="cm"> * &lt;p&gt;
-</span><span class="cm"> * 基于Twitter SnowFlake算法改造 UserId生成类 生成固定长度为19的ID
-</span><span class="cm"> * 01 - 41位时间戳 - 10位机器标识 - 11位序列号
-</span><span class="cm"> * 41位时间戳：时间戳的差值（当前时间-固定的开始时间START_STMP）
-</span><span class="cm"> * 10位机器标识:固定值,取IP地址后八位
-</span><span class="cm"> * 11位序列号：同一毫秒内同一个节点可以生成2048个ID
-</span><span class="cm"> * &lt;p&gt;
-</span><span class="cm"> * 01 - 000000000 0000000000 0000000000 0000000000 0 - 000000000 - 0000000000 0
-</span><span class="cm"> */</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SnowFlakeUserIdGenerate</span> <span class="o">{</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * @Author : lhr
+</span><span style="color:#75715e"> * @Date : 14:06 2019/7/30
+</span><span style="color:#75715e"> * &lt;p&gt;
+</span><span style="color:#75715e"> * 基于Twitter SnowFlake算法改造 UserId生成类 生成固定长度为19的ID
+</span><span style="color:#75715e"> * 01 - 41位时间戳 - 10位机器标识 - 11位序列号
+</span><span style="color:#75715e"> * 41位时间戳：时间戳的差值（当前时间-固定的开始时间START_STMP）
+</span><span style="color:#75715e"> * 10位机器标识:固定值,取IP地址后八位
+</span><span style="color:#75715e"> * 11位序列号：同一毫秒内同一个节点可以生成2048个ID
+</span><span style="color:#75715e"> * &lt;p&gt;
+</span><span style="color:#75715e"> * 01 - 000000000 0000000000 0000000000 0000000000 0 - 000000000 - 0000000000 0
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SnowFlakeUserIdGenerate</span> <span style="color:#f92672">{</span>
 
-    <span class="cm">/**
-</span><span class="cm">     * 起始时间戳 2018-09-10 00:00:00
-</span><span class="cm">     */</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">START_STMP</span> <span class="o">=</span> <span class="n">1536508800000L</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="n">ReentrantLock</span> <span class="n">reentrantLock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReentrantLock</span><span class="o">();</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 起始时间戳 2018-09-10 00:00:00
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> START_STMP <span style="color:#f92672">=</span> 1536508800000L<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> ReentrantLock reentrantLock <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ReentrantLock<span style="color:#f92672">();</span>
 
-    <span class="cm">/**
-</span><span class="cm">     * 有效bit位
-</span><span class="cm">     */</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">bitNum</span> <span class="o">=</span> <span class="n">62</span><span class="o">;</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 有效bit位
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">long</span> bitNum <span style="color:#f92672">=</span> 62<span style="color:#f92672">;</span>
 
-    <span class="cm">/**
-</span><span class="cm">     * 每一部分占用的位数
-</span><span class="cm">     * SEQUENCE_BIT:序列号占用的位数
-</span><span class="cm">     * MACHINE_BIT:机器标识占用的位数(0-1024)
-</span><span class="cm">     */</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">SEQUENCE_BIT</span> <span class="o">=</span> <span class="n">11</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">MACHINE_BIT</span> <span class="o">=</span> <span class="n">10</span><span class="o">;</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 每一部分占用的位数
+</span><span style="color:#75715e">     * SEQUENCE_BIT:序列号占用的位数
+</span><span style="color:#75715e">     * MACHINE_BIT:机器标识占用的位数(0-1024)
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> SEQUENCE_BIT <span style="color:#f92672">=</span> 11<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> MACHINE_BIT <span style="color:#f92672">=</span> 10<span style="color:#f92672">;</span>
 
-    <span class="cm">/**
-</span><span class="cm">     * 每一部分占用的最大值
-</span><span class="cm">     * MAX_SEQUENCE_NUM:序列号最大值
-</span><span class="cm">     * MAX_MACHINE_NUM:机器标识最大值
-</span><span class="cm">     */</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">MAX_SEQUENCE_NUM</span> <span class="o">=</span> <span class="o">-</span><span class="n">1L</span> <span class="o">^</span> <span class="o">(-</span><span class="n">1L</span> <span class="o">&lt;&lt;</span> <span class="n">SEQUENCE_BIT</span><span class="o">);</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">MAX_MACHINE_NUM</span> <span class="o">=</span> <span class="o">-</span><span class="n">1L</span> <span class="o">^</span> <span class="o">(-</span><span class="n">1L</span> <span class="o">&lt;&lt;</span> <span class="n">MACHINE_BIT</span><span class="o">);</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 每一部分占用的最大值
+</span><span style="color:#75715e">     * MAX_SEQUENCE_NUM:序列号最大值
+</span><span style="color:#75715e">     * MAX_MACHINE_NUM:机器标识最大值
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> MAX_SEQUENCE_NUM <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>1L <span style="color:#f92672">^</span> <span style="color:#f92672">(-</span>1L <span style="color:#f92672">&lt;&lt;</span> SEQUENCE_BIT<span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> MAX_MACHINE_NUM <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>1L <span style="color:#f92672">^</span> <span style="color:#f92672">(-</span>1L <span style="color:#f92672">&lt;&lt;</span> MACHINE_BIT<span style="color:#f92672">);</span>
 
-    <span class="cm">/**
-</span><span class="cm">     * 每一部分向左移动
-</span><span class="cm">     */</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">MACHINE_LEFT</span> <span class="o">=</span> <span class="n">SEQUENCE_BIT</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">TIMESTMP_LEFT</span> <span class="o">=</span> <span class="n">SEQUENCE_BIT</span> <span class="o">+</span> <span class="n">MACHINE_BIT</span><span class="o">;</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 每一部分向左移动
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> MACHINE_LEFT <span style="color:#f92672">=</span> SEQUENCE_BIT<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> TIMESTMP_LEFT <span style="color:#f92672">=</span> SEQUENCE_BIT <span style="color:#f92672">+</span> MACHINE_BIT<span style="color:#f92672">;</span>
 
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">machineId</span> <span class="o">=</span> <span class="n">0L</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">sequence</span> <span class="o">=</span> <span class="n">0L</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">lastStmp</span> <span class="o">=</span> <span class="o">-</span><span class="n">1L</span><span class="o">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> machineId <span style="color:#f92672">=</span> 0L<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> sequence <span style="color:#f92672">=</span> 0L<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> lastStmp <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>1L<span style="color:#f92672">;</span>
 
-    <span class="cm">/**
-</span><span class="cm">     * 产生下一个Id
-</span><span class="cm">     *
-</span><span class="cm">     * @return
-</span><span class="cm">     */</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">nextId</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">reentrantLock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
-        <span class="k">try</span> <span class="o">{</span>
-            <span class="kt">long</span> <span class="n">currStmp</span> <span class="o">=</span> <span class="n">getNewstmp</span><span class="o">();</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">currStmp</span> <span class="o">&lt;</span> <span class="n">lastStmp</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">String</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;SnowFlakeUserIdGenerate: 机器时钟发生错误,无法生成UID &#34;</span> <span class="o">+</span>
-                        <span class="s">&#34;machineId:{} ; currStmp:{} ; lastStmp:{}&#34;</span><span class="o">,</span> <span class="n">machineId</span><span class="o">,</span> <span class="n">currStmp</span><span class="o">,</span> <span class="n">lastStmp</span><span class="o">);</span>
-                <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="n">msg</span><span class="o">);</span>
-            <span class="o">}</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 产生下一个Id
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @return
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">nextId</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        reentrantLock<span style="color:#f92672">.</span><span style="color:#a6e22e">lock</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">long</span> currStmp <span style="color:#f92672">=</span> getNewstmp<span style="color:#f92672">();</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>currStmp <span style="color:#f92672">&lt;</span> lastStmp<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                String msg <span style="color:#f92672">=</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">format</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SnowFlakeUserIdGenerate: 机器时钟发生错误,无法生成UID &#34;</span> <span style="color:#f92672">+</span>
+                        <span style="color:#e6db74">&#34;machineId:{} ; currStmp:{} ; lastStmp:{}&#34;</span><span style="color:#f92672">,</span> machineId<span style="color:#f92672">,</span> currStmp<span style="color:#f92672">,</span> lastStmp<span style="color:#f92672">);</span>
+                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span>msg<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
 
-            <span class="k">if</span> <span class="o">(</span><span class="n">currStmp</span> <span class="o">==</span> <span class="n">lastStmp</span><span class="o">)</span> <span class="o">{</span>
-                <span class="c1">//相同毫秒内，序列号自增
-</span><span class="c1"></span>                <span class="n">sequence</span> <span class="o">=</span> <span class="o">(</span><span class="n">sequence</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span> <span class="o">&amp;</span> <span class="n">MAX_SEQUENCE_NUM</span><span class="o">;</span>
-                <span class="c1">//同一毫秒的序列数已经达到最大
-</span><span class="c1"></span>                <span class="k">if</span> <span class="o">(</span><span class="n">sequence</span> <span class="o">==</span> <span class="n">0L</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="n">currStmp</span> <span class="o">=</span> <span class="n">getNextMill</span><span class="o">();</span>
-                <span class="o">}</span>
-            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                <span class="c1">//不同毫秒内，序列号置为0
-</span><span class="c1"></span>                <span class="n">sequence</span> <span class="o">=</span> <span class="n">0L</span><span class="o">;</span>
-            <span class="o">}</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>currStmp <span style="color:#f92672">==</span> lastStmp<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#75715e">//相同毫秒内，序列号自增
+</span><span style="color:#75715e"></span>                sequence <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>sequence <span style="color:#f92672">+</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;</span> MAX_SEQUENCE_NUM<span style="color:#f92672">;</span>
+                <span style="color:#75715e">//同一毫秒的序列数已经达到最大
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>sequence <span style="color:#f92672">==</span> 0L<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    currStmp <span style="color:#f92672">=</span> getNextMill<span style="color:#f92672">();</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                <span style="color:#75715e">//不同毫秒内，序列号置为0
+</span><span style="color:#75715e"></span>                sequence <span style="color:#f92672">=</span> 0L<span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
 
-            <span class="n">lastStmp</span> <span class="o">=</span> <span class="n">currStmp</span><span class="o">;</span>
+            lastStmp <span style="color:#f92672">=</span> currStmp<span style="color:#f92672">;</span>
 
-            <span class="k">return</span> <span class="o">((</span><span class="n">currStmp</span> <span class="o">-</span> <span class="n">START_STMP</span><span class="o">)</span> <span class="o">&lt;&lt;</span> <span class="n">TIMESTMP_LEFT</span><span class="o">)</span>
-                    <span class="o">|</span> <span class="n">machineId</span> <span class="o">&lt;&lt;</span> <span class="n">MACHINE_LEFT</span>
-                    <span class="o">|</span> <span class="n">sequence</span>
-                    <span class="o">|</span> <span class="n">1L</span> <span class="o">&lt;&lt;</span> <span class="n">bitNum</span><span class="o">;</span>
-        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
-            <span class="n">reentrantLock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#f92672">((</span>currStmp <span style="color:#f92672">-</span> START_STMP<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;&lt;</span> TIMESTMP_LEFT<span style="color:#f92672">)</span>
+                    <span style="color:#f92672">|</span> machineId <span style="color:#f92672">&lt;&lt;</span> MACHINE_LEFT
+                    <span style="color:#f92672">|</span> sequence
+                    <span style="color:#f92672">|</span> 1L <span style="color:#f92672">&lt;&lt;</span> bitNum<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
+            reentrantLock<span style="color:#f92672">.</span><span style="color:#a6e22e">unlock</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">getNextMill</span><span class="o">()</span> <span class="o">{</span>
-        <span class="kt">long</span> <span class="n">mill</span> <span class="o">=</span> <span class="n">getNewstmp</span><span class="o">();</span>
-        <span class="k">while</span> <span class="o">(</span><span class="n">mill</span> <span class="o">&lt;=</span> <span class="n">lastStmp</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">mill</span> <span class="o">=</span> <span class="n">getNewstmp</span><span class="o">();</span>
-        <span class="o">}</span>
-        <span class="k">return</span> <span class="n">mill</span><span class="o">;</span>
-    <span class="o">}</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">getNextMill</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">long</span> mill <span style="color:#f92672">=</span> getNewstmp<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>mill <span style="color:#f92672">&lt;=</span> lastStmp<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            mill <span style="color:#f92672">=</span> getNewstmp<span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> mill<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">getNewstmp</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
-    <span class="o">}</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">getNewstmp</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">initMachineId</span><span class="o">(</span><span class="kt">long</span> <span class="n">currentMachineId</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">currentMachineId</span> <span class="o">&gt;</span> <span class="n">MAX_MACHINE_NUM</span> <span class="o">||</span> <span class="n">currentMachineId</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">String</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;SnowFlakeUserIdGenerate 机器标识不正确 machineId:{}&#34;</span><span class="o">,</span> <span class="n">machineId</span><span class="o">);</span>
-            <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="n">msg</span><span class="o">);</span>
-        <span class="o">}</span>
-        <span class="n">machineId</span> <span class="o">=</span> <span class="n">currentMachineId</span><span class="o">;</span>
-    <span class="o">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">initMachineId</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> currentMachineId<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>currentMachineId <span style="color:#f92672">&gt;</span> MAX_MACHINE_NUM <span style="color:#f92672">||</span> currentMachineId <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            String msg <span style="color:#f92672">=</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">format</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SnowFlakeUserIdGenerate 机器标识不正确 machineId:{}&#34;</span><span style="color:#f92672">,</span> machineId<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span>msg<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        machineId <span style="color:#f92672">=</span> currentMachineId<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">getMachineId</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">machineId</span><span class="o">;</span>
-    <span class="o">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">getMachineId</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> machineId<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
 <li>核心操作</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">| 1L &lt;&lt; bitNum;
+<pre><code>| 1L &lt;&lt; bitNum;
 1左移62个有效bit位，并与原来生成的uid进行|或操作,使得生成的UID bit位1和2为01，达到确定生成十进制数为19位的目的
 00 [000 0000 0000 0000 0000 0000 0000 0000 0000 0000 00][00 0000 0000][0000 0000 000]
 |
 01 000 0000 0000 0000 0000 0000 0000 0000 0000 0000 00 00 0000 0000 0000 0000 000
 =
 01 [000 0000 0000 0000 0000 0000 0000 0000 0000 0000 00][00 0000 0000][0000 0000 000]
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="参考">参考</h2>
+</code></pre><h2 id="参考">参考</h2>
 <ul>
 <li><a href="http://www.wolfbe.com/detail/201701/386.html">http://www.wolfbe.com/detail/201701/386.html</a></li>
 <li><a href="http://www.wolfbe.com/detail/201611/381.html">http://www.wolfbe.com/detail/201611/381.html</a></li>
 <li><a href="https://segmentfault.com/a/1190000011282426">https://segmentfault.com/a/1190000011282426</a></li>
 </ul>
-    </div>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">LHR</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2018-09-08
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8Fuid/">分布式UID</a>
-          <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/spring-cache-shrio-bug/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Shrio导致SpringCache缓存失效原因分析</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/mysql-paging/">
-            <span class="next-text nav-default">MySql大数据量表分页</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8Fuid/"
+              >分布式UID</a
+            >&nbsp;
+          
+            <a
+              href="https://chinalhr.github.io/tags/%E7%AE%97%E6%B3%95/"
+              >算法</a
+            >&nbsp;
+          
         </div>
-        <div id="SOHUCS" sid="/post/uid-generate-snowflake/"></div>
-    <script type="text/javascript">
-    (function(){
-      if (window.location.hostname === 'localhost') return;
+      
+    </article>
+    
+      <script>
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      document.getElementById('backtotopButton').style.opacity = '1'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    } else {
+      document.getElementById('backtotopButton').style.opacity = '0'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    }
+  })
 
-      var appid = 'cyvob1sks';
-      var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth;
-      if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
-    })();
-    </script>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
-      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
-  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-<div class="friend-links">
-  <span class="division">Friends:</span>
-  <span class="theme-info"><a class="theme-link" href="https://kii.la">vincent</a> </span>
-</div>
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-
-<script id="baidu_analytics">
-  var _hmt = _hmt || [];
-  (function() {
-    if (window.location.hostname === 'localhost') return;
-    var hm = document.createElement("script"); hm.async = true;
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
 </script>
 
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
 
 
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
 
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
 
-
-</body>
+  </body>
 </html>

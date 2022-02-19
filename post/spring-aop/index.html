@@ -1,161 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Spring Aop分析 - LiHanRong</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  <head>
+    <meta charset="utf-8" />
+<title>Spring Aop分析</title>
 
 
-<meta name="author" content="LHR" /><meta name="description" content=" Spring Aop源码分析
-" /><meta name="keywords" content="Hugo, theme, even" />
+  
 
 
 
 
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://chinalhr.github.io/post/spring-aop/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.2fe01a8d6a1e524ccbed1cdfa4e66fc6e8e49ad88327a16803150a0fbceff06c.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="Spring Aop分析" />
-<meta property="og:description" content="
-Spring Aop源码分析
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/spring-aop/" />
-<meta property="article:published_time" content="2018-09-24T15:56:35+08:00" />
-<meta property="article:modified_time" content="2018-09-24T15:56:35+08:00" />
-<meta itemprop="name" content="Spring Aop分析">
-<meta itemprop="description" content="
-Spring Aop源码分析
-">
-<meta itemprop="datePublished" content="2018-09-24T15:56:35&#43;08:00" />
-<meta itemprop="dateModified" content="2018-09-24T15:56:35&#43;08:00" />
-<meta itemprop="wordCount" content="3434">
-
-
-
-<meta itemprop="keywords" content="Java,Spring," /><meta name="twitter:card" content="summary"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Spring Aop分析"/>
 <meta name="twitter:description" content="
 Spring Aop源码分析
 "/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
 
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">LiHanRong Blog</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">categories</li>
-      </a><a href="/post/about/">
-        <li class="mobile-menu-item">about</li>
-      </a>
-  </ul>
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
 
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
   
 
 
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">LiHanRong Blog</a>
-</div>
 
 
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/about/">about</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <header>
+    <nav class="navbar">
+  <div class="nav">
     
-    <header class="post-header">
-      <h1 class="post-title">Spring Aop分析</h1>
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
 
-      <div class="post-meta">
-        <span class="post-time"> 2018-09-24 </span>
-        <div class="post-category">
-            <a href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"> 后端开发 </a>
-            </div>
-          <span class="more-meta"> 3434 words </span>
-          <span class="more-meta"> 7 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
+  </div>
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              Spring Aop分析
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Sep 24, 2018
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"
+        >后端开发</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
       </div>
-    </header>
+    </div>
+  </header>
+  
 
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
+      <blockquote>
+<p>Spring Aop源码分析</p>
+</blockquote>
+<nav id="TableOfContents">
   <ul>
     <li>
       <ul>
@@ -180,57 +197,19 @@ Spring Aop源码分析
       </ul>
     </li>
   </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <blockquote>
-<p>Spring Aop源码分析</p>
-</blockquote>
-<h2 id="示例">示例</h2>
+</nav><h2 id="示例">示例</h2>
 <h3 id="编程式aop">编程式aop</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback"> ProxyFactory proxyFactory = new ProxyFactory();//创建代理工厂
+<pre><code> ProxyFactory proxyFactory = new ProxyFactory();//创建代理工厂
  proxyFactory.setTarget(new LoginServiceImpl());//设置目标对象
  proxyFactory.addAdvice(new LogAroundLogin());//环绕增强
  LoginService loginService = (LoginService) proxyFactory.getProxy();//从代理工厂中获取代理
  loginService.login(); //执行方法
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="代理工厂proxyfactory">代理工厂ProxyFactory</h2>
+</code></pre><h2 id="代理工厂proxyfactory">代理工厂ProxyFactory</h2>
 <p>ProxyFactory proxyFactory = new ProxyFactory();代理工厂的作用就是使用编程的方式创建AOP代理。ProxyFactory继承自AdvisedSupport，
 AdvicedSupport是AOP代理的配置管理器。</p>
 <h3 id="targetsource">TargetSource</h3>
 <p>TargetSource用来获取当前的Target，也就是TargetSource中会保存着我们的的实现类。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">public interface TargetSource {
+<pre><code>public interface TargetSource {
 
 	//返回目标类的类型
 	Class getTargetClass();
@@ -246,44 +225,9 @@ AdvicedSupport是AOP代理的配置管理器。</p>
 	void releaseTarget(Object target) throws Exception;
 
 }
-</code></pre></td></tr></table>
-</div>
-</div><p>在AdvisedSupport中，setTarget等于设置一个SingletonTargetSource。</p>
+</code></pre><p>在AdvisedSupport中，setTarget等于设置一个SingletonTargetSource。</p>
 <h3 id="addadvice">addAdvice</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">public void addAdvice(Advice advice) throws AopConfigException {
+<pre><code>public void addAdvice(Advice advice) throws AopConfigException {
 	//advisors是Advice列表，是一个LinkedList
     //如果被添加进来的是一个Interceptor，会先被包装成一个Advice
     //添加之前现获取advisor的大小，当做添加的Advice的位置
@@ -295,7 +239,7 @@ AdvicedSupport是AOP代理的配置管理器。</p>
 public void addAdvice(int pos, Advice advice) throws AopConfigException {
 	//只能处理实现了AOP联盟的接口的拦截器
     if (advice instanceof Interceptor &amp;&amp; !(advice instanceof MethodInterceptor)) {
-        throw new AopConfigException(getClass().getName() + &#34; only handles AOP Alliance MethodInterceptors&#34;);
+        throw new AopConfigException(getClass().getName() + &quot; only handles AOP Alliance MethodInterceptors&quot;);
     }
 	//IntroductionInfo接口类型，表示引介信息
     if (advice instanceof IntroductionInfo) {
@@ -305,52 +249,20 @@ public void addAdvice(int pos, Advice advice) throws AopConfigException {
     //动态引介增强的处理
     else if (advice instanceof DynamicIntroductionAdvice) {
         //需要IntroductionAdvisor
-        throw new AopConfigException(&#34;DynamicIntroductionAdvice may only be added as part of IntroductionAdvisor&#34;);
+        throw new AopConfigException(&quot;DynamicIntroductionAdvice may only be added as part of IntroductionAdvisor&quot;);
     }
     else {
     	//添加增强器，需要先把我们的增强包装成增强器，然后添加
         addAdvisor(pos, new DefaultPointcutAdvisor(advice));
     }
 }
-</code></pre></td></tr></table>
-</div>
-</div><p>到添加增强的时候，实际调用添加增强器这个方法，首先需要把我们的Advice包装成一个PointCutAdvisor，然后在添加增强器。方法new DefaultPointcutAdvisor(advice)，将Advice包装成一个DefaultPointcutAdvisor。其实就是将advice和默认的Pointcut包装进DefaultPointcutAdvisor。</p>
+</code></pre><p>到添加增强的时候，实际调用添加增强器这个方法，首先需要把我们的Advice包装成一个PointCutAdvisor，然后在添加增强器。方法new DefaultPointcutAdvisor(advice)，将Advice包装成一个DefaultPointcutAdvisor。其实就是将advice和默认的Pointcut包装进DefaultPointcutAdvisor。</p>
 <p>DefaultPointcutAdvisor是Advisor的最常用的一个实现，可以使用任意类型的Pointcut和Advice，但是不能使用Introduction。</p>
 <h3 id="获取代理">获取代理</h3>
 <ul>
 <li>ProxyFactory的getProxy方法</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">public Object getProxy() {
+<pre><code>public Object getProxy() {
 	//创建一个AOP代理
     AopProxy proxy = createAopProxy();
     //返回代理
@@ -376,27 +288,9 @@ public AopProxy createAopProxy(AdvisedSupport advisedSupport) throws AopConfigEx
         return new JdkDynamicAopProxy(advisedSupport);
     }
 }
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="joinpoint连接点">Joinpoint（连接点）</h2>
+</code></pre><h2 id="joinpoint连接点">Joinpoint（连接点）</h2>
 <p>连接点是指那些被拦截到的点。在Spring 中,这些点指的是方法,因为 Spring 只支持方法类型的连接点。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">public interface Joinpoint {
+<pre><code>public interface Joinpoint {
 
    //开始调用拦截器链中的下一个拦截器
    Object proceed() throws Throwable;
@@ -408,27 +302,11 @@ public AopProxy createAopProxy(AdvisedSupport advisedSupport) throws AopConfigEx
    AccessibleObject getStaticPart();   
 
 }
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="pointcut切入点">Pointcut(切入点)</h2>
+</code></pre><h2 id="pointcut切入点">Pointcut(切入点)</h2>
 <p>所谓切入点是指我们要对哪些 Joinpoint 进行拦截的定义。
 PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的类，MethodMatcher 指定特定的函数,能实现函数级别的AOP。</p>
 <p><img src="https://user-images.githubusercontent.com/19829495/56457151-269da800-63a9-11e9-9867-ca24aa81bbfb.png" alt="输入图片说明" title="屏幕截图.png"></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">public interface Pointcut {
+<pre><code>public interface Pointcut {
 	//类过滤器，可以知道哪些类需要拦截
 	ClassFilter getClassFilter();
 	//方法匹配器，可以知道哪些方法需要拦截
@@ -438,24 +316,10 @@ PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的�
 	Pointcut TRUE = TruePointcut.INSTANCE; 
 
 }
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+</code></pre><ul>
 <li>ClassFilter接口</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">public interface ClassFilter {
+<pre><code>public interface ClassFilter {
 	
 	//判断给定的类是不是要拦截
 	boolean matches(Class clazz);
@@ -463,30 +327,10 @@ PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的�
 	ClassFilter TRUE = TrueClassFilter.INSTANCE;
 
 }
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+</code></pre><ul>
 <li>MethodMatcher接口</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">public interface MethodMatcher {
+<pre><code>public interface MethodMatcher {
 	
 	/ 静态方法匹配
 	boolean matches(Method m, Class targetClass);
@@ -500,9 +344,7 @@ PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的�
 	MethodMatcher TRUE = TrueMethodMatcher.INSTANCE;
 
 }
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+</code></pre><ul>
 <li>MethodMatcher 两个实现类
 <ul>
 <li>StaticMethodMatcher：不在运行时检测Joinpoint的参数(可以利用框架内缓存，性能高)</li>
@@ -513,23 +355,12 @@ PointCut 依赖了ClassFilter和MethodMatcher,ClassFilter用来指定特定的�
 <h2 id="advice通知增强">Advice（通知/增强）</h2>
 <p>Advice不属于Spring，是AOP联盟定义的接口。Advice接口并没有定义任何方法，是一个空的接口，用来做标记，实现了此接口的的类是一个通知类。
 通知是指拦截到 Joinpoint 之后所要做的事情就是通知。通知分为【前置通知】, 【后置通知】,【异常通知】,【最终通知】, 【环绕通知】(切面要完成的功能)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">BeforeAdvice，前置增强，意思是在我们的目标类之前调用的增强。这个接口也没有定义任何方法。
+<pre><code>BeforeAdvice，前置增强，意思是在我们的目标类之前调用的增强。这个接口也没有定义任何方法。
 AfterReturningAdvice，方法正常返回前的增强，该增强可以看到方法的返回值，但是不能更改返回值，该接口有一个方法afterReturning
 ThrowsAdvice，抛出异常时候的增强，也是一个标志接口，没有定义任何方法。
 Interceptor，拦截器，也没有定义任何方法，表示一个通用的拦截器。不属于Spring，是AOP联盟定义的接口
 DynamicIntroductionAdvice，动态引介增强，有一个方法implementsInterface。
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+</code></pre><ul>
 <li>per-class类型的Advice（可以在目标对象类的所有实例之间共享，通常只提供方法拦截功能，不会对目标对象保存任何状态或添加新功能）</li>
 </ul>
 <p><img src="https://user-images.githubusercontent.com/19829495/56457157-4339e000-63a9-11e9-9c97-567220dd93ea.png" alt="输入图片说明" title="屏幕截图.png"></p>
@@ -549,20 +380,7 @@ AbstractGenericPointcutAdvisor 指定了Advice，除了Introduction之外的类�
 <ul>
 <li>ProxyConfig</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">	private boolean proxyTargetClass = false;//true,使用CGLIB,false,使用原生
+<pre><code>	private boolean proxyTargetClass = false;//true,使用CGLIB,false,使用原生
 	
 	private boolean optimize = false;//是否进行优化
 	
@@ -571,9 +389,7 @@ AbstractGenericPointcutAdvisor 指定了Advice，除了Introduction之外的类�
 	boolean exposeProxy = false;//AOP生成对象时，绑定到ThreadLocal, 可以通过AopContext获取
 	
 	private boolean frozen = false;//代理信息一旦设置，是否允许改变
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+</code></pre><ul>
 <li>ProxyFactory
 ProxyFactory是Spring的AOP织入器，接受Pointcut/Advice返回织入了横切逻辑的目标对象代理。</li>
 <li>ProxyFactoryBean
@@ -583,55 +399,7 @@ ProxyFactory是Spring的AOP织入器，接受Pointcut/Advice返回织入了横�
 <h2 id="aop核心实现weaving织入器">aop核心实现(Weaving织入器)</h2>
 <p>将AOP融入Bean的创建过程,AspectJ方式织入的核心，是一个BeanPostProcess（会扫描所有的Pointcut与遍历所有Bean,并对需要的Bean进行织入-自动代理，当对象实例化的时候，为其生成代理对象并返回）</p>
 <p>简单的实现如下:</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor, BeanFactoryAware {
+<pre><code>public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor, BeanFactoryAware {
 
 	private AbstractBeanFactory beanFactory;
 
@@ -675,129 +443,100 @@ for (AspectJExpressionPointcutAdvisor advisor : advisors) {
 	}
 }
 
-</code></pre></td></tr></table>
-</div>
-</div>
-    </div>
+</code></pre>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">LHR</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2018-09-24
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/java/">Java</a>
-          <a href="/tags/spring/">Spring</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/joda-datetime-record/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Joda DateTime记录</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/spring-cache-shrio-bug/">
-            <span class="next-text nav-default">Shrio导致SpringCache缓存失效原因分析</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/java/"
+              >Java</a
+            >&nbsp;
+          
+            <a
+              href="https://chinalhr.github.io/tags/spring/"
+              >Spring</a
+            >&nbsp;
+          
         </div>
-        <div id="SOHUCS" sid="/post/spring-aop/"></div>
-    <script type="text/javascript">
-    (function(){
-      if (window.location.hostname === 'localhost') return;
+      
+    </article>
+    
+      <script>
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      document.getElementById('backtotopButton').style.opacity = '1'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    } else {
+      document.getElementById('backtotopButton').style.opacity = '0'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    }
+  })
 
-      var appid = 'cyvob1sks';
-      var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth;
-      if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
-    })();
-    </script>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
-      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
-  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-<div class="friend-links">
-  <span class="division">Friends:</span>
-  <span class="theme-info"><a class="theme-link" href="https://kii.la">vincent</a> </span>
-</div>
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-
-<script id="baidu_analytics">
-  var _hmt = _hmt || [];
-  (function() {
-    if (window.location.hostname === 'localhost') return;
-    var hm = document.createElement("script"); hm.async = true;
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
 </script>
 
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
 
 
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
 
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
 
-
-</body>
+  </body>
 </html>

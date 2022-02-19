@@ -1,193 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Linux Zero-copy(零拷贝)机制 - LiHanRong</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  <head>
+    <meta charset="utf-8" />
+<title>Linux Zero-copy(零拷贝)机制</title>
 
 
-<meta name="author" content="LHR" /><meta name="description" content=" Linux Zero-copy机制与Java NIO对Zero-copy应用
-" /><meta name="keywords" content="Hugo, theme, even" />
+  
 
 
 
 
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://chinalhr.github.io/post/linux-zerocopy/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.2fe01a8d6a1e524ccbed1cdfa4e66fc6e8e49ad88327a16803150a0fbceff06c.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="Linux Zero-copy(零拷贝)机制" />
-<meta property="og:description" content="
-Linux Zero-copy机制与Java NIO对Zero-copy应用
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://chinalhr.github.io/post/linux-zerocopy/" />
-<meta property="article:published_time" content="2019-08-23T12:26:11+08:00" />
-<meta property="article:modified_time" content="2019-08-23T12:26:11+08:00" />
-<meta itemprop="name" content="Linux Zero-copy(零拷贝)机制">
-<meta itemprop="description" content="
-Linux Zero-copy机制与Java NIO对Zero-copy应用
-">
-<meta itemprop="datePublished" content="2019-08-23T12:26:11&#43;08:00" />
-<meta itemprop="dateModified" content="2019-08-23T12:26:11&#43;08:00" />
-<meta itemprop="wordCount" content="2725">
-
-
-
-<meta itemprop="keywords" content="Linux,Java," /><meta name="twitter:card" content="summary"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux Zero-copy(零拷贝)机制"/>
 <meta name="twitter:description" content="
 Linux Zero-copy机制与Java NIO对Zero-copy应用
 "/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
 
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">LiHanRong Blog</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">categories</li>
-      </a><a href="/post/about/">
-        <li class="mobile-menu-item">about</li>
-      </a>
-  </ul>
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
 
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
   
 
 
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">LiHanRong Blog</a>
-</div>
 
 
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/about/">about</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <header>
+    <nav class="navbar">
+  <div class="nav">
     
-    <header class="post-header">
-      <h1 class="post-title">Linux Zero-copy(零拷贝)机制</h1>
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
 
-      <div class="post-meta">
-        <span class="post-time"> 2019-08-23 </span>
-        <div class="post-category">
-            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"> 操作系统 </a>
-            </div>
-          <span class="more-meta"> 2725 words </span>
-          <span class="more-meta"> 6 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#关于zero-copy零拷贝">关于Zero-copy(零拷贝)</a></li>
-            <li><a href="#linux-io机制">Linux I/O机制</a></li>
-            <li><a href="#传统socket传送数据">传统Socket传送数据</a></li>
-            <li><a href="#linux-zero-copy">Linux Zero-copy</a>
-              <ul>
-                <li><a href="#mmap内存映射">mmap(内存映射)</a></li>
-                <li><a href="#sendfile">sendfile</a></li>
-                <li><a href="#sendfile-with-dma-scattergather-copy">Sendfile With DMA Scatter/Gather Copy</a></li>
-                <li><a href="#splice">splice</a></li>
-                <li><a href="#zero-copy机制对比">Zero-copy机制对比</a></li>
-              </ul>
-            </li>
-            <li><a href="#java-nio-对linux-zero-copy机制支持">Java NIO 对Linux Zero-copy机制支持</a>
-              <ul>
-                <li><a href="#nio中的mmap">NIO中的mmap</a></li>
-                <li><a href="#nio中的sendfile">NIO中的sendfile</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
   </div>
-</div>
-    <div class="post-content">
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              Linux Zero-copy(零拷贝)机制
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Aug 23, 2019
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"
+        >操作系统</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
       <blockquote>
 <p>Linux Zero-copy机制与Java NIO对Zero-copy应用</p>
 </blockquote>
@@ -219,17 +200,9 @@ Linux Zero-copy机制与Java NIO对Zero-copy应用
 <ul>
 <li>大部分Web应用服务器都通过文件读取数据然后将数据通过网络传输给其他的程序的方式。</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">File.read(fileDesc,tmp_buf,len);
+<pre><code>File.read(fileDesc,tmp_buf,len);
 File.send(socket,tmp_buf,len);
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+</code></pre><ul>
 <li>数据从文件到socket的过程</li>
 </ul>
 <p><img src="https://user-images.githubusercontent.com/19829495/63423628-4fa97480-c43f-11e9-957c-491d8ff5086a.png" alt="image"></p>
@@ -240,27 +213,14 @@ File.send(socket,tmp_buf,len);
 <ul>
 <li>涉及过程</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">1.read()的调用引起了从用户态到内核态的切换，内部是通过sys_read()(或者类似的方法)发起对文件数据的读取。数据的第一次复制是通过DMA(直接内存访问)将磁盘上的数据复制到内核空间的缓冲区中。
+<pre><code>1.read()的调用引起了从用户态到内核态的切换，内部是通过sys_read()(或者类似的方法)发起对文件数据的读取。数据的第一次复制是通过DMA(直接内存访问)将磁盘上的数据复制到内核空间的缓冲区中。
 
 2.数据从内核空间的缓冲区复制到用户空间的缓冲区后，read()方法也就返回了。此时内核态又切换回用户态，现在数据也已经复制到了用户地址空间的缓冲区中。
 
 3.socket的send()方法的调用又引起了用户态到内核态的切换，第三次数据复制有将数据从用户空间缓冲区复制到了内核空间的缓冲区，这次数据被放在了不同于之前的内核缓冲区中，这个缓冲区与数据将要被传输到socket关联。
 
 4.send()系统调用返回后，就产生了第四次用户态和内核态的切换。随着DMA单独异步的将数据从内核态的缓冲区中传输到协议引擎发送到网络上，有了第四次数据的复制。
-</code></pre></td></tr></table>
-</div>
-</div><p><img src="https://user-images.githubusercontent.com/19829495/63424473-140faa00-c441-11e9-96ba-9d6f73bd9f4f.png" alt="image"></p>
+</code></pre><p><img src="https://user-images.githubusercontent.com/19829495/63424473-140faa00-c441-11e9-96ba-9d6f73bd9f4f.png" alt="image"></p>
 <ul>
 <li>
 <p>问题</p>
@@ -279,17 +239,9 @@ File.send(socket,tmp_buf,len);
 </ul>
 <h3 id="linux-zero-copy">Linux Zero-copy</h3>
 <h4 id="mmap内存映射">mmap(内存映射)</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">tmp_buf = mmap(file, len);
+<pre><code>tmp_buf = mmap(file, len);
 write(socket, tmp_buf, len);
-</code></pre></td></tr></table>
-</div>
-</div><p>核心:从磁盘加载的数据通过DMA拷贝存储在内核缓冲区中。
+</code></pre><p>核心:从磁盘加载的数据通过DMA拷贝存储在内核缓冲区中。
 然后将应用程序缓冲区的页面映射到内核缓冲区，以便省略内核缓冲区和应用程序缓冲区之间的数据复制。</p>
 <p><img src="https://user-images.githubusercontent.com/19829495/63494509-64921080-c4f0-11e9-8995-b958975971c6.png" alt="image"></p>
 <p>read-send模型</p>
@@ -299,15 +251,8 @@ write(socket, tmp_buf, len);
 上下文切换四次。</p>
 <h4 id="sendfile">sendfile</h4>
 <p>在内核版本2.1中，引入了sendfile系统调用，以简化网络和两个本地文件之间的数据传输。sendfile的引入不仅减少了数据复制，还减少了上下文切换。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">sendfile(socket, file, len);
-</code></pre></td></tr></table>
-</div>
-</div><p>在调用sendfile（）系统调用时，数据从磁盘中获取并通过DMA复制复制到内核缓冲区中。
+<pre><code>sendfile(socket, file, len);
+</code></pre><p>在调用sendfile（）系统调用时，数据从磁盘中获取并通过DMA复制复制到内核缓冲区中。
 然后将数据直接从内核缓冲区复制到套接字缓冲区。
 将所有数据复制到套接字缓冲区后，sendfile（）系统调用将返回以指示从内核缓冲区到套接字缓冲区的数据传输完成。
 然后，数据将被复制到网卡上的缓冲区并传输到网络。</p>
@@ -333,19 +278,10 @@ write(socket, tmp_buf, len);
 <p><img src="https://user-images.githubusercontent.com/19829495/63504127-6f09d580-c503-11e9-84d1-6747e6ffb7df.png" alt="image"></p>
 <h3 id="java-nio-对linux-zero-copy机制支持">Java NIO 对Linux Zero-copy机制支持</h3>
 <h4 id="nio中的mmap">NIO中的mmap</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"> <span class="n">MappedByteBuffer</span> <span class="n">mappedByteBuffer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RandomAccessFile</span><span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="s">&#34;r&#34;</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">getChannel</span><span class="o">()</span>
-                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">FileChannel</span><span class="o">.</span><span class="na">MapMode</span><span class="o">.</span><span class="na">READ_ONLY</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">1024</span><span class="o">);</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"> MappedByteBuffer mappedByteBuffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RandomAccessFile<span style="color:#f92672">(</span>file<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;r&#34;</span><span style="color:#f92672">)</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">getChannel</span><span style="color:#f92672">()</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span>FileChannel<span style="color:#f92672">.</span><span style="color:#a6e22e">MapMode</span><span style="color:#f92672">.</span><span style="color:#a6e22e">READ_ONLY</span><span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> 1024<span style="color:#f92672">);</span>
+</code></pre></div><ul>
 <li>FileChannle.map(MapMode mode,long position, long size)</li>
 </ul>
 <p>将Channel文件的某个区域直接映射到内存中。采用了操作系统中的内存映射方式，底层就是调用Linux mmap()实现的。</p>
@@ -362,151 +298,109 @@ write(socket, tmp_buf, len);
 <ul>
 <li>Zero-copy实现文件复制</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">copyFile</span><span class="o">(</span><span class="n">File</span> <span class="n">src</span><span class="o">,</span> <span class="n">File</span> <span class="n">dest</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">try</span> <span class="o">(</span><span class="n">FileChannel</span> <span class="n">srcChannel</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="n">src</span><span class="o">).</span><span class="na">getChannel</span><span class="o">();</span>
-             <span class="n">FileChannel</span> <span class="n">destChannel</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="n">dest</span><span class="o">).</span><span class="na">getChannel</span><span class="o">())</span> <span class="o">{</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">copyFile</span><span style="color:#f92672">(</span>File src<span style="color:#f92672">,</span> File dest<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">(</span>FileChannel srcChannel <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FileInputStream<span style="color:#f92672">(</span>src<span style="color:#f92672">).</span><span style="color:#a6e22e">getChannel</span><span style="color:#f92672">();</span>
+             FileChannel destChannel <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FileInputStream<span style="color:#f92672">(</span>dest<span style="color:#f92672">).</span><span style="color:#a6e22e">getChannel</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
 
-            <span class="n">srcChannel</span><span class="o">.</span><span class="na">transferTo</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">srcChannel</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">destChannel</span><span class="o">);</span>
-        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div>
-    </div>
+            srcChannel<span style="color:#f92672">.</span><span style="color:#a6e22e">transferTo</span><span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> srcChannel<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">(),</span> destChannel<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>IOException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">LHR</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2019-08-23
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/linux/">Linux</a>
-          <a href="/tags/java/">Java</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/mongo-limit-sort-index/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">MongoDB分页-排序-索引</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/tail-recursion/">
-            <span class="next-text nav-default">尾递归-Java-Kotlin</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/linux/"
+              >Linux</a
+            >&nbsp;
+          
+            <a
+              href="https://chinalhr.github.io/tags/java/"
+              >Java</a
+            >&nbsp;
+          
         </div>
-        <div id="SOHUCS" sid="/post/linux-zerocopy/"></div>
-    <script type="text/javascript">
-    (function(){
-      if (window.location.hostname === 'localhost') return;
+      
+    </article>
+    
+      <script>
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      document.getElementById('backtotopButton').style.opacity = '1'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    } else {
+      document.getElementById('backtotopButton').style.opacity = '0'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    }
+  })
 
-      var appid = 'cyvob1sks';
-      var conf = 'prod_164f592882762a78c5c08977cede29da';
-      var width = window.innerWidth || document.documentElement.clientWidth;
-      if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); }
-    })();
-    </script>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="13435500980@163.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/ChinaLHR" class="iconfont icon-github" title="github"></a>
-      <a href="https://weibo.com/u/2841104477" class="iconfont icon-weibo" title="weibo"></a>
-  <a href="https://chinalhr.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-<div class="friend-links">
-  <span class="division">Friends:</span>
-  <span class="theme-info"><a class="theme-link" href="https://kii.la">vincent</a> </span>
-</div>
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>LHR</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-
-<script id="baidu_analytics">
-  var _hmt = _hmt || [];
-  (function() {
-    if (window.location.hostname === 'localhost') return;
-    var hm = document.createElement("script"); hm.async = true;
-    hm.src = "https://hm.baidu.com/hm.js?1459adbc2a99c593738e5cdc66be7fda";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
 </script>
 
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
 
 
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
 
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
 
-
-</body>
+  </body>
 </html>
