@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<title>kubernetes-operator：扩展Kubernetes API Resource与Custom Controller (上)</title>
+
+
+  
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JLJBQBW5WM');
+  </script>
+  
+
+
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="kubernetes-operator：扩展Kubernetes API Resource与Custom Controller (上)"/>
+<meta name="twitter:description" content="
+本文介绍了如何对Kubernetes 核心组件、扩展机制与API Resource设计概念，以及如何使用定制资源（Custom Resource）与定制控制器（Custom Controller）实现对Kubernetes API Resource的扩展
+"/>
+
+
+
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
+
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
+  
+
+
+
+
+  <header>
+    <nav class="navbar">
+  <div class="nav">
+    
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
+
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
+  </div>
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              kubernetes-operator：扩展Kubernetes API Resource与Custom Controller (上)
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Jan 22, 2022
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/"
+        >云原生</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
+      <blockquote>
+<p>本文介绍了如何对Kubernetes 核心组件、扩展机制与API Resource设计概念，以及如何使用定制资源（Custom Resource）与定制控制器（Custom Controller）实现对Kubernetes API Resource的扩展</p>
+</blockquote>
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#kubernetes架构设计">Kubernetes架构设计</a>
+          <ul>
+            <li><a href="#kubernetes核心组件">kubernetes核心组件</a></li>
+            <li><a href="#kubernetes扩展性">kubernetes扩展性</a></li>
+          </ul>
+        </li>
+        <li><a href="#扩展kubernetes-api-resource相关概念">扩展Kubernetes API Resource相关概念</a></li>
+        <li><a href="#kubernetes-的-resource-设计概念">Kubernetes 的 Resource 设计概念</a>
+          <ul>
+            <li><a href="#groupversionresource">Group/Version/Resource</a></li>
+            <li><a href="#group">Group</a></li>
+            <li><a href="#version">Version</a></li>
+            <li><a href="#resouce">Resouce</a></li>
+            <li><a href="#资源操作方法">资源操作方法</a></li>
+          </ul>
+        </li>
+        <li><a href="#如何创建crd">如何创建CRD</a></li>
+        <li><a href="#如何创建custom-controllersample-controller示例">如何创建Custom Controller（sample-controller示例）</a>
+          <ul>
+            <li><a href="#client-go-client对象">client-go client对象</a></li>
+            <li><a href="#client-go-组件工作流程与以及与custom-controller的交互点">client-go 组件工作流程与以及与Custom Controller的交互点</a></li>
+            <li><a href="#simaple-controller核心逻辑">simaple-controller核心逻辑</a></li>
+          </ul>
+        </li>
+        <li><a href="#kubernetes-controller-间通讯方式">Kubernetes Controller 间通讯方式</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav><h2 id="kubernetes架构设计">Kubernetes架构设计</h2>
+<h3 id="kubernetes核心组件">kubernetes核心组件</h3>
+<p>Kubernetes系统架构整体采用的是C/S 的架构，其中Master节点作为 Server，各Worker 节点作为 Client。</p>
+<ul>
+<li><strong>Master Node：</strong>
+<ul>
+<li>kube-apiserver：提供了资源操作的唯一入口，提供REST API接口，并提供认证、授权、访问控制、API 注册和发现等机制；常见的与kube-apiserver进行交互可以通过kubectl 、client-go</li>
+<li>kube-scheduler：负责kubernetes内资源的调度，按照调度策略将Pod调度到相应的Node上</li>
+<li>kube-controller-manager：控制器管理器，提供了一些内置的Controller，自动化地管理集群状态，包括了资源状态，节点状态等；核心功能是确保集群始终处于预期状态，控制Kubernetes中的资源它们向 <code>spec</code> 配置的期望状态进行收敛</li>
+<li>etcd：持久化集群状态、元数据、集群资源对象</li>
+<li>kube-proxy：负责 Kubernetes 中 Service 的服务发现和负载均衡功能实现</li>
+</ul>
+</li>
+<li><strong>Worker Node：</strong>
+<ul>
+<li>kubelet：负责管理Worker Node上Pod资源的生命周期，kubelet相当于一个代理执行器，接收到kube-apiserver的请求后执行Pod的管理逻辑，定期监控资源的使用状态上报kube-apiserver，以及如下接口的管理
+<ul>
+<li>CRI（Container Runtime Interface）：容器运行时接口，提供计算资源</li>
+<li>CNI（Container Network Interface）：容器网络接口，提供网络资源</li>
+<li>CSI（Container Storage Interface）：容器存储接口，提供存储资源</li>
+</ul>
+</li>
+<li>Container Runtime： 负责镜像管理及 Pod 和容器运行时接口实现（CRI）</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/19829495/150094235-b247a307-e460-4918-a435-324c7b4f0dc7.png" alt="image"></p>
+<h3 id="kubernetes扩展性">kubernetes扩展性</h3>
+<blockquote>
+<p>参考：<a href="https://kubernetes.io/zh/docs/concepts/extend-kubernetes/">https://kubernetes.io/zh/docs/concepts/extend-kubernetes/</a></p>
+</blockquote>
+<p>Kubernetes的架构设计是高度可配置、可扩展的，这里主要关注Kubernetes自身的扩展性，即扩充 Kubernetes 的能力并深度集成软件组件。</p>
+<p><strong>扩展模式：</strong></p>
+<ul>
+<li>控制器模式：编写Kubernetes 的客户端程序的一种特定模式，控制器通常读取一个对象的 <code>spec</code> 字段，可能做出一些处理，然后更新对象的 <code>status</code> 字段。</li>
+<li>Webhook模式：Kubernetes作为客户端调用远程服务的模式。</li>
+<li>Binary Plugin模式：Kubernetes作为客户端执行一个二进制插件程序。</li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/19829495/154810184-8d438a95-5c45-4e7e-b73a-25dd257cd92d.jpg" alt="image"></p>
+<p><strong>扩展kubernetes的核心组件：</strong></p>
+<ul>
+<li>kube-controller-manager与API Resource扩展：通过使用crd与custom controller、operator framework实现，本文主要讲解这方面的扩展实现。</li>
+<li>kube-apiserver扩展：通过使用API Aggregation layer在不修改 Kubernetes 核心代码的同时扩展 Kubernetes api-server，即将第三方服务注册成Kubernetes api-server提供服务。</li>
+<li>kube-scheduler扩展：通过Kubernetes Scheduling Framework扩展调度机制。</li>
+</ul>
+<h2 id="扩展kubernetes-api-resource相关概念">扩展Kubernetes API Resource相关概念</h2>
+<p><strong>资源（Resource）：</strong> Resource是 Kubernetes API中的一个端点，用于存储某个类别的API对象的一个集合；如YAML中的kind：Pod、CronJob&hellip;</p>
+<p><strong>定制资源（Custom Resource）：</strong> 自定义 API 资源，Custom Resource是对 Kubernetes API 的扩展，定制资源所代表的是对特定Kubernetes安装的一种定制。</p>
+<p><strong>定制控制器（Custom Controller）：</strong> Custom Resource本身只能用来存取结构化的数据，需要将Custom Resource与Custom Controller结合，Custom Controller负责监控Customer Resource的变化（创建、删除&hellip;）并执行具体的动作。</p>
+<p><strong>CRD（CustomResourceDefinitions）：</strong> Custom Resource的定义，Kubernetes CustomResourceDefinition API资源允许自定义Custom Resource。 定义CRD对象的操作会使用你所设定的名字和模式定义（Schema）创建一个新的Custom Resource，Kubernetes API 会为Custom Resource提供存储和访问服务。</p>
+<p>简单的说，可以通过CRD定制自定义API资源即Custom Resource，动态注册到Kubernetes集群中；注册完成后用户可以通过 kubectl 来创建访问自定义API资源对象，类似于操作 Pod 一样。CRD 仅仅只是做资源的定义，需要配合控制器即Custom Controller 去监听Custom Resource的事件触发执行对应的处理逻辑。</p>
+<h2 id="kubernetes-的-resource-设计概念">Kubernetes 的 Resource 设计概念</h2>
+<blockquote>
+<p>通过上文的介绍不难看出，Kubernetes是一个以资源为中心容器编排平台，核心组件kube-api-server通过REST API暴漏资源操作接口、kube-controller-manager控制管理资源的状态、kube-scheduler进行资源的调度。</p>
+</blockquote>
+<h3 id="groupversionresource">Group/Version/Resource</h3>
+<p>kubernetes在资源的概念上进行了分组与版本化，，一个 API对象在Etcd 里的完整资源路径，是由：Group（API 组）、Version（API 版本）和 Resource（API 资源类型）三个部分组成，如下图所示。
+<img src="https://user-images.githubusercontent.com/19829495/154810231-9fb55531-0cee-4534-8a67-1c40fad7a7ca.jpg" alt="image"></p>
+<p><strong>资源间的关系如下：</strong></p>
+<ul>
+<li>Kubernetes支持多个 Group（资源组）</li>
+<li>每个Group支持多个Version（资源版本）</li>
+<li>每个Version支持多种Resource（资源），部分资源还拥有自己的子资源</li>
+<li>Kind 与 Resource 属于同一级概念，Kind 用于描述 Resource 的种类，一般情况下Kind与Resource是一一对应的关系，例如<code>pods</code> Resource 对应于 <code>Pod</code> Kind</li>
+</ul>
+<p><strong>定位资源的形式如下：</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&lt;GROUP&gt;/&lt;VERSION&gt;/&lt;RESOURCE&gt;<span style="color:#f92672">[</span>/&lt;SUBSOURCE&gt;<span style="color:#f92672">]</span>
+
+<span style="color:#75715e"># 以Deployment为例子</span>
+apps/v1/deployments/status
+</code></pre></div><p><strong>资源对象（资源描述）即Resource Object描述如下：</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&lt;GROUP&gt;/&lt;VERSION&gt;, Kind<span style="color:#f92672">=</span>&lt;RESOURCE_NAME&gt;
+
+<span style="color:#75715e"># 以Deployment为例子</span>
+apps/v1, Kind<span style="color:#f92672">=</span>Deployment
+</code></pre></div><h3 id="group">Group</h3>
+<ul>
+<li>资源组的划分依据是资源的功能，Kubernetes支持不同资源组中拥有不同资源版本，方便组内资源迭代升级</li>
+<li>对于 Kubernetes 里的核心 API 对象（如：Pod&hellip;）是无组名Group（即：Group 是“”）,在 /api 这个层级下；对于Kubernetes里的非核心 API 对象（如：CronJob&hellip;）是有组名Group，在 /apis 这个层级下</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-BASH" data-lang="BASH">有组名 Group 资源: .../apis/&lt;GROUP&gt;/&lt;VERSION&gt;/&lt;RESOURCE&gt;
+无组名 Group 资源: .../api/&lt;VERSION&gt;/&lt;RESOURCE&gt;
+</code></pre></div><h3 id="version">Version</h3>
+<p>Kubernetes 的资源版本 Version 采用语义化的版本号</p>
+<ul>
+<li>Alpha 阶段：内部测试版本，Alpha 版本中的功能默认情况下会被禁用，常见命名方式如 v1alpha1。</li>
+<li>Beta 阶段：相对稳定版本，经过了官方和社区的测试，Beta 阶段下的功能默认是开启的，常见命名方式如 v2beta1。</li>
+<li>Stable 阶段：正式发布版本，命名方式如 v1、v2 。</li>
+</ul>
+<h3 id="resouce">Resouce</h3>
+<p>Resource 是 Kubernetes 中的核心概念</p>
+<ul>
+<li>Resource 实例化后称为一个 Resource Object。</li>
+<li>Kubernetes 中所有的 Resource Object 都称为 Entity。</li>
+<li>可以通过 Kubenetes API Server 去操作 Resource Object。</li>
+</ul>
+<p>Kubernetes 目前的 Entity 分为两大类：</p>
+<ul>
+<li>Persistent Entity：持久化实体，Resource Object 创建后会持久存在，如 Deployment / Service。</li>
+<li>Ephemeral Entity: 短暂实体，Resource Object 创建后不稳定，如出现故障/调度失败后不再重建，如Pod。</li>
+</ul>
+<h3 id="资源操作方法">资源操作方法</h3>
+<p>Kubernetes资源YAML文件提交给kube-apiserver后，会被转换为Resouce Object，序列化后持久化到Etcd中；对资源的操作方法主要有如下8种：</p>
+<ul>
+<li>
+<p>create：Resource Object 创建</p>
+</li>
+<li>
+<p>delete：Resource Object 删除</p>
+</li>
+<li>
+<p>deletecollection：多个 Resource Objects 删除</p>
+</li>
+<li>
+<p>patch：Resource Object 局部字段更新</p>
+</li>
+<li>
+<p>update：Resource Object 整体更新</p>
+</li>
+<li>
+<p>get：Resource Object 获取</p>
+</li>
+<li>
+<p>list：多个 Resource Objects 获取</p>
+</li>
+<li>
+<p>watch：Resource Objects 监控</p>
+</li>
+</ul>
+<h2 id="如何创建crd">如何创建CRD</h2>
+<blockquote>
+<p>参考文档：</p>
+<p><a href="https://kubernetes.io/zh/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/">https://kubernetes.io/zh/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/</a></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: apiextensions.k8s.io/v1
+<span style="color:#66d9ef">kind</span>: CustomResourceDefinition
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#75715e"># 名字必需与下面的 spec 字段匹配，并且格式为 &#39;&lt;名称的复数形式&gt;.&lt;组名&gt;&#39;</span>
+  <span style="color:#66d9ef">name</span>: crontabs.stable.example.com
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#75715e"># 组名称，用于 REST API: /apis/&lt;组&gt;/&lt;版本&gt;</span>
+  <span style="color:#66d9ef">group</span>: stable.example.com
+  <span style="color:#75715e"># 列举此 CustomResourceDefinition 所支持的版本</span>
+  <span style="color:#66d9ef">versions</span>:
+    - <span style="color:#66d9ef">name</span>: v1
+      <span style="color:#75715e"># 每个版本都可以通过 served 标志来独立启用或禁止</span>
+      <span style="color:#66d9ef">served</span>: <span style="color:#66d9ef">true</span>
+      <span style="color:#75715e"># 其中一个且只有一个版本必需被标记为存储版本</span>
+      <span style="color:#66d9ef">storage</span>: <span style="color:#66d9ef">true</span>
+      <span style="color:#66d9ef">schema</span>:
+        <span style="color:#66d9ef">openAPIV3Schema</span>:
+          <span style="color:#66d9ef">type</span>: object
+          <span style="color:#66d9ef">properties</span>:
+            <span style="color:#66d9ef">spec</span>:
+              <span style="color:#66d9ef">type</span>: object
+              <span style="color:#66d9ef">properties</span>:
+                <span style="color:#66d9ef">cronSpec</span>:
+                  <span style="color:#66d9ef">type</span>: string
+                <span style="color:#66d9ef">image</span>:
+                  <span style="color:#66d9ef">type</span>: string
+                <span style="color:#66d9ef">replicas</span>:
+                  <span style="color:#66d9ef">type</span>: integer
+  <span style="color:#75715e"># 可以是 Namespaced 或 Cluster</span>
+  <span style="color:#66d9ef">scope</span>: Namespaced
+  <span style="color:#66d9ef">names</span>:
+    <span style="color:#75715e"># 名称的复数形式，用于 URL：/apis/&lt;组&gt;/&lt;版本&gt;/&lt;名称的复数形式&gt;</span>
+    <span style="color:#66d9ef">plural</span>: crontabs
+    <span style="color:#75715e"># 名称的单数形式，作为命令行使用时和显示时的别名</span>
+    <span style="color:#66d9ef">singular</span>: crontab
+    <span style="color:#75715e"># kind 通常是单数形式的帕斯卡编码（PascalCased）形式。你的资源清单会使用这一形式。</span>
+    <span style="color:#66d9ef">kind</span>: CronTab
+    <span style="color:#75715e"># shortNames 允许你在命令行使用较短的字符串来匹配资源</span>
+    <span style="color:#66d9ef">shortNames</span>:
+    - ct
+</code></pre></div><p>如上CRD所示， 指定group为<code>stable.example.com</code>，version为<code>v1</code>，CustomResource为CronTab，scope为Namespaced（CronTab属于Namespace的对象）,然后需要设置CustomResource的对象描述，包括：Spec、Status &hellip;;</p>
+<p>通过以下命令创建CRD后，会创建一个新的 namespace 级别的 RESTful API 就会被创建：<code>/apis/stable.example.com/v1/namespaces/*/crontabs/...</code>，用以创建和管理CustomResource CronTab。在创建CRD时，Kubernetes 会对我们提交的声明文件进行校验（基于 OpenAPI v3 schem 进行规范）。如果想要更加复杂的校验，需要通过 Kubernetes 的 admission webhook 进行实现。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f crd.yaml
+</code></pre></div><p>创建完CRD后，可以通过如下方式定义一个CronTab资源对象</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: <span style="color:#e6db74">&#34;stable.example.com/v1&#34;</span>
+<span style="color:#66d9ef">kind</span>: CronTab
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: my-cron-object
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">cronSpec</span>: <span style="color:#e6db74">&#34;* * * * */5&#34;</span>
+  <span style="color:#66d9ef">image</span>: my-image
+</code></pre></div><p>创建完CronTab资源对象后，就可以通过kubectl来管理自定义资源对象</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-BASH" data-lang="BASH">$ kubectl get crontab
+NAME          AGE
+my-cron-tab   93s
+$ kubectl get crontab -o yaml
+...
+</code></pre></div><h2 id="如何创建custom-controllersample-controller示例">如何创建Custom Controller（sample-controller示例）</h2>
+<blockquote>
+<p>参考：</p>
+<p>kubernetes官方Custom Controller示例：<a href="https://github.com/kubernetes/sample-controller">https://github.com/kubernetes/sample-controller</a></p>
+</blockquote>
+<p>示例演示了：</p>
+<ul>
+<li>
+<p>如何使用 CustomResourceDefinition注册类型的新自定义资源（自定义资源类型）<code>Foo</code></p>
+</li>
+<li>
+<p>如何创建/获取/列出新资源类型的实例<code>Foo</code></p>
+</li>
+<li>
+<p>如何基于控制器处理资源<code>Foo</code>创建/更新/删除事件</p>
+</li>
+</ul>
+<p>示例控制器基于<a href="https://github.com/kubernetes/client-go/tree/master/tools/cache">client-go 库</a> 进行Controller开发；该项目的tools/cache目录下包含了开发Custom Controller 使用的各种工具、机制。</p>
+<h3 id="client-go-client对象">client-go client对象</h3>
+<ul>
+<li>RESTClient：client-go 中最基础的客户端，其它 client 都基于 RESTClient 实现，RESTClient 实现了 RESTful 风格的 API 请求封装，可以实现对任意 Kubernetes 资源（包括内置资源及 CRDs）的 RESTful 风格交互，如 Post() / Delete() / Put() / Get()，同时支持 Json 和 protobuf；</li>
+<li>ClientSet：与 Kubernetes 内置资源对象交互最常用的 Client，强调，只能处理 Kubernetes 内置资源，不包括 CRD 自定义资源，使用时需要指定 Group、指定 Version，然后根据 Resource 获取。ClientSet 的操作代码是通过 client-gen 代码生成器自动生成的；</li>
+<li>DynamicClient：DynamicClient 能处理包括 CRD 自定义资源在内的任意 kubernetes 资源。如果一个 Controller 中需要控制所有的 API，可以使用Dynamic Client，DynamicClient 只支持JSON；</li>
+<li>DiscoveryClient：用于发现 kube-apiserver 支持的 Group / Version / Resource 信息；</li>
+</ul>
+<h3 id="client-go-组件工作流程与以及与custom-controller的交互点">client-go 组件工作流程与以及与Custom Controller的交互点</h3>
+<p><img src="https://user-images.githubusercontent.com/19829495/149323333-f6c3d54c-e20f-4461-85c7-635e34cb821e.png" alt="image"></p>
+<p><strong>client-go组件：</strong></p>
+<ul>
+<li>Reflector：通过 Kubernetes API 监控 Kubernetes 的资源类型，通过List/Watch 机制, 获取&amp;监听资源对象实例的变化，添加 object 对象到 FIFO 队列，后续Informer 会从队列中进行数据获取。</li>
+<li>Informer：controller 机制的基础，控制循环（Control Loop）处理，从队列中取出数据，添加到 Indexer 进行数据缓存，提供对象监听事件回调处理的 handler 接口，通过 给Informer 添加 ResourceEventHandler 实例的回调函数，通过实现OnAdd(obj interface{})、 OnUpdate(oldObj, newObj interface{}) 和 OnDelete(obj interface{}) 方法处理资源的创建、更新和删除操作。</li>
+<li>Indexer：提供 object 对象的索引，缓存对象信息，indexer是线程安全的存储。</li>
+</ul>
+<p><strong>Custom Controller组件：</strong></p>
+<ul>
+<li>Informer与Indexer的reference，通过client-go 提供的<code>NewIndexerInformer</code>函数进行创建。</li>
+<li>Resource Event Handlers：Informer在要将object 对象传递给Custom Controller 时将调用的回调函数，Resource Event Handlers 被回调后会将Object Key写入到Work queue中。</li>
+<li>Process Item：从Work queue中取出Object key（事件通知） 进行后续处理。</li>
+</ul>
+<h3 id="simaple-controller核心逻辑">simaple-controller核心逻辑</h3>
+<ul>
+<li>项目结构</li>
+</ul>
+<pre><code>└── sample-controller
+    ├── artifacts 						# yaml示例，如crd.yaml、example-foo.yaml
+    │   └── examples
+    ├── code-of-conduct.md
+    ├── CONTRIBUTING.md
+    ├── controller.go					# custom controller实现，核心逻辑
+    ├── controller_test.go
+    ├── docs
+    │   ├── controller-client-go.md
+    │   └── images
+    ├── go.mod
+    ├── go.sum
+    ├── hack							# code generation 工具类
+    │   ├── boilerplate.go.txt
+    │   ├── custom-boilerplate.go.txt
+    │   ├── tools.go
+    │   ├── update-codegen.sh
+    │   └── verify-codegen.sh
+    ├── LICENSE
+    ├── main.go							# 启动函数，参数配置与初始化逻辑
+    ├── OWNERS
+    ├── pkg								# 资源定义文件与自动生成的代码
+    │   ├── apis
+    │   ├── generated
+    │   └── signals
+    ├── README.md
+    └── SECURITY_CONTACTS
+</code></pre><ul>
+<li>代码生成</li>
+</ul>
+<p>此项目利用<a href="https://github.com/kubernetes/code-generator">k8s.io/code-generator</a>中的生成器 来生成typed client、informers、listers 和deep-copy functions。自动生成了如下文件与目录</p>
+<p><code>pkg/apis/samplecontroller/v1alpha1/zz_generated.deepcopy.go</code></p>
+<p><code>pkg/generated/</code></p>
+<ul>
+<li>核心逻辑-main.go（pseudocode）</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#f92672">...</span>
+	<span style="color:#75715e">// 创建clientset，kubeClient(操作除自定义资源组外的其他资源)、exampleClient(操作自定义资源组)
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">cfg</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">clientcmd</span>.<span style="color:#a6e22e">BuildConfigFromFlags</span>(<span style="color:#a6e22e">masterURL</span>, <span style="color:#a6e22e">kubeconfig</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Error building kubeconfig: %s&#34;</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+	}
+
+	<span style="color:#a6e22e">kubeClient</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">kubernetes</span>.<span style="color:#a6e22e">NewForConfig</span>(<span style="color:#a6e22e">cfg</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;error building kubernetes clientset: %s&#34;</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+	}
+
+	<span style="color:#a6e22e">exampleClient</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">clientset</span>.<span style="color:#a6e22e">NewForConfig</span>(<span style="color:#a6e22e">cfg</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Error building example clientset: %s&#34;</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+	}
+	<span style="color:#75715e">// 创建Informer
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">kubeInformerFactory</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">kubeinformers</span>.<span style="color:#a6e22e">NewSharedInformerFactory</span>(<span style="color:#a6e22e">kubeClient</span>, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span><span style="color:#f92672">*</span><span style="color:#ae81ff">30</span>)
+	<span style="color:#a6e22e">exampleInformerFactory</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">informers</span>.<span style="color:#a6e22e">NewSharedInformerFactory</span>(<span style="color:#a6e22e">exampleClient</span>, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span><span style="color:#f92672">*</span><span style="color:#ae81ff">30</span>)
+
+	<span style="color:#75715e">// 创建 controller，传入 clientset 和 informer
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">controller</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewController</span>(<span style="color:#a6e22e">kubeClient</span>, <span style="color:#a6e22e">exampleClient</span>,
+		<span style="color:#a6e22e">kubeInformerFactory</span>.<span style="color:#a6e22e">Apps</span>().<span style="color:#a6e22e">V1</span>().<span style="color:#a6e22e">Deployments</span>(),
+		<span style="color:#a6e22e">exampleInformerFactory</span>.<span style="color:#a6e22e">Samplecontroller</span>().<span style="color:#a6e22e">V1alpha1</span>().<span style="color:#a6e22e">Foos</span>())
+
+	<span style="color:#75715e">// 运行 Informer，Start方法非阻塞，运行在单独的 goroutine 中
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">kubeInformerFactory</span>.<span style="color:#a6e22e">Start</span>(<span style="color:#a6e22e">stopCh</span>)
+	<span style="color:#a6e22e">exampleInformerFactory</span>.<span style="color:#a6e22e">Start</span>(<span style="color:#a6e22e">stopCh</span>)
+	
+	<span style="color:#75715e">//运行Custom Controller
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">controller</span>.<span style="color:#a6e22e">Run</span>(<span style="color:#ae81ff">2</span>, <span style="color:#a6e22e">stopCh</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Error running controller: %s&#34;</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+	}
+}
+</code></pre></div><ul>
+<li>核心逻辑controller.go （pseudocode）</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">/*
+</span><span style="color:#75715e">*** main.go
+</span><span style="color:#75715e">*/</span>
+<span style="color:#75715e">// 创建 clientset
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">kubeClient</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">kubernetes</span>.<span style="color:#a6e22e">NewForConfig</span>(<span style="color:#a6e22e">cfg</span>)		<span style="color:#75715e">// k8s clientset, &#34;k8s.io/client-go/kubernetes&#34;
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">exampleClient</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">clientset</span>.<span style="color:#a6e22e">NewForConfig</span>(<span style="color:#a6e22e">cfg</span>)	<span style="color:#75715e">// sample clientset, &#34;k8s.io/sample-controller/pkg/generated/clientset/versioned&#34;
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// 创建 Informer
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">kubeInformerFactory</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">kubeinformers</span>.<span style="color:#a6e22e">NewSharedInformerFactory</span>(<span style="color:#a6e22e">kubeClient</span>, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span><span style="color:#f92672">*</span><span style="color:#ae81ff">30</span>)		<span style="color:#75715e">// k8s informer, &#34;k8s.io/client-go/informers&#34;
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">exampleInformerFactory</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">informers</span>.<span style="color:#a6e22e">NewSharedInformerFactory</span>(<span style="color:#a6e22e">exampleClient</span>, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span><span style="color:#f92672">*</span><span style="color:#ae81ff">30</span>)		<span style="color:#75715e">// sample informer, &#34;k8s.io/sample-controller/pkg/generated/informers/externalversions&#34;
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// 创建 controller，传入 clientset 和 informer
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">controller</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewController</span>(<span style="color:#a6e22e">kubeClient</span>, <span style="color:#a6e22e">exampleClient</span>,
+		<span style="color:#a6e22e">kubeInformerFactory</span>.<span style="color:#a6e22e">Apps</span>().<span style="color:#a6e22e">V1</span>().<span style="color:#a6e22e">Deployments</span>(),
+		<span style="color:#a6e22e">exampleInformerFactory</span>.<span style="color:#a6e22e">Samplecontroller</span>().<span style="color:#a6e22e">V1alpha1</span>().<span style="color:#a6e22e">Foos</span>())
+
+<span style="color:#75715e">// 运行 Informer，Start 方法为非阻塞，会运行在单独的 goroutine 中
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">kubeInformerFactory</span>.<span style="color:#a6e22e">Start</span>(<span style="color:#a6e22e">stopCh</span>)
+<span style="color:#a6e22e">exampleInformerFactory</span>.<span style="color:#a6e22e">Start</span>(<span style="color:#a6e22e">stopCh</span>)
+
+<span style="color:#75715e">// 运行 controller
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">controller</span>.<span style="color:#a6e22e">Run</span>(<span style="color:#ae81ff">2</span>, <span style="color:#a6e22e">stopCh</span>)
+
+<span style="color:#75715e">/*
+</span><span style="color:#75715e">*** controller.go 
+</span><span style="color:#75715e">*/</span>
+<span style="color:#a6e22e">NewController</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">Controller</span> {}
+	<span style="color:#75715e">// 将 CRD 资源类型定义加入到 Kubernetes 的 Scheme 中，以便 Events 可以记录 CRD 的事件
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">utilruntime</span>.<span style="color:#a6e22e">Must</span>(<span style="color:#a6e22e">samplescheme</span>.<span style="color:#a6e22e">AddToScheme</span>(<span style="color:#a6e22e">scheme</span>.<span style="color:#a6e22e">Scheme</span>))
+
+	<span style="color:#75715e">//创建 Event Broadcaster
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">eventBroadcaster</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">record</span>.<span style="color:#a6e22e">NewBroadcaster</span>()
+	<span style="color:#75715e">// ... ...
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// 监听 CRD 类型Foo变化并注册 ResourceEventHandler方法，当Foo的实例变化时获取Foo资源并将其转换为 namespace/name字符(Key)，然后将其放入工作队列中。
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fooInformer</span>.<span style="color:#a6e22e">Informer</span>().<span style="color:#a6e22e">AddEventHandler</span>(<span style="color:#a6e22e">cache</span>.<span style="color:#a6e22e">ResourceEventHandlerFuncs</span>{
+		<span style="color:#a6e22e">AddFunc</span>: <span style="color:#a6e22e">controller</span>.<span style="color:#a6e22e">enqueueFoo</span>,
+		<span style="color:#a6e22e">UpdateFunc</span>: <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">old</span>, <span style="color:#a6e22e">new</span> <span style="color:#66d9ef">interface</span>{}) {
+			<span style="color:#a6e22e">controller</span>.<span style="color:#a6e22e">enqueueFoo</span>(<span style="color:#a6e22e">new</span>)
+		},
+	})
+
+	<span style="color:#75715e">// 监听Deployment变化并注册ResourceEventHandler方法，
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 当它的 ownerReferences 为 Foo 类型实例时，将该Foo资源加入 work queue
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">deploymentInformer</span>.<span style="color:#a6e22e">Informer</span>().<span style="color:#a6e22e">AddEventHandler</span>(<span style="color:#a6e22e">cache</span>.<span style="color:#a6e22e">ResourceEventHandlerFuncs</span>{
+		<span style="color:#a6e22e">AddFunc</span>: <span style="color:#a6e22e">controller</span>.<span style="color:#a6e22e">handleObject</span>,
+		<span style="color:#a6e22e">UpdateFunc</span>: <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">old</span>, <span style="color:#a6e22e">new</span> <span style="color:#66d9ef">interface</span>{}) {
+			<span style="color:#a6e22e">newDepl</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">new</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">appsv1</span>.<span style="color:#a6e22e">Deployment</span>)
+			<span style="color:#a6e22e">oldDepl</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">old</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">appsv1</span>.<span style="color:#a6e22e">Deployment</span>)
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">newDepl</span>.<span style="color:#a6e22e">ResourceVersion</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">oldDepl</span>.<span style="color:#a6e22e">ResourceVersion</span> {
+				<span style="color:#66d9ef">return</span>
+			}
+			<span style="color:#a6e22e">controller</span>.<span style="color:#a6e22e">handleObject</span>(<span style="color:#a6e22e">new</span>)
+		},
+		<span style="color:#a6e22e">DeleteFunc</span>: <span style="color:#a6e22e">controller</span>.<span style="color:#a6e22e">handleObject</span>,
+	})
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Controller</span>) <span style="color:#a6e22e">Run</span>(<span style="color:#a6e22e">threadiness</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">stopCh</span> <span style="color:#f92672">&lt;-</span><span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">struct</span>{}) <span style="color:#66d9ef">error</span> {}
+	<span style="color:#75715e">// 在启动 worker 前等待缓存同步
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cache</span>.<span style="color:#a6e22e">WaitForCacheSync</span>(<span style="color:#a6e22e">stopCh</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">deploymentsSynced</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">foosSynced</span>); !<span style="color:#a6e22e">ok</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;failed to wait for caches to sync&#34;</span>)
+	}
+	<span style="color:#75715e">// 运行两个 worker 来处理资源
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">workers</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">go</span> <span style="color:#a6e22e">wait</span>.<span style="color:#a6e22e">Until</span>(<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">runWorker</span>, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>, <span style="color:#a6e22e">stopCh</span>)
+	}
+	<span style="color:#75715e">// 无限循环，不断的调用 processNextWorkItem 处理下一个对象
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Controller</span>) <span style="color:#a6e22e">runWorker</span>() {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">processNextWorkItem</span>() {
+		}
+	}
+	<span style="color:#75715e">// 从workqueue中获取下一个对象并进行处理，通过调用 syncHandler
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Controller</span>) <span style="color:#a6e22e">processNextWorkItem</span>() <span style="color:#66d9ef">bool</span> {
+        <span style="color:#75715e">//从workqueue获取obj
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">shutdown</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">workqueue</span>.<span style="color:#a6e22e">Get</span>()
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">shutdown</span> {
+			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+		}
+		<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">obj</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">error</span> {
+			<span style="color:#75715e">// 调用 workqueue.Done(obj) 方法告诉 workqueue 当前项已经处理完毕，
+</span><span style="color:#75715e"></span>			<span style="color:#75715e">// 如果我们不想让当前项重新入队，一定要调用 workqueue.Forget(obj)。
+</span><span style="color:#75715e"></span>			<span style="color:#75715e">// 当我们没有调用Forget时，当前项会重新入队 workqueue 并在一段时间后重新被获取。
+</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">workqueue</span>.<span style="color:#a6e22e">Done</span>(<span style="color:#a6e22e">obj</span>)
+			<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">key</span> <span style="color:#66d9ef">string</span>
+			<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ok</span> <span style="color:#66d9ef">bool</span>
+			<span style="color:#75715e">// 格式校验，我们期望的是 key &#39;namespace/name&#39; 格式的 string
+</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">ok</span> = <span style="color:#a6e22e">obj</span>.(<span style="color:#66d9ef">string</span>); !<span style="color:#a6e22e">ok</span> {
+				<span style="color:#75715e">// 无效的项调用Forget方法，避免重新入队。
+</span><span style="color:#75715e"></span>				<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">workqueue</span>.<span style="color:#a6e22e">Forget</span>(<span style="color:#a6e22e">obj</span>)
+				<span style="color:#a6e22e">utilruntime</span>.<span style="color:#a6e22e">HandleError</span>(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;expected string in workqueue but got %#v&#34;</span>, <span style="color:#a6e22e">obj</span>))
+				<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+			}
+            <span style="color:#75715e">//运行 syncHandler，传递Foo资源的namespace/name字符串
+</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">syncHandler</span>(<span style="color:#a6e22e">key</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+				<span style="color:#75715e">// 放回workqueue避免偶发的异常
+</span><span style="color:#75715e"></span>				<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">workqueue</span>.<span style="color:#a6e22e">AddRateLimited</span>(<span style="color:#a6e22e">key</span>)
+				<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;error syncing &#39;%s&#39;: %s, requeuing&#34;</span>, <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+			}
+            
+			<span style="color:#75715e">// 如果没有异常，Forget当前项，同步成功
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">workqueue</span>.<span style="color:#a6e22e">Forget</span>(<span style="color:#a6e22e">obj</span>)
+			<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;Successfully synced &#39;%s&#39;&#34;</span>, <span style="color:#a6e22e">key</span>)
+			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+		}(<span style="color:#a6e22e">obj</span>)
+        
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#a6e22e">utilruntime</span>.<span style="color:#a6e22e">HandleError</span>(<span style="color:#a6e22e">err</span>)
+			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+		}
+
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+	}
+	<span style="color:#75715e">// 将实际状态与期望的状态进行比较，然后尝试将两者收敛，然后它用资源的当前状态更新Foo资源的Status块。
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Controller</span>) <span style="color:#a6e22e">syncHandler</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">error</span> {
+		<span style="color:#75715e">// 通过 workqueue 中的 key 解析出 namespace 和 name
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">namespace</span>, <span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cache</span>.<span style="color:#a6e22e">SplitMetaNamespaceKey</span>(<span style="color:#a6e22e">key</span>)
+		<span style="color:#75715e">// 调用 lister 接口通过 namespace 和 name 获取 Foo 实例
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">foo</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">foosLister</span>.<span style="color:#a6e22e">Foos</span>(<span style="color:#a6e22e">namespace</span>).<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">name</span>)
+		<span style="color:#a6e22e">deploymentName</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">foo</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">DeploymentName</span>
+		<span style="color:#75715e">// 获取 Foo 实例中定义的 deploymentname
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">deployment</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">deploymentsLister</span>.<span style="color:#a6e22e">Deployments</span>(<span style="color:#a6e22e">foo</span>.<span style="color:#a6e22e">Namespace</span>).<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">deploymentName</span>)
+		<span style="color:#75715e">//如果没有发现对应的 deployment，创建一个新的deployment。并还在资源上设置适当的 OwnerReferences，以便 handleObject 可以发现“拥有”它的 Foo 资源。
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">IsNotFound</span>(<span style="color:#a6e22e">err</span>) {
+			<span style="color:#a6e22e">deployment</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">kubeclientset</span>.<span style="color:#a6e22e">AppsV1</span>().<span style="color:#a6e22e">Deployments</span>(<span style="color:#a6e22e">foo</span>.<span style="color:#a6e22e">Namespace</span>).<span style="color:#a6e22e">Create</span>(<span style="color:#a6e22e">newDeployment</span>(<span style="color:#a6e22e">foo</span>))
+		}
+		<span style="color:#75715e">// deployment OwnerReferences 不是 Foo 实例，warning并返回错误
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">IsControlledBy</span>(<span style="color:#a6e22e">deployment</span>, <span style="color:#a6e22e">foo</span>) {
+			<span style="color:#a6e22e">msg</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#a6e22e">MessageResourceExists</span>, <span style="color:#a6e22e">deployment</span>.<span style="color:#a6e22e">Name</span>)
+			<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">recorder</span>.<span style="color:#a6e22e">Event</span>(<span style="color:#a6e22e">foo</span>, <span style="color:#a6e22e">corev1</span>.<span style="color:#a6e22e">EventTypeWarning</span>, <span style="color:#a6e22e">ErrResourceExists</span>, <span style="color:#a6e22e">msg</span>)
+			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#a6e22e">msg</span>)
+		}
+		<span style="color:#75715e">// deployment 中 的配置和 Foo 实例中 Spec 的配置不一致，即更新 deployment
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">foo</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Replicas</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">foo</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Replicas</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">deployment</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Replicas</span> {
+			<span style="color:#a6e22e">deployment</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">kubeclientset</span>.<span style="color:#a6e22e">AppsV1</span>().<span style="color:#a6e22e">Deployments</span>(<span style="color:#a6e22e">foo</span>.<span style="color:#a6e22e">Namespace</span>).<span style="color:#a6e22e">Update</span>(<span style="color:#a6e22e">newDeployment</span>(<span style="color:#a6e22e">foo</span>))
+		}
+		<span style="color:#75715e">// 更新 Foo 实例状态
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">updateFooStatus</span>(<span style="color:#a6e22e">foo</span>, <span style="color:#a6e22e">deployment</span>)
+		<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">recorder</span>.<span style="color:#a6e22e">Event</span>(<span style="color:#a6e22e">foo</span>, <span style="color:#a6e22e">corev1</span>.<span style="color:#a6e22e">EventTypeNormal</span>, <span style="color:#a6e22e">SuccessSynced</span>, <span style="color:#a6e22e">MessageResourceSynced</span>)
+	}
+</code></pre></div><ul>
+<li>运行</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># assumes you have a working kubeconfig, not required if operating in-cluster</span>
+go build -o sample-controller .
+./sample-controller -kubeconfig<span style="color:#f92672">=</span>$HOME/.kube/config
+
+<span style="color:#75715e"># create a CustomResourceDefinition</span>
+kubectl create -f artifacts/examples/crd-status-subresource.yaml
+
+<span style="color:#75715e"># create a custom resource of type Foo</span>
+kubectl create -f artifacts/examples/example-foo.yaml
+
+<span style="color:#75715e"># check deployments created through the custom resource</span>
+kubectl get deployments
+</code></pre></div><h2 id="kubernetes-controller-间通讯方式">Kubernetes Controller 间通讯方式</h2>
+<p>Kubernetes 三大核心组建之一的kube-controller-manager，是运行Controller组建进程的控制平面组件，包含了如下Controller集合</p>
+<p><img src="https://user-images.githubusercontent.com/19829495/149661545-d3c90a66-a426-4044-b7b9-6d9e8a32f094.png" alt="image"></p>
+<p>Kubernetes中不同的Controller间也会进行通讯，以Deployment Controller为例子：</p>
+<ol>
+<li>用户通过 Kubectl 创建 Deployment，APIServer接收到请求后会对该请求进行权限、准入校验，鉴权通过后将 Deployment 的资源信息存储到 Etcd中。</li>
+<li>Deployment Controller 基于List/Watch机制，收到Deployment资源的Add事件并处理，为该 Deployment 创建 Replicaset。</li>
+<li>APIServer 接收到 Replicaset创建请求后，Replicaset的Add事件将被发布，随后ReplicaSet Controller接收到该事件，进行对应的处理逻辑：创建 Pod。</li>
+</ol>
+<p><img src="https://user-images.githubusercontent.com/19829495/149661548-73d1a0c0-2d30-46d3-b80d-ddfb79e4e03a.png" alt="image"></p>
+<p>可以看到，Kubernetes Controller基于事件订阅-分发的工作方式，进行Controller间的通信、协调操作；也得其开放的工作机制，让我们可以自由的定制、开发自己的Custom Controller。</p>
+
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/kubernetes/"
+              >Kubernetes</a
+            >&nbsp;
+          
+        </div>
+      
+    </article>
+    
+      <script>
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      document.getElementById('backtotopButton').style.opacity = '1'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    } else {
+      document.getElementById('backtotopButton').style.opacity = '0'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    }
+  })
+
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
+</script>
+
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
+
+
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2022
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
+
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>

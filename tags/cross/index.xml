@@ -14,6 +14,26 @@
 		<atom:link href="/tags/cross/" rel="self" type="application/rss+xml" />
 		
 		<item>
+			<title>kubernetes-operator：扩展Kubernetes API Resource与Custom Controller (下)</title>
+			<link>https://chinalhr.github.io/post/kubernetes-crd-operator-2/</link>
+			<pubDate>Sun, 23 Jan 2022 22:12:45 +0800</pubDate>
+			<guid>https://chinalhr.github.io/post/kubernetes-crd-operator-2/</guid>
+			<description>&lt;blockquote&gt;
+&lt;p&gt;本文介绍了如何使用Operator-SDK开发Kubernetes Operator&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+		</item>
+      	
+		<item>
+			<title>kubernetes-operator：扩展Kubernetes API Resource与Custom Controller (上)</title>
+			<link>https://chinalhr.github.io/post/kubernetes-crd-operator-1/</link>
+			<pubDate>Sat, 22 Jan 2022 00:37:50 +0800</pubDate>
+			<guid>https://chinalhr.github.io/post/kubernetes-crd-operator-1/</guid>
+			<description>&lt;blockquote&gt;
+&lt;p&gt;本文介绍了如何对Kubernetes 核心组件、扩展机制与API Resource设计概念，以及如何使用定制资源（Custom Resource）与定制控制器（Custom Controller）实现对Kubernetes API Resource的扩展&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+		</item>
+      	
+		<item>
 			<title>Docker容器运行时引擎-runC分析</title>
 			<link>https://chinalhr.github.io/post/docker-runc/</link>
 			<pubDate>Thu, 15 Apr 2021 22:39:56 +0800</pubDate>
@@ -90,26 +110,6 @@
 			<guid>https://chinalhr.github.io/post/kubeadm-install-kubernetes/</guid>
 			<description>&lt;blockquote&gt;
 &lt;p&gt;使用kubeadm部署Kubernetes 1.18.0 集群实践记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-		</item>
-      	
-		<item>
-			<title>DevOps流程中使用SonarQube推动代码质量优化</title>
-			<link>https://chinalhr.github.io/post/devops-sonar-practice/</link>
-			<pubDate>Sun, 12 Apr 2020 15:28:21 +0800</pubDate>
-			<guid>https://chinalhr.github.io/post/devops-sonar-practice/</guid>
-			<description>&lt;blockquote&gt;
-&lt;p&gt;在持续集成中利用SonarQube推动代码质量的持续优化的实践&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-		</item>
-      	
-		<item>
-			<title>Java技术域中的异步编程</title>
-			<link>https://chinalhr.github.io/post/java-asyncprogram/</link>
-			<pubDate>Fri, 03 Apr 2020 19:45:19 +0800</pubDate>
-			<guid>https://chinalhr.github.io/post/java-asyncprogram/</guid>
-			<description>&lt;blockquote&gt;
-&lt;p&gt;Java技术域异步编程总结&lt;/p&gt;
 &lt;/blockquote&gt;</description>
 		</item>
       	

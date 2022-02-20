@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<title>kubernetes-operator：扩展Kubernetes API Resource与Custom Controller (下)</title>
+
+
+  
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JLJBQBW5WM');
+  </script>
+  
+
+
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="kubernetes-operator：扩展Kubernetes API Resource与Custom Controller (下)"/>
+<meta name="twitter:description" content="
+本文介绍了如何使用Operator-SDK开发Kubernetes Operator
+"/>
+
+
+
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
+
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
+  
+
+
+
+
+  <header>
+    <nav class="navbar">
+  <div class="nav">
+    
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
+
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
+  </div>
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              kubernetes-operator：扩展Kubernetes API Resource与Custom Controller (下)
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Jan 23, 2022
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/"
+        >云原生</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
+      <blockquote>
+<p>本文介绍了如何使用Operator-SDK开发Kubernetes Operator</p>
+</blockquote>
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#operator">Operator</a>
+          <ul>
+            <li><a href="#什么是operator">什么是Operator</a></li>
+            <li><a href="#operator-sdk-vs-kubebuilder">Operator-SDK vs kubebuilder</a></li>
+            <li><a href="#operator-工作模式">Operator 工作模式</a></li>
+            <li><a href="#operator-应用场景">Operator 应用场景</a></li>
+          </ul>
+        </li>
+        <li><a href="#kubernetes-admission-controller">Kubernetes Admission Controller</a></li>
+        <li><a href="#operator开发实践">Operator开发实践</a>
+          <ul>
+            <li><a href="#operator-framework">Operator-Framework</a>
+              <ul>
+                <li><a href="#operator-sdk">Operator-SDK</a></li>
+                <li><a href="#operator-lifecycle-managerolm">Operator-Lifecycle-Manager（OLM）</a></li>
+              </ul>
+            </li>
+            <li><a href="#基于operator-sdk开发sidecar-operator">基于Operator-SDK开发Sidecar-Operator</a>
+              <ul>
+                <li><a href="#sidecar-operator的功能">Sidecar-Operator的功能</a></li>
+                <li><a href="#安装operator-sdk">安装Operator-SDK</a></li>
+                <li><a href="#初始化项目">初始化项目</a></li>
+                <li><a href="#创建api资源与custom-controller模板代码">创建API资源与Custom Controller模板代码</a></li>
+                <li><a href="#创建cr-admission-webhook模板代码">创建CR Admission Webhook模板代码</a></li>
+                <li><a href="#核心逻辑梳理">核心逻辑梳理</a></li>
+                <li><a href="#实现pod类型的mutating-admission-webhook">实现Pod类型的Mutating Admission Webhook</a></li>
+                <li><a href="#实现sidecarset-validating-admission-webhook逻辑">实现SidecarSet Validating admission webhook逻辑</a></li>
+                <li><a href="#实现控制器协调逻辑">实现控制器协调逻辑</a></li>
+              </ul>
+            </li>
+            <li><a href="#部署operator">部署Operator</a></li>
+          </ul>
+        </li>
+        <li><a href="#代码仓库">代码仓库</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav><h2 id="operator">Operator</h2>
+<h3 id="什么是operator">什么是Operator</h3>
+<blockquote>
+<p>参考：<a href="https://www.redhat.com/zh/topics/containers/what-is-a-kubernetes-operator">https://www.redhat.com/zh/topics/containers/what-is-a-kubernetes-operator</a></p>
+</blockquote>
+<p>Kubernetes Operator 是一种特定于应用的控制器，可扩展 Kubernetes API 的功能，来代表 Kubernetes 用户创建、配置和管理复杂应用的实例。</p>
+<p>它基于基本 Kubernetes Resource与Controller概念构建，又涵盖了特定于域或应用的知识，用于实现其所管理软件的整个生命周期的自动化；可以看作是CRD与Custom Controller的组合模式的封装及最佳实践。</p>
+<p>对比通过定义CRD与基于client-go去实现Custom Controller；Operator在这个基础上进行了标准化的流程规范、高级API抽象、快速启动脚手架与代码生成工具、RBAC控制、持续监控、数据备份、故障恢复、自动化升级Operator的CICD等。</p>
+<p>目前比较主流的Operator框架是如下两个：</p>
+<ul>
+<li>operator-framework 由CoreOS开发和维护，包含operator-sdk与operator-lifecycle-manager</li>
+<li>kubebuilder由k8s SIG开发和维护</li>
+</ul>
+<h3 id="operator-sdk-vs-kubebuilder">Operator-SDK vs kubebuilder</h3>
+<p>目前来看，<a href="https://github.com/operator-framework/operator-sdk">operator-sdk</a>与<a href="https://github.com/kubernetes-sigs/kubebuilder">kubebuilder</a>都是类似的支持快速创建和管理 Operator 的框架，这两个项目都广泛使用了<a href="https://github.com/kubernetes-sigs/controller-runtime">controller-runtime</a> 和 <a href="https://github.com/kubernetes-sigs/controller-tools">controller-tools</a> 项目，因此有着类似的 Go 源文件、包结构，而且目前operator-sdk也与kubebuilder进行了深度整合，可以参考kubebuilder的<a href="https://github.com/kubernetes-sigs/kubebuilder/projects/7">github projects</a> 与 operator-sdk的<a href="https://sdk.operatorframework.io/docs/faqs/">faq</a>。</p>
+<ul>
+<li>operator-sdk-go 底层基于kuberbuilder进行操作。</li>
+<li>operator-sdk在Kubebuilder提供的基本项目脚手架之上提供了其他功能，如operator-sdk init会生成。
+<ul>
+<li><a href="https://github.com/operator-framework/operator-lifecycle-manager">Operator Lifecycle Manager</a> operator的安装和运行管理系统</li>
+<li>支持发布<a href="https://operatorhub.io/">OperatorHub</a></li>
+<li><a href="https://sdk.operatorframework.io/docs/testing-operators/scorecard/">Operator SDK scorecard</a> 用于确保operator最佳实践和开发集群测试的工具</li>
+</ul>
+</li>
+<li>operator-sdk支持 Go 以外的 operator types，如Ansible 和 Helm</li>
+<li>operator-sdk与kubebuilder的文档是通用的</li>
+</ul>
+<h3 id="operator-工作模式">Operator 工作模式</h3>
+<p><img src="https://user-images.githubusercontent.com/19829495/153761669-8dabe2d6-9d20-4476-9e05-e4aba06d80f0.png" alt="Operator基本工作模式 (2)"></p>
+<ol>
+<li>用户创建一个CRD，并提交给到apiServer</li>
+<li>apiserver 根据自己注册的一个 pass 列表，把该 CRD 的请求转发给 webhook</li>
+<li>webhook完成该CRD 的缺省值与参数检验，处理完成后，相应的 CR 会被持久化到etcd，后响应用户</li>
+<li>controller会在后台监测该自定义资源，按照业务逻辑，处理与该自定义资源相关联的特殊操作</li>
+</ol>
+<p>可以看到，与前文所示的<code>sample-controller</code>方式的处理流程大致相同。</p>
+<h3 id="operator-应用场景">Operator 应用场景</h3>
+<ul>
+<li>分布式应用的自动化运维：etcd-operator、 mongodb-enterprise-kubernetes、prometheus-operator、kafka-operator&hellip;</li>
+<li>扩展Kubernetes：istio、kruise、kubeedge&hellip;</li>
+</ul>
+<h2 id="kubernetes-admission-controller">Kubernetes Admission Controller</h2>
+<blockquote>
+<p>参考：</p>
+<p><a href="https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/">https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/</a></p>
+<p><a href="https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/">https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/</a></p>
+</blockquote>
+<p><strong>Admission Controller（准入控制器）</strong></p>
+<p><code>准入控制器</code>是在对象持久化之前用于对 Kubernetes API Server 的请求进行拦截的代码段。准入控制器可能是<code>validating</code>、<code>mutating</code>或者两者都有，Mutating 控制器可以修改他们的处理的资源对象，Validating 控制器不会，如果任何一个阶段中的任何控制器拒绝了请求，则会立即拒绝整个请求，并将错误返回给最终的用户。</p>
+<p>我们可以编写自己的准入控制器，但是准入控制器需要被编译进 kube-apiserver，并且在 apiserver 启动时启动。为了增加扩展性，而不是和 apiserver 耦合在一起，便有了<code>Admission webhooks</code>这种通过一种动态配置webhook的方式。</p>
+<p>**admission webhooks **</p>
+<p>在 Kubernetes apiserver 中包含两个特殊的准入控制器：<code>MutatingAdmissionWebhook</code>和<code>ValidatingAdmissionWebhook</code>。这两个控制器支持webhook模式，将发送准入请求到外部的 HTTP 服务并接收一个准入响应；创建admission webhook的流程可以参考官方文档。</p>
+<p><img src="https://user-images.githubusercontent.com/19829495/153758600-fdd72abf-6a36-417e-bb4e-5c440781ff16.png" alt="image"></p>
+<h2 id="operator开发实践">Operator开发实践</h2>
+<blockquote>
+<p>参考：</p>
+<p><a href="https://sdk.operatorframework.io/docs/">https://sdk.operatorframework.io/docs/</a></p>
+<p><a href="https://olm.operatorframework.io/docs/">https://olm.operatorframework.io/docs/</a></p>
+<p><a href="https://book.kubebuilder.io/">https://book.kubebuilder.io/</a></p>
+</blockquote>
+<h3 id="operator-framework">Operator-Framework</h3>
+<p>Operator-Framework主要包含如下两个部分：</p>
+<h4 id="operator-sdk">Operator-SDK</h4>
+<p>编写Operator的核心工具包，提供高级API，可以更直观地编写Controller逻辑；提供用于快速启动新项目的脚手架与代码生成工具。</p>
+<p><strong>Go-Operator工作流程：</strong></p>
+<ol>
+<li>使用 SDK 命令行界面 (CLI) 创建Operator项目</li>
+<li>通过添加CRD 来定义新的资源 API</li>
+<li>定义控制器来监视和协调资源</li>
+<li>使用 SDK 和 controller-runtime APIs 为控制器编写协调逻辑</li>
+<li>使用 SDK CLI 构建和生成Operator部署清单</li>
+</ol>
+<p><strong>Operator能力等级：</strong></p>
+<p>标准化了Operator的生命周期管理能力方面不同的成熟度级别（基本安装、无缝升级、全生命周期、深度可观测、自动伸缩扩展），如下图所示：</p>
+<p><img src="https://user-images.githubusercontent.com/19829495/151210750-94e452ec-e5f1-48cd-a8fe-122310832a25.png" alt="image"></p>
+<p><strong>Go-Operator-SDK架构图</strong></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/153450536-38dfb207-cf34-4024-8f51-39ab395c6a15.png" alt="uTools_1644509865678"></p>
+<h4 id="operator-lifecycle-managerolm">Operator-Lifecycle-Manager（OLM）</h4>
+<p>OLM 扩展了 Kubernetes，以提供一种声明式的方式来安装、管理和升级 Operator 及其在集群中的依赖项；提供的功能如下：</p>
+<ul>
+<li>Over-the-Air Updates and Catalogs：OLM 有一个 Catalogs概念，Operator 可以从中安装并保持更新。</li>
+<li>Dependency Model：使用 OLMs 打包格式，可以表达对平台其他Operator的依赖关系。</li>
+<li>Discoverability：可发现的Operator，OLM 将已安装的 Operator 及其服务通告到租户的命名空间中，以达到自动发现可安装的Operator。</li>
+<li>Cluster Stability ：集群稳定性保证，Operator声明对其API的所有权，OLM 将防止拥有相同 API 的 Operator 发生冲突，确保集群稳定性。</li>
+<li>声明式 UI 控件</li>
+</ul>
+<h3 id="基于operator-sdk开发sidecar-operator">基于Operator-SDK开发Sidecar-Operator</h3>
+<h4 id="sidecar-operator的功能">Sidecar-Operator的功能</h4>
+<p>与Istio的自动注入Envoy代理方式类似，sidcar-operator支持自动为集群中符合条件的Pod注入sidecar容器，并负责更新sidecarSet自定义资源的状态。</p>
+<h4 id="安装operator-sdk">安装Operator-SDK</h4>
+<p>这里使用的是Ubuntu系统进行开发，安装可以参考官方文档：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export ARCH<span style="color:#f92672">=</span><span style="color:#66d9ef">$(case</span> <span style="color:#66d9ef">$(</span>uname -m<span style="color:#66d9ef">)</span> in x86_64<span style="color:#66d9ef">)</span> echo -n amd64 ;; aarch64<span style="color:#f92672">)</span> echo -n arm64 ;; *<span style="color:#f92672">)</span> echo -n <span style="color:#66d9ef">$(</span>uname -m<span style="color:#66d9ef">)</span> ;; <span style="color:#66d9ef">esac</span><span style="color:#f92672">)</span>
+export OS<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>uname | awk <span style="color:#e6db74">&#39;{print tolower($0)}&#39;</span><span style="color:#66d9ef">)</span>
+export OPERATOR_SDK_DL_URL<span style="color:#f92672">=</span>https://github.com/operator-framework/operator-sdk/releases/download/v1.16.0
+curl -LO <span style="color:#e6db74">${</span>OPERATOR_SDK_DL_URL<span style="color:#e6db74">}</span>/operator-sdk_<span style="color:#e6db74">${</span>OS<span style="color:#e6db74">}</span>_<span style="color:#e6db74">${</span>ARCH<span style="color:#e6db74">}</span>
+chmod +x operator-sdk_<span style="color:#e6db74">${</span>OS<span style="color:#e6db74">}</span>_<span style="color:#e6db74">${</span>ARCH<span style="color:#e6db74">}</span> <span style="color:#f92672">&amp;&amp;</span> sudo mv operator-sdk_<span style="color:#e6db74">${</span>OS<span style="color:#e6db74">}</span>_<span style="color:#e6db74">${</span>ARCH<span style="color:#e6db74">}</span> /usr/local/bin/operator-sdk
+
+</code></pre></div><h4 id="初始化项目">初始化项目</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 创建项目</span>
+mkdir -p sidecar-operator <span style="color:#f92672">&amp;&amp;</span> cd sidecar-operator
+<span style="color:#75715e"># 初始化项目，这里的domain指定了后续注册CRD对象的Group域名，init初始化后会生成代码框架、Makefile工具文件、拉取依赖代码库</span>
+operator-sdk init --domain chinalhr.github.io --repo github.com/ChinaLHR/sidecar-operator
+ 
+<span style="color:#75715e"># 查看项目结构</span>
+tree -L <span style="color:#ae81ff">2</span>
+.
+├── Dockerfile
+├── LICENSE
+├── Makefile
+├── PROJECT
+├── README.md
+├── config
+│   ├── default
+│   ├── manager
+│   ├── manifests
+│   ├── prometheus
+│   ├── rbac
+│   └── scorecard
+├── go.mod
+├── go.sum
+├── hack
+│   └── boilerplate.go.txt
+└── main.go
+</code></pre></div><ul>
+<li>go.mod ：项目基本依赖，client-go，controller-runtime&hellip;</li>
+<li>Makefile：构建，部署Operator</li>
+<li>PROJECT：用于搭建新组件的 Kubebuilder 元数据</li>
+<li>config目录：启动配置，包含在集群上启动控制器所需的Kustomize YAML 定义，还会保存CRD、RBAC与Webhook配置</li>
+<li>main.go：初始化并运行Manager</li>
+</ul>
+<h4 id="创建api资源与custom-controller模板代码">创建API资源与Custom Controller模板代码</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">operator-sdk create api --group apps --version v1alpha1 --kind SidecarSet --resource --controller
+</code></pre></div><p>通过operator-sdk tool生成 SidecarSet API资源 <code>api/v1alpha1/sidecarset_types.go</code>和控制器<code>controllers/sidecarset_controller.go</code> 模板。</p>
+<p><strong>自定义资源结构修改</strong></p>
+<p>这里我们需要根据我们自身的需求去定义我们自定义资源的结构，即修改<code>controllers/sidecarset_controller.go</code>，如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">/*
+</span><span style="color:#75715e">Copyright 2022.
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">Licensed under the Apache License, Version 2.0 (the &#34;License&#34;);
+</span><span style="color:#75715e">you may not use this file except in compliance with the License.
+</span><span style="color:#75715e">You may obtain a copy of the License at
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">    http://www.apache.org/licenses/LICENSE-2.0
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">Unless required by applicable law or agreed to in writing, software
+</span><span style="color:#75715e">distributed under the License is distributed on an &#34;AS IS&#34; BASIS,
+</span><span style="color:#75715e">WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+</span><span style="color:#75715e">See the License for the specific language governing permissions and
+</span><span style="color:#75715e">limitations under the License.
+</span><span style="color:#75715e">*/</span>
+
+<span style="color:#f92672">package</span> <span style="color:#a6e22e">v1alpha1</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#a6e22e">v1</span> <span style="color:#e6db74">&#34;k8s.io/api/core/v1&#34;</span>
+	<span style="color:#a6e22e">metav1</span> <span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/apis/meta/v1&#34;</span>
+)
+
+<span style="color:#75715e">// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
+</span><span style="color:#75715e">// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// SidecarSetSpec defines the desired state of SidecarSet
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SidecarSetSpec</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#75715e">// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// Important: Run &#34;make&#34; to regenerate code after modifying this file
+</span><span style="color:#75715e"></span>
+	<span style="color:#75715e">//query over pods that should be injected sidecar
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Selector</span>   <span style="color:#f92672">*</span><span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">LabelSelector</span> <span style="color:#e6db74">`json:&#34;selector,omitempty&#34;`</span>
+	<span style="color:#a6e22e">Containers</span> []<span style="color:#a6e22e">SidecarContainer</span>    <span style="color:#e6db74">`json:&#34;containers,omitempty&#34;`</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SidecarContainer</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Container</span> <span style="color:#e6db74">`json:&#34;,inline&#34;`</span>
+}
+
+<span style="color:#75715e">// SidecarSetStatus defines the observed state of SidecarSet
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SidecarSetStatus</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#75715e">// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// Important: Run &#34;make&#34; to regenerate code after modifying this file
+</span><span style="color:#75715e"></span>
+	<span style="color:#75715e">//the number of Pods whose labels are matched with this SidecarSet&#39;s selector
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">MatchedPods</span> <span style="color:#66d9ef">int32</span> <span style="color:#e6db74">`json:&#34;matchedPods&#34;`</span>
+	<span style="color:#75715e">//the number of matched Pods that are injected with the latest SidecarSet&#39;s
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">UpdatedPods</span> <span style="color:#66d9ef">int32</span> <span style="color:#e6db74">`json:&#34;updatedPods&#34;`</span>
+	<span style="color:#75715e">//the number of matched Pods that have a ready condition
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ReadyPods</span> <span style="color:#66d9ef">int32</span> <span style="color:#e6db74">`json:&#34;readyPods&#34;`</span>
+}
+
+<span style="color:#75715e">// +genclient
+</span><span style="color:#75715e">// +genclient:nonNamespaced
+</span><span style="color:#75715e">// +kubebuilder:object:root=true
+</span><span style="color:#75715e">// +kubebuilder:subresource:status
+</span><span style="color:#75715e">// +kubebuilder:resource:scope=Cluster
+</span><span style="color:#75715e">// +kubebuilder:printcolumn:name=&#34;MATCHED&#34;,type=&#34;integer&#34;,JSONPath=&#34;.status.matchedPods&#34;,description=&#34;The number of pods matched.&#34;
+</span><span style="color:#75715e">// +kubebuilder:printcolumn:name=&#34;UPDATED&#34;,type=&#34;integer&#34;,JSONPath=&#34;.status.updatedPods&#34;,description=&#34;The number of pods matched and updated.&#34;
+</span><span style="color:#75715e">// +kubebuilder:printcolumn:name=&#34;READY&#34;,type=&#34;integer&#34;,JSONPath=&#34;.status.readyPods&#34;,description=&#34;the number of matched Pods that have a ready condition.&#34;
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// SidecarSet is the Schema for the sidecarsets API
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SidecarSet</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">TypeMeta</span>   <span style="color:#e6db74">`json:&#34;,inline&#34;`</span>
+	<span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">ObjectMeta</span> <span style="color:#e6db74">`json:&#34;metadata,omitempty&#34;`</span>
+
+	<span style="color:#a6e22e">Spec</span>   <span style="color:#a6e22e">SidecarSetSpec</span>   <span style="color:#e6db74">`json:&#34;spec,omitempty&#34;`</span>
+	<span style="color:#a6e22e">Status</span> <span style="color:#a6e22e">SidecarSetStatus</span> <span style="color:#e6db74">`json:&#34;status,omitempty&#34;`</span>
+}
+
+<span style="color:#75715e">//+kubebuilder:object:root=true
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// SidecarSetList contains a list of SidecarSet
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SidecarSetList</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">TypeMeta</span> <span style="color:#e6db74">`json:&#34;,inline&#34;`</span>
+	<span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">ListMeta</span> <span style="color:#e6db74">`json:&#34;metadata,omitempty&#34;`</span>
+	<span style="color:#a6e22e">Items</span>           []<span style="color:#a6e22e">SidecarSet</span> <span style="color:#e6db74">`json:&#34;items&#34;`</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
+	<span style="color:#75715e">//将Go类型添加到API组中
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">SchemeBuilder</span>.<span style="color:#a6e22e">Register</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">SidecarSet</span>{}, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">SidecarSetList</span>{})
+}
+</code></pre></div><p>这里主要是更新了SidecarSet的Spec结构，增加了<code>Selector</code>与<code>Containers</code>属性，用于匹配需要注入sidecar的Pod以及sidecar注入容器的定义。更新了SidecarSet的Status结构，增加了<code>MatchedPods</code>、<code>UpdatedPods</code>与<code>ReadyPods</code>描述匹配的Pod数量与已注入sidecar的Pod数量与已注入成功并且就绪的Pod数量。</p>
+<p>这里还补充了code generator依赖注释，如：<code>+genclient:nonNamespaced</code>生成非namespace对象、<code>+kubebuilder:resource:scope=Cluster</code>指定资源的范围、<code>kubebuilder:printcolumn...</code> 用于kubectl获取数据展示&hellip;</p>
+<p>最后，我们需要运行代码生成命令<code>make generate</code> 为资源类型更新\生成代码，该命令会调用controller-gen程序来更新<code>api/v1alpha1/zz_generated.deepcopy.go</code>文件。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">make generate
+</code></pre></div><p><strong>自定义控制器模板</strong></p>
+<p>生成的<code>controllers/sidecarset_controller.go</code>模板</p>
+<ul>
+<li><code>SetupWithManager()</code>函数：为构建控制器以监视 CR 和该控制器拥有和管理的其他资源。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// SetupWithManager sets up the controller with the Manager.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SidecarSetReconciler</span>) <span style="color:#a6e22e">SetupWithManager</span>(<span style="color:#a6e22e">mgr</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Manager</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">NewControllerManagedBy</span>(<span style="color:#a6e22e">mgr</span>).	<span style="color:#75715e">//控制器构建器
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">For</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">appsv1alpha1</span>.<span style="color:#a6e22e">SidecarSet</span>{}).		<span style="color:#75715e">//监控的主资源,对于每个SidecarSet类型的Add/Update/Delete事件，将发送给协调循环（Reconcile）
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">Complete</span>(<span style="color:#a6e22e">r</span>)								
+}
+</code></pre></div><ul>
+<li><code>Reconcile()</code>函数：协调循环（Reconcile loop），接受Request参数，该参数为（命名空间/名称键），用于从缓存中查找主要资源对象如Sidecarset；实现特定类型协调逻辑（如repliceset的reconcile即在其创建的时候去创建关联的pod）并返回结果、异常或者重试。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SidecarSetReconciler</span>) <span style="color:#a6e22e">Reconcile</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Request</span>) (<span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>) {
+	<span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">FromContext</span>(<span style="color:#a6e22e">ctx</span>)
+	<span style="color:#75715e">// TODO(user): your logic here
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><h4 id="创建cr-admission-webhook模板代码">创建CR Admission Webhook模板代码</h4>
+<p><strong>Admission Webhooks分为如下两种：</strong></p>
+<ul>
+<li><strong>Validating admission webhook：</strong> 用于执行超出 OpenAPI 模式验证功能的验证，注意这里可以拒绝请求，但不能修改在请求中接收的对象。</li>
+<li><strong>Mutating admission webhook：</strong> 用于默认设置（在创建时为资源中未设置的字段添加默认值），也可以通过创建一个补丁来修改对象。</li>
+</ul>
+<p>通过如下命令创建Validating Admission Webhook模板代码</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># --programmatic-validation参数创建Validating admission webhook所需要的资源</span>
+<span style="color:#75715e"># --defaulting 参数创建Mutating admission webhook所需要的资源</span>
+operator-sdk create webhook --group apps --version v1alpha1 --kind SidecarSet --programmatic-validation
+</code></pre></div><p>生成的<code>api/v1alpha1/sidecarset_webhook.go</code>模板</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-GO" data-lang="GO"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SidecarSet</span>) <span style="color:#a6e22e">ValidateCreate</span>() <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">sidecarsetlog</span>.<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;validate create&#34;</span>, <span style="color:#e6db74">&#34;name&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Name</span>)
+	<span style="color:#75715e">// TODO(user): fill in your validation logic upon object creation.
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SidecarSet</span>) <span style="color:#a6e22e">ValidateUpdate</span>(<span style="color:#a6e22e">old</span> <span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Object</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">sidecarsetlog</span>.<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;validate update&#34;</span>, <span style="color:#e6db74">&#34;name&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Name</span>)
+	<span style="color:#75715e">// TODO(user): fill in your validation logic upon object update.
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SidecarSet</span>) <span style="color:#a6e22e">ValidateDelete</span>() <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">sidecarsetlog</span>.<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;validate delete&#34;</span>, <span style="color:#e6db74">&#34;name&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Name</span>)
+	<span style="color:#75715e">// TODO(user): fill in your validation logic upon object deletion.
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><p>可以看到生成了<code>ValidateCreate</code>、<code>ValidateUpdate</code>、<code>ValidateDelete</code>三个模板方法，分别在CR创建、更新、删除时进行回调。</p>
+<h4 id="核心逻辑梳理">核心逻辑梳理</h4>
+<ol>
+<li>在用户创建SidecarSet CR的时候进行配置项校验：通过实现SidecarSet Validating admission webhook 校验逻辑进行处理。</li>
+<li>在用户创建Pod的时候，自动匹配对应的SidecarSet，如果匹配到SidecarSet的话解析出SidecarSet对应的sidecar容器注入到Pod中：这里就需要通过实现Pod的Mutating admission webhook达到目的，由于 kubebuilder 不支持核心类型的 webhook 自动生成，所以需要使用 controller-runtime 的库来处理。</li>
+<li>实时监测Pod信息，更新SidecarSet Status： 这里就需要实现<code>sidecarset_controller</code>的<code>Reconcile</code>逻辑进行处理。</li>
+</ol>
+<p><strong>完整流程如下图所示：</strong></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/153761688-8ca487db-c1b3-4325-9a55-19ca7b077190.png" alt="SIdecarSet运行流程 (1)"></p>
+<h4 id="实现pod类型的mutating-admission-webhook">实现Pod类型的Mutating Admission Webhook</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">//+kubebuilder:webhook:path=/mutate-sidecar-pod,mutating=true,failurePolicy=fail,groups=&#34;&#34;,resources=pods,verbs=create;update,versions=v1,name=mpod.kb.io,admissionReviewVersions=v1,sideEffects=None
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">podHandler</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">Client</span>  <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Client</span>
+	<span style="color:#a6e22e">Decoder</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">admission</span>.<span style="color:#a6e22e">Decoder</span>
+}
+
+<span style="color:#66d9ef">var</span> (
+	<span style="color:#a6e22e">SidecarEnvKey</span> = <span style="color:#e6db74">&#34;IS_INJECTED&#34;</span>
+	<span style="color:#a6e22e">SidecarAnnotationHashKey</span> = <span style="color:#e6db74">&#34;chinalhr.github.io/sidecar-hash&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SidecarSet</span>) <span style="color:#a6e22e">Register</span>(<span style="color:#a6e22e">mgr</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Manager</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">mgr</span>.<span style="color:#a6e22e">GetWebhookServer</span>().<span style="color:#a6e22e">Register</span>(<span style="color:#e6db74">&#34;/mutate-sidecar-pod&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">webhook</span>.<span style="color:#a6e22e">Admission</span>{<span style="color:#a6e22e">Handler</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">podHandler</span>{<span style="color:#a6e22e">Client</span>: <span style="color:#a6e22e">mgr</span>.<span style="color:#a6e22e">GetClient</span>()}})
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">handler</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">podHandler</span>) <span style="color:#a6e22e">Handle</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">request</span> <span style="color:#a6e22e">admission</span>.<span style="color:#a6e22e">Request</span>) <span style="color:#a6e22e">admission</span>.<span style="color:#a6e22e">Response</span> {
+	<span style="color:#a6e22e">log</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">FromContext</span>(<span style="color:#a6e22e">ctx</span>)
+	<span style="color:#a6e22e">pod</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Pod</span>{}
+	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">Decoder</span>.<span style="color:#a6e22e">Decode</span>(<span style="color:#a6e22e">request</span>, <span style="color:#a6e22e">pod</span>)
+	<span style="color:#a6e22e">copy</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">pod</span>.<span style="color:#a6e22e">DeepCopy</span>()
+
+	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">0</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;begin to process sidecarSet webhook&#34;</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">admission</span>.<span style="color:#a6e22e">Errored</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusInternalServerError</span>, <span style="color:#a6e22e">err</span>)
+	}
+
+	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">0</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;sidecarSet webhook hand pod %v&#34;</span>, <span style="color:#e6db74">&#34;pod&#34;</span>, <span style="color:#a6e22e">pod</span>.<span style="color:#a6e22e">Name</span>)
+	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">mutatingPodFunc</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">copy</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">admission</span>.<span style="color:#a6e22e">Errored</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusInternalServerError</span>, <span style="color:#a6e22e">err</span>)
+	}
+
+	<span style="color:#a6e22e">marshaledPod</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">copy</span>)
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">admission</span>.<span style="color:#a6e22e">PatchResponseFromRaw</span>(<span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">Object</span>.<span style="color:#a6e22e">Raw</span>, <span style="color:#a6e22e">marshaledPod</span>)
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">handler</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">podHandler</span>) <span style="color:#a6e22e">mutatingPodFunc</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">pod</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Pod</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#75715e">//1. get sidecarSet resource list
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">sidecarSets</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">SidecarSetList</span>{}
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">Client</span>.<span style="color:#a6e22e">List</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">sidecarSets</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+	}
+
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">sidecarContainers</span> []<span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Container</span>
+	<span style="color:#a6e22e">sidecarSetHash</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>)
+
+	<span style="color:#a6e22e">matchNothing</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">true</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">sidecarSet</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">sidecarSets</span>.<span style="color:#a6e22e">Items</span> {
+		<span style="color:#a6e22e">needInject</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">PodSidecarSetMatch</span>(<span style="color:#a6e22e">pod</span>, <span style="color:#a6e22e">sidecarSet</span>)
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+		}
+
+		<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">needInject</span> {
+			<span style="color:#66d9ef">continue</span>
+		}
+
+		<span style="color:#a6e22e">matchNothing</span> = <span style="color:#66d9ef">false</span>
+		<span style="color:#a6e22e">sidecarSetHash</span>[<span style="color:#a6e22e">sidecarSet</span>.<span style="color:#a6e22e">Name</span>] = <span style="color:#a6e22e">sidecarSet</span>.<span style="color:#a6e22e">Annotations</span>[<span style="color:#a6e22e">SidecarAnnotationHashKey</span>]
+
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">sidecarSet</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Containers</span> {
+			<span style="color:#a6e22e">sidecarContainer</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">sidecarSet</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Containers</span>[<span style="color:#a6e22e">i</span>]
+			<span style="color:#a6e22e">sidecarContainer</span>.<span style="color:#a6e22e">Env</span> = append(<span style="color:#a6e22e">sidecarContainer</span>.<span style="color:#a6e22e">Env</span>, <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">EnvVar</span>{<span style="color:#a6e22e">Name</span>: <span style="color:#a6e22e">SidecarEnvKey</span>, <span style="color:#a6e22e">Value</span>: <span style="color:#e6db74">&#34;true&#34;</span>})
+			<span style="color:#a6e22e">sidecarContainers</span> = append(<span style="color:#a6e22e">sidecarContainers</span>, <span style="color:#a6e22e">sidecarContainer</span>.<span style="color:#a6e22e">Container</span>)
+		}
+	}
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">matchNothing</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+	}
+
+	<span style="color:#a6e22e">pod</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Containers</span> = append(<span style="color:#a6e22e">pod</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Containers</span>, <span style="color:#a6e22e">sidecarContainers</span><span style="color:#f92672">...</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">pod</span>.<span style="color:#a6e22e">Annotations</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">pod</span>.<span style="color:#a6e22e">Annotations</span> = make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>)
+	}
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">sidecarSetHash</span>) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
+		<span style="color:#a6e22e">encodedStr</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">sidecarSetHash</span>)
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+		}
+		<span style="color:#a6e22e">pod</span>.<span style="color:#a6e22e">Annotations</span>[<span style="color:#a6e22e">SidecarAnnotationHashKey</span>] = string(<span style="color:#a6e22e">encodedStr</span>)
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">PodSidecarSetMatch</span>(<span style="color:#a6e22e">pod</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Pod</span>, <span style="color:#a6e22e">sidecarSet</span> <span style="color:#a6e22e">SidecarSet</span>) (<span style="color:#66d9ef">bool</span>, <span style="color:#66d9ef">error</span>) {
+	<span style="color:#a6e22e">selector</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">LabelSelectorAsSelector</span>(<span style="color:#a6e22e">sidecarSet</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Selector</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>, <span style="color:#a6e22e">err</span>
+	}
+
+	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">selector</span>.<span style="color:#a6e22e">Empty</span>() <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">selector</span>.<span style="color:#a6e22e">Matches</span>(<span style="color:#a6e22e">labels</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">pod</span>.<span style="color:#a6e22e">Labels</span>)) {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>, <span style="color:#66d9ef">nil</span>
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>, <span style="color:#66d9ef">nil</span>
+}
+
+<span style="color:#75715e">// InjectDecoder injects the decoder.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">handler</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">podHandler</span>) <span style="color:#a6e22e">InjectDecoder</span>(<span style="color:#a6e22e">d</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">admission</span>.<span style="color:#a6e22e">Decoder</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">Decoder</span> = <span style="color:#a6e22e">d</span>
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+
+</code></pre></div><p>这里实现包括：</p>
+<ol>
+<li><code>InjectDecoder</code>方法注入解码器，用以解析admission request；实现 <a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/webhook/admission?tab=doc#Handler">admission.Handler</a> 接口的<code>Handle</code>方法，解析出Pod 资源的信息，获取当前sidecarSet，根据sidecarSet的<code>selector</code>匹配Pod的<code>labels</code>，匹配成功则进行sidecar的注入，将sidecarSet的Container注入到当前的Pod中，并对已注入的Pod进行annotations标识（后续SidecarSet Controller进行识别监控）；最后通过<code>PatchResponseFromRaw</code> 合并更新Pod的信息相应admission controller。</li>
+<li><code>Register</code>方法注册当前的mutating webhook。</li>
+<li>注释kubebuilder标记，让<code>controller-gen</code>可以生成对应的webhook 配置</li>
+</ol>
+<h4 id="实现sidecarset-validating-admission-webhook逻辑">实现SidecarSet Validating admission webhook逻辑</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// log is for logging in this package.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">sidecarsetlog</span> = <span style="color:#a6e22e">logf</span>.<span style="color:#a6e22e">Log</span>.<span style="color:#a6e22e">WithName</span>(<span style="color:#e6db74">&#34;sidecarset-resource&#34;</span>)
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SidecarSet</span>) <span style="color:#a6e22e">SetupWebhookWithManager</span>(<span style="color:#a6e22e">mgr</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Manager</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">NewWebhookManagedBy</span>(<span style="color:#a6e22e">mgr</span>).
+		<span style="color:#a6e22e">For</span>(<span style="color:#a6e22e">r</span>).
+		<span style="color:#a6e22e">Complete</span>()
+}
+
+<span style="color:#75715e">//+kubebuilder:webhook:path=/validate-apps-chinalhr-github-io-v1alpha1-sidecarset,mutating=false,failurePolicy=fail,sideEffects=None,groups=apps.chinalhr.github.io,resources=sidecarsets,verbs=create;update,versions=v1alpha1,name=vsidecarset.kb.io,admissionReviewVersions=v1
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">webhook</span>.<span style="color:#a6e22e">Validator</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">SidecarSet</span>{}
+
+<span style="color:#75715e">// ValidateCreate implements webhook.Validator so a webhook will be registered for the type
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SidecarSet</span>) <span style="color:#a6e22e">ValidateCreate</span>() <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">sidecarsetlog</span>.<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;validate create&#34;</span>, <span style="color:#e6db74">&#34;name&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Name</span>)
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">validateSpec</span>()
+}
+
+<span style="color:#75715e">// ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SidecarSet</span>) <span style="color:#a6e22e">ValidateUpdate</span>(<span style="color:#a6e22e">old</span> <span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Object</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">sidecarsetlog</span>.<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;validate update&#34;</span>, <span style="color:#e6db74">&#34;name&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Name</span>)
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">validateSpec</span>()
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SidecarSet</span>) <span style="color:#a6e22e">validateSpec</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">apierrors</span>.<span style="color:#a6e22e">StatusError</span> {
+	<span style="color:#a6e22e">spec</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Spec</span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">allErrs</span> <span style="color:#a6e22e">field</span>.<span style="color:#a6e22e">ErrorList</span>
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">spec</span>.<span style="color:#a6e22e">Selector</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">allErrs</span> = append(<span style="color:#a6e22e">allErrs</span>, <span style="color:#a6e22e">field</span>.<span style="color:#a6e22e">Required</span>(<span style="color:#a6e22e">field</span>.<span style="color:#a6e22e">NewPath</span>(<span style="color:#e6db74">&#34;spec&#34;</span>).<span style="color:#a6e22e">Child</span>(<span style="color:#e6db74">&#34;selector&#34;</span>), <span style="color:#e6db74">&#34;no selector defined for sidecarset&#34;</span>))
+	} <span style="color:#66d9ef">else</span> {
+		<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">spec</span>.<span style="color:#a6e22e">Selector</span>.<span style="color:#a6e22e">MatchLabels</span>)<span style="color:#f92672">+</span>len(<span style="color:#a6e22e">spec</span>.<span style="color:#a6e22e">Selector</span>.<span style="color:#a6e22e">MatchExpressions</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+			<span style="color:#a6e22e">allErrs</span> = append(<span style="color:#a6e22e">allErrs</span>, <span style="color:#a6e22e">field</span>.<span style="color:#a6e22e">Invalid</span>(<span style="color:#a6e22e">field</span>.<span style="color:#a6e22e">NewPath</span>(<span style="color:#e6db74">&#34;spec&#34;</span>).<span style="color:#a6e22e">Child</span>(<span style="color:#e6db74">&#34;selector&#34;</span>), <span style="color:#a6e22e">spec</span>.<span style="color:#a6e22e">Selector</span>, <span style="color:#e6db74">&#34;empty selector is not valid for sidecarset.&#34;</span>))
+		}
+	}
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">allErrs</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">apierrors</span>.<span style="color:#a6e22e">NewInvalid</span>(
+		<span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupKind</span>{<span style="color:#a6e22e">Group</span>: <span style="color:#e6db74">&#34;apps.chinalhr.github.io&#34;</span>, <span style="color:#a6e22e">Kind</span>: <span style="color:#e6db74">&#34;SidecarSet&#34;</span>},
+		<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Name</span>, <span style="color:#a6e22e">allErrs</span>)
+}
+
+<span style="color:#75715e">// ValidateDelete implements webhook.Validator so a webhook will be registered for the type
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SidecarSet</span>) <span style="color:#a6e22e">ValidateDelete</span>() <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">sidecarsetlog</span>.<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;validate delete&#34;</span>, <span style="color:#e6db74">&#34;name&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Name</span>)
+
+	<span style="color:#75715e">// TODO(user): fill in your validation logic upon object deletion.
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><p>这里主要是实现了<code>validateSpec</code>方法，支持对SidecarSet创建/更新的请求，进行<code>spec</code> 中<code>Selector</code>属性的校验；如果校验失败，则返回异常拒绝资源的创建/更新。</p>
+<h4 id="实现控制器协调逻辑">实现控制器协调逻辑</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">//+kubebuilder:rbac:groups=apps.chinalhr.github.io,resources=sidecarsets,verbs=get;list;watch;create;update;patch;delete
+</span><span style="color:#75715e">//+kubebuilder:rbac:groups=apps.chinalhr.github.io,resources=sidecarsets/status,verbs=get;update;patch
+</span><span style="color:#75715e">//+kubebuilder:rbac:groups=apps.chinalhr.github.io,resources=sidecarsets/finalizers,verbs=update
+</span><span style="color:#75715e">//+kubebuilder:rbac:groups=&#34;&#34;,resources=pods,verbs=get;list;watch;create;update;patch;delete
+</span><span style="color:#75715e">//+kubebuilder:rbac:groups=&#34;&#34;,resources=pods/status,verbs=get
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SidecarSetReconciler</span>) <span style="color:#a6e22e">Reconcile</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Request</span>) (<span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>) {
+	<span style="color:#a6e22e">log</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">FromContext</span>(<span style="color:#a6e22e">ctx</span>)
+	<span style="color:#75715e">//next reconcile
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">reconcileResult</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{<span style="color:#a6e22e">RequeueAfter</span>: <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">5</span>, <span style="color:#a6e22e">Requeue</span>: <span style="color:#66d9ef">true</span>}
+
+	<span style="color:#75715e">//fetch the SidecarSet instance
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">sidecarSet</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">appsv1alpha1</span>.<span style="color:#a6e22e">SidecarSet</span>{}
+	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">TODO</span>(), <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">NamespacedName</span>, <span style="color:#a6e22e">sidecarSet</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">IsNotFound</span>(<span style="color:#a6e22e">err</span>) {
+			<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;process sidecarSet error : object not found&#34;</span>)
+			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">reconcileResult</span>, <span style="color:#66d9ef">nil</span>
+		}
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;process sidecarSet error : reading object error&#34;</span>)
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">reconcile</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
+	}
+
+	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">0</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;begin to process sidecarSet [%s]&#34;</span>, <span style="color:#a6e22e">sidecarSet</span>.<span style="color:#a6e22e">Name</span>)
+	<span style="color:#75715e">//list matched pod
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">selector</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">LabelSelectorAsSelector</span>(<span style="color:#a6e22e">sidecarSet</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Selector</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;process sidecarSet error&#34;</span>)
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">reconcile</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
+	}
+
+	<span style="color:#a6e22e">listOpts</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">ListOptions</span>{<span style="color:#a6e22e">LabelSelector</span>: <span style="color:#a6e22e">selector</span>}
+
+	<span style="color:#a6e22e">matchedPods</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">PodList</span>{}
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Client</span>.<span style="color:#a6e22e">List</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">TODO</span>(), <span style="color:#a6e22e">matchedPods</span>, <span style="color:#a6e22e">listOpts</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;list matched pods error&#34;</span>)
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">reconcile</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
+	}
+	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">0</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;process sidecarSet matchedPods&#34;</span>, <span style="color:#e6db74">&#34;pods&#34;</span>, <span style="color:#a6e22e">matchedPods</span>)
+
+	<span style="color:#75715e">// ignore inactive pods
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">filteredPods</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Pod</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">matchedPods</span>.<span style="color:#a6e22e">Items</span> {
+		<span style="color:#a6e22e">pod</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">matchedPods</span>.<span style="color:#a6e22e">Items</span>[<span style="color:#a6e22e">i</span>]
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">IsPodActive</span>(<span style="color:#a6e22e">pod</span>) {
+			<span style="color:#a6e22e">filteredPods</span> = append(<span style="color:#a6e22e">filteredPods</span>, <span style="color:#a6e22e">pod</span>)
+		}
+	}
+
+	<span style="color:#75715e">//calculateSidecarSetStatus
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">status</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">calculateSidecarSetStatus</span>(<span style="color:#a6e22e">sidecarSet</span>, <span style="color:#a6e22e">filteredPods</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;calculateSidecarSetStatus error&#34;</span>)
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">reconcile</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
+	}
+
+	<span style="color:#75715e">//updateSidecarSetStatus
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">updateSidecarSetStatus</span>(<span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">sidecarSet</span>, <span style="color:#a6e22e">status</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;updateSidecarSetStatus error&#34;</span>)
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">reconcile</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">reconcileResult</span>, <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><p>这里实现包括：</p>
+<ol>
+<li>获取到sidecarSet资源，根据sidecarSet的<code>selector</code>获取匹配的Pod集合，根据Pod的状态计算出sidecarSet的Status，即已匹配的Pod数量更新<code>MatchedPods</code> ，已经注入sidecar容器的Pod数量更新<code>UpdatedPods</code>，已经注入sidecar容器并且处于Running状态的Pod数量更新<code>ReadyPods</code>。</li>
+<li>注释kubebuilder标记，增加对Pod,Pod Status对应的权限。</li>
+</ol>
+<h3 id="部署operator">部署Operator</h3>
+<ul>
+<li>生成CRD/Webhook manifests</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 使用spec/status字段与标记和CRD validation标记定义API，以及新增了其他资源的Webhook，需要使用make manifests生成/更新CRD与webhook的 manifests</span>
+make manifests
+</code></pre></div><ul>
+<li>部署cert-manager</li>
+</ul>
+<p>因为需要为webhook server配置证书，这里需要在Kubernetes集群中部署cert manager作证书管理，可以参考<a href="https://cert-manager.io/docs/">https://cert-manager.io/docs/</a>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.7.1/cert-manager.yaml
+</code></pre></div><p><code>cert-manager</code>的CA injector组件会将 CA 包注入到 Mutating|ValidatingWebhookConfiguration 中，operator-sdk已经为我们生成了对应的kustomize patch文件在<code>config/default/webhookcainjection_patch.yaml</code>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: admissionregistration.k8s.io/v1
+<span style="color:#66d9ef">kind</span>: MutatingWebhookConfiguration
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: mutating-webhook-configuration
+  <span style="color:#66d9ef">annotations</span>:
+    <span style="color:#66d9ef">cert-manager.io/inject-ca-from</span>: $(CERTIFICATE_NAMESPACE)/$(CERTIFICATE_NAME)
+---
+<span style="color:#66d9ef">apiVersion</span>: admissionregistration.k8s.io/v1
+<span style="color:#66d9ef">kind</span>: ValidatingWebhookConfiguration
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: validating-webhook-configuration
+  <span style="color:#66d9ef">annotations</span>:
+    <span style="color:#66d9ef">cert-manager.io/inject-ca-from</span>: $(CERTIFICATE_NAMESPACE)/$(CERTIFICATE_NAME)
+</code></pre></div><ul>
+<li>通过 kustomize 启用 webhook 和 cert-manager 配置config/default/kustomization.yaml与config/crd/kustomization.yaml，根据注释进行配置</li>
+<li>通过<code>make docker-build docker-push</code>进行容器镜像打包与推送；通过<code>make deploy</code>部署Operator到集群中</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">make docker-build docker-push IMG<span style="color:#f92672">=</span>ccr.ccs.tencentyun.com/open-operator/sidecar-operator:1.0.0
+make deploy IMG<span style="color:#f92672">=</span>ccr.ccs.tencentyun.com/open-operator/sidecar-operator:1.0.0
+</code></pre></div><h2 id="代码仓库">代码仓库</h2>
+<p><a href="https://github.com/ChinaLHR/sidecar-operator">https://github.com/ChinaLHR/sidecar-operator</a></p>
+
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/kubernetes/"
+              >Kubernetes</a
+            >&nbsp;
+          
+        </div>
+      
+    </article>
+    
+      <script>
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      document.getElementById('backtotopButton').style.opacity = '1'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    } else {
+      document.getElementById('backtotopButton').style.opacity = '0'
+      document.getElementById('backtotopButton').style.transition = '0.5s'
+    }
+  })
+
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
+</script>
+
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
+
+
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2022
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
+
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>
