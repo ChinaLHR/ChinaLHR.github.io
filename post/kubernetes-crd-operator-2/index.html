@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8" />
 <title>Kubernetes-Operator：扩展Kubernetes API Resource与Custom Controller (下)</title>
-
+<meta name="description"
+      content=""
+>
 
   
     
@@ -785,17 +787,20 @@ make deploy IMG<span style="color:#f92672">=</span>ccr.ccs.tencentyun.com/open-o
       
     </article>
     
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
       <script>
+  var backtotopButton = document.getElementById('backtotopButton')
+
   document.addEventListener('scroll', function () {
     if (
       document.body.scrollTop > 50 ||
       document.documentElement.scrollTop > 50
     ) {
-      document.getElementById('backtotopButton').style.opacity = '1'
-      document.getElementById('backtotopButton').style.transition = '0.5s'
+      backtotopButton.style.opacity = '1'
     } else {
-      document.getElementById('backtotopButton').style.opacity = '0'
-      document.getElementById('backtotopButton').style.transition = '0.5s'
+      backtotopButton.style.opacity = '0'
     }
   })
 
@@ -803,11 +808,12 @@ make deploy IMG<span style="color:#f92672">=</span>ccr.ccs.tencentyun.com/open-o
     document.body.scrollTop = 0 
     document.documentElement.scrollTop = 0 
   }
+
+  
+  document.dispatchEvent(new CustomEvent('scroll'))
+  backtotopButton.style.display = 'block'
 </script>
 
-      <button onclick="topFunction()" id="backtotopButton">
-        <em class="fa fa-angle-up"></em>
-      </button>
     
     
       

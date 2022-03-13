@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8" />
 <title>响应式编程库-Reactor</title>
-
+<meta name="description"
+      content=""
+>
 
   
     
@@ -464,17 +466,20 @@ subscribeOn无论出现在什么位置，都只影响源头的执行环境</p>
       
     </article>
     
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
       <script>
+  var backtotopButton = document.getElementById('backtotopButton')
+
   document.addEventListener('scroll', function () {
     if (
       document.body.scrollTop > 50 ||
       document.documentElement.scrollTop > 50
     ) {
-      document.getElementById('backtotopButton').style.opacity = '1'
-      document.getElementById('backtotopButton').style.transition = '0.5s'
+      backtotopButton.style.opacity = '1'
     } else {
-      document.getElementById('backtotopButton').style.opacity = '0'
-      document.getElementById('backtotopButton').style.transition = '0.5s'
+      backtotopButton.style.opacity = '0'
     }
   })
 
@@ -482,11 +487,12 @@ subscribeOn无论出现在什么位置，都只影响源头的执行环境</p>
     document.body.scrollTop = 0 
     document.documentElement.scrollTop = 0 
   }
+
+  
+  document.dispatchEvent(new CustomEvent('scroll'))
+  backtotopButton.style.display = 'block'
 </script>
 
-      <button onclick="topFunction()" id="backtotopButton">
-        <em class="fa fa-angle-up"></em>
-      </button>
     
     
       

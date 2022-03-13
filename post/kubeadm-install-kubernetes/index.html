@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8" />
 <title>使用kubeadm部署Kubernetes集群实践</title>
-
+<meta name="description"
+      content=""
+>
 
   
     
@@ -1355,17 +1357,20 @@ kubeadm join 192.168.1.120:6443 --token abcdef.0123456789abcdef <span style="col
       
     </article>
     
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
       <script>
+  var backtotopButton = document.getElementById('backtotopButton')
+
   document.addEventListener('scroll', function () {
     if (
       document.body.scrollTop > 50 ||
       document.documentElement.scrollTop > 50
     ) {
-      document.getElementById('backtotopButton').style.opacity = '1'
-      document.getElementById('backtotopButton').style.transition = '0.5s'
+      backtotopButton.style.opacity = '1'
     } else {
-      document.getElementById('backtotopButton').style.opacity = '0'
-      document.getElementById('backtotopButton').style.transition = '0.5s'
+      backtotopButton.style.opacity = '0'
     }
   })
 
@@ -1373,11 +1378,12 @@ kubeadm join 192.168.1.120:6443 --token abcdef.0123456789abcdef <span style="col
     document.body.scrollTop = 0 
     document.documentElement.scrollTop = 0 
   }
+
+  
+  document.dispatchEvent(new CustomEvent('scroll'))
+  backtotopButton.style.display = 'block'
 </script>
 
-      <button onclick="topFunction()" id="backtotopButton">
-        <em class="fa fa-angle-up"></em>
-      </button>
     
     
       

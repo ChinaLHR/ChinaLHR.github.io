@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8" />
 <title>Kotlin基础：泛型、注解、DSL</title>
-
+<meta name="description"
+      content=""
+>
 
   
     
@@ -473,17 +475,20 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
       
     </article>
     
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
       <script>
+  var backtotopButton = document.getElementById('backtotopButton')
+
   document.addEventListener('scroll', function () {
     if (
       document.body.scrollTop > 50 ||
       document.documentElement.scrollTop > 50
     ) {
-      document.getElementById('backtotopButton').style.opacity = '1'
-      document.getElementById('backtotopButton').style.transition = '0.5s'
+      backtotopButton.style.opacity = '1'
     } else {
-      document.getElementById('backtotopButton').style.opacity = '0'
-      document.getElementById('backtotopButton').style.transition = '0.5s'
+      backtotopButton.style.opacity = '0'
     }
   })
 
@@ -491,11 +496,12 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
     document.body.scrollTop = 0 
     document.documentElement.scrollTop = 0 
   }
+
+  
+  document.dispatchEvent(new CustomEvent('scroll'))
+  backtotopButton.style.display = 'block'
 </script>
 
-      <button onclick="topFunction()" id="backtotopButton">
-        <em class="fa fa-angle-up"></em>
-      </button>
     
     
       

@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8" />
 <title>SEO-前端优化实践</title>
-
+<meta name="description"
+      content=""
+>
 
   
     
@@ -299,17 +301,20 @@ Robot.txt文件最后可以写上站点地图的地址，方便蜘蛛更全更�
       
     </article>
     
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
       <script>
+  var backtotopButton = document.getElementById('backtotopButton')
+
   document.addEventListener('scroll', function () {
     if (
       document.body.scrollTop > 50 ||
       document.documentElement.scrollTop > 50
     ) {
-      document.getElementById('backtotopButton').style.opacity = '1'
-      document.getElementById('backtotopButton').style.transition = '0.5s'
+      backtotopButton.style.opacity = '1'
     } else {
-      document.getElementById('backtotopButton').style.opacity = '0'
-      document.getElementById('backtotopButton').style.transition = '0.5s'
+      backtotopButton.style.opacity = '0'
     }
   })
 
@@ -317,11 +322,12 @@ Robot.txt文件最后可以写上站点地图的地址，方便蜘蛛更全更�
     document.body.scrollTop = 0 
     document.documentElement.scrollTop = 0 
   }
+
+  
+  document.dispatchEvent(new CustomEvent('scroll'))
+  backtotopButton.style.display = 'block'
 </script>
 
-      <button onclick="topFunction()" id="backtotopButton">
-        <em class="fa fa-angle-up"></em>
-      </button>
     
     
       
