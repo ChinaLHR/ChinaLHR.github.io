@@ -282,6 +282,30 @@ MongoDB的ObjectId随着时间而增加，如果是同一台机器的同一个�
       
     </article>
     
+      <script>
+  var backtotopButton = document.getElementById('backtotopButton')
+
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      backtotopButton.style.opacity = '1'
+    } else {
+      backtotopButton.style.opacity = '0'
+    }
+  })
+
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
+
+  
+  document.dispatchEvent(new CustomEvent('scroll'))
+  backtotopButton.style.display = 'block'
+</script>
+
       <button onclick="topFunction()" id="backtotopButton">
         <em class="fa fa-angle-up"></em>
       </button>
