@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<title>GitOps实践，基于Gitlab CI、Kustomize 与Argo CD</title>
+<meta name="description"
+      content=""
+>
+
+  
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JLJBQBW5WM');
+  </script>
+  
+
+
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://chinalhr.github.io/index.xml"
+  title="ChinaLHR Blog"
+/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="GitOps实践，基于Gitlab CI、Kustomize 与Argo CD"/>
+<meta name="twitter:description" content="
+GitOps总结与实践
+"/>
+
+
+
+<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
+
+
+
+
+<link
+  crossorigin="anonymous"
+  href="/css/styles.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+
+
+<link
+  id="dark-mode-theme"
+  crossorigin="anonymous"
+  href="/css/dark.min.css"
+  integrity=""
+  rel="preload stylesheet"
+  as="style"
+/>
+
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+
+<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
+
+
+<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
+  </head>
+  <body>
+    
+  
+
+
+
+
+  <header>
+    <nav class="navbar">
+  <div class="nav">
+    
+      <a href="https://chinalhr.github.io/" class="nav-logo">
+        <img
+          src="https://chinalhr.github.io/images/icon.png"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+      </a>
+    
+
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about/" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories/" id="Categories"
+              ><em class="fas fa-filter fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags/" id="Tags"
+              ><em class="fas fa-tags fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives/" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search/" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
+  </div>
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              GitOps实践，基于Gitlab CI、Kustomize 与Argo CD
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Jul 20, 2022
+  
+    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/devops/"
+        >DevOps</a
+      >&nbsp;
+    
+      <a
+        href="https://chinalhr.github.io/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/"
+        >云原生</a
+      >&nbsp;
+    
+  
+</span>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
+      <blockquote>
+<p>GitOps总结与实践</p>
+</blockquote>
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#gitops">GitOps</a>
+          <ul>
+            <li><a href="#什么是gitops">什么是GitOps</a></li>
+            <li><a href="#使用gitops的前置条件">使用GitOps的前置条件</a></li>
+            <li><a href="#不可变基础设施iac与gitops">不可变基础设施、IaC与GitOps</a></li>
+            <li><a href="#gitops的工作模式">GitOps的工作模式</a></li>
+            <li><a href="#gitops的优势">GitOps的优势</a></li>
+          </ul>
+        </li>
+        <li><a href="#argo-cd">Argo CD</a>
+          <ul>
+            <li><a href="#argo-cd特性">Argo CD特性</a></li>
+            <li><a href="#argo-cd架构">Argo CD架构</a></li>
+            <li><a href="#argo-cd部署">Argo CD部署</a></li>
+          </ul>
+        </li>
+        <li><a href="#使用kustomize定制管理kubernetes资源">使用Kustomize定制/管理Kubernetes资源</a>
+          <ul>
+            <li><a href="#关于kustomize">关于Kustomize</a></li>
+            <li><a href="#使用kustomize定制管理kubernetes资源-1">使用Kustomize定制/管理Kubernetes资源</a></li>
+            <li><a href="#基准bases与覆盖overlays">基准（Bases）与覆盖（Overlays）</a></li>
+            <li><a href="#kustomize-vs-helm">Kustomize vs Helm</a></li>
+          </ul>
+        </li>
+        <li><a href="#基于gitlab-cikustomize-argo-cd的gitops实践">基于Gitlab CI、Kustomize、 Argo CD的GitOps实践</a>
+          <ul>
+            <li><a href="#前置条件">前置条件</a></li>
+            <li><a href="#gitops流程">GitOps流程</a></li>
+            <li><a href="#项目结构">项目结构</a></li>
+            <li><a href="#gitops流程实践">GitOps流程实践</a>
+              <ul>
+                <li><a href="#应用docker镜像构建">应用Docker镜像构建</a></li>
+                <li><a href="#kustomize定制声明式kubernetes资源对象">Kustomize定制声明式Kubernetes资源对象</a></li>
+                <li><a href="#gitlab-ci流程">Gitlab CI流程</a></li>
+                <li><a href="#argo-cd流程">Argo CD流程</a></li>
+              </ul>
+            </li>
+            <li><a href="#项目源码">项目源码</a></li>
+          </ul>
+        </li>
+        <li><a href="#参考">参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav><h2 id="gitops">GitOps</h2>
+<h3 id="什么是gitops">什么是GitOps</h3>
+<p>GitOps是Weaveworks公司于2017年首创的一种进行Kubernetes集群管理和应用交付的方式。GitOps通过使用Git作为声明性基础设施和应用程序的单一事实来源进行工作。
+GitOps的核心是将应用的声明性基础架构描述、应用源码与自动化流程存放在Git Repository中，将Git作为交付流水线的核心。GitOps会Diff Repository中声明信息与Kubernetes集群中实际运行的内容之间的差异，其实现的Kubernetes Operator会根据情况进行自动更新或回滚集群；通过将Git作为交付流水线的核心，开发人员可以使用push、pull request等Git操作，以加速和简化Kubernetes集群应用程序的部署和操作任务。</p>
+<p><strong>GitOps是用于构建云原生应用程序的操作模型</strong></p>
+<ol>
+<li>GitOps为Kubernetes或其他云原生技术的操作模型，提供了一组最佳实践，统一容器化集群和应用程序基于Git部署、管理和监控。</li>
+<li>优化开发人员管理应用程序的方式，包括应用 CI/CD pipeline 和 Git Flow 的操作和开发。</li>
+</ol>
+<h3 id="使用gitops的前置条件">使用GitOps的前置条件</h3>
+<ul>
+<li>
+<p>声明式描述整个应用系统，并使用Git进行版本化控制
+任何能够被描述的内容都必须存储于Git仓库中，如Kubernetes资源对象描述；声明性意味着配置由一组事实而不是一组指令来保证，基于Git对应用程序的声明。描述进行版本控制后，就有了单一的事实来源，应用程序可以轻松部署到Kubernetes，并进行升级、回滚，而且当容灾处理时也可以快速、可靠地复制基础设施。</p>
+</li>
+<li>
+<p>Git Approved Changes后自动更新
+允许对声明信息的变更，自动化更新于集群中，并且不需要集群凭证来更改系统，在隔离的环境中使用GitOps，将状态定义位于外部，使得可以将&quot;所做的事情&quot;和&quot;将要如何做的事情&quot;分开。</p>
+</li>
+<li>
+<p>通过GitOps确保正确性以及分歧报警
+一旦系统状态被声明并受版本控制，可以通过GitOps提供的工具对真实的系统状态与版本控制中声明的系统状态进行Diff，在真实的系统状态与版本控制中声明的系统状态不一致时进行通知；以及通过GitOps工具支持系统在故障、人为错误时进行自我修复。</p>
+</li>
+</ul>
+<h3 id="不可变基础设施iac与gitops">不可变基础设施、IaC与GitOps</h3>
+<blockquote>
+<p>不可变基础设施（Immutable Infrastructure）：不可变基础设施是由Chad Fowler于 2013 年提出的一个构想：在这种模式中任何基础设施的实例一旦创建之后便成为一种只读状态，不可对其进行任何更改。如果需要修改或升级某些实例，唯一的方式就是创建一批新的实例以替换。
+传统可变基础设施是将应用打包好部署在不同的机器上，需要确保环境的统一，并通过修改、补丁的方式持续更新应用，随着时间的推移很难再确保所有的机器处于相同的状态；而不可变基础架构，是将整个机器环境打包成一个单一的不可变单元，这个单元包含了整个环境和应用本身，以解决传统可变基础架构的问题。</p>
+</blockquote>
+<blockquote>
+<p>基础架构即代码（IaC）是通过代码（而非手动流程）来管理和置备基础架构的方法。</p>
+</blockquote>
+<p>通过使用容器技术可以实现基础设施的不变性，而Kubernetes的声明性容器编排可以实现基础架构即代码。GitOps基于不可变基础设施和IaC，结合Git进行应用系统整个配置文件集版本控制。</p>
+<h3 id="gitops的工作模式">GitOps的工作模式</h3>
+<ul>
+<li>Git对环境配置进行版本控制</li>
+</ul>
+<p>GitOps以Git为核心进行工作，除了应用程序的仓库外，还需要对环境配置的仓库进行版本控制；其中应用程序仓库含应用程序的源码与部署相关的manifests，环境配置仓库包含应用所需基础架构与部署相关的manifests。</p>
+<ul>
+<li>GitOps基于pull的工作模式
+<img src="https://user-images.githubusercontent.com/19829495/184179844-06e41102-ab68-4e9b-8d4e-f18f8fd6fb3a.png" alt="image"></li>
+</ul>
+<p>GitOps大都基于Pull模式去工作，开发人员推送应用代码到应用仓库后，经过Pull Request合并到目标分支后，触发CI Pipeline，构建推送应用容器镜像与推送更新环境配置仓库；在CD阶段，通过引入Operator，不断观察环境配置库的声明信息并与当前集群的应用环境进行Diff，当存在差异时进行集群应用环境的部署、更新或者还原。</p>
+<ul>
+<li>GitOps基于push的工作模式
+<img src="https://user-images.githubusercontent.com/19829495/184180200-665b085e-b86d-404a-a782-89865d237068.png" alt="image"></li>
+</ul>
+<p>GitOps也可以基于Push模式去工作，对比基于Pull的工作模式，Push模式在CI Pipeline完成阶段会去通知Operator进行环境配置信息的拉取与部署、更新。Push模式有着传统CI/CD流程的直观性，对比Pull模式有着更好的实时性与性能，但却缺少了对
+端（环境配置信息）到端（集群应用信息）一致性的保证。</p>
+<h3 id="gitops的优势">GitOps的优势</h3>
+<p>通过GitOps，当我们对Git Repository进行更改时，GitOps的自动化交付流水线会自动将变更部署到基础架构中。而且，GitOps还会使用工具将应用程序的实际状态与Git Repository中的声明状态进行比较，以通知集群Git Repository中声明状态与实际环境的Diff。</p>
+<p>通过应用GitOps，基础设施和应用程序代码都有一个“真实来源”，提高了开发团队速度并提高系统可靠性。</p>
+<p>将GitOps理论应用在持续交付流水线上有着深远的好处：</p>
+<ul>
+<li>提高生产力：具有集成反馈控制回路的自动化持续部署可以显著加快部署时间。</li>
+<li>增加开发体验：开发人员可以使用熟悉的版本控制工具（Git）更快速、方便地管理Kubernetes的更新和功能。</li>
+<li>更加稳定与可靠：可以使用Git Flow来管理集群应用，而且可以方便地获得审计日志，记录集群应用的更改；借助Git的revert/rollback，可以稳定且可重现地进行回滚、恢复操作。</li>
+<li>一致性和标准化：GitOps提供了标准化的模型以进行基础设施、应用程序与Kubernetes的附加更改，可以保持组织中端到端工作流的已执行状态。</li>
+</ul>
+<h2 id="argo-cd">Argo CD</h2>
+<p>Argo CD是一个用于Kubernetes的声明式GitOps持续交付工具；Argo CD遵循GitOps模式，使用Git存储库作为定义所需应用程序状态的真实来源, Argo CD支持多种Kubernetes manifests 如kustomize、helm charts、jsonnet files&hellip;。Argo CD可以在指定的目标环境中自动部署所需的应用程序状态，应用程序部署可以跟踪分支、标签的更新或在Git提交时固定到特定版本的清单。</p>
+<h3 id="argo-cd特性">Argo CD特性</h3>
+<ul>
+<li>将应用程序自动部署到指定的目标环境</li>
+<li>支持多种配置管理/模板工具（Kustomize、Helm、Jsonnet、plain-YAML）</li>
+<li>支持管理和部署到多个集群</li>
+<li>SSO 集成（OIDC、OAuth2、LDAP、SAML 2.0、GitHub、GitLab、Microsoft、LinkedIn）</li>
+<li>用于授权的多租户和 RBAC 策略</li>
+<li>基于Git版本控制，支持回滚到Git存储库中提交的任何应用程序状态</li>
+<li>持续监控与分析应用资源的健康状况</li>
+<li>支持自动或手动（基于Pull/Push模式）触发应用程序同步到所需状态</li>
+<li>提供可视化的Web UI与用于自动化与CI集成的CLI</li>
+<li>Webhook 集成（GitHub、BitBucket、GitLab），以及提供用于自动化的访问令牌</li>
+<li>PreSync、Sync、PostSync hooks 以支持复杂的应用程序的部署策略（如blue/green 、canary upgrades）</li>
+<li>应用程序事件和API调用的审计跟踪</li>
+<li>Prometheus指标</li>
+</ul>
+<h3 id="argo-cd架构">Argo CD架构</h3>
+<p>Argo CD 通过kubernetes控制器实现，通过持续监控集群中正在运行的应用程序并将当前的状态信息与所需的目标状态（环境配置仓库）进行比较。通过Diff实时状态与目标状态，如果存在差异则应用进入OutOfSync状态；Argo CD会报告和可视化差异，同时提供工具自动或手动的方式将实时状态同步回所需目标状态。在 Git 存储库中对所需目标状态所做的任何修改都可以自动应用并反映在指定的目标环境中。</p>
+<p>Argo CD主要由API Server、Repository Server、Application Controller组成。</p>
+<p><img src="https://user-images.githubusercontent.com/19829495/184182066-33e6cb8c-282e-4275-bb0c-a059bf62f6df.png" alt="image"></p>
+<p><strong>API Server</strong>
+Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、CLI API 与CI/CD系统使用的API，主要职责为：</p>
+<ul>
+<li>应用程序管理和状态报告</li>
+<li>调用应用程序进行相关的操作，如同步、回滚、自定义操作等</li>
+<li>存储库和集群凭证管理(使用K8s secrets进行存储)</li>
+<li>对外部身份提供者的身份验证和授权</li>
+<li>基于RBAC的角色访问权限控制</li>
+<li>Git Webhook 事件的listener/forwarder</li>
+</ul>
+<p><strong>Repository Server</strong>
+存储库服务器是一个内部服务，维护保存应用程序Git存储库的本地缓存，当应用设置如下输入信息时，它负责生成和返回 Kubernetes manifests：</p>
+<ul>
+<li>存储库URL</li>
+<li>git revision（commit, tag, branch）</li>
+<li>应用程序设置的路径</li>
+<li>模板配置：parameters、helm values.yaml</li>
+</ul>
+<p><strong>Application Controller</strong>
+应用程序控制器是一个Kubernetes Controller，它持续监控正在运行的应用程序并将当前的状态信息与所需的目标状态（环境配置仓库）进行比较，对检测到的OutOfSync状态的应用程序选择对应的纠正措施进行纠正。它还负责调用任何用户定义的生命周期事件（PreSync、Sync、PostSync）对应的hooks。</p>
+<h3 id="argo-cd部署">Argo CD部署</h3>
+<p>Argo CD支持两种部署方式：多租户（multi-tenant）、核心（core）。</p>
+<ul>
+<li>
+<p>多租户（multi-tenant）
+多租户模式是安装Argo CD最常见的方式，通常用于为公司内多个开发团队提供服务，并由平台团队进行维护；用户可以使用Web UI或CLI 通过 API Server访问 Argo CD；支持HA与非HA方式进行部署。</p>
+</li>
+<li>
+<p>核心（core）
+核心模式适合独立使用Argo CD且不需要多租户特性的集群管理员；核显模式包含更少的组件并且更易于设置，bundle不包含API Server或Web UI，并只安装每个组件的轻量级（非 HA）版本；用户需要 Kubernetes 访问权限来管理 Argo CD。</p>
+</li>
+</ul>
+<p>具体的部署方式可以参考：<a href="https://argo-cd.readthedocs.io/en/stable/operator-manual/installation/">https://argo-cd.readthedocs.io/en/stable/operator-manual/installation/</a></p>
+<h2 id="使用kustomize定制管理kubernetes资源">使用Kustomize定制/管理Kubernetes资源</h2>
+<h3 id="关于kustomize">关于Kustomize</h3>
+<p>Kustomize是一个通过kustomization文件定制Kubernetes对象的工具；kustomize允许您自定义原始的、无模板的Kubernetes YAML文件以用于多种用途，而原始Kubernetes YAML保持不变且可按原样使用。</p>
+<p>Kustomize可以解析并修补Kubernetes API对象，如同<code>make</code>在一个文件中进行声明，如同<code>sed</code>可以发出解析并修补完成的YAML文本。</p>
+<p>可以通过kustomize build命令生成自定义YAML，从1.14版本开始kubectl也支持使用kustomization文件来管理Kubernetes对象，可以直接通过kubectl kustomize命令生成自定义YAML。</p>
+<h3 id="使用kustomize定制管理kubernetes资源-1">使用Kustomize定制/管理Kubernetes资源</h3>
+<p>kustomize提供以下功能特性定制/管理Kubernetes应用配置文件
+<img src="https://user-images.githubusercontent.com/19829495/185802651-b2e44fd5-6779-46a1-b3fc-9ff96bf6b549.png" alt="image"></p>
+<ul>
+<li>从其他来源生成资源</li>
+</ul>
+<p>Kustomize提供<code>secretGenerator</code>和<code>configMapGenerator</code>，可以基于文件或字面值来生成Secret和ConfigMap。如下，从.env文件生成ConfigMap。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
+<span style="color:#66d9ef">kind</span>: Kustomization
+<span style="color:#66d9ef">resources</span>:
+- deployment.yaml
+- service.yaml
+<span style="color:#66d9ef">configMapGenerator</span>:
+- <span style="color:#66d9ef">envs</span>:
+  - .env
+  <span style="color:#66d9ef">name</span>: echo-config
+</code></pre></div><ul>
+<li>为资源设置贯穿性（Cross-Cutting）字段
+如同模板中的变量，为在项目中所有的Kubernetes对象设置贯穿性字段，如为所有资源设置相同的名字空间；为所有对象添加相同的前缀后缀、标签、注解等。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
+<span style="color:#66d9ef">kind</span>: Kustomization
+<span style="color:#66d9ef">resources</span>:
+- deployment.yaml
+- service.yaml
+<span style="color:#66d9ef">namespace</span>: dev
+<span style="color:#66d9ef">namePrefix</span>: dev-
+<span style="color:#66d9ef">nameSuffix</span>: <span style="color:#e6db74">&#34;-test&#34;</span>
+<span style="color:#66d9ef">commonLabels</span>:
+  <span style="color:#66d9ef">app</span>: echo
+<span style="color:#66d9ef">commonAnnotations</span>:
+  <span style="color:#66d9ef">sidecar</span>: monitoring
+<span style="color:#66d9ef">resources</span>:
+- deployment.yaml
+- service.yaml
+</code></pre></div><ul>
+<li>组织和定制资源集合
+在项目中构造资源集合并将其放到同一个文件或目录中管理。Kustomize提供基于不同文件来组织资源并向其应用补丁或者其他定制的能力。</li>
+</ul>
+<p>kustomization.yaml文件的<code>resources</code>字段定义配置中要包含的资源列表，达到资源的组织。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
+<span style="color:#66d9ef">kind</span>: Kustomization
+<span style="color:#66d9ef">resources</span>:
+- deployment.yaml
+- service.yaml
+</code></pre></div><p>补丁文件（Patches）可以用来对资源执行不同的定制。Kustomize通过<code>patchesStrategicMerge</code>和<code>patchesJson6902</code>支持不同的打补丁机制。
+<code>patchesStrategicMerge</code>的内容是一个文件路径的列表，其中每个文件都应可解析为策略性合并补丁（Strategic Merge Patch）。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># deployment replace patch file </span>
+<span style="color:#66d9ef">apiVersion</span>: apps/v1
+<span style="color:#66d9ef">kind</span>: Deployment
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: echo
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">replicas</span>: <span style="color:#ae81ff">3</span>
+
+<span style="color:#75715e"># deployment memory patch file</span>
+<span style="color:#66d9ef">apiVersion</span>: apps/v1
+<span style="color:#66d9ef">kind</span>: Deployment
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: echo
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">template</span>:
+    <span style="color:#66d9ef">spec</span>:
+      <span style="color:#66d9ef">containers</span>:
+      - <span style="color:#66d9ef">name</span>: echo
+        <span style="color:#66d9ef">resources</span>:
+          <span style="color:#66d9ef">limits</span>:
+            <span style="color:#66d9ef">memory</span>: 512Mi
+
+<span style="color:#75715e"># kustomization file</span>
+<span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
+<span style="color:#66d9ef">kind</span>: Kustomization
+<span style="color:#66d9ef">resources</span>:
+- deployment.yaml
+- service.yaml
+<span style="color:#66d9ef">patchesStrategicMerge</span>:
+- deployment_replicas_patch.yaml
+- deployment_memory_patch.yaml
+</code></pre></div><p>也可以通过<code>patchesJson6902</code>来使用JSON补丁的能力，对比<code>patchesStrategicMerge</code>的合并机制，<code>patchesJson6902</code>支持对任何资源的任何字段进行修改。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># deployment replace patch file </span>
+- <span style="color:#66d9ef">op</span>: replace
+  <span style="color:#66d9ef">path</span>: /spec/replicas
+  <span style="color:#66d9ef">value</span>: <span style="color:#ae81ff">3</span>
+
+<span style="color:#75715e"># kustomization file</span>
+<span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
+<span style="color:#66d9ef">kind</span>: Kustomization
+<span style="color:#66d9ef">resources</span>:
+- deployment.yaml
+- service.yaml
+<span style="color:#66d9ef">patchesJson6902</span>:
+- <span style="color:#66d9ef">target</span>:
+    <span style="color:#66d9ef">group</span>: apps
+    <span style="color:#66d9ef">version</span>: v1
+    <span style="color:#66d9ef">kind</span>: Deployment
+    <span style="color:#66d9ef">name</span>: echo
+  <span style="color:#66d9ef">path</span>: deployment_replicas_patch.yaml
+</code></pre></div><p>kustomize也提供了对象字段值注入的功能，例如通过images字段设置新的镜像。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
+<span style="color:#66d9ef">kind</span>: Kustomization
+<span style="color:#66d9ef">resources</span>:
+- deployment.yaml
+- service.yaml
+<span style="color:#66d9ef">images</span>:
+- <span style="color:#66d9ef">name</span>: echo
+  <span style="color:#66d9ef">newName</span>: my.image.registry/echo
+  <span style="color:#66d9ef">newTag</span>: <span style="color:#ae81ff">1.1.0</span>
+</code></pre></div><h3 id="基准bases与覆盖overlays">基准（Bases）与覆盖（Overlays）</h3>
+<p>Kustomize中有基准（bases）和覆盖（overlays）的概念，基准是包含kustomization.yaml文件的本地目录或者远程仓库目录，包含一组资源及其相关的定制；覆盖也是一个目录，其中包含将其他kustomization目录当做bases来引用的kustomization.yaml文件。
+基准与覆盖是多对多的关系，覆盖可以引用多个基准，基准也可以被多个覆盖引用，提高了kustomize的高度定制性。</p>
+<p><img src="https://user-images.githubusercontent.com/19829495/185803716-b07a6b84-2147-45a6-9ae4-1ef47d4632b4.png" alt="image"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">├── base
+│   ├── deployment.yaml
+│   ├── kustomization.yaml
+│   └── service.yaml
+└── overlays
+    ├── development
+    │   ├── cpu_count.yaml
+    │   ├── kustomization.yaml
+    │   └── replica_count.yaml
+    └── production
+        ├── cpu_count.yaml
+        ├── kustomization.yaml
+        └── replica_count.yaml
+</code></pre></div><p>kustomize的详细用法可以参考：</p>
+<ul>
+<li><a href="https://kubectl.docs.kubernetes.io/guides/introduction/kustomize/">https://kubectl.docs.kubernetes.io/guides/introduction/kustomize/</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/tasks/manage-kubernetes-objects/kustomization/">https://kubernetes.io/zh-cn/docs/tasks/manage-kubernetes-objects/kustomization/</a></li>
+</ul>
+<h3 id="kustomize-vs-helm">Kustomize vs Helm</h3>
+<p>Kustomize对比Helm，可以通过如下表格来对比两者的特性：</p>
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>Helm</th>
+<th>Kustomize</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>模板支持</td>
+<td>√</td>
+<td>×</td>
+</tr>
+<tr>
+<td>覆盖支持</td>
+<td>×</td>
+<td>√</td>
+</tr>
+<tr>
+<td>打包支持</td>
+<td>√</td>
+<td>×</td>
+</tr>
+<tr>
+<td>验证hooks</td>
+<td>√</td>
+<td>×</td>
+</tr>
+<tr>
+<td>回滚支持</td>
+<td>√</td>
+<td>×</td>
+</tr>
+<tr>
+<td>原生 K8s 集成</td>
+<td>×</td>
+<td>√</td>
+</tr>
+<tr>
+<td>声明性</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>可见性和透明度</td>
+<td>弱</td>
+<td>强</td>
+</tr>
+</tbody>
+</table>
+<p>对比两者，比较显著的差别是Helm的流程主要基于模板，类似于瀑布式的模板定义-&gt;模板填充-&gt;生成资源文件；Kustomize的流程基于覆盖，类似于迭代式的Base和Overlay独立迭代变更。相比之下，选择使用更契合GitOps 版本化控制思想的Kustomize进行实践。</p>
+<h2 id="基于gitlab-cikustomize-argo-cd的gitops实践">基于Gitlab CI、Kustomize、 Argo CD的GitOps实践</h2>
+<h3 id="前置条件">前置条件</h3>
+<ul>
+<li>Docker：使用镜像构建，打包实现基础设施的不变性；实现对不可变基础设施（Immutable Infrastructure）的支持。</li>
+<li>Kubernetes：声明性容器编排，实现基础架构即代码（IaC）的支持。</li>
+<li>Gitlab：Merge Request与Approval 作为所有基础架构更新的更改机制（MRs），Git Repository实现对源码版本控制支持，- - Gitlab CI作为对GitOps CI阶段的支持。</li>
+<li>Kustomize：对Kubernetes资源对象的定制。</li>
+<li>Argo CD：声明式GitOps CD支持。</li>
+</ul>
+<h3 id="gitops流程">GitOps流程</h3>
+<p>这里我们选择基于pull的工作模式去实现GitOps，具体流程如下所示：
+<img src="https://user-images.githubusercontent.com/19829495/186222996-74e99bc5-e841-4ca8-9ec8-5bc4a5f96320.png" alt="image"></p>
+<h3 id="项目结构">项目结构</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">├── .backup
+│   ├── ci-base
+│   │   ├── Dockerfile
+│   │   └── Makefile
+│   └── gitlab
+│       └── note.md
+├── Dockerfile
+├── .gitignore
+├── .gitlab-ci.yml
+├── go.mod
+├── go.sum
+├── .kubernetes
+│   ├── base
+│   │   ├── deployment.yaml
+│   │   ├── kustomization.yaml
+│   │   └── service.yaml
+│   └── overlays
+│       ├── production
+│       │   ├── deployment_patch.yaml
+│       │   ├── .env
+│       │   └── kustomization.yaml
+│       └── staging
+│           ├── deployment_patch.yaml
+│           ├── .env
+│           └── kustomization.yaml
+├── main.go
+├── Makefile
+└── README.md
+</code></pre></div><p>这里我们为了更简单直观的展示流程，将应用仓库与环境配置仓库合并为一个，使用Golang、Gin简单实现了一个应用服务；其中<code>.backup</code>目录为基础CI镜像的manifests，<code>.kubernetesm</code>目录是基于Kustomize的manifests。</p>
+<h3 id="gitops流程实践">GitOps流程实践</h3>
+<h4 id="应用docker镜像构建">应用Docker镜像构建</h4>
+<p>使用makefile定义了三个phony target ，配合Dockerfile实现Docker镜像构建、镜像远程仓库登录与上传镜像</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile"><span style="color:#a6e22e">.PHONY</span><span style="color:#f92672">:</span> build-release-image
+<span style="color:#a6e22e">build-release-image</span><span style="color:#f92672">:</span>
+	docker build . <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>		--no-cache <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>		--force-rm <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>		-t <span style="color:#66d9ef">$(</span>release-image<span style="color:#66d9ef">)</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>		-f Dockerfile
+
+<span style="color:#a6e22e">.PHONY</span><span style="color:#f92672">:</span> login-docker-registry
+<span style="color:#a6e22e">login-docker-registry</span><span style="color:#f92672">:</span>
+	docker login -u <span style="color:#66d9ef">$(</span>registry-user<span style="color:#66d9ef">)</span> -p <span style="color:#66d9ef">$(</span>registry-password<span style="color:#66d9ef">)</span> <span style="color:#66d9ef">$(</span>registry-host<span style="color:#66d9ef">)</span>
+
+<span style="color:#a6e22e">.PHONY</span><span style="color:#f92672">:</span> push-release-image
+<span style="color:#a6e22e">push-release-image</span><span style="color:#f92672">:</span>
+	docker push <span style="color:#66d9ef">$(</span>release-image<span style="color:#66d9ef">)</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> golang:1.18 as build</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> GO111MODULE<span style="color:#f92672">=</span>on
+<span style="color:#66d9ef">ENV</span> GOPROXY<span style="color:#f92672">=</span>https://goproxy.cn,direct<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /go/release</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ADD</span> . .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> GOOS<span style="color:#f92672">=</span>linux CGO_ENABLED<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> GOARCH<span style="color:#f92672">=</span>amd64 go build -ldflags<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-s -w&#34;</span> -installsuffix cgo -o app main.go<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> scratch as prod</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>build /usr/share/zoneinfo/Asia/Shanghai /etc/localtime<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>build /go/release/app /<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;/app&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><h4 id="kustomize定制声明式kubernetes资源对象">Kustomize定制声明式Kubernetes资源对象</h4>
+<p>这里使用Kustomize Base/Overlay来管理Kubernetes多环境资源配置与使用Patches特性来进行迭代更新;</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">│   ├── base
+│   │   ├── deployment.yaml
+│   │   ├── kustomization.yaml
+│   │   └── service.yaml
+│   └── overlays
+│       ├── production
+│       │   ├── deployment_patch.yaml
+│       │   ├── .env
+│       │   └── kustomization.yaml
+│       └── staging
+│           ├── deployment_patch.yaml
+│           ├── .env
+│           └── kustomization.yaml
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># base kustomization.yaml 定制应用的基础kubernetes资源</span>
+<span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
+<span style="color:#66d9ef">kind</span>: Kustomization
+<span style="color:#66d9ef">commonLabels</span>:
+  <span style="color:#66d9ef">app</span>: saken
+<span style="color:#66d9ef">namespace</span>: default
+<span style="color:#66d9ef">resources</span>:
+- deployment.yaml
+- service.yaml
+<span style="color:#75715e"># overlay kustomization.yaml 定制应用不同环境（staging/production/...）特定kubernetes资源属性，</span>
+<span style="color:#75715e"># 基于configMapGenerator从不同环境的env文件生成不同资源的configMap</span>
+<span style="color:#75715e"># 基于patchesStrategicMerge对不同环境的deployment-pod资源进行控制</span>
+<span style="color:#75715e"># 基于Cross-Cutting对不同环境的namespace、name-prefix进行定制</span>
+<span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
+<span style="color:#66d9ef">kind</span>: Kustomization
+<span style="color:#66d9ef">resources</span>:
+- ../../base
+<span style="color:#66d9ef">namePrefix</span>: production-
+<span style="color:#66d9ef">namespace</span>: production
+<span style="color:#66d9ef">configMapGenerator</span>:
+- <span style="color:#66d9ef">envs</span>:
+  - .env
+  <span style="color:#66d9ef">name</span>: saken-config
+<span style="color:#66d9ef">patchesStrategicMerge</span>:
+- deployment_patch.yaml
+<span style="color:#66d9ef">images</span>:
+- <span style="color:#66d9ef">name</span>: my-registry.com/shovel/shovel-gitops
+  <span style="color:#66d9ef">newTag</span>: 940638fd88cf1c030e3c02b21f2df738db8544f3
+</code></pre></div><p>通过kustomize edit 命令，支持我们在CI阶段对基础配置仓库的kustomization文件进行命令式的编辑。</p>
+<h4 id="gitlab-ci流程">Gitlab CI流程</h4>
+<p>首先需要配置好CI流程所需要的环境变量，通过Gitlab settings-&gt;CI/CD-&gt;Variables进行配置如下变量</p>
+<pre><code>DOCKER_REGISTRY_HOST
+DOCKER_REGISTRY_IMAGE
+DOCKER_REGISTRY_PWD
+DOCKER_REGISTRY_USER
+GITLAB_EMAIL
+GITLAB_ID_RSA
+GITLAB_REMOTE_URL
+GITLAB_USERNAME
+</code></pre><p>如下所示，Gitlab-CI流程，定义了两个stage:</p>
+<ul>
+<li>build-publish-image：Docker镜像构建并推送到远程仓库</li>
+<li>update-kustomize：更新对应分支的kustomize overlay下kustomization文件，并推送到环境配置仓库</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#66d9ef">stages</span>:
+  - build-publish-image
+  - update-kustomize
+
+<span style="color:#66d9ef">build-publish-image</span>:
+  <span style="color:#66d9ef">image</span>: ccr.ccs.tencentyun.com/shovel/ci-base:<span style="color:#ae81ff">0.0.7</span>
+  <span style="color:#66d9ef">stage</span>: build-publish-image
+  <span style="color:#66d9ef">tags</span>:
+    - docker-runner
+  <span style="color:#66d9ef">only</span>:
+    - staging
+    - main
+  <span style="color:#66d9ef">services</span>:
+    - <span style="color:#66d9ef">name</span>: docker:<span style="color:#ae81ff">20</span>-dind
+  <span style="color:#66d9ef">before_script</span>:
+    - make login-docker-registry registry-user=$DOCKER_REGISTRY_USER registry-password=$DOCKER_REGISTRY_PWD registry-host=$DOCKER_REGISTRY_HOST
+  <span style="color:#66d9ef">script</span>:
+    - make build-release-image release-image=$DOCKER_REGISTRY_HOST/$DOCKER_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - make push-release-image release-image=$DOCKER_REGISTRY_HOST/$DOCKER_REGISTRY_IMAGE:$CI_COMMIT_SHA
+
+<span style="color:#66d9ef">update-kustomize</span>:
+  <span style="color:#66d9ef">image</span>: ccr.ccs.tencentyun.com/shovel/ci-base:<span style="color:#ae81ff">0.0.7</span>
+  <span style="color:#66d9ef">stage</span>: update-kustomize
+  <span style="color:#66d9ef">tags</span>:
+    - docker-runner
+  <span style="color:#66d9ef">only</span>:
+    - staging
+    - main
+  <span style="color:#66d9ef">services</span>:
+    - <span style="color:#66d9ef">name</span>: docker:<span style="color:#ae81ff">20</span>-dind
+  <span style="color:#66d9ef">before_script</span>:
+    - eval $(ssh-agent -s)
+    - echo <span style="color:#e6db74">&#34;${GITLAB_ID_RSA}&#34;</span> | tr -d <span style="color:#e6db74">&#39;\r&#39;</span> | ssh-add - &gt; /dev/<span style="color:#66d9ef">null</span>
+    - mkdir -p ~/.ssh
+    - ssh-keyscan gitlab.com &gt;&gt; ~/.ssh/known_hosts
+    - git remote set-url origin $GITLAB_REMOTE_URL
+    - git config --global user.email $GITLAB_EMAIL
+    - git config --global user.name $GITLAB_USERNAME
+    - if [ <span style="color:#e6db74">&#34;$CI_COMMIT_BRANCH&#34;</span> == <span style="color:#e6db74">&#34;main&#34;</span> ]; then KUSTOMIZE_OVERLAY=<span style="color:#e6db74">&#34;production&#34;</span>; fi
+    - if [ <span style="color:#e6db74">&#34;$CI_COMMIT_BRANCH&#34;</span> == <span style="color:#e6db74">&#34;staging&#34;</span> ]; then KUSTOMIZE_OVERLAY=<span style="color:#e6db74">&#34;staging&#34;</span>; fi
+  <span style="color:#66d9ef">script</span>:
+    - git checkout -B ${CI_COMMIT_BRANCH}
+    - cd .kubernetes/overlays/${KUSTOMIZE_OVERLAY}
+    - kustomize edit set image $DOCKER_REGISTRY_HOST/$DOCKER_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - kustomize build .
+    - git commit -am <span style="color:#e6db74">&#39;[skip ci] staging kustomize update&#39;</span>
+    - git push origin ${CI_COMMIT_BRANCH}
+</code></pre></div><p>进行到这里就完成了GitOps CI阶段的流程。</p>
+<h4 id="argo-cd流程">Argo CD流程</h4>
+<ul>
+<li>安装</li>
+</ul>
+<p>由于是实验环境，我们这里直接使用轻量级（非 HA）版本进行安装。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+</code></pre></div><p>安装完成后Deployment状态如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$kubectl get deploy --namespace argocd
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+argocd-redis                       1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           1h
+argocd-server                      1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           1h
+argocd-notifications-controller    1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           1h
+argocd-applicationset-controller   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           1h
+argocd-dex-server                  1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           1h
+argocd-repo-server                 1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           1h
+</code></pre></div><p>web服务配置：可以通过配置Ingress路由映射到argocd-server443/80端口；或者简单通过port-forward实现。</p>
+<p>获取admin password：第一次安装完成后，需要获取argocd命名空间下secret-argocd-initial-admin-secret获取到初始化的admin password进行登录；完成密码修改后即可删除该secret。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{.data.password}&#34;</span> | base64 -d; echo
+</code></pre></div><p>使用CLI进行操作：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 安装CLI</span>
+VERSION<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>curl --silent <span style="color:#e6db74">&#34;https://api.github.com/repos/argoproj/argo-cd/releases/latest&#34;</span> | grep <span style="color:#e6db74">&#39;&#34;tag_name&#34;&#39;</span> | sed -E <span style="color:#e6db74">&#39;s/.*&#34;([^&#34;]+)&#34;.*/\1/&#39;</span><span style="color:#66d9ef">)</span>
+curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64
+chmod +x /usr/local/bin/argocd
+
+<span style="color:#75715e"># 使用CLI登录</span>
+argocd login my.argocd.k8s.com
+<span style="color:#75715e"># argocd -h 查看argocd的一些基本操作帮助</span>
+</code></pre></div><ul>
+<li>配置Kubernetes Cluster</li>
+</ul>
+<p>通过CLI添加本地kube config中的cluster到argo cd：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">argocd cluster add production-cluster
+</code></pre></div><ul>
+<li>创建Projects</li>
+</ul>
+<p>Projects提供了应用程序的逻辑分组，一般为公司内部的多个团队、多个项目组做区分与提供资源限制。Projects对应的CRD是<code>appprojects.argoproj.io </code>,对应的spec规范了资源限制条件，定义项目角色以提供应用程序RBAC，如下是默认default projects；</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#66d9ef">spec</span>:
+<span style="color:#75715e"># 限制可以部署的Git源存储库</span>
+  <span style="color:#66d9ef">sourceRepos</span>:
+  - <span style="color:#e6db74">&#39;*&#39;</span>
+  <span style="color:#66d9ef">destinations</span>:
+  <span style="color:#75715e">#制应用程序可以部署的目标集群和命名空间</span>
+  - <span style="color:#66d9ef">namspce</span>: <span style="color:#e6db74">&#39;/果应用程序清单于私有存储库中，则必须配置存储库凭据。Argo CD 支持 HTTPS 和 SSH Git 凭证。
+</span><span style="color:#e6db74">    server: &#39;</span><span style="color:#75715e">*&#39;</span>
+  <span style="color:#75715e"># 限制可以部署或不可以部署的Kubernetes资源类型(Deployment,DaemonSets...)</span>
+  <span style="color:#66d9ef">clusterResourceWhitelist</span>:
+  - <span style="color:#66d9ef">group</span>: <span style="color:#e6db74">&#39;*&#39;</span>
+    <span style="color:#66d9ef">kind</span>: <span style="color:#e6db74">&#39;*&#39;</span>
+</code></pre></div><p>通过CLI配置Projects可以使用如下命令</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">argocd proj create --help
+Create a project
+
+Usage:
+  argocd proj create PROJECT <span style="color:#f92672">[</span>flags<span style="color:#f92672">]</span>
+</code></pre></div><p>通过Web UI配置Projects:通过在settings-&gt;projects下创建并编辑使用。</p>
+<ul>
+<li>配置Repository</li>
+</ul>
+<p>如果应用程序位于私有存储库中，则必须配置存储库凭据。Argo CD支持HTTPS/SSH Git凭证。
+通过CLI配置Repositories可以使用如下命令</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">argocd repo add --help
+Add git repository connection parameters
+
+Usage:
+  argocd repo add REPOURL <span style="color:#f92672">[</span>flags<span style="color:#f92672">]</span>
+
+Examples:
+  <span style="color:#75715e"># Add a Git repository via SSH using a private key for authentication, ignoring the server&#39;s host key:</span>
+  argocd repo add git@git.example.com:repos/repo --insecure-ignore-host-key --ssh-private-key-path ~/id_rsa
+</code></pre></div><p>通过Web UI配置Repositories:通过在Settings/Repositories下CONNECT REPO进行连接测试与创建。</p>
+<ul>
+<li>配置Application</li>
+</ul>
+<p>接下来就可以创建Application，创建后即创建了对应的Application Kubernetes CRD资源<code>applications.argoproj.io</code>，Argo CD实现的GitOps Controller会自动将Application Git仓库里的配置清单部署到指定的Kubernetes集群上。</p>
+<p>通过CLI配置Application如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"> argocd app create --help
+Create an application
+
+Usage:
+  argocd app create APPNAME <span style="color:#f92672">[</span>flags<span style="color:#f92672">]</span>
+
+Examples:
+        <span style="color:#75715e"># Create a Kustomize app</span>
+        argocd app create kustomize-guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path kustomize-guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --kustomize-image gcr.io/heptio-images/ks-guestbook-demo:0.1
+</code></pre></div><p>其中一些参数&hellip;</p>
+<ul>
+<li>&ndash;repo 指定部署应用对应的Git仓库地址</li>
+<li>&ndash;path 部署应用对应的 manifest 位置</li>
+<li>&ndash;dest-server 目标 Kubernetes 集群地址</li>
+</ul>
+<p>通过Web UI创建Application可以通过NEW APP进行创建，如下所示：
+<img src="https://user-images.githubusercontent.com/19829495/187038631-26537445-3de5-4134-a685-330fe41c5850.png" alt="image">
+<img src="https://user-images.githubusercontent.com/19829495/187038654-23bffdc9-86ee-4c7d-b359-17f9e229662c.png" alt="image"></p>
+<p>创建完成后，如果选择的同步策略为automated，Argo CD会自动同步项目的manifest部署到对应的集群中，也可以在WEB UI通过SYNC或者CLI通过<code>argocd app sync shovel-gitops-production</code>进步手动同步。</p>
+<p>同步完成后可以在WEB UI上看到对应应用的同步状态，如下所示：
+<img src="https://user-images.githubusercontent.com/19829495/187040221-c74f3807-12f9-447d-8a14-42be48133f14.png" alt="image">
+<img src="https://user-images.githubusercontent.com/19829495/187040241-4cb7515f-d053-4b24-bf91-c27faab31f2d.png" alt="image"></p>
+<ul>
+<li>自动同步策略（SYNC POLICY）</li>
+</ul>
+<p>Argo CD能够在检测到 Git 中所需的清单与集群中的实时状态之间存在差异时自动同步应用程序。自动同步是GitOps Pull模式的核心，好处是 CI/CD Pipeline 不再需要直接访问Argo CD API服务器来执行部署，可以通过在WEB UI的Application-SYNC POLICY中启用AUTOMATED或CLI<code>argocd app set &lt;APPNAME&gt; --sync-policy automated</code> 进行配置。</p>
+<ul>
+<li>自动修剪（Automatic Pruning）</li>
+</ul>
+<p>自动修剪作为一种安全机制，当Argo CD检测到资源不再存在于Git中的环境配置定义时，自动同步不会删除资源。可以通过手动同步（检查修剪）或者通过WEB UI的Application-SYNC POLICY中启用PRUNE RESOURCES或CLI<code>argocd app set &lt;APPNAME&gt; --auto-prune</code>进行配置。</p>
+<ul>
+<li>自动修复（Automatic Self-Healing）</li>
+</ul>
+<p>自动修复作为一种安全机制，当我们直接对集群进行操作导致实时集群的状态偏离Git中的环境配置定义定义的状态时，Argo CD会自动进行修复，保持集群的状态与Git manifest的一致性。可以通过WEB UI的Application-SYNC POLICY中启用SELF HEAL或CLI<code>argocd app set &lt;APPNAME&gt; --self-heal</code>进行配置。</p>
+<p>更多Argo CD的配置可以参考：<a href="https://argo-cd.readthedocs.io/en/stable/user-guide/">https://argo-cd.readthedocs.io/en/stable/user-guide/</a></p>
+<h3 id="项目源码">项目源码</h3>
+<p>可以在Github上获取到此项目的源码：<a href="https://github.com/ChinaLHR/shovel-kustomize-argocd-gitops">https://github.com/ChinaLHR/shovel-kustomize-argocd-gitops</a></p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://argo-cd.readthedocs.io/en/stable/">https://argo-cd.readthedocs.io/en/stable/</a></li>
+<li><a href="https://www.weave.works/technologies/gitops/">https://www.weave.works/technologies/gitops/</a></li>
+<li><a href="https://harness.io/blog/helm-vs-kustomize">https://harness.io/blog/helm-vs-kustomize</a></li>
+</ul>
+
+
+      
+        <div class="blog-tags">
+          
+            <a
+              href="https://chinalhr.github.io/tags/gitops/"
+              >GitOps</a
+            >&nbsp;
+          
+            <a
+              href="https://chinalhr.github.io/tags/cicd/"
+              >CI&amp;CD</a
+            >&nbsp;
+          
+            <a
+              href="https://chinalhr.github.io/tags/argo-cd/"
+              >Argo CD</a
+            >&nbsp;
+          
+        </div>
+      
+    </article>
+    
+      <script>
+  var backtotopButton = document.getElementById('backtotopButton')
+
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      backtotopButton.style.opacity = '1'
+    } else {
+      backtotopButton.style.opacity = '0'
+    }
+  })
+
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
+
+  
+  document.dispatchEvent(new CustomEvent('scroll'))
+  backtotopButton.style.display = 'block'
+</script>
+
+      <button onclick="topFunction()" id="backtotopButton">
+        <em class="fa fa-angle-up"></em>
+      </button>
+      <script>
+  var backtotopButton = document.getElementById('backtotopButton')
+
+  document.addEventListener('scroll', function () {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
+      backtotopButton.style.opacity = '1'
+    } else {
+      backtotopButton.style.opacity = '0'
+    }
+  })
+
+  function topFunction() {
+    document.body.scrollTop = 0 
+    document.documentElement.scrollTop = 0 
+  }
+
+  
+  document.dispatchEvent(new CustomEvent('scroll'))
+  backtotopButton.style.display = 'block'
+</script>
+
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+
+<div class="social-icons">
+  
+    
+    
+      
+      <a href="https://github.com/chinalhr" name="GitHub">
+        <em class="fab fa-github"></em>
+      </a>
+    
+       &nbsp;&ndash;&nbsp;
+      <a href="mailto:13435500980@163.com" name="Email">
+        <em class="fas fa-envelope"></em>
+      </a>
+    
+  
+
+  
+</div>
+
+
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://chinalhr.github.io/about">hanrong.li</a>
+      &nbsp;&copy;
+      2022
+      
+        &nbsp;/&nbsp;
+        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
+
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>

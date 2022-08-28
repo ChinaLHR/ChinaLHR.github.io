@@ -226,7 +226,7 @@ Mysql主从复制，读写分离相关资料整理记录
 <li>备库将主库上的日志复制到自己的中继日志(Relay Log)中。</li>
 <li>备库读取中继日志中的事件，重放到备库数据之上。</li>
 </ol>
-<p><img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/MySql/%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%8E%9F%E7%90%86.jpg" alt=""></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/182545847-2dabeb15-bba9-43dd-820b-981629d90ef4.png" alt="image"></p>
 <p><strong>架构优点:实现了获取事件和重放事件的解耦，两个过程异步执行，I/O线程能够独立于SQL线程之外工作。</strong></p>
 <h4 id="mysql支持的复制类型">mysql支持的复制类型</h4>
 <ol>
@@ -250,7 +250,7 @@ Mysql主从复制，读写分离相关资料整理记录
 </ol>
 <h4 id="让备库变成其他服务器的主库">让备库变成其他服务器的主库</h4>
 <p>log_slave_updates选项可以让备库变成其他服务器的主库</p>
-<p><img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/MySql/MySql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6_%E5%8F%91%E9%80%81%E5%A4%8D%E5%88%B6%E4%BA%8B%E4%BB%B6.JPG" alt=""></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/182545918-3f3fdeae-9e3c-40e7-9387-96b0e61a61ab.png" alt="image"></p>
 <h3 id="复制拓扑">复制拓扑</h3>
 <ol>
 <li>
@@ -291,7 +291,7 @@ Mysql主从复制，读写分离相关资料整理记录
 <li>基于程序代码内部控制,在代码中根据select 、insert进行路由分类</li>
 <li>基于中间代理层实现,代理数据库服务器接收到应用服务器的请求后根据判断后转发到后端数据库(mysql_proxy|Atlas|Amoeba)</li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/ChinaLHR/ChinaLHR.github.io/master/imgs/MySql/MySql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB.png" alt=""></p>
+<p><img src="https://user-images.githubusercontent.com/19829495/182546038-a2cf65e7-65cf-40a0-ae5f-22ebfbeeb258.png" alt="image"></p>
 
 
       

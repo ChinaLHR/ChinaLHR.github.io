@@ -7,13 +7,58 @@
   </url>
   
   <url>
+    <loc>https://chinalhr.github.io/tags/argo-cd/</loc>
+    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/categories/</loc>
-    <lastmod>2022-01-23T22:12:45+08:00</lastmod>
+    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2022-01-23T22:12:45+08:00</lastmod>
+    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/cicd/</loc>
+    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/categories/devops/</loc>
+    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/git/</loc>
+    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/gitops/</loc>
+    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/post/gitops-argo-cd/</loc>
+    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/post/</loc>
+    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/</loc>
+    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/</loc>
+    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
   </url>
   
   <url>
@@ -23,21 +68,6 @@
   
   <url>
     <loc>https://chinalhr.github.io/post/kubernetes-crd-operator-2/</loc>
-    <lastmod>2022-01-23T22:12:45+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/post/</loc>
-    <lastmod>2022-01-23T22:12:45+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/tags/</loc>
-    <lastmod>2022-01-23T22:12:45+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/</loc>
     <lastmod>2022-01-23T22:12:45+08:00</lastmod>
   </url>
   
@@ -84,16 +114,6 @@
   <url>
     <loc>https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/</loc>
     <lastmod>2021-01-25T00:20:07+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/tags/cicd/</loc>
-    <lastmod>2021-01-12T19:51:52+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/categories/devops/</loc>
-    <lastmod>2021-01-12T19:51:52+08:00</lastmod>
   </url>
   
   <url>
@@ -284,11 +304,6 @@
   <url>
     <loc>https://chinalhr.github.io/post/jenkins-java-ci-cd/</loc>
     <lastmod>2019-12-29T21:46:50+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/tags/git/</loc>
-    <lastmod>2019-11-26T23:57:12+08:00</lastmod>
   </url>
   
   <url>

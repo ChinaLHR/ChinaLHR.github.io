@@ -14,6 +14,16 @@
 		<atom:link href="/tags/%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83/" rel="self" type="application/rss+xml" />
 		
 		<item>
+			<title>GitOps实践，基于Gitlab CI、Kustomize 与Argo CD</title>
+			<link>https://chinalhr.github.io/post/gitops-argo-cd/</link>
+			<pubDate>Wed, 20 Jul 2022 22:27:16 +0800</pubDate>
+			<guid>https://chinalhr.github.io/post/gitops-argo-cd/</guid>
+			<description>&lt;blockquote&gt;
+&lt;p&gt;GitOps总结与实践&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+		</item>
+      	
+		<item>
 			<title>Kubernetes-Operator：扩展Kubernetes API Resource与Custom Controller (下)</title>
 			<link>https://chinalhr.github.io/post/kubernetes-crd-operator-2/</link>
 			<pubDate>Sun, 23 Jan 2022 22:12:45 +0800</pubDate>
@@ -100,16 +110,6 @@
 			<guid>https://chinalhr.github.io/post/permission-system-design/</guid>
 			<description>&lt;blockquote&gt;
 &lt;p&gt;权限系统设计相关概念与思路&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-		</item>
-      	
-		<item>
-			<title>使用kubeadm部署Kubernetes集群实践</title>
-			<link>https://chinalhr.github.io/post/kubeadm-install-kubernetes/</link>
-			<pubDate>Mon, 08 Jun 2020 00:51:21 +0800</pubDate>
-			<guid>https://chinalhr.github.io/post/kubeadm-install-kubernetes/</guid>
-			<description>&lt;blockquote&gt;
-&lt;p&gt;使用kubeadm部署Kubernetes 1.18.0 集群实践记录&lt;/p&gt;
 &lt;/blockquote&gt;</description>
 		</item>
       	
