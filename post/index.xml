@@ -803,16 +803,5 @@
 &lt;/blockquote&gt;</description>
     </item>
     
-    <item>
-      <title>About</title>
-      <link>https://chinalhr.github.io/post/about/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/about/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;关于本博客&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
   </channel>
 </rss>
