@@ -1,186 +1,183 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-<title>Linux IO多路复用实现：select、poll与epoll</title>
-<meta name="description"
-      content=""
->
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Linux IO多路复用实现：select、poll与epoll</title>
+    <meta name="description" content="Keep curious">
+    <meta name="keywords" content='blog, chinalhr, lhr, Linux'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/post/linux-io-multiplexing/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Linux IO多路复用实现：select、poll与epoll">
+    <meta property="og:description" content="Keep curious">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Linux IO多路复用实现：select、poll与epoll">
+    <meta name="twitter:description" content="Keep curious">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/post/linux-io-multiplexing/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/post/linux-io-multiplexing/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/post/linux-io-multiplexing/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+  <script>
   
     
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-JLJBQBW5WM');
-  </script>
-  
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
 
-
-
-
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link
-  rel="alternate"
-  type="application/rss+xml"
-  href="https://chinalhr.github.io/index.xml"
-  title="ChinaLHR Blog"
-/>
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Linux IO多路复用实现：select、poll与epoll"/>
-<meta name="twitter:description" content="
-Unix IO模型, Linux IO多路复用 select poll epoll机制整理
-"/>
-
-
-
-<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
-
-
-
-
-<link
-  crossorigin="anonymous"
-  href="/css/styles.min.css"
-  integrity=""
-  rel="preload stylesheet"
-  as="style"
-/>
-
-
-
-
-<link
-  id="dark-mode-theme"
-  crossorigin="anonymous"
-  href="/css/dark.min.css"
-  integrity=""
-  rel="preload stylesheet"
-  as="style"
-/>
-
-
-<script>
-  var darkTheme = document.getElementById('dark-mode-theme')
-  var storedTheme = localStorage.getItem('dark-mode-storage')
-
-  if (storedTheme === 'dark') {
-    darkTheme.disabled = false
-  } else if (storedTheme === 'light') {
-    darkTheme.disabled = true
-  }
-</script>
-
-
-<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
-
-
-<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
-  </head>
-  <body>
-    
-  
-
-
-
-
-  <header>
-    <nav class="navbar">
-  <div class="nav">
-    
-      <a href="https://chinalhr.github.io/" class="nav-logo">
-        <img
-          src="https://chinalhr.github.io/images/icon.png"
-          width="50"
-          height="50"
-          alt="Logo"
-        />
-      </a>
-    
-
-    <ul class="nav-links">
-      
         
-          <li>
-            <a href="/about/" id="About"
-              ><em class="fas fa-user fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/categories/" id="Categories"
-              ><em class="fas fa-filter fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/tags/" id="Tags"
-              ><em class="fas fa-tags fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/archives/" id="Archives"
-              ><em class="fas fa-archive fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/search/" id="Search"
-              ><em class="fas fa-search fa-lg"></em
-            ></a>
-          </li>
-          
-      
-    </ul>
-  </div>
-</nav>
-
-    <div class="intro-header">
-      <div class="container">
-        <div class="post-heading">
-          
-            <h1>
-              Linux IO多路复用实现：select、poll与epoll
-            </h1>
-          
-          
-            <span class="meta-post">
-  <em class="fa fa-calendar-alt"></em
-  >&nbsp;Jul 24, 2019
-  
-    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
-    
-      <a
-        href="https://chinalhr.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"
-        >操作系统</a
-      >&nbsp;
-    
-  
-</span>
-
-          
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
         </div>
-      </div>
-    </div>
-  </header>
-  
+        
 
-    
-  <div class="container" role="main">
-    <article class="article" class="blog-post">
-      <blockquote>
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Linux IO多路复用实现：select、poll与epoll</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            July 24, 2019
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/linux">Linux</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
 <p>Unix IO模型, Linux IO多路复用 select poll epoll机制整理</p>
 </blockquote>
 <h3 id="unix-io模型">Unix IO模型</h3>
@@ -345,122 +342,68 @@ EPOLLONESHOT：只监听一次事件，当监听完这次事件之后，如果�
 <li>poll：和select几乎没有区别，区别在于文件描述符的存储方式不同，poll采用链表的方式存储，没有最大存储数量的限制；</li>
 <li>epoll：通过内核和用户空间共享内存，避免了频繁内存从用户-内核空间拷贝的问题；支持的同时连接数上限很高（1G左右的内存支持10W左右的连接数）；文件描述符就绪时，采用回调机制，避免了轮询（回调函数将就绪的描述符添加到一个链表中，执行epoll_wait时，返回这个链表）；支持水平触发和边缘触发，采用边缘触发机制时，只有活跃的描述符才会触发回调函数。</li>
 </ul>
-
-
-      
-        <div class="blog-tags">
-          
-            <a
-              href="https://chinalhr.github.io/tags/linux/"
-              >Linux</a
-            >&nbsp;
-          
-        </div>
-      
-    </article>
-    
-      <script>
-  var backtotopButton = document.getElementById('backtotopButton')
-
-  document.addEventListener('scroll', function () {
-    if (
-      document.body.scrollTop > 50 ||
-      document.documentElement.scrollTop > 50
-    ) {
-      backtotopButton.style.opacity = '1'
-    } else {
-      backtotopButton.style.opacity = '0'
-    }
-  })
-
-  function topFunction() {
-    document.body.scrollTop = 0 
-    document.documentElement.scrollTop = 0 
-  }
-
-  
-  document.dispatchEvent(new CustomEvent('scroll'))
-  backtotopButton.style.display = 'block'
-</script>
-
-      <button onclick="topFunction()" id="backtotopButton">
-        <em class="fa fa-angle-up"></em>
-      </button>
-      <script>
-  var backtotopButton = document.getElementById('backtotopButton')
-
-  document.addEventListener('scroll', function () {
-    if (
-      document.body.scrollTop > 50 ||
-      document.documentElement.scrollTop > 50
-    ) {
-      backtotopButton.style.opacity = '1'
-    } else {
-      backtotopButton.style.opacity = '0'
-    }
-  })
-
-  function topFunction() {
-    document.body.scrollTop = 0 
-    document.documentElement.scrollTop = 0 
-  }
-
-  
-  document.dispatchEvent(new CustomEvent('scroll'))
-  backtotopButton.style.display = 'block'
-</script>
-
-    
-    
-      
-
-    
-  </div>
-
-    <footer>
-  
-
-<div class="social-icons">
-  
-    
-    
-      
-      <a href="https://github.com/chinalhr" name="GitHub">
-        <em class="fab fa-github"></em>
-      </a>
-    
-       &nbsp;&ndash;&nbsp;
-      <a href="mailto:13435500980@163.com" name="Email">
-        <em class="fas fa-envelope"></em>
-      </a>
-    
-  
-
-  
+        </p>
+    </div>
 </div>
 
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#unix-io模型">Unix IO模型</a>
+              <ul>
+                <li><a href="#blocking-io---阻塞io">Blocking IO - 阻塞IO</a></li>
+                <li><a href="#noneblockingio---非阻塞io">NoneBlockingIO - 非阻塞IO</a></li>
+                <li><a href="#io-multiplexing---io多路复用select为例子">IO multiplexing - IO多路复用(select为例子)</a></li>
+                <li><a href="#asynchronous-io---异步io">asynchronous IO - 异步IO</a></li>
+                <li><a href="#对比">对比</a></li>
+              </ul>
+            </li>
+            <li><a href="#同步-异步-阻塞-非阻塞">同步-异步-阻塞-非阻塞</a>
+              <ul>
+                <li><a href="#同步-异步">同步-异步</a></li>
+                <li><a href="#阻塞与非阻塞">阻塞与非阻塞</a></li>
+              </ul>
+            </li>
+            <li><a href="#操作系统相关">操作系统相关</a>
+              <ul>
+                <li><a href="#用户空间与内核空间">用户空间与内核空间</a></li>
+                <li><a href="#进程切换">进程切换</a></li>
+                <li><a href="#进程阻塞">进程阻塞</a></li>
+                <li><a href="#文件描述符fd">文件描述符fd</a></li>
+                <li><a href="#缓存-io">缓存 I/O</a></li>
+              </ul>
+            </li>
+            <li><a href="#selectpoll与epoll">select、poll与epoll</a>
+              <ul>
+                <li><a href="#select">select</a></li>
+                <li><a href="#poll">poll</a></li>
+                <li><a href="#epoll">epoll</a></li>
+                <li><a href="#selectpollepoll对比">select·poll·epoll对比</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
 
-  
-  <div class="container">
-    <p class="credits copyright">
-      <a href="https://chinalhr.github.io/about">hanrong.li</a>
-      &nbsp;&copy;
-      2022
-      
-        &nbsp;/&nbsp;
-        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
-      
-      &nbsp;&ndash;&nbsp;
-      <em class="fas fa-moon" id="dark-mode-toggle"></em>
-    </p>
 
-    <p class="credits theme-by">
-      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
-      Theme
-      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
-    </p>
-  </div>
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
 </footer>
-
-  </body>
+</body>
 </html>

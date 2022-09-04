@@ -1,242 +1,190 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-<title>GitOps实践，基于Gitlab CI、Kustomize 与Argo CD</title>
-<meta name="description"
-      content=""
->
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>GitOps实践，基于Gitlab CI、Kustomize 与Argo CD</title>
+    <meta name="description" content="Keep curious">
+    <meta name="keywords" content='blog, chinalhr, lhr, GitOps, CI&CD, Argo CD'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/post/gitops-argo-cd/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="GitOps实践，基于Gitlab CI、Kustomize 与Argo CD">
+    <meta property="og:description" content="Keep curious">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GitOps实践，基于Gitlab CI、Kustomize 与Argo CD">
+    <meta name="twitter:description" content="Keep curious">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/post/gitops-argo-cd/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/post/gitops-argo-cd/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/post/gitops-argo-cd/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+  <script>
   
     
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-JLJBQBW5WM');
-  </script>
-  
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
 
-
-
-
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link
-  rel="alternate"
-  type="application/rss+xml"
-  href="https://chinalhr.github.io/index.xml"
-  title="ChinaLHR Blog"
-/>
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="GitOps实践，基于Gitlab CI、Kustomize 与Argo CD"/>
-<meta name="twitter:description" content="
-GitOps总结与实践
-"/>
-
-
-
-<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
-
-
-
-
-<link
-  crossorigin="anonymous"
-  href="/css/styles.min.css"
-  integrity=""
-  rel="preload stylesheet"
-  as="style"
-/>
-
-
-
-
-<link
-  id="dark-mode-theme"
-  crossorigin="anonymous"
-  href="/css/dark.min.css"
-  integrity=""
-  rel="preload stylesheet"
-  as="style"
-/>
-
-
-<script>
-  var darkTheme = document.getElementById('dark-mode-theme')
-  var storedTheme = localStorage.getItem('dark-mode-storage')
-
-  if (storedTheme === 'dark') {
-    darkTheme.disabled = false
-  } else if (storedTheme === 'light') {
-    darkTheme.disabled = true
-  }
-</script>
-
-
-<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
-
-
-<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
-  </head>
-  <body>
-    
-  
-
-
-
-
-  <header>
-    <nav class="navbar">
-  <div class="nav">
-    
-      <a href="https://chinalhr.github.io/" class="nav-logo">
-        <img
-          src="https://chinalhr.github.io/images/icon.png"
-          width="50"
-          height="50"
-          alt="Logo"
-        />
-      </a>
-    
-
-    <ul class="nav-links">
-      
         
-          <li>
-            <a href="/about/" id="About"
-              ><em class="fas fa-user fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/categories/" id="Categories"
-              ><em class="fas fa-filter fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/tags/" id="Tags"
-              ><em class="fas fa-tags fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/archives/" id="Archives"
-              ><em class="fas fa-archive fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/search/" id="Search"
-              ><em class="fas fa-search fa-lg"></em
-            ></a>
-          </li>
-          
-      
-    </ul>
-  </div>
-</nav>
-
-    <div class="intro-header">
-      <div class="container">
-        <div class="post-heading">
-          
-            <h1>
-              GitOps实践，基于Gitlab CI、Kustomize 与Argo CD
-            </h1>
-          
-          
-            <span class="meta-post">
-  <em class="fa fa-calendar-alt"></em
-  >&nbsp;Jul 20, 2022
-  
-    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
-    
-      <a
-        href="https://chinalhr.github.io/categories/devops/"
-        >DevOps</a
-      >&nbsp;
-    
-      <a
-        href="https://chinalhr.github.io/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/"
-        >云原生</a
-      >&nbsp;
-    
-  
-</span>
-
-          
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
         </div>
-      </div>
-    </div>
-  </header>
-  
+        
 
-    
-  <div class="container" role="main">
-    <article class="article" class="blog-post">
-      <blockquote>
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>GitOps实践，基于Gitlab CI、Kustomize 与Argo CD</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            July 20, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/gitops">GitOps</a></li>
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/cicd">CI&amp;CD</a></li>
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/argo-cd">Argo CD</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
 <p>GitOps总结与实践</p>
 </blockquote>
-<nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#gitops">GitOps</a>
-          <ul>
-            <li><a href="#什么是gitops">什么是GitOps</a></li>
-            <li><a href="#使用gitops的前置条件">使用GitOps的前置条件</a></li>
-            <li><a href="#不可变基础设施iac与gitops">不可变基础设施、IaC与GitOps</a></li>
-            <li><a href="#gitops的工作模式">GitOps的工作模式</a></li>
-            <li><a href="#gitops的优势">GitOps的优势</a></li>
-          </ul>
-        </li>
-        <li><a href="#argo-cd">Argo CD</a>
-          <ul>
-            <li><a href="#argo-cd特性">Argo CD特性</a></li>
-            <li><a href="#argo-cd架构">Argo CD架构</a></li>
-            <li><a href="#argo-cd部署">Argo CD部署</a></li>
-          </ul>
-        </li>
-        <li><a href="#使用kustomize定制管理kubernetes资源">使用Kustomize定制/管理Kubernetes资源</a>
-          <ul>
-            <li><a href="#关于kustomize">关于Kustomize</a></li>
-            <li><a href="#使用kustomize定制管理kubernetes资源-1">使用Kustomize定制/管理Kubernetes资源</a></li>
-            <li><a href="#基准bases与覆盖overlays">基准（Bases）与覆盖（Overlays）</a></li>
-            <li><a href="#kustomize-vs-helm">Kustomize vs Helm</a></li>
-          </ul>
-        </li>
-        <li><a href="#基于gitlab-cikustomize-argo-cd的gitops实践">基于Gitlab CI、Kustomize、 Argo CD的GitOps实践</a>
-          <ul>
-            <li><a href="#前置条件">前置条件</a></li>
-            <li><a href="#gitops流程">GitOps流程</a></li>
-            <li><a href="#项目结构">项目结构</a></li>
-            <li><a href="#gitops流程实践">GitOps流程实践</a>
-              <ul>
-                <li><a href="#应用docker镜像构建">应用Docker镜像构建</a></li>
-                <li><a href="#kustomize定制声明式kubernetes资源对象">Kustomize定制声明式Kubernetes资源对象</a></li>
-                <li><a href="#gitlab-ci流程">Gitlab CI流程</a></li>
-                <li><a href="#argo-cd流程">Argo CD流程</a></li>
-              </ul>
-            </li>
-            <li><a href="#项目源码">项目源码</a></li>
-          </ul>
-        </li>
-        <li><a href="#参考">参考</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav><h2 id="gitops">GitOps</h2>
+<h2 id="gitops">GitOps</h2>
 <h3 id="什么是gitops">什么是GitOps</h3>
 <p>GitOps是Weaveworks公司于2017年首创的一种进行Kubernetes集群管理和应用交付的方式。GitOps通过使用Git作为声明性基础设施和应用程序的单一事实来源进行工作。
 GitOps的核心是将应用的声明性基础架构描述、应用源码与自动化流程存放在Git Repository中，将Git作为交付流水线的核心。GitOps会Diff Repository中声明信息与Kubernetes集群中实际运行的内容之间的差异，其实现的Kubernetes Operator会根据情况进行自动更新或回滚集群；通过将Git作为交付流水线的核心，开发人员可以使用push、pull request等Git操作，以加速和简化Kubernetes集群应用程序的部署和操作任务。</p>
@@ -275,15 +223,49 @@ GitOps的核心是将应用的声明性基础架构描述、应用源码与自�
 </ul>
 <p>GitOps以Git为核心进行工作，除了应用程序的仓库外，还需要对环境配置的仓库进行版本控制；其中应用程序仓库含应用程序的源码与部署相关的manifests，环境配置仓库包含应用所需基础架构与部署相关的manifests。</p>
 <ul>
-<li>GitOps基于pull的工作模式
-<img src="https://user-images.githubusercontent.com/19829495/184179844-06e41102-ab68-4e9b-8d4e-f18f8fd6fb3a.png" alt="image"></li>
+<li>GitOps基于pull的工作模式</li>
 </ul>
-<p>GitOps大都基于Pull模式去工作，开发人员推送应用代码到应用仓库后，经过Pull Request合并到目标分支后，触发CI Pipeline，构建推送应用容器镜像与推送更新环境配置仓库；在CD阶段，通过引入Operator，不断观察环境配置库的声明信息并与当前集群的应用环境进行Diff，当存在差异时进行集群应用环境的部署、更新或者还原。</p>
+<pre><code>                                                                                            +----------------+
+                                                                             push image     |                |
+                                                                      +---------------------&gt;  Container     |
+                                                                      |                     |  Image Registry|
+                                                                      |                     |                |
+                                                                      |                     +--------+-------+               +----------------------------------------------------+
++---------------+             +----------------+            +---------+--------+                     ^                       |                                                    |
+|               |             |                |            |                  |                     |                       | +---------------+   observe    +-----------------+ |
+|   developer   |    push     |   Application  |  trigger   |    CI Pipeline   |                     |         observe       | |               +--------------&gt;                 | |
+|               +-------------&gt;   Repository   +------------&gt;                  |                     +-------------------------+   Operator    |              | Cluster Resource| |
+|               |             |                |            |                  |                     |                       | |               +--------------&gt;                 | |
++---------------+             +----------------+            +---------+--------+                     |                       | +---------------+    deploy    +-----------------+ |
+                                                                      |                     +--------v-------+               |                                                    |
+                                                                      |                     |                |               +----------------------------------------------------+
+                                                                      |      update config  |  Environment   |                                   Cluster
+                                                                      +---------------------&gt;  Repository    |
+                                                                                            |                |
+                                                                                            +----------------+
+</code></pre><p>GitOps大都基于Pull模式去工作，开发人员推送应用代码到应用仓库后，经过Pull Request合并到目标分支后，触发CI Pipeline，构建推送应用容器镜像与推送更新环境配置仓库；在CD阶段，通过引入Operator，不断观察环境配置库的声明信息并与当前集群的应用环境进行Diff，当存在差异时进行集群应用环境的部署、更新或者还原。</p>
 <ul>
-<li>GitOps基于push的工作模式
-<img src="https://user-images.githubusercontent.com/19829495/184180200-665b085e-b86d-404a-a782-89865d237068.png" alt="image"></li>
+<li>GitOps基于push的工作模式</li>
 </ul>
-<p>GitOps也可以基于Push模式去工作，对比基于Pull的工作模式，Push模式在CI Pipeline完成阶段会去通知Operator进行环境配置信息的拉取与部署、更新。Push模式有着传统CI/CD流程的直观性，对比Pull模式有着更好的实时性与性能，但却缺少了对
+<pre><code>                                                                                                   +----------------+
+                                                                                    push image     |                |
+                                                                             +---------------------&gt;  Container     |
+                                                                             |                     |  Image Registry|
+                                                                             |                     |                |
+                                                                             |                     +----------------+               +----------------------------------------------------+
+       +---------------+             +----------------+            +------------------+                     ^                       |                                                    |
+       |               |             |                |            |                  |                     |         pull info     | +---------------+              +-----------------+ |
+       |   developer   |    push     |   Application  |  trigger   |   CI Pipeline    |                     +-------------------------+               |              |                 | |
+       |               +-------------&gt;   Repository   +------------&gt;                  |        notice       |                       | |   Operator    +--------------&gt; Cluster Resource| |
+       |               |             |                |            |                  +-----------------------------------------------&gt;               |    deploy    |                 | |
+       +---------------+             +----------------+            +------------------+                     |                       | +---------------+              +-----------------+ |
+                                                                             |                     +--------v-------+               |                                                    |
+                                                                             |                     |                |               +----------------------------------------------------+
+                                                                             |      update config  |  Environment   |                                   Cluster
+                                                                             +---------------------&gt;  Repository    |
+                                                                                                   |                |
+                                                                                                   +----------------+
+</code></pre><p>GitOps也可以基于Push模式去工作，对比基于Pull的工作模式，Push模式在CI Pipeline完成阶段会去通知Operator进行环境配置信息的拉取与部署、更新。Push模式有着传统CI/CD流程的直观性，对比Pull模式有着更好的实时性与性能，但却缺少了对
 端（环境配置信息）到端（集群应用信息）一致性的保证。</p>
 <h3 id="gitops的优势">GitOps的优势</h3>
 <p>通过GitOps，当我们对Git Repository进行更改时，GitOps的自动化交付流水线会自动将变更部署到基础架构中。而且，GitOps还会使用工具将应用程序的实际状态与Git Repository中的声明状态进行比较，以通知集群Git Repository中声明状态与实际环境的Diff。</p>
@@ -356,8 +338,8 @@ Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、C
 <p>Kustomize可以解析并修补Kubernetes API对象，如同<code>make</code>在一个文件中进行声明，如同<code>sed</code>可以发出解析并修补完成的YAML文本。</p>
 <p>可以通过kustomize build命令生成自定义YAML，从1.14版本开始kubectl也支持使用kustomization文件来管理Kubernetes对象，可以直接通过kubectl kustomize命令生成自定义YAML。</p>
 <h3 id="使用kustomize定制管理kubernetes资源-1">使用Kustomize定制/管理Kubernetes资源</h3>
-<p>kustomize提供以下功能特性定制/管理Kubernetes应用配置文件
-<img src="https://user-images.githubusercontent.com/19829495/185802651-b2e44fd5-6779-46a1-b3fc-9ff96bf6b549.png" alt="image"></p>
+<p>kustomize提供以下功能特性定制/管理Kubernetes应用配置文件</p>
+<p><img src="https://user-images.githubusercontent.com/19829495/185802651-b2e44fd5-6779-46a1-b3fc-9ff96bf6b549.png" alt="image"></p>
 <ul>
 <li>从其他来源生成资源</li>
 </ul>
@@ -548,9 +530,26 @@ Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、C
 <li>Argo CD：声明式GitOps CD支持。</li>
 </ul>
 <h3 id="gitops流程">GitOps流程</h3>
-<p>这里我们选择基于pull的工作模式去实现GitOps，具体流程如下所示：
-<img src="https://user-images.githubusercontent.com/19829495/186222996-74e99bc5-e841-4ca8-9ec8-5bc4a5f96320.png" alt="image"></p>
-<h3 id="项目结构">项目结构</h3>
+<p>这里我们选择基于pull的工作模式去实现GitOps，具体流程如下所示：</p>
+<pre><code>                                                                                             +----------------+
+                                                                              push image     |                |
+                                                                       +---------------------&gt;  Container     |
++---------------+                                                      |                     |  Image Registry|
+|               |                                                      |                     |                |
+|    Reviewer   |                                                      |                     +--------^-------+               +----------------------------------------------------+
+|               |  Appro^al    +----------------+            +---------+--------+                     |                       |                                                    |
+|               +--------------&gt;                |            |                  |                     |          observe      | +---------------+              +-----------------+ |
++---------------+              |   Application  |  trigger   |     Gitlab CI    |                     +-------------------------+    Argo CD    |              |  Deployment     | |
++---------------+              |   Repository   +------------&gt;     Pipeline     |                     |                       | |    Operator   +--------------&gt;  Service        | |
+|               +--------------&gt;                |            |                  |                     |                       | |               |    deploy    |  Ingress...     | |
+|   de^eloper   |   push       +----------------+            +---------+--------+                     |                       | +---------------+              +-----------------+ |
+|               |                                                      |                     +--------v-------+               |                                                    |
+|               |                                                      |                     |                |               +----------------------------------------------------+
++---------------+                                                      |      update config  |  En^ironment   |                                 Kubernetes Cluster
+                                                                       +---------------------&gt;  Repository    |
+                                                                                             |                |
+                                                                                             +----------------+
+</code></pre><h3 id="项目结构">项目结构</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">├── .backup
 │   ├── ci-base
 │   │   ├── Dockerfile
@@ -841,132 +840,73 @@ Examples:
 <li><a href="https://www.weave.works/technologies/gitops/">https://www.weave.works/technologies/gitops/</a></li>
 <li><a href="https://harness.io/blog/helm-vs-kustomize">https://harness.io/blog/helm-vs-kustomize</a></li>
 </ul>
-
-
-      
-        <div class="blog-tags">
-          
-            <a
-              href="https://chinalhr.github.io/tags/gitops/"
-              >GitOps</a
-            >&nbsp;
-          
-            <a
-              href="https://chinalhr.github.io/tags/cicd/"
-              >CI&amp;CD</a
-            >&nbsp;
-          
-            <a
-              href="https://chinalhr.github.io/tags/argo-cd/"
-              >Argo CD</a
-            >&nbsp;
-          
-        </div>
-      
-    </article>
-    
-      <script>
-  var backtotopButton = document.getElementById('backtotopButton')
-
-  document.addEventListener('scroll', function () {
-    if (
-      document.body.scrollTop > 50 ||
-      document.documentElement.scrollTop > 50
-    ) {
-      backtotopButton.style.opacity = '1'
-    } else {
-      backtotopButton.style.opacity = '0'
-    }
-  })
-
-  function topFunction() {
-    document.body.scrollTop = 0 
-    document.documentElement.scrollTop = 0 
-  }
-
-  
-  document.dispatchEvent(new CustomEvent('scroll'))
-  backtotopButton.style.display = 'block'
-</script>
-
-      <button onclick="topFunction()" id="backtotopButton">
-        <em class="fa fa-angle-up"></em>
-      </button>
-      <script>
-  var backtotopButton = document.getElementById('backtotopButton')
-
-  document.addEventListener('scroll', function () {
-    if (
-      document.body.scrollTop > 50 ||
-      document.documentElement.scrollTop > 50
-    ) {
-      backtotopButton.style.opacity = '1'
-    } else {
-      backtotopButton.style.opacity = '0'
-    }
-  })
-
-  function topFunction() {
-    document.body.scrollTop = 0 
-    document.documentElement.scrollTop = 0 
-  }
-
-  
-  document.dispatchEvent(new CustomEvent('scroll'))
-  backtotopButton.style.display = 'block'
-</script>
-
-    
-    
-      
-
-    
-  </div>
-
-    <footer>
-  
-
-<div class="social-icons">
-  
-    
-    
-      
-      <a href="https://github.com/chinalhr" name="GitHub">
-        <em class="fab fa-github"></em>
-      </a>
-    
-       &nbsp;&ndash;&nbsp;
-      <a href="mailto:13435500980@163.com" name="Email">
-        <em class="fas fa-envelope"></em>
-      </a>
-    
-  
-
-  
+        </p>
+    </div>
 </div>
 
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#gitops">GitOps</a>
+          <ul>
+            <li><a href="#什么是gitops">什么是GitOps</a></li>
+            <li><a href="#使用gitops的前置条件">使用GitOps的前置条件</a></li>
+            <li><a href="#不可变基础设施iac与gitops">不可变基础设施、IaC与GitOps</a></li>
+            <li><a href="#gitops的工作模式">GitOps的工作模式</a></li>
+            <li><a href="#gitops的优势">GitOps的优势</a></li>
+          </ul>
+        </li>
+        <li><a href="#argo-cd">Argo CD</a>
+          <ul>
+            <li><a href="#argo-cd特性">Argo CD特性</a></li>
+            <li><a href="#argo-cd架构">Argo CD架构</a></li>
+            <li><a href="#argo-cd部署">Argo CD部署</a></li>
+          </ul>
+        </li>
+        <li><a href="#使用kustomize定制管理kubernetes资源">使用Kustomize定制/管理Kubernetes资源</a>
+          <ul>
+            <li><a href="#关于kustomize">关于Kustomize</a></li>
+            <li><a href="#使用kustomize定制管理kubernetes资源-1">使用Kustomize定制/管理Kubernetes资源</a></li>
+            <li><a href="#基准bases与覆盖overlays">基准（Bases）与覆盖（Overlays）</a></li>
+            <li><a href="#kustomize-vs-helm">Kustomize vs Helm</a></li>
+          </ul>
+        </li>
+        <li><a href="#基于gitlab-cikustomize-argo-cd的gitops实践">基于Gitlab CI、Kustomize、 Argo CD的GitOps实践</a>
+          <ul>
+            <li><a href="#前置条件">前置条件</a></li>
+            <li><a href="#gitops流程">GitOps流程</a></li>
+            <li><a href="#项目结构">项目结构</a></li>
+            <li><a href="#gitops流程实践">GitOps流程实践</a>
+              <ul>
+                <li><a href="#应用docker镜像构建">应用Docker镜像构建</a></li>
+                <li><a href="#kustomize定制声明式kubernetes资源对象">Kustomize定制声明式Kubernetes资源对象</a></li>
+                <li><a href="#gitlab-ci流程">Gitlab CI流程</a></li>
+                <li><a href="#argo-cd流程">Argo CD流程</a></li>
+              </ul>
+            </li>
+            <li><a href="#项目源码">项目源码</a></li>
+          </ul>
+        </li>
+        <li><a href="#参考">参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
 
-  
-  <div class="container">
-    <p class="credits copyright">
-      <a href="https://chinalhr.github.io/about">hanrong.li</a>
-      &nbsp;&copy;
-      2022
-      
-        &nbsp;/&nbsp;
-        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
-      
-      &nbsp;&ndash;&nbsp;
-      <em class="fas fa-moon" id="dark-mode-toggle"></em>
-    </p>
 
-    <p class="credits theme-by">
-      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
-      Theme
-      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
-    </p>
-  </div>
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
 </footer>
-
-  </body>
+</body>
 </html>

@@ -1,226 +1,186 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-<title>分布式系统的一致性与共识算法-基础理论</title>
-<meta name="description"
-      content=""
->
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>分布式系统的一致性与共识算法-基础理论</title>
+    <meta name="description" content="Keep curious">
+    <meta name="keywords" content='blog, chinalhr, lhr, 分布式系统'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="分布式系统的一致性与共识算法-基础理论">
+    <meta property="og:description" content="Keep curious">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="分布式系统的一致性与共识算法-基础理论">
+    <meta name="twitter:description" content="Keep curious">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+  <script>
   
     
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-JLJBQBW5WM');
-  </script>
-  
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
 
-
-
-
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link
-  rel="alternate"
-  type="application/rss+xml"
-  href="https://chinalhr.github.io/index.xml"
-  title="ChinaLHR Blog"
-/>
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="分布式系统的一致性与共识算法-基础理论"/>
-<meta name="twitter:description" content="
-记录分布式系统的一些基础理论
-"/>
-
-
-
-<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
-
-
-
-
-<link
-  crossorigin="anonymous"
-  href="/css/styles.min.css"
-  integrity=""
-  rel="preload stylesheet"
-  as="style"
-/>
-
-
-
-
-<link
-  id="dark-mode-theme"
-  crossorigin="anonymous"
-  href="/css/dark.min.css"
-  integrity=""
-  rel="preload stylesheet"
-  as="style"
-/>
-
-
-<script>
-  var darkTheme = document.getElementById('dark-mode-theme')
-  var storedTheme = localStorage.getItem('dark-mode-storage')
-
-  if (storedTheme === 'dark') {
-    darkTheme.disabled = false
-  } else if (storedTheme === 'light') {
-    darkTheme.disabled = true
-  }
-</script>
-
-
-<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
-
-
-<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
-  </head>
-  <body>
-    
-  
-
-
-
-
-  <header>
-    <nav class="navbar">
-  <div class="nav">
-    
-      <a href="https://chinalhr.github.io/" class="nav-logo">
-        <img
-          src="https://chinalhr.github.io/images/icon.png"
-          width="50"
-          height="50"
-          alt="Logo"
-        />
-      </a>
-    
-
-    <ul class="nav-links">
-      
         
-          <li>
-            <a href="/about/" id="About"
-              ><em class="fas fa-user fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/categories/" id="Categories"
-              ><em class="fas fa-filter fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/tags/" id="Tags"
-              ><em class="fas fa-tags fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/archives/" id="Archives"
-              ><em class="fas fa-archive fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/search/" id="Search"
-              ><em class="fas fa-search fa-lg"></em
-            ></a>
-          </li>
-          
-      
-    </ul>
-  </div>
-</nav>
-
-    <div class="intro-header">
-      <div class="container">
-        <div class="post-heading">
-          
-            <h1>
-              分布式系统的一致性与共识算法-基础理论
-            </h1>
-          
-          
-            <span class="meta-post">
-  <em class="fa fa-calendar-alt"></em
-  >&nbsp;Jan 25, 2021
-  
-    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
-    
-      <a
-        href="https://chinalhr.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/"
-        >分布式系统</a
-      >&nbsp;
-    
-  
-</span>
-
-          
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
         </div>
-      </div>
-    </div>
-  </header>
-  
+        
 
-    
-  <div class="container" role="main">
-    <article class="article" class="blog-post">
-      <blockquote>
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>分布式系统的一致性与共识算法-基础理论</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            January 25, 2021
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F">分布式系统</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
 <p>记录分布式系统的一些基础理论</p>
 </blockquote>
-<nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#分布式系统下的一致性问题">分布式系统下的一致性问题</a></li>
-        <li><a href="#拜占庭将军问题">拜占庭将军问题</a></li>
-        <li><a href="#共识算法">共识算法</a>
-          <ul>
-            <li><a href="#共识consensus与一致性consistency">共识（Consensus）与一致性（Consistency）</a></li>
-            <li><a href="#共识算法解决的问题">共识算法解决的问题</a></li>
-            <li><a href="#共识算法分类">共识算法分类</a></li>
-          </ul>
-        </li>
-        <li><a href="#flp不可能定理cap理论acid原则与base原则">FLP不可能定理、CAP理论、ACID原则与BASE原则</a>
-          <ul>
-            <li><a href="#同步异步系统模型">同步/异步系统模型</a></li>
-            <li><a href="#flp不可能原理">FLP不可能原理</a></li>
-            <li><a href="#cap理论">CAP理论</a></li>
-            <li><a href="#acid原则与base原则">ACID原则与BASE原则</a></li>
-          </ul>
-        </li>
-        <li><a href="#核心问题-复制">核心问题-复制</a>
-          <ul>
-            <li><a href="#复制与分区">复制与分区</a></li>
-            <li><a href="#基本复制方式">基本复制方式</a></li>
-            <li><a href="#基本复制算法">基本复制算法</a>
-              <ul>
-                <li><a href="#replication-methods-that-prevent-divergence-single-copy-systems">Replication methods that prevent divergence (single copy systems)</a></li>
-                <li><a href="#replication-methods-that-risk-divergence-multi-master-systems">Replication methods that risk divergence (multi-master systems)</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li><a href="#参考">参考</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav><h2 id="分布式系统下的一致性问题">分布式系统下的一致性问题</h2>
+<h2 id="分布式系统下的一致性问题">分布式系统下的一致性问题</h2>
 <p><strong>定义</strong>：一致性为在分布式系统领域中对于多个服务节点，给定一系列操作，在约定协议的保障下，使得它们对处理结果达成某种程度的协同。</p>
 <p>分布式系统中的节点通信存在两种模型：共享内存（Shared memory）和消息传递（Messages passing）。基于消息传递通信模型的分布式系统，不可避免的会发生以下错误：进程可能会慢、被杀死或者重启，消息可能会延迟、丢失、重复；发生上面任意一种异常都会对分布式系统中各个节点对某一个值达成一致性产生问题。</p>
 <p><strong>一致性的要求</strong>：</p>
@@ -398,122 +358,62 @@ read 操作至少会获取一个最新副本；
 <p><a href="http://book.mixu.net/distsys/single-page.html">http://book.mixu.net/distsys/single-page.html</a></p>
 <p><a href="https://zh.wikipedia.org/wiki/Quorum_(%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F)">https://zh.wikipedia.org/wiki/Quorum_(分布式系统)</a></p>
 <p><a href="https://en.wikipedia.org/wiki/Gossip_protocol">https://en.wikipedia.org/wiki/Gossip_protocol</a></p>
-
-
-      
-        <div class="blog-tags">
-          
-            <a
-              href="https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/"
-              >分布式系统</a
-            >&nbsp;
-          
-        </div>
-      
-    </article>
-    
-      <script>
-  var backtotopButton = document.getElementById('backtotopButton')
-
-  document.addEventListener('scroll', function () {
-    if (
-      document.body.scrollTop > 50 ||
-      document.documentElement.scrollTop > 50
-    ) {
-      backtotopButton.style.opacity = '1'
-    } else {
-      backtotopButton.style.opacity = '0'
-    }
-  })
-
-  function topFunction() {
-    document.body.scrollTop = 0 
-    document.documentElement.scrollTop = 0 
-  }
-
-  
-  document.dispatchEvent(new CustomEvent('scroll'))
-  backtotopButton.style.display = 'block'
-</script>
-
-      <button onclick="topFunction()" id="backtotopButton">
-        <em class="fa fa-angle-up"></em>
-      </button>
-      <script>
-  var backtotopButton = document.getElementById('backtotopButton')
-
-  document.addEventListener('scroll', function () {
-    if (
-      document.body.scrollTop > 50 ||
-      document.documentElement.scrollTop > 50
-    ) {
-      backtotopButton.style.opacity = '1'
-    } else {
-      backtotopButton.style.opacity = '0'
-    }
-  })
-
-  function topFunction() {
-    document.body.scrollTop = 0 
-    document.documentElement.scrollTop = 0 
-  }
-
-  
-  document.dispatchEvent(new CustomEvent('scroll'))
-  backtotopButton.style.display = 'block'
-</script>
-
-    
-    
-      
-
-    
-  </div>
-
-    <footer>
-  
-
-<div class="social-icons">
-  
-    
-    
-      
-      <a href="https://github.com/chinalhr" name="GitHub">
-        <em class="fab fa-github"></em>
-      </a>
-    
-       &nbsp;&ndash;&nbsp;
-      <a href="mailto:13435500980@163.com" name="Email">
-        <em class="fas fa-envelope"></em>
-      </a>
-    
-  
-
-  
+        </p>
+    </div>
 </div>
 
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#分布式系统下的一致性问题">分布式系统下的一致性问题</a></li>
+        <li><a href="#拜占庭将军问题">拜占庭将军问题</a></li>
+        <li><a href="#共识算法">共识算法</a>
+          <ul>
+            <li><a href="#共识consensus与一致性consistency">共识（Consensus）与一致性（Consistency）</a></li>
+            <li><a href="#共识算法解决的问题">共识算法解决的问题</a></li>
+            <li><a href="#共识算法分类">共识算法分类</a></li>
+          </ul>
+        </li>
+        <li><a href="#flp不可能定理cap理论acid原则与base原则">FLP不可能定理、CAP理论、ACID原则与BASE原则</a>
+          <ul>
+            <li><a href="#同步异步系统模型">同步/异步系统模型</a></li>
+            <li><a href="#flp不可能原理">FLP不可能原理</a></li>
+            <li><a href="#cap理论">CAP理论</a></li>
+            <li><a href="#acid原则与base原则">ACID原则与BASE原则</a></li>
+          </ul>
+        </li>
+        <li><a href="#核心问题-复制">核心问题-复制</a>
+          <ul>
+            <li><a href="#复制与分区">复制与分区</a></li>
+            <li><a href="#基本复制方式">基本复制方式</a></li>
+            <li><a href="#基本复制算法">基本复制算法</a>
+              <ul>
+                <li><a href="#replication-methods-that-prevent-divergence-single-copy-systems">Replication methods that prevent divergence (single copy systems)</a></li>
+                <li><a href="#replication-methods-that-risk-divergence-multi-master-systems">Replication methods that risk divergence (multi-master systems)</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#参考">参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
 
-  
-  <div class="container">
-    <p class="credits copyright">
-      <a href="https://chinalhr.github.io/about">hanrong.li</a>
-      &nbsp;&copy;
-      2022
-      
-        &nbsp;/&nbsp;
-        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
-      
-      &nbsp;&ndash;&nbsp;
-      <em class="fas fa-moon" id="dark-mode-toggle"></em>
-    </p>
 
-    <p class="credits theme-by">
-      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
-      Theme
-      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
-    </p>
-  </div>
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
 </footer>
-
-  </body>
+</body>
 </html>

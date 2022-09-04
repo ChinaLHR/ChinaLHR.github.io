@@ -1,235 +1,188 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-<title>DevOps流程中使用SonarQube推动代码质量优化</title>
-<meta name="description"
-      content=""
->
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>DevOps流程中使用SonarQube推动代码质量优化</title>
+    <meta name="description" content="Keep curious">
+    <meta name="keywords" content='blog, chinalhr, lhr, SonarQube, DevOps'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/post/devops-sonar-practice/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="DevOps流程中使用SonarQube推动代码质量优化">
+    <meta property="og:description" content="Keep curious">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DevOps流程中使用SonarQube推动代码质量优化">
+    <meta name="twitter:description" content="Keep curious">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/post/devops-sonar-practice/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/post/devops-sonar-practice/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/post/devops-sonar-practice/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+  <script>
   
     
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-JLJBQBW5WM');
-  </script>
-  
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
 
-
-
-
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link
-  rel="alternate"
-  type="application/rss+xml"
-  href="https://chinalhr.github.io/index.xml"
-  title="ChinaLHR Blog"
-/>
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="DevOps流程中使用SonarQube推动代码质量优化"/>
-<meta name="twitter:description" content="
-在持续集成中利用SonarQube推动代码质量的持续优化的实践
-"/>
-
-
-
-<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
-
-
-
-
-<link
-  crossorigin="anonymous"
-  href="/css/styles.min.css"
-  integrity=""
-  rel="preload stylesheet"
-  as="style"
-/>
-
-
-
-
-<link
-  id="dark-mode-theme"
-  crossorigin="anonymous"
-  href="/css/dark.min.css"
-  integrity=""
-  rel="preload stylesheet"
-  as="style"
-/>
-
-
-<script>
-  var darkTheme = document.getElementById('dark-mode-theme')
-  var storedTheme = localStorage.getItem('dark-mode-storage')
-
-  if (storedTheme === 'dark') {
-    darkTheme.disabled = false
-  } else if (storedTheme === 'light') {
-    darkTheme.disabled = true
-  }
-</script>
-
-
-<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
-
-
-<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
-  </head>
-  <body>
-    
-  
-
-
-
-
-  <header>
-    <nav class="navbar">
-  <div class="nav">
-    
-      <a href="https://chinalhr.github.io/" class="nav-logo">
-        <img
-          src="https://chinalhr.github.io/images/icon.png"
-          width="50"
-          height="50"
-          alt="Logo"
-        />
-      </a>
-    
-
-    <ul class="nav-links">
-      
         
-          <li>
-            <a href="/about/" id="About"
-              ><em class="fas fa-user fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/categories/" id="Categories"
-              ><em class="fas fa-filter fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/tags/" id="Tags"
-              ><em class="fas fa-tags fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/archives/" id="Archives"
-              ><em class="fas fa-archive fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/search/" id="Search"
-              ><em class="fas fa-search fa-lg"></em
-            ></a>
-          </li>
-          
-      
-    </ul>
-  </div>
-</nav>
-
-    <div class="intro-header">
-      <div class="container">
-        <div class="post-heading">
-          
-            <h1>
-              DevOps流程中使用SonarQube推动代码质量优化
-            </h1>
-          
-          
-            <span class="meta-post">
-  <em class="fa fa-calendar-alt"></em
-  >&nbsp;Apr 12, 2020
-  
-    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
-    
-      <a
-        href="https://chinalhr.github.io/categories/devops/"
-        >DevOps</a
-      >&nbsp;
-    
-  
-</span>
-
-          
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
         </div>
-      </div>
-    </div>
-  </header>
-  
+        
 
-    
-  <div class="container" role="main">
-    <article class="article" class="blog-post">
-      <blockquote>
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>DevOps流程中使用SonarQube推动代码质量优化</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            April 12, 2020
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/sonarqube">SonarQube</a></li>
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/devops">DevOps</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
 <p>在持续集成中利用SonarQube推动代码质量的持续优化的实践</p>
 </blockquote>
-<nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#devops">DevOps</a></li>
-        <li><a href="#消除技术债务危机">消除技术债务危机</a></li>
-        <li><a href="#sonarqube">SonarQube</a>
-          <ul>
-            <li><a href="#介绍">介绍</a></li>
-            <li><a href="#架构">架构</a></li>
-            <li><a href="#工作流程">工作流程</a></li>
-            <li><a href="#基础概念">基础概念</a></li>
-            <li><a href="#部署">部署</a></li>
-          </ul>
-        </li>
-        <li><a href="#jenkins集成sonarqube">Jenkins集成SonarQube</a>
-          <ul>
-            <li><a href="#静态代码分析">静态代码分析</a>
-              <ul>
-                <li><a href="#前置准备">前置准备</a></li>
-                <li><a href="#pipeline配置">Pipeline配置</a></li>
-              </ul>
-            </li>
-            <li><a href="#测试覆盖率控制">测试覆盖率控制</a>
-              <ul>
-                <li><a href="#关于jacoco">关于Jacoco</a></li>
-                <li><a href="#前置准备-1">前置准备</a></li>
-                <li><a href="#pipeline配置-1">pipeline配置</a></li>
-                <li><a href="#单元测试覆盖率统计数据上报sonarqube">单元测试覆盖率统计数据上报SonarQube</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li><a href="#sonarqube推动代码质量持续优化">SonarQube推动代码质量持续优化</a>
-          <ul>
-            <li>
-              <ul>
-                <li><a href="#具体流程">具体流程</a></li>
-                <li><a href="#具体操作">具体操作</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav><h2 id="devops">DevOps</h2>
+<h2 id="devops">DevOps</h2>
 <p><strong>DevOps</strong>（<strong>Dev</strong>elopment和<strong>Op</strong>erations的组合词）是一种重视“开发人员（Dev）”和“运维人员（Ops）”之间沟通合作的文化、运动或惯例。通过自动化“软件交付”和“架构变更”的流程，来使得构建、测试、发布软件能够更加地快捷、频繁和可靠。</p>
 <p><strong>DevOps生命周期</strong>： 版本控制、持续集成、持续部署和持续监控贯穿于软件开发的整个生命周期。</p>
 <p><img src="https://user-images.githubusercontent.com/19829495/78233656-a2d0c300-7508-11ea-837c-ad99c780a7cf.png" alt="图片"></p>
@@ -606,127 +559,71 @@ sonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco.xml
 <span style="color:#f92672">}</span>
 
 </code></pre></div>
-
-
-      
-        <div class="blog-tags">
-          
-            <a
-              href="https://chinalhr.github.io/tags/sonarqube/"
-              >SonarQube</a
-            >&nbsp;
-          
-            <a
-              href="https://chinalhr.github.io/tags/devops/"
-              >DevOps</a
-            >&nbsp;
-          
-        </div>
-      
-    </article>
-    
-      <script>
-  var backtotopButton = document.getElementById('backtotopButton')
-
-  document.addEventListener('scroll', function () {
-    if (
-      document.body.scrollTop > 50 ||
-      document.documentElement.scrollTop > 50
-    ) {
-      backtotopButton.style.opacity = '1'
-    } else {
-      backtotopButton.style.opacity = '0'
-    }
-  })
-
-  function topFunction() {
-    document.body.scrollTop = 0 
-    document.documentElement.scrollTop = 0 
-  }
-
-  
-  document.dispatchEvent(new CustomEvent('scroll'))
-  backtotopButton.style.display = 'block'
-</script>
-
-      <button onclick="topFunction()" id="backtotopButton">
-        <em class="fa fa-angle-up"></em>
-      </button>
-      <script>
-  var backtotopButton = document.getElementById('backtotopButton')
-
-  document.addEventListener('scroll', function () {
-    if (
-      document.body.scrollTop > 50 ||
-      document.documentElement.scrollTop > 50
-    ) {
-      backtotopButton.style.opacity = '1'
-    } else {
-      backtotopButton.style.opacity = '0'
-    }
-  })
-
-  function topFunction() {
-    document.body.scrollTop = 0 
-    document.documentElement.scrollTop = 0 
-  }
-
-  
-  document.dispatchEvent(new CustomEvent('scroll'))
-  backtotopButton.style.display = 'block'
-</script>
-
-    
-    
-      
-
-    
-  </div>
-
-    <footer>
-  
-
-<div class="social-icons">
-  
-    
-    
-      
-      <a href="https://github.com/chinalhr" name="GitHub">
-        <em class="fab fa-github"></em>
-      </a>
-    
-       &nbsp;&ndash;&nbsp;
-      <a href="mailto:13435500980@163.com" name="Email">
-        <em class="fas fa-envelope"></em>
-      </a>
-    
-  
-
-  
+        </p>
+    </div>
 </div>
 
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#devops">DevOps</a></li>
+        <li><a href="#消除技术债务危机">消除技术债务危机</a></li>
+        <li><a href="#sonarqube">SonarQube</a>
+          <ul>
+            <li><a href="#介绍">介绍</a></li>
+            <li><a href="#架构">架构</a></li>
+            <li><a href="#工作流程">工作流程</a></li>
+            <li><a href="#基础概念">基础概念</a></li>
+            <li><a href="#部署">部署</a></li>
+          </ul>
+        </li>
+        <li><a href="#jenkins集成sonarqube">Jenkins集成SonarQube</a>
+          <ul>
+            <li><a href="#静态代码分析">静态代码分析</a>
+              <ul>
+                <li><a href="#前置准备">前置准备</a></li>
+                <li><a href="#pipeline配置">Pipeline配置</a></li>
+              </ul>
+            </li>
+            <li><a href="#测试覆盖率控制">测试覆盖率控制</a>
+              <ul>
+                <li><a href="#关于jacoco">关于Jacoco</a></li>
+                <li><a href="#前置准备-1">前置准备</a></li>
+                <li><a href="#pipeline配置-1">pipeline配置</a></li>
+                <li><a href="#单元测试覆盖率统计数据上报sonarqube">单元测试覆盖率统计数据上报SonarQube</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#sonarqube推动代码质量持续优化">SonarQube推动代码质量持续优化</a>
+          <ul>
+            <li>
+              <ul>
+                <li><a href="#具体流程">具体流程</a></li>
+                <li><a href="#具体操作">具体操作</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
 
-  
-  <div class="container">
-    <p class="credits copyright">
-      <a href="https://chinalhr.github.io/about">hanrong.li</a>
-      &nbsp;&copy;
-      2022
-      
-        &nbsp;/&nbsp;
-        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
-      
-      &nbsp;&ndash;&nbsp;
-      <em class="fas fa-moon" id="dark-mode-toggle"></em>
-    </p>
 
-    <p class="credits theme-by">
-      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
-      Theme
-      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
-    </p>
-  </div>
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
 </footer>
-
-  </body>
+</body>
 </html>

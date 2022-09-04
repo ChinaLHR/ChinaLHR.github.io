@@ -1,186 +1,185 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-<title>响应式编程库-Reactor</title>
-<meta name="description"
-      content=""
->
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>响应式编程库-Reactor</title>
+    <meta name="description" content="Keep curious">
+    <meta name="keywords" content='blog, chinalhr, lhr, 响应式编程, Reactor'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/post/reactive-programming-reactor/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="响应式编程库-Reactor">
+    <meta property="og:description" content="Keep curious">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="响应式编程库-Reactor">
+    <meta name="twitter:description" content="Keep curious">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/post/reactive-programming-reactor/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/post/reactive-programming-reactor/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/post/reactive-programming-reactor/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+  <script>
   
     
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-JLJBQBW5WM');
-  </script>
-  
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
 
-
-
-
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link
-  rel="alternate"
-  type="application/rss+xml"
-  href="https://chinalhr.github.io/index.xml"
-  title="ChinaLHR Blog"
-/>
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="响应式编程库-Reactor"/>
-<meta name="twitter:description" content="
-响应式编程学习
-"/>
-
-
-
-<link rel="stylesheet" href="https://chinalhr.github.io/fontawesome/css/all.min.css" />
-
-
-
-
-<link
-  crossorigin="anonymous"
-  href="/css/styles.min.css"
-  integrity=""
-  rel="preload stylesheet"
-  as="style"
-/>
-
-
-
-
-<link
-  id="dark-mode-theme"
-  crossorigin="anonymous"
-  href="/css/dark.min.css"
-  integrity=""
-  rel="preload stylesheet"
-  as="style"
-/>
-
-
-<script>
-  var darkTheme = document.getElementById('dark-mode-theme')
-  var storedTheme = localStorage.getItem('dark-mode-storage')
-
-  if (storedTheme === 'dark') {
-    darkTheme.disabled = false
-  } else if (storedTheme === 'light') {
-    darkTheme.disabled = true
-  }
-</script>
-
-
-<script defer crossorigin="anonymous" src="/js/theme.js" integrity=""></script>
-
-
-<script defer crossorigin="anonymous" src="/js/instantpage.min.js" integrity=""></script><meta name="generator" content="Hugo 0.68.3" />
-  </head>
-  <body>
-    
-  
-
-
-
-
-  <header>
-    <nav class="navbar">
-  <div class="nav">
-    
-      <a href="https://chinalhr.github.io/" class="nav-logo">
-        <img
-          src="https://chinalhr.github.io/images/icon.png"
-          width="50"
-          height="50"
-          alt="Logo"
-        />
-      </a>
-    
-
-    <ul class="nav-links">
-      
         
-          <li>
-            <a href="/about/" id="About"
-              ><em class="fas fa-user fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/categories/" id="Categories"
-              ><em class="fas fa-filter fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/tags/" id="Tags"
-              ><em class="fas fa-tags fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/archives/" id="Archives"
-              ><em class="fas fa-archive fa-lg"></em
-            ></a>
-          </li>
-          
-      
-        
-          <li>
-            <a href="/search/" id="Search"
-              ><em class="fas fa-search fa-lg"></em
-            ></a>
-          </li>
-          
-      
-    </ul>
-  </div>
-</nav>
-
-    <div class="intro-header">
-      <div class="container">
-        <div class="post-heading">
-          
-            <h1>
-              响应式编程库-Reactor
-            </h1>
-          
-          
-            <span class="meta-post">
-  <em class="fa fa-calendar-alt"></em
-  >&nbsp;Jan 6, 2019
-  
-    &nbsp;&nbsp;&nbsp;<em class="fa fa-folder-open"></em>&nbsp;
-    
-      <a
-        href="https://chinalhr.github.io/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"
-        >后端开发</a
-      >&nbsp;
-    
-  
-</span>
-
-          
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
         </div>
-      </div>
-    </div>
-  </header>
-  
+        
 
-    
-  <div class="container" role="main">
-    <article class="article" class="blog-post">
-      <blockquote>
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>响应式编程库-Reactor</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            January 6, 2019
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B">响应式编程</a></li>
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/reactor">Reactor</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
 <p>响应式编程学习</p>
 </blockquote>
 <h3 id="响应式流规范">响应式流规范</h3>
@@ -447,127 +446,51 @@ subscribeOn无论出现在什么位置，都只影响源头的执行环境</p>
                 <span style="color:#f92672">}</span>
 </code></pre></div></li>
 </ul>
-
-
-      
-        <div class="blog-tags">
-          
-            <a
-              href="https://chinalhr.github.io/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/"
-              >响应式编程</a
-            >&nbsp;
-          
-            <a
-              href="https://chinalhr.github.io/tags/reactor/"
-              >Reactor</a
-            >&nbsp;
-          
-        </div>
-      
-    </article>
-    
-      <script>
-  var backtotopButton = document.getElementById('backtotopButton')
-
-  document.addEventListener('scroll', function () {
-    if (
-      document.body.scrollTop > 50 ||
-      document.documentElement.scrollTop > 50
-    ) {
-      backtotopButton.style.opacity = '1'
-    } else {
-      backtotopButton.style.opacity = '0'
-    }
-  })
-
-  function topFunction() {
-    document.body.scrollTop = 0 
-    document.documentElement.scrollTop = 0 
-  }
-
-  
-  document.dispatchEvent(new CustomEvent('scroll'))
-  backtotopButton.style.display = 'block'
-</script>
-
-      <button onclick="topFunction()" id="backtotopButton">
-        <em class="fa fa-angle-up"></em>
-      </button>
-      <script>
-  var backtotopButton = document.getElementById('backtotopButton')
-
-  document.addEventListener('scroll', function () {
-    if (
-      document.body.scrollTop > 50 ||
-      document.documentElement.scrollTop > 50
-    ) {
-      backtotopButton.style.opacity = '1'
-    } else {
-      backtotopButton.style.opacity = '0'
-    }
-  })
-
-  function topFunction() {
-    document.body.scrollTop = 0 
-    document.documentElement.scrollTop = 0 
-  }
-
-  
-  document.dispatchEvent(new CustomEvent('scroll'))
-  backtotopButton.style.display = 'block'
-</script>
-
-    
-    
-      
-
-    
-  </div>
-
-    <footer>
-  
-
-<div class="social-icons">
-  
-    
-    
-      
-      <a href="https://github.com/chinalhr" name="GitHub">
-        <em class="fab fa-github"></em>
-      </a>
-    
-       &nbsp;&ndash;&nbsp;
-      <a href="mailto:13435500980@163.com" name="Email">
-        <em class="fas fa-envelope"></em>
-      </a>
-    
-  
-
-  
+        </p>
+    </div>
 </div>
 
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#响应式流规范">响应式流规范</a>
+              <ul>
+                <li><a href="#响应式流接口">响应式流接口</a></li>
+              </ul>
+            </li>
+            <li><a href="#reactor">Reactor</a>
+              <ul>
+                <li><a href="#flux与mono">Flux与Mono</a></li>
+                <li><a href="#调试">调试</a></li>
+                <li><a href="#operator操作符">Operator(操作符)</a></li>
+                <li><a href="#调度器线程模型">调度器&amp;线程模型</a></li>
+                <li><a href="#错误处理重试">错误处理&amp;重试</a></li>
+                <li><a href="#backpressure背压回压">Backpressure背压(回压)</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
 
-  
-  <div class="container">
-    <p class="credits copyright">
-      <a href="https://chinalhr.github.io/about">hanrong.li</a>
-      &nbsp;&copy;
-      2022
-      
-        &nbsp;/&nbsp;
-        <a href="https://chinalhr.github.io/">ChinaLHR Blog</a>
-      
-      &nbsp;&ndash;&nbsp;
-      <em class="fas fa-moon" id="dark-mode-toggle"></em>
-    </p>
 
-    <p class="credits theme-by">
-      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
-      Theme
-      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
-    </p>
-  </div>
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
 </footer>
-
-  </body>
+</body>
 </html>

@@ -1,117 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-	<channel>
-		<title>git on ChinaLHR Blog</title>
-		<link>https://chinalhr.github.io/tags/git/</link>
-		<description>Recent content in git </description>
-		<generator>Hugo -- gohugo.io</generator>
-		
-  		<language>en</language>
-		
-		<managingEditor>Page(/tags/git) (hanrong.li)</managingEditor>
-    	
-  		<lastBuildDate>Wed, 20 Jul 2022 22:27:16 +0800</lastBuildDate>
-		
-		<atom:link href="/tags/git/" rel="self" type="application/rss+xml" />
-		
-		<item>
-			<title>GitOps实践，基于Gitlab CI、Kustomize 与Argo CD</title>
-			<link>https://chinalhr.github.io/post/gitops-argo-cd/</link>
-			<pubDate>Wed, 20 Jul 2022 22:27:16 +0800</pubDate>
-			<guid>https://chinalhr.github.io/post/gitops-argo-cd/</guid>
-			<description>&lt;blockquote&gt;
-&lt;p&gt;GitOps总结与实践&lt;/p&gt;
+  <channel>
+    <title>git on LHR</title>
+    <link>https://chinalhr.github.io/tags/git/</link>
+    <description>Recent content in git on LHR</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 20 Jul 2022 22:27:16 +0800</lastBuildDate>
+    
+	<atom:link href="https://chinalhr.github.io/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Git Flow 分支策略</title>
+      <link>https://chinalhr.github.io/post/git-flow/</link>
+      <pubDate>Tue, 26 Nov 2019 23:57:12 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/git-flow/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Git-flow分支策略相关整理&lt;/p&gt;
 &lt;/blockquote&gt;</description>
-		</item>
-      	
-		<item>
-			<title>Kubernetes-Operator：扩展Kubernetes API Resource与Custom Controller (下)</title>
-			<link>https://chinalhr.github.io/post/kubernetes-crd-operator-2/</link>
-			<pubDate>Sun, 23 Jan 2022 22:12:45 +0800</pubDate>
-			<guid>https://chinalhr.github.io/post/kubernetes-crd-operator-2/</guid>
-			<description>&lt;blockquote&gt;
-&lt;p&gt;本文介绍了如何使用Operator-SDK开发Kubernetes Operator&lt;/p&gt;
+    </item>
+    
+    <item>
+      <title>Git记录</title>
+      <link>https://chinalhr.github.io/post/git-basic/</link>
+      <pubDate>Sun, 08 Jul 2018 15:49:09 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/git-basic/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;记录Git操作&lt;/p&gt;
 &lt;/blockquote&gt;</description>
-		</item>
-      	
-		<item>
-			<title>Kubernetes-Operator：扩展Kubernetes API Resource与Custom Controller (上)</title>
-			<link>https://chinalhr.github.io/post/kubernetes-crd-operator-1/</link>
-			<pubDate>Sat, 22 Jan 2022 00:37:50 +0800</pubDate>
-			<guid>https://chinalhr.github.io/post/kubernetes-crd-operator-1/</guid>
-			<description>&lt;blockquote&gt;
-&lt;p&gt;本文介绍了如何对Kubernetes 核心组件、扩展机制与API Resource设计概念，以及如何使用定制资源（Custom Resource）与定制控制器（Custom Controller）实现对Kubernetes API Resource的扩展&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-		</item>
-      	
-		<item>
-			<title>Docker容器运行时引擎-runC分析</title>
-			<link>https://chinalhr.github.io/post/docker-runc/</link>
-			<pubDate>Thu, 15 Apr 2021 22:39:56 +0800</pubDate>
-			<guid>https://chinalhr.github.io/post/docker-runc/</guid>
-			<description>&lt;blockquote&gt;
-&lt;p&gt;容器技术的演进，标准的OCI Runtime实现-runC源码分析&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-		</item>
-      	
-		<item>
-			<title>分布式系统的一致性与共识算法-Paxos</title>
-			<link>https://chinalhr.github.io/post/distributed-systems-consensus-algorithm-paxos/</link>
-			<pubDate>Thu, 11 Mar 2021 23:41:59 +0800</pubDate>
-			<guid>https://chinalhr.github.io/post/distributed-systems-consensus-algorithm-paxos/</guid>
-			<description>&lt;blockquote&gt;
-&lt;p&gt;本文讨论共识算法：Paxos&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-		</item>
-      	
-		<item>
-			<title>分布式系统的一致性与共识算法-基础理论</title>
-			<link>https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/</link>
-			<pubDate>Mon, 25 Jan 2021 00:20:07 +0800</pubDate>
-			<guid>https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/</guid>
-			<description>&lt;blockquote&gt;
-&lt;p&gt;记录分布式系统的一些基础理论&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-		</item>
-      	
-		<item>
-			<title>Jenkins-Kubernetes-Docker-Helm CI/CD实践</title>
-			<link>https://chinalhr.github.io/post/jenkins-kubernetes-helm-ci-cd/</link>
-			<pubDate>Tue, 12 Jan 2021 19:51:52 +0800</pubDate>
-			<guid>https://chinalhr.github.io/post/jenkins-kubernetes-helm-ci-cd/</guid>
-			<description>&lt;blockquote&gt;
-&lt;p&gt;基于Kubernetes、Docker、Helm、Jenkins的CI/CD实践，对于前文&lt;a href=&#34;https://chinalhr.github.io/post/jenkins-java-ci-cd/&#34;&gt;Jenkins-pipeline-Docker 实现CI/CD&lt;/a&gt; 的补充扩展&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-		</item>
-      	
-		<item>
-			<title>Kubernetes本地调试利器-Telepresence</title>
-			<link>https://chinalhr.github.io/post/kubernetes-telepresence/</link>
-			<pubDate>Wed, 30 Dec 2020 17:08:10 +0800</pubDate>
-			<guid>https://chinalhr.github.io/post/kubernetes-telepresence/</guid>
-			<description>&lt;blockquote&gt;
-&lt;p&gt;Kubernetes环境下基于Telepresence开发调试实践&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-		</item>
-      	
-		<item>
-			<title>基于FRP的内网穿透实践</title>
-			<link>https://chinalhr.github.io/post/frp-intranet-penetration/</link>
-			<pubDate>Tue, 10 Nov 2020 16:41:13 +0800</pubDate>
-			<guid>https://chinalhr.github.io/post/frp-intranet-penetration/</guid>
-			<description>&lt;blockquote&gt;
-&lt;p&gt;FRP内网穿透实践&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-		</item>
-      	
-		<item>
-			<title>权限系统设计-概念与思路</title>
-			<link>https://chinalhr.github.io/post/permission-system-design/</link>
-			<pubDate>Wed, 16 Sep 2020 23:43:49 +0800</pubDate>
-			<guid>https://chinalhr.github.io/post/permission-system-design/</guid>
-			<description>&lt;blockquote&gt;
-&lt;p&gt;权限系统设计相关概念与思路&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-		</item>
-      	
-	</channel>
+    </item>
+    
+  </channel>
 </rss>
