@@ -3,22 +3,62 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://chinalhr.github.io/tags/argo-rollouts/</loc>
+    <lastmod>2022-09-29T22:39:09+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/categories/</loc>
+    <lastmod>2022-09-29T22:39:09+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/categories/devops/</loc>
+    <lastmod>2022-09-29T22:39:09+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/kubernetes/</loc>
+    <lastmod>2022-09-29T22:39:09+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/post/progressive-delivery-argo-rollouts/</loc>
+    <lastmod>2022-09-29T22:39:09+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/</loc>
+    <lastmod>2022-09-29T22:39:09+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/post/</loc>
+    <lastmod>2022-09-29T22:39:09+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/progressive-delivery/</loc>
+    <lastmod>2022-09-29T22:39:09+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/tags/</loc>
+    <lastmod>2022-09-29T22:39:09+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/</loc>
+    <lastmod>2022-09-29T22:39:09+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/tags/argo-cd/</loc>
     <lastmod>2022-07-20T22:27:16+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/categories/</loc>
-    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://chinalhr.github.io/tags/cicd/</loc>
-    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/categories/devops/</loc>
     <lastmod>2022-07-20T22:27:16+08:00</lastmod>
   </url>
   
@@ -34,31 +74,6 @@
   
   <url>
     <loc>https://chinalhr.github.io/post/gitops-argo-cd/</loc>
-    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/tags/kubernetes/</loc>
-    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/</loc>
-    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/post/</loc>
-    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/tags/</loc>
-    <lastmod>2022-07-20T22:27:16+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/</loc>
     <lastmod>2022-07-20T22:27:16+08:00</lastmod>
   </url>
   

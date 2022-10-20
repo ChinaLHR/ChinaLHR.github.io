@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Kubernetes渐进式交付实践，基于Argo Rollouts</title>
+    <meta name="description" content="keep curious 😼">
+    <meta name="keywords" content='blog, chinalhr, lhr, Progressive Delivery, Kubernetes, Argo Rollouts'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/post/progressive-delivery-argo-rollouts/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Kubernetes渐进式交付实践，基于Argo Rollouts">
+    <meta property="og:description" content="keep curious 😼">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kubernetes渐进式交付实践，基于Argo Rollouts">
+    <meta name="twitter:description" content="keep curious 😼">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/post/progressive-delivery-argo-rollouts/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/post/progressive-delivery-argo-rollouts/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/post/progressive-delivery-argo-rollouts/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JLJBQBW5WM');
+</script>
+  
+    
+    
+    
+    
+    <script async src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Kubernetes渐进式交付实践，基于Argo Rollouts</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            September 29, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/progressive-delivery">Progressive Delivery</a></li>
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubernetes">Kubernetes</a></li>
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/argo-rollouts">Argo Rollouts</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
+<p>基于Argo Rollouts，Kubernetes的渐进式交付实践</p>
+</blockquote>
+<h2 id="关于渐进式交付">关于渐进式交付</h2>
+<h3 id="什么是渐进式交付">什么是渐进式交付</h3>
+<p>渐进式交付是以受控和渐进方式发布/更新的过程，采用渐进的方式从而降低发布风险，通常结合自动化和度量指标分析来驱动新应用的自动升级或自动回滚。</p>
+<p>渐进式交付建立在持续集成和持续交付 (CI/CD) 的核心原则之上，通过在交付阶段，通过将新版本的曝光限制给一部分用户，观察和分析正确的行为，然后逐渐增加对更广泛的受众的曝光，同时不断验证正确性来实现。渐进式交付提供了安全措施和控制手段，以降低不断将新版本推送到生产环境的风险。</p>
+<h3 id="渐进式交付部署策略">渐进式交付部署策略</h3>
+<p>渐进式交付的部署策略主要区别于全量发布与一次性发布，包含以下特点：</p>
+<ul>
+<li>增量的发布过程：将一次发布分成多个批次，并对每个批次的发布、停止进行控制。</li>
+<li>应用与流量双维度的灰度：如Canary Releases（金丝雀发布）、A/B Testing、Blue-green Deployments（蓝绿部署）。</li>
+<li>部署阶段可验证性：发布的每个批次，可以验证发布的正确性以及是否符合发布预期。</li>
+</ul>
+<p><strong>Blue-green Deployments（蓝绿部署）</strong></p>
+<p>使用Blue-green Deployments，在只存在旧版本应用程序的情况下,对新版本应用程序进行部署,此时生产环境存在新旧两个版本的应用程序,此期间，只有旧版本的应用程序会收到生产流量，允许开发人员在将实时流量切换到新版本之前针对新版本应用程序进行测试与度量指标分析，并根据测试结果决定是否进行版本的切换。</p>
+<ul>
+<li>Phase 1</li>
+</ul>
+<div class="mermaid">
+    
+flowchart LR
+    User --> Loadbalancer
+    Loadbalancer --> |Network Traffic|Application-Version-1
+
+</div>
+<ul>
+<li>Phase 2</li>
+</ul>
+<div class="mermaid">
+    
+flowchart LR
+    User --> Loadbalancer
+    Loadbalancer --> |Network Traffic|Application-Version-1 
+    Loadbalancer -.- Application-Version-2
+
+</div>
+<ul>
+<li>Phase 3</li>
+</ul>
+<div class="mermaid">
+    
+flowchart LR
+    User --> Loadbalancer
+    Loadbalancer -.- Application-Version-1 
+    Loadbalancer --> |Network Traffic|Application-Version-2
+
+</div>
+<ul>
+<li>Phase 4</li>
+</ul>
+<div class="mermaid">
+    
+flowchart LR
+    User --> Loadbalancer 
+    Loadbalancer --> |Network Traffic|Application-Version-2
+
+</div>
+<p><strong>Canary Releases（金丝雀发布）</strong></p>
+<p>使用Canary Releases，在只存在旧版本应用程序的情况下,对新版本应用程序进行部署，会将一部分流量路由给新版本应用程序，同时将其余流量提供给旧版本应用程序；当新版本应用程序验证无误后，则新版本应用程序以逐步取代旧版本。一般来说，LoadBalancer可以为Canary Releases提供更多的流量路由策略。</p>
+<ul>
+<li>Phase 1</li>
+</ul>
+<div class="mermaid">
+    
+flowchart LR
+    User --> Loadbalancer
+    Loadbalancer --> |"Network Traffic(100%)"|Application-Version-1
+
+</div>
+<ul>
+<li>Phase 2</li>
+</ul>
+<div class="mermaid">
+    
+flowchart LR
+    User --> Loadbalancer
+    Loadbalancer --> |"Network Traffic(90%)"|Application-Version-1
+    Loadbalancer -.- |"Network Traffic(10%)"|Application-Version-2
+
+</div>
+<ul>
+<li>Phase 3</li>
+</ul>
+<div class="mermaid">
+    
+flowchart LR
+    User --> Loadbalancer
+    Loadbalancer --> |"Network Traffic(60%)"|Application-Version-1
+    Loadbalancer -.- |"Network Traffic(40%)"|Application-Version-2
+
+</div>
+<ul>
+<li>Phase 4</li>
+</ul>
+<div class="mermaid">
+    
+flowchart LR
+    User --> Loadbalancer
+    Loadbalancer --> |"Network Traffic(100%)"|Application-Version-2
+
+</div>
+<p><strong>A/B Testing</strong>
+A/B Testing一般是用于比较、评估某一功能不同版本以确定哪个版本的表现、效果更好。A/B Testing一般基于LoadBalancer的Dynamic Routing进行实现，将用户分为A/B两组，A（control group）为控制组继续使用旧版本功能，B（treatment group）为治疗组，根据特定的用户标签进行路由，使用新版本功能。</p>
+<div class="mermaid">
+    
+flowchart LR
+    User --> Loadbalancer
+    Loadbalancer --> Application-Version-1
+    Loadbalancer --> |"Dynamic Routing Beta User"|Application-Version-2
+
+</div>
+<h2 id="渐进式交付与kubernetes-workloads">渐进式交付与Kubernetes Workloads</h2>
+<p>Kubernetes Workloads是指在Kubernetes上运行的应用程序，Kubernetes提供的Workloads一般存在于Group apps/batch下，如常见的Deployment、StatefulSet、DaemonSet、CronJob; 通过对应的控制器，达到对一组Pod运行状态的管控。</p>
+<p>其中Deployment与StatefulSet都是采用滚动升级的策略进行发布；</p>
+<ul>
+<li>Deployment滚动升级策略：提供了maxUnavailable（发布过程最大不可用数量）和maxSurge（发布过程可超过replicas的最大弹性数量）参数进行滚动升级的控制。</li>
+<li>StatefulSet滚动升级策略：提供了partition参数控制需要更新的Pod（ordinal&gt;=partition）和maxUnavailable（发布过程中最大不可用数量）参数进行滚动升级的控制。</li>
+</ul>
+<p>可以看到，Kubernetes提供的Workloads功能类似于流式全量发布、流式分批发布，对渐进式交付的支持不足，缺少了流量发布、进度管控的功能，这也衍生了一些支持渐进式交付的Kubernetes Controller，如Argo Rollouts、Flagger。Argo Rollouts于Flagger也代表了主流的两种Kubernetes渐进式交付控制器的实现方式：</p>
+<ul>
+<li>Argo Rollouts：Argo Rollouts 设计了CRD Rollout 与 Rollout Controller, 重写了原有Deployment的功能并实现对Rollout功能进行了扩展。</li>
+</ul>
+<pre><code>+--------------------------------------------------+
+|                                                  |
+|                 Argo Rollouts                    |
+|                                                  |
+|  +---------------+         +------------------+  |
+|  |               |         |                  |  |
+|  | Kubernetes    |         |  Traffic Control |  |
+|  | Workloads     |         |  Schedule Control|  |
+|  | (Deployment..)|         |                  |  |
+|  |               |         |                  |  |
+|  +---------------+         +------------------+  |
++----------------------+---+-----------------------+
+                       |   |
+                       |   |
++--------------------+ |   |  +--------------------+
+|    ReplicaSet-A    &lt;-+   +--&gt;   ReplicaSet-B     |
+|                    |        |                    |
++--------------------+        +--------------------+
+</code></pre><ul>
+<li>Flagger：Flagger 则是在现有的Deployment上进行扩展，设计了CRD Rollout 与 Rollout Controller，在Kubernetes Deployment部署时进行功能的增强。</li>
+</ul>
+<pre><code>+-------------------------------------------+
+|                                           |
+|                 Flagger                   |
+|  +--------------------------------------+ |
+|  | Batch Release/Traffic Control        | |
+|  |                                      | |
+|  +--------------------------------------+ |
++-------------------------------------------+
+           |                      |
+           |                      |
++----------v---------+ +----------v----------+
+|                    | |                     |
+| Kubernetes         | | Primary             |
+| Workloads          | | Workloads           |
+| (Deployment..)     | | (Primary Deployment)|
+|                    | |                     |
++----------+---------+ +----------+----------+
+           |                      |
++----------v---------+ +----------v----------+
+|  ReplicaSet-A      | |  ReplicaSet-B       |
+|                    | |                     |
++--------------------+ +---------------------+
+</code></pre><p>Argo Rollouts的优势是Workloads已经内置了Rollouts的能力，配置与实现简单，定制化能力强；缺点是对于一些社区方案，基于标准Kubernetes Workloads与系统存量的Deployment需要进行改造适配。
+Flagger 的优势是支持标准Kubernetes Workloads，与社区方案兼容性强，缺点是发布过程中存在Double Workloads 资源的问题，发布会先升级用户部署的 Workloads，再升级 Primary（实际运行的），在这过程中需要准备双倍Pod资源的消耗。</p>
+<h2 id="argo-rollouts">Argo Rollouts</h2>
+<h3 id="argo-rollouts概述">Argo Rollouts概述</h3>
+<p>Argo Rollouts由一个Kubernetes Controller与一组Kubernetes CRD组成，为Kubernetes提供更高级部署功能，如蓝绿(blue-green)、金丝雀(canary)、金丝雀分析(canary analysis)、实验(experimentation)和渐进式交付功能。</p>
+<p><strong>Argo Rollouts Controller特性</strong></p>
+<ul>
+<li>蓝绿(blue-green)/金丝雀(canary)更新策略</li>
+<li>细粒度加权流量拆分</li>
+<li>自动回滚、自动推进，也支持手动处理</li>
+<li>支持多种Metrics指标集成以进行蓝绿和金丝雀分析</li>
+<li>与Ingress、Service Mesh集成，实现高级流量路由</li>
+</ul>
+<p><strong>Argo Rollouts Controller工作原理</strong></p>
+<p>与Kubernetes Deployment类似，Argo Rollouts Controller管理ReplicaSets的创建、缩放和删除。这些 ReplicaSet 由<code>spec.templateRollout</code> 资源中的字段定义，与Deployment 使用相同的pod模板。</p>
+<p>当<code>spec.template</code>更改时，会向Argo Rollouts Controller发出信号通知，告知将引入新的 ReplicaSet。Argo Rollouts Controller将使用该<code>spec.strategy</code>字段中定义的策略来确定旧ReplicaSet到新ReplicaSet的发布方式。一旦新的ReplicaSet被放大（可选择通过Analysis进行控制），控制器会将其标记为“稳定”。</p>
+<p>如果在<code>spec.template</code>从稳定的ReplicaSet过渡到新的ReplicaSet的过程中发生了变化（发布过程中更改了应用版本信息），那么新ReplicaSet将被缩小，Argo Rollouts Controller会尝试反映更新spec.template字段的ReplicaSet。</p>
+<h3 id="argo-rollouts-架构">Argo Rollouts 架构</h3>
+<p><img src="https://user-images.githubusercontent.com/19829495/196354253-d3b751c4-0d9d-4d76-9666-3921e62d1af2.png" alt="image"></p>
+<ul>
+<li>Rollout Controller</li>
+</ul>
+<p>核心Controller，监控集群事件并在Rollout资源类型发生变更时做出反应，读取部署rollout CRD资源信息，将集群置于部署定义中描述的相同状态。
+而且，Argo Rollouts 不会篡改或响应正常部署资源上发生的任何更改。</p>
+<ul>
+<li>Rollout Resouces</li>
+</ul>
+<p>Rollout Resouces是Argo Rollouts引入和管理的Kubernetes CRD资源。它与原生Kubernetes Deployment资源兼容，通过额外的字段提供了高级控制部署方法（如​​金丝雀和蓝/绿）。</p>
+<ul>
+<li>Ingress/Service</li>
+</ul>
+<p>Argo Rollouts可以进行灵活的网络配置，在rollouts期间拥有不同的Service（仅适用于新版本、仅适用于旧版本、新旧版本结合）。专门针对Canary部署，Argo Rollouts支持多种服务网格和入口解决方案，例如用于以特定百分比拆分流量，而不是基于pod数量的简单平衡。</p>
+<ul>
+<li>Analysis/AnalysisRun</li>
+</ul>
+<p>Analysis与AnalysisRun是Argo Rollouts引入和管理的Kubernetes CRD资源。Analysis将Rollout连接到指标提供程序(如prometheus)，并为指标定义阈值，阈值将决定Rollout是否成功以及后续的操作（继续发布、回滚，暂停发布）。
+Analysis是查询指标的模板，AnalysisRun才是附加到Rollout的资源，因此可以在特定Rollout上或在集群上对Analysis进行全局定义，以供多个rollout共享。</p>
+<h3 id="安装argo-rollouts">安装Argo Rollouts</h3>
+<ul>
+<li>安装Argo Rollouts</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create namespace argo-rollouts
+kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/latest/download/install.yaml
+</code></pre></div><ul>
+<li>安装Argo Rollouts Kubectl 插件 (Linux platform)</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -LO https://github.com/argoproj/argo-rollouts/releases/latest/download/kubectl-argo-rollouts-linux-amd64
+chmod +x kubectl-argo-rollouts-linux-amd64
+sudo mv ./kubectl-argo-rollouts-linux-amd64 /usr/local/bin/kubectl-argo-rollouts
+kubectl argo rollouts version
+</code></pre></div><ul>
+<li>Argo Rollouts Dashboard</li>
+</ul>
+<p>在包含Rollouts资源对象的命名空间中运行<code>kubectl argo rollouts dashboard</code>命令，访问本地3100端口进行查看。</p>
+<h2 id="基于argo-rollouts的渐进式交付实践">基于Argo Rollouts的渐进式交付实践</h2>
+<h3 id="基本使用">基本使用</h3>
+<p>这里我们使用kustomize结合Argo Rollouts进行演示，因此需要使用transformer configs对kustomize进行扩展以理解CRD对象。具体配置可以参考：<a href="https://argoproj.github.io/argo-rollouts/features/kustomize/">https://argoproj.github.io/argo-rollouts/features/kustomize/</a>与项目/.kubernetes/overlays/manual。</p>
+<ul>
+<li>Rollout部署</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># rollouts</span>
+<span style="color:#66d9ef">apiVersion</span>: argoproj.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: Rollout
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: saken-manual
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">replicas</span>: <span style="color:#ae81ff">5</span>
+  <span style="color:#66d9ef">strategy</span>:
+    <span style="color:#66d9ef">canary</span>:
+      <span style="color:#66d9ef">steps</span>:
+      - <span style="color:#66d9ef">setWeight</span>: <span style="color:#ae81ff">20</span>
+      - <span style="color:#66d9ef">pause</span>: {}
+      - <span style="color:#66d9ef">setWeight</span>: <span style="color:#ae81ff">40</span>
+      - <span style="color:#66d9ef">pause</span>: {<span style="color:#66d9ef">duration</span>: <span style="color:#ae81ff">10</span>}
+      - <span style="color:#66d9ef">setWeight</span>: <span style="color:#ae81ff">60</span>
+      - <span style="color:#66d9ef">pause</span>: {<span style="color:#66d9ef">duration</span>: <span style="color:#ae81ff">10</span>}
+      - <span style="color:#66d9ef">setWeight</span>: <span style="color:#ae81ff">80</span>
+      - <span style="color:#66d9ef">pause</span>: {<span style="color:#66d9ef">duration</span>: <span style="color:#ae81ff">10</span>}
+  <span style="color:#66d9ef">revisionHistoryLimit</span>: <span style="color:#ae81ff">2</span>
+  <span style="color:#66d9ef">selector</span>:
+    <span style="color:#66d9ef">matchLabels</span>:
+      <span style="color:#66d9ef">app</span>: saken-manual
+  <span style="color:#66d9ef">template</span>:
+    <span style="color:#66d9ef">metadata</span>:
+      <span style="color:#66d9ef">labels</span>:
+        <span style="color:#66d9ef">app</span>:  saken-manual
+    <span style="color:#66d9ef">spec</span>:
+      <span style="color:#66d9ef">containers</span>:
+      - <span style="color:#66d9ef">name</span>:  saken-manual
+        <span style="color:#66d9ef">image</span>:  ccr.ccs.tencentyun.com/shovel/shovel-rollouts:<span style="color:#ae81ff">0.0.2</span>
+        <span style="color:#66d9ef">resources</span>:
+          <span style="color:#66d9ef">requests</span>:
+            <span style="color:#66d9ef">cpu</span>: 10m
+            <span style="color:#66d9ef">memory</span>: 32Mi
+        <span style="color:#66d9ef">ports</span>:
+        - <span style="color:#66d9ef">containerPort</span>:  <span style="color:#ae81ff">9099</span>
+          <span style="color:#66d9ef">name</span>:  saken-manual
+<span style="color:#75715e"># service</span>
+<span style="color:#66d9ef">apiVersion</span>: v1
+<span style="color:#66d9ef">kind</span>: Service
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: saken-manual-lb
+  <span style="color:#66d9ef">namespace</span>: default
+  <span style="color:#66d9ef">annotations</span>:
+    <span style="color:#66d9ef">prometheus.io/path</span>: /metrics
+    <span style="color:#66d9ef">prometheus.io/scrape</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">selector</span>:
+    <span style="color:#66d9ef">app</span>: saken-manual
+  <span style="color:#66d9ef">type</span>: ClusterIP
+  <span style="color:#66d9ef">sessionAffinity</span>: None
+  <span style="color:#66d9ef">sessionAffinityConfig</span>:
+    <span style="color:#66d9ef">clientIP</span>:
+      <span style="color:#66d9ef">timeoutSeconds</span>: <span style="color:#ae81ff">10800</span>
+  <span style="color:#66d9ef">ports</span>:
+  - <span style="color:#66d9ef">name</span>: saken-manual
+    <span style="color:#66d9ef">protocol</span>: TCP
+    <span style="color:#66d9ef">port</span>: <span style="color:#ae81ff">80</span>
+    <span style="color:#66d9ef">targetPort</span>: <span style="color:#ae81ff">9099</span>
+<span style="color:#75715e"># kustomization</span>
+<span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
+<span style="color:#66d9ef">kind</span>: Kustomization
+<span style="color:#66d9ef">resources</span>:
+- ../../base
+<span style="color:#66d9ef">namespace</span>: staging
+<span style="color:#66d9ef">resources</span>:
+- base-rollout.yaml
+- base-service.yaml
+<span style="color:#66d9ef">images</span>:
+- <span style="color:#66d9ef">name</span>: ccr.ccs.tencentyun.com/shovel/shovel-rollouts
+  <span style="color:#66d9ef">newTag</span>: <span style="color:#ae81ff">0.0.3</span>         
+</code></pre></div><p>这里我们kustomization配置了一个Rollout与对应的Service，Rollout使用Canary部署策略，将20%的流量部署到Canary后，Rollout进入Paused状态，
+进行手动promote后，每间隔10s进行逐步地升级。</p>
+<p>通过如下命令进行部署，注意所有的Rollout的初始创建，因为没用任何升级，所以会立即将副本扩展到100%（跳过canary、analyse等）。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -k .kubernetes/overlays/manual
+kubectl argo rollouts get rollout saken-manual -n staging --watch
+</code></pre></div><p><img src="https://user-images.githubusercontent.com/19829495/196662807-1d629fc7-7bbc-456a-ae23-4d66d7c54bcf.png" alt="image"></p>
+<ul>
+<li>更新Rollout</li>
+</ul>
+<p>使用<code>kustomize edit</code>命令更新或者对kustomization文件进行更新，通过如下命令进行部署，可以看到canary部署策略已经生效了,此时已经将20%的流量部署到cancary，并进入了Paused状态。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -k .kubernetes/overlays/manual
+kubectl argo rollouts get rollout saken-manual -n staging --watch
+</code></pre></div><p><img src="https://user-images.githubusercontent.com/19829495/196663846-ec72a898-73df-4822-ac94-586e5c2453dc.png" alt="image"></p>
+<ul>
+<li>Promote/Abort Rollout</li>
+</ul>
+<p>Rollout处于Paused状态后，可以手动进行Promote/Abort操作，如下命令所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Promoting a Rollout</span>
+kubectl argo rollouts promote saken-manual -n staging
+<span style="color:#75715e"># Aborting a Rollout</span>
+<span style="color:#75715e"># kubectl argo rollouts abort saken-manual -n staging</span>
+kubectl argo rollouts get rollout saken-manual -n staging --watch
+</code></pre></div><p><img src="https://user-images.githubusercontent.com/19829495/196665933-348293e8-bc91-449c-8645-a97833136b56.png" alt="image"></p>
+<h3 id="argo-rollout-analysis">Argo Rollout Analysis</h3>
+<p>Argo Rollouts 提供了多种执行分析(Analysis)的方法来推动渐进式交付，为此也定义了如下CRD:</p>
+<table>
+<thead>
+<tr>
+<th>CRD</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AnalysisTemplate</td>
+<td>Analysis模板，定义了如何执行canary分析，如执行的指标、频率、成功或失败的阈值。AnalysisTemplates还支持通过输入值进行参数化。</td>
+</tr>
+<tr>
+<td>ClusterAnalysisTemplate</td>
+<td>类似于AnalysisTemplate，但不限于其namespace，可以被集群中的任何Rollout使用。</td>
+</tr>
+<tr>
+<td>AnalysisRun</td>
+<td>实例化AnalysisTemplate。AnalysisRuns类似于Jobs，最终都会完成。已完成的运行被视为成功、失败或不确定，运行结果会影响Rollout的推进是否继续、中止或暂停。</td>
+</tr>
+<tr>
+<td>Experiment</td>
+<td>允许用户临时运行一个或多个ReplicaSet。除此之外，Experiment还可以与ReplicaSet一起启动AnalysisRuns。通常，这些AnalysisRun用于确认新的ReplicaSet是否按预期运行。</td>
+</tr>
+</tbody>
+</table>
+<p>Argo Rollout Analysis 支持多种分析模式：</p>
+<ul>
+<li>Background Analysis：后台分析，canary部署步骤执行时，可以在后台进行AnalysisRun分析，以分析结果决定canary rollout的后续行为（推进/终止）。</li>
+<li>Inline Analysis：内联分析，canary部署步骤执行时，在到达某一阶段时启动AnalysisRun，并在运行完成之前阻止其推进，以分析结果决定canary rollout的后续行为（推进/终止）。</li>
+<li>Analysis with Multiple Templates：多模板分析，在构建AnalysisRun时，Rollout可以引用多个 AnalysisTemplate，允许从多个 AnalysisTemplate 进行分析。</li>
+<li>Analysis Template Arguments：AnalysisTemplates可以声明一组可以由Rollouts传递的参数。</li>
+<li>BlueGreen Pre Promotion Analysis/BlueGreen Post Promotion Analysis：使用BlueGreen策略的Rollout可以在流量切换到新版本前后启动AnalysisRun进行分析，根据分析结果决定是否切换流量。</li>
+</ul>
+<p>更多内容可以参考官方文档：<a href="https://argoproj.github.io/argo-rollouts/features/analysis/">https://argoproj.github.io/argo-rollouts/features/analysis/</a></p>
+<h3 id="canary-analysis金丝雀分析">Canary-Analysis(金丝雀分析)</h3>
+<p>这里使用Background Analysis结合Canary部署，如下所示，配置了一个Rollout，与对应的AnalysisTemplate，Service。rollout每10分钟逐渐增加canary权重20%，直到达到100%。后台，AnalysisRun基于AnalysisTemplate，该分析模板以一下方式运行：</p>
+<ul>
+<li>从Prometheus服务获取指标信息，以五分钟为间隔，测量五分钟内对应服务的HTTP成功率，根据给定的度量阈值（successCondition=90%）以及失败次数的阈值（failureLimit=2）计算得出测量结果，如测量成功率为小于90%并且存在两个这样的测量结果，则被认为分析失败。</li>
+<li>失败的分析结果会使Rollout中止，将Canary权重设置回零，并且Rollout将被视为Degraded（降级）。</li>
+<li>如果Rollout完成其所有Canary步骤，则认为Rollout成功部署，控制器将停止运行分析。</li>
+<li>这里使用了Rollout的analysis-startingStep配置为2，即会延迟执行AnalysisRun，直到Canary达到40%。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># Rollout</span>
+<span style="color:#66d9ef">apiVersion</span>: argoproj.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: Rollout
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: saken-canary
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">replicas</span>: <span style="color:#ae81ff">5</span>
+  <span style="color:#66d9ef">strategy</span>:
+    <span style="color:#66d9ef">canary</span>:
+      <span style="color:#66d9ef">analysis</span>:
+        <span style="color:#66d9ef">templates</span>:
+        - <span style="color:#66d9ef">templateName</span>: canary-success-rate
+        <span style="color:#66d9ef">startingStep</span>: <span style="color:#ae81ff">2</span>
+        <span style="color:#66d9ef">args</span>:
+        - <span style="color:#66d9ef">name</span>: service-name
+          <span style="color:#66d9ef">value</span>: saken-canary-lb
+      <span style="color:#66d9ef">steps</span>:
+      - <span style="color:#66d9ef">setWeight</span>: <span style="color:#ae81ff">20</span>
+      - <span style="color:#66d9ef">pause</span>: {<span style="color:#66d9ef">duration</span>: 10m}
+      - <span style="color:#66d9ef">setWeight</span>: <span style="color:#ae81ff">40</span>
+      - <span style="color:#66d9ef">pause</span>: {<span style="color:#66d9ef">duration</span>: 10m}
+      - <span style="color:#66d9ef">setWeight</span>: <span style="color:#ae81ff">60</span>
+      - <span style="color:#66d9ef">pause</span>: {<span style="color:#66d9ef">duration</span>: 10m}
+      - <span style="color:#66d9ef">setWeight</span>: <span style="color:#ae81ff">80</span>
+      - <span style="color:#66d9ef">pause</span>: {<span style="color:#66d9ef">duration</span>: 10m}
+  <span style="color:#66d9ef">revisionHistoryLimit</span>: <span style="color:#ae81ff">2</span>
+  <span style="color:#66d9ef">selector</span>:
+    <span style="color:#66d9ef">matchLabels</span>:
+      <span style="color:#66d9ef">app</span>: saken-canary
+  <span style="color:#66d9ef">template</span>:
+    <span style="color:#66d9ef">metadata</span>:
+      <span style="color:#66d9ef">labels</span>:
+        <span style="color:#66d9ef">app</span>:  saken-canary
+    <span style="color:#66d9ef">spec</span>:
+      <span style="color:#66d9ef">containers</span>:
+      - <span style="color:#66d9ef">name</span>:  saken-canary
+        <span style="color:#66d9ef">image</span>:  ccr.ccs.tencentyun.com/shovel/shovel-rollouts:<span style="color:#ae81ff">0.0.2</span>
+        <span style="color:#66d9ef">resources</span>:
+          <span style="color:#66d9ef">requests</span>:
+            <span style="color:#66d9ef">cpu</span>: 10m
+            <span style="color:#66d9ef">memory</span>: 32Mi
+        <span style="color:#66d9ef">ports</span>:
+        - <span style="color:#66d9ef">containerPort</span>:  <span style="color:#ae81ff">9099</span>
+          <span style="color:#66d9ef">name</span>:  saken-canary
+<span style="color:#75715e"># Service</span>
+<span style="color:#66d9ef">apiVersion</span>: v1
+<span style="color:#66d9ef">kind</span>: Service
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: saken-canary-lb
+  <span style="color:#66d9ef">namespace</span>: default
+  <span style="color:#66d9ef">annotations</span>:
+    <span style="color:#66d9ef">prometheus.io/path</span>: /metrics
+    <span style="color:#66d9ef">prometheus.io/scrape</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">selector</span>:
+    <span style="color:#66d9ef">app</span>: saken-canary
+  <span style="color:#66d9ef">type</span>: ClusterIP
+  <span style="color:#66d9ef">sessionAffinity</span>: None
+  <span style="color:#66d9ef">sessionAffinityConfig</span>:
+    <span style="color:#66d9ef">clientIP</span>:
+      <span style="color:#66d9ef">timeoutSeconds</span>: <span style="color:#ae81ff">10800</span>
+  <span style="color:#66d9ef">ports</span>:
+  - <span style="color:#66d9ef">name</span>: saken-canary
+    <span style="color:#66d9ef">protocol</span>: TCP
+    <span style="color:#66d9ef">port</span>: <span style="color:#ae81ff">80</span>
+    <span style="color:#66d9ef">targetPort</span>: <span style="color:#ae81ff">9099</span>
+<span style="color:#75715e"># AnalysisTemplate</span>
+<span style="color:#66d9ef">apiVersion</span>: argoproj.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: AnalysisTemplate
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: canary-success-rate
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">args</span>:
+  - <span style="color:#66d9ef">name</span>: service-name
+  <span style="color:#66d9ef">metrics</span>:
+  - <span style="color:#66d9ef">name</span>: canary-success-rate
+    <span style="color:#66d9ef">interval</span>: 5m
+    <span style="color:#66d9ef">successCondition</span>: result[<span style="color:#ae81ff">0</span>] &gt;= <span style="color:#ae81ff">0.9</span>
+    <span style="color:#66d9ef">failureLimit</span>: <span style="color:#ae81ff">2</span>
+    <span style="color:#66d9ef">provider</span>:
+      <span style="color:#66d9ef">prometheus</span>:
+        <span style="color:#66d9ef">address</span>: http://prometheus.kube-ops.svc.cluster.local
+        <span style="color:#66d9ef">query</span>: <span style="color:#e6db74">|
+</span><span style="color:#e6db74">          sum(irate(gin_metric_handler_http_responses_status_total{code = &#34;200&#34;,kubernetes_name = &#34;{{args.service-name}}&#34;}[5m])) /</span>
+          sum(irate(gin_metric_handler_http_responses_status_total{kubernetes_name = <span style="color:#e6db74">&#34;{{args.service-name}}&#34;</span>}[5m]))
+<span style="color:#75715e"># Kustomization</span>
+<span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
+<span style="color:#66d9ef">kind</span>: Kustomization
+<span style="color:#66d9ef">resources</span>:
+- ../../base
+- canary-rollout.yaml
+- canary-service.yaml
+- canary-success-rate.yaml
+
+<span style="color:#66d9ef">namespace</span>: staging
+<span style="color:#66d9ef">images</span>:
+- <span style="color:#66d9ef">name</span>: ccr.ccs.tencentyun.com/shovel/shovel-rollouts
+  <span style="color:#66d9ef">newTag</span>: <span style="color:#ae81ff">0.0.2</span>
+</code></pre></div><h3 id="blue-green-analysis蓝绿分析">Blue-Green-Analysis(蓝绿分析)</h3>
+<p>这里我们使用BlueGreen Pre Promotion结合BlueGreen部署，如下所示，配置了一个Rollout，与对应的AnalysisTemplate，Service与Preview-Service。Rollout对新版本应用进行BlueGreen部署时，会创建一个新的ReplicaSet部署新版本应用，并修改Preview-Service使其selector的目标为我们创建的新版本应用。此时，AnalysisRun基于AnalysisTemplate，对Preview-Service进行冒烟测试并阻塞Blue-Green切换，直到AnalysisRun完成测试，AnalysisRun的测试结果决定了Rollout 是切换流量或者还是完全中止Rollout。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># Rollout</span>
+<span style="color:#66d9ef">apiVersion</span>: argoproj.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: Rollout
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: saken-bluegreen
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">replicas</span>: <span style="color:#ae81ff">3</span>
+  <span style="color:#66d9ef">revisionHistoryLimit</span>: <span style="color:#ae81ff">1</span>
+  <span style="color:#66d9ef">strategy</span>:
+    <span style="color:#66d9ef">blueGreen</span>:
+      <span style="color:#66d9ef">activeService</span>: saken-bluegreen-lb
+      <span style="color:#66d9ef">previewService</span>: saken-bluegreen-preview-lb
+      <span style="color:#66d9ef">prePromotionAnalysis</span>:
+        <span style="color:#66d9ef">templates</span>:
+        - <span style="color:#66d9ef">templateName</span>: bluegreen-smoke-test
+        <span style="color:#66d9ef">args</span>:
+        - <span style="color:#66d9ef">name</span>: service-name
+          <span style="color:#66d9ef">value</span>: saken-bluegreen-preview-lb
+  <span style="color:#66d9ef">selector</span>:
+    <span style="color:#66d9ef">matchLabels</span>:
+      <span style="color:#66d9ef">app</span>: saken-bluegreen
+  <span style="color:#66d9ef">template</span>:
+    <span style="color:#66d9ef">metadata</span>:
+      <span style="color:#66d9ef">labels</span>:
+        <span style="color:#66d9ef">app</span>:  saken-bluegreen
+    <span style="color:#66d9ef">spec</span>:
+      <span style="color:#66d9ef">containers</span>:
+      - <span style="color:#66d9ef">name</span>:  saken-bluegreen
+        <span style="color:#66d9ef">image</span>:  ccr.ccs.tencentyun.com/shovel/shovel-rollouts:<span style="color:#ae81ff">0.0.2</span>
+        <span style="color:#66d9ef">resources</span>:
+          <span style="color:#66d9ef">requests</span>:
+            <span style="color:#66d9ef">cpu</span>: 10m
+            <span style="color:#66d9ef">memory</span>: 32Mi
+        <span style="color:#66d9ef">ports</span>:
+        - <span style="color:#66d9ef">containerPort</span>:  <span style="color:#ae81ff">9099</span>
+          <span style="color:#66d9ef">name</span>:  saken-bluegreen
+<span style="color:#75715e"># Service</span>
+<span style="color:#66d9ef">apiVersion</span>: v1
+<span style="color:#66d9ef">kind</span>: Service
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: saken-bluegreen-lb
+  <span style="color:#66d9ef">namespace</span>: default
+  <span style="color:#66d9ef">annotations</span>:
+    <span style="color:#66d9ef">prometheus.io/path</span>: /metrics
+    <span style="color:#66d9ef">prometheus.io/scrape</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">selector</span>:
+    <span style="color:#66d9ef">app</span>: saken-bluegreen
+  <span style="color:#66d9ef">type</span>: ClusterIP
+  <span style="color:#66d9ef">sessionAffinity</span>: None
+  <span style="color:#66d9ef">sessionAffinityConfig</span>:
+    <span style="color:#66d9ef">clientIP</span>:
+      <span style="color:#66d9ef">timeoutSeconds</span>: <span style="color:#ae81ff">10800</span>
+  <span style="color:#66d9ef">ports</span>:
+  - <span style="color:#66d9ef">name</span>: saken-bluegreen
+    <span style="color:#66d9ef">protocol</span>: TCP
+    <span style="color:#66d9ef">port</span>: <span style="color:#ae81ff">80</span>
+    <span style="color:#66d9ef">targetPort</span>: <span style="color:#ae81ff">9099</span>
+<span style="color:#75715e"># Preview-Service</span>
+<span style="color:#66d9ef">apiVersion</span>: v1
+<span style="color:#66d9ef">kind</span>: Service
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: saken-bluegreen-preview-lb
+  <span style="color:#66d9ef">namespace</span>: default
+  <span style="color:#66d9ef">annotations</span>:
+    <span style="color:#66d9ef">prometheus.io/path</span>: /metrics
+    <span style="color:#66d9ef">prometheus.io/scrape</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">selector</span>:
+    <span style="color:#66d9ef">app</span>: saken-bluegreen
+  <span style="color:#66d9ef">type</span>: ClusterIP
+  <span style="color:#66d9ef">sessionAffinity</span>: None
+  <span style="color:#66d9ef">sessionAffinityConfig</span>:
+    <span style="color:#66d9ef">clientIP</span>:
+      <span style="color:#66d9ef">timeoutSeconds</span>: <span style="color:#ae81ff">10800</span>
+  <span style="color:#66d9ef">ports</span>:
+  - <span style="color:#66d9ef">name</span>: saken-bluegreen
+    <span style="color:#66d9ef">protocol</span>: TCP
+    <span style="color:#66d9ef">port</span>: <span style="color:#ae81ff">80</span>
+    <span style="color:#66d9ef">targetPort</span>: <span style="color:#ae81ff">9099</span>
+<span style="color:#75715e"># AnalysisTemplate</span>
+<span style="color:#66d9ef">apiVersion</span>: argoproj.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: AnalysisTemplate
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: bluegreen-smoke-test
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">args</span>:
+  - <span style="color:#66d9ef">name</span>: service-name
+  <span style="color:#66d9ef">metrics</span>:
+  - <span style="color:#66d9ef">name</span>: bluegreen-smoke-test
+    <span style="color:#66d9ef">provider</span>:
+      <span style="color:#66d9ef">job</span>:
+        <span style="color:#66d9ef">spec</span>:
+          <span style="color:#66d9ef">backoffLimit</span>: <span style="color:#ae81ff">1</span>
+          <span style="color:#66d9ef">template</span>:
+            <span style="color:#66d9ef">spec</span>:
+              <span style="color:#66d9ef">containers</span>:
+              - <span style="color:#66d9ef">name</span>: bluegreen-smoke-test
+                <span style="color:#66d9ef">image</span>: alpine
+                <span style="color:#66d9ef">command</span>: 
+                - /bin/sh
+                - -c
+                - <span style="color:#e6db74">|
+</span><span style="color:#e6db74">                - echo &#34;mock smoke test to serivce ...&#34;</span>
+              <span style="color:#66d9ef">restartPolicy</span>: Never
+<span style="color:#75715e"># Kustomization</span>
+<span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
+<span style="color:#66d9ef">kind</span>: Kustomization
+<span style="color:#66d9ef">resources</span>:
+- ../../base
+- bluegreen-rollout.yaml
+- bluegreen-service.yaml
+- bluegreen-service-preview.yaml
+- bluegreen-smoke-test.yaml
+
+<span style="color:#66d9ef">namespace</span>: staging
+<span style="color:#66d9ef">images</span>:
+- <span style="color:#66d9ef">name</span>: ccr.ccs.tencentyun.com/shovel/shovel-rollouts
+  <span style="color:#66d9ef">newTag</span>: <span style="color:#ae81ff">0.0.2</span>
+</code></pre></div><h3 id="项目源码">项目源码</h3>
+<p>可以在Github上获取到此项目的源码：<a href="https://github.com/ChinaLHR/shovel-progressive-delivery-argo-rollouts">https://github.com/ChinaLHR/shovel-progressive-delivery-argo-rollouts</a></p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://argoproj.github.io/argo-rollouts/">Argo Rollouts - Kubernetes Progressive Delivery Controller</a></li>
+<li><a href="https://github.com/argoproj/rollouts-demo">https://github.com/argoproj/rollouts-demo</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/workloads/">https://kubernetes.io/zh-cn/docs/concepts/workloads/</a></li>
+</ul>
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#关于渐进式交付">关于渐进式交付</a>
+          <ul>
+            <li><a href="#什么是渐进式交付">什么是渐进式交付</a></li>
+            <li><a href="#渐进式交付部署策略">渐进式交付部署策略</a></li>
+          </ul>
+        </li>
+        <li><a href="#渐进式交付与kubernetes-workloads">渐进式交付与Kubernetes Workloads</a></li>
+        <li><a href="#argo-rollouts">Argo Rollouts</a>
+          <ul>
+            <li><a href="#argo-rollouts概述">Argo Rollouts概述</a></li>
+            <li><a href="#argo-rollouts-架构">Argo Rollouts 架构</a></li>
+            <li><a href="#安装argo-rollouts">安装Argo Rollouts</a></li>
+          </ul>
+        </li>
+        <li><a href="#基于argo-rollouts的渐进式交付实践">基于Argo Rollouts的渐进式交付实践</a>
+          <ul>
+            <li><a href="#基本使用">基本使用</a></li>
+            <li><a href="#argo-rollout-analysis">Argo Rollout Analysis</a></li>
+            <li><a href="#canary-analysis金丝雀分析">Canary-Analysis(金丝雀分析)</a></li>
+            <li><a href="#blue-green-analysis蓝绿分析">Blue-Green-Analysis(蓝绿分析)</a></li>
+            <li><a href="#项目源码">项目源码</a></li>
+          </ul>
+        </li>
+        <li><a href="#参考">参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
