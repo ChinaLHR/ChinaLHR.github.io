@@ -101,10 +101,10 @@
     
     <item>
       <title>MySql大数据量表分页</title>
-      <link>https://chinalhr.github.io/post/mysql-paging/</link>
+      <link>https://chinalhr.github.io/backup/mysql-paging/</link>
       <pubDate>Thu, 19 Jul 2018 23:37:55 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/mysql-paging/</guid>
+      <guid>https://chinalhr.github.io/backup/mysql-paging/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;MySql分页相关技巧整理&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -123,10 +123,10 @@
     
     <item>
       <title>Mysql主从复制-读写分离</title>
-      <link>https://chinalhr.github.io/post/mysql-proxy/</link>
+      <link>https://chinalhr.github.io/backup/mysql-proxy/</link>
       <pubDate>Wed, 27 Jun 2018 15:54:50 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/mysql-proxy/</guid>
+      <guid>https://chinalhr.github.io/backup/mysql-proxy/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Mysql主从复制，读写分离相关资料整理记录&lt;/p&gt;
 &lt;/blockquote&gt;</description>

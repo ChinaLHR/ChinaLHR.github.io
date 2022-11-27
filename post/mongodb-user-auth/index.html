@@ -189,29 +189,29 @@
 <p>MongoDB用户/权限相关知识点整理</p>
 </blockquote>
 <h3 id="创建管理员账号用于用户管理的账号">创建管理员账号(用于用户管理的账号)</h3>
-<pre><code>use admin
-db.createUser(
-{
-user: &quot;admin&quot;,
-pwd: &quot;123456&quot;,
-roles: [ { role: &quot;userAdminAnyDatabase&quot;, db: &quot;admin&quot;} ]
-}
-)
-</code></pre><h3 id="配置权限认证以认证的方式连接">配置权限认证/以认证的方式连接</h3>
-<pre><code>security:
-  authorization: enabled
-</code></pre><pre><code>mongo -port 27017 -u &quot;admin&quot;  -p &quot;123456&quot; --authenticationDatabase &quot;admin&quot;
-</code></pre><h3 id="为数据库创建账号并指定权限">为数据库创建账号并指定权限</h3>
-<pre><code>db.createUser(
-{
-  user : &quot;my_tester&quot;,
-  pwd : &quot;123456&quot;,
-  roles: [ { role : &quot;readWrite&quot;, db : &quot;test&quot; } ,
-           { role : &quot;read&quot;, db : &quot;test2&quot; } ]
-}
-)
-</code></pre><h3 id="权限说明">权限说明</h3>
-<pre><code># 数据库用户角色
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">use admin
+db<span style="color:#f92672">.</span><span style="color:#a6e22e">createUser</span><span style="color:#f92672">(</span>
+<span style="color:#f92672">{</span>
+user: <span style="color:#e6db74">&#34;admin&#34;</span><span style="color:#f92672">,</span>
+pwd: <span style="color:#e6db74">&#34;123456&#34;</span><span style="color:#f92672">,</span>
+roles: <span style="color:#f92672">[</span> <span style="color:#f92672">{</span> role<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;userAdminAnyDatabase&#34;</span><span style="color:#f92672">,</span> db<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;admin&#34;</span><span style="color:#f92672">}</span> <span style="color:#f92672">]</span>
+<span style="color:#f92672">}</span>
+<span style="color:#f92672">)</span>
+</code></pre></div><h3 id="配置权限认证以认证的方式连接">配置权限认证/以认证的方式连接</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">security</span>:
+  <span style="color:#66d9ef">authorization</span>: enabled
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mongo -port <span style="color:#ae81ff">27017</span> -u <span style="color:#e6db74">&#34;admin&#34;</span>  -p <span style="color:#e6db74">&#34;123456&#34;</span> --authenticationDatabase <span style="color:#e6db74">&#34;admin&#34;</span>
+</code></pre></div><h3 id="为数据库创建账号并指定权限">为数据库创建账号并指定权限</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">db<span style="color:#f92672">.</span><span style="color:#a6e22e">createUser</span><span style="color:#f92672">(</span>
+<span style="color:#f92672">{</span>
+  user <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;my_tester&#34;</span><span style="color:#f92672">,</span>
+  pwd <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;123456&#34;</span><span style="color:#f92672">,</span>
+  roles<span style="color:#f92672">:</span> <span style="color:#f92672">[</span> <span style="color:#f92672">{</span> role <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;readWrite&#34;</span><span style="color:#f92672">,</span> db <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;test&#34;</span> <span style="color:#f92672">}</span> <span style="color:#f92672">,</span>
+           <span style="color:#f92672">{</span> role <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;read&#34;</span><span style="color:#f92672">,</span> db <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;test2&#34;</span> <span style="color:#f92672">}</span> <span style="color:#f92672">]</span>
+<span style="color:#f92672">}</span>
+<span style="color:#f92672">)</span>
+</code></pre></div><h3 id="权限说明">权限说明</h3>
+<pre><code class="language-conf" data-lang="conf"># 数据库用户角色
 read: 只读数据权限
 readWrite:读写数据权限
 

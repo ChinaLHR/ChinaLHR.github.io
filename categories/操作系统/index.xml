@@ -57,10 +57,10 @@
     
     <item>
       <title>Linux Out-Of-Memory killer</title>
-      <link>https://chinalhr.github.io/post/linux-oom/</link>
+      <link>https://chinalhr.github.io/backup/linux-oom/</link>
       <pubDate>Mon, 03 Jun 2019 22:48:25 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/linux-oom/</guid>
+      <guid>https://chinalhr.github.io/backup/linux-oom/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Linux OOM Killer排查记录&lt;/p&gt;
 &lt;/blockquote&gt;</description>

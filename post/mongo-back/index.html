@@ -203,44 +203,44 @@
 <ul>
 <li>dump命令参数</li>
 </ul>
-<pre><code># 命令格式
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 命令格式</span>
 mongodump &lt;options&gt;
 
 
---host &lt;hostname&gt;&lt;:port&gt;, -h &lt;hostname&gt;&lt;:port&gt;  # 指定备份的主机ip和端口号，默认值localhost:27017
---port # 指定端口号 默认27017
+--host &lt;hostname&gt;&lt;:port&gt;, -h &lt;hostname&gt;&lt;:port&gt;  <span style="color:#75715e"># 指定备份的主机ip和端口号，默认值localhost:27017</span>
+--port <span style="color:#75715e"># 指定端口号 默认27017</span>
 
---username &lt;username&gt;, -u &lt;username&gt; # 指定用户名
---password &lt;password&gt;, -p &lt;password&gt; # 指定密码
---authenticationDatabase &lt;dbname&gt; # 指定认证的数据库
---authenticationMechanism &lt;name&gt; # 指定认证的算法 ，默认值 SCRAM-SHA-1
---db &lt;database&gt;, -d &lt;database&gt; # 指定备份的数据库，未指定的话，备份所有的数据库，但不包含local库
---collection &lt;collection&gt;, -c &lt;collection&gt; # 指定备份的集合，未指定则备份指定库中的所有集合。
---query &lt;json&gt;, -q &lt;json&gt;  # 指定 json 作为查询条件。来备份我们过滤后的数据。
---queryFile &lt;path&gt;  # 指定 json 文档路径，以该文档的内容作为查询条件，来备份我们过滤后的数据。
---quit # 通过抑制 MongoDB的复制，连接等活动，来实现备份。
---gzip  # 开启压缩，3.2版本后可以使用，输出为文件的话会带有后缀.gz
---out &lt;path&gt;, -o &lt;path&gt;  # 输出的目录路径
+--username &lt;username&gt;, -u &lt;username&gt; <span style="color:#75715e"># 指定用户名</span>
+--password &lt;password&gt;, -p &lt;password&gt; <span style="color:#75715e"># 指定密码</span>
+--authenticationDatabase &lt;dbname&gt; <span style="color:#75715e"># 指定认证的数据库</span>
+--authenticationMechanism &lt;name&gt; <span style="color:#75715e"># 指定认证的算法 ，默认值 SCRAM-SHA-1</span>
+--db &lt;database&gt;, -d &lt;database&gt; <span style="color:#75715e"># 指定备份的数据库，未指定的话，备份所有的数据库，但不包含local库</span>
+--collection &lt;collection&gt;, -c &lt;collection&gt; <span style="color:#75715e"># 指定备份的集合，未指定则备份指定库中的所有集合。</span>
+--query &lt;json&gt;, -q &lt;json&gt;  <span style="color:#75715e"># 指定 json 作为查询条件。来备份我们过滤后的数据。</span>
+--queryFile &lt;path&gt;  <span style="color:#75715e"># 指定 json 文档路径，以该文档的内容作为查询条件，来备份我们过滤后的数据。</span>
+--quit <span style="color:#75715e"># 通过抑制 MongoDB的复制，连接等活动，来实现备份。</span>
+--gzip  <span style="color:#75715e"># 开启压缩，3.2版本后可以使用，输出为文件的话会带有后缀.gz</span>
+--out &lt;path&gt;, -o &lt;path&gt;  <span style="color:#75715e"># 输出的目录路径</span>
 
---repir # 修复数据时使用 下面有详细介绍
---oplog # mongodump 会将 mongodump 执行期间的 oplog 日志 输出到文件 oplog.bson，这就意味着从备份开始到备份结束的数据操作我们都可以记录下来。
---archive &lt;file&gt; # 输出到单个存档文件或者是直接输出。
-
-
---dumpDbUsersAndRoles # 只有在 使用 --db 时才适用，备份数据库的包含的用户和角色。
---excludeCollection string # 排除指定的集合，如果要排除多个，使用多个--excludeCollection 
---numParallelCollections int, -j int # 并行导出的集合数，默认为4
+--repir <span style="color:#75715e"># 修复数据时使用 下面有详细介绍</span>
+--oplog <span style="color:#75715e"># mongodump 会将 mongodump 执行期间的 oplog 日志 输出到文件 oplog.bson，这就意味着从备份开始到备份结束的数据操作我们都可以记录下来。</span>
+--archive &lt;file&gt; <span style="color:#75715e"># 输出到单个存档文件或者是直接输出。</span>
 
 
---ssl  # 指定 TLS/SSL 协议
---sslCAFile filename # 指定认证文件名
+--dumpDbUsersAndRoles <span style="color:#75715e"># 只有在 使用 --db 时才适用，备份数据库的包含的用户和角色。</span>
+--excludeCollection string <span style="color:#75715e"># 排除指定的集合，如果要排除多个，使用多个--excludeCollection</span> 
+--numParallelCollections int, -j int <span style="color:#75715e"># 并行导出的集合数，默认为4</span>
+
+
+--ssl  <span style="color:#75715e"># 指定 TLS/SSL 协议</span>
+--sslCAFile filename <span style="color:#75715e"># 指定认证文件名</span>
 --sslPEMKeyFile &lt;filename&gt;
 --sslPEMKeyPassword &lt;value&gt;
 --sslCRLFile &lt;filename&gt;
 --sslAllowInvalidCertificates
 --sslAllowInvalidHostnames
 --sslFIPSMode
-</code></pre><p>可以通过mongodump &ndash;help查看options</p>
+</code></pre></div><p>可以通过mongodump &ndash;help查看options</p>
 <h3 id="系统快照">系统快照</h3>
 <p>如果MongoDB是部署在阿里云ECS之类的云服务器，可以利用系统快照与生成策略进行定时备份。</p>
 <h3 id="cp-or-rsync">cp or rsync</h3>
@@ -252,31 +252,31 @@ mongodump &lt;options&gt;
 <ul>
 <li>restore命令参数</li>
 </ul>
-<pre><code>mongorestore &lt;options&gt; &lt;directory or file to restore&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mongorestore &lt;options&gt; &lt;directory or file to restore&gt;
   
---help # 查看帮助
---quiet # 通过抑制 MongoDB的复制，连接等活动，来实现数据恢复。
+--help <span style="color:#75715e"># 查看帮助</span>
+--quiet <span style="color:#75715e"># 通过抑制 MongoDB的复制，连接等活动，来实现数据恢复。</span>
 
---host &lt;hostname&gt;&lt;:port&gt;, -h &lt;hostname&gt;&lt;:port&gt;  # 指定恢复的主机ip和端口号，默认值localhost:27017
---port # 指定端口号 默认27017
+--host &lt;hostname&gt;&lt;:port&gt;, -h &lt;hostname&gt;&lt;:port&gt;  <span style="color:#75715e"># 指定恢复的主机ip和端口号，默认值localhost:27017</span>
+--port <span style="color:#75715e"># 指定端口号 默认27017</span>
 
---username &lt;username&gt;, -u &lt;username&gt; # 指定用户名
---password &lt;password&gt;, -p &lt;password&gt; # 指定密码
---authenticationDatabase &lt;dbname&gt; # 指定认证的数据库
---authenticationMechanism &lt;name&gt; # 指定认证的算法 ，默认值 SCRAM-SHA-1
---objcheck # 开启验证，验证还原操作，确保没有无效的文档插入数据库。会有较小的性能影响
---oplogReplay # 恢复备份数据并将 mongodump 执行期间的操作(记录在导出的日志)恢复。
---oplogLimit  # 指定恢复
---oplogFile # 指定 Oplog 路径
---keepIndexVersion # 阻止mongorestore在还原过程中将索引升级到最新版本。
---restoreDbUsersAndRoles # 还原指定的数据库用户和角色。
---maintainInsertionOrder # 默认值为False,如果为 True,mongorestore 将按照输入源的文档顺序插入，否则是 随机执行插入。
---numParallelCollections int, -j int # 指定并行恢复的集合数。
---numInsertionWorkersPerCollection int # 默认值为 1，指定每个集合恢复的并发数，大数据量导入增加该值可提高 恢复速度。
---gzip # 从压缩文档中 恢复。
---archive # 从归档文件中恢复。
---dir # 指定还原数据储存目录。
-</code></pre><p>可以通过mongorestore &ndash;help查看options</p>
+--username &lt;username&gt;, -u &lt;username&gt; <span style="color:#75715e"># 指定用户名</span>
+--password &lt;password&gt;, -p &lt;password&gt; <span style="color:#75715e"># 指定密码</span>
+--authenticationDatabase &lt;dbname&gt; <span style="color:#75715e"># 指定认证的数据库</span>
+--authenticationMechanism &lt;name&gt; <span style="color:#75715e"># 指定认证的算法 ，默认值 SCRAM-SHA-1</span>
+--objcheck <span style="color:#75715e"># 开启验证，验证还原操作，确保没有无效的文档插入数据库。会有较小的性能影响</span>
+--oplogReplay <span style="color:#75715e"># 恢复备份数据并将 mongodump 执行期间的操作(记录在导出的日志)恢复。</span>
+--oplogLimit  <span style="color:#75715e"># 指定恢复</span>
+--oplogFile <span style="color:#75715e"># 指定 Oplog 路径</span>
+--keepIndexVersion <span style="color:#75715e"># 阻止mongorestore在还原过程中将索引升级到最新版本。</span>
+--restoreDbUsersAndRoles <span style="color:#75715e"># 还原指定的数据库用户和角色。</span>
+--maintainInsertionOrder <span style="color:#75715e"># 默认值为False,如果为 True,mongorestore 将按照输入源的文档顺序插入，否则是 随机执行插入。</span>
+--numParallelCollections int, -j int <span style="color:#75715e"># 指定并行恢复的集合数。</span>
+--numInsertionWorkersPerCollection int <span style="color:#75715e"># 默认值为 1，指定每个集合恢复的并发数，大数据量导入增加该值可提高 恢复速度。</span>
+--gzip <span style="color:#75715e"># 从压缩文档中 恢复。</span>
+--archive <span style="color:#75715e"># 从归档文件中恢复。</span>
+--dir <span style="color:#75715e"># 指定还原数据储存目录。</span>
+</code></pre></div><p>可以通过mongorestore &ndash;help查看options</p>
 <h2 id="mongodb定时备份shell脚本实现">MongoDB定时备份Shell脚本实现</h2>
 <p>可以通过Shell脚本与linux的crontab实现定时备份，目的是做到如下几点：</p>
 <ul>

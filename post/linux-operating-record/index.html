@@ -574,29 +574,90 @@ echo <span style="color:#f92672">{</span>0..9<span style="color:#f92672">}</span
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 配合find使用</span>
 find . -name <span style="color:#e6db74">&#39;datasource.properties&#39;</span> |xargs -t cat
-</code></pre></div><h4 id="防火墙">防火墙</h4>
-<p>centos7防火墙相关操作：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">1.查看已开放的端口<span style="color:#f92672">(</span>默认不开放任何端口<span style="color:#f92672">)</span>
-firewall-cmd --list-ports
-2.开启80端口
-firewall-cmd --zone<span style="color:#f92672">=</span>public<span style="color:#f92672">(</span>作用域<span style="color:#f92672">)</span> --add-port<span style="color:#f92672">=</span>80/tcp<span style="color:#f92672">(</span>端口和访问类型<span style="color:#f92672">)</span> --permanent<span style="color:#f92672">(</span>永久生效<span style="color:#f92672">)</span>
-firewall-cmd --zone<span style="color:#f92672">=</span>public --add-port<span style="color:#f92672">=</span>80/tcp --permanent
-3.重启防火墙
-firewall-cmd --reload
-4.停止防火墙
-systemctl stop firewalld.service
-5.禁止防火墙开机启动
-systemctl disable firewalld.service
-6.删除
-firewall-cmd --zone<span style="color:#f92672">=</span> public --remove-port<span style="color:#f92672">=</span>80/tcp --permanent
+</code></pre></div><h4 id="dig">dig</h4>
+<p><code>dig</code> 命令代表Domain Information Groper，它用于检索有关DNS Name Server信息。</p>
+<ul>
+<li>命令格式</li>
+</ul>
+<pre><code>dig [server] [name] [type]
+</code></pre><ul>
+<li>dig输出</li>
+</ul>
+<pre><code>❯ dig baidu.com
+# 显示dig版本信息基于本次查询信息
+; &lt;&lt;&gt;&gt; DiG 9.16.1-Ubuntu &lt;&lt;&gt;&gt; baidu.com
+# 全局设置，默认情况为cmd
+;; global options: +cmd
+# Got Answer应答包括从请求授权后来自DNS服务器应答的详细信息:opcode（操作码），status（操作状态），
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 63113
+;; flags: qr rd ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 0
+;; WARNING: recursion requested but not available
 
-</code></pre></div><h4 id="其他">其他</h4>
-<pre><code>如何删除大文件(正在写入的大文件)，会释放占用的磁盘
-echo &quot;&quot; &gt; filename
+# QUESTION 显示我们的查询QUESTION的部分。默认情况下，dig会请求A记录，可以使用+noquestion选项禁用此部分。
+;; QUESTION SECTION:
+;baidu.com.                     IN      A
 
-查看文件的大小
-du -ms filename
-</code></pre><h3 id="处理数据相关">处理数据相关</h3>
+# ANSWER 查询结果
+;; ANSWER SECTION:
+baidu.com.              0       IN      A       110.242.68.66
+baidu.com.              0       IN      A       39.156.66.10
+
+# 查询统计信息，如用时，使用的DNS Server...
+;; Query time: 20 msec
+;; SERVER: 172.23.16.1#53(172.23.16.1)
+;; WHEN: Mon Nov 21 15:48:08 CST 2022
+;; MSG SIZE  rcvd: 68
+</code></pre><ul>
+<li>示例</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 仅输出简短结果</span>
+&gt; dig baidu.com +short
+39.156.66.10
+110.242.68.66
+
+<span style="color:#75715e"># 关闭其他，仅输出详细的应答ANSWER</span>
+&gt; dig baidu.com +noall +answer
+baidu.com.              <span style="color:#ae81ff">0</span>       IN      A       39.156.66.10
+baidu.com.              <span style="color:#ae81ff">0</span>       IN      A       110.242.68.66
+
+<span style="color:#75715e"># 指定域名服务器查询</span>
+&gt; dig @8.8.8.8 baidu.com +noall +answer
+baidu.com.              <span style="color:#ae81ff">328</span>     IN      A       39.156.66.10
+baidu.com.              <span style="color:#ae81ff">328</span>     IN      A       110.242.68.66
+
+<span style="color:#75715e"># 查询CNAME记录，可以使用相同方式查询A/TXT/MX记录</span>
+&gt; dig mail.163.com cname +nocmd +noall +answer
+mail.163.com.           <span style="color:#ae81ff">0</span>       IN      CNAME   ntes53.mail.163.com.
+
+<span style="color:#75715e"># 使用ANY 查询所有DNS记录信息</span>
+&gt; dig @8.8.8.8 baidu.com +nocmd +noall +answer ANY
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      SOA     dns.baidu.com. sa.baidu.com. <span style="color:#ae81ff">2012145947</span> <span style="color:#ae81ff">300</span> <span style="color:#ae81ff">300</span> <span style="color:#ae81ff">2592000</span> <span style="color:#ae81ff">7200</span>
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      TXT     <span style="color:#e6db74">&#34;v=spf1 include:spf1.baidu.com include:spf2.baidu.com include:spf3.baidu.com include:spf4.baidu.com a mx ptr -all&#34;</span>
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      TXT     <span style="color:#e6db74">&#34;google-site-verification=GHb98-6msqyx_qqjGl5eRatD3QTHyVB6-xQ3gJB5UwM&#34;</span>
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      TXT     <span style="color:#e6db74">&#34;_globalsign-domain-verification=qjb28W2jJSrWj04NHpB0CvgK9tle5JkOq-EcyWBgnE&#34;</span>
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      MX      <span style="color:#ae81ff">20</span> usmx01.baidu.com.
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      MX      <span style="color:#ae81ff">20</span> mx1.baidu.com.
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      MX      <span style="color:#ae81ff">10</span> mx.maillb.baidu.com.
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      MX      <span style="color:#ae81ff">15</span> mx.n.shifen.com.
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      MX      <span style="color:#ae81ff">20</span> jpmx.baidu.com.
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      MX      <span style="color:#ae81ff">20</span> mx50.baidu.com.
+baidu.com.              <span style="color:#ae81ff">379</span>     IN      A       39.156.66.10
+baidu.com.              <span style="color:#ae81ff">379</span>     IN      A       110.242.68.66
+baidu.com.              <span style="color:#ae81ff">21379</span>   IN      NS      ns2.baidu.com.
+baidu.com.              <span style="color:#ae81ff">21379</span>   IN      NS      dns.baidu.com.
+baidu.com.              <span style="color:#ae81ff">21379</span>   IN      NS      ns4.baidu.com.
+baidu.com.              <span style="color:#ae81ff">21379</span>   IN      NS      ns3.baidu.com.
+baidu.com.              <span style="color:#ae81ff">21379</span>   IN      NS      ns7.baidu.com.
+
+<span style="color:#75715e"># 使用trace 跟踪DNS查找路径。行迭代查询，将查询从根开始的名称服务器，然后沿途使用引用之后的迭代查询向下遍历命名空间树。</span>
+&gt; dig @8.8.8.8 baidu.com +nocmd +noall +answer +trace
+...
+
+<span style="color:#75715e"># 反向DNS，使用-x 查询与指定IP地址关联的主机名</span>
+&gt; dig -x 8.8.8.8 +noall +answer
+8.8.8.8.in-addr.arpa.   <span style="color:#ae81ff">0</span>       IN      PTR     dns.google.
+</code></pre></div><h3 id="处理数据相关">处理数据相关</h3>
 <h4 id="排序sort">排序(sort)</h4>
 <ul>
 <li>命令格式</li>
@@ -832,264 +893,6 @@ tar -ztvf log.tar.gz
 tar -zxvf log.tar.gz
 # 排除文件夹不进行打包 
 tar --exclude api/service -zcvf api.tar.gz api/* 
-</code></pre><h3 id="排查">排查</h3>
-<h4 id="排查java-cpu占用问题">排查Java CPU占用问题</h4>
-<p>1.0</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># top命令，定位高CPU占用Java进程PID</span>
-top -c <span style="color:#f92672">(</span>将系统资源使用情况实时显示出来<span style="color:#f92672">)</span> P<span style="color:#f92672">(</span>输入大写 P 将应用按照 CPU 使用率排序，第一个为使用率最高的<span style="color:#f92672">)</span>
-<span style="color:#75715e"># 显示线程列表(查看占用CPU时间,占用时间，TID)</span>
-ps -mp pid -o THREAD,tid,time
-<span style="color:#75715e"># 将线程ID TID转换为16进制</span>
-printf “%x<span style="color:#ae81ff">\n</span>” tid
-<span style="color:#75715e"># 使用jstack打印线程堆栈信息(pid=进程id tid=我们转换的tid)</span>
-.../jvm/jstack pid |grep tid -A <span style="color:#ae81ff">60</span>
-</code></pre></div><p>2.0</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">1. top -c 将系统资源使用情况实时显示出来 （-c 参数可以完整显示命令）大写 P 将应用按照 CPU 使用率排序，第一个就是使用率最高的程序。
-2.  top -Hp pid 然后输入 P 依然可以按照 CPU 使用率将线程排序。
-3. 将线程ID TID转换为16进制printf “%x<span style="color:#ae81ff">\n</span>” tid。
-4. 通过 jstack pid &gt;pid.log 生成日志文件，利用刚才保存的 <span style="color:#ae81ff">16</span> 进制进程 ID 去这个线程快照中搜索即可查看消耗 CPU 的线程日志。 
-5. jstat -gcutil pid <span style="color:#ae81ff">200</span> <span style="color:#ae81ff">50</span> 将内存使用、gc 回收状况打印出来（每隔 200ms 打印 50次）。
-6. 
-</code></pre></div><h4 id="排查java高内存占用问题">排查Java高内存占用问题</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 查看当前Java进程创建的活跃对象数目和占用内存大小</span>
-jmap -histo:live <span style="color:#f92672">[</span>pid<span style="color:#f92672">]</span> &gt;a.log
-<span style="color:#75715e"># 当前Java进程的内存占用情况导出来，方便用专门的内存分析工具（例如：MAT）来分析。</span>
-jmap -dump:live,format<span style="color:#f92672">=</span>b,file<span style="color:#f92672">=</span>xxx.xxx <span style="color:#f92672">[</span>pid<span style="color:#f92672">]</span>
-</code></pre></div><h3 id="阿里云相关">阿里云相关</h3>
-<h4 id="挂载ecs数据盘">挂载ecs数据盘</h4>
-<ul>
-<li>先将数据盘挂载到实例上</li>
-<li>分区</li>
-</ul>
-<pre><code>fdisk /dev/vdb
-Command n [新建分区]
-Command p [选择分区类型为主分区]
-Selected partition 1 [选择分区号]
-Command w [退出]
-</code></pre><ul>
-<li>格式化</li>
-</ul>
-<pre><code>mkfs.ext4 /dev/vdb1
-</code></pre><ul>
-<li>修改 /etc/fstab</li>
-</ul>
-<pre><code>cp /etc/fstab /etc/fstab.bak
-
-mkdir -p /data
-echo /dev/vdb1 /data ext4 defaults 0 0 &gt;&gt; /etc/fstab
-</code></pre><ul>
-<li>将分区挂载到对应的文件系统路径下</li>
-</ul>
-<pre><code>mount /dev/vdb1 /data
-</code></pre><h4 id="阿里云数据盘扩容操作">阿里云数据盘扩容操作</h4>
-<ul>
-<li>控制台操作对数据盘进行扩容</li>
-<li>重启机器</li>
-<li>确认分区和文件系统</li>
-</ul>
-<pre><code># 确认磁盘是否分区(fdisk -lu &lt;DeviceName&gt;)
-fdisk -lu /dev/vdb
-
-展示如下:
-Device Boot      Start         End      Blocks   Id  System
-/dev/vdb1              63  1048575023   524287480+  83  Linux
-
-# 确认文件系统(blkid &lt;PartionName&gt;)
-blkid /dev/vdb1
-
-/dev/vdb1: UUID=&quot;...&quot; TYPE=&quot;ext4&quot;
-
-# 确认文件系统状态为clean
-e2fsck -n /dev/vdb1
-</code></pre><ul>
-<li>卸载数据盘(原先/dev/vdb1是挂载到/data的)</li>
-</ul>
-<pre><code>umount /data
-</code></pre><ul>
-<li>扩展已有分区</li>
-</ul>
-<pre><code># 显示并记录旧分区的起始和结束的扇区位置
-fdisk -lu /dev/vdb
-
-# 删除旧分区
-fdisk -u /dev/vdb
-Command p [打印分区表]
-Command d [删除分区]
-Selected partition 1 [选择分区号]
-Command w [退出]
-
-# 新建分区
-fdisk -u /dev/vdb
-Command p [打印分区表]
-Command n [新建分区]
-Command p [选择分区类型为主分区]
-Selected partition 1 [选择分区号]
-Command w [退出]
-
-# lsblk /dev/vdb确认分区表,显示如下 500G-&gt;1000G
-NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
-vdb    252:16   0 1000G  0 disk 
-└─vdb1 252:17   0 1000G  0 part 
-
-# 确认文件系统状态为clean
-e2fsck -n /dev/vdb1
-
-# 内核版本 ≥ 3.6的，通知内核更新分区表
-partprobe &lt;dst_dev_path&gt;或者partx -u &lt;dst_dev_path&gt;
-</code></pre><ul>
-<li>扩容文件系统</li>
-</ul>
-<pre><code># 检测并修复文件系统的完整性
-e2fsck -f /dev/vdb1
-
-# 增大文件系统的大小
-resize2fs -f /dev/vdb1
-
-# 重新挂载/data
-mount /dev/vdb1 /data
-</code></pre><h3 id="centos环境相关配置">Centos环境相关配置</h3>
-<h4 id="docker">Docker</h4>
-<pre><code># 查看当前的内核版本(需要3.1.0以上版本)
-uname -r
-
-# 更新yum包
-sudo yum update
-
-# 安装需要的软件包
-sudo yum install -y yum-utils device-mapper-persistent-data lvm2
-
-# 设置yum源
-sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-
-# 可以查看所有仓库中所有docker版本，并选择特定版本安装
-yum list docker-ce --showduplicates | sort -r
-
-# 安装docker
-sudo yum install docker-ce
-sudo yum install &lt;FQPN docker-ce.x86_64 3:19.03.5-3.el7&gt;
-
-# 启动并加入开机启动
-sudo systemctl start docker
-sudo systemctl enable docker
-
-# 验证
-docker version
-
-# 命令
-sudo systemctl stop docker
-sudo systemctl start docker
-
-# 镜像加速器
-## 七牛云加速器 https://reg-mirror.qiniu.com/Azure 中国镜像 https://dockerhub.azk8s.cn
-
-vim /etc/docker/daemon.json
-
-## 加入镜像地址
-
-{
-  &quot;registry-mirrors&quot;: [
-    &quot;https://dockerhub.azk8s.cn&quot;,
-    &quot;https://reg-mirror.qiniu.com&quot;
-  ]
-}
-
-## 重启服务
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-
-## docker info查看Registry Mirrors配置
-</code></pre><h4 id="openjdk18">OpenJDK1.8</h4>
-<pre><code>yum -y install java-1.8.0-openjdk java-1.8.0-openjdk-devel
-
-# 获取java home
-dirname $(readlink $(readlink $(which java))) 
-
-# 设置环境变量
-vim /etc/profile.d/env_export.sh
-export JAVA_HOME=上面dirname命令获取到的路径，去掉/jre/bin最后这段
-export PATH=$PATH:$JAVA_HOME/bin
-export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
-
-# 使设置立即生效
-source /etc/profile.d/env_export.sh
-</code></pre><h4 id="nginx">Nginx</h4>
-<pre><code># 配置 EPEL源
-sudo yum install -y epel-release
-sudo yum -y update
-
-# 安装Nginx
-sudo yum install -y nginx
-
-# 常用命令
-systemctl enable nginx.service	设置开机启动
-systemctl disable nginx.service	停止开机自启动
-systemctl start nginx.service	启动nginx服务
-systemctl status nginx.service	查看服务当前状态
-systemctl restart nginx.service	重新启动服务
-systemctl list-units --type=service	查看所有已启动的服务
-
-nginx -s reload
-nginx -s stop
-nginx -s quit
-nginx -t
-service nginx start
-</code></pre><h4 id="mongodb">mongoDB</h4>
-<pre><code># 配置MongoDB的yum源
-#cd /etc/yum.repos.d 
-#vim mongodb-org-4.2.repo
-
-# 添加阿里云源
-
-[mngodb-org]
-name=MongoDB Repository
-baseurl=http://mirrors.aliyun.com/mongodb/yum/redhat/7Server/mongodb-org/4.0/x86_64/
-gpgcheck=0
-enabled=1
-
-# 安装
-yum install -y mongodb-org
-
-# 常用命令
-
-/usr/bin/mongod --config /etc/mongod.conf #启动
-/usr/bin/mongod --shutdown --config /etc/mongod.conf #停止
-mongo 						#进入控制台
-</code></pre><h4 id="maven">maven</h4>
-<pre><code># 下载maven
-wget http://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
-
-# 解压安装
-tar -zxvf apache-maven-3.3.9-bin.tar.gz 
-
-# 配置环境变量
-vim /etc/profile
-
-M2_HOME=/opt/tools/apache-maven-3.3.9
-export PATH=${M2_HOME}/bin:${PATH}
-
-# 重载/etc/profile
-source /etc/profile
-</code></pre><h4 id="nodejs">Node.js</h4>
-<pre><code># 确认系统是否已经安装了epel-release包
-yum info epel-release
-# 安装epel-release
-yum install epel-release
-# 安装node.js
-sudo yum install nodejs
-# 安装n（node 版本管理器）
-npm install -g n
-# 安装最新版本
-n latest
-# 安装指定版本
-n 8.11.3
-# 选择已安装的版本
-n
-</code></pre><h4 id="其他-1">其他</h4>
-<pre><code># 修改主机名
-hostnamectl set-hostname name
-
-# 修改ssh端口
-vim /etc/ssh/sshd_config（修改Port值）
 </code></pre><h3 id="链接">链接</h3>
 <p><a href="https://www.cnblogs.com/peida/tag/%E6%AF%8F%E6%97%A5%E4%B8%80linux%E5%91%BD%E4%BB%A4/">每日一linux命令</a></p>
         </p>
@@ -1125,8 +928,7 @@ vim /etc/ssh/sshd_config（修改Port值）
                 <li><a href="#nohup和后台运行">nohup和&amp;(后台运行)</a></li>
                 <li><a href="#trap">trap</a></li>
                 <li><a href="#xargs">xargs</a></li>
-                <li><a href="#防火墙">防火墙</a></li>
-                <li><a href="#其他">其他</a></li>
+                <li><a href="#dig">dig</a></li>
               </ul>
             </li>
             <li><a href="#处理数据相关">处理数据相关</a>
@@ -1135,29 +937,6 @@ vim /etc/ssh/sshd_config（修改Port值）
                 <li><a href="#搜索数据grep">搜索数据(grep)</a></li>
                 <li><a href="#压缩数据gzip">压缩数据(gzip)</a></li>
                 <li><a href="#归档数据tar">归档数据(tar)</a></li>
-              </ul>
-            </li>
-            <li><a href="#排查">排查</a>
-              <ul>
-                <li><a href="#排查java-cpu占用问题">排查Java CPU占用问题</a></li>
-                <li><a href="#排查java高内存占用问题">排查Java高内存占用问题</a></li>
-              </ul>
-            </li>
-            <li><a href="#阿里云相关">阿里云相关</a>
-              <ul>
-                <li><a href="#挂载ecs数据盘">挂载ecs数据盘</a></li>
-                <li><a href="#阿里云数据盘扩容操作">阿里云数据盘扩容操作</a></li>
-              </ul>
-            </li>
-            <li><a href="#centos环境相关配置">Centos环境相关配置</a>
-              <ul>
-                <li><a href="#docker">Docker</a></li>
-                <li><a href="#openjdk18">OpenJDK1.8</a></li>
-                <li><a href="#nginx">Nginx</a></li>
-                <li><a href="#mongodb">mongoDB</a></li>
-                <li><a href="#maven">maven</a></li>
-                <li><a href="#nodejs">Node.js</a></li>
-                <li><a href="#其他-1">其他</a></li>
               </ul>
             </li>
             <li><a href="#链接">链接</a></li>

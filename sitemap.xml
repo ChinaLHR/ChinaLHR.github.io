@@ -388,7 +388,12 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/algorithm-shuffle/</loc>
+    <loc>https://chinalhr.github.io/backup/</loc>
+    <lastmod>2019-07-31T21:13:12+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/backup/algorithm-shuffle/</loc>
     <lastmod>2019-07-31T21:13:12+08:00</lastmod>
   </url>
   
@@ -433,7 +438,7 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/linux-oom/</loc>
+    <loc>https://chinalhr.github.io/backup/linux-oom/</loc>
     <lastmod>2019-06-03T22:48:25+08:00</lastmod>
   </url>
   
@@ -443,7 +448,7 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/vertx-kotlin-coroutine/</loc>
+    <loc>https://chinalhr.github.io/backup/vertx-kotlin-coroutine/</loc>
     <lastmod>2019-05-23T21:59:46+08:00</lastmod>
   </url>
   
@@ -578,7 +583,7 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/mybatis-shard-plugin/</loc>
+    <loc>https://chinalhr.github.io/backup/mybatis-shard-plugin/</loc>
     <lastmod>2018-11-12T22:51:04+08:00</lastmod>
   </url>
   
@@ -593,17 +598,17 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/code-optimize/</loc>
+    <loc>https://chinalhr.github.io/backup/code-optimize/</loc>
     <lastmod>2018-11-03T21:44:31+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/highavailability-httpclient/</loc>
+    <loc>https://chinalhr.github.io/backup/highavailability-httpclient/</loc>
     <lastmod>2018-10-17T22:48:08+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/joda-datetime-record/</loc>
+    <loc>https://chinalhr.github.io/backup/joda-datetime-record/</loc>
     <lastmod>2018-10-04T23:40:13+08:00</lastmod>
   </url>
   
@@ -623,12 +628,12 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/mysql-paging/</loc>
+    <loc>https://chinalhr.github.io/backup/mysql-paging/</loc>
     <lastmod>2018-07-19T23:37:55+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/java-supplier-predicate-consumer/</loc>
+    <loc>https://chinalhr.github.io/backup/java-supplier-predicate-consumer/</loc>
     <lastmod>2018-07-11T21:19:59+08:00</lastmod>
   </url>
   
@@ -638,17 +643,17 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/git-basic/</loc>
+    <loc>https://chinalhr.github.io/backup/git-basic/</loc>
     <lastmod>2018-07-08T15:49:09+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/mysql-proxy/</loc>
+    <loc>https://chinalhr.github.io/backup/mysql-proxy/</loc>
     <lastmod>2018-06-27T15:54:50+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/java-system-structure/</loc>
+    <loc>https://chinalhr.github.io/backup/java-system-structure/</loc>
     <lastmod>2018-06-25T12:07:03+08:00</lastmod>
   </url>
   

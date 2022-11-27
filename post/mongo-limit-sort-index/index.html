@@ -193,34 +193,34 @@
 <li>limit offset分页方法</li>
 </ul>
 <p>MonogDB实现分页</p>
-<pre><code>入参 pageNum=1 pageSize=5
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">入参 pageNum<span style="color:#f92672">=</span>1 pageSize<span style="color:#f92672">=</span>5
 
-skip()方法来跳过指定数量的数据
-limit()方法来读取指定数量的数据
+<span style="color:#a6e22e">skip</span><span style="color:#f92672">()</span>方法来跳过指定数量的数据
+<span style="color:#a6e22e">limit</span><span style="color:#f92672">()</span>方法来读取指定数量的数据
 
-利用skip(pageSize*(n-1)).limit(pageSize)实现分页
+<span style="color:#a6e22e">利用skip</span><span style="color:#f92672">(</span>pageSize<span style="color:#f92672">*(</span>n<span style="color:#f92672">-</span>1<span style="color:#f92672">)).</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>pageSize<span style="color:#f92672">)</span>实现分页
 
-当pageNum=1 pageSize=5
-db.getCollection('user').find().skip(0).limit(5)
-当pageNum=2 pageSize=5
-db.getCollection('user').find().skip(5).limit(5)
-</code></pre><p>缺陷：会进行Table Scan,扫描全部文档再返回结果，数据量大的时候会出现慢查询问题。</p>
+当pageNum<span style="color:#f92672">=</span>1 pageSize<span style="color:#f92672">=</span>5
+db<span style="color:#f92672">.</span><span style="color:#a6e22e">getCollection</span><span style="color:#f92672">(</span><span style="color:#960050;background-color:#1e0010">&#39;</span>user<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">find</span><span style="color:#f92672">().</span><span style="color:#a6e22e">skip</span><span style="color:#f92672">(</span>0<span style="color:#f92672">).</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>
+当pageNum<span style="color:#f92672">=</span>2 pageSize<span style="color:#f92672">=</span>5
+db<span style="color:#f92672">.</span><span style="color:#a6e22e">getCollection</span><span style="color:#f92672">(</span><span style="color:#960050;background-color:#1e0010">&#39;</span>user<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">find</span><span style="color:#f92672">().</span><span style="color:#a6e22e">skip</span><span style="color:#f92672">(</span>5<span style="color:#f92672">).</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>
+</code></pre></div><p>缺陷：会进行Table Scan,扫描全部文档再返回结果，数据量大的时候会出现慢查询问题。</p>
 <ul>
 <li>Seek Method分页方法</li>
 </ul>
 <p>seek method方式翻页,只用find + limit，不再使用skip,在find中加了一个条件：上一批的最后一个document的_id(比较的基准字段可以是任何有序的字段，例如时间戳，该字段必须有Index才有意义)</p>
-<pre><code>//第一页
-db.users.find().limit(pageSize);
-//找到此页面中最后一个文档的ID为lastId
-last_id = ...
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//第一页
+</span><span style="color:#75715e"></span>db<span style="color:#f92672">.</span><span style="color:#a6e22e">users</span><span style="color:#f92672">.</span><span style="color:#a6e22e">find</span><span style="color:#f92672">().</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>pageSize<span style="color:#f92672">);</span>
+<span style="color:#75715e">//找到此页面中最后一个文档的ID为lastId
+</span><span style="color:#75715e"></span>last_id <span style="color:#f92672">=</span> <span style="color:#f92672">...</span>
 
-//第二页
-db.user.find({
-   &quot;_id&quot;:{&quot;$gt&quot;:&quot;5d6c7b8304f4757af5636e81&quot;}
-}).limit(10)
-//使用此页面中最后一个文档的ID更新lastId
-last_id = ...
-</code></pre><p>缺陷：无法像传统分页一样进行跳页，总页数展示</p>
+<span style="color:#75715e">//第二页
+</span><span style="color:#75715e"></span>db<span style="color:#f92672">.</span><span style="color:#a6e22e">user</span><span style="color:#f92672">.</span><span style="color:#a6e22e">find</span><span style="color:#f92672">({</span>
+   <span style="color:#e6db74">&#34;_id&#34;</span><span style="color:#f92672">:{</span><span style="color:#e6db74">&#34;$gt&#34;</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#34;5d6c7b8304f4757af5636e81&#34;</span><span style="color:#f92672">}</span>
+<span style="color:#f92672">}).</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>10<span style="color:#f92672">)</span>
+<span style="color:#75715e">//使用此页面中最后一个文档的ID更新lastId
+</span><span style="color:#75715e"></span>last_id <span style="color:#f92672">=</span> <span style="color:#f92672">...</span>
+</code></pre></div><p>缺陷：无法像传统分页一样进行跳页，总页数展示</p>
 <h3 id="排序">排序</h3>
 <ul>
 <li>ObjectId有序性</li>
@@ -238,21 +238,21 @@ MongoDB的ObjectId随着时间而增加，如果是同一台机器的同一个�
 <li>降序</li>
 </ul>
 <p>id降序，第一页是最大的，下一页的id比上一页的最后的id还小</p>
-<pre><code>db.user.find({
-   &quot;_id&quot;:{&quot;$lt&quot;:&quot;5d6c7ba804f4757af5636e84&quot;}
-})
-.sort({&quot;_id&quot;:-1})
-.limit(5)
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">db<span style="color:#f92672">.</span><span style="color:#a6e22e">user</span><span style="color:#f92672">.</span><span style="color:#a6e22e">find</span><span style="color:#f92672">({</span>
+   <span style="color:#e6db74">&#34;_id&#34;</span><span style="color:#f92672">:{</span><span style="color:#e6db74">&#34;$lt&#34;</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#34;5d6c7ba804f4757af5636e84&#34;</span><span style="color:#f92672">}</span>
+<span style="color:#f92672">})</span>
+<span style="color:#f92672">.</span><span style="color:#a6e22e">sort</span><span style="color:#f92672">({</span><span style="color:#e6db74">&#34;_id&#34;</span><span style="color:#f92672">:-</span>1<span style="color:#f92672">})</span>
+<span style="color:#f92672">.</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>
+</code></pre></div><ul>
 <li>升序</li>
 </ul>
 <p>id升序， 第一页最小，下一页的id比上一页的最后一条记录id还大</p>
-<pre><code>db.user.find({
-   &quot;_id&quot;:{&quot;$gt&quot;:&quot;5d6c7ba804f4757af5636e84&quot;}
-})
-.sort({&quot;_id&quot;:1})
-.limit(5)
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">db<span style="color:#f92672">.</span><span style="color:#a6e22e">user</span><span style="color:#f92672">.</span><span style="color:#a6e22e">find</span><span style="color:#f92672">({</span>
+   <span style="color:#e6db74">&#34;_id&#34;</span><span style="color:#f92672">:{</span><span style="color:#e6db74">&#34;$gt&#34;</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#34;5d6c7ba804f4757af5636e84&#34;</span><span style="color:#f92672">}</span>
+<span style="color:#f92672">})</span>
+<span style="color:#f92672">.</span><span style="color:#a6e22e">sort</span><span style="color:#f92672">({</span><span style="color:#e6db74">&#34;_id&#34;</span><span style="color:#f92672">:</span>1<span style="color:#f92672">})</span>
+<span style="color:#f92672">.</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>
+</code></pre></div><ul>
 <li>排序性能</li>
 </ul>
 <p>MongoDB的sort和find函数，先find查询符合条件的结果，然后在结果集中排序。从2.6开始，sort只排序100M以内的数据，超过将会报错。可以通过设置allowDiskUse来允许排序大容量数据。有索引的排序会比没有索引的排序快，MongoDB官方推荐为需要排序的key建立索引。</p>
@@ -260,13 +260,13 @@ MongoDB的ObjectId随着时间而增加，如果是同一台机器的同一个�
 <ul>
 <li>单key索引</li>
 </ul>
-<pre><code>db.records.createIndex( { a: 1 } )
-</code></pre><p>单key的排序使用单key索引，索引又分升序(1)和降序(-1)，索引定义的排序方向以及逆转方向可以支持sort。对于上述单key索引a，可以支持sort({a:1})升序和sort({a:-1})降序。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">db<span style="color:#f92672">.</span><span style="color:#a6e22e">records</span><span style="color:#f92672">.</span><span style="color:#a6e22e">createIndex</span><span style="color:#f92672">(</span> <span style="color:#f92672">{</span> a<span style="color:#f92672">:</span> 1 <span style="color:#f92672">}</span> <span style="color:#f92672">)</span>
+</code></pre></div><p>单key的排序使用单key索引，索引又分升序(1)和降序(-1)，索引定义的排序方向以及逆转方向可以支持sort。对于上述单key索引a，可以支持sort({a:1})升序和sort({a:-1})降序。</p>
 <ul>
 <li>多key索引</li>
 </ul>
-<pre><code>db.records.createIndex( { a: 1, b:-1 } )
-</code></pre><p>对于多字段排序使用复合(compound index)索引。复合多字段索引的顺序要和sort的字段一致才可以走索引。比如索引{a:1, b:1}, 可以支持sort({a:1, b:1})和逆序sort({a:-1, b:-1})， 但不支持sort({b:1, a:1})。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">db<span style="color:#f92672">.</span><span style="color:#a6e22e">records</span><span style="color:#f92672">.</span><span style="color:#a6e22e">createIndex</span><span style="color:#f92672">(</span> <span style="color:#f92672">{</span> a<span style="color:#f92672">:</span> 1<span style="color:#f92672">,</span> b<span style="color:#f92672">:-</span>1 <span style="color:#f92672">}</span> <span style="color:#f92672">)</span>
+</code></pre></div><p>对于多字段排序使用复合(compound index)索引。复合多字段索引的顺序要和sort的字段一致才可以走索引。比如索引{a:1, b:1}, 可以支持sort({a:1, b:1})和逆序sort({a:-1, b:-1})， 但不支持sort({b:1, a:1})。</p>
 <p>复合索引支持sort同排序和逆序：索引{a:1, b:-1} 可以支持sort({a:1, b:-1}), 也可以支持sort({a:-1, b:1})</p>
 <p>复合索引可以前缀子集支持sort {a:1, b:1, c:1}相当于{ a: 1 } + { a: 1, b: 1 } + { a: 1, b: 1, c: 1 }</p>
 <ul>

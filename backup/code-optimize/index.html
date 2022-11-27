@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>编码技巧：防御性编程|表驱动法</title>
+    <meta name="description" content="keep curious 😼">
+    <meta name="keywords" content='blog, chinalhr, lhr, 编码技巧'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/backup/code-optimize/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="编码技巧：防御性编程|表驱动法">
+    <meta property="og:description" content="keep curious 😼">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="编码技巧：防御性编程|表驱动法">
+    <meta name="twitter:description" content="keep curious 😼">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/backup/code-optimize/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/backup/code-optimize/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/backup/code-optimize/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JLJBQBW5WM');
+</script>
+  
+    
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>编码技巧：防御性编程|表驱动法</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            November 3, 2018
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/%E7%BC%96%E7%A0%81%E6%8A%80%E5%B7%A7">编码技巧</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
+<p>读&lt;代码大全&gt;</p>
+</blockquote>
+<h2 id="防御性编程">防御性编程</h2>
+<h3 id="主要思想子程序不因传入错误数据而被破坏">主要思想：子程序不因传入错误数据而被破坏</h3>
+<ol>
+<li>避免非法输入数据的破坏(校验输入的数据)</li>
+<li>断言(建立断言机制如Guava的Preconditions)</li>
+</ol>
+<h2 id="表驱动法">表驱动法</h2>
+<h3 id="主要思想表驱动法是一种编程模式从表里面查找信息而不使用逻辑语句ifcase作用是使逻辑语句更直白健壮">主要思想：表驱动法是一种编程模式，从表里面查找信息而不使用逻辑语句(if&amp;case)，作用是使逻辑语句更直白健壮。</h3>
+<p>两个问题：</p>
+<p>①如何从表中查询条目</p>
+<p>②表里面存储什么</p>
+<h3 id="1直接访问表">1.直接访问表</h3>
+<p>示例1：获取月份的天数</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Integer<span style="color:#f92672">[]</span> daysPerMonth <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Integer<span style="color:#f92672">[]{</span>31<span style="color:#f92672">,</span> 28<span style="color:#f92672">,</span> 31<span style="color:#f92672">,</span> 30<span style="color:#f92672">,</span> 31<span style="color:#f92672">,</span> 30<span style="color:#f92672">,</span> 31<span style="color:#f92672">,</span> 31<span style="color:#f92672">,</span> 30<span style="color:#f92672">,</span> 31<span style="color:#f92672">,</span> 30<span style="color:#f92672">,</span> 30<span style="color:#f92672">};</span>
+<span style="color:#75715e">//获取三月的天数,避免过多的if case
+</span><span style="color:#75715e"></span>Integer marDays <span style="color:#f92672">=</span> daysPerMonth<span style="color:#f92672">[</span>3 <span style="color:#f92672">-</span> 1<span style="color:#f92672">];</span>
+</code></pre></div><p>示例2：营业类型对应提成</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e">  * 营业类型 - 提成
+</span><span style="color:#75715e">  */</span>
+HashMap<span style="color:#f92672">&lt;</span>BusinessType<span style="color:#f92672">,</span> Integer<span style="color:#f92672">&gt;</span> businessTable <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;();</span>
+businessTable<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>BusinessType<span style="color:#f92672">.</span><span style="color:#a6e22e">MALECONSUME</span><span style="color:#f92672">,</span>11<span style="color:#f92672">);</span>
+        <span style="color:#f92672">...</span>
+<span style="color:#75715e">/**
+</span><span style="color:#75715e">  * 营业类型
+</span><span style="color:#75715e">  */</span>
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">enum</span> BusinessType<span style="color:#f92672">{</span>
+ MALECONSUME<span style="color:#f92672">,</span>MALEINCOME<span style="color:#f92672">,</span>FEMALECONSUME<span style="color:#f92672">,</span>FEMALEINCOME
+<span style="color:#f92672">}</span>
+<span style="color:#75715e">//获取男生消费提成
+</span><span style="color:#75715e"></span>Integer maleConsumePush <span style="color:#f92672">=</span> businessTable<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>BusinessType<span style="color:#f92672">.</span><span style="color:#a6e22e">MALECONSUME</span><span style="color:#f92672">);</span>
+</code></pre></div><h3 id="2索引表访问">2.索引表访问</h3>
+<p>索引表访问先用一个基本数据类型从索引表中查出一个键值，再根据键值去主查询表中查询数据。
+<img src="https://user-images.githubusercontent.com/19829495/47961987-7af9d900-e050-11e8-98af-37452a7518eb.png" alt="image"></p>
+<h3 id="3阶梯访问表">3.阶梯访问表</h3>
+<p>相对于索引表访问，阶梯访问对于不同数据范围有效，而不是不同数据点有效。</p>
+<p>示例：成绩类型-分数</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> HashMap<span style="color:#f92672">&lt;</span>LadderType<span style="color:#f92672">,</span> Integer<span style="color:#f92672">&gt;</span> ladderTable<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">static</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">/**
+</span><span style="color:#75715e">         * 成绩类型 - 分数上限
+</span><span style="color:#75715e">         */</span>
+        ladderTable <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LinkedHashMap<span style="color:#f92672">&lt;&gt;();</span>
+        ladderTable<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>LadderType<span style="color:#f92672">.</span><span style="color:#a6e22e">E</span><span style="color:#f92672">,</span> 50<span style="color:#f92672">);</span>
+        ladderTable<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>LadderType<span style="color:#f92672">.</span><span style="color:#a6e22e">D</span><span style="color:#f92672">,</span> 65<span style="color:#f92672">);</span>
+        ladderTable<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>LadderType<span style="color:#f92672">.</span><span style="color:#a6e22e">C</span><span style="color:#f92672">,</span> 75<span style="color:#f92672">);</span>
+        ladderTable<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>LadderType<span style="color:#f92672">.</span><span style="color:#a6e22e">B</span><span style="color:#f92672">,</span> 90<span style="color:#f92672">);</span>
+        ladderTable<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>LadderType<span style="color:#f92672">.</span><span style="color:#a6e22e">A</span><span style="color:#f92672">,</span> 100<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 根据分数获取成绩类型
+</span><span style="color:#75715e">     * @param socre
+</span><span style="color:#75715e">     * @return
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> LadderType <span style="color:#a6e22e">getStudentLadder</span><span style="color:#f92672">(</span>Integer socre<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>LadderType type <span style="color:#f92672">:</span> ladderTable<span style="color:#f92672">.</span><span style="color:#a6e22e">keySet</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>socre<span style="color:#f92672">&lt;</span>ladderTable<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>type<span style="color:#f92672">)){</span>
+                <span style="color:#66d9ef">return</span> type<span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Error cannot find type&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 成绩类型(A&gt;=90%,B&lt;90%,C&lt;75%,D&lt;65%,F&lt;50%)
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">enum</span> LadderType <span style="color:#f92672">{</span>
+        A<span style="color:#f92672">,</span> B<span style="color:#f92672">,</span> C<span style="color:#f92672">,</span> D<span style="color:#f92672">,</span> E<span style="color:#f92672">,</span> F
+    <span style="color:#f92672">}</span>
+</code></pre></div>
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#防御性编程">防御性编程</a>
+          <ul>
+            <li><a href="#主要思想子程序不因传入错误数据而被破坏">主要思想：子程序不因传入错误数据而被破坏</a></li>
+          </ul>
+        </li>
+        <li><a href="#表驱动法">表驱动法</a>
+          <ul>
+            <li><a href="#主要思想表驱动法是一种编程模式从表里面查找信息而不使用逻辑语句ifcase作用是使逻辑语句更直白健壮">主要思想：表驱动法是一种编程模式，从表里面查找信息而不使用逻辑语句(if&amp;case)，作用是使逻辑语句更直白健壮。</a></li>
+            <li><a href="#1直接访问表">1.直接访问表</a></li>
+            <li><a href="#2索引表访问">2.索引表访问</a></li>
+            <li><a href="#3阶梯访问表">3.阶梯访问表</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

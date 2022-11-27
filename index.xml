@@ -365,10 +365,10 @@
     
     <item>
       <title>洗牌算法Shuffle</title>
-      <link>https://chinalhr.github.io/post/algorithm-shuffle/</link>
+      <link>https://chinalhr.github.io/backup/algorithm-shuffle/</link>
       <pubDate>Wed, 31 Jul 2019 21:13:12 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/algorithm-shuffle/</guid>
+      <guid>https://chinalhr.github.io/backup/algorithm-shuffle/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Shuffle算法学习&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -409,10 +409,10 @@
     
     <item>
       <title>Linux Out-Of-Memory killer</title>
-      <link>https://chinalhr.github.io/post/linux-oom/</link>
+      <link>https://chinalhr.github.io/backup/linux-oom/</link>
       <pubDate>Mon, 03 Jun 2019 22:48:25 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/linux-oom/</guid>
+      <guid>https://chinalhr.github.io/backup/linux-oom/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Linux OOM Killer排查记录&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -420,10 +420,10 @@
     
     <item>
       <title>Vertx Kotlin协程</title>
-      <link>https://chinalhr.github.io/post/vertx-kotlin-coroutine/</link>
+      <link>https://chinalhr.github.io/backup/vertx-kotlin-coroutine/</link>
       <pubDate>Thu, 23 May 2019 21:59:46 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/vertx-kotlin-coroutine/</guid>
+      <guid>https://chinalhr.github.io/backup/vertx-kotlin-coroutine/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Vert.x 利用 Kotlin协程特性优雅编写异步逻辑&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -640,10 +640,10 @@
     
     <item>
       <title>Mybatis自定义分表Plug</title>
-      <link>https://chinalhr.github.io/post/mybatis-shard-plugin/</link>
+      <link>https://chinalhr.github.io/backup/mybatis-shard-plugin/</link>
       <pubDate>Mon, 12 Nov 2018 22:51:04 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/mybatis-shard-plugin/</guid>
+      <guid>https://chinalhr.github.io/backup/mybatis-shard-plugin/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;工作中需要用到MyBatis进行分表操作，简单记录实现过程&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -662,10 +662,10 @@
     
     <item>
       <title>编码技巧：防御性编程|表驱动法</title>
-      <link>https://chinalhr.github.io/post/code-optimize/</link>
+      <link>https://chinalhr.github.io/backup/code-optimize/</link>
       <pubDate>Sat, 03 Nov 2018 21:44:31 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/code-optimize/</guid>
+      <guid>https://chinalhr.github.io/backup/code-optimize/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;读&amp;lt;代码大全&amp;gt;&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -673,10 +673,10 @@
     
     <item>
       <title>高可用的HttpClient</title>
-      <link>https://chinalhr.github.io/post/highavailability-httpclient/</link>
+      <link>https://chinalhr.github.io/backup/highavailability-httpclient/</link>
       <pubDate>Wed, 17 Oct 2018 22:48:08 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/highavailability-httpclient/</guid>
+      <guid>https://chinalhr.github.io/backup/highavailability-httpclient/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;对HttpClient的优化，基于HttpClient4.4+的连接池(PoolingHttpClientConnectionManager) 使其在高QPS，并发请求下提高效率。&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -684,10 +684,10 @@
     
     <item>
       <title>Joda DateTime记录</title>
-      <link>https://chinalhr.github.io/post/joda-datetime-record/</link>
+      <link>https://chinalhr.github.io/backup/joda-datetime-record/</link>
       <pubDate>Thu, 04 Oct 2018 23:40:13 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/joda-datetime-record/</guid>
+      <guid>https://chinalhr.github.io/backup/joda-datetime-record/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;用来记录joda DateTime工具类使用&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -728,10 +728,10 @@
     
     <item>
       <title>MySql大数据量表分页</title>
-      <link>https://chinalhr.github.io/post/mysql-paging/</link>
+      <link>https://chinalhr.github.io/backup/mysql-paging/</link>
       <pubDate>Thu, 19 Jul 2018 23:37:55 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/mysql-paging/</guid>
+      <guid>https://chinalhr.github.io/backup/mysql-paging/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;MySql分页相关技巧整理&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -739,10 +739,10 @@
     
     <item>
       <title>函数式接口-Supplier|Predicate|Consumer|Function</title>
-      <link>https://chinalhr.github.io/post/java-supplier-predicate-consumer/</link>
+      <link>https://chinalhr.github.io/backup/java-supplier-predicate-consumer/</link>
       <pubDate>Wed, 11 Jul 2018 21:19:59 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/java-supplier-predicate-consumer/</guid>
+      <guid>https://chinalhr.github.io/backup/java-supplier-predicate-consumer/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Java函数式接口相关记录&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -761,10 +761,10 @@
     
     <item>
       <title>Git记录</title>
-      <link>https://chinalhr.github.io/post/git-basic/</link>
+      <link>https://chinalhr.github.io/backup/git-basic/</link>
       <pubDate>Sun, 08 Jul 2018 15:49:09 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/git-basic/</guid>
+      <guid>https://chinalhr.github.io/backup/git-basic/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记录Git操作&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -772,10 +772,10 @@
     
     <item>
       <title>Mysql主从复制-读写分离</title>
-      <link>https://chinalhr.github.io/post/mysql-proxy/</link>
+      <link>https://chinalhr.github.io/backup/mysql-proxy/</link>
       <pubDate>Wed, 27 Jun 2018 15:54:50 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/mysql-proxy/</guid>
+      <guid>https://chinalhr.github.io/backup/mysql-proxy/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Mysql主从复制，读写分离相关资料整理记录&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -783,10 +783,10 @@
     
     <item>
       <title>Java项目中的系统结构分层</title>
-      <link>https://chinalhr.github.io/post/java-system-structure/</link>
+      <link>https://chinalhr.github.io/backup/java-system-structure/</link>
       <pubDate>Mon, 25 Jun 2018 12:07:03 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/java-system-structure/</guid>
+      <guid>https://chinalhr.github.io/backup/java-system-structure/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;公司Java项目中的系统结构分层&lt;/p&gt;
 &lt;/blockquote&gt;</description>
