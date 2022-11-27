@@ -24,10 +24,10 @@
     
     <item>
       <title>Mybatis动态表名：# 与 $ 区别</title>
-      <link>https://chinalhr.github.io/post/mybatis-sql-precompile/</link>
+      <link>https://chinalhr.github.io/backup/mybatis-sql-precompile/</link>
       <pubDate>Mon, 12 Nov 2018 21:30:50 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/mybatis-sql-precompile/</guid>
+      <guid>https://chinalhr.github.io/backup/mybatis-sql-precompile/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;学习Mybatis# 与 $ 机制&lt;/p&gt;
 &lt;/blockquote&gt;</description>
