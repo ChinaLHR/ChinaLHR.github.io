@@ -288,7 +288,7 @@
 <p><strong>Policy</strong>：通过 subject、object 的 attribute 与 environment conditions 一起来判断 subject 的请求是否能够允许的关系表示，一般是一系列的 boolean 逻辑判断的组合。</p>
 <p><strong>Environment Conditions</strong>：表示目前进行的访问请求发生时的操作或情境的上下文。Environment conditions 常常用来描述环境特征，是独立于 subject 与 object 的，常用来描述系统的情况：比如时间，当前的安全等级，生产环境还是测试环境等等。</p>
 <p><img src="https://user-images.githubusercontent.com/19829495/92330450-74e83f80-f0a1-11ea-8c20-68e0c627acbb.png" alt="图片"></p>
-<p>一个典型的 ABAC 场景描述如下图，当 subject 需要去读取某一条记录时，我们的访问控制机制在请求发起后遍开始运作，该机制需要计算，来自 policy 中记录的规则，subject 的 attribute，object 的 attribute 以及 environment conditions，而最后会产生一个是否允许读取的结果，也就是上图的aloow or deny。</p>
+<p>一个典型的 ABAC 场景描述如下图，当 subject 需要去读取某一条记录时，我们的访问控制机制在请求发起后遍开始运作，该机制需要计算，来自 policy 中记录的规则，subject 的 attribute，object 的 attribute 以及 environment conditions，而最后会产生一个是否允许读取的结果，也就是上图的allow or deny。</p>
 <p>阿里云的RAM访问控制运用的就是ABAC模型：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"> {
           <span style="color:#f92672">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
