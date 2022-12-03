@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>devops on LHR</title>
+    <title>DevOps on LHR</title>
     <link>https://chinalhr.github.io/categories/devops/</link>
-    <description>Recent content in devops on LHR</description>
+    <description>Recent content in DevOps on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Thu, 29 Sep 2022 22:39:09 +0800</lastBuildDate>
@@ -85,17 +85,6 @@
       <guid>https://chinalhr.github.io/post/git-flow/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Git-flow分支策略相关整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Git记录</title>
-      <link>https://chinalhr.github.io/backup/git-basic/</link>
-      <pubDate>Sun, 08 Jul 2018 15:49:09 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/git-basic/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;记录Git操作&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
