@@ -55,16 +55,5 @@
 &lt;/blockquote&gt;</description>
     </item>
     
-    <item>
-      <title>Spring Boot组件-Retry|Scheduled</title>
-      <link>https://chinalhr.github.io/backup/java-springboot-component/</link>
-      <pubDate>Sun, 24 Jun 2018 20:53:59 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/java-springboot-component/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Spring Retry与Scheduled使用记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
   </channel>
 </rss>
