@@ -543,18 +543,18 @@
   </url>
   
   <url>
+    <loc>https://chinalhr.github.io/post/os-heart-process/</loc>
+    <lastmod>2018-11-15T22:30:30+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://chinalhr.github.io/tags/%E7%BC%93%E5%AD%98/</loc>
-    <lastmod>2018-11-21T23:20:52+08:00</lastmod>
+    <lastmod>2018-11-01T23:20:52+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://chinalhr.github.io/post/java-cache-strategy/</loc>
-    <lastmod>2018-11-21T23:20:52+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://chinalhr.github.io/post/os-heart-process/</loc>
-    <lastmod>2018-11-15T22:30:30+08:00</lastmod>
+    <lastmod>2018-11-01T23:20:52+08:00</lastmod>
   </url>
   
   <url>
@@ -578,7 +578,12 @@
   </url>
   
   <url>
-    <loc>https://chinalhr.github.io/post/java-springboot-component/</loc>
+    <loc>https://chinalhr.github.io/backup/</loc>
+    <lastmod>2018-06-24T20:53:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chinalhr.github.io/backup/java-springboot-component/</loc>
     <lastmod>2018-06-24T20:53:59+08:00</lastmod>
   </url>
   

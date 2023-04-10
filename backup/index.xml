@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Backups on LHR</title>
+    <link>https://chinalhr.github.io/backup/</link>
+    <description>Recent content in Backups on LHR</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 24 Jun 2018 20:53:59 +0800</lastBuildDate>
+    
+	<atom:link href="https://chinalhr.github.io/backup/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Spring Boot组件-Retry|Scheduled</title>
+      <link>https://chinalhr.github.io/backup/java-springboot-component/</link>
+      <pubDate>Sun, 24 Jun 2018 20:53:59 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/backup/java-springboot-component/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Spring Retry与Scheduled使用记录&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

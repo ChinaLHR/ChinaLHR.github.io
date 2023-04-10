@@ -217,7 +217,7 @@
 <li>声明式（declarative）
 声明好了对于数据流“将会”进行什么样的处理，当有数据流过来时，就会按照声明好的处理流程逐个进行处理。(形成了一种计算逻辑对数据的“绑定”。)</li>
 <li>响应式流（Reactive Stream）
-异步非阻塞(Java Stream是同步的),可以通过背压进行流量控制。</li>
+异步非阻塞（Java Stream是同步的）,可以通过背压（Backpressure）进行流量控制。</li>
 </ul>
 <h4 id="阻塞与异步">阻塞与异步</h4>
 <ul>
@@ -276,9 +276,11 @@
 <p>一个拥有长期存活的可寻址long-lived addressable组件的消息驱动系统跟一个事件驱动的数据流驱动模型的不同在于，消息具有固定的导向，而事件则没有。消息会有明确的（一个）去向，而事件则只是一段等着被观察observe的信息。</p>
 <p>异步且非阻塞执行下的数据流管理——通常只在单个结点或服务中。当有多个结点时，就需要开始认真地考虑像数据一致性data consistency、跨结点沟通cross-node communication、协调coordination、版本控制versioning、编制orchestration、错误管理failure management、关注与责任concerns and responsibilities分离等等的东西——也即是：系统架构。</p>
 <h3 id="参考">参考</h3>
-<p><a href="http://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html">Reactor中文文档</a>
-<a href="https://www.reactivemanifesto.org/zh-CN">响应式宣言</a>
-<a href="https://linux.cn/article-8773-1.html">响应式编程与响应式系统</a></p>
+<ul>
+<li><a href="http://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html">Reactor中文文档</a></li>
+<li><a href="https://www.reactivemanifesto.org/zh-CN">响应式宣言</a></li>
+<li><a href="https://linux.cn/article-8773-1.html">响应式编程与响应式系统</a></li>
+</ul>
         </p>
     </div>
 </div>

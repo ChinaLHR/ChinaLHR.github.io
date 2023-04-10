@@ -229,7 +229,7 @@ CREATE TABLE `user` (
     `username` VARCHAR (32) NOT NULL DEFAULT '',
     `age` INT (11) NOT NULL DEFAULT '-1',
     PRIMARY KEY (`id`)
-) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '视频记录表';
+) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '用户表';
 
 -- 2. 新表结构
 DROP TABLE
@@ -241,7 +241,7 @@ CREATE TABLE `user_tmp` (
     `age` INT (11) NOT NULL DEFAULT '-1',
     PRIMARY KEY (`id`),
     INDEX `index_username_age` (`username`, `age`)
-) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '视频记录表';
+) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '用户表';
 
 -- 3.创建存储过程 max_id为 去最近更新的一条数据的id 11265265
 DELIMITER $$
