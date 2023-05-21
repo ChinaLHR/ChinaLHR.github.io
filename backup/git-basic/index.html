@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Git记录</title>
+    <meta name="description" content="keep curious 😼">
+    <meta name="keywords" content='blog, chinalhr, lhr'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/backup/git-basic/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Git记录">
+    <meta property="og:description" content="keep curious 😼">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Git记录">
+    <meta name="twitter:description" content="keep curious 😼">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/backup/git-basic/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/backup/git-basic/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/backup/git-basic/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JLJBQBW5WM');
+</script>
+  
+    
+    
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Git记录</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            July 8, 2018
+        </p>
+
+        <ul class="post-tags">
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
+<p>记录Git操作</p>
+</blockquote>
+<ul>
+<li>git 基础操作</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">## git创建分支并提交到远程</span>
+
+git branch -r <span style="color:#f92672">[</span>命令查看远端库的分支情况<span style="color:#f92672">]</span>
+git checkout -b name <span style="color:#f92672">[</span>从已有的分支创建名为name的分支<span style="color:#f92672">]</span>
+git push origin name <span style="color:#f92672">[</span>推送新的本地分支到远程<span style="color:#f92672">]</span>
+
+<span style="color:#75715e">## git回退commit版本</span>
+git reset --hard HEAD^ <span style="color:#f92672">[</span>回退到上一个版本<span style="color:#f92672">]</span>
+git reset --hard HEAD^^ <span style="color:#f92672">[</span>回退到上上个版本<span style="color:#f92672">]</span>
+git reset --hard HEAD~100 <span style="color:#f92672">[</span>回退到上100个版本<span style="color:#f92672">]</span>
+git reset --hard commitID <span style="color:#f92672">[</span>回退到指定commit版本<span style="color:#f92672">]</span>
+
+<span style="color:#75715e">## git恢复commit版本</span>
+git reflog <span style="color:#f92672">[</span>恢复到之前commit的版本<span style="color:#f92672">]</span>
+
+<span style="color:#75715e">## pull远程分支到本地</span>
+git pull origin master <span style="color:#f92672">[</span>更新master分支代码<span style="color:#f92672">]</span>
+
+<span style="color:#75715e">## 更新远程分支列表到本地</span>
+git remote update origin --prune
+git remote update origin --p
+
+<span style="color:#75715e">## 将远程仓库所有分支的最新版本全部取回到本地</span>
+git fetch &lt;远程仓库的别名&gt;
+ 
+<span style="color:#75715e">## IntelliJ IDEA 对比当前分支代码与远程master分支代码</span>
+IDEA右下角选择当前分支，点击Remote Branches下的origin/master,选择Comparing With进行对比
+
+<span style="color:#75715e">## IntelliJ IDEA Merge master到当前分支</span>
+IDEA右下角选择当前分支，点击Remote Branches下的origin/master,选择 Merge into Current
+
+<span style="color:#75715e">## 合并操作</span>
+add与commit合并：git commit -am <span style="color:#e6db74">&#34;合并提交&#34;</span>
+
+<span style="color:#75715e">## 删除远程分支&amp;本地分支</span>
+git branch -r -d origin/branch-name
+git push origin :branch-name
+
+<span style="color:#75715e">## 切换远程分支</span>
+git checkout -b dev origin/dev
+
+<span style="color:#75715e">## git清空修改（未使用add添加到暂存区）</span>
+git checkout .
+
+<span style="color:#75715e">## git清空新增文件（未使用add添加到暂存区）</span>
+rm -rf ***
+
+<span style="color:#75715e">## git重置命令（清空掉已经add到暂存区的修改）</span>
+git reset .
+
+<span style="color:#75715e">## git关联远程仓库</span>
+git remote add origin git@github.com:***/***.git
+
+<span style="color:#75715e">## git退出merge、rebase</span>	
+git rebase --abort
+git merge --abort
+</code></pre></div><ul>
+<li>git submodule 操作</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">## 添加子仓库,添加成功后，在父仓库根目录增加了.gitmodule文件,并且在父仓库的git 配置文件中加入了submodule段</span>
+git submodule add &lt;仓库地址&gt; &lt;本地路径&gt;
+
+<span style="color:#75715e"># 更新子仓库，克隆一个包含子仓库的仓库目录，并不会clone下子仓库的文件，只是会克隆下.gitmodule描述文件，需要进一步克隆子仓库文件</span>
+<span style="color:#75715e">## 初始化本地配置文件</span>
+git submodule init
+<span style="color:#75715e">## 检出父仓库列出的commit</span>
+git submodule update
+<span style="color:#75715e">## 更新子仓库head，在子仓库目录checkout到指定分支，pull更新代码后 到主仓库目录 commit提交，push更新代码</span>
+git checkout xx <span style="color:#f92672">&amp;&amp;</span> git pull origin xx
+</code></pre></div>
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents"></nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

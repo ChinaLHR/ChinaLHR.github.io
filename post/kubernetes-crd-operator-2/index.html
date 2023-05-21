@@ -19,7 +19,7 @@
     
     <title>Kubernetes-Operator：扩展Kubernetes API Resource与Custom Controller (下)</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, Kubernetes'>
+    <meta name="keywords" content='blog, chinalhr, lhr, kubernetes'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/kubernetes-crd-operator-2/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubernetes">Kubernetes</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubernetes">kubernetes</a></li>
         
         </ul>
     </div>
@@ -193,13 +197,13 @@
 <blockquote>
 <p>参考：<a href="https://www.redhat.com/zh/topics/containers/what-is-a-kubernetes-operator">https://www.redhat.com/zh/topics/containers/what-is-a-kubernetes-operator</a></p>
 </blockquote>
-<p>Kubernetes Operator 是一种特定于应用的控制器，可扩展 Kubernetes API 的功能，来代表 Kubernetes 用户创建、配置和管理复杂应用的实例。</p>
+<p>Kubernetes Operator 是一种特定于应用的控制器，可扩展 Kubernetes API 的功能，来为 Kubernetes 用户创建、配置和管理复杂应用的实例。</p>
 <p>它基于基本 Kubernetes Resource与Controller概念构建，又涵盖了特定于域或应用的知识，用于实现其所管理软件的整个生命周期的自动化；可以看作是CRD与Custom Controller的组合模式的封装及最佳实践。</p>
 <p>对比通过定义CRD与基于client-go去实现Custom Controller；Operator在这个基础上进行了标准化的流程规范、高级API抽象、快速启动脚手架与代码生成工具、RBAC控制、持续监控、数据备份、故障恢复、自动化升级Operator的CICD等。</p>
 <p>目前比较主流的Operator框架是如下两个：</p>
 <ul>
-<li>operator-framework 由CoreOS开发和维护，包含operator-sdk与operator-lifecycle-manager</li>
-<li>kubebuilder由k8s SIG开发和维护</li>
+<li><strong>operator-framework</strong>： 由CoreOS开发和维护，包含operator-sdk与operator-lifecycle-manager。</li>
+<li><strong>kubebuilder</strong>：由 Kubernetes SIGs 开发和维护。</li>
 </ul>
 <h3 id="operator-sdk-vs-kubebuilder">Operator-SDK vs kubebuilder</h3>
 <p>目前来看，<a href="https://github.com/operator-framework/operator-sdk">operator-sdk</a>与<a href="https://github.com/kubernetes-sigs/kubebuilder">kubebuilder</a>都是类似的支持快速创建和管理 Operator 的框架，这两个项目都广泛使用了<a href="https://github.com/kubernetes-sigs/controller-runtime">controller-runtime</a> 和 <a href="https://github.com/kubernetes-sigs/controller-tools">controller-tools</a> 项目，因此有着类似的 Go 源文件、包结构，而且目前operator-sdk也与kubebuilder进行了深度整合，可以参考kubebuilder的<a href="https://github.com/kubernetes-sigs/kubebuilder/projects/7">github projects</a> 与 operator-sdk的<a href="https://sdk.operatorframework.io/docs/faqs/">faq</a>。</p>
@@ -207,21 +211,26 @@
 <li>operator-sdk-go 底层基于kuberbuilder进行操作。</li>
 <li>operator-sdk在Kubebuilder提供的基本项目脚手架之上提供了其他功能，如operator-sdk init会生成。
 <ul>
-<li><a href="https://github.com/operator-framework/operator-lifecycle-manager">Operator Lifecycle Manager</a> operator的安装和运行管理系统</li>
-<li>支持发布<a href="https://operatorhub.io/">OperatorHub</a></li>
-<li><a href="https://sdk.operatorframework.io/docs/testing-operators/scorecard/">Operator SDK scorecard</a> 用于确保operator最佳实践和开发集群测试的工具</li>
+<li><a href="https://github.com/operator-framework/operator-lifecycle-manager">Operator Lifecycle Manager</a> operator的安装和运行管理系统。</li>
+<li>支持发布<a href="https://operatorhub.io/">OperatorHub</a>。</li>
+<li><a href="https://sdk.operatorframework.io/docs/testing-operators/scorecard/">Operator SDK scorecard</a> 用于确保operator最佳实践和开发集群测试的工具。</li>
 </ul>
 </li>
-<li>operator-sdk支持 Go 以外的 operator types，如Ansible 和 Helm</li>
-<li>operator-sdk与kubebuilder的文档是通用的</li>
+<li>operator-sdk支持 Go 以外的 operator types，如Ansible 和 Helm。</li>
+<li>operator-sdk与kubebuilder的文档是通用的。</li>
 </ul>
 <h3 id="operator-工作模式">Operator 工作模式</h3>
-<p><img src="https://user-images.githubusercontent.com/19829495/153761669-8dabe2d6-9d20-4476-9e05-e4aba06d80f0.png" alt="Operator基本工作模式 (2)"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/153761669-8dabe2d6-9d20-4476-9e05-e4aba06d80f0.png">
+    <img src="https://user-images.githubusercontent.com/19829495/153761669-8dabe2d6-9d20-4476-9e05-e4aba06d80f0.png" alt="Operator基本工作模式"  />
+    </a>
+</div></p>
 <ol>
-<li>用户创建一个CRD，并提交给到apiServer</li>
-<li>apiserver 根据自己注册的一个 pass 列表，把该 CRD 的请求转发给 webhook</li>
-<li>webhook完成该CRD 的缺省值与参数检验，处理完成后，相应的 CR 会被持久化到etcd，后响应用户</li>
-<li>controller会在后台监测该自定义资源，按照业务逻辑，处理与该自定义资源相关联的特殊操作</li>
+<li>用户创建一个CRD，并提交给到 kube-apiserver。</li>
+<li>kube-apiserver 根据自己注册的一个 pass 列表，把该 CRD 的请求转发给 webhook。</li>
+<li>webhook完成该CRD 的缺省值与参数检验，处理完成后，相应的 CR 会被持久化到etcd，后响应用户。</li>
+<li>controller会在后台监测该自定义资源，按照业务逻辑，处理与该自定义资源相关联的特殊操作。</li>
 </ol>
 <p>可以看到，与前文所示的<code>sample-controller</code>方式的处理流程大致相同。</p>
 <h3 id="operator-应用场景">Operator 应用场景</h3>
@@ -237,10 +246,15 @@
 </blockquote>
 <p><strong>Admission Controller（准入控制器）</strong></p>
 <p><code>准入控制器</code>是在对象持久化之前用于对 Kubernetes API Server 的请求进行拦截的代码段。准入控制器可能是<code>validating</code>、<code>mutating</code>或者两者都有，Mutating 控制器可以修改他们的处理的资源对象，Validating 控制器不会，如果任何一个阶段中的任何控制器拒绝了请求，则会立即拒绝整个请求，并将错误返回给最终的用户。</p>
-<p>我们可以编写自己的准入控制器，但是准入控制器需要被编译进 kube-apiserver，并且在 apiserver 启动时启动。为了增加扩展性，而不是和 apiserver 耦合在一起，便有了<code>Admission webhooks</code>这种通过一种动态配置webhook的方式。</p>
-<p>**admission webhooks **</p>
-<p>在 Kubernetes apiserver 中包含两个特殊的准入控制器：<code>MutatingAdmissionWebhook</code>和<code>ValidatingAdmissionWebhook</code>。这两个控制器支持webhook模式，将发送准入请求到外部的 HTTP 服务并接收一个准入响应；创建admission webhook的流程可以参考官方文档。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/153758600-fdd72abf-6a36-417e-bb4e-5c440781ff16.png" alt="image"></p>
+<p>我们可以编写自己的准入控制器，但是准入控制器需要被编译进 kube-apiserver，并且在 kube-apiserver 启动时启动。为了增加扩展性，而不是和 apiserver 耦合在一起，便有了<code>Admission webhooks</code>这种通过一种动态配置webhook的方式。</p>
+<p><strong>admission webhooks</strong></p>
+<p>在 kube-apiserver 中包含两个特殊的准入控制器：<code>MutatingAdmissionWebhook</code>和<code>ValidatingAdmissionWebhook</code>。这两个控制器支持webhook模式，将发送准入请求到外部的 HTTP 服务并接收一个准入响应；创建admission webhook的流程可以参考官方文档。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/153758600-fdd72abf-6a36-417e-bb4e-5c440781ff16.png">
+    <img src="https://user-images.githubusercontent.com/19829495/153758600-fdd72abf-6a36-417e-bb4e-5c440781ff16.png" alt="image"  />
+    </a>
+</div></p>
 <h2 id="operator开发实践">Operator开发实践</h2>
 <blockquote>
 <p>参考：</p>
@@ -254,17 +268,27 @@
 <p>编写Operator的核心工具包，提供高级API，可以更直观地编写Controller逻辑；提供用于快速启动新项目的脚手架与代码生成工具。</p>
 <p><strong>Go-Operator工作流程：</strong></p>
 <ol>
-<li>使用 SDK 命令行界面 (CLI) 创建Operator项目</li>
-<li>通过添加CRD 来定义新的资源 API</li>
-<li>定义控制器来监视和协调资源</li>
-<li>使用 SDK 和 controller-runtime APIs 为控制器编写协调逻辑</li>
-<li>使用 SDK CLI 构建和生成Operator部署清单</li>
+<li>使用 SDK 命令行界面 (CLI) 创建Operator项目。</li>
+<li>通过添加CRD 来定义新的资源 API。</li>
+<li>定义控制器来监视和协调资源。</li>
+<li>使用 SDK 和 controller-runtime APIs 为控制器编写协调逻辑。</li>
+<li>使用 SDK CLI 构建和生成Operator部署清单。</li>
 </ol>
 <p><strong>Operator能力等级：</strong></p>
 <p>标准化了Operator的生命周期管理能力方面不同的成熟度级别（基本安装、无缝升级、全生命周期、深度可观测、自动伸缩扩展），如下图所示：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/151210750-94e452ec-e5f1-48cd-a8fe-122310832a25.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/151210750-94e452ec-e5f1-48cd-a8fe-122310832a25.png">
+    <img src="https://user-images.githubusercontent.com/19829495/151210750-94e452ec-e5f1-48cd-a8fe-122310832a25.png" alt="image"  />
+    </a>
+</div></p>
 <p><strong>Go-Operator-SDK架构图</strong></p>
-<p><img src="https://user-images.githubusercontent.com/19829495/153450536-38dfb207-cf34-4024-8f51-39ab395c6a15.png" alt="uTools_1644509865678"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/153450536-38dfb207-cf34-4024-8f51-39ab395c6a15.png">
+    <img src="https://user-images.githubusercontent.com/19829495/153450536-38dfb207-cf34-4024-8f51-39ab395c6a15.png" alt="uTools_1644509865678"  />
+    </a>
+</div></p>
 <h4 id="operator-lifecycle-managerolm">Operator-Lifecycle-Manager（OLM）</h4>
 <p>OLM 扩展了 Kubernetes，以提供一种声明式的方式来安装、管理和升级 Operator 及其在集群中的依赖项；提供的功能如下：</p>
 <ul>
@@ -318,7 +342,7 @@ tree -L <span style="color:#ae81ff">2</span>
 <li>config目录：启动配置，包含在集群上启动控制器所需的Kustomize YAML 定义，还会保存CRD、RBAC与Webhook配置</li>
 <li>main.go：初始化并运行Manager</li>
 </ul>
-<h4 id="创建api资源与custom-controller模板代码">创建API资源与Custom Controller模板代码</h4>
+<h4 id="创建custom-resource-与-custom-controller模板代码">创建Custom Resource 与 Custom Controller模板代码</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">operator-sdk create api --group apps --version v1alpha1 --kind SidecarSet --resource --controller
 </code></pre></div><p>通过operator-sdk tool生成 SidecarSet API资源 <code>api/v1alpha1/sidecarset_types.go</code>和控制器<code>controllers/sidecarset_controller.go</code> 模板。</p>
 <p><strong>自定义资源结构修改</strong></p>
@@ -404,7 +428,7 @@ tree -L <span style="color:#ae81ff">2</span>
 }
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
-	<span style="color:#75715e">//将Go类型添加到API组中
+	<span style="color:#75715e">//将类型注册到API组中
 </span><span style="color:#75715e"></span>	<span style="color:#a6e22e">SchemeBuilder</span>.<span style="color:#a6e22e">Register</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">SidecarSet</span>{}, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">SidecarSetList</span>{})
 }
 </code></pre></div><p>这里主要是更新了SidecarSet的Spec结构，增加了<code>Selector</code>与<code>Containers</code>属性，用于匹配需要注入sidecar的Pod以及sidecar注入容器的定义。更新了SidecarSet的Status结构，增加了<code>MatchedPods</code>、<code>UpdatedPods</code>与<code>ReadyPods</code>描述匹配的Pod数量与已注入sidecar的Pod数量与已注入成功并且就绪的Pod数量。</p>
@@ -430,7 +454,7 @@ tree -L <span style="color:#ae81ff">2</span>
 	<span style="color:#75715e">// TODO(user): your logic here
 </span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#66d9ef">nil</span>
 }
-</code></pre></div><h4 id="创建cr-admission-webhook模板代码">创建CR Admission Webhook模板代码</h4>
+</code></pre></div><h4 id="创建custom-resouces-admission-webhook模板代码">创建Custom Resouces Admission Webhook模板代码</h4>
 <p><strong>Admission Webhooks分为如下两种：</strong></p>
 <ul>
 <li><strong>Validating admission webhook：</strong> 用于执行超出 OpenAPI 模式验证功能的验证，注意这里可以拒绝请求，但不能修改在请求中接收的对象。</li>
@@ -461,12 +485,17 @@ operator-sdk create webhook --group apps --version v1alpha1 --kind SidecarSet --
 </code></pre></div><p>可以看到生成了<code>ValidateCreate</code>、<code>ValidateUpdate</code>、<code>ValidateDelete</code>三个模板方法，分别在CR创建、更新、删除时进行回调。</p>
 <h4 id="核心逻辑梳理">核心逻辑梳理</h4>
 <ol>
-<li>在用户创建SidecarSet CR的时候进行配置项校验：通过实现SidecarSet Validating admission webhook 校验逻辑进行处理。</li>
-<li>在用户创建Pod的时候，自动匹配对应的SidecarSet，如果匹配到SidecarSet的话解析出SidecarSet对应的sidecar容器注入到Pod中：这里就需要通过实现Pod的Mutating admission webhook达到目的，由于 kubebuilder 不支持核心类型的 webhook 自动生成，所以需要使用 controller-runtime 的库来处理。</li>
+<li>在用户创建SidecarSet Custom Resouce的时候进行配置项校验：通过实现SidecarSet Validating admission webhook 校验逻辑进行处理。</li>
+<li>在用户创建Pod的时候，自动匹配对应的SidecarSet，如果匹配到SidecarSet的话解析出SidecarSet对应的sidecar容器注入到Pod中：这里需要通过实现Pod的Mutating admission webhook达到目的，由于 kubebuilder 不支持核心类型的 webhook 自动生成，所以需要使用 controller-runtime 的库来处理。</li>
 <li>实时监测Pod信息，更新SidecarSet Status： 这里就需要实现<code>sidecarset_controller</code>的<code>Reconcile</code>逻辑进行处理。</li>
 </ol>
 <p><strong>完整流程如下图所示：</strong></p>
-<p><img src="https://user-images.githubusercontent.com/19829495/153761688-8ca487db-c1b3-4325-9a55-19ca7b077190.png" alt="SIdecarSet运行流程 (1)"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/153761688-8ca487db-c1b3-4325-9a55-19ca7b077190.png">
+    <img src="https://user-images.githubusercontent.com/19829495/153761688-8ca487db-c1b3-4325-9a55-19ca7b077190.png" alt="SIdecarSet运行流程 (1)"  />
+    </a>
+</div></p>
 <h4 id="实现pod类型的mutating-admission-webhook">实现Pod类型的Mutating Admission Webhook</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">//+kubebuilder:webhook:path=/mutate-sidecar-pod,mutating=true,failurePolicy=fail,groups=&#34;&#34;,resources=pods,verbs=create;update,versions=v1,name=mpod.kb.io,admissionReviewVersions=v1,sideEffects=None
 </span><span style="color:#75715e"></span>
@@ -576,7 +605,7 @@ operator-sdk create webhook --group apps --version v1alpha1 --kind SidecarSet --
 
 </code></pre></div><p>这里实现包括：</p>
 <ol>
-<li><code>InjectDecoder</code>方法注入解码器，用以解析admission request；实现 <a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/webhook/admission?tab=doc#Handler">admission.Handler</a> 接口的<code>Handle</code>方法，解析出Pod 资源的信息，获取当前sidecarSet，根据sidecarSet的<code>selector</code>匹配Pod的<code>labels</code>，匹配成功则进行sidecar的注入，将sidecarSet的Container注入到当前的Pod中，并对已注入的Pod进行annotations标识（后续SidecarSet Controller进行识别监控）；最后通过<code>PatchResponseFromRaw</code> 合并更新Pod的信息相应admission controller。</li>
+<li><code>InjectDecoder</code>方法注入解码器，用以解析admission request；实现 <a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/webhook/admission?tab=doc#Handler">admission.Handler</a> 接口的<code>Handle</code>方法，解析出Pod 资源的信息，获取当前sidecarSet列表，根据sidecarSet的<code>selector</code>匹配Pod的<code>labels</code>，匹配成功则进行sidecar的注入，将sidecarSet的Container注入到当前的Pod中，并对已注入的Pod进行annotations标识（后续SidecarSet Controller进行识别监控）；最后通过<code>PatchResponseFromRaw</code> 合并更新Pod的信息相应admission controller。</li>
 <li><code>Register</code>方法注册当前的mutating webhook。</li>
 <li>注释kubebuilder标记，让<code>controller-gen</code>可以生成对应的webhook 配置</li>
 </ol>
@@ -702,7 +731,7 @@ operator-sdk create webhook --group apps --version v1alpha1 --kind SidecarSet --
 </code></pre></div><p>这里实现包括：</p>
 <ol>
 <li>获取到sidecarSet资源，根据sidecarSet的<code>selector</code>获取匹配的Pod集合，根据Pod的状态计算出sidecarSet的Status，即已匹配的Pod数量更新<code>MatchedPods</code> ，已经注入sidecar容器的Pod数量更新<code>UpdatedPods</code>，已经注入sidecar容器并且处于Running状态的Pod数量更新<code>ReadyPods</code>。</li>
-<li>注释kubebuilder标记，增加对Pod,Pod Status对应的权限。</li>
+<li>添加kubebuilder注释标记，增加对Pod，Pod Status对应的权限。</li>
 </ol>
 <h3 id="部署operator">部署Operator</h3>
 <ul>
@@ -769,8 +798,8 @@ make deploy IMG<span style="color:#f92672">=</span>ccr.ccs.tencentyun.com/open-o
                 <li><a href="#sidecar-operator的功能">Sidecar-Operator的功能</a></li>
                 <li><a href="#安装operator-sdk">安装Operator-SDK</a></li>
                 <li><a href="#初始化项目">初始化项目</a></li>
-                <li><a href="#创建api资源与custom-controller模板代码">创建API资源与Custom Controller模板代码</a></li>
-                <li><a href="#创建cr-admission-webhook模板代码">创建CR Admission Webhook模板代码</a></li>
+                <li><a href="#创建custom-resource-与-custom-controller模板代码">创建Custom Resource 与 Custom Controller模板代码</a></li>
+                <li><a href="#创建custom-resouces-admission-webhook模板代码">创建Custom Resouces Admission Webhook模板代码</a></li>
                 <li><a href="#核心逻辑梳理">核心逻辑梳理</a></li>
                 <li><a href="#实现pod类型的mutating-admission-webhook">实现Pod类型的Mutating Admission Webhook</a></li>
                 <li><a href="#实现sidecarset-validating-admission-webhook逻辑">实现SidecarSet Validating admission webhook逻辑</a></li>

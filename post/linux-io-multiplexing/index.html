@@ -19,7 +19,7 @@
     
     <title>Linux IO多路复用实现：select、poll与epoll</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, Linux'>
+    <meta name="keywords" content='blog, chinalhr, lhr, linux'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/linux-io-multiplexing/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/linux">Linux</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/linux">linux</a></li>
         
         </ul>
     </div>
@@ -211,23 +215,48 @@ asynchronous IO - 异步IO
 </li>
 </ul>
 <h4 id="blocking-io---阻塞io">Blocking IO - 阻塞IO</h4>
-<p><img src="https://user-images.githubusercontent.com/19829495/61194583-fab66800-a6f4-11e9-861e-1a04a6ea9ad4.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/61194583-fab66800-a6f4-11e9-861e-1a04a6ea9ad4.png">
+    <img src="https://user-images.githubusercontent.com/19829495/61194583-fab66800-a6f4-11e9-861e-1a04a6ea9ad4.png" alt="image"  />
+    </a>
+</div></p>
 <p>wait for data阶段与copy data from kernel to user阶段都是阻塞的。</p>
 <h4 id="noneblockingio---非阻塞io">NoneBlockingIO - 非阻塞IO</h4>
-<p><img src="https://user-images.githubusercontent.com/19829495/61263524-c9549f80-a7bb-11e9-9667-bd3c96e350e8.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/61263524-c9549f80-a7bb-11e9-9667-bd3c96e350e8.png">
+    <img src="https://user-images.githubusercontent.com/19829495/61263524-c9549f80-a7bb-11e9-9667-bd3c96e350e8.png" alt="image"  />
+    </a>
+</div></p>
 <p>wait for data阶段非阻塞，用户进程发出recvfrom系统调用后，kernel中的数据如果没准备好，立即返回一个error。采用循环check的方式，每隔一段时间再次发送recvfrom。</p>
 <p>copy data from kernel to user阶段都是阻塞的，一旦kernel中的数据准备好了，那么它马上就将数据拷贝到了用户内存，然后返回。</p>
 <h4 id="io-multiplexing---io多路复用select为例子">IO multiplexing - IO多路复用(select为例子)</h4>
-<p><img src="https://user-images.githubusercontent.com/19829495/61263999-8267a980-a7bd-11e9-9652-c42423272e8a.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/61263999-8267a980-a7bd-11e9-9652-c42423272e8a.png">
+    <img src="https://user-images.githubusercontent.com/19829495/61263999-8267a980-a7bd-11e9-9652-c42423272e8a.png" alt="image"  />
+    </a>
+</div></p>
 <p>与blocking I/O相似度很高，但是可以等待多个数据报就绪（datagram ready），单个process可以同时处理多个连接。核空间内select会监听指定的多个datagram (如socket连接)，如果其中任意一个数据就绪了就返回。此时程序再进行数据读取操作，将数据拷贝至当前进程内。</p>
 <p>wait for data阶段是阻塞的(select调用阻塞，而非I/O阻塞)，select底层通过轮询机制来判断每个socket读写是否就绪。</p>
 <p>copy data from kernel to user阶段都是阻塞的。</p>
 <p>IO多路复用的优势并不是对于单个连接能处理得更快，而是在于能处理更多的连接。</p>
 <h4 id="asynchronous-io---异步io">asynchronous IO - 异步IO</h4>
-<p><img src="https://user-images.githubusercontent.com/19829495/61297800-93410b00-a80f-11e9-8461-fa4d61307e5b.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/61297800-93410b00-a80f-11e9-8461-fa4d61307e5b.png">
+    <img src="https://user-images.githubusercontent.com/19829495/61297800-93410b00-a80f-11e9-8461-fa4d61307e5b.png" alt="image"  />
+    </a>
+</div></p>
 <p>aio_read(读取操作)会通知内核进行读取操作并将数据拷贝至进程中，该操作会立刻返回，程序可以进行其它的操作，所有的读取、拷贝工作都由内核去做，做完以后通知进程，进程调用绑定的回调函数来处理数据。</p>
 <h4 id="对比">对比</h4>
-<p><img src="https://user-images.githubusercontent.com/19829495/61381288-6a874700-a8dd-11e9-9f10-ade54f1f7d2e.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/61381288-6a874700-a8dd-11e9-9f10-ade54f1f7d2e.png">
+    <img src="https://user-images.githubusercontent.com/19829495/61381288-6a874700-a8dd-11e9-9f10-ade54f1f7d2e.png" alt="image"  />
+    </a>
+</div></p>
 <h3 id="同步-异步-阻塞-非阻塞">同步-异步-阻塞-非阻塞</h3>
 <h4 id="同步-异步">同步-异步</h4>
 <p>关注点为消息通信机制。</p>
@@ -290,61 +319,64 @@ int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout
 </code></pre><ul>
 <li>int epoll_create(int size)</li>
 </ul>
-<pre><code>创建一个epoll的句柄，size用来告诉内核这个监听的数目一共有多大，不同于select()中的第一个参数，给出最大监听的fd+1的值，参数size并不是限制了epoll所能监听的描述符最大个数，只是对内核初始分配内部数据结构的一个建议。
-当创建好epoll句柄后，它就会占用一个fd值，在linux下如果查看/proc/进程id/fd/能够看到这个fd，所以在使用完epoll后，必须调用close()关闭，否则可能导致fd被耗尽。
-</code></pre><ul>
+<p>创建一个epoll的句柄，size用来告诉内核这个监听的数目一共有多大，不同于select()中的第一个参数，给出最大监听的fd+1的值，参数size并不是限制了epoll所能监听的描述符最大个数，只是对内核初始分配内部数据结构的一个建议。
+当创建好epoll句柄后，它就会占用一个fd值，在linux下如果查看/proc/进程id/fd/能够看到这个fd，所以在使用完epoll后，必须调用close()关闭，否则可能导致fd被耗尽。</p>
+<ul>
 <li>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)</li>
 </ul>
-<pre><code>epoll的事件注册函数，它不同与select()是在监听事件时告诉内核要监听什么类型的事件，而是在这里先注册要监听的事件类型。
-
-- epfd：是epoll_create()的返回值,表示epoll句柄。
-- op：表示op操作，用三个宏来表示：添加EPOLL_CTL_ADD，删除EPOLL_CTL_DEL，修改EPOLL_CTL_MOD。分别添加、删除和修改对fd的监听事件。
-- fd：是需要监听的fd（文件描述符）
-- epoll_event：内核需要监的事件
-
-结构如下
-
-struct epoll_event {
-    __uint32_t events;  /* Epoll events */
-    epoll_data_t data;  /* User data variable */
+<p>epoll的事件注册函数，它不同与select()是在监听事件时告诉内核要监听什么类型的事件，而是在这里先注册要监听的事件类型。</p>
+<pre><code> - epfd：是epoll_create()的返回值,表示epoll句柄。
+ - op：表示op操作，用三个宏来表示：添加EPOLL_CTL_ADD，删除EPOLL_CTL_DEL，修改EPOLL_CTL_MOD。分别添加、删除和改对fd的监听事件。
+ - fd：是需要监听的fd（文件描述符）
+ - epoll_event：内核需要监的事件
+</code></pre><p>结构如下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> epoll_event {
+    __uint32_t events;  <span style="color:#75715e">/* Epoll events */</span>
+    epoll_data_t data;  <span style="color:#75715e">/* User data variable */</span>
 };
 
-typedef union epoll_data {
-    void *ptr;
-    int fd;
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">union</span> epoll_data {
+    <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>ptr;
+    <span style="color:#66d9ef">int</span> fd;
     __uint32_t u32;
     __uint64_t u64;
 } epoll_data_t;
 
-events可以是以下几个宏的集合：
-EPOLLIN ：表示对应的文件描述符可以读（包括对端SOCKET正常关闭）；
-EPOLLOUT：表示对应的文件描述符可以写；
-EPOLLPRI：表示对应的文件描述符有紧急的数据可读（这里应该表示有带外数据到来）；
-EPOLLERR：表示对应的文件描述符发生错误；
-EPOLLHUP：表示对应的文件描述符被挂断；
-EPOLLET： 将EPOLL设为边缘触发(Edge Triggered)模式，这是相对于水平触发(Level Triggered)来说的。
-EPOLLONESHOT：只监听一次事件，当监听完这次事件之后，如果还需要继续监听这个socket的话，需要再次把这个socket加入到EPOLL队列里
-
-</code></pre><ul>
+<span style="color:#75715e">//events可以是以下几个宏的集合：
+</span><span style="color:#75715e">//EPOLLIN ：表示对应的文件描述符可以读（包括对端SOCKET正常关闭）；
+</span><span style="color:#75715e">//EPOLLOUT：表示对应的文件描述符可以写；
+</span><span style="color:#75715e">//EPOLLPRI：表示对应的文件描述符有紧急的数据可读（这里应该表示有带外数据到来）；
+</span><span style="color:#75715e">//EPOLLERR：表示对应的文件描述符发生错误；
+</span><span style="color:#75715e">//EPOLLHUP：表示对应的文件描述符被挂断；
+</span><span style="color:#75715e">//EPOLLET： 将EPOLL设为边缘触发(Edge Triggered)模式，这是相对于水平触发(Level Triggered)来说的。
+</span><span style="color:#75715e">//EPOLLONESHOT：只监听一次事件，当监听完这次事件之后，如果还需要继续监听这个socket的话，需要再次把这个socket加入到EPOLL队列里
+</span></code></pre></div><ul>
 <li>int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);</li>
 </ul>
-<pre><code>等待事件的产生，类似于select()调用，最多返回maxevents个事件。
-参数events用来从内核得到事件的集合，maxevents告之内核这个events有多大，这个maxevents的值不能大于创建epoll_create()时的size，参数timeout是超时时间（毫秒，0会立即返回，-1将不确定，也有说法说是永久阻塞）。该函数返回需要处理的事件数目，如返回0表示已超时。
-
-- epfd 是epoll句柄
+<p>等待事件的产生，类似于select()调用，最多返回maxevents个事件。
+参数events用来从内核得到事件的集合，maxevents告之内核这个events有多大，这个maxevents的值不能大于创建epoll_create()时的size，参数timeout是超时时间（毫秒，0会立即返回，-1将不确定，也有说法说是永久阻塞）。该函数返回需要处理的事件数目，如返回0表示已超时。</p>
+<pre><code>- epfd 是epoll句柄
 - events 表示从内核得到的就绪事件集合
 - maxevents 告诉内核events的大小
 - timeout 表示等待的超时事件
 </code></pre><ul>
-<li>工作模式</li>
+<li>
+<p>工作模式</p>
+<ul>
+<li>水平触发（LT，Level Trigger）模式下，只要一个文件描述符就绪，就会触发通知，如果用户程序没有一次性把数据读写完，下次还会通知；</li>
+<li>边缘触发（ET，Edge Trigger）模式下，当描述符从未就绪变为就绪时通知一次，之后不会再通知，直到再次从未就绪变为就绪（缓冲区从不可读/写变为可读/写）。</li>
 </ul>
-<pre><code>水平触发（LT，Level Trigger）模式下，只要一个文件描述符就绪，就会触发通知，如果用户程序没有一次性把数据读写完，下次还会通知；
-边缘触发（ET，Edge Trigger）模式下，当描述符从未就绪变为就绪时通知一次，之后不会再通知，直到再次从未就绪变为就绪（缓冲区从不可读/写变为可读/写）。
-区别：边缘触发效率更高，减少了被重复触发的次数，函数不会返回大量用户程序可能不需要的文件描述符。
-为什么边缘触发一定要用非阻塞（non-block）IO：避免由于一个描述符的阻塞读/阻塞写操作让处理其它描述符的任务出现饥饿状态。
-
-</code></pre><h4 id="selectpollepoll对比">select·poll·epoll对比</h4>
-<p><img src="https://user-images.githubusercontent.com/19829495/63755920-0c8d4c80-c8ea-11e9-936e-f6a1f3ba2452.png" alt="image"></p>
+</li>
+</ul>
+<p>区别：边缘触发效率更高，减少了被重复触发的次数，函数不会返回大量用户程序可能不需要的文件描述符。
+为什么边缘触发一定要用非阻塞（non-block）IO：避免由于一个描述符的阻塞读/阻塞写操作让处理其它描述符的任务出现饥饿状态。</p>
+<h4 id="selectpollepoll对比">select·poll·epoll对比</h4>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/63755920-0c8d4c80-c8ea-11e9-936e-f6a1f3ba2452.png">
+    <img src="https://user-images.githubusercontent.com/19829495/63755920-0c8d4c80-c8ea-11e9-936e-f6a1f3ba2452.png" alt="image"  />
+    </a>
+</div></p>
 <ul>
 <li>select：将文件描述符放入一个集合中，调用select时，将这个集合从用户空间拷贝到内核空间，由内核根据就绪状态修改该集合的内容。集合大小有限制，32位机默认是1024（64位：2048）；采用水平触发机制。select函数返回后，通过遍历这个集合，找到就绪的文件描述符</li>
 <li>poll：和select几乎没有区别，区别在于文件描述符的存储方式不同，poll采用链表的方式存储，没有最大存储数量的限制；</li>

@@ -19,7 +19,7 @@
     
     <title>使用kubeadm部署Kubernetes集群实践</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, Kubernetes, Kubeadm'>
+    <meta name="keywords" content='blog, chinalhr, lhr, kubernetes, kubeadm'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/kubeadm-install-kubernetes/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,9 +182,9 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubernetes">Kubernetes</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubernetes">kubernetes</a></li>
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubeadm">Kubeadm</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubeadm">kubeadm</a></li>
         
         </ul>
     </div>
@@ -195,7 +199,7 @@
 <p>kubeadm地址：<a href="https://github.com/kubernetes/kubeadm">https://github.com/kubernetes/kubeadm</a></p>
 <p>参考文档地址：<a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/">https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/</a></p>
 <ul>
-<li>常见的cmdlet</li>
+<li>常见的cmd</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubeadm init 启动一个 Kubernetes 主节点
 kubeadm join 启动一个 Kubernetes 工作节点并且将其加入到集群
@@ -1167,8 +1171,18 @@ kubernetes-slave    194m         19%    746Mi           42%
 </code></pre></div><ul>
 <li>效果图</li>
 </ul>
-<p><img src="https://user-images.githubusercontent.com/19829495/86820664-f29cc880-c0bb-11ea-91af-ee96b94999fd.png" alt="图片"></p>
-<p><img src="https://user-images.githubusercontent.com/19829495/86820749-0ba57980-c0bc-11ea-911d-5596941741e0.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/86820664-f29cc880-c0bb-11ea-91af-ee96b94999fd.png">
+    <img src="https://user-images.githubusercontent.com/19829495/86820664-f29cc880-c0bb-11ea-91af-ee96b94999fd.png" alt="图片"  />
+    </a>
+</div></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/86820749-0ba57980-c0bc-11ea-911d-5596941741e0.png">
+    <img src="https://user-images.githubusercontent.com/19829495/86820749-0ba57980-c0bc-11ea-911d-5596941741e0.png" alt="图片"  />
+    </a>
+</div></p>
 <h2 id="faq">FAQ</h2>
 <ul>
 <li>Kubernetes的slave节点上执行kubectl命令出现错误：The connection to the server localhost:8080 was refused - did you specify the right host or port?</li>

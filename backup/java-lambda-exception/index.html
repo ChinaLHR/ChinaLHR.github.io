@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Java在Stream中异常处理问题</title>
+    <meta name="description" content="keep curious 😼">
+    <meta name="keywords" content='blog, chinalhr, lhr'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/backup/java-lambda-exception/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Java在Stream中异常处理问题">
+    <meta property="og:description" content="keep curious 😼">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Java在Stream中异常处理问题">
+    <meta name="twitter:description" content="keep curious 😼">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/backup/java-lambda-exception/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/backup/java-lambda-exception/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/backup/java-lambda-exception/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JLJBQBW5WM');
+</script>
+  
+    
+    
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Java在Stream中异常处理问题</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            July 25, 2018
+        </p>
+
+        <ul class="post-tags">
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
+<p>Java Lamdba Api缺陷</p>
+</blockquote>
+<ul>
+<li>问题：Java在Stream中只能使用TryCatch处理check异常，无法throw处理</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#75715e">//在lambda中处理ClassNotFoundException只能进行tryCatch处理，无法抛出给上层处理
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">public</span> List<span style="color:#f92672">&lt;</span>Class<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getClazz</span><span style="color:#f92672">(</span>List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> names<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> names<span style="color:#f92672">.</span><span style="color:#a6e22e">stream</span><span style="color:#f92672">()</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span>className <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+                            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                                <span style="color:#66d9ef">return</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span>className<span style="color:#f92672">);</span>
+                            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>ClassNotFoundException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                                e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+                                <span style="color:#66d9ef">return</span> getClass<span style="color:#f92672">();</span>
+                            <span style="color:#f92672">}</span>
+                        <span style="color:#f92672">}</span>
+                <span style="color:#f92672">)</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">collect</span><span style="color:#f92672">(</span>Collectors<span style="color:#f92672">.</span><span style="color:#a6e22e">toList</span><span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>解决：定义Fun接口与lambda包装方法，利用泛型throw出原始异常</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"> <span style="color:#a6e22e">@FunctionalInterface</span>
+    <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">ExceptionFunction</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> R<span style="color:#f92672">,</span> E <span style="color:#66d9ef">extends</span> Exception<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+        R <span style="color:#a6e22e">apply</span><span style="color:#f92672">(</span>T t<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> E<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 包装异常
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> R<span style="color:#f92672">,</span> E <span style="color:#66d9ef">extends</span> Exception<span style="color:#f92672">&gt;</span> Function<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> R<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">wrap</span><span style="color:#f92672">(</span>ExceptionFunction<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> R<span style="color:#f92672">,</span> E<span style="color:#f92672">&gt;</span> f<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> E <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> t <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">return</span> f<span style="color:#f92672">.</span><span style="color:#a6e22e">apply</span><span style="color:#f92672">(</span>t<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                throwUnCheckException<span style="color:#f92672">(</span>e<span style="color:#f92672">);</span>
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">};</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 利用泛型擦除机制将unCheck——&gt;Exception
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>E <span style="color:#66d9ef">extends</span> Exception<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">throwUnCheckException</span><span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> E <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">throw</span> <span style="color:#f92672">(</span>E<span style="color:#f92672">)</span> e<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//完美throws原始check异常
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> List<span style="color:#f92672">&lt;</span>Class<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">findClasses</span><span style="color:#f92672">(</span>List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> names<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> ClassNotFoundException <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> names<span style="color:#f92672">.</span><span style="color:#a6e22e">stream</span><span style="color:#f92672">()</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span>LambdaCheckedUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">wrap</span><span style="color:#f92672">(</span>Class<span style="color:#f92672">::</span>forName<span style="color:#f92672">))</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">collect</span><span style="color:#f92672">(</span>Collectors<span style="color:#f92672">.</span><span style="color:#a6e22e">toList</span><span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>原问题与工具类链接
+<a href="https://stackoverflow.com/questions/27644361/how-can-i-throw-checked-exceptions-from-inside-java-8-streams">https://stackoverflow.com/questions/27644361/how-can-i-throw-checked-exceptions-from-inside-java-8-streams</a></li>
+</ul>
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents"></nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

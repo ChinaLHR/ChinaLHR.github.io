@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>MongoDB on LHR</title>
+    <title>mongodb on LHR</title>
     <link>https://chinalhr.github.io/tags/mongodb/</link>
-    <description>Recent content in MongoDB on LHR</description>
+    <description>Recent content in mongodb on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sat, 08 Feb 2020 23:33:14 +0800</lastBuildDate>
@@ -19,39 +19,6 @@
       <guid>https://chinalhr.github.io/post/mongo-back/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记录MongoDB备份与还原知识点与个人站点的MongoDB备份脚本&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>MongoDB用户-权限</title>
-      <link>https://chinalhr.github.io/post/mongodb-user-auth/</link>
-      <pubDate>Fri, 18 Oct 2019 23:06:48 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/mongodb-user-auth/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;MongoDB用户/权限相关知识点整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>MongoDB配置相关</title>
-      <link>https://chinalhr.github.io/post/mongodb-conf/</link>
-      <pubDate>Wed, 16 Oct 2019 22:36:58 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/mongodb-conf/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;MongoDB配置相关知识点整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>MongoDB分页-排序-索引</title>
-      <link>https://chinalhr.github.io/post/mongo-limit-sort-index/</link>
-      <pubDate>Mon, 02 Sep 2019 20:33:31 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/mongo-limit-sort-index/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;MongoDB分页/排序/索引相关知识点整理&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

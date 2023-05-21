@@ -23,6 +23,17 @@
     </item>
     
     <item>
+      <title>DevOps流程中使用SonarQube推动代码质量优化</title>
+      <link>https://chinalhr.github.io/post/devops-sonar-practice/</link>
+      <pubDate>Sun, 12 Apr 2020 15:28:21 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/devops-sonar-practice/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;在持续集成中利用SonarQube推动代码质量的持续优化的实践&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
       <title>Jenkins-pipeline-Docker 实现CI/CD</title>
       <link>https://chinalhr.github.io/post/jenkins-java-ci-cd/</link>
       <pubDate>Sun, 29 Dec 2019 21:46:50 +0800</pubDate>

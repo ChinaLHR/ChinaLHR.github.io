@@ -111,13 +111,13 @@
     </item>
     
     <item>
-      <title>基于FRP的内网穿透实践</title>
-      <link>https://chinalhr.github.io/post/frp-intranet-penetration/</link>
+      <title>基于frp的NAT穿透实践</title>
+      <link>https://chinalhr.github.io/post/frp-nat-traversal/</link>
       <pubDate>Tue, 10 Nov 2020 16:41:13 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/frp-intranet-penetration/</guid>
+      <guid>https://chinalhr.github.io/post/frp-nat-traversal/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;FRP内网穿透实践&lt;/p&gt;
+&lt;p&gt;FRP进行NAT穿透实践&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -166,7 +166,7 @@
     </item>
     
     <item>
-      <title>分布式ID解决方案分析</title>
+      <title>分布式UID解决方案分析</title>
       <link>https://chinalhr.github.io/post/uid-generator-scheme/</link>
       <pubDate>Sun, 29 Mar 2020 16:16:16 +0800</pubDate>
       
@@ -194,7 +194,7 @@
       
       <guid>https://chinalhr.github.io/post/spring-webflux-principle/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;Spring WebFlux源码分析与适用场景&lt;/p&gt;
+&lt;p&gt;Spring WebFlux 源码分析与适用场景&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -221,18 +221,7 @@
     </item>
     
     <item>
-      <title>Linux-logrotate详解</title>
-      <link>https://chinalhr.github.io/post/linux-logrotate/</link>
-      <pubDate>Fri, 31 Jan 2020 13:55:12 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/linux-logrotate/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;logrotate学习记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>认知-敏捷开发与DevOps</title>
+      <title>敏捷开发与DevOps实践</title>
       <link>https://chinalhr.github.io/post/agile-devops/</link>
       <pubDate>Mon, 13 Jan 2020 23:04:37 +0800</pubDate>
       
@@ -254,46 +243,13 @@
     </item>
     
     <item>
-      <title>Git Flow 分支策略</title>
-      <link>https://chinalhr.github.io/post/git-flow/</link>
+      <title>Git“原理”、实用技巧与Git Flow</title>
+      <link>https://chinalhr.github.io/post/git-principle-flow/</link>
       <pubDate>Tue, 26 Nov 2019 23:57:12 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/git-flow/</guid>
+      <guid>https://chinalhr.github.io/post/git-principle-flow/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;Git-flow分支策略相关整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Linux用户-权限</title>
-      <link>https://chinalhr.github.io/post/linux-security-permission/</link>
-      <pubDate>Wed, 23 Oct 2019 22:09:54 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/linux-security-permission/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;读《Linux命令行与shell脚本编程大全》记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>MongoDB用户-权限</title>
-      <link>https://chinalhr.github.io/post/mongodb-user-auth/</link>
-      <pubDate>Fri, 18 Oct 2019 23:06:48 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/mongodb-user-auth/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;MongoDB用户/权限相关知识点整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>MongoDB配置相关</title>
-      <link>https://chinalhr.github.io/post/mongodb-conf/</link>
-      <pubDate>Wed, 16 Oct 2019 22:36:58 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/mongodb-conf/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;MongoDB配置相关知识点整理&lt;/p&gt;
+&lt;p&gt;Git原理简单分析、一些实用技巧与Git Flow介绍。&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -309,7 +265,7 @@
     </item>
     
     <item>
-      <title>Redis 持久化 RDB-AOF</title>
+      <title>Redis 持久化机制 RDB与AOF</title>
       <link>https://chinalhr.github.io/post/redis-rdb-aof/</link>
       <pubDate>Fri, 06 Sep 2019 22:43:23 +0800</pubDate>
       
@@ -320,46 +276,35 @@
     </item>
     
     <item>
-      <title>Redis 事务-Watch</title>
-      <link>https://chinalhr.github.io/post/redis-transaction-watch/</link>
+      <title>Redis 事务与Watch机制</title>
+      <link>https://chinalhr.github.io/post/redis-transaction/</link>
       <pubDate>Tue, 03 Sep 2019 23:13:11 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/redis-transaction-watch/</guid>
+      <guid>https://chinalhr.github.io/post/redis-transaction/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;Redis事务/Watch机制相关知识点整理&lt;/p&gt;
+&lt;p&gt;Redis事务与Watch机制相关知识点整理&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
     <item>
-      <title>MongoDB分页-排序-索引</title>
-      <link>https://chinalhr.github.io/post/mongo-limit-sort-index/</link>
-      <pubDate>Mon, 02 Sep 2019 20:33:31 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/mongo-limit-sort-index/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;MongoDB分页/排序/索引相关知识点整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Linux Zero-copy(零拷贝)机制</title>
-      <link>https://chinalhr.github.io/post/linux-zerocopy/</link>
-      <pubDate>Fri, 23 Aug 2019 12:26:11 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/linux-zerocopy/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Linux Zero-copy机制与Java NIO对Zero-copy应用&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>尾递归-Java-Kotlin</title>
+      <title>Tail-Recursion Optimization 尾递归优化</title>
       <link>https://chinalhr.github.io/post/tail-recursion/</link>
       <pubDate>Sun, 04 Aug 2019 14:09:41 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/tail-recursion/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;尾递归与递归的对比，以及在Java与Kotlin中如何运用&lt;/p&gt;
+&lt;p&gt;尾递归优化，以及在C、Java与Kotlin语言中的对比&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>洗牌算法Shuffle</title>
+      <link>https://chinalhr.github.io/post/algorithm-shuffle/</link>
+      <pubDate>Wed, 31 Jul 2019 21:13:12 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/algorithm-shuffle/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Shuffle算法学习&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -392,23 +337,12 @@
       
       <guid>https://chinalhr.github.io/post/nginx-cross/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;Nginx相关资料阅读整理&lt;/p&gt;
+&lt;p&gt;浏览器同源策略及跨域解决方案梳理&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
     <item>
-      <title>Linux命令记录</title>
-      <link>https://chinalhr.github.io/post/linux-operating-record/</link>
-      <pubDate>Fri, 19 Apr 2019 22:59:11 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/linux-operating-record/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;日常Linux命令记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title> javassist实现Aspect动态Pointcut</title>
+      <title>Aspect动态Pointcut实现方案</title>
       <link>https://chinalhr.github.io/post/aspect-dynamic/</link>
       <pubDate>Thu, 18 Apr 2019 22:15:07 +0800</pubDate>
       
@@ -437,28 +371,6 @@
       <guid>https://chinalhr.github.io/post/mysql-deadlock-record/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记一次MySql死锁排查&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Vert.x基础：Web模块</title>
-      <link>https://chinalhr.github.io/post/vertx-record-2/</link>
-      <pubDate>Sat, 06 Apr 2019 23:56:26 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/vertx-record-2/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Vert.x 官方文档阅读&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Vert.x基础：Core模块</title>
-      <link>https://chinalhr.github.io/post/vertx-record-1/</link>
-      <pubDate>Tue, 02 Apr 2019 22:01:56 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/vertx-record-1/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Vert.x 官方文档阅读&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -595,6 +507,17 @@
     </item>
     
     <item>
+      <title>Mybatis自定义分表Plug</title>
+      <link>https://chinalhr.github.io/post/mybatis-shard-plugin/</link>
+      <pubDate>Mon, 12 Nov 2018 22:51:04 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/mybatis-shard-plugin/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;工作中需要用到MyBatis进行分表操作，简单记录实现过程&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
       <title>缓存更新策略</title>
       <link>https://chinalhr.github.io/post/java-cache-strategy/</link>
       <pubDate>Thu, 01 Nov 2018 23:20:52 +0800</pubDate>
@@ -606,13 +529,13 @@
     </item>
     
     <item>
-      <title>Spring Aop分析</title>
-      <link>https://chinalhr.github.io/post/spring-aop/</link>
-      <pubDate>Mon, 24 Sep 2018 15:56:35 +0800</pubDate>
+      <title>Apache HttpClient 高并发场景优化</title>
+      <link>https://chinalhr.github.io/post/optimize-httpclient/</link>
+      <pubDate>Wed, 17 Oct 2018 22:48:08 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/spring-aop/</guid>
+      <guid>https://chinalhr.github.io/post/optimize-httpclient/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;Spring Aop源码分析&lt;/p&gt;
+&lt;p&gt;对Apache HttpClient的优化，基于HttpClient4.4+的连接池(PoolingHttpClientConnectionManager)，结合RestTemplate 使其在高QPS，并发请求下提高效率。&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -656,7 +579,7 @@
       
       <guid>https://chinalhr.github.io/post/java-practice/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;仅记录一个多月野蛮生长过程的个人编码规范&lt;/p&gt;
+&lt;p&gt;仅记录一个多月实习过程的个人编码规范&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

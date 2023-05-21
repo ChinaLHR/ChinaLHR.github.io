@@ -19,7 +19,7 @@
     
     <title>响应式编程库-Reactor</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, 响应式编程, Reactor'>
+    <meta name="keywords" content='blog, chinalhr, lhr, reactive'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/reactive-programming-reactor/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,9 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B">响应式编程</a></li>
-        
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/reactor">Reactor</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/reactive">reactive</a></li>
         
         </ul>
     </div>
@@ -194,57 +196,54 @@
 <p>相关链接： <a href="https://github.com/reactive-streams/reactive-streams-jvm">https://github.com/reactive-streams/reactive-streams-jvm</a></p>
 <p>Reactive Streams是JVM的面向流的库的标准和规范，目的是实现</p>
 <ul>
-<li>具有处理无限数量的元素的能力；</li>
-<li>按序处理；</li>
-<li>异步地传递元素；</li>
-<li>必须实现非阻塞的回压（backpressure）。</li>
+<li>具有处理无限数量的元素的能力</li>
+<li>按序处理</li>
+<li>异步地传递元素</li>
+<li>必须实现非阻塞的回压（backpressure）</li>
 </ul>
 <h4 id="响应式流接口">响应式流接口</h4>
 <ul>
-<li>
-<p>Publisher(发布者,发出元素)</p>
+<li>Publisher(发布者,发出元素)</li>
+</ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Publisher</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
 <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>Subscriber<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> T<span style="color:#f92672">&gt;</span> s<span style="color:#f92672">);</span>
 <span style="color:#f92672">}</span>
-</code></pre></div></li>
-<li>
-<p>Subscriber(订阅者,接收元素并做出响应的)</p>
+</code></pre></div><ul>
+<li>Subscriber(订阅者,接收元素并做出响应的)</li>
+</ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Subscriber</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onSubscribe</span><span style="color:#f92672">(</span>Subscription s<span style="color:#f92672">);</span>
     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>T t<span style="color:#f92672">);</span>
     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onError</span><span style="color:#f92672">(</span>Throwable t<span style="color:#f92672">);</span>
     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onComplete</span><span style="color:#f92672">();</span>
 <span style="color:#f92672">}</span>
-</code></pre></div></li>
-<li>
-<p>Subscription</p>
+</code></pre></div><ul>
+<li>Subscription</li>
+</ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Subscription</span> <span style="color:#f92672">{</span>
     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">request</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> n<span style="color:#f92672">);</span>
     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">cancel</span><span style="color:#f92672">();</span>
 <span style="color:#f92672">}</span>
-</code></pre></div></li>
-<li>
-<p>Processor(集合Publisher和Subscriber)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Processor</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> R<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">extends</span>             Subscriber<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;,</span> Publisher<span style="color:#f92672">&lt;</span>R<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
-<span style="color:#f92672">}</span>
-</code></pre></div></li>
+</code></pre></div><ul>
+<li>Processor(集合Publisher和Subscriber)</li>
 </ul>
-<p>当执行subscribe方法时，发布者会回调订阅者的onSubscribe方法，订阅者借助传入的Subscription的request方法向发布者请求n个数据。发布者通过不断调用订阅者的onNext方法向订阅者发出最多n个数据。如果数据全部发完，则会调用onComplete告知订阅者流已经发完；如果有错误发生，则通过onError发出错误数据，同样也会终止流。</p>
-<p>简单实现：<a href="https://github.com/ChinaLHR/reactor-stream">https://github.com/ChinaLHR/reactor-stream</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Processor</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> R<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">extends</span> Subscriber<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;,</span> Publisher<span style="color:#f92672">&lt;</span>R<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>当执行subscribe方法时，发布者会回调订阅者的onSubscribe方法，订阅者借助传入的Subscription的request方法向发布者请求n个数据。发布者通过不断调用订阅者的onNext方法向订阅者发出最多n个数据。如果数据全部发完，则会调用onComplete告知订阅者流已经发完；如果有错误发生，则通过onError发出错误数据，同样也会终止流。</p>
 <h3 id="reactor">Reactor</h3>
-<p>Reactor是完全基于Reactive Streams设计和实现的库，也是 Spring 5 中反应式编程的基础。</p>
+<p><a href="https://github.com/reactor/reactor">Reactor</a>是完全基于Reactive Streams设计和实现的库，也是 Spring 5 中反应式编程的基础。</p>
 <h4 id="flux与mono">Flux与Mono</h4>
-<p>发布者（Publisher）,一个Flux对象代表一个包含0..N个元素的响应式序列，而一个Mono对象代表一个包含零/一个（0..1）元素的结果。</p>
+<p>Flux与Mono都是发布者（Publisher）,一个Flux对象代表一个包含 0-N 个元素的异步序列，而一个Mono对象代表一个异步的 0-1 个元素。</p>
 <ul>
-<li>
-<p>创建数据流</p>
+<li>创建数据流</li>
+</ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java">Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromArray</span><span style="color:#f92672">(</span>array<span style="color:#f92672">);</span>
 Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromIterable</span><span style="color:#f92672">(</span>list<span style="color:#f92672">);</span>
 Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromStream</span><span style="color:#f92672">(</span>stream<span style="color:#f92672">);</span>
 Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(...);</span>
-</code></pre></div></li>
-<li>
-<p>订阅</p>
+</code></pre></div><ul>
+<li>订阅</li>
+</ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#75715e">// 订阅并触发数据流
 </span><span style="color:#75715e"></span>subscribe<span style="color:#f92672">();</span> 
 <span style="color:#75715e">// 订阅并指定对正常数据元素如何处理
@@ -261,23 +260,42 @@ Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><
           Consumer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> Throwable<span style="color:#f92672">&gt;</span> errorConsumer<span style="color:#f92672">,</span>
           Runnable completeConsumer<span style="color:#f92672">,</span>
           Consumer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> Subscription<span style="color:#f92672">&gt;</span> subscriptionConsumer<span style="color:#f92672">);</span>
-</code></pre></div></li>
-<li>
-<p>自定义数据流-generate</p>
-</li>
+
+<span style="color:#75715e">//example
+</span><span style="color:#75715e"></span>Flux<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> ints <span style="color:#f92672">=</span> Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">range</span><span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> 4<span style="color:#f92672">);</span> 
+ints<span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>i <span style="color:#f92672">-&gt;</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>i<span style="color:#f92672">),</span>
+    error <span style="color:#f92672">-&gt;</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">err</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Error &#34;</span> <span style="color:#f92672">+</span> error<span style="color:#f92672">),</span>
+    <span style="color:#f92672">()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Done&#34;</span><span style="color:#f92672">);});</span> 
+</code></pre></div><ul>
+<li>自定义数据流-generate</li>
 </ul>
 <p>generate是一种同步地，逐个地发出数据的方法。因为它提供的sink是一个SynchronousSink， 而且其next()方法在每次回调的时候最多只能被调用一次。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">generate</span><span style="color:#f92672">(</span>Consumer<span style="color:#f92672">&lt;</span>SynchronousSink<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;</span> generator<span style="color:#f92672">)</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">generate</span><span style="color:#f92672">(</span>Consumer<span style="color:#f92672">&lt;</span>SynchronousSink<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;</span> generator<span style="color:#f92672">);</span>
 
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> S<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">generate</span><span style="color:#f92672">(</span>Callable<span style="color:#f92672">&lt;</span>S<span style="color:#f92672">&gt;</span> stateSupplier<span style="color:#f92672">,</span> BiFunction<span style="color:#f92672">&lt;</span>S<span style="color:#f92672">,</span> SynchronousSink<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;,</span> S<span style="color:#f92672">&gt;</span> generator<span style="color:#f92672">)</span> 
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> S<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">generate</span><span style="color:#f92672">(</span>Callable<span style="color:#f92672">&lt;</span>S<span style="color:#f92672">&gt;</span> stateSupplier<span style="color:#f92672">,</span> BiFunction<span style="color:#f92672">&lt;</span>S<span style="color:#f92672">,</span> SynchronousSink<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;,</span> S<span style="color:#f92672">&gt;</span> generator<span style="color:#f92672">);</span>
 
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> S<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">generate</span><span style="color:#f92672">(</span>Callable<span style="color:#f92672">&lt;</span>S<span style="color:#f92672">&gt;</span> stateSupplier<span style="color:#f92672">,</span> BiFunction<span style="color:#f92672">&lt;</span>S<span style="color:#f92672">,</span> SynchronousSink<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;,</span> S<span style="color:#f92672">&gt;</span> generator<span style="color:#f92672">,</span> Consumer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> S<span style="color:#f92672">&gt;</span> stateConsumer<span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">,</span> S<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">generate</span><span style="color:#f92672">(</span>Callable<span style="color:#f92672">&lt;</span>S<span style="color:#f92672">&gt;</span> stateSupplier<span style="color:#f92672">,</span> BiFunction<span style="color:#f92672">&lt;</span>S<span style="color:#f92672">,</span> SynchronousSink<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;,</span> S<span style="color:#f92672">&gt;</span> generator<span style="color:#f92672">,</span> Consumer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> S<span style="color:#f92672">&gt;</span> stateConsumer<span style="color:#f92672">);</span>
+
+<span style="color:#75715e">//example
+</span><span style="color:#75715e">//1. 初始化状态值（state）为0
+</span><span style="color:#75715e">//2. 基于状态值 state 来生成下一个值（state 乘以 3）
+</span><span style="color:#75715e">//3. 当状态值 state = 10 ,终止序列
+</span><span style="color:#75715e">//4. 返回一个新的状态值 state，用于下一次调用
+</span><span style="color:#75715e">//element &#34;3 x 0 = 0&#34; , &#34;3 x 1 = 3&#34; , &#34;3 x 2 = 6&#34; ... &#34;3 x 10 = 30&#34;
+</span><span style="color:#75715e"></span>Flux<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> flux <span style="color:#f92672">=</span> Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">generate</span><span style="color:#f92672">(</span>
+    <span style="color:#f92672">()</span> <span style="color:#f92672">-&gt;</span> 0<span style="color:#f92672">,</span> 
+    <span style="color:#f92672">(</span>state<span style="color:#f92672">,</span> sink<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+      sink<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;3 x &#34;</span> <span style="color:#f92672">+</span> state <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; = &#34;</span> <span style="color:#f92672">+</span> 3<span style="color:#f92672">*</span>state<span style="color:#f92672">);</span> 
+      <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>state <span style="color:#f92672">==</span> 10<span style="color:#f92672">)</span> sink<span style="color:#f92672">.</span><span style="color:#a6e22e">complete</span><span style="color:#f92672">();</span> 
+      <span style="color:#66d9ef">return</span> state <span style="color:#f92672">+</span> 1<span style="color:#f92672">;</span> 
+    <span style="color:#f92672">});</span>
+
 </code></pre></div><ul>
 <li>自定义数据流-create</li>
 </ul>
-<p>高级的创建Flux的方法，其生成数据流的方式既可以是同步的，也可以是异步的，并且还可以每次发出多个元素。(create 常用的场景就是将现有的 API 转为响应式，比如监听器的异步方法)</p>
+<p>更高级的创建Flux的方法，其生成数据流的方式既可以是同步的，也可以是异步的，并且还可以每次发出多个元素(create 常用的场景就是将现有的 API 转为响应式，比如监听器的异步方法)。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java">MyEventSource eventSource <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MyEventSource<span style="color:#f92672">();</span>    
-    Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>sink <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>sink <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
 				<span style="color:#75715e">//向事件源注册用匿名内部类创建的监听器
 </span><span style="color:#75715e"></span>                eventSource<span style="color:#f92672">.</span><span style="color:#a6e22e">register</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> MyEventListener<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>    
                     <span style="color:#a6e22e">@Override</span>
@@ -293,7 +311,7 @@ Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><
                     <span style="color:#f92672">}</span>
                 <span style="color:#f92672">});</span>
             <span style="color:#f92672">}</span>
-    <span style="color:#f92672">).</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+<span style="color:#f92672">).</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
 </code></pre></div><h4 id="调试">调试</h4>
 <ul>
 <li>单元测试工具StepVerifier</li>
@@ -305,155 +323,219 @@ Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><
         <span style="color:#f92672">.</span><span style="color:#a6e22e">verify</span><span style="color:#f92672">();</span>
 </code></pre></div><p>​</p>
 <h4 id="operator操作符">Operator(操作符)</h4>
-<p>操作符选择器：<a href="https://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html#which.create">https://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html#which.create</a></p>
+<p>操作符选择器：<a href="https://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html#which-operator">https://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html#which-operator</a></p>
 <ul>
-<li>
-<p>map - 元素映射为新元素</p>
-</li>
-<li>
-<p>flatMap - 元素映射为流</p>
-</li>
-<li>
-<p>filter - 过滤</p>
-</li>
-<li>
-<p>zip - 一对一合并:对两个Flux/Mono流每次各取一个元素，合并为一个二元组（Tuple2）</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T1<span style="color:#f92672">,</span>T2<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>Tuple2<span style="color:#f92672">&lt;</span>T1<span style="color:#f92672">,</span>T2<span style="color:#f92672">&gt;&gt;</span> <span style="color:#a6e22e">zip</span><span style="color:#f92672">(</span>Publisher<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> T1<span style="color:#f92672">&gt;</span> source1<span style="color:#f92672">,</span>Publisher<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> T2<span style="color:#f92672">&gt;</span> source2<span style="color:#f92672">)</span>
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T1<span style="color:#f92672">,</span> T2<span style="color:#f92672">&gt;</span> Mono<span style="color:#f92672">&lt;</span>Tuple2<span style="color:#f92672">&lt;</span>T1<span style="color:#f92672">,</span> T2<span style="color:#f92672">&gt;&gt;</span> <span style="color:#a6e22e">zip</span><span style="color:#f92672">(</span>Mono<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> T1<span style="color:#f92672">&gt;</span> p1<span style="color:#f92672">,</span> Mono<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> T2<span style="color:#f92672">&gt;</span> p2<span style="color:#f92672">)</span>
-</code></pre></div></li>
-<li>
-<p>transform - 可以将一段操作链打包为一个函数式
-//将filter和map操作符进行了打包
-Function&lt;Flux<!-- raw HTML omitted -->, Flux<!-- raw HTML omitted -->&gt; filterAndMap =
-f -&gt; f.filter(color -&gt; !color.equals(&ldquo;orange&rdquo;))
-.map(String::toUpperCase);</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java">Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromIterable</span><span style="color:#f92672">(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;blue&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;green&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;orange&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;purple&#34;</span><span style="color:#f92672">))</span>
+<li>map: 元素映射为新元素</li>
+<li>flatMap: 元素映射为流</li>
+<li>filter: 过滤</li>
+<li>zip: 一对一合并:对两个Flux/Mono流每次各取一个元素，合并为一个二元组（Tuple2）</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T1<span style="color:#f92672">,</span>T2<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>Tuple2<span style="color:#f92672">&lt;</span>T1<span style="color:#f92672">,</span>T2<span style="color:#f92672">&gt;&gt;</span> <span style="color:#a6e22e">zip</span><span style="color:#f92672">(</span>Publisher<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> T1<span style="color:#f92672">&gt;</span> source1<span style="color:#f92672">,</span>Publisher<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> T2<span style="color:#f92672">&gt;</span> source2<span style="color:#f92672">);</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T1<span style="color:#f92672">,</span> T2<span style="color:#f92672">&gt;</span> Mono<span style="color:#f92672">&lt;</span>Tuple2<span style="color:#f92672">&lt;</span>T1<span style="color:#f92672">,</span> T2<span style="color:#f92672">&gt;&gt;</span> <span style="color:#a6e22e">zip</span><span style="color:#f92672">(</span>Mono<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> T1<span style="color:#f92672">&gt;</span> p1<span style="color:#f92672">,</span> Mono<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> T2<span style="color:#f92672">&gt;</span> p2<span style="color:#f92672">);</span>
+</code></pre></div><ul>
+<li>transform: 可以将一段操作链打包为一个函数，这个函数能在操作期（assembly time）将被封装的操作链中的操作符还原并接入到调用 transform 的位置。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#75715e">//将filter和map操作符进行了打包
+</span><span style="color:#75715e"></span>Function<span style="color:#f92672">&lt;</span>Flux<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;,</span> Flux<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;&gt;</span> filterAndMap <span style="color:#f92672">=</span>
+            f <span style="color:#f92672">-&gt;</span> f<span style="color:#f92672">.</span><span style="color:#a6e22e">filter</span><span style="color:#f92672">(</span>color <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">!</span>color<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;orange&#34;</span><span style="color:#f92672">))</span>
+                    <span style="color:#f92672">.</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span>String<span style="color:#f92672">::</span>toUpperCase<span style="color:#f92672">);</span>
+
+Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromIterable</span><span style="color:#f92672">(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;blue&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;green&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;orange&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;purple&#34;</span><span style="color:#f92672">))</span>
         <span style="color:#f92672">.</span><span style="color:#a6e22e">doOnNext</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">)</span>
         <span style="color:#75715e">//将包装的函数拼装到操作链
 </span><span style="color:#75715e"></span>        <span style="color:#f92672">.</span><span style="color:#a6e22e">transform</span><span style="color:#f92672">(</span>filterAndMap<span style="color:#f92672">)</span>
         <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>d <span style="color:#f92672">-&gt;</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Subscriber to Transformed MapAndFilter: &#34;</span><span style="color:#f92672">+</span>d<span style="color:#f92672">));</span>
-</code></pre></div></li>
-<li>
-<p>compose - 与 transform类似，将几个操作符封装到一个函数式中。区别是，这个函数式是针对每一个订阅者起作用的。对每一个subscription可以生成不同的操作链。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java">Flux<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> composedFlux <span style="color:#f92672">=</span>
-      Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromIterable</span><span style="color:#f92672">(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;blue&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;green&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;orange&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;purple&#34;</span><span style="color:#f92672">))</span>
-              <span style="color:#f92672">.</span><span style="color:#a6e22e">doOnNext</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">)</span>
-              <span style="color:#f92672">.</span><span style="color:#a6e22e">compose</span><span style="color:#f92672">(</span>filterAndMap<span style="color:#f92672">);</span>
-</code></pre></div></li>
+
+<span style="color:#75715e">// result：
+</span><span style="color:#75715e">// blue
+</span><span style="color:#75715e">// Subscriber to Transformed MapAndFilter: BLUE
+</span><span style="color:#75715e">// green
+</span><span style="color:#75715e">// Subscriber to Transformed MapAndFilter: GREEN
+</span><span style="color:#75715e">// orange
+</span><span style="color:#75715e">// purple
+</span><span style="color:#75715e">// Subscriber to Transformed MapAndFilter: PURPLE
+</span></code></pre></div><ul>
+<li>compose: 与 transform类似，将几个操作符封装到一个函数式中。区别是，这个函数式是针对每一个订阅者起作用的。对每一个subscription可以生成不同的操作链（通过维护状态值）。</li>
 </ul>
-<h4 id="调度器线程模型">调度器&amp;线程模型</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java">AtomicInteger ai <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AtomicInteger<span style="color:#f92672">();</span>
+Function<span style="color:#f92672">&lt;</span>Flux<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;,</span> Flux<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;&gt;</span> filterAndMap <span style="color:#f92672">=</span> f <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>ai<span style="color:#f92672">.</span><span style="color:#a6e22e">incrementAndGet</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+<span style="color:#66d9ef">return</span> f<span style="color:#f92672">.</span><span style="color:#a6e22e">filter</span><span style="color:#f92672">(</span>color <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">!</span>color<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;orange&#34;</span><span style="color:#f92672">))</span>
+        <span style="color:#f92672">.</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span>String<span style="color:#f92672">::</span>toUpperCase<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> f<span style="color:#f92672">.</span><span style="color:#a6e22e">filter</span><span style="color:#f92672">(</span>color <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">!</span>color<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;purple&#34;</span><span style="color:#f92672">))</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span>String<span style="color:#f92672">::</span>toUpperCase<span style="color:#f92672">);</span>
+<span style="color:#f92672">};</span>
+
+Flux<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> composedFlux <span style="color:#f92672">=</span>
+Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromIterable</span><span style="color:#f92672">(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;blue&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;green&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;orange&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;purple&#34;</span><span style="color:#f92672">))</span>
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">doOnNext</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">)</span>
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">compose</span><span style="color:#f92672">(</span>filterAndMap<span style="color:#f92672">);</span>
+
+composedFlux<span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>d <span style="color:#f92672">-&gt;</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Subscriber 1 to Composed MapAndFilter :&#34;</span><span style="color:#f92672">+</span>d<span style="color:#f92672">));</span>
+composedFlux<span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>d <span style="color:#f92672">-&gt;</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Subscriber 2 to Composed MapAndFilter: &#34;</span><span style="color:#f92672">+</span>d<span style="color:#f92672">));</span>
+
+<span style="color:#75715e">// result：
+</span><span style="color:#75715e">// blue
+</span><span style="color:#75715e">// Subscriber 1 to Composed MapAndFilter :BLUE
+</span><span style="color:#75715e">// green
+</span><span style="color:#75715e">// Subscriber 1 to Composed MapAndFilter :GREEN
+</span><span style="color:#75715e">// orange
+</span><span style="color:#75715e">// purple
+</span><span style="color:#75715e">// Subscriber 1 to Composed MapAndFilter :PURPLE
+</span><span style="color:#75715e">// blue
+</span><span style="color:#75715e">// Subscriber 2 to Composed MapAndFilter: BLUE
+</span><span style="color:#75715e">// green
+</span><span style="color:#75715e">// Subscriber 2 to Composed MapAndFilter: GREEN
+</span><span style="color:#75715e">// orange
+</span><span style="color:#75715e">// Subscriber 2 to Composed MapAndFilter: ORANGE
+</span><span style="color:#75715e">// purple
+</span></code></pre></div><h4 id="调度器线程模型">调度器&amp;线程模型</h4>
+<p><strong>Schedulers工具类</strong></p>
 <ul>
-<li>
-<p>Schedulers工具类</p>
-<p>当前线程（Schedulers.immediate()）；
-可重用的单线程（Schedulers.single()）。注意，这个方法对所有调用者都提供同一个线程来使用，直到该调度器被废弃。Schedulers.newSingle()使用独占的线程；
-弹性线程池（Schedulers.elastic()）。它根据需要创建一个线程池，重用空闲线程。线程池如果空闲时间过长 （默认为 60s）就会被废弃。对于 I/O 阻塞的场景比较适用。Schedulers.elastic()能够方便地给一个阻塞 的任务分配它自己的线程，从而不会妨碍其他任务和资源；
-固定大小线程池（Schedulers.parallel()），所创建线程池的大小与CPU个数等同；
-自定义线程池（Schedulers.fromExecutorService(ExecutorService)）基于自定义的ExecutorService创建 Scheduler</p>
-</li>
-<li>
-<p>示例：</p>
+<li>当前线程（Schedulers.immediate()）。</li>
+<li>可重用的单线程（Schedulers.single()），这个方法对所有调用者都提供同一个线程来使用，直到该调度器被废弃。Schedulers.newSingle()使用独占的线程。</li>
+<li>弹性线程池（Schedulers.elastic()）。它根据需要创建一个线程池，重用空闲线程。线程池如果空闲时间过长 （默认为 60s）就会被废弃。对于 I/O 阻塞的场景比较适用。Schedulers.elastic()能够方便地给一个阻塞 的任务分配它自己的线程，从而不会妨碍其他任务和资源。</li>
+<li>固定大小线程池（Schedulers.parallel()），所创建线程池的大小与CPU个数等同，适合做并行计算。</li>
+<li>自定义线程池（Schedulers.fromExecutorService(ExecutorService)）基于自定义的ExecutorService创建 Scheduler。</li>
+</ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#75715e">// 基于Callable的Mono
 </span><span style="color:#75715e"></span>Mono<span style="color:#f92672">.</span><span style="color:#a6e22e">fromCallable</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> getStringSync<span style="color:#f92672">())</span>   
 <span style="color:#75715e">// 使用subscribeOn将任务调度到Schedulers内置的弹性线程池执行
 </span><span style="color:#75715e"></span>       <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribeOn</span><span style="color:#f92672">(</span>Schedulers<span style="color:#f92672">.</span><span style="color:#a6e22e">elastic</span><span style="color:#f92672">())</span> 
        <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
-</code></pre></div></li>
-<li>
-<p>publishOn与subscribeOn：</p>
-<p>publishOn会影响链中其后的操作符
-subscribeOn无论出现在什么位置，都只影响源头的执行环境</p>
-</li>
-<li>
-<p>数据流配置Context</p>
-</li>
-</ul>
-<p>类似于 ThreadLocal ,区别是ontext作用于一个 Flux 或一个 Mono 上，而不是应用于一个线程（Thread）,其生命周期伴随整个数据流。</p>
-<h4 id="错误处理重试">错误处理&amp;重试</h4>
+</code></pre></div><p><strong>publishOn与subscribeOn区别</strong></p>
+<p>Reactor 提供了两种在响应式链中调整调度器 Scheduler 的方法：publishOn 和 subscribeOn。 它们都接受一个 Scheduler 作为参数，从而可以改变调度器。</p>
 <ul>
-<li>
-<p>错误处理</p>
-<pre><code>  捕获并返回一个静态的缺省值：
-  onErrorReturn方法能够在收到错误信号的时候提供一个缺省值
-    
-  捕获并执行一个异常处理方法或计算一个候补值来顶替:
-  onErrorResume方法能够在收到错误信号的时候提供一个新的数据流
-    
-  捕获，并再包装为某一个业务相关的异常，然后再抛出业务异常:
-  onErrorMap
-    
-  捕获，记录错误日志...，然后继续抛出
-  doOnError(只读，不会对数据流造成影响)
-    
-  使用 finally 来清理资源
-  doFinally
-</code></pre>
-</li>
-<li>
-<p>重试</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java">retry<span style="color:#960050;background-color:#1e0010">：</span>retry对于上游Flux是采取的重订阅<span style="color:#960050;background-color:#1e0010">（</span>re<span style="color:#f92672">-</span>subscribing<span style="color:#960050;background-color:#1e0010">）</span>的方式<span style="color:#960050;background-color:#1e0010">，</span>出错了retry会从新订阅了原始的数据流执行x次<span style="color:#960050;background-color:#1e0010">。</span>
-</code></pre></div></li>
+<li>publishOn: publishOn 的用法和处于订阅链（subscriber chain）中的其他操作符一样。它将上游 信号传给下游，同时执行指定的调度器 Scheduler 的某个工作线程上的回调。 <strong>它会改变后续的操作符的执行所在线程 （直到下一个 publishOn 出现在这个链上）</strong>。</li>
+<li>subscribeOn: 用于订阅（subscription）过程，作用于那个向上的订阅链（发布者在被订阅 时才激活，订阅的传递方向是向上游的）。所以，<strong>无论把 subscribeOn 至于操作链的什么位置， 它都会影响到源头的线程执行环境（context），不会影响到后续的 publishOn，后者仍能够切换其后操作符的线程执行环境。</strong></li>
 </ul>
-<h4 id="backpressure背压回压">Backpressure背压(回压)</h4>
+<p><strong>数据流配置Context</strong></p>
+<p>类似于 ThreadLocal ,区别是Context作用于一个 Flux 或一个 Mono 上，而不是应用于一个线程（Thread）,其生命周期伴随整个数据流。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;message&#34;</span><span style="color:#f92672">;</span>
+Mono<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> r <span style="color:#f92672">=</span> Mono<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello&#34;</span><span style="color:#f92672">)</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">flatMap</span><span style="color:#f92672">(</span> s <span style="color:#f92672">-&gt;</span> Mono<span style="color:#f92672">.</span><span style="color:#a6e22e">subscriberContext</span><span style="color:#f92672">()</span> 
+                                   <span style="color:#f92672">.</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span> ctx <span style="color:#f92672">-&gt;</span> s <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span> ctx<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>key<span style="color:#f92672">)))</span> 
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">subscriberContext</span><span style="color:#f92672">(</span>ctx <span style="color:#f92672">-&gt;</span> ctx<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;World&#34;</span><span style="color:#f92672">));</span> 
+
+StepVerifier<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>r<span style="color:#f92672">)</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">expectNext</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello World&#34;</span><span style="color:#f92672">)</span> 
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">verifyComplete</span><span style="color:#f92672">();</span>
+</code></pre></div><h4 id="错误处理重试">错误处理&amp;重试</h4>
+<p><strong>错误处理</strong></p>
 <ul>
-<li>
-<p>背压的前提</p>
+<li>捕获并返回一个静态的缺省值：onErrorReturn方法能够在收到错误信号的时候提供一个缺省值。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(</span>10<span style="color:#f92672">)</span>
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">::</span>doSomethingDangerous<span style="color:#f92672">)</span>
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">onErrorReturn</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;RECOVERED&#34;</span><span style="color:#f92672">);</span>
+</code></pre></div><ul>
+<li>捕获并执行一个异常处理方法或计算一个候补值来顶替：onErrorResume方法能够在收到错误信号的时候提供一个新的数据流。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;key1&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;key2&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">flatMap</span><span style="color:#f92672">(</span>k <span style="color:#f92672">-&gt;</span> callExternalService<span style="color:#f92672">(</span>k<span style="color:#f92672">))</span> 
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">onErrorResume</span><span style="color:#f92672">(</span>e <span style="color:#f92672">-&gt;</span> getFromCache<span style="color:#f92672">(</span>k<span style="color:#f92672">));</span>
+</code></pre></div><ul>
+<li>捕获并再包装为某一个业务相关的异常，然后再抛出业务异常：onErrorMap。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;timeout1&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">flatMap</span><span style="color:#f92672">(</span>k <span style="color:#f92672">-&gt;</span> callExternalService<span style="color:#f92672">(</span>k<span style="color:#f92672">))</span>
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">onErrorMap</span><span style="color:#f92672">(</span>original <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">new</span> BusinessException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;oops, SLA exceeded&#34;</span><span style="color:#f92672">,</span> original<span style="color:#f92672">));</span>
+</code></pre></div><ul>
+<li>捕获并执行操作如记录错误日志等，然后继续传递：doOnError(只读，不会对数据流造成影响)。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LongAdder failureStat <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LongAdder<span style="color:#f92672">();</span>
+Flux<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> flux <span style="color:#f92672">=</span>
+Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;unknown&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">flatMap</span><span style="color:#f92672">(</span>k <span style="color:#f92672">-&gt;</span> callExternalService<span style="color:#f92672">(</span>k<span style="color:#f92672">))</span> 
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">doOnError</span><span style="color:#f92672">(</span>e <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+        failureStat<span style="color:#f92672">.</span><span style="color:#a6e22e">increment</span><span style="color:#f92672">();</span>
+        log<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;uh oh, falling back, service failed for key &#34;</span> <span style="color:#f92672">+</span> k<span style="color:#f92672">);</span> 
+    <span style="color:#f92672">})</span>
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">onErrorResume</span><span style="color:#f92672">(</span>e <span style="color:#f92672">-&gt;</span> getFromCache<span style="color:#f92672">(</span>k<span style="color:#f92672">));</span> 
+</code></pre></div><ul>
+<li>使用 finally 来清理资源：doFinally方法在序列终止（onComplete、onError）时被执行，并且支持判断终止事件。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LongAdder statsCancel <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LongAdder<span style="color:#f92672">();</span> 
+
+Flux<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> flux <span style="color:#f92672">=</span>
+Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;foo&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;bar&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">doFinally</span><span style="color:#f92672">(</span>type <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>type <span style="color:#f92672">==</span> SignalType<span style="color:#f92672">.</span><span style="color:#a6e22e">CANCEL</span><span style="color:#f92672">)</span> 
+          statsCancel<span style="color:#f92672">.</span><span style="color:#a6e22e">increment</span><span style="color:#f92672">();</span> 
+    <span style="color:#f92672">})</span>
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">take</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+</code></pre></div><p><strong>重试</strong></p>
+<p>retry可以对出现错误的序列进行重试，retry对于上游Flux是采取的重订阅（re-subscribing）的方式，出错了retry会从新订阅了原始的数据流执行n次。</p>
+<h4 id="backpressure回压">Backpressure回压</h4>
+<p><strong>前提</strong></p>
 <ol>
 <li>发布者与订阅者不在同一个线程中，因为在同一个线程中的话，通常使用传统的线性逻辑，不需要进行回压处理；</li>
-<li>发布者发出数据的速度高于订阅者处理数据的速度，也就是处于“PUSH”状态下。</li>
+<li>发布者发出数据的速度高于订阅者处理数据的速度，也就是处于&quot;PUSH&quot;状态下。</li>
 </ol>
-</li>
-<li>
-<p>背压策略(OverflowStrategy )</p>
+<p><strong>回压策略(OverflowStrategy)</strong></p>
 <ul>
-<li>IGNORE: 完全忽略下游背压请求</li>
-<li>ERROR： 当下游跟不上节奏的时候发出一个错误信号。</li>
+<li>IGNORE: 完全忽略下游回压请求</li>
+<li>ERROR： 当下游跟不上上游的速率的时候发出一个错误信号。</li>
 <li>DROP：当下游没有准备好接收新的元素的时候抛弃这个元素。</li>
 <li>LATEST：让下游只得到上游最新的元素。</li>
 <li>BUFFER：缓存下游没有来得及处理的元素（如果缓存不限大小的可能导致OutOfMemoryError）。</li>
 </ul>
-</li>
-<li>
-<p>create声明回压策略</p>
+<p><strong>声明回压策略</strong></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>Consumer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> FluxSink<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;</span> emitter<span style="color:#f92672">,</span> OverflowStrategy backpressure<span style="color:#f92672">)</span> 
-</code></pre></div></li>
-<li>
-<p>操作符调整背压策略</p>
+</code></pre></div><p><strong>操作符调整回压策略</strong></p>
 <ul>
 <li>
 <p>onBackpressureBuffer(对于来自其下游的request采取“缓存”策略)
-<img src="https://raw.githubusercontent.com/reactor/reactor-core/v3.1.3.RELEASE/src/docs/marble/onbackpressurebuffer.png" alt="enter description here"></p>
+
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://raw.githubusercontent.com/reactor/reactor-core/v3.1.3.RELEASE/src/docs/marble/onbackpressurebuffer.png">
+    <img src="https://raw.githubusercontent.com/reactor/reactor-core/v3.1.3.RELEASE/src/docs/marble/onbackpressurebuffer.png" alt="image"  />
+    </a>
+</div></p>
 </li>
 <li>
 <p>onBackpressureDrop(元素就绪时，根据下游是否有未满足的request来判断是否发出当前元素)
-<img src="https://raw.githubusercontent.com/reactor/reactor-core/v3.1.3.RELEASE/src/docs/marble/onbackpressuredrop.png" alt="enter description here"></p>
+
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://raw.githubusercontent.com/reactor/reactor-core/v3.1.3.RELEASE/src/docs/marble/onbackpressuredrop.png">
+    <img src="https://raw.githubusercontent.com/reactor/reactor-core/v3.1.3.RELEASE/src/docs/marble/onbackpressuredrop.png" alt="image"  />
+    </a>
+</div></p>
 </li>
 <li>
 <p>onBackpressureLatest(当有新的request到来的时候，将最新的元素发出)
-<img src="https://raw.githubusercontent.com/reactor/reactor-core/v3.1.3.RELEASE/src/docs/marble/onbackpressurelatest.png" alt="enter description here"></p>
+
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://raw.githubusercontent.com/reactor/reactor-core/v3.1.3.RELEASE/src/docs/marble/onbackpressurelatest.png">
+    <img src="https://raw.githubusercontent.com/reactor/reactor-core/v3.1.3.RELEASE/src/docs/marble/onbackpressurelatest.png" alt="image"  />
+    </a>
+</div></p>
 </li>
 <li>
 <p>onBackpressureError(当有多余元素就绪时，发出错误信号)
-<img src="https://raw.githubusercontent.com/reactor/reactor-core/v3.1.3.RELEASE/src/docs/marble/onbackpressureerror.png" alt="enter description here"></p>
+
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://raw.githubusercontent.com/reactor/reactor-core/v3.1.3.RELEASE/src/docs/marble/onbackpressureerror.png">
+    <img src="https://raw.githubusercontent.com/reactor/reactor-core/v3.1.3.RELEASE/src/docs/marble/onbackpressureerror.png" alt="image"  />
+    </a>
+</div></p>
 </li>
 </ul>
-</li>
-<li>
-<p>通过BaseSubscriber定义自己的Subscriber进行上游流量控制</p>
+<p><strong>通过BaseSubscriber定义自己的Subscriber进行上游流量控制</strong></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java">subscribe<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> BaseSubscriber<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;()</span> <span style="color:#f92672">{</span>  
                 <span style="color:#a6e22e">@Override</span>
                 <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hookOnSubscribe</span><span style="color:#f92672">(</span>Subscription subscription<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> 
                     <span style="color:#75715e">//hookOnSubscribe定义在订阅的时候执行的操作，订阅时首先向上游请求1个元素
 </span><span style="color:#75715e"></span>                    request<span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
                 <span style="color:#f92672">}</span>
-  
+
                 <span style="color:#a6e22e">@Override</span>
                 <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hookOnNext</span><span style="color:#f92672">(</span>Integer value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
                     <span style="color:#75715e">//hookOnNext定义每次在收到一个元素的时候的操作，每次处理完1个元素后再请求1个。
 </span><span style="color:#75715e"></span>                    request<span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
                 <span style="color:#f92672">}</span>
-</code></pre></div></li>
-</ul>
+</code></pre></div>
         </p>
     </div>
 </div>
@@ -478,7 +560,7 @@ subscribeOn无论出现在什么位置，都只影响源头的执行环境</p>
                 <li><a href="#operator操作符">Operator(操作符)</a></li>
                 <li><a href="#调度器线程模型">调度器&amp;线程模型</a></li>
                 <li><a href="#错误处理重试">错误处理&amp;重试</a></li>
-                <li><a href="#backpressure背压回压">Backpressure背压(回压)</a></li>
+                <li><a href="#backpressure回压">Backpressure回压</a></li>
               </ul>
             </li>
           </ul>

@@ -19,7 +19,7 @@
     
     <title>Bit-map算法及应用</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, 算法'>
+    <meta name="keywords" content='blog, chinalhr, lhr, algorithm'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/algorithm-bitmap/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/%E7%AE%97%E6%B3%95">算法</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/algorithm">algorithm</a></li>
         
         </ul>
     </div>
@@ -193,7 +197,12 @@
 <h4 id="关于bit-map">关于Bit-map</h4>
 <p>用一个bit位来标记某个元素对应的Value， key0|1表示该元素是否存在(类似于桶排序算法)，由于采用了Bit为单位来存储数据，因此在存储空间方面，可以大大节省。</p>
 <p>假设我们要对0-7内的6个不重复元素排序，开辟一个8个Bit(1Bytes)的内存空间，此时所有的bit位为0，遍历6个元素，将对应下标的bit位置为1 (采用big-endian)。处理完所有元素后，对Bytes区域进行遍历，将该位是一的位的编号输出，达到排序的目的。对于更多的元素排序，可以扩展为Bytes数组进行存储排序。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/52029742-8bd2c180-254f-11e9-9311-e17415452373.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/52029742-8bd2c180-254f-11e9-9311-e17415452373.png">
+    <img src="https://user-images.githubusercontent.com/19829495/52029742-8bd2c180-254f-11e9-9311-e17415452373.png" alt="image"  />
+    </a>
+</div></p>
 <h4 id="思想">思想</h4>
 <p>使用bit数组来表示某些元素是否存在，达到节省空间的目的。</p>
 <h4 id="算法实现java">算法实现[Java]</h4>

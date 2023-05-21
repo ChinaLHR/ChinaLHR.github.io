@@ -19,7 +19,7 @@
     
     <title>缓存更新策略</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, 缓存'>
+    <meta name="keywords" content='blog, chinalhr, lhr, system design'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/java-cache-strategy/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/%E7%BC%93%E5%AD%98">缓存</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/system-design">system design</a></li>
         
         </ul>
     </div>
@@ -218,7 +222,12 @@
 <li>规避风险：利用DTS服务，隔离事务与缓存，确保数据入库后再对数据进行缓存删除，确保缓存更新的时候拿到的是最新的数据。</li>
 <li>避免DTS单点故障：dts消费实例只能是一个进程，不能像mq一样分布式消费. 这样在重启dts消费进程的时候，dts消息的处理逻辑就有短暂的时间不可用。 优化：新建立dts消费者进程， 处理dts消息， 并将消息转化为mq消息。</li>
 </ol>
-<p><img src="https://user-images.githubusercontent.com/19829495/48850494-cb5c8f00-ede3-11e8-9d8b-29974822c634.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/48850494-cb5c8f00-ede3-11e8-9d8b-29974822c634.png">
+    <img src="https://user-images.githubusercontent.com/19829495/48850494-cb5c8f00-ede3-11e8-9d8b-29974822c634.png" alt="image"  />
+    </a>
+</div></p>
 <h3 id="基于spring-transaction后置处理机制">基于Spring Transaction后置处理机制</h3>
 <ol>
 <li>关于TransactionSynchronizationAdapter</li>

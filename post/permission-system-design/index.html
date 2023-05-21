@@ -19,7 +19,7 @@
     
     <title>权限系统设计-概念与思路</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, 系统设计'>
+    <meta name="keywords" content='blog, chinalhr, lhr, system design'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/permission-system-design/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1">系统设计</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/system-design">system design</a></li>
         
         </ul>
     </div>
@@ -194,11 +198,11 @@
 <ul>
 <li>功能权限</li>
 </ul>
-<p>指用户登录系统后能看到哪些模块，操作哪些按钮。常见的CRM系统，不同业务的人员，登录系统后，看到的功能模块也不尽相同；而同属于一个业务线，因为职位等级不同，拥有的操作功能也可能不同（例如组长、负责人才拥有删除权限）。</p>
+<p>指用户登录系统后能看到哪些模块，操作哪些按钮。常见的后台管理系统，不同业务的人员，登录系统后，看到的功能模块也不尽相同；而同属于一个部门，因为职位等级不同，拥有的操作功能也可能不同（例如组长、负责人才拥有删除权限）。</p>
 <ul>
 <li>数据权限</li>
 </ul>
-<p>指用户在某个模块里能看到哪些范围的数据，如A业务线的销售人员只能看到自己的客户数据，但是A的业务线的销售总监可以查看整个区域销售人员的客户数据。</p>
+<p>指用户在某个模块里能看到哪些范围的数据，如A部门的销售人员只能看到自己的客户数据，但是A部门的销售总监可以查看整个区域销售人员的客户数据。</p>
 <h2 id="认证与授权">认证与授权</h2>
 <p>权限系统进行权限控制，主要包含了两部分，认证与授权。</p>
 <h3 id="认证authentication">认证（Authentication）</h3>
@@ -239,24 +243,44 @@
 </tr>
 </tbody>
 </table>
-<p><img src="https://user-images.githubusercontent.com/19829495/92323237-a9400980-f069-11ea-940a-7a055c7025fb.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/92323237-a9400980-f069-11ea-940a-7a055c7025fb.png">
+    <img src="https://user-images.githubusercontent.com/19829495/92323237-a9400980-f069-11ea-940a-7a055c7025fb.png" alt="图片"  />
+    </a>
+</div></p>
 <h3 id="rbac">RBAC</h3>
-<p><strong>RBAC 以角色为基础的访问控制</strong>,认为权限授权的过程可以抽象地概括为：Who是否可以对What进行How的访问操作，并对这个逻辑表达式进行判断是否为True的求解过程，也即是将权限问题转换为What、How的问题，Who、What、How构成了访问权限三元组。</p>
-<p>包含了三个基础组成部分，分别是：用户、角色和权限。</p>
+<p><strong>RBAC 以角色为基础的访问控制</strong>，认为权限授权的过程可以抽象地概括为：Who是否可以对What进行How的访问操作，并对这个逻辑表达式进行判断是否为True的求解过程，也即是将权限问题转换为What、How的问题，Who、What、How构成了访问权限三元组。</p>
+<p>包含了三个基础组成部分，分别是：<strong>用户</strong>、<strong>角色</strong>和<strong>权限</strong>。</p>
 <p>RBAC通过定义角色的权限，并对用户授予某个角色从而来控制用户的权限，实现了用户和权限的逻辑分离（区别于ACL模型），方便权限的管理。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/92323250-c1178d80-f069-11ea-9da2-d404b0bd944b.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/236733515-c2047bb9-bc82-4e13-934e-0ae37cfbd54c.png">
+    <img src="https://user-images.githubusercontent.com/19829495/236733515-c2047bb9-bc82-4e13-934e-0ae37cfbd54c.png" alt="image"  />
+    </a>
+</div></p>
 <h4 id="rbac0-rbac核心思想模型">RBAC0-RBAC核心思想模型</h4>
 <p>RBAC0是RBAC模型的核心，主要包含以下</p>
 <ul>
 <li>User：用户，每个用户都有唯一的UID识别，并被授予对应的角色</li>
 <li>Role：角色，不同角色具有不同的权限</li>
-<li>Permission：权限，包含所有访问功能的权限</li>
+<li>Permission：权限，包含对应访问功能的权限</li>
 <li>Session：会话，存储特定用户会话的基本权限信息</li>
 </ul>
-<p><img src="https://user-images.githubusercontent.com/19829495/92323261-dab8d500-f069-11ea-9adb-bebc33603286.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/92323261-dab8d500-f069-11ea-9adb-bebc33603286.png">
+    <img src="https://user-images.githubusercontent.com/19829495/92323261-dab8d500-f069-11ea-9adb-bebc33603286.png" alt="图片"  />
+    </a>
+</div></p>
 <h4 id="rbac1-基于角色的分层模型">RBAC1-基于角色的分层模型</h4>
 <p>RBAC1是对RBAC进行了扩展，对RBAC的角色进行了分层处理，引入了角色的继承概念，有了继承的关系就有了上下级的包含关系。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/92323270-f15f2c00-f069-11ea-9aae-b791dfddea8f.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/92323270-f15f2c00-f069-11ea-9aae-b791dfddea8f.png">
+    <img src="https://user-images.githubusercontent.com/19829495/92323270-f15f2c00-f069-11ea-9aae-b791dfddea8f.png" alt="图片"  />
+    </a>
+</div></p>
 <h4 id="rbac2-rbac约束模型">RBAC2-RBAC约束模型。</h4>
 <p>RBAC2是对RBAC进行了扩展，主要引入了SSD（静态职责分离）和DSD（动态职责分离）。</p>
 <p>SSD主要应用在用户和角色之间（授权阶段），主要约束</p>
@@ -266,14 +290,24 @@
 <li>先决条件约束，用户想得到高级权限，必须先拥有低级权限</li>
 </ol>
 <p>DSD是会话和角色之间的约束，主要动态决定怎么样计划角色，如：一个用户拥有5个角色，只能激活2个。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/92323274-0340cf00-f06a-11ea-805e-05378cc892e6.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/92323274-0340cf00-f06a-11ea-805e-05378cc892e6.png">
+    <img src="https://user-images.githubusercontent.com/19829495/92323274-0340cf00-f06a-11ea-805e-05378cc892e6.png" alt="图片"  />
+    </a>
+</div></p>
 <h4 id="rbac3">RBAC3</h4>
 <p>RBAC3就是整合了RBAC1+RBAC2模式，这里不再阐述。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/92323288-16539f00-f06a-11ea-89ec-7e7b67636afe.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/92323288-16539f00-f06a-11ea-89ec-7e7b67636afe.png">
+    <img src="https://user-images.githubusercontent.com/19829495/92323288-16539f00-f06a-11ea-89ec-7e7b67636afe.png" alt="图片"  />
+    </a>
+</div></p>
 <h3 id="abac">ABAC</h3>
-<p><strong>基于属性的访问控制</strong>（<strong>ABAC</strong>），也称为<strong>基于策略的访问控制(IAM)</strong>，定义了访问控制范式，其中通过使用将属性组合在一起的策略，将访问权限授予用户。这些策略可以使用任何类型的属性（用户属性，资源属性，对象，环境属性等）。该模型支持布尔逻辑，其中规则包含有关谁在发出请求，资源和操作的“ IF，THEN”语句。例如：如果请求者是管理者，则允许对敏感数据的读/写访问。</p>
+<p><strong>基于属性的访问控制（ABAC）</strong>，也称为<strong>基于策略的访问控制(IAM)</strong>，定义了访问控制范式，其中通过使用将属性组合在一起的策略，将访问权限授予用户。这些策略可以使用任何类型的属性（用户属性，资源属性，对象，环境属性等）。该模型支持布尔逻辑，其中规则包含谁在发出请求，资源和操作的“ IF，THEN”语句。例如：如果请求者是管理者，则允许对敏感数据的读/写访问。</p>
 <p>对比RABC模型，ABAC的主要区别在于表示复杂布尔规则集的策略的概念可以评估许多不同的属性，更加灵活可控。</p>
-<p><strong>基于属性的访问控制维度</strong></p>
+<p><strong>基于属性的访问控制（ABAC）维度</strong></p>
 <ul>
 <li>外部授权管理</li>
 <li>动态授权管理</li>
@@ -283,11 +317,16 @@
 <p><strong>ABAC组件</strong></p>
 <p><strong>Attribute</strong>：属性，用于表示 subject、object 或者 environment conditions 的特点，attribute 使用 key-value 的形式来存储这些信息。</p>
 <p><strong>Subject</strong>：指代使用系统的人或者其他使用者（non-person entity，NPE），比如说客户端程序，访问 API 的 client 或者移动设备等等。一个 subject 可以有多个的 attributes，例如用户属性等。</p>
-<p><strong>Object</strong>：指代 ACM 需要管理的资源，如文件，某项记录，某台机器或者某个网站， object 也可以有多项属性，比如x组的测试、生产实例。</p>
+<p><strong>Object</strong>：指代 ACM（访问控制机制） 需要管理的资源，如文件，某项记录，某台机器或者某个网站， object也可以有多项属性，比如x组的测试、生产实例。</p>
 <p><strong>Operation</strong>：subject需要做的操作，比如查看某条记录，使用某个功能，登录某台服务器。往往包括我们常说的读、写、修改、拷贝等等，一般 operation 是会表达在 request 中的，比如 HTTP method。</p>
 <p><strong>Policy</strong>：通过 subject、object 的 attribute 与 environment conditions 一起来判断 subject 的请求是否能够允许的关系表示，一般是一系列的 boolean 逻辑判断的组合。</p>
 <p><strong>Environment Conditions</strong>：表示目前进行的访问请求发生时的操作或情境的上下文。Environment conditions 常常用来描述环境特征，是独立于 subject 与 object 的，常用来描述系统的情况：比如时间，当前的安全等级，生产环境还是测试环境等等。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/92330450-74e83f80-f0a1-11ea-8c20-68e0c627acbb.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/92330450-74e83f80-f0a1-11ea-8c20-68e0c627acbb.png">
+    <img src="https://user-images.githubusercontent.com/19829495/92330450-74e83f80-f0a1-11ea-8c20-68e0c627acbb.png" alt="图片"  />
+    </a>
+</div></p>
 <p>一个典型的 ABAC 场景描述如下图，当 subject 需要去读取某一条记录时，我们的访问控制机制在请求发起后遍开始运作，该机制需要计算，来自 policy 中记录的规则，subject 的 attribute，object 的 attribute 以及 environment conditions，而最后会产生一个是否允许读取的结果，也就是上图的allow or deny。</p>
 <p>阿里云的RAM访问控制运用的就是ABAC模型：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"> {
@@ -308,42 +347,60 @@
     }
 </code></pre></div><h3 id="组织架构与功能权限">组织架构与功能权限</h3>
 <p>常见的组织架构如下所示是一个树形的结构，最顶部节点为根部门，根部门对应多个子部门，子部门也可以对应多个子部门。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/93021995-d74cbd00-f618-11ea-9b34-d5a2ac63fd45.png" alt="图片"></p>
-<p>每个组织部门下都会有多个岗位,比如研发部有后端开发、前端开发、技术经理、技术总监&hellip;职位,虽然都在同一部门,但是每个职位的权限是不同的,职位高的拥有更多的权限。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/93022758-72479600-f61d-11ea-8d63-043862c7518e.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/93021995-d74cbd00-f618-11ea-9b34-d5a2ac63fd45.png">
+    <img src="https://user-images.githubusercontent.com/19829495/93021995-d74cbd00-f618-11ea-9b34-d5a2ac63fd45.png" alt="图片"  />
+    </a>
+</div></p>
+<p>每个组织部门下都会有多个岗位,比如研发部有后端开发、前端开发、技术经理、技术总监&hellip;职位，虽然都在同一部门，但是每个职位的权限是不同的，职位高的拥有更多的权限。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/93022758-72479600-f61d-11ea-8d63-043862c7518e.png">
+    <img src="https://user-images.githubusercontent.com/19829495/93022758-72479600-f61d-11ea-8d63-043862c7518e.png" alt="图片"  />
+    </a>
+</div></p>
 <p>组织架构结合功能权限：可以把岗位与角色进行关联，用户加入某个岗位后，就会自动获得该岗位的全部角色,减少授权操作，同时用户在调岗时，角色即可批量调整。</p>
 <p>基于组织架构模型与RBAC0的模型图如下所示：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/93113415-be610c00-f6eb-11ea-8174-95d35068a5d8.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/93113415-be610c00-f6eb-11ea-8174-95d35068a5d8.png">
+    <img src="https://user-images.githubusercontent.com/19829495/93113415-be610c00-f6eb-11ea-8174-95d35068a5d8.png" alt="图片"  />
+    </a>
+</div></p>
 <h2 id="数据权限">数据权限</h2>
 <p>数据权限解决的是用户能看到多少数据量和什么数据的问题，例如A和B两个用户都能看到订单模块，但A能看到320条数据，B只能看到100条数据，且A能看到的320条数据中包含着B能看到的100条数据，这些都是由数据权限决定的。</p>
-<p>数据权限一般和组织架构相关，常见的数据权限类型有如下几种：</p>
+<p>数据权限一般和组织架构相关，常见的基于组织结构的数据权限类型有如下几种：</p>
 <ul>
-<li>
-<p>只能查看本人数据</p>
-</li>
-<li>
-<p>只能查看本部门数据</p>
-</li>
-<li>
-<p>只能查看本部门及其子部门数据</p>
-</li>
-<li>
-<p>只能查看自定义部门数据</p>
-</li>
-<li>
-<p>只能查看自定义部门及其子部门数据</p>
-</li>
-<li>
-<p>可以查看所有部门数据</p>
-</li>
+<li>只能查看本人数据</li>
+<li>只能查看本部门数据</li>
+<li>只能查看本部门及其子部门数据</li>
+<li>只能查看自定义部门数据</li>
+<li>只能查看自定义部门及其子部门数据</li>
+<li>可以查看所有部门数据</li>
 </ul>
 <p>组织架构一般为树状的架构，而常见的数据权限一般和部门产生过滤关系，且不同部门的不同岗位有着不同的数据权限，如销售部门的销售组长岗位可以看到本部门的所有数据，而销售部门的销售员岗位只能看到自己本人的数据；因此可以基于上文对组织架构与功能权限的模型，添加岗位和数据权限的关联关系，如下图所示：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/93114221-e866fe00-f6ec-11ea-8f2e-c8e8e52f8909.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/236796402-7cef17c1-59ee-4b57-b9f4-76c9b53934ba.png">
+    <img src="https://user-images.githubusercontent.com/19829495/236796402-7cef17c1-59ee-4b57-b9f4-76c9b53934ba.png" alt="image"  />
+    </a>
+</div></p>
 <p>因为数据权限涉及到每张表里面的每一行数据，如何设计数据权限的查询模型，合理地利用数据库索引的特性，提高查询的效率显得至关重要；</p>
 <p>按照正常的思路，数据入库的时候我们会存储对应的用户ID（creator_id）与对应部门的ID（department_id）。数据权限的获取就包括了获取用户绑定的数据权限类型（枚举值）、用户可以查看哪些部门的数据（遍历部门、子部门）或者本人的数据（user_id）;权限数据的筛选我们可以通过筛选部门的ID与用户ID进行实现。</p>
-<p>主要优化点有两点：1. 数据权限的获取（权限部门数据获取涉及多次IO操作） 2. 权限数据的筛选（避免通过in查询筛选数据导致大数据量下存在性能问题，合理利用索引特性）；这里作者提供一种数据权限查询优化的设计思路：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/93362305-6b688f80-f878-11ea-846e-e9dae8a219e8.png" alt="图片"></p>
-<p>为每个部门指定一个data_key，并通过一定规则进行data_key的配置，使其与自己的上级部门、下级部门产生关联，如上图所示：根部门的data_key为0，直属部门的data_key为0 001、0 002&hellip;以此类推，根据此模型，结合mysql的前置查询索引的特性，可以通过获取部门的data_key即可查询本部门数据或者本部门及其子部门数据，并且可以合理的利用索引的特性，提高性能。</p>
+<p>主要优化点有两点：</p>
+<ol>
+<li>数据权限的获取（权限部门数据获取涉及多次IO操作）</li>
+<li>权限数据的筛选（避免通过in查询筛选数据导致大数据量下存在性能问题，合理利用索引特性）</li>
+</ol>
+<p><strong>一种基于组织结构的数据权限设计</strong></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/93362305-6b688f80-f878-11ea-846e-e9dae8a219e8.png">
+    <img src="https://user-images.githubusercontent.com/19829495/93362305-6b688f80-f878-11ea-846e-e9dae8a219e8.png" alt="图片"  />
+    </a>
+</div></p>
+<p>为每个部门指定一个data_key，并通过一定规则进行data_key的配置，使其与自己的上级部门、下级部门产生关联，如上图所示：根部门的data_key为0，直属部门的data_key为0 001、0 002&hellip;以此类推，根据此模型，结合常见relational database 如mysql的前置查询索引特性，可以通过获取部门的data_key即可查询本部门数据或者本部门及其子部门数据，并且可以合理的利用索引的特性，提高性能。</p>
 <p>示例：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- 1. 用户在所在部门data_key 0001001，数据权限：本部门
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> bill <span style="color:#66d9ef">where</span> data_key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;0001001&#39;</span>;
@@ -351,10 +408,15 @@
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> bill <span style="color:#66d9ef">where</span> data_key <span style="color:#66d9ef">like</span> <span style="color:#e6db74">&#39;0001%&#39;</span>;
 <span style="color:#75715e">-- 3. 用户id 372，数据权限：本人
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> bill <span style="color:#66d9ef">where</span> creator_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">372</span>;
-</code></pre></div><h2 id="功能权限与数据权限系统设计实现思路">功能权限与数据权限系统设计实现思路</h2>
+</code></pre></div><h2 id="功能权限与数据权限系统设计实现实践">功能权限与数据权限系统设计实现实践</h2>
 <p>依据上述对功能权限，数据权限模型的描述，我们可以简单设计一个拥有组织架构、基于RBAC-0的功能权限，基于组织架构的数据权限系统。系统使用的技术栈为 Kotlin、Spring Boot&hellip;</p>
 <h3 id="表结构设计">表结构设计</h3>
-<p><img src="https://user-images.githubusercontent.com/19829495/93289726-aaafc580-f811-11ea-9636-9387b78cc7dc.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/93289726-aaafc580-f811-11ea-9636-9387b78cc7dc.png">
+    <img src="https://user-images.githubusercontent.com/19829495/93289726-aaafc580-f811-11ea-9636-9387b78cc7dc.png" alt="图片"  />
+    </a>
+</div></p>
 <h3 id="功能权限系统设计">功能权限系统设计</h3>
 <ul>
 <li>认证</li>
@@ -364,7 +426,7 @@
 <li>授权</li>
 </ul>
 <p>以一个Spring Boot项目为例子，我们可以通过实现HandlerInterceptor拦截所有的api接口，在preHandle的地方解析token获取用户的id，再查询出用户所拥有的的所有接口权限、数据权限、origanization_key&hellip;，授权于本次请求（session）通过ThreadLocal存放于请求的上下文中。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#75715e">/**
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Kotlin" data-lang="Kotlin"><span style="color:#75715e">/**
 </span><span style="color:#75715e"> * 授权上下文对象
 </span><span style="color:#75715e"> * */</span>
 <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GrantPermissionContext</span>(
@@ -432,7 +494,7 @@
 </code></pre></div><ul>
 <li>鉴权</li>
 </ul>
-<p>可以通过注解 + Aspect切面，对设置了对应注解的接口进行拦截鉴权</p>
+<p>可以通过annotation + Aspect，对设置了对应注解的接口进行拦截鉴权</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">@Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 <span style="color:#66d9ef">annotation</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RequiresPermissions</span>(<span style="color:#66d9ef">val</span> permissionKey: String)
@@ -458,7 +520,7 @@
 <ul>
 <li>数据筛选</li>
 </ul>
-<p>可以利用MyBatis的Interceptor机制、或者 Spring Data JPA 的Filter机制，在SQL执行之前通过GrantPermissionContext获取对应的数据权限类型与organizationKey，对SQL进行统一的判断筛选，最后再进行sql的执行。</p>
+<p>可以利用MyBatis的Interceptor机制、或者 Spring Data JPA 的Filter机制，在SQL执行之前通过GrantPermissionContext获取对应的数据权限类型与organizationKey，对SQL进行统一的数据权限过滤筛选条件拼接。</p>
         </p>
     </div>
 </div>
@@ -492,7 +554,7 @@
           </ul>
         </li>
         <li><a href="#数据权限">数据权限</a></li>
-        <li><a href="#功能权限与数据权限系统设计实现思路">功能权限与数据权限系统设计实现思路</a>
+        <li><a href="#功能权限与数据权限系统设计实现实践">功能权限与数据权限系统设计实现实践</a>
           <ul>
             <li><a href="#表结构设计">表结构设计</a></li>
             <li><a href="#功能权限系统设计">功能权限系统设计</a></li>

@@ -19,7 +19,7 @@
     
     <title>分布式系统的一致性与共识算法-Paxos</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, 分布式系统, 共识算法, paxos'>
+    <meta name="keywords" content='blog, chinalhr, lhr, distributed systems'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/distributed-systems-consensus-algorithm-paxos/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,11 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F">分布式系统</a></li>
-        
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95">共识算法</a></li>
-        
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/paxos">paxos</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/distributed-systems">distributed systems</a></li>
         
         </ul>
     </div>
@@ -194,6 +194,7 @@
 </blockquote>
 <h2 id="关于paxos">关于Paxos</h2>
 <p>Paxos算法是Leslie Lamport于1990年提出的一种基于消息传递共识算法，能保证多副本数据强一致性与分区容错性；现已是当今分布式系统最重要的理论，为后续的如Raft、ZAB等算法、ZooKeeper、Etcd等分布式协调框架奠定了基础。</p>
+<p>例如：Paxos可以协同让多个机器成为一个整体的系统，这个系统中的每个机器都必须让系统中的状态达成一致，如果在三副本集群中的一台机器上上传了一个文件，其他两台机器也必须复制这个文件，达到系统的一致性。</p>
 <p>Google Chubby的作者给了Paxos极高的评价：There is only one consensus protocol, and that&rsquo;s “Paxos” — all other approaches are just broken versions of Paxos（世界上只有一种共识协议，就是Paxos，其他所有共识算法都是Paxos的退化版本）</p>
 <h2 id="问题-假设">问题-假设</h2>
 <p><strong>问题</strong>：基于前文对分布式环境下一致性与共识算法的基础理论，在分布式系统中进行节点通信大部分采用基于消息传递通信模型，不可避免的会发生如进程可能会慢、被杀死或者重启等问题，会对分布式系统中各个节点对某一个值达成一致性产生问题；而Paxos就是为了解决这个问题而生的。</p>
@@ -217,13 +218,23 @@
 </ol>
 <p>作者Lamport主要通过不断加强上述3个约束（主要是第二个）获得了 Paxos 算法。</p>
 <h3 id="0x02-系统模型">0x02. 系统模型</h3>
-<p><img src="https://user-images.githubusercontent.com/19829495/111913107-95a93d00-8aa7-11eb-92b6-07b60612fbb2.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/111913107-95a93d00-8aa7-11eb-92b6-07b60612fbb2.png">
+    <img src="https://user-images.githubusercontent.com/19829495/111913107-95a93d00-8aa7-11eb-92b6-07b60612fbb2.png" alt="图片"  />
+    </a>
+</div></p>
 <p>一个系统中，存在多个Proposer节点提出提案，多个Acceptor节点负责决策-接受提案。为了满足只批准一个 value 的约束，要求经Quorum（多数派）接受的 value 成为正式的决议。即<code>一个提案被选定需要被半数以上的Acceptor接受</code>。</p>
 <p>Quorum机制下，假设只有一个Proposer提出了一个value，该value也会被决策，要保证约束2，就会产生P1约束<code>P1：一个Acceptor必须接受第一次收到的提案</code></p>
 <p>P1 是不完备的，不同的Proposer提出不同的value的话，如果遵循P1，就会出现无法形成多数派的情况；因为存在多个提案，这里就需要给每个提案加上一个提案编号以表示顺序，即提案=编号+Value；只要提案的 value 是一样的，批准多个提案不违背约束2，我们就可以保证只有一个值被选中，可以得到如下约束<code>P2：如果某个value为v的提案被批准（chosen），那么之后批准（chosen）的提案必须具有 value v</code></p>
 <p>因为一个提案只有被Acceptor接受才可能被选定，所以我们可以把P2约束改写成对Acceptor接受的提案的约束<code>P2a：一旦一个具有 value v 的提案被批准（chosen），那么之后任何 Acceptor 再次接受（accept）的提案必须具有 value v</code></p>
 <p>因为通信是异步的，系统是不可靠的，P2a和P1可能会存在冲突，例如一个 value 被批准后，一个Proposer 和一个 Acceptor 从休眠中苏醒，前者提出一个具有新的 value 的提案；这种情况下根据 P1，Acceptor应当接受，根据 P2a，则不应当接受（如下图所示）， P2a 和 P1 有矛盾。于是需要换个思路，转而对 proposer 的行为进行约束得到<code>P2b：一旦一个具有 value v 的提案被批准（chosen），那么以后任何 Proposer 提出的提案必须具有 value v。</code></p>
-<p><img src="https://user-images.githubusercontent.com/19829495/112504164-7c193580-8dc6-11eb-8172-c4b4350af9c1.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/112504164-7c193580-8dc6-11eb-8172-c4b4350af9c1.png">
+    <img src="https://user-images.githubusercontent.com/19829495/112504164-7c193580-8dc6-11eb-8172-c4b4350af9c1.png" alt="图片"  />
+    </a>
+</div></p>
 <p>由于 acceptor 能接受的提案都必须由 proposer 提出，所以 P2b 蕴涵了 P2a，是一个更强的约束。但是根据 P2b 难以提出实现手段，需要进一步加强 P2b；假设一个编号为 m 的 Value v 已经获得批准，存在一个 Acceptors 的多数派  C，他们都接受（accept）了v，考虑到任何多数派都和 C 具有至少一个公共成员，可以找到一个蕴涵 P2b 的约束 <code>P2c：如果一个编号为 n 的提案具有 value v，该提案被提出，那么存在一个多数派，要么他们中所有人都没有接受（accept）编号小于 n 的任何提案，要么他们已经接受（accept）的所有编号小于 n 的提案中编号最大的那个提案具有 value v。</code></p>
 <p>要满足P2c的约束，会涉及两个流程：</p>
 <ul>
@@ -232,22 +243,32 @@
 </ul>
 <p>并发情况下：如果一个没有chosen过任何proposer提案的Acceptor在prepare过程中回答了一个proposer针对提案n的问题，但是在开始对n进行投票前，又接受（accept）了编号小于n的另一个提案（例如n-1），如果n-1和n具有不同的value，这个投票就会违背P2c。因此需要对P1进行加强，在prepare过程中，acceptor进行的回答后不会再接受（accept）编号小于n的提案，<code>P1a：当且仅当Acceptor没有回应过编号大于n的prepare请求时，Acceptor接受（accept）编号为n的提案。</code></p>
 <h3 id="0x03prepare阶段为什么需要获取多数派acceptor最近接受的提案">0x03.prepare阶段：为什么需要获取多数派Acceptor最近接受的提案</h3>
-<p><img src="https://user-images.githubusercontent.com/19829495/112725643-3f7b4480-8f54-11eb-9c74-eeeedda40fea.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/112725643-3f7b4480-8f54-11eb-9c74-eeeedda40fea.png">
+    <img src="https://user-images.githubusercontent.com/19829495/112725643-3f7b4480-8f54-11eb-9c74-eeeedda40fea.png" alt="图片"  />
+    </a>
+</div></p>
 <p>如果两个Proposer进程并发进行读写操作, 在多数派读写的实现中,会产生一个Proposer覆盖另一个Proposer的问题. 从而产生了数据更新点丢失的情况</p>
 <p>已上图为例子：</p>
 <p><strong>问题</strong>：Proposer2步骤④进行多数派写的时候，因为并发问题覆盖了Proposer1的多数派写操作，导致Proposer1写入的值失效。</p>
 <p><strong>如何解决</strong>：Proposer2更新的时候不能直接更新i2版本，而是应该检测到i2的存在, 进而将自己的结果保存在下一个版本i3中,再进行多数派写。问题可推广：系统对于i的某个版本，只能有一次写入—&gt; 一个值（变量的一个版本）被确定了之后，不允许进行修改</p>
 <p><strong>解决方案</strong>：每次Proposer写之前进行一次多数派读，以便确认是否存在其他Proposer在写；如果存在，则放弃写入；这种操作称为写前读取操作。</p>
 <h3 id="0x04并发进行写前读取操作确定一个值导致数据不一致问题">0x04.并发进行写前读取操作（确定一个值）导致数据不一致问题</h3>
-<p><img src="https://user-images.githubusercontent.com/19829495/112726434-6cc9f180-8f58-11eb-9f18-dbd67e3285e4.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/112726434-6cc9f180-8f58-11eb-9f18-dbd67e3285e4.png">
+    <img src="https://user-images.githubusercontent.com/19829495/112726434-6cc9f180-8f58-11eb-9f18-dbd67e3285e4.png" alt="图片"  />
+    </a>
+</div></p>
 <p><strong>问题</strong>：可能出现两个Proposer同时进行写前读取操作，获取到的结果都是没有其他Proposer在写入;这时候同时进行写操作，还是会造成数据不一致的情况。</p>
 <p><strong>如何解决</strong>：Acceptor节点需要记录最后一个做过写前读取操作的Proposer；进行限制，只允许最后一个完成写前读取的Proposer可以进行后续写入,拒绝之前做过写前读取的Proposer写入的权限。</p>
-<p>已上便是Paxos的核心原理，通过2次多数派读写, 实现了强一致性的共识算法。</p>
+<p>已上便是Paxos的核心原理，通过两次多数派读，以此多数派写，实现了强一致性的共识算法。</p>
 <h3 id="0x05提案的提出与批准">0x05.提案的提出与批准</h3>
 <ol>
 <li>prepare阶段
 <ol>
-<li>Proposer选择一个提案编号n并将prepare请求发送给Acceptors中的一个多数派；</li>
+<li>Proposer选择一个提案编号N并将prepare请求发送给Acceptors中的一个多数派；</li>
 <li>Acceptor收到一个编号为N的prepare消息后，且N大于该Acceptor已经响应过的所有Prepare请求的编号，那么它就会将它已经接受过的编号最大的提案作为响应反馈给Proposer，同时该Acceptor承诺不再接受任何编号小于N的提案。</li>
 </ol>
 </li>
@@ -258,7 +279,12 @@
 </ol>
 </li>
 </ol>
-<p><img src="https://user-images.githubusercontent.com/19829495/112756120-394d9c80-9016-11eb-8dc9-a4dc771b89e9.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/112756120-394d9c80-9016-11eb-8dc9-a4dc771b89e9.png">
+    <img src="https://user-images.githubusercontent.com/19829495/112756120-394d9c80-9016-11eb-8dc9-a4dc771b89e9.png" alt="图片"  />
+    </a>
+</div></p>
 <h2 id="basic-paxos">Basic Paxos</h2>
 <p>Basic Paxos为最基本的Paxos实现，上文所述即为Basic Paxos，通过两轮RPC确定某一个提案（Value）</p>
 <p>要实现Basic Paxos，算法中的各个角色需要拥有如下功能：</p>
@@ -271,7 +297,12 @@ Acceptor
 	vrnd：一组rnd和v，记录了v在哪个rnd被写入
 </code></pre><h3 id="算法实例prepare阶段批准阶段">算法实例（prepare阶段、批准阶段）</h3>
 <p>如下所示为一个不存在冲突的基本流程：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/112757093-cabf0d80-901a-11eb-9dec-efe492d947e8.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/112757093-cabf0d80-901a-11eb-9dec-efe492d947e8.png">
+    <img src="https://user-images.githubusercontent.com/19829495/112757093-cabf0d80-901a-11eb-9dec-efe492d947e8.png" alt="图片"  />
+    </a>
+</div></p>
 <p><strong>prepare阶段</strong></p>
 <ul>
 <li><strong>Acceptor</strong>
@@ -303,7 +334,12 @@ Acceptor
 </ul>
 </li>
 </ul>
-<p><img src="https://user-images.githubusercontent.com/19829495/112760302-fba63f00-9028-11eb-9665-f6c9abce5910.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/112760302-fba63f00-9028-11eb-9665-f6c9abce5910.png">
+    <img src="https://user-images.githubusercontent.com/19829495/112760302-fba63f00-9028-11eb-9665-f6c9abce5910.png" alt="图片"  />
+    </a>
+</div></p>
 <h3 id="算法实例learner学习阶段">算法实例（learner学习阶段）</h3>
 <p>Learner需要学习最终被选定的Value，一般可以通过以下方式进行通知</p>
 <ol>
@@ -320,13 +356,23 @@ Acceptor
 <h3 id="multi-paxos的优化">Multi Paxos的优化</h3>
 <p>Multi Paxos对Basic Paxos的核心优化点是增加了Leader节点，只有Leader才能提出提案；再进一步简化节点角色，节点只有主（Leader）和从（Follower）的区别，Follwer节点接收到提案请求后，会转发给Leader节点进行发起提案。</p>
 <p>因为只有Leader节点可以发起提案，可以视为对提案的批准处于无并发的全局有序环境中，可以支持批量为多次提案运行prepare阶段，此时对某个提案达成一致只需要进行一轮次的RPC请求，即批准（accept）阶段。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/113909302-1e470d80-980a-11eb-9e89-f83336b5e947.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/113909302-1e470d80-980a-11eb-9e89-f83336b5e947.png">
+    <img src="https://user-images.githubusercontent.com/19829495/113909302-1e470d80-980a-11eb-9e89-f83336b5e947.png" alt="图片"  />
+    </a>
+</div></p>
 <h3 id="0x01如何进行leader选举">0x01.如何进行Leader选举</h3>
 <p>Leader选举的过程，可以理解为分布式系统各个节点对“申请Leader”这个提案达成一致。节点启动时，默认处于 Follower 的状态，各个节点会通过心跳的方式定时轮询，确定集群中的Leader节点是否存在；如果不存在Leader节点的情况节点会在心跳超时后基于Basic Paxos的prepare、批准两个阶段向所有其他节点广播竞选Leader的请求，提案被批准后则成为Leader节点。</p>
 <p>Leader带有任期属性（一个单调递增的编号），目的是在Leader节点陷入网络分区、宕机后重新恢复，但另外一部分节点仍存在多数派，且已经完成了重新选主的情况，此时必须以任期编号大的主节点为准。</p>
 <h3 id="0x02如何进行数据复制">0x02.如何进行数据复制</h3>
 <p>基本状态机模型，如下图所示：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/114279560-dcb39e00-9a67-11eb-875e-c444913ea33b.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/114279560-dcb39e00-9a67-11eb-875e-c444913ea33b.png">
+    <img src="https://user-images.githubusercontent.com/19829495/114279560-dcb39e00-9a67-11eb-875e-c444913ea33b.png" alt="图片"  />
+    </a>
+</div></p>
 <p>Multi Paxos在数据复制上采用的是confirm机制，在Basic Paxos协议中，对于决议（value）的读取也是需要执行一轮多数派读取过程的，在实际工程中做数据恢复时（如Leader切换后），对每条日志都执行一轮多数派读代价过大，引入confirm机制的目的在于解决这个问题。</p>
 <p><strong>confirm机制</strong></p>
 <p>Leader持久化一条日志的时候，客户端向Leader节点发起一个操作请求（如某个值的add command ），进行如下几步操作：</p>
@@ -339,12 +385,22 @@ Acceptor
 <p><strong>网络传输与日志空洞</strong></p>
 <p>Multi  Paxos中的每一个命令都有一个递增的编号即logID，如果顺序的发布提案，效率会非常低下，所以Multi Paxos采用类似TCP滑动窗口的方案，实现基于logID的滑动窗口机制，可以每次发送N个提案对N个提案进行表决，以增加带宽。</p>
 <p>TCP协议中如果TCP包在传输中丢失，最坏的情况是会RST这条链接，然后交给应用层逻辑来解决；对于Multi Paxos如果某些提案因为网络或者其他原因没有被表决，那么就会存在<code>日志空洞(即不连续的日志)</code>如下图所示，Multi  Paxos 是允许日志空洞这种情况存在的。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/114279875-5a2bde00-9a69-11eb-9863-091993969011.png" alt="图片"></p>
-<p><strong>异常情况-Leader切换</strong></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/114279875-5a2bde00-9a69-11eb-9863-091993969011.png">
+    <img src="https://user-images.githubusercontent.com/19829495/114279875-5a2bde00-9a69-11eb-9863-091993969011.png" alt="图片"  />
+    </a>
+</div></p>
+<h3 id="异常情况-leader切换">异常情况-Leader切换</h3>
 <p>如果网络出现了分区，部分节点失联，但只要仍能正常工作的节点的数量能够满足多数派（过半数）的要求，系统就仍可以正常运行。</p>
 <p>如下图所示的情况，Node B是任期1的Leader节点，由于网络故障出现了Node A、B和NodeC、D、E两个分区，这时候NodeC、D、E分区的节点通过心跳获知分区内不存在主节点，会进行一次Leader选举，节点数量满足多数派要求，NodeC 当选Leader；此时系统存在NodeC、B两个不同任期的Leader节点。</p>
 <p>客户端请求：如果请求到Node A、B分区，不构成多数派的批准，无法进行confirm，如果请求到NodeC、D、E，构成多数派的批准，可以进行confirm，系统可以继续提供服务。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/114280618-b17f7d80-9a6c-11eb-82e8-51c23d140790.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/114280618-b17f7d80-9a6c-11eb-82e8-51c23d140790.png">
+    <img src="https://user-images.githubusercontent.com/19829495/114280618-b17f7d80-9a6c-11eb-82e8-51c23d140790.png" alt="图片"  />
+    </a>
+</div></p>
 <p>故障恢复：网络问题恢复后，分区会解除，这时候集群内存在两个Leader会以任期编号更大的为主；Node A、B分区的节点会回滚所有未confirm的日志，并进行数据恢复，从Leader节点也就是NodeC发送的心跳包中获得它们失联期间发生的所有变更，并进行confirm操作。</p>
 <p><strong>Leader切换后新任Leader对日志重确认</strong></p>
 <ol>
@@ -356,8 +412,8 @@ Acceptor
 <p>Multi Paxos作为Basic Paxos的改进版本，仅在Paxos的论文中最后Lamport提供了改进的思路，在工程上实现一般都基于原算法的基础上进行一系列的改进，就有了如Raft、ZAB等类Multi Paxos算法；实现思路都是基于Multi Paxos，但是具体实现上都有微小差别，如：Leader竞选的条件、日志是否连续（是否允许存在日志空洞）、Follower节点获取日志confirm操作的方式。</p>
 <p>以Raft为例：</p>
 <ol>
-<li>Raft仅允许日志最多的节点当选为Leader，而Multi Paxos允许任意节点当选Leader</li>
-<li>Raft不允许出现日志空洞，便于做Leader切换后的日志重确认，而Multi Paxos允许，实现过程复杂了些</li>
+<li>Raft仅允许日志最多的节点当选为Leader，而Multi Paxos允许任意节点当选Leader。</li>
+<li>Raft不允许出现日志空洞，便于做Leader切换后的日志重确认，而Multi Paxos允许，实现过程复杂了些。</li>
 </ol>
 <h2 id="参考">参考</h2>
 <p><a href="https://zh.wikipedia.org/wiki/Paxos%E7%AE%97%E6%B3%95">https://zh.wikipedia.org/wiki/Paxos算法</a></p>
@@ -398,6 +454,7 @@ Acceptor
             <li><a href="#multi-paxos的优化">Multi Paxos的优化</a></li>
             <li><a href="#0x01如何进行leader选举">0x01.如何进行Leader选举</a></li>
             <li><a href="#0x02如何进行数据复制">0x02.如何进行数据复制</a></li>
+            <li><a href="#异常情况-leader切换">异常情况-Leader切换</a></li>
             <li><a href="#类multi-paxos算法">类Multi Paxos算法</a></li>
           </ul>
         </li>

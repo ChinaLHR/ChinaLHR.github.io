@@ -19,7 +19,7 @@
     
     <title>Kotlin基础：函数、对象、Lamdba</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, Kotlin'>
+    <meta name="keywords" content='blog, chinalhr, lhr, kotlin'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/kotlin-learn01/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kotlin">Kotlin</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kotlin">kotlin</a></li>
         
         </ul>
     </div>
@@ -227,8 +231,8 @@ Kotlin中的流程控制不仅是普通语句，它们可以返回值，如if表
 <li>数组就是类,和 Java 不同， Kotlin 没有声明数组类型的特殊语法</li>
 <li>在 Kotlin 中，除了循环（ for, do 和 do/while）以外大多数控制结构( if,When )都是表达式</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#960050;background-color:#1e0010">表达式与语句</span>:<span style="color:#960050;background-color:#1e0010">表达式有值，并且能作为另一个表达式的一部分使用；而语句总是包围着它的代码块中的顶层元素，并且没有自己的值。</span>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#75715e">//表达式与语句:表达式有值，并且能作为另一个表达式的一部分使用；而语句总是包围着它的代码块中的顶层元素，并且没有自己的值。
+</span><span style="color:#75715e"></span>
 <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">max</span>(a : Int , b: Int) = <span style="color:#66d9ef">if</span> (a &gt; b) a <span style="color:#66d9ef">else</span> b
 </code></pre></div><ul>
 <li>以关键字开始，然后是变量名称。(var age:Int = 20)</li>
@@ -436,7 +440,7 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 <span style="color:#75715e">/**
 </span><span style="color:#75715e"> * 对象表达式：(匿名内部类)
 </span><span style="color:#75715e"> */</span>
-<span style="color:#66d9ef">val</span> Listener = <span style="color:#66d9ef">object</span> <span style="color:#960050;background-color:#1e0010">: </span><span style="color:#a6e22e">MouseAdapter</span>() {
+<span style="color:#66d9ef">val</span> Listener = <span style="color:#66d9ef">object</span>: MouseAdapter() {
 <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">mouseClicked</span>(e: MouseEvent) { .. . }
 <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">mouseEntered</span>(e: MouseEvent) { ... }
 }
@@ -471,17 +475,25 @@ infix 修饰符标识可以使用中缀调用，to 函数会返回一个 Pair �
 }
 </code></pre></div><h3 id="lamdba">Lamdba</h3>
 <ul>
-<li>Kotlin与Java Lamdba区别
-1.在Kotiin中Lamdba不会仅限于访问 final 变量，在 lambda 内部也可以修改这些变量(lambda捕捉)</li>
-</ul>
-<ol start="2">
+<li>
+<p>Kotlin与Java Lamdba区别</p>
+<ol>
+<li>在Kotiin中Lamdba不会仅限于访问 final 变量，在 lambda 内部也可以修改这些变量(lambda捕捉)</li>
 <li>部分操作符增强：[kotlin]count = [java]filter + count</li>
 </ol>
-<ul>
-<li>惰性集合操作Sequence
+</li>
+<li>
+<p>惰性集合操作Sequence
 例如 map 和 filter操作符，每一步的中间结果都被存储在一个临时列表，Sequence可以避免创建这些临时中间对象(序列中的元素求值是惰性的)。
-注意： Sequence 只提供了 一个方法， iterator
-关于惰性求值：1. 惰性求值是逐个处理元素 2. 延期操作，调用末端操作(count，sum&hellip;)的时候才会求值</li>
+注意： Sequence 只提供了 一个方法， iterator。</p>
+</li>
+<li>
+<p>关于惰性求值：</p>
+<ol>
+<li>惰性求值是逐个处理元素</li>
+<li>延期操作，调用末端操作(count，sum&hellip;)的时候才会求值</li>
+</ol>
+</li>
 </ul>
 <p>iterator 与 Sequence 区别:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#75715e">/**
@@ -546,19 +558,19 @@ println(<span style="color:#e6db74">&#34;求100 以内的和：${naturalNumbers.
 <li>高阶函数</li>
 </ul>
 <p>一个函数返回另一个函数作为结果</p>
-<pre><code>        fun foo(x: Int): (Int) -&gt; Int {
-            return { y: Int -&gt; x + y }
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">        <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">foo</span>(x: Int): (Int) -&gt; Int {
+            <span style="color:#66d9ef">return</span> { y: Int -&gt; x + y }
         }
-</code></pre><p>执行foo函数之后，会返回另一个类型为(Int)-&gt; Int的函数</p>
+</code></pre></div><p>执行foo函数之后，会返回另一个类型为(Int)-&gt; Int的函数</p>
 <ul>
 <li>柯里化(Currying)</li>
 </ul>
 <p>柯里化指的是把接收多个参数的函数变换成一系列仅接收单一参数函数的过程，在返回最终结果值之前，前面的函数依次接收单个参数，然后返回下一个新的函数;柯里化是为了简化Lambda演算理论中函数接收多参数而出现的，它简化了理论，将多元函数变成了一元;</p>
-<pre><code>        fun sum(x: Int) = { y: Int -&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">        <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">sum</span>(x: Int) = { y: Int -&gt;
             { z: Int -&gt; x + y + z }
         }
-        sum(1)(2)(3)
-</code></pre><p>在kotlin中，如果参数不止一个，且最后一个参数为函数类型时，就可以采用类似柯里化风格的调用</p>
+        sum(<span style="color:#ae81ff">1</span>)(<span style="color:#ae81ff">2</span>)(<span style="color:#ae81ff">3</span>)
+</code></pre></div><p>在kotlin中，如果参数不止一个，且最后一个参数为函数类型时，就可以采用类似柯里化风格的调用</p>
 <pre><code>        fun curryingLike(content: String, block: (String) -&gt; Unit) {
             block(content)
         }

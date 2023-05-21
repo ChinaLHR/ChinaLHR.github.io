@@ -19,7 +19,7 @@
     
     <title>Kotlin基础：类型系统、语言特性</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, Kotlin'>
+    <meta name="keywords" content='blog, chinalhr, lhr, kotlin'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/kotlin-learn02/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kotlin">Kotlin</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kotlin">kotlin</a></li>
         
         </ul>
     </div>
@@ -467,7 +471,7 @@ List&lt;Int?&gt;? :集合本身是可Null的,列表中的单个值是可Null的<
     <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> _attributes = hashMapOf&lt;String, String&gt; ()
     
     <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">setAttribute</span>(attrName: String, value: String) {
-        -attributes[attrName] =value
+        _attributes[attrName] = value
     }
     <span style="color:#75715e">//将map(_attributes) 作为委托属性 set/get name自动存储到Map
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> name: String <span style="color:#66d9ef">by</span> _attributes 

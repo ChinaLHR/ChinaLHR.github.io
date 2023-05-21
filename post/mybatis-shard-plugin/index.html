@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Mybatis自定义分表Plug</title>
+    <meta name="description" content="keep curious 😼">
+    <meta name="keywords" content='blog, chinalhr, lhr, java, mybatis'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/post/mybatis-shard-plugin/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Mybatis自定义分表Plug">
+    <meta property="og:description" content="keep curious 😼">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mybatis自定义分表Plug">
+    <meta name="twitter:description" content="keep curious 😼">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/post/mybatis-shard-plugin/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/post/mybatis-shard-plugin/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/post/mybatis-shard-plugin/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JLJBQBW5WM');
+</script>
+  
+    
+    
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Mybatis自定义分表Plug</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            November 12, 2018
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/java">java</a></li>
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/mybatis">mybatis</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
+<p>工作中需要用到MyBatis进行分表操作，简单记录实现过程</p>
+</blockquote>
+<h2 id="mybatis-interceptor">MyBatis Interceptor</h2>
+<h3 id="mybatis-允许你在已映射语句执行过程中的某一点使用插件来拦截包括">MyBatis 允许你在已映射语句执行过程中的某一点使用插件来拦截,包括：</h3>
+<pre><code>Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)[拦截执行器的方法]
+ParameterHandler (getParameterObject, setParameters)[拦截参数的处理]
+ResultSetHandler (handleResultSets, handleOutputParameters)[拦截结果集的处理]
+StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法构建的处理]
+</code></pre>
+<h3 id="interceptor接口">Interceptor接口</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Interceptor</span> <span style="color:#f92672">{</span>
+	  <span style="color:#75715e">//进行拦截的时候要执行的方法
+</span><span style="color:#75715e"></span>	  Object <span style="color:#a6e22e">intercept</span><span style="color:#f92672">(</span>Invocation invocation<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Throwable<span style="color:#f92672">;</span>
+	  <span style="color:#75715e">//决定是否要进行拦截进而决定要返回一个什么样的目标对象
+</span><span style="color:#75715e"></span>	  Object <span style="color:#a6e22e">plugin</span><span style="color:#f92672">(</span>Object target<span style="color:#f92672">);</span>
+	  <span style="color:#75715e">//Mybatis配置文件中指定一些属性
+</span><span style="color:#75715e"></span>	  <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setProperties</span><span style="color:#f92672">(</span>Properties properties<span style="color:#f92672">);</span>
+	
+	<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="intercepts">@Intercepts</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Intercepts用于表明当前的对象是一个Interceptor</span><span style="color:#960050;background-color:#1e0010">，</span>而<span style="color:#a6e22e">@Signature则表明要拦截的接口</span><span style="color:#960050;background-color:#1e0010">、</span>方法以及对应的参数类型<span style="color:#960050;background-color:#1e0010">。</span>
+	
+	<span style="color:#a6e22e">@Intercepts</span><span style="color:#f92672">(</span> <span style="color:#f92672">{</span>  
+       <span style="color:#a6e22e">@Signature</span><span style="color:#f92672">(</span>method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;query&#34;</span><span style="color:#f92672">,</span> type <span style="color:#f92672">=</span> Executor<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> args <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>  
+              MappedStatement<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> Object<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> RowBounds<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span>  
+              ResultHandler<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span> <span style="color:#f92672">}),</span>  
+       <span style="color:#a6e22e">@Signature</span><span style="color:#f92672">(</span>method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;prepare&#34;</span><span style="color:#f92672">,</span> type <span style="color:#f92672">=</span> StatementHandler<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> args <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span> <span style="color:#f92672">})</span> <span style="color:#f92672">})</span>  
+</code></pre></div><p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/48355299-a2931600-e6ce-11e8-8a6f-540c9cd5f3f8.png">
+    <img src="https://user-images.githubusercontent.com/19829495/48355299-a2931600-e6ce-11e8-8a6f-540c9cd5f3f8.png" alt="image"  />
+    </a>
+</div></p>
+<h2 id="利用interceptor实现自定义分表原理">利用Interceptor实现自定义分表原理</h2>
+<p>利用JDBC对数据库进行操作就必须要有一个对应的Statement对象，Mybatis在执行Sql语句前也会产生一个包含Sql语句的Statement对象，Sql语句生成的时机是在Statement之前的，利用Interceptor可以在Sql语句成为Statement之前对Sql语句进行修改。</p>
+<p>Mybatis中Statement语句是通过RoutingStatementHandler对象的 prepare方法生成的。使用Interceptor对StatementHandler的prepare方法进行拦截即可获得原始Sql。</p>
+<p>获取原始Sql后，可以解析出根表名，再通过一系列的策略获取到实际的分表表名，对其原始Sql进行表名替换。</p>
+<h2 id="示例">示例:</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Intercepts</span><span style="color:#f92672">({</span><span style="color:#a6e22e">@Signature</span><span style="color:#f92672">(</span>type <span style="color:#f92672">=</span> StatementHandler<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;prepare&#34;</span><span style="color:#f92672">,</span> args <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">})})</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomerIdShardInterceptor</span> <span style="color:#66d9ef">implements</span> Interceptor <span style="color:#f92672">{</span>
+	    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> ObjectFactory DEFAULT_OBJECT_FACTORY <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DefaultObjectFactory<span style="color:#f92672">();</span>
+	    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> ObjectWrapperFactory DEFAULT_OBJECT_WRAPPER_FACTORY <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DefaultObjectWrapperFactory<span style="color:#f92672">();</span>
+	    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> ReflectorFactory DEFAULT_REFLECTOR_FACTORY <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DefaultReflectorFactory<span style="color:#f92672">();</span>
+	
+	
+	    <span style="color:#a6e22e">@Override</span>
+	    <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">intercept</span><span style="color:#f92672">(</span>Invocation invocation<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Throwable <span style="color:#f92672">{</span>
+	        StatementHandler statementHandler <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>StatementHandler<span style="color:#f92672">)</span> invocation<span style="color:#f92672">.</span><span style="color:#a6e22e">getTarget</span><span style="color:#f92672">();</span>
+	        <span style="color:#75715e">// 保存会话信息
+</span><span style="color:#75715e"></span>	        MetaObject metaStatementHandler <span style="color:#f92672">=</span> MetaObject<span style="color:#f92672">.</span><span style="color:#a6e22e">forObject</span><span style="color:#f92672">(</span>statementHandler<span style="color:#f92672">,</span>
+	                DEFAULT_OBJECT_FACTORY<span style="color:#f92672">,</span> DEFAULT_OBJECT_WRAPPER_FACTORY<span style="color:#f92672">,</span> DEFAULT_REFLECTOR_FACTORY<span style="color:#f92672">);</span>
+	        <span style="color:#75715e">// 获取原sql
+</span><span style="color:#75715e"></span>	        BoundSql boundSql <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>BoundSql<span style="color:#f92672">)</span> metaStatementHandler<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;delegate.boundSql&#34;</span><span style="color:#f92672">);</span>
+			<span style="color:#75715e">//修改原有Sql数据	        
+</span><span style="color:#75715e"></span>			String modifiedSql <span style="color:#f92672">=</span> modifySql<span style="color:#f92672">(</span>boundSql<span style="color:#f92672">);</span>
+			<span style="color:#75715e">//将修改后的Sql设置到metaStatementHandler中
+</span><span style="color:#75715e"></span>	        metaStatementHandler<span style="color:#f92672">.</span><span style="color:#a6e22e">setValue</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;delegate.boundSql.sql&#34;</span><span style="color:#f92672">,</span> modifiedSql<span style="color:#f92672">);</span>
+	        <span style="color:#66d9ef">return</span> invocation<span style="color:#f92672">.</span><span style="color:#a6e22e">proceed</span><span style="color:#f92672">();</span>
+	    <span style="color:#f92672">}</span>
+	
+	    <span style="color:#a6e22e">@Override</span>
+	    <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">plugin</span><span style="color:#f92672">(</span>Object o<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+			<span style="color:#75715e">//对应类型进行封装
+</span><span style="color:#75715e"></span>	        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>o <span style="color:#66d9ef">instanceof</span> StatementHandler<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	            <span style="color:#66d9ef">return</span> Plugin<span style="color:#f92672">.</span><span style="color:#a6e22e">wrap</span><span style="color:#f92672">(</span>o<span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">);</span>
+	        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+	            <span style="color:#66d9ef">return</span> o<span style="color:#f92672">;</span>
+	        <span style="color:#f92672">}</span>
+	    <span style="color:#f92672">}</span>
+	
+	    <span style="color:#a6e22e">@Override</span>
+	    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setProperties</span><span style="color:#f92672">(</span>Properties properties<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	
+	    <span style="color:#f92672">}</span>
+	
+	    <span style="color:#66d9ef">private</span> String <span style="color:#a6e22e">modifySql</span><span style="color:#f92672">(</span>BoundSql boundSql<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	        String targetSql <span style="color:#f92672">=</span> boundSql<span style="color:#f92672">.</span><span style="color:#a6e22e">getSql</span><span style="color:#f92672">().</span><span style="color:#a6e22e">trim</span><span style="color:#f92672">().</span><span style="color:#a6e22e">toLowerCase</span><span style="color:#f92672">();</span>
+	        String tableName <span style="color:#f92672">=</span> getTableName<span style="color:#f92672">(</span>targetSql<span style="color:#f92672">);</span>
+			<span style="color:#75715e">// 对targetSql进行表名修改
+</span><span style="color:#75715e"></span>			<span style="color:#f92672">...</span>
+	        <span style="color:#66d9ef">return</span> targetSql<span style="color:#f92672">;</span>
+	
+	    <span style="color:#f92672">}</span>
+	
+	    <span style="color:#75715e">/**
+</span><span style="color:#75715e">	     * 根据sql获取表名
+</span><span style="color:#75715e">	     *
+</span><span style="color:#75715e">	     * @param sql
+</span><span style="color:#75715e">	     * @return
+</span><span style="color:#75715e">	     */</span>
+	    <span style="color:#66d9ef">private</span> String <span style="color:#a6e22e">getTableName</span><span style="color:#f92672">(</span>String sql<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	        String<span style="color:#f92672">[]</span> sqls <span style="color:#f92672">=</span> sql<span style="color:#f92672">.</span><span style="color:#a6e22e">split</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;\\s+&#34;</span><span style="color:#f92672">);</span>
+	        <span style="color:#66d9ef">switch</span> <span style="color:#f92672">(</span>sqls<span style="color:#f92672">[</span>0<span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
+	            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;select&#34;</span><span style="color:#f92672">:</span> <span style="color:#f92672">{</span>
+	                <span style="color:#75715e">// select tableName
+</span><span style="color:#75715e"></span>	                <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> sqls<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+	                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>sqls<span style="color:#f92672">[</span>i<span style="color:#f92672">].</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;from&#34;</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+	                        <span style="color:#66d9ef">return</span> sqls<span style="color:#f92672">[</span>i <span style="color:#f92672">+</span> 1<span style="color:#f92672">];</span>
+	                    <span style="color:#f92672">}</span>
+	                <span style="color:#f92672">}</span>
+	                <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+	            <span style="color:#f92672">}</span>
+	            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;update&#34;</span><span style="color:#f92672">:</span> <span style="color:#f92672">{</span>
+	                <span style="color:#75715e">// update tableName
+</span><span style="color:#75715e"></span>	                <span style="color:#66d9ef">return</span> sqls<span style="color:#f92672">[</span>1<span style="color:#f92672">];</span>
+	            <span style="color:#f92672">}</span>
+	            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;insert&#34;</span><span style="color:#f92672">:</span> <span style="color:#f92672">{</span>
+	                <span style="color:#75715e">// insert into tableName
+</span><span style="color:#75715e"></span>	                <span style="color:#66d9ef">return</span> sqls<span style="color:#f92672">[</span>2<span style="color:#f92672">];</span>
+	            <span style="color:#f92672">}</span>
+	            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;delete&#34;</span><span style="color:#f92672">:</span> <span style="color:#f92672">{</span>
+	                <span style="color:#75715e">// delete tableName
+</span><span style="color:#75715e"></span>	                <span style="color:#66d9ef">return</span> sqls<span style="color:#f92672">[</span>1<span style="color:#f92672">];</span>
+	            <span style="color:#f92672">}</span>
+	        <span style="color:#f92672">}</span>
+	        <span style="color:#66d9ef">return</span> StringUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">EMPTY</span><span style="color:#f92672">;</span>
+	    <span style="color:#f92672">}</span>
+
+    <span style="color:#f92672">}</span>
+</code></pre></div><h2 id="关于分表策略">关于分表策略</h2>
+<h3 id="取模">取模</h3>
+<pre><code>1.可以维护一个根symbols表用来存储插入表的自增的id代表固定业务id，使用id取模进行分表(存储分表table_suffix = table_(id%i),i的大小取决于数据量的大小),由此策略可分table_0~table_i-1个分表进行数据存储。
+2.插入时根据symbols表的自增业务id进行取模对对应表进行插入。
+3.查询时从symbols对查询业务id进行取模,决定去哪个分表查询
+</code></pre>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="http://elim.iteye.com/blog/1851081">http://elim.iteye.com/blog/1851081</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/35483580">https://zhuanlan.zhihu.com/p/35483580</a></li>
+</ul>
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#mybatis-interceptor">MyBatis Interceptor</a>
+          <ul>
+            <li><a href="#mybatis-允许你在已映射语句执行过程中的某一点使用插件来拦截包括">MyBatis 允许你在已映射语句执行过程中的某一点使用插件来拦截,包括：</a></li>
+            <li><a href="#interceptor接口">Interceptor接口</a></li>
+            <li><a href="#intercepts">@Intercepts</a></li>
+          </ul>
+        </li>
+        <li><a href="#利用interceptor实现自定义分表原理">利用Interceptor实现自定义分表原理</a></li>
+        <li><a href="#示例">示例:</a></li>
+        <li><a href="#关于分表策略">关于分表策略</a>
+          <ul>
+            <li><a href="#取模">取模</a></li>
+          </ul>
+        </li>
+        <li><a href="#参考">参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

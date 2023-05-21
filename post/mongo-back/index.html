@@ -19,7 +19,7 @@
     
     <title>MongoDB备份与还原</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, MongoDB'>
+    <meta name="keywords" content='blog, chinalhr, lhr, mongodb'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/mongo-back/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/mongodb">MongoDB</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/mongodb">mongodb</a></li>
         
         </ul>
     </div>
@@ -197,11 +201,11 @@
 </ul>
 <p>官方参考文档：<a href="https://docs.mongodb.com/manual/core/backups/">https://docs.mongodb.com/manual/core/backups/</a></p>
 <h3 id="mongodump命令">mongodump命令</h3>
-<p>在Mongodb中可以使用mongodump命令来备份MongoDB数据,mongodump命令可以从 MongoDB 数据库读取数据，并生成 BSON 文件，mongodump 适合用于备份和恢复数据量较小的 MongoDB 数据库，不适用于大数据量备份。</p>
+<p>在Mongodb中可以使用<code>mongodump</code>命令来备份MongoDB数据，<code>mongodump</code>命令可以从 MongoDB 数据库读取数据，并生成 BSON 文件，<code>mongodump</code> 适合用于备份和恢复数据量较小的 MongoDB 数据库，不适用于大数据量备份。</p>
 <p><strong>mongodump 仅备份数据库中的文档，不备份索引，所以还原数据后需要重新生成索引。</strong></p>
-<p>mongodump 备份过程中会对 mongod 服务的性能产生影响，建议在业务低峰期进行操作。</p>
+<p><code>mongodump</code> 备份过程中会对 mongod 服务的性能产生影响，建议在业务低峰期进行操作。</p>
 <ul>
-<li>dump命令参数</li>
+<li>mongodump命令参数</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 命令格式</span>
 mongodump &lt;options&gt;
@@ -326,7 +330,7 @@ tar -zcvPf <span style="color:#e6db74">${</span>TAR_DIR<span style="color:#e6db7
         find -L $i -maxdepth <span style="color:#ae81ff">1</span> -type f <span style="color:#ae81ff">\(</span> -name <span style="color:#e6db74">&#34;*</span><span style="color:#e6db74">${</span>DEL_DATE<span style="color:#e6db74">}</span><span style="color:#e6db74">*&#34;</span> -a -name <span style="color:#e6db74">&#34;*.tar.gz&#34;</span> <span style="color:#ae81ff">\)</span> -exec rm -f <span style="color:#f92672">{}</span> <span style="color:#ae81ff">\;</span>
 <span style="color:#66d9ef">done</span>
 
-</code></pre></div><p>其他：可以将添加crontab定时任务使用Shell编写，基于Jenkins控制发布，做到自动化运维与减少误操作。一般执行crontab -e命令都是直接往/var/spool/cron下创建一个文件，这个文件的名称就是你的当前用户名，内容就是你添加的任务具体内容。依据这一点可以做到自动化的crontab发布，Shell脚本大致如下：</p>
+</code></pre></div><p><strong>其他</strong>：可以将添加crontab定时任务使用Shell编写，基于Jenkins控制发布，做到自动化运维与减少误操作。一般执行crontab -e命令都是直接往/var/spool/cron下创建一个文件，这个文件的名称就是你的当前用户名，内容就是你添加的任务具体内容。依据这一点可以做到自动化的crontab发布，Shell脚本大致如下：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">crontab_reload<span style="color:#f92672">(){</span>
     echo <span style="color:#e6db74">&#34;30 0 * * * </span><span style="color:#e6db74">${</span>SCRIPT_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">/auto/crontab/mongo_back.sh&#34;</span> &gt; /var/spool/cron/root
     <span style="color:#75715e"># 重启crontab</span>
@@ -336,8 +340,7 @@ tar -zcvPf <span style="color:#e6db74">${</span>TAR_DIR<span style="color:#e6db7
     crontab -l
     echo <span style="color:#e6db74">&#34;crontab reload done&#34;</span>
 <span style="color:#f92672">}</span>
-
-</code></pre></div><p>注意（echo &gt; 是输出重定向，类似于insert，echo &raquo; 是输出追加重定向，类似于append）</p>
+</code></pre></div>
         </p>
     </div>
 </div>

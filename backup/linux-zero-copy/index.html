@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Linux 零拷贝技术详解</title>
+    <meta name="description" content="keep curious 😼">
+    <meta name="keywords" content='blog, chinalhr, lhr'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/backup/linux-zero-copy/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Linux 零拷贝技术详解">
+    <meta property="og:description" content="keep curious 😼">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Linux 零拷贝技术详解">
+    <meta name="twitter:description" content="keep curious 😼">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/backup/linux-zero-copy/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/backup/linux-zero-copy/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/backup/linux-zero-copy/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JLJBQBW5WM');
+</script>
+  
+    
+    
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Linux 零拷贝技术详解</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            August 23, 2019
+        </p>
+
+        <ul class="post-tags">
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
+<p>Linux Zero-copy机制详解以及如何在Java中应用Zero-copy</p>
+</blockquote>
+<h3 id="关于zero-copy零拷贝">关于Zero-copy(零拷贝)</h3>
+<p>Zero-copy(零拷贝)技术是指计算机执行操作时，CPU不需要先将数据从某处内存复制到另一个内存区域，可以减少上下文切换以及CPU 的拷贝时间。零拷贝技术经常用于在许多耗时的任务中节省CPU周期和内存带宽，如通过网络高速传输文件等，从而提高计算机执行的程序（进程）的性能。</p>
+<ul>
+<li>原理</li>
+</ul>
+<p>操作系统某些组件（例如驱动程序、文件系统和网络协议栈）若采用零复制技术，则能极大地增强了特定应用程序的性能，并更有效地利用系统资源。通过使CPU得以完成其他而非将机器中的数据复制到另一处的任务，性能也得到了增强。另外，零复制操作减少了在用户空间与内核空间之间切换模式的次数。</p>
+<p>举例来说，如果要读取一个文件并通过网络发送它，传统方式下每个读/写周期都需要复制两次数据和切换两次上下文，而数据的复制都需要依靠CPU。通过零复制技术完成相同的操作，上下文切换减少到两次，并且不需要CPU复制数据。</p>
+<p>零复制协议对于网络链路容量接近或超过CPU处理能力的高速网络尤为重要。在这种网络下，CPU几乎将所有时间都花在复制要传送的数据上，因此将成为使通信速率低于链路容量的瓶颈。</p>
+<h3 id="linux-io机制">Linux I/O机制</h3>
+<ul>
+<li>I/O中断</li>
+</ul>
+<p>用户进程需要读取磁盘数据，需要CPU中断，发起IO请求，每次的IO中断，都带来CPU的上下文切换。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/63401028-77c9b100-c408-11e9-804b-32f194a663dc.png">
+    <img src="https://user-images.githubusercontent.com/19829495/63401028-77c9b100-c408-11e9-804b-32f194a663dc.png" alt="image"  />
+    </a>
+</div></p>
+<ul>
+<li>DMA(Direct Memory Access，直接内存存取)</li>
+</ul>
+<p>DMA允许不同速度的硬件装置来沟通，而不需要依赖于CPU 的大量中断负载。DMA控制器接管了数据读写请求，减少CPU的负担。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/63401395-b4e27300-c409-11e9-9ce8-46c2a4785cf4.png">
+    <img src="https://user-images.githubusercontent.com/19829495/63401395-b4e27300-c409-11e9-9ce8-46c2a4785cf4.png" alt="image"  />
+    </a>
+</div></p>
+<p>涉及流程：</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/63411420-16b1d580-c428-11e9-92cf-0cfe51d00125.png">
+    <img src="https://user-images.githubusercontent.com/19829495/63411420-16b1d580-c428-11e9-92cf-0cfe51d00125.png" alt="image"  />
+    </a>
+</div></p>
+<h3 id="socket网络传输">Socket网络传输</h3>
+<ul>
+<li>大部分Web应用服务器都通过文件读取数据然后将数据通过网络传输给其他的程序的方式。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">File.read(fileDesc,tmp_buf,len);
+File.send(socket,tmp_buf,len);
+</code></pre></div><ul>
+<li>数据从磁盘文件到网卡的过程</li>
+</ul>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/63423628-4fa97480-c43f-11e9-957c-491d8ff5086a.png">
+    <img src="https://user-images.githubusercontent.com/19829495/63423628-4fa97480-c43f-11e9-957c-491d8ff5086a.png" alt="image"  />
+    </a>
+</div></p>
+<ul>
+<li>用户态和内核态的切换过程</li>
+</ul>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/63423861-c6467200-c43f-11e9-90cc-c465dc25e987.png">
+    <img src="https://user-images.githubusercontent.com/19829495/63423861-c6467200-c43f-11e9-90cc-c465dc25e987.png" alt="image"  />
+    </a>
+</div></p>
+<ul>
+<li>
+<p>涉及过程</p>
+<ol>
+<li>read()的调用引起了从用户态到内核态的切换，内部是通过sys_read()(或者类似的方法)发起对文件数据的读取。数据的第一次复制是通过DMA(直接内存访问)将磁盘上的数据复制到内核空间的缓冲区中。</li>
+<li>数据从内核空间的缓冲区复制到用户空间的缓冲区后，read()方法也就返回了。此时内核态又切换回用户态，现在数据也已经复制到了用户地址空间的缓冲区中。</li>
+<li>socket的send()方法的调用又引起了用户态到内核态的切换，第三次数据复制有将数据从用户空间缓冲区复制到了内核空间的缓冲区，这次数据被放在了不同于之前的内核缓冲区中，这个缓冲区与数据将要被传输到socket关联。</li>
+<li>send()系统调用返回后，就产生了第四次用户态和内核态的切换。随着DMA单独异步的将数据从内核态的缓冲区中传输到协议引擎发送到网络上，有了第四次数据的复制。</li>
+</ol>
+</li>
+</ul>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/63424473-140faa00-c441-11e9-96ba-9d6f73bd9f4f.png">
+    <img src="https://user-images.githubusercontent.com/19829495/63424473-140faa00-c441-11e9-96ba-9d6f73bd9f4f.png" alt="image"  />
+    </a>
+</div></p>
+<ul>
+<li>
+<p>问题</p>
+<ul>
+<li>数据传送所消耗的成本：4次拷贝(两次是DMA copy，两次是CPU copy)，4次上下文切换。</li>
+<li>大量的数据复制并不是真正需要的。可以消除一些重复，以减少开销并提高性能。</li>
+<li>内核缓冲区做中介的引入虽然改善了进程的性能(中介缓冲区可以用来实现异步功能,当缓冲区数据满了之后再写上去减少系统调用次数)，当应用程序读取的数据比这个中介缓冲区的容量大很多的时候，数据就会在磁盘、内核空间、用户空间之间复制多次后才最终被传给应用程序。</li>
+</ul>
+</li>
+<li>
+<p>改善</p>
+<ul>
+<li>零拷贝技术(Zero-copy)，通过在OS层面优化，减少IO流程中不必要的拷贝。</li>
+</ul>
+</li>
+</ul>
+<h3 id="linux-上的零拷贝技术zero-copy">Linux 上的零拷贝技术(Zero-copy)</h3>
+<h4 id="mmap内存映射">mmap(内存映射)</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">mmap</span>(<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>addr, size_t length, <span style="color:#66d9ef">int</span> prot, <span style="color:#66d9ef">int</span> flags, <span style="color:#66d9ef">int</span> fd, off_t offset);
+</code></pre></div><p>Linux 使用虚拟内存管理，其中多个虚拟内存可以指向同一个物理地址，利用这个特性，mmap将内核空间和用户空间的虚拟地址映射到同一个物理地址，节省内核空间到用户空间的数据复制流程。通过将内核中的读缓冲区映射到用户空间中的缓冲区，所有的IO操作都在内核中完成。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/63494509-64921080-c4f0-11e9-8995-b958975971c6.png">
+    <img src="https://user-images.githubusercontent.com/19829495/63494509-64921080-c4f0-11e9-8995-b958975971c6.png" alt="image"  />
+    </a>
+</div></p>
+<p>read-send模型</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/63501762-d2ddcf80-c4fe-11e9-9cf9-079c4a25bb43.png">
+    <img src="https://user-images.githubusercontent.com/19829495/63501762-d2ddcf80-c4fe-11e9-9cf9-079c4a25bb43.png" alt="image"  />
+    </a>
+</div></p>
+<p>优化：拷贝次数优化（1次cpu copy、2次DMA copy），上下文切换四次。</p>
+<h4 id="sendfile">sendfile</h4>
+<p>在Linux内核版本2.1中，引入了<code>sendfile</code>系统调用，以简化网络和两个本地文件之间的数据传输。<code>sendfile</code>的引入不仅减少了数据复制，还减少了上下文切换。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">ssize_t <span style="color:#a6e22e">sendfile</span>(<span style="color:#66d9ef">int</span> out_fd, <span style="color:#66d9ef">int</span> in_fd, off_t <span style="color:#f92672">*</span>offset, size_t count);
+</code></pre></div><p><code>sendfile</code>可以在两个文件描述符之间传输数据。它运行在操作系统内核中，避免了内核Buffer和用户Buffer数据之间的拷贝操作，因此可以用来实现零拷贝。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/63498007-9d81b380-c4f7-11e9-85dc-f577ed708b4c.png">
+    <img src="https://user-images.githubusercontent.com/19829495/63498007-9d81b380-c4f7-11e9-85dc-f577ed708b4c.png" alt="image"  />
+    </a>
+</div></p>
+<p>read-send模型</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/63501685-a9bd3f00-c4fe-11e9-8fef-cbf540c0009e.png">
+    <img src="https://user-images.githubusercontent.com/19829495/63501685-a9bd3f00-c4fe-11e9-8fef-cbf540c0009e.png" alt="image"  />
+    </a>
+</div></p>
+<p>优化：拷贝次数优化（1次CPU copy、2次DMA copy），上下文切换两次。</p>
+<h4 id="sendfile-with-dma-scattergather-copy">sendfile With DMA Scatter/Gather Copy</h4>
+<p>在Linux内核2.4以后的版本中， 提供带有分散/聚集的<code>sendfile</code>操作来优化<code>sendfile</code>。提供带有分散/聚集的<code>sendfile</code>操作来优化<code>sendfile</code>，它会删除最后一个 CPU 副本。其原理是不在内核空间Buffer和Socket Buffer中进行数据拷贝，而是将内核空间Buffer的内存地址和偏移量记录到对应的Socket Buffer中，这样就不需要拷贝了。本质和解决虚拟内存的思路是一样的，都是内存地址的记录。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/63499538-9dcf7e00-c4fa-11e9-983a-0fcf9154fdd9.png">
+    <img src="https://user-images.githubusercontent.com/19829495/63499538-9dcf7e00-c4fa-11e9-983a-0fcf9154fdd9.png" alt="image"  />
+    </a>
+</div></p>
+<p>read-send模型</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/63502345-fb19fe00-c4ff-11e9-9c8d-67c79b3432a8.png">
+    <img src="https://user-images.githubusercontent.com/19829495/63502345-fb19fe00-c4ff-11e9-9c8d-67c79b3432a8.png" alt="image"  />
+    </a>
+</div></p>
+<p>优化:拷贝次数优化（0次cpu copy、2次DMA copy），上下文切换两次。</p>
+<h4 id="splice">splice</h4>
+<p>在Linux内核2.6.17中引入了<code>splice</code>，<code>splice</code> 是<code>sendfile</code>的超集。内核还有一个 <code>tee</code> 函数，专门用于在两个管道之间移动数据。对比两者：</p>
+<ul>
+<li>相同点：<code>slice</code>和<code>sendfile</code>都需要两个打开的文件描述符，一个用于输入，一个用于输出。</li>
+<li>不同点：<code>slice</code>允许任意两个文件相互连接，而不仅仅是文件和socket进行数据传输，而且<code>slice</code>不需要硬件支持。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">ssize_t <span style="color:#a6e22e">splice</span>(<span style="color:#66d9ef">int</span> fdin, loff_t <span style="color:#f92672">*</span>offin, <span style="color:#66d9ef">int</span> fdout, loff_t <span style="color:#f92672">*</span>offout, size_t len, <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> flags);
+</code></pre></div><p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/63503847-da06dc80-c502-11e9-8f22-fa5677b90dca.png">
+    <img src="https://user-images.githubusercontent.com/19829495/63503847-da06dc80-c502-11e9-8f22-fa5677b90dca.png" alt="image"  />
+    </a>
+</div></p>
+<p>优化:拷贝次数优化 (0次cpu copy、2次DMA copy)，上下文切换两次。</p>
+<h4 id="zero-copy机制对比">Zero-copy机制对比</h4>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/63504127-6f09d580-c503-11e9-84d1-6747e6ffb7df.png">
+    <img src="https://user-images.githubusercontent.com/19829495/63504127-6f09d580-c503-11e9-84d1-6747e6ffb7df.png" alt="image"  />
+    </a>
+</div></p>
+<h3 id="java-nio-对linux-zero-copy机制支持">Java NIO 对Linux Zero-copy机制支持</h3>
+<h4 id="nio中的mmap">NIO中的mmap</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"> MappedByteBuffer mappedByteBuffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RandomAccessFile<span style="color:#f92672">(</span>file<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;r&#34;</span><span style="color:#f92672">)</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">getChannel</span><span style="color:#f92672">()</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span>FileChannel<span style="color:#f92672">.</span><span style="color:#a6e22e">MapMode</span><span style="color:#f92672">.</span><span style="color:#a6e22e">READ_ONLY</span><span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> 1024<span style="color:#f92672">);</span>
+</code></pre></div><ul>
+<li>FileChannle.map(MapMode mode,long position, long size)</li>
+</ul>
+<p>将Channel文件的某个区域直接映射到内存中。采用了操作系统中的内存映射方式，底层就是调用Linux mmap()实现的。</p>
+<p>将内核缓冲区的内存和用户缓冲区的内存做了一个地址映射。这种方式适合读取大文件，同时也能对文件内容进行更改，但是如果其后要通过SocketChannel发送，还是需要CPU进行数据的拷贝。</p>
+<ul>
+<li>注意点</li>
+</ul>
+<p>使用mmap文件映射，只有在JVM在full gc时才会进行释放内存。当close时，需要手动清除内存映射文件，可以反射调用sun.misc.Cleaner方法。</p>
+<h4 id="nio中的sendfile">NIO中的sendfile</h4>
+<ul>
+<li>FileChannel.transferTo(long position, long count,WritableByteChannel target)</li>
+</ul>
+<p>transferTo方法直接将当前通道内容传输到另一个通道，没有涉及到Buffer的任何操作，NIO中 的Buffer是JVM堆或者堆外内存(操作系统内核空间的内存)。Linux系统中通过系统调用sendfile() 实现。</p>
+<ul>
+<li>Zero-copy实现文件复制</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">copyFile</span><span style="color:#f92672">(</span>File src<span style="color:#f92672">,</span> File dest<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">(</span>FileChannel srcChannel <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FileInputStream<span style="color:#f92672">(</span>src<span style="color:#f92672">).</span><span style="color:#a6e22e">getChannel</span><span style="color:#f92672">();</span>
+             FileChannel destChannel <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FileInputStream<span style="color:#f92672">(</span>dest<span style="color:#f92672">).</span><span style="color:#a6e22e">getChannel</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+
+            srcChannel<span style="color:#f92672">.</span><span style="color:#a6e22e">transferTo</span><span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> srcChannel<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">(),</span> destChannel<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>IOException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div>
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#关于zero-copy零拷贝">关于Zero-copy(零拷贝)</a></li>
+            <li><a href="#linux-io机制">Linux I/O机制</a></li>
+            <li><a href="#socket网络传输">Socket网络传输</a></li>
+            <li><a href="#linux-上的零拷贝技术zero-copy">Linux 上的零拷贝技术(Zero-copy)</a>
+              <ul>
+                <li><a href="#mmap内存映射">mmap(内存映射)</a></li>
+                <li><a href="#sendfile">sendfile</a></li>
+                <li><a href="#sendfile-with-dma-scattergather-copy">sendfile With DMA Scatter/Gather Copy</a></li>
+                <li><a href="#splice">splice</a></li>
+                <li><a href="#zero-copy机制对比">Zero-copy机制对比</a></li>
+              </ul>
+            </li>
+            <li><a href="#java-nio-对linux-zero-copy机制支持">Java NIO 对Linux Zero-copy机制支持</a>
+              <ul>
+                <li><a href="#nio中的mmap">NIO中的mmap</a></li>
+                <li><a href="#nio中的sendfile">NIO中的sendfile</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

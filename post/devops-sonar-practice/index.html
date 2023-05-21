@@ -19,7 +19,7 @@
     
     <title>DevOps流程中使用SonarQube推动代码质量优化</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, SonarQube, DevOps'>
+    <meta name="keywords" content='blog, chinalhr, lhr, ci-cd, jenkins, devops'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/devops-sonar-practice/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,9 +182,11 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/sonarqube">SonarQube</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/ci-cd">ci-cd</a></li>
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/devops">DevOps</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/jenkins">jenkins</a></li>
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/devops">devops</a></li>
         
         </ul>
     </div>
@@ -191,10 +197,15 @@
 <p>在持续集成中利用SonarQube推动代码质量的持续优化的实践</p>
 </blockquote>
 <h2 id="devops">DevOps</h2>
-<p><strong>DevOps</strong>（<strong>Dev</strong>elopment和<strong>Op</strong>erations的组合词）是一种重视“开发人员（Dev）”和“运维人员（Ops）”之间沟通合作的文化、运动或惯例。通过自动化“软件交付”和“架构变更”的流程，来使得构建、测试、发布软件能够更加地快捷、频繁和可靠。</p>
+<p><strong>DevOps</strong>（Development和Operations的组合词）是一种重视“开发人员（Dev）”和“运维人员（Ops）”之间沟通合作的文化、运动或惯例。通过自动化“软件交付”和“架构变更”的流程，来使得构建、测试、发布软件能够更加地快捷、频繁和可靠。</p>
 <p><strong>DevOps生命周期</strong>： 版本控制、持续集成、持续部署和持续监控贯穿于软件开发的整个生命周期。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/78233656-a2d0c300-7508-11ea-837c-ad99c780a7cf.png" alt="图片"></p>
-<p><strong>持续集成</strong>： 将所有软件工程师对于软件的工作副本持续集成到共享主线（mainline）的一种举措，例如将git的特性分支合并到主分支。持续集成的宗旨是避免集成问题， 组织在运用持续性集成(CI)一般会建置CI服务器来维护持续性套用质量控制的程序，一般包括自动化单元测试，自动化静态代码扫描，自动化代码风格检测&hellip;.，意在提升软件质量以及减少交付的时间。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78233656-a2d0c300-7508-11ea-837c-ad99c780a7cf.png">
+    <img src="https://user-images.githubusercontent.com/19829495/78233656-a2d0c300-7508-11ea-837c-ad99c780a7cf.png" alt="图片"  />
+    </a>
+</div></p>
+<p><strong>持续集成</strong>： 将所有软件工程师对于软件的工作副本持续集成到共享主线（mainline）的一种举措，例如将git的特性分支合并到主分支。持续集成的宗旨是避免集成问题， 组织在运用持续性集成(CI)一般会建立CI服务器来维护持续性并提供质量控制程序，一般包括自动化单元测试，自动化静态代码扫描，自动化代码风格检测&hellip;.，意在提升软件质量以及减少交付的时间。</p>
 <p>参考链接：<a href="https://zh.wikipedia.org/wiki/DevOps">https://zh.wikipedia.org/wiki/DevOps</a></p>
 <h2 id="消除技术债务危机">消除技术债务危机</h2>
 <p>软件的质量通常分为两种，内部质量通常指代码和设计的质量。内部质量可以通过应用设计和编程达到最佳实践，也可以通过持续一致的开发和交付流程来提高。外部质量是通过查看和使用软件（例如验收测试）来度量的。从长远的角度看，内部质量不佳最终会影响外部质量，应用程序会持续不断地冒出新的bug，产生技术债务，而且开发时间会由于技术债务的增加而变长，由于初始鲁莽的设计决策，在未来的开发中我们需要付出更多努力，消耗更多的时间，这就是技术债务危机。</p>
@@ -214,7 +225,7 @@
 <li>注释不足或过多</li>
 </ul>
 <p><strong>技术债务的处理</strong>：</p>
-<p>在企业的DevOps建设过程中，我们可以基于持续集成的代码构建和自动化分析, 通过很多不同的维度评价代码设计的内部质量 。 可以通过Sonar质量度量平台，实现代码设计质量的持续监控，包括对代码复杂度、重复度、代码风格、单元测试、测试覆盖率的监控等。促进技术债务的及时处理，从而提高软件系统的总体开发运维效益。</p>
+<p>在企业的DevOps建设过程中，我们可以基于持续集成的代码构建和自动化分析, 通过很多不同的维度评价代码设计的内部质量 。 可以通过质量度量平台（如SonarQube），实现代码设计质量的持续监控，包括对代码复杂度、重复度、代码风格、单元测试、测试覆盖率的监控等。促进技术债务的及时处理，从而提高软件系统的总体开发运维效益。</p>
 <h2 id="sonarqube">SonarQube</h2>
 <h3 id="介绍">介绍</h3>
 <p>SonarQube是一个开源的代码质量管理系统。</p>
@@ -229,7 +240,12 @@
 <li>支持扩展插件。</li>
 </ul>
 <h3 id="架构">架构</h3>
-<p><img src="https://user-images.githubusercontent.com/19829495/78547295-716e3500-7831-11ea-9dd2-87cca4c1c4f6.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78547295-716e3500-7831-11ea-9dd2-87cca4c1c4f6.png">
+    <img src="https://user-images.githubusercontent.com/19829495/78547295-716e3500-7831-11ea-9dd2-87cca4c1c4f6.png" alt="image"  />
+    </a>
+</div></p>
 <p>SonarQube平台由4个组件组成：</p>
 <ol>
 <li>SonarQube Server：
@@ -244,7 +260,12 @@
 <li>SonarQube Scanner：在构建/持续集成服务器上运行一个或多个SonarScanner，以分析项目</li>
 </ol>
 <h3 id="工作流程">工作流程</h3>
-<p><img src="https://docs.sonarqube.org/latest/images/architecture-integrate.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/236616475-fde0a6a8-538d-44e0-8a34-acab4c4a88a2.png">
+    <img src="https://user-images.githubusercontent.com/19829495/236616475-fde0a6a8-538d-44e0-8a34-acab4c4a88a2.png" alt="image"  />
+    </a>
+</div></p>
 <p>上图可以看出SonarQube各组件的工作流程：</p>
 <ol>
 <li>开发者在IDE中编码，可以使用SonarLint执行本地代码分析</li>
@@ -262,7 +283,7 @@
 <li>质量阈 ： 质量阈是一系列对项目指标进行度量的条件形成的阈值。</li>
 </ul>
 <h3 id="部署">部署</h3>
-<p>具体部署方式可以参考官方文档：<a href="https://docs.sonarqube.org/latest/setup/overview/">https://docs.sonarqube.org/latest/setup/overview/ </a></p>
+<p>具体部署方式可以参考官方文档：<a href="https://docs.sonarqube.org/latest/">https://docs.sonarqube.org/latest/ </a></p>
 <p>简单便捷，小规模使用可以基于docker compose部署，如下所示：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 镜像拉取与基础目录创建</span>
 docker pull sonarqube:8.2-community
@@ -312,7 +333,7 @@ docker-compose -f sonar-docker-compose.yml up -d
 </span><span style="color:#960050;background-color:#1e0010"></span>  sonarqube_extensions:<span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span>  postgresql:<span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span>  postgresql_data:<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><h2 id="jenkins集成sonarqube">Jenkins集成SonarQube</h2>
+</span></code></pre></div><h2 id="jenkins集成sonarqube-实现对java项目的质量控制">Jenkins集成SonarQube 实现对Java项目的质量控制</h2>
 <p>利用Jenkins集成SonarQube可以实现在持续集成过程中的利用SonarQube Scanner进行静态代码分析。</p>
 <h3 id="静态代码分析">静态代码分析</h3>
 <h4 id="前置准备">前置准备</h4>
@@ -324,12 +345,22 @@ docker-compose -f sonar-docker-compose.yml up -d
 <p>系统设置—&gt;配置—&gt;SonarQube servers中对SonarQube server进行配置</p>
 </li>
 </ul>
-<p><img src="https://user-images.githubusercontent.com/19829495/78802952-fd7a8b00-79f0-11ea-9bf9-172da4429214.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78802952-fd7a8b00-79f0-11ea-9bf9-172da4429214.png">
+    <img src="https://user-images.githubusercontent.com/19829495/78802952-fd7a8b00-79f0-11ea-9bf9-172da4429214.png" alt="图片"  />
+    </a>
+</div></p>
 <p>注意：server authentication token为SonarQube用户生成的token，类型为Secret text。</p>
 <ul>
 <li>系统管理—&gt;全局工具配置—&gt;SonarQube Scanner配置</li>
 </ul>
-<p><img src="https://user-images.githubusercontent.com/19829495/78691524-4b2cc000-792b-11ea-929b-18df5d3b136e.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78691524-4b2cc000-792b-11ea-929b-18df5d3b136e.png">
+    <img src="https://user-images.githubusercontent.com/19829495/78691524-4b2cc000-792b-11ea-929b-18df5d3b136e.png" alt="图片"  />
+    </a>
+</div></p>
 <ul>
 <li>代码库的根目录创建sonar-project.properties</li>
 </ul>
@@ -363,7 +394,12 @@ stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;静态
          <span style="color:#f92672">}</span>
       <span style="color:#f92672">}</span>
 </code></pre></div><p>构建成功，SonarQube Scanner扫描完成后可以在SonarQube服务器看见对应项目的报表如下：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/78804531-d3c26380-79f2-11ea-96b0-0941b89bc778.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78804531-d3c26380-79f2-11ea-96b0-0941b89bc778.png">
+    <img src="https://user-images.githubusercontent.com/19829495/78804531-d3c26380-79f2-11ea-96b0-0941b89bc778.png" alt="图片"  />
+    </a>
+</div></p>
 <h3 id="测试覆盖率控制">测试覆盖率控制</h3>
 <h4 id="关于jacoco">关于Jacoco</h4>
 <p>jacoco是一个开源的覆盖率工具，可以嵌入到 Ant 、Maven 中使用，提供了Eclipse与IDEA插件，也可以使用 Java Agent 技术监控 Java 程序，第三方自动化工具如SonarQube，Jenkins也对jacoco提供了很好的支持。</p>
@@ -447,7 +483,12 @@ stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;静态
          <span style="color:#f92672">}</span>
       <span style="color:#f92672">}</span>
 </code></pre></div><p>运行后在Jenkins上的Coverage Report可以查看到对应的覆盖率报告：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/78918015-4f3f1600-7ac2-11ea-9a91-8c23c1dde294.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78918015-4f3f1600-7ac2-11ea-9a91-8c23c1dde294.png">
+    <img src="https://user-images.githubusercontent.com/19829495/78918015-4f3f1600-7ac2-11ea-9a91-8c23c1dde294.png" alt="图片"  />
+    </a>
+</div></p>
 <h4 id="单元测试覆盖率统计数据上报sonarqube">单元测试覆盖率统计数据上报SonarQube</h4>
 <p>需要在sonar-project.properties配置文件里配置jacoco报表，surefire报表路径，如下所示：</p>
 <pre><code># 配置junit单元测试源码与报表
@@ -461,11 +502,21 @@ sonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco.xml
 # 如果仅需要扫描某个模块，可以设置为xmodule.sonar.surefire.reportsPath=target/surefire-reports...
 </code></pre><p>参考sonarQube文档：<a href="https://docs.sonarqube.org/latest/analysis/coverage/">https://docs.sonarqube.org/latest/analysis/coverage/</a></p>
 <p>最终效果如下：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/79045392-70784180-7c3d-11ea-940b-393671068f34.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/79045392-70784180-7c3d-11ea-940b-393671068f34.png">
+    <img src="https://user-images.githubusercontent.com/19829495/79045392-70784180-7c3d-11ea-940b-393671068f34.png" alt="图片"  />
+    </a>
+</div></p>
 <h2 id="sonarqube推动代码质量持续优化">SonarQube推动代码质量持续优化</h2>
 <p>上文说明了如何利用SonarQube结合Jenkins在pipeline中进行静态代码检测与测试覆盖率检测，在实际的开发中我们可以基于Git-Flow分支模型，通过Git的Webhook结合Jenkins，SonarQube质量阈，在CI中利用SonarQube推动代码质量的持续优化，具体流程如下所示。</p>
 <h4 id="具体流程">具体流程</h4>
-<p><img src="https://user-images.githubusercontent.com/19829495/79062858-43c13a00-7cd0-11ea-9266-2f6535620c1f.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/79062858-43c13a00-7cd0-11ea-9266-2f6535620c1f.png">
+    <img src="https://user-images.githubusercontent.com/19829495/79062858-43c13a00-7cd0-11ea-9266-2f6535620c1f.png" alt="图片"  />
+    </a>
+</div></p>
 <ol>
 <li>工程师完成特性分支的开发，将代码推送到远程服务器上</li>
 <li>Git 服务器 根据配置的Webhook 回调通知Jenkins服务器</li>
@@ -482,29 +533,58 @@ sonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco.xml
 </ul>
 <p>Jenkins安装 Generic Webhook Trigger插件，该插件可以接收任何HTTP请求，然后从JSON或XML中提取任何值，并使用这些值作为变量来触发作业。一般用来配合GitHub，GitLab，Bitbucket，Jira等的Webhook一起使用。</p>
 <p>job勾选构建触发器Generic Webhook Trigger选项，设置token，如图所示：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/79059727-0ea4ef80-7cb0-11ea-9fdf-89aa11d80983.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/79059727-0ea4ef80-7cb0-11ea-9fdf-89aa11d80983.png">
+    <img src="https://user-images.githubusercontent.com/19829495/79059727-0ea4ef80-7cb0-11ea-9fdf-89aa11d80983.png" alt="图片"  />
+    </a>
+</div></p>
 <p>以Gitlab，Gitee或者Github的代码仓库WebHooks配置Jenkins Generic Webhook Trigger的回调地址 （http://[JenkinsIP]/generic-webhook-trigger/invoke?token=gitee-leaf-sonar-token)。以码云为例子，可以选择如下几个触发事件，当事件触发时回调我们的Jenkins 地址，触发job执行。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/79060087-a7893a00-7cb3-11ea-9cce-72181fb9d373.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/79060087-a7893a00-7cb3-11ea-9cce-72181fb9d373.png">
+    <img src="https://user-images.githubusercontent.com/19829495/79060087-a7893a00-7cb3-11ea-9cce-72181fb9d373.png" alt="图片"  />
+    </a>
+</div></p>
 <p>参考文档：<a href="https://plugins.jenkins.io/generic-webhook-trigger/">https://plugins.jenkins.io/generic-webhook-trigger/</a></p>
 <ul>
 <li>Generic Webhook Trigger指定分支触发</li>
 </ul>
 <p>一般情况下，我们都会基于分支模型进行开发，例如常见的有git-flow分支模型。基于git-flow分支模型，我们可以在feature分支合并到develop/test的时候（特性分支提测的时候），触发Jenkins Job执行，确保在上线正式/灰度环境之前代码已经通过了SonarQube 质量阈。</p>
 <p>以Gitee为例子，触发事件发送请求，请求的body里包含了本次提交的一些信息，其中<code> &quot;ref&quot;: &quot;refs/heads/test&quot;</code>,表示本次提交的分支。有了这个信息，可以通过Generic Webhook Trigger的Post content parameters将请求体中的ref内容提取出来通过表达式<code>Expression</code>赋给$ref。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/79060459-beca2680-7cb7-11ea-86ce-bb9bcc65462e.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/79060459-beca2680-7cb7-11ea-86ce-bb9bcc65462e.png">
+    <img src="https://user-images.githubusercontent.com/19829495/79060459-beca2680-7cb7-11ea-86ce-bb9bcc65462e.png" alt="图片"  />
+    </a>
+</div></p>
 <p>在Optional filter中 Expression 填写正则，Text 填写我们刚刚设置的变量 $ref进行匹配，如下所示对test分支进行了匹配，实现指定分支触发job的目的。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/79060490-27190800-7cb8-11ea-962b-368493256be7.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/79060490-27190800-7cb8-11ea-962b-368493256be7.png">
+    <img src="https://user-images.githubusercontent.com/19829495/79060490-27190800-7cb8-11ea-962b-368493256be7.png" alt="图片"  />
+    </a>
+</div></p>
 <ul>
 <li>SonarQube配置Jenkins webhook</li>
 </ul>
 <p>这里用于在Sonarqube完成扫描后，通知Jenkins扫描结果，参考文档：<a href="https://docs.sonarqube.org/latest/project-administration/webhooks/">https://docs.sonarqube.org/latest/project-administration/webhooks/</a></p>
-<p><img src="https://user-images.githubusercontent.com/19829495/79046553-3e1e1280-7c44-11ea-8005-38d36fd0fe37.png" alt="图片"></p>
-<p><a href="https://www.cnblogs.com/hackyo/p/10149171.html-/">https://www.cnblogs.com/hackyo/p/10149171.html-/</a></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/79046553-3e1e1280-7c44-11ea-8005-38d36fd0fe37.png">
+    <img src="https://user-images.githubusercontent.com/19829495/79046553-3e1e1280-7c44-11ea-8005-38d36fd0fe37.png" alt="图片"  />
+    </a>
+</div></p>
 <ul>
 <li>Jenkins配置Quality Gates - Sonarqube</li>
 </ul>
 <p>Jenkins安装Sonar Quality Gates 插件，通过此插件可以让Jenkins等待SonarQube分析完成并返回质量阈状态 。当返回为Fail时，我们可以aborted 对应的job并进行通知操作。在 Jenkins的Manage Jenkins -&gt; Configure System -&gt; Quality Gates - Sonarqube，对其进行设置。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/79047205-cf42b880-7c47-11ea-87e5-48cbb20a6d22.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/79047205-cf42b880-7c47-11ea-87e5-48cbb20a6d22.png">
+    <img src="https://user-images.githubusercontent.com/19829495/79047205-cf42b880-7c47-11ea-87e5-48cbb20a6d22.png" alt="图片"  />
+    </a>
+</div></p>
 <ul>
 <li>配置质量阈</li>
 </ul>
@@ -588,7 +668,7 @@ sonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco.xml
             <li><a href="#部署">部署</a></li>
           </ul>
         </li>
-        <li><a href="#jenkins集成sonarqube">Jenkins集成SonarQube</a>
+        <li><a href="#jenkins集成sonarqube-实现对java项目的质量控制">Jenkins集成SonarQube 实现对Java项目的质量控制</a>
           <ul>
             <li><a href="#静态代码分析">静态代码分析</a>
               <ul>

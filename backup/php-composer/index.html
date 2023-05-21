@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>PHP-Composer</title>
+    <meta name="description" content="keep curious 😼">
+    <meta name="keywords" content='blog, chinalhr, lhr'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/backup/php-composer/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PHP-Composer">
+    <meta property="og:description" content="keep curious 😼">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PHP-Composer">
+    <meta name="twitter:description" content="keep curious 😼">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/backup/php-composer/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/backup/php-composer/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/backup/php-composer/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JLJBQBW5WM');
+</script>
+  
+    
+    
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>PHP-Composer</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            November 25, 2019
+        </p>
+
+        <ul class="post-tags">
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
+<p>依赖管理工具Composer记录</p>
+</blockquote>
+<h3 id="关于composer">关于Composer</h3>
+<p>PHP 用来管理依赖（dependency）关系的工具。你可以在自己的项目中声明所依赖的外部工具库（libraries），Composer 会帮你安装这些依赖的库文件。</p>
+<h3 id="作用">作用</h3>
+<p>安装PHP包，依赖库，可以在 <a href="https://packagist.org/">https://packagist.org/</a> 找到你需要的库。</p>
+<pre><code># 安装monolog库
+composer require monolog/monolog
+</code></pre><h3 id="composer项目生成">Composer项目生成</h3>
+<ol>
+<li>在文件夹下新建文件composer.json</li>
+</ol>
+<pre><code>{
+  &quot;require&quot;: {
+  }
+}
+</code></pre><ol start="2">
+<li>命令composer update</li>
+<li>会在目标目录下生成vendor文件夹，用于安装第三扩展包</li>
+</ol>
+<h3 id="安装扩展包">安装扩展包</h3>
+<ol>
+<li>添加依赖</li>
+</ol>
+<pre><code>{
+    &quot;require&quot;: {
+        &quot;monolog/monolog&quot;: &quot;1.2.*&quot;
+    },
+
+# 关闭https
+
+    &quot;config&quot;: {
+        &quot;secure-http&quot;: false
+    }
+}
+</code></pre><ol start="2">
+<li>安装依赖</li>
+</ol>
+<pre><code>## 安装或者更新所有的包
+composer install
+composer update
+
+## 只安装制定的版本或者包
+composer require &quot;monolog/monolog:1.2.*&quot;
+composer update monolog/monolog
+</code></pre><h3 id="包版本约束">包版本约束</h3>
+<pre><code>精确版本：1.0.2
+范围版本：&gt;=1.0 &lt;2.0
+通配符版本：1.0.*
+折音号版本：^1.2.3(相当于&gt;=1.2.3 &lt;2.0.0)
+</code></pre><h3 id="自动加载机制">自动加载机制</h3>
+<pre><code>require 'vendor/autoload.php'
+</code></pre><p>files选项：需要composer自动帮我们加载的函数库（不含类），只要在后面的数组中将函数库的文件路径写入即可
+psr-4选项：是一个基于psr-4（http://www.php-fig.org/psr/psr-4/）规则的类库自动加载对应关系，只要在其后的对象中，以 &ldquo;命名空间&rdquo;: &ldquo;路径&rdquo; 的方式写入自己的类库信息即可</p>
+<p>添加完成自动依赖后，执行composer update完成对应操作，可以在项目中使用如下方式加载自定义类库：</p>
+<pre><code>new \Core\View() -&gt; composer的autoload将会自动包含”./core/view.php”，并找到其中的Core命名空间下的View类
+</code></pre><h3 id="命令汇总">命令汇总</h3>
+<pre><code>composer list  列出所有可用的命令
+composer init   初始化composer.json文件(就不劳我们自己费力创建啦)，会要求输入一些信息来描述我们当前的项目，还会要求输入依赖包
+composer install  读取composer.json内容，解析依赖关系，安装依赖包到vendor目录下
+composer update   更新最新的依赖关系到compsoer.lock文件，解析最新的依赖关系并且写入composer.lock文件
+composer search packagename 搜索包，packagename替换为你想查找的包名称
+composer require packagename 添加对packagename的依赖，packagename可修改为你想要的包名称
+composer show packagename
+composer self-update 更新 composer.phar文件自身
+composer dump-autoload --optimize 优化一下自动加载
+
+composer command --help 以上所有命令都可以添加 --help选项查看帮助信息
+</code></pre><h3 id="模板仓库">模板仓库</h3>
+<ol>
+<li>全局配置(通过composer config -l 可以查看配置文件存放目录)</li>
+</ol>
+<pre><code>{
+    &quot;config&quot;: {
+
+    },
+    &quot;repositories&quot;: [
+        {&quot;type&quot;: &quot;composer&quot;, &quot;url&quot;: &quot;http://pkg.phpcomposer.com/repo/packagist/&quot;},
+        {&quot;packagist&quot;: false}
+    ]
+}
+</code></pre><ol start="2">
+<li>直接命令行修改</li>
+</ol>
+<pre><code>composer config -g repo.packagist composer https://packagist.phpcomposer.com
+</code></pre><ol start="3">
+<li>修改当前项目的composer.json文件</li>
+</ol>
+<pre><code>{
+  &quot;require&quot;: {
+    &quot;noahbuscher/macaw&quot;: &quot;dev-master&quot;
+  },
+  &quot;repositories&quot;: [
+        {   
+            &quot;packagist&quot;: false
+        },  
+        {   
+            &quot;type&quot;: &quot;composer&quot;, 
+            &quot;url&quot;: &quot;http://packagist.cn&quot;
+        }   
+    ]
+}
+</code></pre>
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#关于composer">关于Composer</a></li>
+            <li><a href="#作用">作用</a></li>
+            <li><a href="#composer项目生成">Composer项目生成</a></li>
+            <li><a href="#安装扩展包">安装扩展包</a></li>
+            <li><a href="#包版本约束">包版本约束</a></li>
+            <li><a href="#自动加载机制">自动加载机制</a></li>
+            <li><a href="#命令汇总">命令汇总</a></li>
+            <li><a href="#模板仓库">模板仓库</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

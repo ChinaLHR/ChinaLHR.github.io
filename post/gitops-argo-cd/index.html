@@ -19,7 +19,7 @@
     
     <title>GitOps实践，基于Gitlab CI、Kustomize 与Argo CD</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, GitOps, CI&CD, Argo CD, Kubernetes'>
+    <meta name="keywords" content='blog, chinalhr, lhr, gitops, ci-cd, argo cd, kubernetes'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/gitops-argo-cd/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,13 +182,13 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/gitops">GitOps</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/gitops">gitops</a></li>
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/cicd">CI&amp;CD</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/ci-cd">ci-cd</a></li>
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/argo-cd">Argo CD</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/argo-cd">argo cd</a></li>
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubernetes">Kubernetes</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubernetes">kubernetes</a></li>
         
         </ul>
     </div>
@@ -197,7 +201,7 @@
 <h2 id="gitops">GitOps</h2>
 <h3 id="什么是gitops">什么是GitOps</h3>
 <p>GitOps是Weaveworks公司于2017年首创的一种进行Kubernetes集群管理和应用交付的方式。GitOps通过使用Git作为声明性基础设施和应用程序的单一事实来源进行工作。
-GitOps的核心是将应用的声明性基础架构描述、应用源码与自动化流程存放在Git Repository中，将Git作为交付流水线的核心。GitOps会Diff Repository中声明信息与Kubernetes集群中实际运行的内容之间的差异，其实现的Kubernetes Operator会根据情况进行自动更新或回滚集群；通过将Git作为交付流水线的核心，开发人员可以使用push、pull request等Git操作，以加速和简化Kubernetes集群应用程序的部署和操作任务。</p>
+GitOps的核心是将应用的声明性基础架构描述、应用源码与自动化流程存放在Git Repository中，将Git作为交付流水线的核心。GitOps会Diff Repository中声明信息与Kubernetes集群中实际运行的内容之间的差异，其实现的GitOps Kubernetes Operator会根据情况进行自动更新或回滚集群；通过将Git作为交付流水线的核心，开发人员可以使用push、pull request等Git操作，以加速和简化Kubernetes集群应用程序的部署和操作任务。</p>
 <p><strong>GitOps是用于构建云原生应用程序的操作模型</strong></p>
 <ol>
 <li>GitOps为Kubernetes或其他云原生技术的操作模型，提供了一组最佳实践，统一容器化集群和应用程序基于Git部署、管理和监控。</li>
@@ -205,19 +209,17 @@ GitOps的核心是将应用的声明性基础架构描述、应用源码与自�
 </ol>
 <h3 id="使用gitops的前置条件">使用GitOps的前置条件</h3>
 <ul>
-<li>
-<p>声明式描述整个应用系统，并使用Git进行版本化控制
-任何能够被描述的内容都必须存储于Git仓库中，如Kubernetes资源对象描述；声明性意味着配置由一组事实而不是一组指令来保证，基于Git对应用程序的声明。描述进行版本控制后，就有了单一的事实来源，应用程序可以轻松部署到Kubernetes，并进行升级、回滚，而且当容灾处理时也可以快速、可靠地复制基础设施。</p>
-</li>
-<li>
-<p>Git Approved Changes后自动更新
-允许对声明信息的变更，自动化更新于集群中，并且不需要集群凭证来更改系统，在隔离的环境中使用GitOps，将状态定义位于外部，使得可以将&quot;所做的事情&quot;和&quot;将要如何做的事情&quot;分开。</p>
-</li>
-<li>
-<p>通过GitOps确保正确性以及分歧报警
-一旦系统状态被声明并受版本控制，可以通过GitOps提供的工具对真实的系统状态与版本控制中声明的系统状态进行Diff，在真实的系统状态与版本控制中声明的系统状态不一致时进行通知；以及通过GitOps工具支持系统在故障、人为错误时进行自我修复。</p>
-</li>
+<li>声明式描述整个应用系统，并使用Git进行版本化控制</li>
 </ul>
+<p>任何能够被描述的内容都必须存储于Git仓库中，如Kubernetes资源对象描述；声明性意味着配置由一组事实而不是一组指令来保证，基于Git对应用程序的声明。描述进行版本控制后，就有了单一的事实来源，应用程序可以轻松部署到Kubernetes，并进行升级、回滚，而且当容灾处理时也可以快速、可靠地复制基础设施。</p>
+<ul>
+<li>Git Approved Changes后自动更新</li>
+</ul>
+<p>允许对声明信息的变更，自动化更新于集群中，并且不需要集群凭证来更改系统，在隔离的环境中使用GitOps，将状态定义位于外部，使得可以将&quot;所做的事情&quot;和&quot;将要如何做的事情&quot;分开。</p>
+<ul>
+<li>通过GitOps确保正确性以及分歧报警</li>
+</ul>
+<p>一旦系统状态被声明并受版本控制，可以通过GitOps提供的工具对真实的系统状态与版本控制中声明的系统状态进行Diff，在真实的系统状态与版本控制中声明的系统状态不一致时进行通知；以及通过GitOps工具支持系统在故障、人为错误时进行自我修复。</p>
 <h3 id="不可变基础设施iac与gitops">不可变基础设施、IaC与GitOps</h3>
 <blockquote>
 <p>不可变基础设施（Immutable Infrastructure）：不可变基础设施是由Chad Fowler于 2013 年提出的一个构想：在这种模式中任何基础设施的实例一旦创建之后便成为一种只读状态，不可对其进行任何更改。如果需要修改或升级某些实例，唯一的方式就是创建一批新的实例以替换。
@@ -235,47 +237,25 @@ GitOps的核心是将应用的声明性基础架构描述、应用源码与自�
 <ul>
 <li>GitOps基于pull的工作模式</li>
 </ul>
-<pre><code>                                                                                            +----------------+
-                                                                             push image     |                |
-                                                                      +---------------------&gt;  Container     |
-                                                                      |                     |  Image Registry|
-                                                                      |                     |                |
-                                                                      |                     +--------+-------+               +----------------------------------------------------+
-+---------------+             +----------------+            +---------+--------+                     ^                       |                                                    |
-|               |             |                |            |                  |                     |                       | +---------------+   observe    +-----------------+ |
-|   developer   |    push     |   Application  |  trigger   |    CI Pipeline   |                     |         observe       | |               +--------------&gt;                 | |
-|               +-------------&gt;   Repository   +------------&gt;                  |                     +-------------------------+   Operator    |              | Cluster Resource| |
-|               |             |                |            |                  |                     |                       | |               +--------------&gt;                 | |
-+---------------+             +----------------+            +---------+--------+                     |                       | +---------------+    deploy    +-----------------+ |
-                                                                      |                     +--------v-------+               |                                                    |
-                                                                      |                     |                |               +----------------------------------------------------+
-                                                                      |      update config  |  Environment   |                                   Cluster
-                                                                      +---------------------&gt;  Repository    |
-                                                                                            |                |
-                                                                                            +----------------+
-</code></pre><p>GitOps大都基于Pull模式去工作，开发人员推送应用代码到应用仓库后，经过Pull Request合并到目标分支后，触发CI Pipeline，构建推送应用容器镜像与推送更新环境配置仓库；在CD阶段，通过引入Operator，不断观察环境配置库的声明信息并与当前集群的应用环境进行Diff，当存在差异时进行集群应用环境的部署、更新或者还原。</p>
+<!-- raw HTML omitted -->
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://github.com/ChinaLHR/ChinaLHR.github.io/assets/19829495/627c19a2-82b0-47c1-b464-6cde03f8236d">
+    <img src="https://github.com/ChinaLHR/ChinaLHR.github.io/assets/19829495/627c19a2-82b0-47c1-b464-6cde03f8236d" alt="image"  />
+    </a>
+</div></p>
+<p>GitOps大都基于Pull模式去工作，开发人员推送应用代码到应用仓库后，经过Pull Request合并到目标分支后，触发CI Pipeline，构建推送应用容器镜像与推送更新环境配置仓库；在CD阶段，通过引入Operator，不断观察环境配置库的声明信息并与当前集群的应用环境进行Diff，当存在差异时进行集群应用环境的部署、更新或者还原。</p>
 <ul>
 <li>GitOps基于push的工作模式</li>
 </ul>
-<pre><code>                                                                                                   +----------------+
-                                                                                    push image     |                |
-                                                                             +---------------------&gt;  Container     |
-                                                                             |                     |  Image Registry|
-                                                                             |                     |                |
-                                                                             |                     +----------------+               +----------------------------------------------------+
-       +---------------+             +----------------+            +------------------+                     ^                       |                                                    |
-       |               |             |                |            |                  |                     |         pull info     | +---------------+              +-----------------+ |
-       |   developer   |    push     |   Application  |  trigger   |   CI Pipeline    |                     +-------------------------+               |              |                 | |
-       |               +-------------&gt;   Repository   +------------&gt;                  |        notice       |                       | |   Operator    +--------------&gt; Cluster Resource| |
-       |               |             |                |            |                  +-----------------------------------------------&gt;               |    deploy    |                 | |
-       +---------------+             +----------------+            +------------------+                     |                       | +---------------+              +-----------------+ |
-                                                                             |                     +--------v-------+               |                                                    |
-                                                                             |                     |                |               +----------------------------------------------------+
-                                                                             |      update config  |  Environment   |                                   Cluster
-                                                                             +---------------------&gt;  Repository    |
-                                                                                                   |                |
-                                                                                                   +----------------+
-</code></pre><p>GitOps也可以基于Push模式去工作，对比基于Pull的工作模式，Push模式在CI Pipeline完成阶段会去通知Operator进行环境配置信息的拉取与部署、更新。Push模式有着传统CI/CD流程的直观性，对比Pull模式有着更好的实时性与性能，但却缺少了对
+<!-- raw HTML omitted -->
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://github.com/ChinaLHR/ChinaLHR.github.io/assets/19829495/6eed59e4-8f8d-4f3d-8a8b-5d2f9b0af1c4">
+    <img src="https://github.com/ChinaLHR/ChinaLHR.github.io/assets/19829495/6eed59e4-8f8d-4f3d-8a8b-5d2f9b0af1c4" alt="image"  />
+    </a>
+</div></p>
+<p>GitOps也可以基于Push模式去工作，对比基于Pull的工作模式，Push模式在CI Pipeline完成阶段会去通知Operator进行环境配置信息的拉取与部署、更新。Push模式有着传统CI/CD流程的直观性，对比Pull模式有着更好的实时性与性能，但却缺少了对
 端（环境配置信息）到端（集群应用信息）一致性的保证。</p>
 <h3 id="gitops的优势">GitOps的优势</h3>
 <p>通过GitOps，当我们对Git Repository进行更改时，GitOps的自动化交付流水线会自动将变更部署到基础架构中。而且，GitOps还会使用工具将应用程序的实际状态与Git Repository中的声明状态进行比较，以通知集群Git Repository中声明状态与实际环境的Diff。</p>
@@ -308,7 +288,12 @@ GitOps的核心是将应用的声明性基础架构描述、应用源码与自�
 <h3 id="argo-cd架构">Argo CD架构</h3>
 <p>Argo CD 通过kubernetes控制器实现，通过持续监控集群中正在运行的应用程序并将当前的状态信息与所需的目标状态（环境配置仓库）进行比较。通过Diff实时状态与目标状态，如果存在差异则应用进入OutOfSync状态；Argo CD会报告和可视化差异，同时提供工具自动或手动的方式将实时状态同步回所需目标状态。在 Git 存储库中对所需目标状态所做的任何修改都可以自动应用并反映在指定的目标环境中。</p>
 <p>Argo CD主要由API Server、Repository Server、Application Controller组成。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/184182066-33e6cb8c-282e-4275-bb0c-a059bf62f6df.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/184182066-33e6cb8c-282e-4275-bb0c-a059bf62f6df.png">
+    <img src="https://user-images.githubusercontent.com/19829495/184182066-33e6cb8c-282e-4275-bb0c-a059bf62f6df.png" alt="image"  />
+    </a>
+</div></p>
 <p><strong>API Server</strong>
 Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、CLI API 与CI/CD系统使用的API，主要职责为：</p>
 <ul>
@@ -349,7 +334,12 @@ Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、C
 <p>可以通过kustomize build命令生成自定义YAML，从1.14版本开始kubectl也支持使用kustomization文件来管理Kubernetes对象，可以直接通过kubectl kustomize命令生成自定义YAML。</p>
 <h3 id="使用kustomize定制管理kubernetes资源-1">使用Kustomize定制/管理Kubernetes资源</h3>
 <p>kustomize提供以下功能特性定制/管理Kubernetes应用配置文件</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/185802651-b2e44fd5-6779-46a1-b3fc-9ff96bf6b549.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/185802651-b2e44fd5-6779-46a1-b3fc-9ff96bf6b549.png">
+    <img src="https://user-images.githubusercontent.com/19829495/185802651-b2e44fd5-6779-46a1-b3fc-9ff96bf6b549.png" alt="image"  />
+    </a>
+</div></p>
 <ul>
 <li>从其他来源生成资源</li>
 </ul>
@@ -457,7 +447,12 @@ Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、C
 </code></pre></div><h3 id="基准bases与覆盖overlays">基准（Bases）与覆盖（Overlays）</h3>
 <p>Kustomize中有基准（bases）和覆盖（overlays）的概念，基准是包含kustomization.yaml文件的本地目录或者远程仓库目录，包含一组资源及其相关的定制；覆盖也是一个目录，其中包含将其他kustomization目录当做bases来引用的kustomization.yaml文件。
 基准与覆盖是多对多的关系，覆盖可以引用多个基准，基准也可以被多个覆盖引用，提高了kustomize的高度定制性。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/185803716-b07a6b84-2147-45a6-9ae4-1ef47d4632b4.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/185803716-b07a6b84-2147-45a6-9ae4-1ef47d4632b4.png">
+    <img src="https://user-images.githubusercontent.com/19829495/185803716-b07a6b84-2147-45a6-9ae4-1ef47d4632b4.png" alt="image"  />
+    </a>
+</div></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">├── base
 │   ├── deployment.yaml
 │   ├── kustomization.yaml
@@ -529,7 +524,7 @@ Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、C
 </tr>
 </tbody>
 </table>
-<p>对比两者，比较显著的差别是Helm的流程主要基于模板，类似于瀑布式的模板定义-&gt;模板填充-&gt;生成资源文件；Kustomize的流程基于覆盖，类似于迭代式的Base和Overlay独立迭代变更。相比之下，选择使用更契合GitOps 版本化控制思想的Kustomize进行实践。</p>
+<p>对比两者，比较显著的差别是Helm的流程主要基于模板，类似于瀑布式的 [模板定义-&gt;模板填充-&gt;生成资源文件]；Kustomize的流程基于覆盖，类似于迭代式的Base和Overlay独立迭代变更。相比之下，选择使用更契合GitOps 版本化控制思想的Kustomize进行实践。</p>
 <h2 id="基于gitlab-cikustomize-argo-cd的gitops实践">基于Gitlab CI、Kustomize、 Argo CD的GitOps实践</h2>
 <h3 id="前置条件">前置条件</h3>
 <ul>
@@ -541,25 +536,14 @@ Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、C
 </ul>
 <h3 id="gitops流程">GitOps流程</h3>
 <p>这里我们选择基于pull的工作模式去实现GitOps，具体流程如下所示：</p>
-<pre><code>                                                                                             +----------------+
-                                                                              push image     |                |
-                                                                       +---------------------&gt;  Container     |
-+---------------+                                                      |                     |  Image Registry|
-|               |                                                      |                     |                |
-|    Reviewer   |                                                      |                     +--------^-------+               +----------------------------------------------------+
-|               |  Approval    +----------------+            +---------+--------+                     |                       |                                                    |
-|               +--------------&gt;                |            |                  |                     |          observe      | +---------------+              +-----------------+ |
-+---------------+              |   Application  |  trigger   |     Gitlab CI    |                     +-------------------------+    Argo CD    |              |  Deployment     | |
-+---------------+              |   Repository   +------------&gt;     Pipeline     |                     |                       | |    Operator   +--------------&gt;  Service        | |
-|               +--------------&gt;                |            |                  |                     |                       | |               |    deploy    |  Ingress...     | |
-|   developer   |   push       +----------------+            +---------+--------+                     |                       | +---------------+              +-----------------+ |
-|               |                                                      |                     +--------v-------+               |                                                    |
-|               |                                                      |                     |                |               +----------------------------------------------------+
-+---------------+                                                      |      update config  |  Environment   |                                 Kubernetes Cluster
-                                                                       +---------------------&gt;  Repository    |
-                                                                                             |                |
-                                                                                             +----------------+
-</code></pre><h3 id="项目结构">项目结构</h3>
+<!-- raw HTML omitted -->
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://github.com/ChinaLHR/ChinaLHR.github.io/assets/19829495/c4950295-2b2f-46bc-b5d3-33826fce67cd">
+    <img src="https://github.com/ChinaLHR/ChinaLHR.github.io/assets/19829495/c4950295-2b2f-46bc-b5d3-33826fce67cd" alt="image"  />
+    </a>
+</div></p>
+<h3 id="项目结构">项目结构</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">├── .backup
 │   ├── ci-base
 │   │   ├── Dockerfile
@@ -773,9 +757,10 @@ argocd login my.argocd.k8s.com
   <span style="color:#66d9ef">sourceRepos</span>:
   - <span style="color:#e6db74">&#39;*&#39;</span>
   <span style="color:#66d9ef">destinations</span>:
-  <span style="color:#75715e">#制应用程序可以部署的目标集群和命名空间</span>
-  - <span style="color:#66d9ef">namspce</span>: <span style="color:#e6db74">&#39;/果应用程序清单于私有存储库中，则必须配置存储库凭据。Argo CD 支持 HTTPS 和 SSH Git 凭证。
-</span><span style="color:#e6db74">    server: &#39;</span><span style="color:#75715e">*&#39;</span>
+  <span style="color:#75715e"># 制应用程序可以部署的目标集群和命名空间</span>
+  - <span style="color:#66d9ef">namespce</span>: <span style="color:#e6db74">&#39;*&#39;</span>
+    <span style="color:#75715e"># 如果应用程序清单于私有存储库中，则必须配置存储库凭据。Argo CD 支持 HTTPS 和 SSH Git 凭证。</span>
+    <span style="color:#66d9ef">server</span>: <span style="color:#e6db74">&#39;*&#39;</span>
   <span style="color:#75715e"># 限制可以部署或不可以部署的Kubernetes资源类型(Deployment,DaemonSets...)</span>
   <span style="color:#66d9ef">clusterResourceWhitelist</span>:
   - <span style="color:#66d9ef">group</span>: <span style="color:#e6db74">&#39;*&#39;</span>
@@ -823,24 +808,44 @@ Examples:
 <li>&ndash;dest-server 目标 Kubernetes 集群地址</li>
 </ul>
 <p>通过Web UI创建Application可以通过NEW APP进行创建，如下所示：
-<img src="https://user-images.githubusercontent.com/19829495/187038631-26537445-3de5-4134-a685-330fe41c5850.png" alt="image">
-<img src="https://user-images.githubusercontent.com/19829495/187038654-23bffdc9-86ee-4c7d-b359-17f9e229662c.png" alt="image"></p>
+
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/187038631-26537445-3de5-4134-a685-330fe41c5850.png">
+    <img src="https://user-images.githubusercontent.com/19829495/187038631-26537445-3de5-4134-a685-330fe41c5850.png" alt="image"  />
+    </a>
+</div>
+
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/187038654-23bffdc9-86ee-4c7d-b359-17f9e229662c.png">
+    <img src="https://user-images.githubusercontent.com/19829495/187038654-23bffdc9-86ee-4c7d-b359-17f9e229662c.png" alt="image"  />
+    </a>
+</div></p>
 <p>创建完成后，如果选择的同步策略为automated，Argo CD会自动同步项目的manifest部署到对应的集群中，也可以在WEB UI通过SYNC或者CLI通过<code>argocd app sync shovel-gitops-production</code>进步手动同步。</p>
 <p>同步完成后可以在WEB UI上看到对应应用的同步状态，如下所示：
-<img src="https://user-images.githubusercontent.com/19829495/187040221-c74f3807-12f9-447d-8a14-42be48133f14.png" alt="image">
-<img src="https://user-images.githubusercontent.com/19829495/187040241-4cb7515f-d053-4b24-bf91-c27faab31f2d.png" alt="image"></p>
+
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/187040221-c74f3807-12f9-447d-8a14-42be48133f14.png">
+    <img src="https://user-images.githubusercontent.com/19829495/187040221-c74f3807-12f9-447d-8a14-42be48133f14.png" alt="image"  />
+    </a>
+</div>
+
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/187040241-4cb7515f-d053-4b24-bf91-c27faab31f2d.png">
+    <img src="https://user-images.githubusercontent.com/19829495/187040241-4cb7515f-d053-4b24-bf91-c27faab31f2d.png" alt="image"  />
+    </a>
+</div></p>
 <ul>
 <li>自动同步策略（SYNC POLICY）</li>
 </ul>
-<p>Argo CD能够在检测到 Git 中所需的清单与集群中的实时状态之间存在差异时自动同步应用程序。自动同步是GitOps Pull模式的核心，好处是 CI/CD Pipeline 不再需要直接访问Argo CD API服务器来执行部署，可以通过在WEB UI的Application-SYNC POLICY中启用AUTOMATED或CLI<code>argocd app set &lt;APPNAME&gt; --sync-policy automated</code> 进行配置。</p>
+<p>Argo CD能够在检测到 Git 中所需的清单与集群中的实时状态之间存在差异时自动同步应用程序。自动同步是GitOps Pull模式的核心，好处是 CI/CD Pipeline 不再需要直接访问Argo CD API服务器来执行部署，可以通过在WEB UI的Application-SYNC POLICY中启用<code>AUTOMATED</code>或CLI<code>argocd app set &lt;APPNAME&gt; --sync-policy automated</code> 进行配置。</p>
 <ul>
 <li>自动修剪（Automatic Pruning）</li>
 </ul>
-<p>自动修剪作为一种安全机制，当Argo CD检测到资源不再存在于Git中的环境配置定义时，自动同步不会删除资源。可以通过手动同步（检查修剪）或者通过WEB UI的Application-SYNC POLICY中启用PRUNE RESOURCES或CLI<code>argocd app set &lt;APPNAME&gt; --auto-prune</code>进行配置。</p>
+<p>自动修剪作为一种安全机制，当Argo CD检测到资源不再存在于Git中的环境配置定义时，自动同步不会删除资源。可以通过手动同步（检查修剪）或者通过WEB UI的Application-SYNC POLICY中启用<code>PRUNE RESOURCES</code>或CLI<code>argocd app set &lt;APPNAME&gt; --auto-prune</code>进行配置。</p>
 <ul>
 <li>自动修复（Automatic Self-Healing）</li>
 </ul>
-<p>自动修复作为一种安全机制，当我们直接对集群进行操作导致实时集群的状态偏离Git中的环境配置定义定义的状态时，Argo CD会自动进行修复，保持集群的状态与Git manifest的一致性。可以通过WEB UI的Application-SYNC POLICY中启用SELF HEAL或CLI<code>argocd app set &lt;APPNAME&gt; --self-heal</code>进行配置。</p>
+<p>自动修复作为一种安全机制，当我们直接对集群进行操作导致实时集群的状态偏离Git中的环境配置定义的状态时，Argo CD会自动进行修复，保持集群的状态与Git manifest的一致性。可以通过WEB UI的Application-SYNC POLICY中启用<code>SELF HEAL</code>或CLI<code>argocd app set &lt;APPNAME&gt; --self-heal</code>进行配置。</p>
 <p>更多Argo CD的配置可以参考：<a href="https://argo-cd.readthedocs.io/en/stable/user-guide/">https://argo-cd.readthedocs.io/en/stable/user-guide/</a></p>
 <h3 id="项目源码">项目源码</h3>
 <p>可以在Github上获取到此项目的源码：<a href="https://github.com/ChinaLHR/shovel-kustomize-argocd-gitops">https://github.com/ChinaLHR/shovel-kustomize-argocd-gitops</a></p>

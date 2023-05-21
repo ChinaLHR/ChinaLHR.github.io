@@ -19,7 +19,7 @@
     
     <title>计算机的心智-内存</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, 操作系统'>
+    <meta name="keywords" content='blog, chinalhr, lhr, operating system'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/os-heart-memory/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/operating-system">operating system</a></li>
         
         </ul>
     </div>
@@ -190,7 +194,12 @@
 </blockquote>
 <h3 id="基本内存管理">基本内存管理</h3>
 <p>内存架构：缓存——主存——磁盘</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/49844107-91881280-fdfc-11e8-96a4-ed03f84070c5.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/49844107-91881280-fdfc-11e8-96a4-ed03f84070c5.png">
+    <img src="https://user-images.githubusercontent.com/19829495/49844107-91881280-fdfc-11e8-96a4-ed03f84070c5.png" alt="image"  />
+    </a>
+</div></p>
 <p>内存管理机制负责对内存架构进行管理抽象，使程序在内存架构的任何一个层次上存放对于用户都是无感知的。</p>
 <p><strong>内存管理目标</strong></p>
 <p>地址保护：一个程序不能访问另一个程序的地址空间
@@ -200,10 +209,20 @@
 <h4 id="多道编程的内存管理">多道编程的内存管理</h4>
 <p><strong>固定分区策略</strong></p>
 <p>思想：将内存固定分为几个区域，每个区域大小固定。每个分区对应一个队列，程序按照大小排在相应的队列里进行加载。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/49877834-3c321c80-fe61-11e8-8e12-f3b9cf39c9bf.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/49877834-3c321c80-fe61-11e8-8e12-f3b9cf39c9bf.png">
+    <img src="https://user-images.githubusercontent.com/19829495/49877834-3c321c80-fe61-11e8-8e12-f3b9cf39c9bf.png" alt="image"  />
+    </a>
+</div></p>
 <p><strong>非固定分区策略</strong></p>
 <p>思想：除了划分给操作系统的空间外，其余的空间作为一个整体存在，一个程序加载划分出一块内存。操作系统使用基址和极限管理。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/49879245-91236200-fe64-11e8-9e50-4ac1d35c355f.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/49879245-91236200-fe64-11e8-9e50-4ac1d35c355f.png">
+    <img src="https://user-images.githubusercontent.com/19829495/49879245-91236200-fe64-11e8-9e50-4ac1d35c355f.png" alt="image"  />
+    </a>
+</div></p>
 <p>交换(swap)[解决程序加载到内存后继续扩大，超过预留空间]：</p>
 <p>交换就是将一个进程从内存倒到磁盘，等待再将其从磁盘加载到内存的过程。目的是为程序找到一片更大的空间，防止程序因为空间不够而崩溃。</p>
 <p>重叠(overlay)[解决程序占用空间超过物理内存]:</p>
@@ -225,21 +244,51 @@
 <h4 id="核心">核心</h4>
 <p>页式内存管理核心：将虚拟内存空间和物理内存空间皆划分为大小相同的页面(4k,8k&hellip;),以页面作为内存空间最小分配单位。</p>
 <p>分页系统下，程序发出的虚拟内存由页面号和页面偏移值组成(32位寻址系统，页面大小4k，页面号20位，偏移值12位)</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50043953-df7c6f00-00b7-11e9-8ca9-2c87442d0f96.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50043953-df7c6f00-00b7-11e9-8ca9-2c87442d0f96.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50043953-df7c6f00-00b7-11e9-8ca9-2c87442d0f96.png" alt="image"  />
+    </a>
+</div></p>
 <p><strong>页表</strong></p>
 <p>在页式系统中进程建立时，操作系统为进程中所有的页分配页框。当进程撤销时收回所有分配给它的页框。在程序的运行期间，如果允许进程动态地申请空间，操作系统还要为进程申请的空间分配物理页框。操作系统为了完成这些功能，必须记录系统内存中实际的页框使用情况。操作系统还要在进程切换时，正确地切换两个不同的进程地址空间到物理内存空间的映射。这就要求操作系统要记录每个进程页表的相关信息。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50044561-50278980-00c0-11e9-9ca6-ef655f48e6b0.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50044561-50278980-00c0-11e9-9ca6-ef655f48e6b0.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50044561-50278980-00c0-11e9-9ca6-ef655f48e6b0.png" alt="image"  />
+    </a>
+</div></p>
 <p>物理页面表：整个系统有一个物理页面表，描述物理内存空间的分配使用状况(通过比特位01表示是否空闲)</p>
 <p>请求表：整个系统有一个请求表，描述系统内各个进程页表的位置和大小，用于地址转换也可以结合到各进程的PCB(进程控制块)里。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50044591-cc21d180-00c0-11e9-8da1-1d3133927b24.png" alt="image">
-<img src="https://user-images.githubusercontent.com/19829495/50044592-cf1cc200-00c0-11e9-8682-b31c34add382.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50044591-cc21d180-00c0-11e9-8da1-1d3133927b24.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50044591-cc21d180-00c0-11e9-8da1-1d3133927b24.png" alt="image"  />
+    </a>
+</div>
+
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50044592-cf1cc200-00c0-11e9-8682-b31c34add382.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50044592-cf1cc200-00c0-11e9-8682-b31c34add382.png" alt="image"  />
+    </a>
+</div></p>
 <p>页表记录内容：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50044650-992c0d80-00c1-11e9-8d24-e97f928f48ed.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50044650-992c0d80-00c1-11e9-8d24-e97f928f48ed.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50044650-992c0d80-00c1-11e9-8d24-e97f928f48ed.png" alt="image"  />
+    </a>
+</div></p>
 <p><strong>地址翻译(虚拟地址转换为物理地址)</strong></p>
 <p>通过产生系统中断(缺页中断)，将虚页从磁盘上转移到内存，然后将分配给他的物理页面号返回。通过内存管理单元MMU完成(MMU接受CPU发出的虚拟地址，翻译为物理地址发送给内存，内存按照物理地址进行数据的读写)。</p>
 <p>MMU翻译方式：
 每个程序，内存管理单元都为其保存一个页表，通过查询进程表获得页表页表存放虚拟页面到物理页面的映射。通过虚拟地址的页号获取到页表的页号，页号映射的物理地址+页内偏移地址=物理地址</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50044655-b660dc00-00c1-11e9-9945-59a87b4bd43c.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50044655-b660dc00-00c1-11e9-9945-59a87b4bd43c.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50044655-b660dc00-00c1-11e9-9945-59a87b4bd43c.png" alt="image"  />
+    </a>
+</div></p>
 <p><strong>多级页表</strong>
 顶级页表存放一级页表信息，一级页表存放二级&hellip;(顶级页表常驻内存，次级页表存放物理内存)Linux采用三级页表。</p>
 <p>目的减少空间占用,大部分次级页表存放到磁盘。缺点是增加内存访问，磁盘访问。(缓存优化提高翻译速度)</p>
@@ -251,14 +300,24 @@
 <p>略&hellip;</p>
 <p><strong>FIFO算法</strong>
 更换最早进入内存的页面。使用链表将所在内存的页面按照进入时间的早晚链接起来，每次置换链表头的页面即可。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50051422-cd004500-014c-11e9-8d38-fb1a15a80aa9.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50051422-cd004500-014c-11e9-8d38-fb1a15a80aa9.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50051422-cd004500-014c-11e9-8d38-fb1a15a80aa9.png" alt="image"  />
+    </a>
+</div></p>
 <p>缺陷：如果最先加载进来的页面经常被访问，会降低效率。</p>
 <p><strong>第二次机会算法</strong>
 改进FIFO算法，在更换链表头的页面时，查看是否在最近被访问过，没访问过则替换，访问过则挂载到链表尾。</p>
 <p>缺陷：移至链表尾部消耗时间,时间分辨粒度低，影响页面替换效果。</p>
 <p><strong>时钟算法(第二次机会算法改进)</strong>
 把页面排成一个时钟的形状。该时钟有一个针臂。每次需要更换页面时，我们从针臂所指的页面开始检查。如果当前页面的访问位为 0 , 即从上次检查到这次，该页面没有被访问过，将该页面替换。如果当前页面被访问过，那就将其访问位清零，并顺时针移动指针到下一个页面。我们重复这些步辍直到找到一个访问位为 0 的页面。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50051684-bad4d580-0151-11e9-83be-7dafab3d1092.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50051684-bad4d580-0151-11e9-83be-7dafab3d1092.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50051684-bad4d580-0151-11e9-83be-7dafab3d1092.png" alt="image"  />
+    </a>
+</div></p>
 <p>缺陷：时间分辨粒度低，影响页面替换效果，可能无限循环。</p>
 <h4 id="非公平算法">非公平算法👇</h4>
 <p><strong>NRU算法(最近未使用算法)</strong>
@@ -274,7 +333,12 @@
 <li>如果一个页面的访问位是1，则将该页面的最后一次访问时间设为当前时间，并将访问位清零。</li>
 <li>如果页面的访问位为0，则查看其访问时间是否在当前时间减去 T 之前。是则替换</li>
 </ol>
-<p><img src="https://user-images.githubusercontent.com/19829495/50051871-616ea580-0155-11e9-81e9-f0530f7aae25.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50051871-616ea580-0155-11e9-81e9-f0530f7aae25.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50051871-616ea580-0155-11e9-81e9-f0530f7aae25.png" alt="image"  />
+    </a>
+</div></p>
 <h3 id="段式内存管理">段式内存管理</h3>
 <p>页式内存管理的缺陷是共享困难，一个进程只能占有一个虚拟地址空间。(一个程序的大小至多只能和虚拟空间一样大)，段式内存管理就是为了解决这些问题。</p>
 <p><strong>关于分段管理</strong>
@@ -285,21 +349,46 @@
 –可以按段为单位来进行共享，包括通过动态链接进行代码共享</p>
 <p><strong>这样做的优点是：可以分别编写和编译源程序的一个文件，并且可以针对不同类型的段采取不同的保护，也可以按段为单位来进行共享。</strong></p>
 <p><strong>段式内存管理下，程序发出的虚拟内存由段号和段内偏差组成</strong></p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50054267-241d0e80-017b-11e9-81c7-8d7df0246e1e.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50054267-241d0e80-017b-11e9-81c7-8d7df0246e1e.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50054267-241d0e80-017b-11e9-81c7-8d7df0246e1e.png" alt="image"  />
+    </a>
+</div></p>
 <h4 id="分段实现方式">分段实现方式</h4>
 <p>使用一组基址与极限对，每个基址与极限用于其中一段的管理。逻辑分段，每个虚拟地址只需要对其对应的基址寄存器与极限寄存器值进行调整，就可以加载到物理内存的任何空间。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50054718-a9a2bd80-017f-11e9-8926-fe93e9298196.png" alt="image"></p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50054806-c390d000-0180-11e9-835f-bf233f2d1aad.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50054718-a9a2bd80-017f-11e9-8926-fe93e9298196.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50054718-a9a2bd80-017f-11e9-8926-fe93e9298196.png" alt="image"  />
+    </a>
+</div></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50054806-c390d000-0180-11e9-835f-bf233f2d1aad.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50054806-c390d000-0180-11e9-835f-bf233f2d1aad.png" alt="image"  />
+    </a>
+</div></p>
 <p><strong>地址翻译(虚拟地址转换为物理地址)</strong>
 段表存放虚拟段号到该段的所在的内存基址的映射。物理地址=内存基址+段内偏差</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50054861-9f81be80-0181-11e9-899f-787649f16000.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50054861-9f81be80-0181-11e9-899f-787649f16000.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50054861-9f81be80-0181-11e9-899f-787649f16000.png" alt="image"  />
+    </a>
+</div></p>
 <p><strong>缺陷</strong>
 和基础内存管理一样，存在外部碎片和一个段必须全部加载到内存中，所以就有了段页式内存管理。</p>
 <h3 id="段页式内存管理">段页式内存管理</h3>
 <p>段页式管理就是将程序分为多个逻辑段，在每个段里面又进行分页，即将分段和分页组合起来使用。这样做的目的就是想同时获得分段和分页的好处，但又避免了单独分段或单独分页的缺陷。如果我们将每个段看做一个单独的程序，则逻辑分段就相当于同时加载多个程序。</p>
 <p><strong>实现</strong></p>
 <p>在段里面分页（次级页表），一个程序对应多个次级页表，在多个次级页表上增加一层段表（顶级页表）。由段表获取所应该使用的页表，通过页表查找物理地址。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50054946-0f447900-0183-11e9-9e19-61c04d26093a.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50054946-0f447900-0183-11e9-9e19-61c04d26093a.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50054946-0f447900-0183-11e9-9e19-61c04d26093a.png" alt="image"  />
+    </a>
+</div></p>
 <h3 id="成长过程">成长过程</h3>
 <p><strong>基本内存管理</strong>
 缺陷：内存空间增长困难，外部碎片，程序不能超过物理内存容量，一个程序必须加载到内存才可以执行。</p>
@@ -311,7 +400,12 @@
 缺陷：解决了：一个程序只能在一个虚拟地址空间增长，但存在外部碎片和一个段必须全部加载到内存中(因为是基本内存管理的升级)</p>
 <p>👇</p>
 <p><strong>段页式内存管理</strong></p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50055053-84fd1480-0184-11e9-96b9-65f51c82c622.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50055053-84fd1480-0184-11e9-96b9-65f51c82c622.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50055053-84fd1480-0184-11e9-96b9-65f51c82c622.png" alt="image"  />
+    </a>
+</div></p>
         </p>
     </div>
 </div>

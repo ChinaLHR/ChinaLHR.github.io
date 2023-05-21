@@ -19,7 +19,7 @@
     
     <title>Kubernetes本地调试利器-Telepresence</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, Kubernetes, Telepresence'>
+    <meta name="keywords" content='blog, chinalhr, lhr, kubernetes, telepresence'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/kubernetes-telepresence/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,9 +182,9 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubernetes">Kubernetes</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubernetes">kubernetes</a></li>
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/telepresence">Telepresence</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/telepresence">telepresence</a></li>
         
         </ul>
     </div>
@@ -191,7 +195,7 @@
 <p>Kubernetes环境下基于Telepresence开发调试实践</p>
 </blockquote>
 <h2 id="以kubernetes为基础的微服务下开发本地调试面临的问题">以Kubernetes为基础的微服务下开发本地调试面临的问题</h2>
-<p>微服务是随着领域驱动设计，持续交付，容器化技术，基础设施自动化，小型自治团队，大型集群系统的实践与流行，而总结出来的一种逐渐流行的模式；基于Kubernetes作为微服务应用载体的架构，kubernetes提供了服务注册、配置管理、负载均衡、故障隔离、业务恢复、自动扩容等能力。相比于传统的Spring Cloud微服务体系，将更多的基础服务下层到基础设施上，让应用层更关注业务开发，同时对多平台语言有了更好的支持。</p>
+<p>微服务是随着领域驱动设计，持续交付，容器化技术，基础设施自动化，小型自治团队，大型集群系统的实践与流行，而总结出来的一种逐渐流行的模式；基于Kubernetes作为微服务应用载体的架构，Kubernetes提供了服务注册、配置管理、负载均衡、故障隔离、业务恢复、自动扩容等能力。相比于传统的Spring Cloud微服务体系，将更多的基础服务下层到基础设施上，让应用层更关注业务开发，同时对多平台语言有了更好的支持。</p>
 <p>但是在以Kubernetes为基础的微服务下进行开发、调试；就会面临下面几个问题：</p>
 <ul>
 <li>由于服务依赖关系复杂，服务众多，本地进行调试的话需要把关联的服务都搭建-启动起来</li>
@@ -248,10 +252,15 @@ T: Connected. Flushing DNS cache.
 T: Setup complete. Launching your command.
 </code></pre><p>当运行 Telepresence 命令的时候，默认使用vpn-tcp模式；它创建了一个<code>Deployment</code>，对应的 Spec 是负责转发流量的代理容器；对应的pod为上面启动日志的<code>telepresence-1611716361-290886-47290</code>；同时Telepresence在本地创建了一个全局VPN；使得本地的所有程序都可以访问到集群中的服务。</p>
 <p>这时候就可以把本地环境的Service A启动起来进行调试，所有的环境变量可以基于上文的dev环境配置。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/105940605-a7b5c300-6096-11eb-87f1-3d1db0e74292.png" alt="image1"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/105940605-a7b5c300-6096-11eb-87f1-3d1db0e74292.png">
+    <img src="https://user-images.githubusercontent.com/19829495/105940605-a7b5c300-6096-11eb-87f1-3d1db0e74292.png" alt="image1"  />
+    </a>
+</div></p>
 <h3 id="远程kubernetes集群内部服务与本地服务联调">远程Kubernetes集群内部服务与本地服务联调</h3>
 <p><strong>场景</strong></p>
-<p>在context为dev的kubernetes集群内，服务A依赖于服务B，需要在本地对服务B进行调试；这里调试的前提是我们要有正式的来着服务A的调用流量。</p>
+<p>在context为dev的kubernetes集群内，服务A依赖于服务B，需要在本地对服务B进行调试；这里调试的前提是我们要有真实的来自服务A的调用流量。</p>
 <p><strong>操作</strong></p>
 <p>使用Telepresence提供的参数<code>--swap-deployment DEPLOYMENT_NAME[:CONTAINER], -s DEPLOYMENT_NAME[:CONTAINER]</code> 将集群中的一个 Deployment 替换为本地的服务；使用<code> --expose PORT[:REMOTE_PORT]</code>进行本地-集群Deployment绑定的端口转发。启动本地进程板顶对应expose的PORT进行调试。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 这里替换了 context为dev、namespace为test的 service-a 到本地服务；并对集群内service-b：8080的流量转发到本地10080端口</span>
@@ -262,7 +271,12 @@ telepresence --context dev --namespace test --swap-deployment service-b --expose
 <li>建立一个路由通道，将代理容器的所有流量转发到本地 10080 端口</li>
 <li>将service-b的 replicas 设置为0，kubernetes Service 的 selector 就只能匹配到刚刚创建的代理容器上</li>
 </ol>
-<p><img src="https://user-images.githubusercontent.com/19829495/105940980-5fe36b80-6097-11eb-8bb6-5ea97e2898cd.png" alt="image2"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/105940980-5fe36b80-6097-11eb-8bb6-5ea97e2898cd.png">
+    <img src="https://user-images.githubusercontent.com/19829495/105940980-5fe36b80-6097-11eb-8bb6-5ea97e2898cd.png" alt="image2"  />
+    </a>
+</div></p>
 <h3 id="一些参数">一些参数</h3>
 <ul>
 <li>帮助文档</li>

@@ -19,7 +19,7 @@
     
     <title>Shrio导致SpringCache缓存失效原因分析</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, Java, Spring'>
+    <meta name="keywords" content='blog, chinalhr, lhr, java, spring framework'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/spring-cache-shrio-bug/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,9 +182,9 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/java">Java</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/java">java</a></li>
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/spring">Spring</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/spring-framework">spring framework</a></li>
         
         </ul>
     </div>
@@ -197,7 +201,12 @@
 <ul>
 <li>BeanPostProcessor:构建Bean的时候调用，会处理所有符合条件的对象实例(扫描所有Bean进行处理,Aop实现就是通过BeanPostProcessor找到匹配的Pointcut进行自动代理)</li>
 </ul>
-<p><img src="https://user-images.githubusercontent.com/19829495/59182905-817ba080-8b9d-11e9-958c-c56cd040c332.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/59182905-817ba080-8b9d-11e9-958c-c56cd040c332.png">
+    <img src="https://user-images.githubusercontent.com/19829495/59182905-817ba080-8b9d-11e9-958c-c56cd040c332.png" alt="image"  />
+    </a>
+</div></p>
 <ul>
 <li>提供了postProcessBeforeInitialization与postProcessAfterInitialization方法，对所有实现了InitializingBean的Bean的afterPropertiesSet方法前后执行。</li>
 <li>BeanPostProcessor本身也是一个Bean，一般而言其实例化时机要早过普通的Bean，但是BeanPostProcessor也会依赖一些Bean，这就导致了一些Bean的实例化早于BeanPostProcessor，由此会导致一些问题。</li>
@@ -283,7 +292,12 @@
 <li>实现了MergedBeanDefinitionPostProcessor接口的BeanPostProcessor</li>
 </ol>
 <h3 id="关于priorityordered">关于PriorityOrdered</h3>
-<p><img src="https://user-images.githubusercontent.com/19829495/59182997-af60e500-8b9d-11e9-99a0-966aaaedc070.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/59182997-af60e500-8b9d-11e9-99a0-966aaaedc070.png">
+    <img src="https://user-images.githubusercontent.com/19829495/59182997-af60e500-8b9d-11e9-99a0-966aaaedc070.png" alt="image"  />
+    </a>
+</div></p>
 <p>实现了PriorityOrdered的BeanPostProcessor先于其他BeanPostProcessor，并会影响到其他BeanPostProcessor的autowiring behavior</p>
 <h3 id="spring的一些beanpostprocessor">Spring的一些BeanPostProcessor</h3>
 <ul>
@@ -309,11 +323,21 @@
         <span style="color:#f92672">}</span>
         <span style="color:#66d9ef">return</span> cache<span style="color:#f92672">;</span>
     <span style="color:#f92672">}</span>
-</code></pre></div><p><img src="https://user-images.githubusercontent.com/19829495/59183019-ba1b7a00-8b9d-11e9-9e6d-13c62b143934.png" alt="image"></p>
+</code></pre></div><p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/59183019-ba1b7a00-8b9d-11e9-9e6d-13c62b143934.png">
+    <img src="https://user-images.githubusercontent.com/19829495/59183019-ba1b7a00-8b9d-11e9-9e6d-13c62b143934.png" alt="image"  />
+    </a>
+</div></p>
 <ul>
 <li>通过Debug查看registerBeanPostProcessors</li>
 </ul>
-<p><img src="https://user-images.githubusercontent.com/19829495/59183033-c43d7880-8b9d-11e9-9b0f-f3e6348e3711.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/59183033-c43d7880-8b9d-11e9-9b0f-f3e6348e3711.png">
+    <img src="https://user-images.githubusercontent.com/19829495/59183033-c43d7880-8b9d-11e9-9b0f-f3e6348e3711.png" alt="image"  />
+    </a>
+</div></p>
 <h3 id="lazy">@Lazy</h3>
 <p>@Lazy修饰Spring Bean类,用于指定该Bean是否取消预初始化。
 容器初始化方法在AbstractApplicationContext的refresh()——&gt;finishBeanFactoryInitialization(beanFactory)——&gt;preInstantiateSingletons()</p>
@@ -348,7 +372,12 @@
 </code></pre></div><p>添加了@Lazy注解的Bean在容器初始化的过程中不会进行依赖注入，只有当第一个getBean的时候才会实例化Bean。</p>
 <h2 id="解决">解决</h2>
 <p>通过对自定义Realm中依赖的Bean加上@Lazy，使其延迟加载。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/59183053-d4edee80-8b9d-11e9-963e-a87272359895.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/59183053-d4edee80-8b9d-11e9-963e-a87272359895.png">
+    <img src="https://user-images.githubusercontent.com/19829495/59183053-d4edee80-8b9d-11e9-963e-a87272359895.png" alt="image"  />
+    </a>
+</div></p>
 <h2 id="参考">参考</h2>
 <ul>
 <li><a href="http://stackoverflow.com/questions/21512791/spring-service-with-cacheable-methods-gets-initialized-without-cache-when-autowi">http://stackoverflow.com/questions/21512791/spring-service-with-cacheable-methods-gets-initialized-without-cache-when-autowi</a></li>

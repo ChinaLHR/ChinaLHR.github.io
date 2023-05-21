@@ -17,18 +17,18 @@
     
 
     
-    <title>分布式ID解决方案分析</title>
+    <title>分布式UID解决方案分析</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, 分布式UID'>
+    <meta name="keywords" content='blog, chinalhr, lhr, uid-generator'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/uid-generator-scheme/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="分布式ID解决方案分析">
+    <meta property="og:title" content="分布式UID解决方案分析">
     <meta property="og:description" content="keep curious 😼">
     <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="分布式ID解决方案分析">
+    <meta name="twitter:title" content="分布式UID解决方案分析">
     <meta name="twitter:description" content="keep curious 😼">
     <meta property="twitter:domain" content="https://chinalhr.github.io/post/uid-generator-scheme/">
     <meta property="twitter:url" content="https://chinalhr.github.io/post/uid-generator-scheme/">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -170,7 +174,7 @@
 <main id="content">
     <div class="post container">
     <div class="post-header-section">
-        <h1>分布式ID解决方案分析</h1>
+        <h1>分布式UID解决方案分析</h1>
         <small role="doc-subtitle"></small>
         <p class="post-date">
             March 29, 2020
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8Fuid">分布式UID</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/uid-generator">uid-generator</a></li>
         
         </ul>
     </div>
@@ -220,7 +224,7 @@
 <ul>
 <li>UUID格式</li>
 </ul>
-<p>UUID 的 16 个 8 位字节表示为 32 个十六进制（基数16）数字，显示在由连字符分隔 &lsquo;-&rsquo; 的五个组中，&ldquo;8-4-4-4-12&rdquo; 总共 36 个字符（32 个字母数字字符和 4 个连字符）</p>
+<p>UUID 的 16 个 8 位字节表示为 32 个十六进制（基数16）数字，显示在由连字符分隔 &lsquo;-&rsquo; 的五个组中，&ldquo;8-4-4-4-12&rdquo; 总共 36 个字符（32 个字母数字字符和 4 个连接字符）</p>
 <p><code>xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx</code> 例如：<code>123e4567-e89b-12d3-a456-426655440000</code></p>
 <p>其中四位数字 <code>M</code>表示 UUID 版本，数字 <code>N</code>的一至三个最高有效位表示 UUID 变体，布局如下：</p>
 <table>
@@ -305,7 +309,7 @@
 <p>如果是双主模式集群，那么需要设置自增ID的步长为2，可以通过如下命令设置自增ID的起始值与步长。</p>
 <pre><code>set @@auto_increment_offset = 1;     -- 起始值
 set @@auto_increment_increment = 2;  -- 步长
-</code></pre><p>第一台MySql的起始值为1，步长为2的话第二台的起始值为2，以此类推。</p>
+</code></pre><p>第一台MySql的起始值为1，步长为2的话第二台的起始值为2，步长为2，以此类推。</p>
 <ul>
 <li>后续扩容问题</li>
 </ul>
@@ -337,19 +341,24 @@ set @@auto_increment_increment = 2;  -- 步长
 <h3 id="基于雪花算法的id生成">基于雪花算法的ID生成</h3>
 <p>雪花算法（Snowflake）是twitter内部使用的分布式ID生成算法，旨在依据一定的算法逻辑，生成一个Long类型的ID（64bit）。组成结构大致如下：</p>
 <p><code>正数位（1bit）+时间戳（41bit）+机器ID（5bit）+ 数据中心（5bit）+ 自增ID（12bit）</code></p>
-<p>具体实现方式可参考博主之前的一篇文章：<a href="https://chinalhr.github.io/post/uidgenerate_snowflake">https://chinalhr.github.io/post/uidgenerate_snowflake</a></p>
+<p>具体实现方式可参考博主之前的一篇文章：<a href="https://chinalhr.github.io/post/uid-generate-snowflake/">https://chinalhr.github.io/post/uid-generate-snowflake/</a></p>
 <h4 id="方案分析-2">方案分析</h4>
 <p>基于雪花算法的ID生成方式简单，趋势递增且带有可逆性，用作主键存储性能高，也支持后续数据库分库分表，算法实现方式灵活性高可自定义组合优化，高性能每秒能够产生26万个ID，并且不依赖于数据库，以服务的方式部署，稳定性更高。</p>
 <p>但是因为强依赖机器时钟，如果机器上时钟回拨，会导致发号重复或者服务会处于不可用状态，而且雪花算法通过提前规划好机器标识来实现，但在分布式生产环境中是不够友好的，一般需要自动启停，增减机器，因此很多互联网大厂都对改算法进行了一定的改造。</p>
 <h2 id="分布式id开源项目分析-百度uid-generator项目">分布式ID开源项目分析-百度uid-generator项目</h2>
-<p>UidGenerator是由百度技术部开发的，通过Java实现, 基于Snowflake算法的唯一ID生成器。UidGenerator以组件形式工作在应用项目中,支持自定义workerId位数和初始化策略, 从而适用于<a href="https://www.docker.com/">docker</a>等虚拟化环境下实例自动重启、漂移等场景。</p>
+<p>UidGenerator是由百度技术部开发的，通过Java实现, 基于Snowflake算法的唯一ID生成器。UidGenerator以组件形式工作在应用项目中,支持自定义workerId位数和初始化策略, 从而适用于<a href="https://www.docker.com/">docker</a>等容器化环境下实例自动重启、漂移等场景。</p>
 <p>UidGenerator项目地址：<a href="https://github.com/baidu/uid-generator">https://github.com/baidu/uid-generator</a></p>
 <h3 id="数据结构">数据结构</h3>
 <p>UidGenerator生成的ID默认结构如下：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/77334207-74602480-6d5f-11ea-821d-c0c39605a7f7.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/77334207-74602480-6d5f-11ea-821d-c0c39605a7f7.png">
+    <img src="https://user-images.githubusercontent.com/19829495/77334207-74602480-6d5f-11ea-821d-c0c39605a7f7.png" alt="图片"  />
+    </a>
+</div></p>
 <ul>
-<li>**sign(1bit) **：固定1bit符号标识，即生成的UID为正数。</li>
-<li>**delta seconds (28 bits) **：当前时间，相对于时间基点&quot;2016-05-20&quot;的增量值，单位：秒，最多可支持约8.7年</li>
+<li><strong>sign(1bit)</strong>：固定1bit符号标识，即生成的UID为正数。</li>
+<li><strong>delta seconds (28 bits)</strong>：当前时间，相对于时间基点&quot;2016-05-20&quot;的增量值，单位：秒，最多可支持约8.7年</li>
 <li><strong>worker id (22 bits)</strong>： 机器id，最多可支持约420w次机器启动。内置实现为在启动时由数据库分配，默认分配策略为用后即弃，后续可提供复用策略。</li>
 <li><strong>sequence (13 bits)</strong>： 每秒下的并发序列，13 bits可支持每秒8192个并发。</li>
 </ul>
@@ -441,7 +450,12 @@ CREATED <span style="color:#66d9ef">TIMESTAMP</span> <span style="color:#66d9ef"
 </code></pre></div><p>总结：DefaultUidGenerator的实现与雪花算法实现对比改动较小，对生成ID结构的位数可自定义，对分布式环境下增减机器的WorkId分配更友好，但没有解决时间回拨问题，采用了简单的抛出异常的方式处理。</p>
 <h3 id="ringbuffer">RingBuffer</h3>
 <p>RingBuffer本质上是一个数组，数组中每个项被称为slot。UidGenerator设计了两个RingBuffer，一个保存唯一ID，一个保存flag。RingBuffer的尺寸是2^n。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/77541315-79e47880-6edf-11ea-8868-e978924db15b.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/77541315-79e47880-6edf-11ea-8868-e978924db15b.png">
+    <img src="https://user-images.githubusercontent.com/19829495/77541315-79e47880-6edf-11ea-8868-e978924db15b.png" alt="图片"  />
+    </a>
+</div></p>
 <h4 id="ringbuffer-of-uid">RingBuffer Of UID</h4>
 <p>RingBuffer Of UID是存储UID的RingBuffer 使用两个指针，Tail指针表示最新生成的UID，如果这个Tail指针追上了Cursor指针，此时RingBuffer已经满了，不允许再继续生成UID了。可以通过属性rejectedPutBufferHandler指定拒绝策略。</p>
 <p>Cursor指针表示最后一个已经给消费的UID，如果Cursor指针追上了Tail指针，此时RingBuffer已经空了，不允许继续获取UID了。可以通过rejectedTakeBufferHandler指定拒绝策略。</p>
@@ -497,7 +511,12 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
     <span style="color:#f92672">}</span>
 
 <span style="color:#f92672">}</span>
-</code></pre></div><p><img src="https://user-images.githubusercontent.com/19829495/77552121-1ada3000-6eee-11ea-9a28-a879cbd19956.png" alt="图片"></p>
+</code></pre></div><p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/77552121-1ada3000-6eee-11ea-9a28-a879cbd19956.png">
+    <img src="https://user-images.githubusercontent.com/19829495/77552121-1ada3000-6eee-11ea-9a28-a879cbd19956.png" alt="图片"  />
+    </a>
+</div></p>
 <ul>
 <li>RingBuffer填充时机</li>
 </ul>
@@ -518,7 +537,12 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
 </ol>
 <h4 id="ringbufferput填充">RingBuffer.put（填充）</h4>
 <p>CachedUidGenerator生成UID的方式主要是通过paddingBuffer方法实现的，生成流程如下图所示，主要关注点是在满足填充新的唯一ID条件时，通过时间值递增得到新的时间值（lastSecond.incrementAndGet()），而不是System.currentTimeMillis()这种方式，解决了运行时时间回拨问题。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/77665080-1aa76680-6fba-11ea-88a7-c2a2a58e8353.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/77665080-1aa76680-6fba-11ea-88a7-c2a2a58e8353.png">
+    <img src="https://user-images.githubusercontent.com/19829495/77665080-1aa76680-6fba-11ea-88a7-c2a2a58e8353.png" alt="图片"  />
+    </a>
+</div></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">paddingBuffer</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
         LOGGER<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Ready to padding buffer lastSecond:{}. {}&#34;</span><span style="color:#f92672">,</span> lastSecond<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(),</span> ringBuffer<span style="color:#f92672">);</span>
 
@@ -593,7 +617,12 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
     <span style="color:#f92672">}</span>
 </code></pre></div><h4 id="ringbuffertake取值">RingBuffer.take（取值）</h4>
 <p>CachedUidGenerator获取UID通过RingBuffer.take()方法直接从RingBuffer中取出，获取流程如下图所示</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/77665809-1d568b80-6fbb-11ea-9bfe-657e2716eaf0.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/77665809-1d568b80-6fbb-11ea-9bfe-657e2716eaf0.png">
+    <img src="https://user-images.githubusercontent.com/19829495/77665809-1d568b80-6fbb-11ea-9bfe-657e2716eaf0.png" alt="图片"  />
+    </a>
+</div></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">take</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
         <span style="color:#75715e">// 获取当前Cursor指针与下一个可用Cursor指针并进行check
 </span><span style="color:#75715e"></span>        <span style="color:#66d9ef">long</span> currentCursor <span style="color:#f92672">=</span> cursor<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">();</span>
@@ -630,32 +659,32 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
 <p>Leaf项目地址：<a href="https://github.com/Meituan-Dianping/Leaf">https://github.com/Meituan-Dianping/Leaf</a></p>
 <h3 id="项目结构-1">项目结构</h3>
 <p>这里主要关注core模块：</p>
-<pre><code>├── common									        - 公共包
-│   ├── CheckVO.java						
-│   ├── PropertyFactory.java				- leaf.properties配置获取
-│   ├── Result.java							    - 统一返回值
-│   ├── Status.java							    - 状态值
-│   ├── Utils.java							    - 工具类
-│   └── ZeroIDGen.java						  - 生成0号ID	
-├── IDGen.java								      - ID生成接口(I)
-├── segment									
-│   ├── dao									        - 号段相关Dao操作
+<pre><code>├── common								- 公共包
+│   ├── CheckVO.java					
+│   ├── PropertyFactory.java			- leaf.properties配置获取
+│   ├── Result.java						- 统一返回值
+│   ├── Status.java						- 状态值
+│   ├── Utils.java						- 工具类
+│   └── ZeroIDGen.java					- 生成0号ID	
+├── IDGen.java							- ID生成接口(I)
+├── segment								
+│   ├── dao								- 号段相关Dao操作
 │   │   ├── IDAllocDao.java
 │   │   ├── IDAllocMapper.java
 │   │   └── impl
 │   │       └── IDAllocDaoImpl.java
-│   ├── model								        - 号段相关model
+│   ├── model							- 号段相关model
 │   │   ├── LeafAlloc.java
 │   │   ├── SegmentBuffer.java
 │   │   └── Segment.java
-│   └── SegmentIDGenImpl.java				- 号段相关ID生成实现
-└── snowflake								
+│   └── SegmentIDGenImpl.java			- 号段相关ID生成实现
+└── snowflake							
     ├── exception
     │   ├── CheckLastTimeException.java
-    │   ├── CheckOtherNodeException.java
+    │   ├── CheckOtherNodeException.jav
     │   └── ClockGoBackException.java
-    ├── SnowflakeIDGenImpl.java			    - SnowFlakeID生成实现
-    └── SnowflakeZookeeperHolder.java		- Zookeeper相关操作类
+    ├── SnowflakeIDGenImpl.java			- SnowFlakeID生成实现
+    └── SnowflakeZookeeperHolder.java	- Zookeeper相关操作类
 </code></pre><h3 id="leaf-segment号段模式">Leaf-segment号段模式</h3>
 <p>Leaf-segment号段模式是对上文的基于数据库号段模式的一种实现与优化。 每次获取一个segmen号段的值， 减轻数据库的压力 。利用 biz_tag字段来区分 业务，隔离影响，后续可以依据 biz_tag进行分库分表。</p>
 <h4 id="数据库表结构">数据库表结构</h4>
@@ -749,14 +778,19 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
     <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">volatile</span> <span style="color:#66d9ef">int</span> step<span style="color:#f92672">;</span>
     <span style="color:#66d9ef">private</span> SegmentBuffer buffer<span style="color:#f92672">;</span>
 <span style="color:#f92672">}</span>
-</code></pre></div><p><img src="https://user-images.githubusercontent.com/19829495/77829777-3304b600-715f-11ea-99a1-07fde897c62a.png" alt="图片"></p>
+</code></pre></div><p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/77829777-3304b600-715f-11ea-99a1-07fde897c62a.png">
+    <img src="https://user-images.githubusercontent.com/19829495/77829777-3304b600-715f-11ea-99a1-07fde897c62a.png" alt="图片"  />
+    </a>
+</div></p>
 <ul>
 <li>UID取值</li>
 </ul>
 <p>UID通过调用get方法获取，具体实现逻辑大致如下</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#66d9ef">public</span> Result <span style="color:#a6e22e">get</span><span style="color:#f92672">(</span><span style="color:#66d9ef">final</span> String key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
         <span style="color:#75715e">//SegmentIDGenImpl是否初始化
-</span><span style="color:#75715e"></span>        <span style="color:#960050;background-color:#1e0010">。。。</span>
+</span><span style="color:#75715e"></span>        <span style="color:#f92672">...</span>
         <span style="color:#75715e">//cache中是否已经缓存了对应biz_id的数据
 </span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cache<span style="color:#f92672">.</span><span style="color:#a6e22e">containsKey</span><span style="color:#f92672">(</span>key<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
             <span style="color:#75715e">//检查SegmentBuffer中的Segment是否初始化
@@ -838,7 +872,12 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
         sw<span style="color:#f92672">.</span><span style="color:#a6e22e">stop</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;updateSegmentFromDb&#34;</span><span style="color:#f92672">,</span> key <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span> segment<span style="color:#f92672">);</span>
     <span style="color:#f92672">}</span>
 </code></pre></div><p>最后的getIdFromSegmentBuffer方法会调用segment.getValue().getAndIncrement()从segment中获取value得到当前的UID返回并进行自增，这里在获取之前会判断当前Segment已经使用超过10%，如果超过会异步准备双buffer的另一个Segment。如果当前号段已经用完，切换另一个Segment号段使用。流程图如下图所示：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/77843117-67628b80-71cc-11ea-9948-a9cf3c38da32.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/77843117-67628b80-71cc-11ea-9948-a9cf3c38da32.png">
+    <img src="https://user-images.githubusercontent.com/19829495/77843117-67628b80-71cc-11ea-9948-a9cf3c38da32.png" alt="图片"  />
+    </a>
+</div></p>
 <h3 id="leaf-snowflake模式">Leaf-snowflake模式</h3>
 <p>Leaf-snowflake数据结构上沿用了snowflake的设计，<code>正数位（占1比特）+ 时间戳（占41比特）+ 机器ID（占5比特）+ 机房ID（占5比特）+ 自增值（占12比特）</code>，主要针对workId的生成与时间回拨问题进行了优化处理。</p>
 <h4 id="实现方式-3">实现方式</h4>
@@ -852,13 +891,23 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
 <li>如果有注册过直接取回自己的workerID（zk顺序节点生成的int类型ID号），启动服务。</li>
 <li>如果没有注册过，就在该父节点下面创建一个持久顺序节点，创建成功后取回顺序号当做自己的workerID号，启动服务。</li>
 </ol>
-<p><img src="https://user-images.githubusercontent.com/19829495/77843534-aa266280-71d0-11ea-8777-57134a498942.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/77843534-aa266280-71d0-11ea-8777-57134a498942.png">
+    <img src="https://user-images.githubusercontent.com/19829495/77843534-aa266280-71d0-11ea-8777-57134a498942.png" alt="图片"  />
+    </a>
+</div></p>
 <p>弱化对Zookeeper的依赖：Leaf-snowflake除了每次会去ZooKeeper拿数据以外，也会在本机文件系统上缓存一个workerID文件。当ZooKeeper出现问题，而且机器需要重启，能保证服务能够正常启动，做到了对三方组件的弱依赖。一定程度上提高了SLA。</p>
 <ul>
 <li>时间回拨问题解决</li>
 </ul>
 <p>为了解决Snowflake的时间回拨问题，leaf主要从两个地方进行优化，一个是启动时对自身系统时间做校验，主要比较对象为系统节点历史记录的时间与其余节点的系统时间。启动流程如下：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/77844226-67b45400-71d7-11ea-9cdd-a2540312d7cc.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/77844226-67b45400-71d7-11ea-9cdd-a2540312d7cc.png">
+    <img src="https://user-images.githubusercontent.com/19829495/77844226-67b45400-71d7-11ea-9cdd-a2540312d7cc.png" alt="图片"  />
+    </a>
+</div></p>
 <p>服务启动时首先检查自己是否写过ZooKeeper leaf_forever节点：</p>
 <ol>
 <li>若写过，则用自身系统时间与leaf_forever/${self}节点记录时间做比较，若小于leaf_forever/${self}时间则认为机器时间发生了大步长回拨，服务启动失败并报警。</li>

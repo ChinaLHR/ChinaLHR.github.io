@@ -17,18 +17,18 @@
     
 
     
-    <title>认知-敏捷开发与DevOps</title>
+    <title>敏捷开发与DevOps实践</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, 敏捷开发, DevOps'>
+    <meta name="keywords" content='blog, chinalhr, lhr, agile, devops'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/agile-devops/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="认知-敏捷开发与DevOps">
+    <meta property="og:title" content="敏捷开发与DevOps实践">
     <meta property="og:description" content="keep curious 😼">
     <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="认知-敏捷开发与DevOps">
+    <meta name="twitter:title" content="敏捷开发与DevOps实践">
     <meta name="twitter:description" content="keep curious 😼">
     <meta property="twitter:domain" content="https://chinalhr.github.io/post/agile-devops/">
     <meta property="twitter:url" content="https://chinalhr.github.io/post/agile-devops/">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -170,7 +174,7 @@
 <main id="content">
     <div class="post container">
     <div class="post-header-section">
-        <h1>认知-敏捷开发与DevOps</h1>
+        <h1>敏捷开发与DevOps实践</h1>
         <small role="doc-subtitle"></small>
         <p class="post-date">
             January 13, 2020
@@ -178,9 +182,9 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91">敏捷开发</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/agile">agile</a></li>
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/devops">DevOps</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/devops">devops</a></li>
         
         </ul>
     </div>
@@ -194,30 +198,80 @@
 <p>软件工程从瀑布到敏捷，是对软件工程效率和软件交付效率的提升。</p>
 <h3 id="瀑布模型">瀑布模型</h3>
 <p>瀑布模型（Waterfall Model）将软件生命周期划分为6个阶段：计划、需求分析、设计、编码、测试、维护，顺序固定，如同瀑布逐级下落。作为早期软件工程方法，瀑布在20世纪80年广泛使用，但存在致命的缺点：流程是线性的，到最后才测试和交付开发成果，一旦发现问题为时已晚，所以没能很好的解决软件危机，2003年的统计报告显示82%的项目延期，和1995年的84%几乎没有好转。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/73244237-6e791780-41e4-11ea-8bf2-fb0124bc7fa2.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/73244237-6e791780-41e4-11ea-8bf2-fb0124bc7fa2.png">
+    <img src="https://user-images.githubusercontent.com/19829495/73244237-6e791780-41e4-11ea-8bf2-fb0124bc7fa2.png" alt="image"  />
+    </a>
+</div></p>
 <h3 id="敏捷开发">敏捷开发</h3>
 <p>敏捷开发是循序渐进的开发方式，在尽量短的周期内持续测试和交付“可运行的软件”，再加上团队沟通和客户沟通，从而做到了“拥抱变化”。在敏捷开发中，软件项目在构建初期被切分成多个迭代，各个迭代的成果都经过测试，具备可视、可集成和可运行使用的特征。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/73245483-49d26f00-41e7-11ea-8bf8-e7a1424c355e.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/73245483-49d26f00-41e7-11ea-8bf8-e7a1424c355e.png">
+    <img src="https://user-images.githubusercontent.com/19829495/73245483-49d26f00-41e7-11ea-8bf8-e7a1424c355e.png" alt="image"  />
+    </a>
+</div></p>
 <p><strong>敏捷开发框架</strong>：</p>
 <p>Scrum（“橄榄球传球” ）：成员包括产品负责人、 5-9人的开发团队、 敏捷教练，采用每日站会、 迭代回顾等方法；
 Kanban（看板）：来自丰田精益生产，可视化工作流、 限制在制品数量、 显式化流程规则（内建质量）……；
 XP（极限编程）：结对编程、 TDD（测试驱动开发）、 客户驻场，偏重编程实践，而 Scrum 和 Kanban 面向工作流。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/73245583-87cf9300-41e7-11ea-9452-045152ec8bfc.png" alt="image"></p>
-<p>**Scrum **：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/73245702-d2e9a600-41e7-11ea-99ce-011968328048.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/73245583-87cf9300-41e7-11ea-9452-045152ec8bfc.png">
+    <img src="https://user-images.githubusercontent.com/19829495/73245583-87cf9300-41e7-11ea-9452-045152ec8bfc.png" alt="image"  />
+    </a>
+</div></p>
+<p><strong>Scrum</strong>：</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/73245702-d2e9a600-41e7-11ea-99ce-011968328048.png">
+    <img src="https://user-images.githubusercontent.com/19829495/73245702-d2e9a600-41e7-11ea-99ce-011968328048.png" alt="image"  />
+    </a>
+</div></p>
 <h2 id="敏捷开发工作流与分工">敏捷开发工作流与分工</h2>
-<p><img src="https://user-images.githubusercontent.com/19829495/73247578-26f68980-41ec-11ea-8c8d-5e2689adf1b1.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/73247578-26f68980-41ec-11ea-8c8d-5e2689adf1b1.png">
+    <img src="https://user-images.githubusercontent.com/19829495/73247578-26f68980-41ec-11ea-8c8d-5e2689adf1b1.png" alt="image"  />
+    </a>
+</div></p>
 <h2 id="敏捷开发之持续交付实现devops">敏捷开发之持续交付实现（DevOps）</h2>
-<p><img src="https://user-images.githubusercontent.com/19829495/73245985-7a66d880-41e8-11ea-9fc5-ac9f75974ada.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/73245985-7a66d880-41e8-11ea-9fc5-ac9f75974ada.png">
+    <img src="https://user-images.githubusercontent.com/19829495/73245985-7a66d880-41e8-11ea-9fc5-ac9f75974ada.png" alt="image"  />
+    </a>
+</div></p>
 <h3 id="devops理念">DevOps理念</h3>
 <p>核心是自动化</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/73246675-29f07a80-41ea-11ea-8373-1d45e99e26ba.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/73246675-29f07a80-41ea-11ea-8373-1d45e99e26ba.png">
+    <img src="https://user-images.githubusercontent.com/19829495/73246675-29f07a80-41ea-11ea-8373-1d45e99e26ba.png" alt="image"  />
+    </a>
+</div></p>
 <h3 id="权限管理">权限管理</h3>
-<p><img src="https://user-images.githubusercontent.com/19829495/73246739-52787480-41ea-11ea-8f2c-e38940542f7e.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/73246739-52787480-41ea-11ea-8f2c-e38940542f7e.png">
+    <img src="https://user-images.githubusercontent.com/19829495/73246739-52787480-41ea-11ea-8f2c-e38940542f7e.png" alt="image"  />
+    </a>
+</div></p>
 <h3 id="自动化上线">自动化上线</h3>
-<p><img src="https://user-images.githubusercontent.com/19829495/73246791-750a8d80-41ea-11ea-8711-0daab275ca69.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/73246791-750a8d80-41ea-11ea-8711-0daab275ca69.png">
+    <img src="https://user-images.githubusercontent.com/19829495/73246791-750a8d80-41ea-11ea-8711-0daab275ca69.png" alt="image"  />
+    </a>
+</div></p>
 <h3 id="代码质量保证">代码质量保证</h3>
-<p><img src="https://user-images.githubusercontent.com/19829495/73246964-d2064380-41ea-11ea-883c-a38052881917.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/73246964-d2064380-41ea-11ea-883c-a38052881917.png">
+    <img src="https://user-images.githubusercontent.com/19829495/73246964-d2064380-41ea-11ea-883c-a38052881917.png" alt="image"  />
+    </a>
+</div></p>
         </p>
     </div>
 </div>

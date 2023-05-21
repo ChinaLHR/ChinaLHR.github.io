@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Python-Requests</title>
+    <meta name="description" content="keep curious 😼">
+    <meta name="keywords" content='blog, chinalhr, lhr'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/backup/python-requests/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Python-Requests">
+    <meta property="og:description" content="keep curious 😼">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Python-Requests">
+    <meta name="twitter:description" content="keep curious 😼">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/backup/python-requests/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/backup/python-requests/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/backup/python-requests/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JLJBQBW5WM');
+</script>
+  
+    
+    
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Python-Requests</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            November 26, 2019
+        </p>
+
+        <ul class="post-tags">
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
+<p>Python Requests模块</p>
+</blockquote>
+<h3 id="安装">安装</h3>
+<pre><code># 1 直接install
+pip install requests
+
+# 2 在requirements.txt中配置 在requirements.txt类似于maven的pom文件
+
+## 导出项目的依赖
+pip freeze &gt; requirements.txt
+
+## 项目依赖==版本添加requests
+requests==2.22.0
+
+## 安装依赖(所有)
+pip install -r requirements.txt
+</code></pre><h3 id="请求">请求</h3>
+<ul>
+<li>导入相关包</li>
+</ul>
+<pre><code>import requests
+</code></pre><ul>
+<li>无参数的get请求</li>
+</ul>
+<pre><code>r=requests.get(&quot;http://www.bfreeman.cn&quot;)
+</code></pre><ul>
+<li>带参数的get请求</li>
+</ul>
+<pre><code>params = {'key1': 'value1', 'key2': 'value2'}
+r = requests.get(&quot;http://www.bfreeman.cn&quot;, params=params)
+</code></pre><ul>
+<li>post请求</li>
+</ul>
+<pre><code>r = requests.post(&quot;http://www.bfreeman.cn&quot;, data = {&quot;key&quot;:&quot;value&quot;})
+</code></pre><ul>
+<li>post json请求</li>
+</ul>
+<pre><code>params = {&quot;key&quot;:&quot;value&quot;}
+r = requests.post(&quot;http://www.bfreeman.cn&quot;, json = params)
+</code></pre><ul>
+<li>文件发送</li>
+</ul>
+<pre><code>files = {'file': open('report.xls', 'rb')}
+r = requests.post(&quot;http://www.bfreeman.cn&quot;, files=files)
+</code></pre><ul>
+<li>文件发送指定额外信息</li>
+</ul>
+<pre><code>files = {'file': ('report.xls', open('report.xls', 'rb'), 'application/vnd.ms-excel', {'Expires': '0'})}
+r = requests.post(&quot;http://www.bfreeman.cn&quot;, files=files)
+</code></pre><ul>
+<li>headers</li>
+</ul>
+<pre><code>headers = {'content-type': 'application/json'}
+r= requests.get(&quot;http://www.bfreeman.cn&quot;,headers=headers)
+</code></pre><ul>
+<li>cookie</li>
+</ul>
+<pre><code>cookies={'cookies_are':'working'}
+r = requests.get(&quot;http://www.bfreeman.cn&quot;, cookies=cookies)
+</code></pre><ul>
+<li>session</li>
+</ul>
+<pre><code>s=requests.Session()
+login_data={'form_email':'youremail@example.com','form_password':'yourpassword'}
+s.post(&quot;http://www.bfreeman.cn/login&quot;,login_data)
+r = s.get(&quot;http://www.bfreeman.cn&quot;)
+</code></pre><h3 id="response">response</h3>
+<pre><code># 返回文本
+r.text
+# 返回字节流
+r.content
+# 返回json
+r.json
+# 返回状态码
+r.status_code
+</code></pre>
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#安装">安装</a></li>
+            <li><a href="#请求">请求</a></li>
+            <li><a href="#response">response</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

@@ -19,7 +19,7 @@
     
     <title>计算机的心智-文件</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, 操作系统'>
+    <meta name="keywords" content='blog, chinalhr, lhr, operating system'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/os-heart-file/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/operating-system">operating system</a></li>
         
         </ul>
     </div>
@@ -200,7 +204,12 @@
 <p>文件内容组织：关系导向型组织与非关系导向型组织</p>
 <p>文件类型：目录|一般文件|块文件(关于输入输出的文件)</p>
 <p>文件格式：例如Unix下的可执行文件，归档文件
-<img src="https://user-images.githubusercontent.com/19829495/50162077-662f8700-0318-11e9-84b4-166f2a646871.png" alt="image"></p>
+
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50162077-662f8700-0318-11e9-84b4-166f2a646871.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50162077-662f8700-0318-11e9-84b4-166f2a646871.png" alt="image"  />
+    </a>
+</div></p>
 <p>文件访问：随机访问(任意顺序读取数据记录)</p>
 <p>文件属性：创建者，拥有者，只读标志，隐藏标志，文件大小尺寸,修改时间&hellip;</p>
 <p>文件操作：创建，删除，打开，关闭，重命名，读写&hellip;</p>
@@ -222,7 +231,12 @@ Shell的ls与Window的dir：读取文件夹的内容(数组)展示。</p>
 <h4 id="内存映射的文件访问">内存映射的文件访问</h4>
 <p>内存映射：解决系统调用读取文件效率(每次需要陷如内核)低下核心思想是把磁盘访问变成内存访问。</p>
 <p>原理：把需要访问的文件映射到一个进程的虚拟地址，访问虚拟地址就相当于访问文件。把磁盘访问变成内存访问，不需要系统调用来访问。映射到多个进程上可以实现文件共享。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50224939-1f09ca80-03da-11e9-9332-f70894f255c0.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50224939-1f09ca80-03da-11e9-9332-f70894f255c0.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50224939-1f09ca80-03da-11e9-9332-f70894f255c0.png" alt="image"  />
+    </a>
+</div></p>
 <hr>
 <h3 id="文件的物理结构">文件的物理结构</h3>
 <h4 id="顺序文件">顺序文件</h4>
@@ -231,13 +245,23 @@ Shell的ls与Window的dir：读取文件夹的内容(数组)展示。</p>
 <li>连续结构文件
 把逻辑上连续的文件信息依次存放在连续编号的物理块中。即次序相继的两个物理记录在存储介质上的位置是相邻的。</li>
 </ul>
-<p><img src="https://user-images.githubusercontent.com/19829495/50346533-a2a7f080-056d-11e9-9147-7cde996478ac.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50346533-a2a7f080-056d-11e9-9147-7cde996478ac.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50346533-a2a7f080-056d-11e9-9147-7cde996478ac.png" alt="image"  />
+    </a>
+</div></p>
 <p>结构简单，顺序访问速度快，但不能动态增长，外存容易存在碎片。</p>
 <ul>
 <li>链式结构文件</li>
 </ul>
 <p>链结构将逻辑上连续的文件信息分散存放在若干不连续的物理块中，其中每个物理块设有一个指针，指向其后续连接的另一个物理块。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50346688-15b16700-056e-11e9-9bd5-6bb8fa163aab.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50346688-15b16700-056e-11e9-9bd5-6bb8fa163aab.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50346688-15b16700-056e-11e9-9bd5-6bb8fa163aab.png" alt="image"  />
+    </a>
+</div></p>
 <p>提高了磁盘空间利用率，解决了磁盘碎片问题，便于文件的插入和删除操作与动态增长,但不适宜随机存取访问</p>
 <ul>
 <li>
@@ -270,7 +294,12 @@ Shell的ls与Window的dir：读取文件夹的内容(数组)展示。</p>
 </li>
 </ul>
 <p>是一种专为磁盘存取设计的文件组织方法，采用静态索引结构。 由于磁盘是以盘组、柱面和磁道三级地址存取的设备，ISAM对磁盘上的数据文件建立盘组、柱面和磁道三级索引。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50347532-cfa9d280-0570-11e9-8d30-e53e67251a02.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50347532-cfa9d280-0570-11e9-8d30-e53e67251a02.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50347532-cfa9d280-0570-11e9-8d30-e53e67251a02.png" alt="image"  />
+    </a>
+</div></p>
 <ul>
 <li>
 <p>检索过程</p>
@@ -285,7 +314,12 @@ Shell的ls与Window的dir：读取文件夹的内容(数组)展示。</p>
 </li>
 </ul>
 <p>VSAM文件的结构由三部分组成:索引集，顺序集，数据集</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50347725-9756c400-0571-11e9-8d1a-b5de501fac0b.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50347725-9756c400-0571-11e9-8d1a-b5de501fac0b.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50347725-9756c400-0571-11e9-8d1a-b5de501fac0b.png" alt="image"  />
+    </a>
+</div></p>
 <p>VSAM的优势是能保持较高的查找效率，查找一个后插入记录和查找一个原有记录具有相同的速度；动态地分配和释放存储空间，可以保持平均75％的存储利用率；而且永远不必对文件进行再组织。</p>
 <hr>
 <h3 id="文件系统实现">文件系统实现</h3>
@@ -319,7 +353,12 @@ Shell的ls与Window的dir：读取文件夹的内容(数组)展示。</p>
 <p><strong>非对称多级索引组织(解决I-NODE范围增长)</strong></p>
 <p>多级I-NODE，有顶级次级I-NODE用于索引大文件
 单级I-NODE用于索引小文件(因为小文件使用的数据块不会超过I-NODE指针数，避免浪费I-NODE空间，降低访问磁盘次数)</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50289941-31046f80-04a5-11e9-9cb3-d81dadfe5c92.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50289941-31046f80-04a5-11e9-9cb3-d81dadfe5c92.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50289941-31046f80-04a5-11e9-9cb3-d81dadfe5c92.png" alt="image"  />
+    </a>
+</div></p>
 <h4 id="文件夹目录实现">文件夹(目录)实现</h4>
 <p>如果使用的是 I-NODE 组织形式，我们只需要知道文件对应的顶级 I-NODE 地址即可。文件的数据块地址可以从I-NODE 里面获得。这种情况下文件夹里面存放的映射是到I-NODE 编号。</p>
 <ul>
@@ -327,7 +366,12 @@ Shell的ls与Window的dir：读取文件夹的内容(数组)展示。</p>
 操作系统的Link调用(为访问不同目录的文件建立链接，直接访问不同目录下的文件)</li>
 </ul>
 <p>硬链接：在某个文件夹Link调用创建目标文件链接时，该文件夹会增加目标文件到文件地址的映射。删除的时候(逻辑或者物理删除)，如果链接数不为0只是将文件对应I-NODE里面的链接计数减一，如果链接数为0则删除。会存在文件创建者删除文件，但因为被链接而没有被物理删除的问题。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/50291007-4c24ae80-04a8-11e9-9896-d7259b3c4bde.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50291007-4c24ae80-04a8-11e9-9896-d7259b3c4bde.png">
+    <img src="https://user-images.githubusercontent.com/19829495/50291007-4c24ae80-04a8-11e9-9896-d7259b3c4bde.png" alt="image"  />
+    </a>
+</div></p>
 <p>软链接：在某个文件夹Link调用创建目标文件链接时，该文件夹会增加目标文件的路径名。从链接访问文件需要从原始路径访问。原始文件删除后链接断开无法访问文件。(WINDOW快捷方式)</p>
 <ul>
 <li>文件系统挂载

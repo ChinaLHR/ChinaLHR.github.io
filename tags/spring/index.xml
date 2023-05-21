@@ -23,24 +23,13 @@
     </item>
     
     <item>
-      <title> javassist实现Aspect动态Pointcut</title>
+      <title>Aspect动态Pointcut实现方案</title>
       <link>https://chinalhr.github.io/post/aspect-dynamic/</link>
       <pubDate>Thu, 18 Apr 2019 22:15:07 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/aspect-dynamic/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Spriing Aop中动态Pointcut的实践&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Spring Aop分析</title>
-      <link>https://chinalhr.github.io/post/spring-aop/</link>
-      <pubDate>Mon, 24 Sep 2018 15:56:35 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/spring-aop/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Spring Aop源码分析&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

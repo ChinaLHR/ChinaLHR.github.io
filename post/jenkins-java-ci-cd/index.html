@@ -19,7 +19,7 @@
     
     <title>Jenkins-pipeline-Docker 实现CI/CD</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, jenkins, CI&CD'>
+    <meta name="keywords" content='blog, chinalhr, lhr, jenkins, ci-cd'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/jenkins-java-ci-cd/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -180,7 +184,7 @@
         
             <li class="post-tag"><a href="https://chinalhr.github.io/tags/jenkins">jenkins</a></li>
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/cicd">CI&amp;CD</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/ci-cd">ci-cd</a></li>
         
         </ul>
     </div>
@@ -214,22 +218,22 @@
 </ul>
 <h2 id="jenkins安装配置基于docker">jenkins安装/配置(基于Docker)</h2>
 <h3 id="安装">安装</h3>
-<pre><code># docker获取jenkins镜像
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># docker获取jenkins镜像</span>
 docker pull jenkins/jenkins
 
-# 启动Jenkins
-docker run -u root -itd --name jenkins \
--p 10080:8080 \
--v $(which docker):/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock \
--e TZ=&quot;Asia/Shanghai&quot; -v /etc/localtime:/etc/localtime \
--e JAVA_OPTS='-Xms1024m -Xmx1024m -XX:NewSize=512m' \
--v /volume1/docker/jenkins:/var/jenkins_home jenkins/jenkins
+<span style="color:#75715e"># 启动Jenkins</span>
+docker run -u root -itd --name jenkins <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-p 10080:8080 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-v <span style="color:#66d9ef">$(</span>which docker<span style="color:#66d9ef">)</span>:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-e TZ<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Asia/Shanghai&#34;</span> -v /etc/localtime:/etc/localtime <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-e JAVA_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;-Xms1024m -Xmx1024m -XX:NewSize=512m&#39;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-v /volume1/docker/jenkins:/var/jenkins_home jenkins/jenkins
 
-# -p 10080:8080 映射容器的8080端口到外部主机的10080端口
-# -v $(which docker):/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock 使jenkins内部可以使用docker命令
-# -e TZ=&quot;Asia/Shanghai&quot; -v /etc/localtime:/etc/localtime 配置Jenkins容器的时区
-# -v /volume1/docker/jenkins:/var/jenkins_home jenkins/jenkins 将Jenkins的配置映射到外部主机卷/volume1/docker/jenkins（删除容器后可保留）
-</code></pre><h3 id="插件推荐">插件推荐</h3>
+<span style="color:#75715e"># -p 10080:8080 映射容器的8080端口到外部主机的10080端口</span>
+<span style="color:#75715e"># -v $(which docker):/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock 使jenkins内部可以使用docker命令</span>
+<span style="color:#75715e"># -e TZ=&#34;Asia/Shanghai&#34; -v /etc/localtime:/etc/localtime 配置Jenkins容器的时区</span>
+<span style="color:#75715e"># -v /volume1/docker/jenkins:/var/jenkins_home jenkins/jenkins 将Jenkins的配置映射到外部主机卷/volume1/docker/jenkins（删除容器后可保留）</span>
+</code></pre></div><h3 id="插件推荐">插件推荐</h3>
 <table>
 <thead>
 <tr>
@@ -264,12 +268,22 @@ docker run -u root -itd --name jenkins \
 <ul>
 <li>配置Git凭据</li>
 </ul>
-<p><img src="https://user-images.githubusercontent.com/19829495/76158772-60f46d00-6154-11ea-9a0e-7d7e53b62deb.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76158772-60f46d00-6154-11ea-9a0e-7d7e53b62deb.png">
+    <img src="https://user-images.githubusercontent.com/19829495/76158772-60f46d00-6154-11ea-9a0e-7d7e53b62deb.png" alt="图片"  />
+    </a>
+</div></p>
 <ul>
 <li>配置maven setting文件</li>
 </ul>
 <p>需要安装插件Config File Provider Plugin</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/76158776-72d61000-6154-11ea-9c8e-23274b0b26fe.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76158776-72d61000-6154-11ea-9c8e-23274b0b26fe.png">
+    <img src="https://user-images.githubusercontent.com/19829495/76158776-72d61000-6154-11ea-9c8e-23274b0b26fe.png" alt="图片"  />
+    </a>
+</div></p>
 <h2 id="jenkins-pipeline">Jenkins Pipeline</h2>
 <h3 id="什么是pipline">什么是Pipline</h3>
 <p>pipeline 是jenkins2.X 最核心的特性， 帮助jenkins 实现从CI 到 CD与 DevOps的转变。pipeline 是一套运行于jenkins上的工作流框架，将原本独立运行于单个或者多个节点的任务连接起来，实现单个任务难以完成的复杂流程编排与可视化。</p>
@@ -285,29 +299,29 @@ docker run -u root -itd --name jenkins \
 <ul>
 <li>基本结构</li>
 </ul>
-<pre><code>pipeline {
-    agent { docker 'maven:3.3.3' }
-    stages {
-        stage('build') {
-            steps {
-                sh 'mvn --version'
-            }
-        }
-    }
-	post {
-        always {
-            echo 'This will always run'
-        }
-        success {
-            echo 'This will run only if successful'
-        }
-        failure {
-            echo 'This will run only if failed'
-        }
-        ...
-    }
-}
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">pipeline <span style="color:#f92672">{</span>
+    agent <span style="color:#f92672">{</span> docker <span style="color:#e6db74">&#39;maven:3.3.3&#39;</span> <span style="color:#f92672">}</span>
+    stages <span style="color:#f92672">{</span>
+        stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;build&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            steps <span style="color:#f92672">{</span>
+                sh <span style="color:#e6db74">&#39;mvn --version&#39;</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+	post <span style="color:#f92672">{</span>
+        always <span style="color:#f92672">{</span>
+            echo <span style="color:#e6db74">&#39;This will always run&#39;</span>
+        <span style="color:#f92672">}</span>
+        success <span style="color:#f92672">{</span>
+            echo <span style="color:#e6db74">&#39;This will run only if successful&#39;</span>
+        <span style="color:#f92672">}</span>
+        failure <span style="color:#f92672">{</span>
+            echo <span style="color:#e6db74">&#39;This will run only if failed&#39;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#f92672">...</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
 <li>agent</li>
 </ul>
 <p>agent指定整个Pipeline或特定stage将在Jenkins环境中执行的位置，具体取决于该agent 部分的位置。该部分必须在pipeline块内的顶层定义，stage块内的agent是可选的。</p>
@@ -326,9 +340,19 @@ docker run -u root -itd --name jenkins \
 <h2 id="jenkins-pipeline实现cicd">Jenkins Pipeline实现CI/CD</h2>
 <h3 id="基本流程">基本流程</h3>
 <p>架构图：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/76158855-571f3980-6155-11ea-957b-f82c19b055b4.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76158855-571f3980-6155-11ea-957b-f82c19b055b4.png">
+    <img src="https://user-images.githubusercontent.com/19829495/76158855-571f3980-6155-11ea-957b-f82c19b055b4.png" alt="图片"  />
+    </a>
+</div></p>
 <p>基本流程：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/76158862-7027ea80-6155-11ea-92b8-aa40a124bd4c.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76158862-7027ea80-6155-11ea-92b8-aa40a124bd4c.png">
+    <img src="https://user-images.githubusercontent.com/19829495/76158862-7027ea80-6155-11ea-92b8-aa40a124bd4c.png" alt="图片"  />
+    </a>
+</div></p>
 <p>步骤：</p>
 <ol>
 <li>Jenkins拉取Git代码</li>
@@ -342,18 +366,23 @@ docker run -u root -itd --name jenkins \
 <h3 id="pipeline实现">Pipeline实现</h3>
 <h4 id="jenkins拉取git代码">Jenkins拉取Git代码</h4>
 <p>可以使用checkout插件进行Git代码拉取（利用pipeline-syntax生成pipeline流水线脚本）</p>
-<pre><code> steps {
-			//checkout到master分支进行代码拉取
-            checkout([$class: 'GitSCM', 
-            branches: [[name: 'master']], 
-            doGenerateSubmoduleConfigurations: false, 
-            gitTool: 'Default', 
-            extensions: [],
-            submoduleCfg: [], 
-            userRemoteConfigs: [[credentialsId: '8f240564-XXX-40b7-9faf-c08167aa27a3', url: 'git@gitee.com:XXX/XXX.git']]])
-        }
-</code></pre><p>适配git-flow分支模型，实现发布前进行merge操作和push代码操作。勾选参数化构建过程,选择Git Parameter,然后在pipeline实现相关参数。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/76158868-7c13ac80-6155-11ea-9ed2-62bc6ae95ce5.png" alt="图片"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"> steps <span style="color:#f92672">{</span>
+			<span style="color:#75715e">//checkout到master分支进行代码拉取
+</span><span style="color:#75715e"></span>            checkout<span style="color:#f92672">([</span>$class<span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;GitSCM&#39;</span><span style="color:#f92672">,</span> 
+            branches: <span style="color:#f92672">[[</span>name: <span style="color:#e6db74">&#39;master&#39;</span><span style="color:#f92672">]],</span> 
+            doGenerateSubmoduleConfigurations: <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> 
+            gitTool: <span style="color:#e6db74">&#39;Default&#39;</span><span style="color:#f92672">,</span> 
+            extensions: <span style="color:#f92672">[],</span>
+            submoduleCfg: <span style="color:#f92672">[],</span> 
+            userRemoteConfigs: <span style="color:#f92672">[[</span>credentialsId: <span style="color:#e6db74">&#39;8f240564-XXX-40b7-9faf-c08167aa27a3&#39;</span><span style="color:#f92672">,</span> url: <span style="color:#e6db74">&#39;git@gitee.com:XXX/XXX.git&#39;</span><span style="color:#f92672">]]])</span>
+        <span style="color:#f92672">}</span>
+</code></pre></div><p>适配git-flow分支模型，实现发布前进行merge操作和push代码操作。勾选参数化构建过程,选择Git Parameter,然后在pipeline实现相关参数。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76158868-7c13ac80-6155-11ea-9ed2-62bc6ae95ce5.png">
+    <img src="https://user-images.githubusercontent.com/19829495/76158868-7c13ac80-6155-11ea-9ed2-62bc6ae95ce5.png" alt="图片"  />
+    </a>
+</div></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">
    parameters <span style="color:#f92672">{</span>
     	gitParameter branchFilter: <span style="color:#e6db74">&#39;origin/(.*)&#39;</span><span style="color:#f92672">,</span> defaultValue: <span style="color:#e6db74">&#39;master&#39;</span><span style="color:#f92672">,</span> name: <span style="color:#e6db74">&#39;BRANCH&#39;</span><span style="color:#f92672">,</span> type: <span style="color:#e6db74">&#39;PT_BRANCH&#39;</span><span style="color:#f92672">,</span> sortMode:<span style="color:#e6db74">&#39;DESCENDING&#39;</span>
@@ -479,112 +508,112 @@ docker run -u root -d --name bfreeman-api <span style="color:#ae81ff">\
 
 </code></pre></div><p>此处可以基于k8s进行改造，实现jenkins部署到k8s集群。</p>
 <h4 id="相关pipeline">相关pipeline</h4>
-<pre><code>pipeline {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">pipeline <span style="color:#f92672">{</span>
   agent any
   
-  environment {
-       imageid = &quot;&quot;
-  }
+  environment <span style="color:#f92672">{</span>
+       imageid <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
+  <span style="color:#f92672">}</span>
    
-  parameters {
-    gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH', sortMode:'DESCENDING'
-  }
+  parameters <span style="color:#f92672">{</span>
+    gitParameter branchFilter: <span style="color:#e6db74">&#39;origin/(.*)&#39;</span><span style="color:#f92672">,</span> defaultValue: <span style="color:#e6db74">&#39;master&#39;</span><span style="color:#f92672">,</span> name: <span style="color:#e6db74">&#39;BRANCH&#39;</span><span style="color:#f92672">,</span> type: <span style="color:#e6db74">&#39;PT_BRANCH&#39;</span><span style="color:#f92672">,</span> sortMode:<span style="color:#e6db74">&#39;DESCENDING&#39;</span>
+  <span style="color:#f92672">}</span>
    
-   stages {
-      //拉取代码
-      stage('Pull Source Code') {
-        steps {
-			//checkout到master 和 merge 指定分支操作
-			checkout([$class: 'GitSCM', 
-			branches: [[name: 'master']], 
-			doGenerateSubmoduleConfigurations: false, 
-			 extensions: [
-                [$class: 'PreBuildMerge', options: [mergeRemote: 'origin', mergeStrategy: 'RECURSIVE', mergeTarget: &quot;${params.BRANCH}&quot;]]
-            ],
-			submoduleCfg: [], 
-			gitTool: 'Default',
-			userRemoteConfigs: [[credentialsId: '0baad767-754c-****-8639-be2559a124ac', url: 'git@gitee.com:****/****.git']]]
-			)
-			}
-      }
+   stages <span style="color:#f92672">{</span>
+      <span style="color:#75715e">//拉取代码
+</span><span style="color:#75715e"></span>      stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Pull Source Code&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        steps <span style="color:#f92672">{</span>
+			<span style="color:#75715e">//checkout到master 和 merge 指定分支操作
+</span><span style="color:#75715e"></span>			checkout<span style="color:#f92672">([</span>$class<span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;GitSCM&#39;</span><span style="color:#f92672">,</span> 
+			branches: <span style="color:#f92672">[[</span>name: <span style="color:#e6db74">&#39;master&#39;</span><span style="color:#f92672">]],</span> 
+			doGenerateSubmoduleConfigurations: <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> 
+			 extensions: <span style="color:#f92672">[</span>
+                <span style="color:#f92672">[</span>$class<span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;PreBuildMerge&#39;</span><span style="color:#f92672">,</span> options: <span style="color:#f92672">[</span>mergeRemote: <span style="color:#e6db74">&#39;origin&#39;</span><span style="color:#f92672">,</span> mergeStrategy: <span style="color:#e6db74">&#39;RECURSIVE&#39;</span><span style="color:#f92672">,</span> mergeTarget: <span style="color:#e6db74">&#34;${params.BRANCH}&#34;</span><span style="color:#f92672">]]</span>
+            <span style="color:#f92672">],</span>
+			submoduleCfg: <span style="color:#f92672">[],</span> 
+			gitTool: <span style="color:#e6db74">&#39;Default&#39;</span><span style="color:#f92672">,</span>
+			userRemoteConfigs: <span style="color:#f92672">[[</span>credentialsId: <span style="color:#e6db74">&#39;0baad767-754c-****-8639-be2559a124ac&#39;</span><span style="color:#f92672">,</span> url: <span style="color:#e6db74">&#39;git@gitee.com:****/****.git&#39;</span><span style="color:#f92672">]]]</span>
+			<span style="color:#f92672">)</span>
+			<span style="color:#f92672">}</span>
+      <span style="color:#f92672">}</span>
       
-      //代码静态分析
-      stage('Static Analysis') {
-         steps {
-            echo 'Program Static Analysis' 
-         }
-      }
+      <span style="color:#75715e">//代码静态分析
+</span><span style="color:#75715e"></span>      stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Static Analysis&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         steps <span style="color:#f92672">{</span>
+            echo <span style="color:#e6db74">&#39;Program Static Analysis&#39;</span> 
+         <span style="color:#f92672">}</span>
+      <span style="color:#f92672">}</span>
       
-      //构建代码
-      stage('Build') {
-         steps {
-          withMaven(maven: 'Maven3.6.3', mavenSettingsConfig: 'f6f97751-****-4394-876f-cee0879cfc02') {
-                 sh 'mvn clean package -Dmaven.test.skip=true -Dbuild.path=/var/jenkins_home/build/bfreeman -f pom.xml'
-            }
-         }
-      }
+      <span style="color:#75715e">//构建代码
+</span><span style="color:#75715e"></span>      stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Build&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         steps <span style="color:#f92672">{</span>
+          withMaven<span style="color:#f92672">(</span>maven: <span style="color:#e6db74">&#39;Maven3.6.3&#39;</span><span style="color:#f92672">,</span> mavenSettingsConfig: <span style="color:#e6db74">&#39;f6f97751-****-4394-876f-cee0879cfc02&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                 sh <span style="color:#e6db74">&#39;mvn clean package -Dmaven.test.skip=true -Dbuild.path=/var/jenkins_home/build/bfreeman -f pom.xml&#39;</span>
+            <span style="color:#f92672">}</span>
+         <span style="color:#f92672">}</span>
+      <span style="color:#f92672">}</span>
       
-      //单元测试
-      stage('Unit testing') {
-         steps {
-             withMaven(maven: 'Maven3.6.3', mavenSettingsConfig: 'f6f97751-****-4394-876f-cee0879cfc02') {
-                 sh 'mvn clean test'
-            }
-         }
-      }
+      <span style="color:#75715e">//单元测试
+</span><span style="color:#75715e"></span>      stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Unit testing&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         steps <span style="color:#f92672">{</span>
+             withMaven<span style="color:#f92672">(</span>maven: <span style="color:#e6db74">&#39;Maven3.6.3&#39;</span><span style="color:#f92672">,</span> mavenSettingsConfig: <span style="color:#e6db74">&#39;f6f97751-****-4394-876f-cee0879cfc02&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                 sh <span style="color:#e6db74">&#39;mvn clean test&#39;</span>
+            <span style="color:#f92672">}</span>
+         <span style="color:#f92672">}</span>
+      <span style="color:#f92672">}</span>
       
-      //构建Docker镜像
-      stage('Build Docker Image') {
-         steps {
-            sh &quot;&quot;&quot;
-				    cd /var/jenkins_home/script/auto/deploy
-				    sh docker_build.sh
-				&quot;&quot;&quot;
-         }
-      }
+      <span style="color:#75715e">//构建Docker镜像
+</span><span style="color:#75715e"></span>      stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Build Docker Image&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         steps <span style="color:#f92672">{</span>
+            sh <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">				    cd /var/jenkins_home/script/auto/deploy
+</span><span style="color:#e6db74">				    sh docker_build.sh
+</span><span style="color:#e6db74">				&#34;&#34;&#34;</span>
+         <span style="color:#f92672">}</span>
+      <span style="color:#f92672">}</span>
       
-      //推送Docker镜像到远程仓库
-      stage('Push Remote Repositry') {
-         steps {
-            sh &quot;&quot;&quot;
-				    cd /var/jenkins_home/script/auto/deploy
-				    sh docker_push.sh
-				&quot;&quot;&quot;
-         }
-      }
+      <span style="color:#75715e">//推送Docker镜像到远程仓库
+</span><span style="color:#75715e"></span>      stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Push Remote Repositry&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         steps <span style="color:#f92672">{</span>
+            sh <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">				    cd /var/jenkins_home/script/auto/deploy
+</span><span style="color:#e6db74">				    sh docker_push.sh
+</span><span style="color:#e6db74">				&#34;&#34;&#34;</span>
+         <span style="color:#f92672">}</span>
+      <span style="color:#f92672">}</span>
       
-      //部署代码
-      stage('Deploy') {
-         steps {
-            sshagent(['feb51b70-****-45a5-a69b-319e41f7f146']) {
-                    sh &quot;&quot;&quot;
-                    ssh -p 16022 root@**** &quot;sh /home/bfreeman/script/auto/deploy/docker_pull.sh&quot;
-                     ssh -p 16022 root@**** &quot;sh /home/bfreeman/script/auto/deploy/docker_run.sh&quot;
-                    &quot;&quot;&quot;
-                }
-         }
-      }
+      <span style="color:#75715e">//部署代码
+</span><span style="color:#75715e"></span>      stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Deploy&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         steps <span style="color:#f92672">{</span>
+            sshagent<span style="color:#f92672">([</span><span style="color:#e6db74">&#39;feb51b70-****-45a5-a69b-319e41f7f146&#39;</span><span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
+                    sh <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">                    ssh -p 16022 root@**** &#34;sh /home/bfreeman/script/auto/deploy/docker_pull.sh&#34;
+</span><span style="color:#e6db74">                     ssh -p 16022 root@**** &#34;sh /home/bfreeman/script/auto/deploy/docker_run.sh&#34;
+</span><span style="color:#e6db74">                    &#34;&#34;&#34;</span>
+                <span style="color:#f92672">}</span>
+         <span style="color:#f92672">}</span>
+      <span style="color:#f92672">}</span>
       
-      //推送代码
-      stage('Push Code') {
-         steps {
-            //代码推送到master操作
-			sshagent(['0baad767-****-4122-8639-be2559a124ac']) {
-                sh &quot;&quot;&quot;
-                    git config --global user.email &quot;******&quot;
-                    git config --global user.name &quot;******&quot;
-				    git commit -m &quot;header changed ci commit automatically&quot; || true
-                    git push origin HEAD:refs/heads/master
-				&quot;&quot;&quot;
-			}
-         }
+      <span style="color:#75715e">//推送代码
+</span><span style="color:#75715e"></span>      stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Push Code&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         steps <span style="color:#f92672">{</span>
+            <span style="color:#75715e">//代码推送到master操作
+</span><span style="color:#75715e"></span>			sshagent<span style="color:#f92672">([</span><span style="color:#e6db74">&#39;0baad767-****-4122-8639-be2559a124ac&#39;</span><span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
+                sh <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">                    git config --global user.email &#34;******&#34;
+</span><span style="color:#e6db74">                    git config --global user.name &#34;******&#34;
+</span><span style="color:#e6db74">				    git commit -m &#34;header changed ci commit automatically&#34; || true
+</span><span style="color:#e6db74">                    git push origin HEAD:refs/heads/master
+</span><span style="color:#e6db74">				&#34;&#34;&#34;</span>
+			<span style="color:#f92672">}</span>
+         <span style="color:#f92672">}</span>
          
-      }
+      <span style="color:#f92672">}</span>
       
-   }
+   <span style="color:#f92672">}</span>
    
-}
-</code></pre><h2 id="参考">参考</h2>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="参考">参考</h2>
 <p><a href="https://jenkins.io/zh/doc/">https://jenkins.io/zh/doc/</a></p>
 <p><a href="https://www.jianshu.com/nb/30544461">https://www.jianshu.com/nb/30544461</a></p>
         </p>

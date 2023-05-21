@@ -56,7 +56,7 @@
     </item>
     
     <item>
-      <title>认知-敏捷开发与DevOps</title>
+      <title>敏捷开发与DevOps实践</title>
       <link>https://chinalhr.github.io/post/agile-devops/</link>
       <pubDate>Mon, 13 Jan 2020 23:04:37 +0800</pubDate>
       
@@ -78,13 +78,13 @@
     </item>
     
     <item>
-      <title>Git Flow 分支策略</title>
-      <link>https://chinalhr.github.io/post/git-flow/</link>
+      <title>Git“原理”、实用技巧与Git Flow</title>
+      <link>https://chinalhr.github.io/post/git-principle-flow/</link>
       <pubDate>Tue, 26 Nov 2019 23:57:12 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/git-flow/</guid>
+      <guid>https://chinalhr.github.io/post/git-principle-flow/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;Git-flow分支策略相关整理&lt;/p&gt;
+&lt;p&gt;Git原理简单分析、一些实用技巧与Git Flow介绍。&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

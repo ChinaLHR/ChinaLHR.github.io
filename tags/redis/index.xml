@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Redis on LHR</title>
+    <title>redis on LHR</title>
     <link>https://chinalhr.github.io/tags/redis/</link>
-    <description>Recent content in Redis on LHR</description>
+    <description>Recent content in redis on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Fri, 06 Sep 2019 22:43:23 +0800</lastBuildDate>
@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>Redis 持久化 RDB-AOF</title>
+      <title>Redis 持久化机制 RDB与AOF</title>
       <link>https://chinalhr.github.io/post/redis-rdb-aof/</link>
       <pubDate>Fri, 06 Sep 2019 22:43:23 +0800</pubDate>
       
@@ -23,13 +23,13 @@
     </item>
     
     <item>
-      <title>Redis 事务-Watch</title>
-      <link>https://chinalhr.github.io/post/redis-transaction-watch/</link>
+      <title>Redis 事务与Watch机制</title>
+      <link>https://chinalhr.github.io/post/redis-transaction/</link>
       <pubDate>Tue, 03 Sep 2019 23:13:11 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/redis-transaction-watch/</guid>
+      <guid>https://chinalhr.github.io/post/redis-transaction/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;Redis事务/Watch机制相关知识点整理&lt;/p&gt;
+&lt;p&gt;Redis事务与Watch机制相关知识点整理&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

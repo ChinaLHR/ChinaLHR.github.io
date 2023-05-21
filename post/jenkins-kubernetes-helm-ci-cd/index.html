@@ -19,7 +19,7 @@
     
     <title>Jenkins-Kubernetes-Docker-Helm CI/CD实践</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, jenkins, CI&CD, Kubernetes'>
+    <meta name="keywords" content='blog, chinalhr, lhr, jenkins, ci-cd, helm, kubernetes'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/jenkins-kubernetes-helm-ci-cd/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -180,9 +184,11 @@
         
             <li class="post-tag"><a href="https://chinalhr.github.io/tags/jenkins">jenkins</a></li>
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/cicd">CI&amp;CD</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/ci-cd">ci-cd</a></li>
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubernetes">Kubernetes</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/helm">helm</a></li>
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubernetes">kubernetes</a></li>
         
         </ul>
     </div>
@@ -195,23 +201,28 @@
 <h2 id="helm">Helm</h2>
 <p>Helm是Kubernetes生态系统中的一个包管理工具；Helm使用的包格式称为 <em>charts</em>，chart就是一个描述Kubernetes相关资源的文件集合。</p>
 <h3 id="kubernetes应用部署面临的一些问题">Kubernetes应用部署面临的一些问题</h3>
-<p>kubernetes提供了基于容器的应用集群管理，容器编排，路由网关、水平扩展、监控、备份、灾难恢复等运维功能。用户通过使用kubernetes  API对象来描述应用程序规格，如Pod，Service，Volume，Namespace，ReplicaSet，Deployment，Job&hellip;；而对这些对象的操作都需要写入到yaml文件通过kubectl进行部署；这时就会遇到如下的几个问题：</p>
+<p>kubernetes提供了基于容器的应用集群管理，容器编排，路由网关、水平扩展、监控、备份、灾难恢复等运维功能。用户通过使用Kubernetes  API对象来描述应用程序规格，如Pod，Service，Volume，Namespace，ReplicaSet，Deployment，Job&hellip;；而对这些对象的操作都需要写入到yaml文件通过kubectl进行部署；这时就会遇到如下的几个问题：</p>
 <ul>
 <li>如何对kubernetes应用配置文件进行管理</li>
 <li>如何把一套的相关配置文件作为一个应用进行管理</li>
-<li>如何分发和重用kubernetes的应用配置</li>
+<li>如何分发和重用Kubernetes的应用配置</li>
 </ul>
 <p>这时候就可以引进Helm之类的包管理工具解决如上问题</p>
 <h3 id="helm提供了什么功能">Helm提供了什么功能</h3>
-<p>对于开发者而言，可以通过Helm打包应用，管理应用依赖关系，管理应用版本并发布应用到软件仓库；Helm提供了kubernetes上的软件部署，删除，升级，回滚应用的功能。</p>
+<p>对于开发者而言，可以通过Helm打包应用，管理应用依赖关系，管理应用版本并发布应用到软件仓库；Helm提供了Kubernetes上的软件部署，删除，升级，回滚应用的功能。</p>
 <h3 id="helm相关组件">Helm相关组件</h3>
 <ul>
-<li>Helm: Kubernetes应用打包工具。</li>
-<li>Tiller: Helm服务端，部署于Kubernetes集群中，用于接收处理Helm的相关命令。</li>
+<li>Helm Client: Kubernetes应用打包工具。</li>
+<li>Tiller: Helm服务端，部署于Kubernetes集群中，用于接收处理Helm的相关命令（Helm3中将要被移除，改为从Kubernetes API server获取信息，在Helm Client处理并在Kubernetes中存储安装记录）。</li>
 <li>Chart: Helm的打包格式，描述Kubernetes相关资源的文件集合。</li>
 <li>Repoistory: Helm的软件仓库。</li>
 </ul>
-<p><img src="https://user-images.githubusercontent.com/19829495/107647509-31c87300-6cb6-11eb-91c5-018df369166c.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/107647509-31c87300-6cb6-11eb-91c5-018df369166c.png">
+    <img src="https://user-images.githubusercontent.com/19829495/107647509-31c87300-6cb6-11eb-91c5-018df369166c.png" alt="图片"  />
+    </a>
+</div></p>
 <p>相关内容可以参考helm官方文档：<a href="https://helm.sh/zh/docs">https://helm.sh/zh/docs</a></p>
 <h2 id="kubernetes-helm-jenkins-cicd流程">Kubernetes Helm Jenkins CI/CD流程</h2>
 <h3 id="准备">准备</h3>
@@ -222,7 +233,12 @@
 <li>Docker Registry</li>
 </ul>
 <h3 id="基本流程">基本流程</h3>
-<p><img src="https://user-images.githubusercontent.com/19829495/107724161-2ad54b00-6d1e-11eb-936f-5f840534f3b3.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://github.com/ChinaLHR/ChinaLHR.github.io/assets/19829495/3f3359f4-9f88-40aa-b559-35b941f3973b">
+    <img src="https://github.com/ChinaLHR/ChinaLHR.github.io/assets/19829495/3f3359f4-9f88-40aa-b559-35b941f3973b" alt="image"  />
+    </a>
+</div></p>
 <ol>
 <li>开发人员提交代码到Git仓库</li>
 <li>运维人员触发Jenkins deploy任务，拉取代码进行Docker镜像打包，推送到远程仓库</li>
@@ -264,8 +280,18 @@
 <li>Jenkins流水线项目配置</li>
 </ul>
 <p>新增一个流水线项目，配置Pipeline from SCM，配置对应的参数BRANCH
-<img src="https://user-images.githubusercontent.com/19829495/107727539-83a8e180-6d26-11eb-88b6-bd76de1d8552.png" alt="image">
-<img src="https://user-images.githubusercontent.com/19829495/107727665-c074d880-6d26-11eb-90f4-fcb5abcc49fb.png" alt="image"></p>
+
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/107727539-83a8e180-6d26-11eb-88b6-bd76de1d8552.png">
+    <img src="https://user-images.githubusercontent.com/19829495/107727539-83a8e180-6d26-11eb-88b6-bd76de1d8552.png" alt="image"  />
+    </a>
+</div>
+
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/107727665-c074d880-6d26-11eb-90f4-fcb5abcc49fb.png">
+    <img src="https://user-images.githubusercontent.com/19829495/107727665-c074d880-6d26-11eb-90f4-fcb5abcc49fb.png" alt="image"  />
+    </a>
+</div></p>
 <ul>
 <li>代码拉取</li>
 </ul>

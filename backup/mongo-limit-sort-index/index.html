@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>MongoDB分页-排序-索引</title>
+    <meta name="description" content="keep curious 😼">
+    <meta name="keywords" content='blog, chinalhr, lhr'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/backup/mongo-limit-sort-index/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="MongoDB分页-排序-索引">
+    <meta property="og:description" content="keep curious 😼">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MongoDB分页-排序-索引">
+    <meta name="twitter:description" content="keep curious 😼">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/backup/mongo-limit-sort-index/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/backup/mongo-limit-sort-index/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/backup/mongo-limit-sort-index/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JLJBQBW5WM');
+</script>
+  
+    
+    
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>MongoDB分页-排序-索引</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            September 2, 2019
+        </p>
+
+        <ul class="post-tags">
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
+<p>MongoDB分页/排序/索引相关知识点整理</p>
+</blockquote>
+<h3 id="分页">分页</h3>
+<ul>
+<li>limit offset分页方法</li>
+</ul>
+<p>MonogDB实现分页</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">入参 pageNum<span style="color:#f92672">=</span>1 pageSize<span style="color:#f92672">=</span>5
+
+<span style="color:#a6e22e">skip</span><span style="color:#f92672">()</span>方法来跳过指定数量的数据
+<span style="color:#a6e22e">limit</span><span style="color:#f92672">()</span>方法来读取指定数量的数据
+
+<span style="color:#a6e22e">利用skip</span><span style="color:#f92672">(</span>pageSize<span style="color:#f92672">*(</span>n<span style="color:#f92672">-</span>1<span style="color:#f92672">)).</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>pageSize<span style="color:#f92672">)</span>实现分页
+
+当pageNum<span style="color:#f92672">=</span>1 pageSize<span style="color:#f92672">=</span>5
+db<span style="color:#f92672">.</span><span style="color:#a6e22e">getCollection</span><span style="color:#f92672">(</span><span style="color:#960050;background-color:#1e0010">&#39;</span>user<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">find</span><span style="color:#f92672">().</span><span style="color:#a6e22e">skip</span><span style="color:#f92672">(</span>0<span style="color:#f92672">).</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>
+当pageNum<span style="color:#f92672">=</span>2 pageSize<span style="color:#f92672">=</span>5
+db<span style="color:#f92672">.</span><span style="color:#a6e22e">getCollection</span><span style="color:#f92672">(</span><span style="color:#960050;background-color:#1e0010">&#39;</span>user<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">find</span><span style="color:#f92672">().</span><span style="color:#a6e22e">skip</span><span style="color:#f92672">(</span>5<span style="color:#f92672">).</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>
+</code></pre></div><p>缺陷：会进行Table Scan,扫描全部文档再返回结果，数据量大的时候会出现慢查询问题。</p>
+<ul>
+<li>Seek Method分页方法</li>
+</ul>
+<p>seek method方式翻页,只用find + limit，不再使用skip,在find中加了一个条件：上一批的最后一个document的_id(比较的基准字段可以是任何有序的字段，例如时间戳，该字段必须有Index才有意义)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//第一页
+</span><span style="color:#75715e"></span>db<span style="color:#f92672">.</span><span style="color:#a6e22e">users</span><span style="color:#f92672">.</span><span style="color:#a6e22e">find</span><span style="color:#f92672">().</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>pageSize<span style="color:#f92672">);</span>
+<span style="color:#75715e">//找到此页面中最后一个文档的ID为lastId
+</span><span style="color:#75715e"></span>last_id <span style="color:#f92672">=</span> <span style="color:#f92672">...</span>
+
+<span style="color:#75715e">//第二页
+</span><span style="color:#75715e"></span>db<span style="color:#f92672">.</span><span style="color:#a6e22e">user</span><span style="color:#f92672">.</span><span style="color:#a6e22e">find</span><span style="color:#f92672">({</span>
+   <span style="color:#e6db74">&#34;_id&#34;</span><span style="color:#f92672">:{</span><span style="color:#e6db74">&#34;$gt&#34;</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#34;5d6c7b8304f4757af5636e81&#34;</span><span style="color:#f92672">}</span>
+<span style="color:#f92672">}).</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>10<span style="color:#f92672">)</span>
+<span style="color:#75715e">//使用此页面中最后一个文档的ID更新lastId
+</span><span style="color:#75715e"></span>last_id <span style="color:#f92672">=</span> <span style="color:#f92672">...</span>
+</code></pre></div><p>缺陷：无法像传统分页一样进行跳页，总页数展示</p>
+<h3 id="排序">排序</h3>
+<ul>
+<li>ObjectId有序性</li>
+</ul>
+<pre><code>ObjectId 类似唯一主键，可以很快的去生成和排序，包含 12 bytes，含义是：
+
+- 前 4 个字节表示创建 unix 时间戳,格林尼治时间 UTC 时间，比北京时间晚了 8 个小时
+- 接下来的 3 个字节是机器标识码
+- 紧接的两个字节由进程 id 组成 PID
+- 最后三个字节是随机数
+
+MongoDB的ObjectId随着时间而增加，如果是同一台机器的同一个进程生成的对象，是有序的。
+</code></pre><p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/64103993-ecf09b00-cda5-11e9-971a-f80fd94cb687.png">
+    <img src="https://user-images.githubusercontent.com/19829495/64103993-ecf09b00-cda5-11e9-971a-f80fd94cb687.png" alt="image"  />
+    </a>
+</div></p>
+<ul>
+<li>降序</li>
+</ul>
+<p>id降序，第一页是最大的，下一页的id比上一页的最后的id还小</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">db<span style="color:#f92672">.</span><span style="color:#a6e22e">user</span><span style="color:#f92672">.</span><span style="color:#a6e22e">find</span><span style="color:#f92672">({</span>
+   <span style="color:#e6db74">&#34;_id&#34;</span><span style="color:#f92672">:{</span><span style="color:#e6db74">&#34;$lt&#34;</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#34;5d6c7ba804f4757af5636e84&#34;</span><span style="color:#f92672">}</span>
+<span style="color:#f92672">})</span>
+<span style="color:#f92672">.</span><span style="color:#a6e22e">sort</span><span style="color:#f92672">({</span><span style="color:#e6db74">&#34;_id&#34;</span><span style="color:#f92672">:-</span>1<span style="color:#f92672">})</span>
+<span style="color:#f92672">.</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>
+</code></pre></div><ul>
+<li>升序</li>
+</ul>
+<p>id升序， 第一页最小，下一页的id比上一页的最后一条记录id还大</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">db<span style="color:#f92672">.</span><span style="color:#a6e22e">user</span><span style="color:#f92672">.</span><span style="color:#a6e22e">find</span><span style="color:#f92672">({</span>
+   <span style="color:#e6db74">&#34;_id&#34;</span><span style="color:#f92672">:{</span><span style="color:#e6db74">&#34;$gt&#34;</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#34;5d6c7ba804f4757af5636e84&#34;</span><span style="color:#f92672">}</span>
+<span style="color:#f92672">})</span>
+<span style="color:#f92672">.</span><span style="color:#a6e22e">sort</span><span style="color:#f92672">({</span><span style="color:#e6db74">&#34;_id&#34;</span><span style="color:#f92672">:</span>1<span style="color:#f92672">})</span>
+<span style="color:#f92672">.</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>
+</code></pre></div><ul>
+<li>排序性能</li>
+</ul>
+<p>MongoDB的sort和find函数，先find查询符合条件的结果，然后在结果集中排序。从2.6开始，sort只排序100M以内的数据，超过将会报错。可以通过设置allowDiskUse来允许排序大容量数据。有索引的排序会比没有索引的排序快，MongoDB官方推荐为需要排序的key建立索引。</p>
+<h3 id="索引">索引</h3>
+<ul>
+<li>单key索引</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">db<span style="color:#f92672">.</span><span style="color:#a6e22e">records</span><span style="color:#f92672">.</span><span style="color:#a6e22e">createIndex</span><span style="color:#f92672">(</span> <span style="color:#f92672">{</span> a<span style="color:#f92672">:</span> 1 <span style="color:#f92672">}</span> <span style="color:#f92672">)</span>
+</code></pre></div><p>单key的排序使用单key索引，索引又分升序(1)和降序(-1)，索引定义的排序方向以及逆转方向可以支持sort。对于上述单key索引a，可以支持sort({a:1})升序和sort({a:-1})降序。</p>
+<ul>
+<li>多key索引</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">db<span style="color:#f92672">.</span><span style="color:#a6e22e">records</span><span style="color:#f92672">.</span><span style="color:#a6e22e">createIndex</span><span style="color:#f92672">(</span> <span style="color:#f92672">{</span> a<span style="color:#f92672">:</span> 1<span style="color:#f92672">,</span> b<span style="color:#f92672">:-</span>1 <span style="color:#f92672">}</span> <span style="color:#f92672">)</span>
+</code></pre></div><p>对于多字段排序使用复合(compound index)索引。复合多字段索引的顺序要和sort的字段一致才可以走索引。比如索引{a:1, b:1}, 可以支持sort({a:1, b:1})和逆序sort({a:-1, b:-1})， 但不支持sort({b:1, a:1})。</p>
+<p>复合索引支持sort同排序和逆序：索引{a:1, b:-1} 可以支持sort({a:1, b:-1}), 也可以支持sort({a:-1, b:1})</p>
+<p>复合索引可以前缀子集支持sort {a:1, b:1, c:1}相当于{ a: 1 } + { a: 1, b: 1 } + { a: 1, b: 1, c: 1 }</p>
+<ul>
+<li>示例</li>
+</ul>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/64108264-f7fbf900-cdae-11e9-9ccc-c07cb82491d2.png">
+    <img src="https://user-images.githubusercontent.com/19829495/64108264-f7fbf900-cdae-11e9-9ccc-c07cb82491d2.png" alt="image"  />
+    </a>
+</div></p>
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#分页">分页</a></li>
+            <li><a href="#排序">排序</a></li>
+            <li><a href="#索引">索引</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

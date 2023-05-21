@@ -23,13 +23,13 @@
     </item>
     
     <item>
-      <title>尾递归-Java-Kotlin</title>
+      <title>Tail-Recursion Optimization 尾递归优化</title>
       <link>https://chinalhr.github.io/post/tail-recursion/</link>
       <pubDate>Sun, 04 Aug 2019 14:09:41 +0800</pubDate>
       
       <guid>https://chinalhr.github.io/post/tail-recursion/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;尾递归与递归的对比，以及在Java与Kotlin中如何运用&lt;/p&gt;
+&lt;p&gt;尾递归优化，以及在C、Java与Kotlin语言中的对比&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

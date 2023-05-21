@@ -23,29 +23,7 @@
     </item>
     
     <item>
-      <title>MongoDB用户-权限</title>
-      <link>https://chinalhr.github.io/post/mongodb-user-auth/</link>
-      <pubDate>Fri, 18 Oct 2019 23:06:48 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/mongodb-user-auth/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;MongoDB用户/权限相关知识点整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>MongoDB配置相关</title>
-      <link>https://chinalhr.github.io/post/mongodb-conf/</link>
-      <pubDate>Wed, 16 Oct 2019 22:36:58 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/mongodb-conf/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;MongoDB配置相关知识点整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Redis 持久化 RDB-AOF</title>
+      <title>Redis 持久化机制 RDB与AOF</title>
       <link>https://chinalhr.github.io/post/redis-rdb-aof/</link>
       <pubDate>Fri, 06 Sep 2019 22:43:23 +0800</pubDate>
       
@@ -56,24 +34,13 @@
     </item>
     
     <item>
-      <title>Redis 事务-Watch</title>
-      <link>https://chinalhr.github.io/post/redis-transaction-watch/</link>
+      <title>Redis 事务与Watch机制</title>
+      <link>https://chinalhr.github.io/post/redis-transaction/</link>
       <pubDate>Tue, 03 Sep 2019 23:13:11 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/redis-transaction-watch/</guid>
+      <guid>https://chinalhr.github.io/post/redis-transaction/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;Redis事务/Watch机制相关知识点整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>MongoDB分页-排序-索引</title>
-      <link>https://chinalhr.github.io/post/mongo-limit-sort-index/</link>
-      <pubDate>Mon, 02 Sep 2019 20:33:31 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/mongo-limit-sort-index/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;MongoDB分页/排序/索引相关知识点整理&lt;/p&gt;
+&lt;p&gt;Redis事务与Watch机制相关知识点整理&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

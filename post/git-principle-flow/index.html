@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Git“原理”、实用技巧与Git Flow</title>
+    <meta name="description" content="keep curious 😼">
+    <meta name="keywords" content='blog, chinalhr, lhr, git'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/post/git-principle-flow/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Git“原理”、实用技巧与Git Flow">
+    <meta property="og:description" content="keep curious 😼">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Git“原理”、实用技巧与Git Flow">
+    <meta name="twitter:description" content="keep curious 😼">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/post/git-principle-flow/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/post/git-principle-flow/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/post/git-principle-flow/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JLJBQBW5WM');
+</script>
+  
+    
+    
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Git“原理”、实用技巧与Git Flow</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            November 26, 2019
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/git">git</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
+<p>Git原理简单分析、一些实用技巧与Git Flow介绍。</p>
+</blockquote>
+<h2 id="vcs与dvcs">VCS与DVCS</h2>
+<h3 id="版本控制系统vcsversion-control-system">版本控制系统VCS（Version Control System）</h3>
+<ul>
+<li>版本控制</li>
+</ul>
+<p>所谓版本控制，意思就是在文件的修改历程中保留修改历史，让你可以方便地撤销之前对文件的修改操作。类比编辑器的「撤销」功能，其实是文本编辑器帮你自动保存了之前的内容，当你按下「撤销」的时候，它就帮你把内容回退到上一个状态。</p>
+<ul>
+<li>主动提交</li>
+</ul>
+<p>主动提交改动而不是像编辑器的「撤销」功能一样自动保存。程序代码的修改的生命周期非常长。一次代码的修改，在几年后都有可能需要被翻出来，如果自动保存形式来保留修改历史，会导致改动历史非常频繁和无章可循。</p>
+<ul>
+<li>中央仓库（多人合作的同步需求）</li>
+</ul>
+<p>中央仓库解决了代码同步，多人协作的需求。中央仓库作为代码的存储中心：所有人的改动都会上传到这里，所有人都能也都能看到和下载到别人上传的改动。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232371379-0b4bb912-a5e3-4533-9452-f92d0448b65a.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232371379-0b4bb912-a5e3-4533-9452-f92d0448b65a.png" alt="image"  />
+    </a>
+</div></p>
+<h3 id="dvcs分布式版本控制系统">DVCS分布式版本控制系统</h3>
+<p>与中央式VCS的区别除了中央仓库之外，团队中每一个成员的机器上都有一份本地仓库，这个仓库里包含了所有的版本历史。在本地机器上就可以提交代码、查看历史，而无需联网和中央仓库交互。保存版本历史的工作转交到了每个团队成员的本地仓库中，中央仓库就只剩下了同步功能。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232371467-3ee0b307-e45e-464f-88d9-359cc98d4286.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232371467-3ee0b307-e45e-464f-88d9-359cc98d4286.png" alt="image"  />
+    </a>
+</div></p>
+<h3 id="dvcs与vcs对比">DVCS与VCS对比</h3>
+<p>DVCS优点：</p>
+<ol>
+<li>大多数的操作可以在本地进行，所以速度更快，而且由于无需联网，所以即使不在公司甚至没有在联网，你也可以提交代码、查看历史，从而极大地减小了开发者的网络条件和物理位置的限制。</li>
+<li>由于可以提交到本地，所以你可以分步提交代码，把代码提交做得更细，而不是一个提交包含很多代码，难以 review 也难以回溯。</li>
+</ol>
+<p>DVCS缺点：</p>
+<ol>
+<li>由于每一个机器都有完整的本地仓库，所以初次获取项目（Git 术语：clone）的时候会比较耗时；</li>
+<li>由于每个机器都有完整的本地仓库，所以本地占用的存储比中央式 VCS 要高</li>
+</ol>
+<h2 id="git概念与原理">Git概念与原理</h2>
+<h3 id="headbranchmaster">HEAD，branch，master</h3>
+<ul>
+<li>HEAD</li>
+</ul>
+<p><code>HEAD</code>是指向当前 <code>commit</code>的引用，它具有唯一性，每个仓库中只有一个 <code>HEAD</code>。在每次提交时它都会自动向前移动到最新的<code>commit</code>。</p>
+<ul>
+<li>branch</li>
+</ul>
+<p><code>branch</code>是一类引用。 <code>HEAD</code>除了直接指向<code>commit</code>，也可以通过指向某个 <code>branch</code>来间接指向 <code>commit</code>。<code>branch</code>可以理解为从初始 <code>commit</code>到 <code>branch</code>所指向的 <code>commit</code>之间的所有 <code>commit</code>串。</p>
+<ul>
+<li>master</li>
+</ul>
+<p><code>master</code>是 Git 中的默认 <code>branch</code>。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232371511-9bcd8827-bde7-411a-bbed-a76788702bcb.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232371511-9bcd8827-bde7-411a-bbed-a76788702bcb.png" alt="image"  />
+    </a>
+</div></p>
+<h3 id="push">push</h3>
+<ul>
+<li>push</li>
+</ul>
+<p><code>push</code> 做的事是：把当前 <code>branch</code> 的位置（即它指向哪个 <code>commit</code> ）上传到远程仓库，并把它的路径上的 <code>commit</code> 串一并上传。</p>
+<p><code>push</code> 的时候之后上传当前分支，并不会上传 <code>HEAD</code> ；远程仓库的 <code>HEAD</code> 是永远指向默认分支（即 master ）的。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232371556-a7dc823b-021d-439c-bfbb-eb22ca641e69.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232371556-a7dc823b-021d-439c-bfbb-eb22ca641e69.png" alt="image"  />
+    </a>
+</div></p>
+<p>将master和feature推送到远程仓库后
+
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232371616-699daa1e-b8f9-4564-94c3-01230fc814f3.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232371616-699daa1e-b8f9-4564-94c3-01230fc814f3.png" alt="image"  />
+    </a>
+</div></p>
+<h3 id="merge">merge</h3>
+<p><code>merge</code>的意思是合并，通过指定一个 <code>commit</code> ，把它合并到当前的 <code>commit</code>来。</p>
+<p><strong>merge操作</strong></p>
+<p>从目标 <code>commit</code> 和当前 <code>commit</code> （即 <code>HEAD</code> 所指向的 <code>commit</code>）分叉的位置起，把目标 <code>commit</code> 的路径上的所有 <code>commit</code> 的内容一并应用到当前 <code>commit</code>，然后自动生成一个新的 <code>commit</code>。</p>
+<p><strong>用途</strong></p>
+<p>分支合并：<code>git merge branch1</code></p>
+<p>拉取代码：<code>pull</code>=<code>fetch</code>（操作把远程仓库取到本地后）+<code>merge</code>（合并远程最新的<code>commit</code>）</p>
+<p><strong>merge场景</strong></p>
+<ol>
+<li>冲突（如果两个分支修改的是同一行代码）</li>
+</ol>
+<p>此时Git 仓库处于冲突待解决的中间状态，利用ide或者其他修改工具进行冲突修改，手动<code>commit</code>后进行提交。或者执行一次 <code>merge --abort</code> 来手动取消合并操作。</p>
+<ol start="2">
+<li>HEAD领先于目标commit</li>
+</ol>
+<p><code>merge</code> 时的目标 <code>commit</code> 和 <code>HEAD</code> 处的 <code>commit</code> 并不存在分叉，而是 <code>HEAD</code> 领先于目标 <code>commit</code></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232371647-9ea38124-633c-41f4-baa0-c60e6faf3c0d.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232371647-9ea38124-633c-41f4-baa0-c60e6faf3c0d.png" alt="image"  />
+    </a>
+</div></p>
+<p>这种情况下<code>merge</code> 是一个空操作。</p>
+<ol start="3">
+<li>HEAD落后于commit</li>
+</ol>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232371724-4133e5b4-483f-400b-9e8c-81289707411e.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232371724-4133e5b4-483f-400b-9e8c-81289707411e.png" alt="image"  />
+    </a>
+</div></p>
+<p>会做一个fast-forward（快速前移），直接把 <code>HEAD</code>以及它所指向的 <code>branch</code>移动到目标 <code>commit</code></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232371775-ffc6429d-1f04-4adf-9550-4728db236d1c.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232371775-ffc6429d-1f04-4adf-9550-4728db236d1c.png" alt="image"  />
+    </a>
+</div></p>
+<h3 id="rebase">rebase</h3>
+<p><code>rebase</code>作用是在新位置重新提交，因为在 <code>merge</code> 之后，<code>commit</code>历史就会出现分叉再汇合的结构，会让有些人觉得混乱而难以管理。如果不希望<code>commit</code> 历史出现分叉，可以用 <code>rebase</code>来代替<code>merge</code>。</p>
+<p><strong>rebase对比merge</strong></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232372182-f06f14ca-52ae-46a2-bfc9-dfa9d4400664.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232372182-f06f14ca-52ae-46a2-bfc9-dfa9d4400664.png" alt="image"  />
+    </a>
+</div></p>
+<ol>
+<li>git merge feature</li>
+</ol>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232372216-e177959f-dedd-400c-bbcc-715697f7b3a9.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232372216-e177959f-dedd-400c-bbcc-715697f7b3a9.png" alt="image"  />
+    </a>
+</div></p>
+<ol start="2">
+<li>rebase</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 将feature分支在master分支的HEAD指向的commit位置重新提交</span>
+git checkout feature
+git rebase master
+<span style="color:#75715e"># 在master分支做一个fast-forward操作把 master的HEAD移到最新的commit</span>
+git checkout master
+git merge feature
+</code></pre></div><p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232372796-8c576643-ae85-4253-a25b-a902b02b6385.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232372796-8c576643-ae85-4253-a25b-a902b02b6385.png" alt="image"  />
+    </a>
+</div></p>
+<h3 id="reset">reset</h3>
+<p><code>reset</code> 用来重置 <code>HEAD</code> 以及它所指向的 <code>branch</code> 的位置的。</p>
+<p><code>reset --hard commit</code>，把 <code>HEAD</code> 和它所指向的 <code>branch</code> 一起移动到了指定commit上。因为git的历史只能往回看，所以把<code>HEAD</code>和<code>branch</code>往回移动可以起到撤回<code>commit</code>的作用。</p>
+<ul>
+<li>&ndash;hard</li>
+</ul>
+<p>会在重置 <code>HEAD</code> 和 <code>branch</code> 的同时，重置工作目录里的内容。</p>
+<ul>
+<li>&ndash;soft</li>
+</ul>
+<p>会在重置 HEAD 和 branch时，保留工作目录和暂存区中的内容，并把重置HEAD 所带来的新的差异放进暂存区。</p>
+<ul>
+<li>&ndash;mixed</li>
+</ul>
+<p>会在重置 <code>HEAD</code> 和 <code>branch</code> 的同时，保留工作目录的内容（所有的差异），并清空暂存区</p>
+<h3 id="checkout与reset">checkout与reset</h3>
+<p><code>checkout</code> 本质上的功能是签出（ checkout ）指定的 <code>commit</code>。<code>git checkout branch</code> 的本质其实是把HEAD 指向指定的 branch ，然后签出这个branch 所对应的 commit 的工作目录。</p>
+<p><strong>checkout 和 reset 区别：</strong></p>
+<p><code>reset</code> 在移动 <code>HEAD</code> 时会带着它所指向的<code>branch</code> 一起移动，而 <code>checkout</code> 只会移动<code>HEAD</code>。</p>
+<h3 id="revert">revert</h3>
+<p><code>revert</code> 撤销一个提交的同时会创建一个新的提交。这是一个安全的方法，因为它不会重写提交历史。比如，下面的命令会找出倒数第二个提交，然后创建一个新的提交来撤销这些更改，然后把这个提交加入项目中。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git checkout hotfix
+git revert HEAD~2
+</code></pre></div><p>相比 <code>git reset</code>，它不会改变现在的提交历史。因此，<code>git revert</code> 可以用在公共分支上，<code>git reset</code> 应该用在私有分支上。你也可以把 <code>git revert</code> 当作撤销已经提交的更改，而 <code>git reset HEAD</code> 用来撤销没有提交的更改。</p>
+<h2 id="实用技巧">实用技巧</h2>
+<h3 id="在本地提交了代码发现提交了的代码有问题需要修改">在本地提交了代码，发现提交了的代码有问题需要修改</h3>
+<p>这时候我们应该怎么处理，重新写一个修复的<code>commit</code>吗？或者可以使用<code>commit --amend</code>命令。
+<code>commit --amend</code>对最新一条 <code>commit </code>进行修正，会把当前<code>commit</code>里的内容和暂存区（stageing area）里的内容合并起来后创建一个新的 <code>commit</code>，用这个新的 <code>commit</code>把当前<code>commit</code>替换掉。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232372842-729c0dbc-1e95-4e66-acff-e0fd48ae7819.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232372842-729c0dbc-1e95-4e66-acff-e0fd48ae7819.png" alt="image"  />
+    </a>
+</div></p>
+<h3 id="需要修改本地的其他commit">需要修改本地的其他commit</h3>
+<p>通过<code>rebase -i</code> 开启交互式 <code>rebase</code>，交互式 <code>rebase</code>，就是在 <code>rebase</code> 的操作执行之前，你可以指定要 <code>rebase</code> 的 <code>commit</code> 串中的每一个 <code>commit</code> 是否需要进一步修改。  例如要修改倒数第二个<code>commit</code>（<code> git rebase -i HEAD~2</code>）。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232372885-09d3266c-9e44-4a56-90ec-3eea3168201d.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232372885-09d3266c-9e44-4a56-90ec-3eea3168201d.png" alt="image"  />
+    </a>
+</div></p>
+<p>把要修改的<code>commit</code> 操作指令修改为<code>edit</code>，退出交互式rebase，此时<code>rebase</code> 过程已经停在了倒数第二个 commit 的位置，可以在本地进行修改并add到暂存区，使用<code>commit --amend</code> 修改最新的<code>commit</code>，修复完成后可以用 <code>rebase --continue</code>来继续 rebase 过程，把之后的 <code>commit</code> 直接应用上去。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232372920-4a5e2d8c-5b83-4da3-9d22-e32de80af25c.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232372920-4a5e2d8c-5b83-4da3-9d22-e32de80af25c.png" alt="image"  />
+    </a>
+</div></p>
+<h3 id="丢弃提交">丢弃提交</h3>
+<ol>
+<li>回退到某个commit（丢弃此commit后的所有提交）</li>
+</ol>
+<p><code>git reset --hard``commit</code></p>
+<ol start="2">
+<li>丢弃某个commit（基于交互式rebase）</li>
+</ol>
+<p>使用 <code>git rebase -i</code> 开启交互式<code>rebase</code>，删除想要丢弃的<code>commit</code>，保存退出即可。
+
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232372949-253e1bb1-38df-486d-836f-f74a90f7433d.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232372949-253e1bb1-38df-486d-836f-f74a90f7433d.png" alt="image"  />
+    </a>
+</div></p>
+<ol start="3">
+<li>丢弃某个commit（基于rebase &ndash;onto）</li>
+</ol>
+<p><code>rebase --onto</code>参数 
+目标<code>commit</code> 、起点 <code>commit</code> （<code>rebase</code> 的时候会把起点排除在外）、终点 <code>commit</code> 。
+例如：<code>git rebase --onto 第5个commit-id 第6个commit-id feature commit-id</code></p>
+<p>丢弃掉feature分支的第6个<code>commit</code> ，把第7个<code>commit</code>提交到第5个<code>commit</code>上</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232373049-9f411cf2-f1be-436b-8a64-4fd478d4e36e.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232373049-9f411cf2-f1be-436b-8a64-4fd478d4e36e.png" alt="image"  />
+    </a>
+</div></p>
+<h3 id="合并commit">合并commit</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git rebase -i  <span style="color:#f92672">[</span>startpoint<span style="color:#f92672">]</span>  <span style="color:#f92672">[</span>endpoint<span style="color:#f92672">]</span>
+</code></pre></div><p>使用<code>git rebase -i </code>开启交互式rebase。其中<code>-i</code>的意思是<code>--interactive</code>，即弹出交互式的界面让用户编辑完成合并操作，<code>[startpoint] [endpoint]</code>则指定了一个编辑区间，如果不指定<code>[endpoint]</code>，则该区间的终点默认是当前分支<code>HEAD</code>所指向的<code>commit</code>(注：该区间指定的是一个前开后闭的区间)。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git rebase -i 36224db
+</code></pre></div><p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232373100-89b37ffa-5dbe-4082-ad66-5e6355b9f18b.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232373100-89b37ffa-5dbe-4082-ad66-5e6355b9f18b.png" alt="image"  />
+    </a>
+</div></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># pick：保留该commit（缩写:p）</span>
+<span style="color:#75715e"># reword：保留该commit，但我需要修改该commit的注释（缩写:r）</span>
+<span style="color:#75715e"># edit：保留该commit, 但我要停下来修改该提交(不仅仅修改注释)（缩写:e）</span>
+<span style="color:#75715e"># squash：将该commit和前一个commit合并（缩写:s）</span>
+<span style="color:#75715e"># fixup：将该commit和前一个commit合并，但我不要保留该提交的注释信息（缩写:f）</span>
+<span style="color:#75715e"># exec：执行shell命令（缩写:x）</span>
+<span style="color:#75715e"># drop：我要丢弃该commit（缩写:d）</span>
+</code></pre></div><p>可以修改为如下把第二次、第三次提交都合并到第一次提交上</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pick d2cf1f9 fix: 第一次提交
+s 47971f6 fix: 第二次提交
+s fb28c8d fix: 第三次提交
+</code></pre></div><p>保存退出后是注释修改界面，此时对注释进行修改就可以完成一次<code>commit</code>合并。</p>
+<h2 id="git-flow">Git Flow</h2>
+<h3 id="git团队协作下面临的问题">Git团队协作下面临的问题</h3>
+<ol>
+<li>如何开始一个Feature的开发，避免Feature之间的影响。</li>
+<li>分支太多如何管理，如何知道每个分支的用处。</li>
+<li>哪些分支已经合并回了master。</li>
+<li>如何进行Release的管理。</li>
+<li>线上代码出Bug了，如何快速修复。</li>
+</ol>
+<h3 id="什么是git-flow">什么是Git Flow</h3>
+<p>Git Flow是由Vincent Driessen基于Git这一版本控制系统所总结出来的一套可行的、能够满足很多项目开发需求的敏捷开发流程。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232373164-aa1a9366-7f25-49ab-9bc4-60e0b6ced2a1.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232373164-aa1a9366-7f25-49ab-9bc4-60e0b6ced2a1.png" alt="image"  />
+    </a>
+</div></p>
+<ul>
+<li>Master分支</li>
+</ul>
+<p>Master分支上是最近发布到生产环境的代码，此分支只能从其他分支合并，不能在这个分支直接修改。</p>
+<ul>
+<li>Develop 分支</li>
+</ul>
+<p>主开发分支，包含所有要发布到下一个Release的代码，这个主要用于合并特性分支和Hotfix分支。</p>
+<ul>
+<li>Feature 分支</li>
+</ul>
+<p>主要是用来开发一个新的功能，一旦开发完成，我们合并回Develop分支进入下一个Release</p>
+<ul>
+<li>Release分支</li>
+</ul>
+<p>当需要一个发布一个新Release的时候，我们基于Develop分支创建一个Release分支，完成Release后，我们合并到Master和Develop分支</p>
+<ul>
+<li>Hotfix分支</li>
+</ul>
+<p>在生产环境发现新的Bug时候，我们需要创建一个Hotfix, 完成Hotfix后，我们合并回Master和Develop分支，所以Hotfix的改动会进入下一个Release</p>
+<h3 id="工作流程">工作流程</h3>
+<ul>
+<li>Master分支初始，Develop初始</li>
+</ul>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232373200-bff41245-e892-4a7d-9682-e984d3cfa699.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232373200-bff41245-e892-4a7d-9682-e984d3cfa699.png" alt="image"  />
+    </a>
+</div></p>
+<ul>
+<li>feature分支从Develop上拉取，进行特性开发并合并会Develop</li>
+</ul>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232373223-a0274f4c-5830-4133-90dd-3a1cfbf40c50.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232373223-a0274f4c-5830-4133-90dd-3a1cfbf40c50.png" alt="image"  />
+    </a>
+</div></p>
+<ul>
+<li>Release分支基于Develop分支创建，打完Release分之后，我们可以在这个Release分支上测试，修改Bug等。测试正常后发布Release分支时，合并Release到Master和Develop， 同时在Master分支上打个Tag记住Release版本号。</li>
+</ul>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232373255-98144544-c70c-4279-adc3-b4b0f3be2fef.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232373255-98144544-c70c-4279-adc3-b4b0f3be2fef.png" alt="image"  />
+    </a>
+</div></p>
+<ul>
+<li>hotfix分支基于Master分支创建，开发完后需要合并回Master和Develop分支，同时在Master上打一个tag。</li>
+</ul>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232373287-06f5f62b-3bba-474b-811c-bce051692a54.png">
+    <img src="https://user-images.githubusercontent.com/19829495/232373287-06f5f62b-3bba-474b-811c-bce051692a54.png" alt="image"  />
+    </a>
+</div></p>
+<p>很多时候标准方案并不是最好的，选择合适的最重要。</p>
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#vcs与dvcs">VCS与DVCS</a>
+          <ul>
+            <li><a href="#版本控制系统vcsversion-control-system">版本控制系统VCS（Version Control System）</a></li>
+            <li><a href="#dvcs分布式版本控制系统">DVCS分布式版本控制系统</a></li>
+            <li><a href="#dvcs与vcs对比">DVCS与VCS对比</a></li>
+          </ul>
+        </li>
+        <li><a href="#git概念与原理">Git概念与原理</a>
+          <ul>
+            <li><a href="#headbranchmaster">HEAD，branch，master</a></li>
+            <li><a href="#push">push</a></li>
+            <li><a href="#merge">merge</a></li>
+            <li><a href="#rebase">rebase</a></li>
+            <li><a href="#reset">reset</a></li>
+            <li><a href="#checkout与reset">checkout与reset</a></li>
+            <li><a href="#revert">revert</a></li>
+          </ul>
+        </li>
+        <li><a href="#实用技巧">实用技巧</a>
+          <ul>
+            <li><a href="#在本地提交了代码发现提交了的代码有问题需要修改">在本地提交了代码，发现提交了的代码有问题需要修改</a></li>
+            <li><a href="#需要修改本地的其他commit">需要修改本地的其他commit</a></li>
+            <li><a href="#丢弃提交">丢弃提交</a></li>
+            <li><a href="#合并commit">合并commit</a></li>
+          </ul>
+        </li>
+        <li><a href="#git-flow">Git Flow</a>
+          <ul>
+            <li><a href="#git团队协作下面临的问题">Git团队协作下面临的问题</a></li>
+            <li><a href="#什么是git-flow">什么是Git Flow</a></li>
+            <li><a href="#工作流程">工作流程</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

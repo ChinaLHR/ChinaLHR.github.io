@@ -19,7 +19,7 @@
     
     <title>跨域问题与解决方式</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, cross, Nginx'>
+    <meta name="keywords" content='blog, chinalhr, lhr, cross'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/nginx-cross/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -180,15 +184,13 @@
         
             <li class="post-tag"><a href="https://chinalhr.github.io/tags/cross">cross</a></li>
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/nginx">Nginx</a></li>
-        
         </ul>
     </div>
 
     <div class="post-content">
         <p>
             <blockquote>
-<p>Nginx相关资料阅读整理</p>
+<p>浏览器同源策略及跨域解决方案梳理</p>
 </blockquote>
 <h3 id="浏览器同源策略">浏览器同源策略</h3>
 <ul>
@@ -234,8 +236,8 @@ Content-Type：只限于三个值application/x-www-form-urlencoded、multipart/f
 </ul>
 <p>前端请求的时候还是用前端的域名，Nginx之类的代理把这个请求转发到真正的后端域名上</p>
 <h3 id="nginx反向代理解决跨域">Nginx反向代理解决跨域</h3>
-<p>在一个服务器上配置多个前缀来转发http/https请求到多个真实的服务器即可。这样，这个服务器上所有url都是相同的域名、协议和端口。因此，对于浏览器来说，这些url都是同源的，没有跨域限制。而实际上，这些url实际上由物理服务器提供服务。这些服务器内的javascript可以跨域调用所有这些服务器上的url。</p>
-<p>例如：对本地请求lickdog.com/api 将其转发到11000端口下</p>
+<p>在一个服务器上配置多个前缀来转发http/https请求到多个真实的服务器即可。这样，这个服务器上所有url都是相同的域名、协议和端口。因此，对于浏览器来说，这些url都是同源的，没有跨域限制。而实际上，这些url实际上由物理服务器提供服务。</p>
+<p>例如：前端应用请求lickdog.com/api 将其转发到11000端口下，规避跨域问题。</p>
 <pre><code>server
 {
     listen 80;

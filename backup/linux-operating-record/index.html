@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Linux命令记录</title>
+    <meta name="description" content="keep curious 😼">
+    <meta name="keywords" content='blog, chinalhr, lhr'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/backup/linux-operating-record/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Linux命令记录">
+    <meta property="og:description" content="keep curious 😼">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Linux命令记录">
+    <meta name="twitter:description" content="keep curious 😼">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/backup/linux-operating-record/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/backup/linux-operating-record/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/backup/linux-operating-record/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JLJBQBW5WM');
+</script>
+  
+    
+    
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Linux命令记录</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            April 19, 2019
+        </p>
+
+        <ul class="post-tags">
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
+<p>日常Linux命令记录</p>
+</blockquote>
+<h3 id="日常操作">日常操作</h3>
+<h4 id="find">find</h4>
+<ul>
+<li>格式</li>
+</ul>
+<pre><code>find [path...] [expression]
+
+path:find命令所查找的目录路径。例如用.来表示当前目录，用/来表示系统根目录
+expression:expression可以分为——&quot;-options [-print -exec -ok ...]&quot;
+
+options:指定find命令的常用选项，下节详细介绍
+print:find命令将匹配的文件输出到标准输出
+exec:find命令对匹配的文件执行该参数所给出的shell命令
+-ok:和-exec的作用相同，只不过以一种更为安全的模式来执行该参数所给出的shell命令，在执行每一个命令之前，都会给出提示，让用户来确定是否执行。
+</code></pre><ul>
+<li>options</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">    -type <span style="color:#f92672">[</span>查找某一类型的文件<span style="color:#f92672">]</span> 
+    b - 块设备文件。 
+    d - 目录。 
+    c - 字符设备文件。 
+    p - 管道文件。 
+    l - 符号链接文件。 
+    f - 普通文件
+
+    -name <span style="color:#f92672">[</span>按照文件名查找文件<span style="color:#f92672">]</span>
+    find /dir -name filename  在/dir目录及其子目录下面查找名字为filename的文件 
+    
+    -perm <span style="color:#f92672">[</span>按照文件权限来查找文件<span style="color:#f92672">]</span>
+    find . -perm <span style="color:#ae81ff">755</span> –print 在当前目录下查找文件权限位为755的文件
+    
+    -user<span style="color:#f92672">[</span>按照文件属主来查找文件<span style="color:#f92672">]</span>
+    find ~ -user sam –print 在$HOME目录中查找文件属主为sam的文件
+    
+    -group<span style="color:#f92672">[</span>按照文件所属的组来查找文件<span style="color:#f92672">]</span>
+    find /apps -group gem –print 在/apps目录下查找属于gem用户组的文件 
+    
+    -mtime -n +n <span style="color:#f92672">[</span>按照文件的更改时间来查找文件， - n表示文件更改时间距现在n天以内，+ n表示文件更改时间距现在n天以前<span style="color:#f92672">]</span>
+    find /var/adm -mtime +3 –print 在/var/adm目录下查找更改时间在3日以前的文件
+    
+    -size n：<span style="color:#f92672">[</span>c<span style="color:#f92672">]</span> 查找文件长度为n块的文件，带有c时表示文件长度以字节计。
+
+</code></pre></div><ul>
+<li>常用操作记录</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#清除/root/log 目录或者子目录下 大于1G的log文件</span>
+find /root/logs/ -name <span style="color:#e6db74">&#34;*.log&#34;</span> -size +1024M -exec rm -rf <span style="color:#f92672">{}</span> <span style="color:#ae81ff">\;</span>
+
+</code></pre></div><ul>
+<li>参考链接</li>
+</ul>
+<p><a href="https://www.cnblogs.com/skynet/archive/2010/12/25/1916873.html">https://www.cnblogs.com/skynet/archive/2010/12/25/1916873.html</a></p>
+<h4 id="which">which</h4>
+<p>which命令的作用是在PATH变量指定的路径中，搜索某个系统命令的位置，并且返回第一个搜索结果。也就是说，使用which命令，就可以看到某个系统命令是否存在，以及执行的到底是哪一个位置的命令。</p>
+<ul>
+<li>格式</li>
+</ul>
+<pre><code>which 可执行文件名称 
+</code></pre><ul>
+<li>命令参数</li>
+</ul>
+<pre><code>-n 　指定文件名长度，指定的长度必须大于或等于所有文件中最长的文件名。
+-p 　与-n参数相同，但此处的包括了文件的路径。
+-w 　指定输出时栏位的宽度。
+-V 　显示版本信息
+</code></pre><ul>
+<li>例子</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">which docker
+/usr/bin/docker
+</code></pre></div><h4 id="whereis">whereis</h4>
+<p>whereis命令只能用于程序名的搜索，而且只搜索二进制文件（参数-b）、man说明文件（参数-m）和源代码文件（参数-s）。 whereis查找的速度很快，因为会从数据库中查找数据，而不是像find命令那样，通 过遍历硬盘来查找（注意： 数据库文件并不是实时更新，默认情况下时一星期更新一次）</p>
+<ul>
+<li>命令格式</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">whereis <span style="color:#f92672">[</span>-bmsu<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>BMS 目录名 -f <span style="color:#f92672">]</span> 文件名
+</code></pre></div><ul>
+<li>命令参数</li>
+</ul>
+<pre><code>-b   定位可执行文件。
+-m   定位帮助文件。
+-s   定位源代码文件。
+-u   搜索默认路径下除可执行文件、源代码文件、帮助文件以外的其它文件。
+-B   指定搜索可执行文件的路径。
+-M   指定搜索帮助文件的路径。
+-S   指定搜索源代码文件的路径。
+</code></pre><ul>
+<li>例子</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">whereis docker
+docker: /usr/bin/docker /etc/docker /usr/libexec/docker /usr/share/man/man1/docker.1.gz
+</code></pre></div><h4 id="ps">ps</h4>
+<p>ps命令用来列出系统中当前运行的那些进程。</p>
+<ul>
+<li>格式</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ps<span style="color:#f92672">[</span>参数<span style="color:#f92672">]</span>
+
+a  显示所有进程
+
+-a 显示同一终端下的所有程序
+
+-A 显示所有进程
+
+c  显示进程的真实名称
+
+-N 反向选择
+
+-e 等于“-A”
+
+e  显示环境变量
+
+f  显示程序间的关系
+
+-H 显示树状结构
+
+r  显示当前终端的进程
+
+T  显示当前终端的所有程序
+
+u  指定用户的所有进程
+
+-au 显示较详细的资讯
+
+-aux 显示所有包含其他使用者的进程 
+</code></pre></div><ul>
+<li>常用操作记录</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># ps 与grep 常用组合用法，查找特定进程</span>
+ps -ef|grep java
+
+<span style="color:#75715e"># 显示进程的层级信息</span>
+ps -ef --forest
+</code></pre></div><h4 id="tail">tail</h4>
+<p>tail 命令从指定点开始将文件写到标准输出.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 显示末尾的10行</span>
+tail logfile.log
+<span style="color:#75715e"># 循环读取</span>
+tail -f logfile.log
+<span style="color:#75715e"># 显示文件末尾内容(最后五行)</span>
+tail -n <span style="color:#ae81ff">5</span> logfile.log
+<span style="color:#75715e"># 从第5行开始显示文件</span>
+tail -n +5 logfile.log
+</code></pre></div><h4 id="head">head</h4>
+<p>head 用来显示档案的开头至标准输出中</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">head <span style="color:#f92672">[</span>参数<span style="color:#f92672">]</span>... <span style="color:#f92672">[</span>文件<span style="color:#f92672">]</span>...  
+-q 隐藏文件名
+-v 显示文件名
+-c&lt;字节&gt; 显示字节数
+-n&lt;行数&gt; 显示的行数
+</code></pre></div><pre><code># 显示前5行
+head -n 5 log2014.log 
+</code></pre><h4 id="moreless">more|less</h4>
+<p>more命令从前向后读取文件（在启动时就加载整个文件）<!-- raw HTML omitted -->
+空白键（space）就往下一页显示，按 b 键就会往回（back）一页显示。</p>
+<p>less命令<!-- raw HTML omitted --></p>
+<p>d  向后翻半页 u  向前滚动半页 空格键 滚动一页</p>
+<p>查询:?关键字 n 上一位 N 下一位</p>
+<h4 id="scp">scp</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 复制文件</span>
+scp local_file remote_username@remote_ip:remote_folder
+
+<span style="color:#75715e"># 复制目录</span>
+scp -r local_folder remote_username@remote_ip:remote_folder
+</code></pre></div><h4 id="crontab">crontab</h4>
+<p>crond是linux下用来周期性的执行某种任务或等待处理某些事件的一个守护进程。在/etc目录下的crontab文件</p>
+<ul>
+<li>格式</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">minute   hour   day   month   week   command
+
+其中：
+
+minute： 表示分钟，可以是从0到59之间的任何整数。
+
+hour：表示小时，可以是从0到23之间的任何整数。
+
+day：表示日期，可以是从1到31之间的任何整数。
+
+month：表示月份，可以是从1到12之间的任何整数。
+
+week：表示星期几，可以是从0到7之间的任何整数，这里的0或7代表星期日。
+
+command：要执行的命令，可以是系统命令，也可以是自己编写的脚本文件。
+
+crontab <span style="color:#f92672">[</span>-u user<span style="color:#f92672">]</span> <span style="color:#f92672">[</span> -e | -l | -r <span style="color:#f92672">]</span>
+
+-e：编辑某个用户的crontab文件内容。如果不指定用户，则表示编辑当前用户的crontab文件。
+
+-l：显示某个用户的crontab文件内容，如果不指定用户，则表示显示当前用户的crontab文件内容。
+
+-r：从/var/spool/cron目录中删除某个用户的crontab文件，如果不指定用户，则默认删除当前用户的crontab文件。
+</code></pre></div><ul>
+<li>常用操作记录</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">查看所有用户的crontab
+cat /etc/passwd | cut -f <span style="color:#ae81ff">1</span> -d : |xargs -I <span style="color:#f92672">{}</span> crontab -l -u <span style="color:#f92672">{}</span>
+</code></pre></div><h4 id="netstat">netstat</h4>
+<pre><code>查询端口所占用的进程
+netstat -ntulp | grep 10063
+查询进程的详细信息
+ps -ef|grep 4826
+</code></pre><h4 id="telnet">telnet</h4>
+<p>telnet命令通常用来远程登录。telnet程序是基于TELNET协议的远程登录客户端程序。  telnet因为采用明文传送报文，安全性不好，很多Linux服务器都不开放telnet服务，而改用更安全的ssh方式。</p>
+<p>telnet命令除了远程登录，还被用于确定远程服务的状态，比如确定远程服务器的某个端口是否能访问</p>
+<ul>
+<li>命令格式</li>
+</ul>
+<pre><code>telnet[参数][HOST][PORT]
+</code></pre><h4 id="du">du</h4>
+<pre><code>du命令用来查看目录或文件所占用磁盘空间的大小
+du常用的选项：
+　　-h：以人类可读的方式显示
+　　-a：显示目录占用的磁盘空间大小，还要显示其下目录和文件占用磁盘空间的大小
+　　-s：显示目录占用的磁盘空间大小，不要显示其下子目录和文件占用的磁盘空间大小
+　　-c：显示几个目录或文件占用的磁盘空间大小，还要统计它们的总和
+　　--apparent-size：显示目录或文件自身的大小
+　　-l ：统计硬链接占用磁盘空间的大小
+　　-L：统计符号链接所指向的文件占用的磁盘空间大小　　
+
+du -sh : 查看当前目录总共占的容量。而不单独列出各子项占用的容量 
+du -lh --max-depth=1 : 查看当前目录下一级子文件和子目录占用的磁盘容量。
+du -sh * | sort -n 统计当前文件夹(目录)大小，并按文件大小排序
+du -sk filename 查看指定文件大小
+</code></pre><h4 id="ln">ln</h4>
+<p>为某一个文件在另外一个位置建立一个同步的链接。链接又可分为两种 : 硬链接(hard link)与软链接(symbolic link)，硬链接的
+意思是一个档案可以有多个名称，而软链接的方式则是产生一个特殊的档案，该档案的内容是指向另一个档案的位置。硬链接是存在
+同一个文件系统中，而软链接却可以跨越不同的文件系统。</p>
+<pre><code>软链接：
+1.软链接，以路径的形式存在。类似于Windows操作系统中的快捷方式
+2.软链接可以 跨文件系统 ，硬链接不可以
+3.软链接可以对一个不存在的文件名进行链接
+4.软链接可以对目录进行链接
+
+硬链接:
+1.硬链接，以文件副本的形式存在。但不占用实际空间。
+2.不允许给目录创建硬链接
+3.硬链接只有在同一个文件系统中才能创建
+
+ln命令会保持每一处链接文件的同步性
+</code></pre><ul>
+<li>格式</li>
+</ul>
+<pre><code>ln [参数][源文件或目录][目标文件或目录]
+ln –s [源文件或目录][目标文件或目录] 软链接
+ln [源文件或目录][目标文件或目录] 硬链接
+</code></pre><h4 id="kill">kill</h4>
+<p>Linux中的kill命令用来终止指定的进程的运行</p>
+<ul>
+<li>格式</li>
+</ul>
+<pre><code>kill[参数][进程号]
+-l  信号，若果不加信号的编号参数，则使用“-l”参数会列出全部的信号名称
+-a  当处理当前进程时，不限制命令名和进程号的对应关系
+-p  指定kill 命令只打印相关进程的进程号，而不发送任何信号
+-s  指定发送信号
+-u  指定用户 
+- 信号(默认终止信号(15))
+
+全部信号：
+
+kill -l
+ 1) SIGHUP	 2) SIGINT	 3) SIGQUIT	 4) SIGILL	 5) SIGTRAP
+ 6) SIGABRT	 7) SIGBUS	 8) SIGFPE	 9) SIGKILL	10) SIGUSR1
+11) SIGSEGV	12) SIGUSR2	13) SIGPIPE	14) SIGALRM	15) SIGTERM
+16) SIGSTKFLT	17) SIGCHLD	18) SIGCONT	19) SIGSTOP	20) SIGTSTP
+21) SIGTTIN	22) SIGTTOU	23) SIGURG	24) SIGXCPU	25) SIGXFSZ
+26) SIGVTALRM	27) SIGPROF	28) SIGWINCH	29) SIGIO	30) SIGPWR
+31) SIGSYS	34) SIGRTMIN	35) SIGRTMIN+1	36) SIGRTMIN+2	37) SIGRTMIN+3
+38) SIGRTMIN+4	39) SIGRTMIN+5	40) SIGRTMIN+6	41) SIGRTMIN+7	42) SIGRTMIN+8
+43) SIGRTMIN+9	44) SIGRTMIN+10	45) SIGRTMIN+11	46) SIGRTMIN+12	47) SIGRTMIN+13
+48) SIGRTMIN+14	49) SIGRTMIN+15	50) SIGRTMAX-14	51) SIGRTMAX-13	52) SIGRTMAX-12
+53) SIGRTMAX-11	54) SIGRTMAX-10	55) SIGRTMAX-9	56) SIGRTMAX-8	57) SIGRTMAX-7
+58) SIGRTMAX-6	59) SIGRTMAX-5	60) SIGRTMAX-4	61) SIGRTMAX-3	62) SIGRTMAX-2
+63) SIGRTMAX-1	64) SIGRTMAX	
+
+常用信号：
+
+HUP    1    终端断线
+INT     2    中断（同 Ctrl + C）
+QUIT    3    退出（同 Ctrl + \）
+TERM   15    终止
+KILL    9    强制终止
+CONT   18    继续（与STOP相反， fg/bg命令）
+STOP    19    暂停（同 Ctrl + Z）
+</code></pre><h4 id="watch">watch</h4>
+<p>监测一个命令的运行结果</p>
+<ul>
+<li>命令格式</li>
+</ul>
+<pre><code>watch[参数][命令]
+</code></pre><ul>
+<li>命令参数</li>
+</ul>
+<pre><code>-n或--interval  watch缺省每2秒运行一下程序，可以用-n指定间隔的时间。
+-d或--differences  用-d或--differences 选项watch 会高亮显示变化的区域。 而-d=cumulative选项会把变动过的地方(不管最近的那次有没有变动)都高亮显示出来。
+-t 或-no-title  会关闭watch命令在顶部的时间间隔,命令，当前时间的输出。
+</code></pre><ul>
+<li>常用命令记录</li>
+</ul>
+<pre><code># 监测当file文件变化，频率5s，高亮显示
+watch -n 5 -d'cat /file'
+</code></pre><h4 id="alias">alias</h4>
+<p>设置指令的别名。</p>
+<ul>
+<li>命令格式</li>
+</ul>
+<pre><code>alias[别名]=[指令名称]
+</code></pre><ul>
+<li>alias指令的有效期仅在于单次登录，可以在~/.bashrc(用户级别)或者/etc/bashrc(全局级别)文件追加配置登录指令</li>
+</ul>
+<pre><code>vim ~/.bashrc 
+# 添加log路径的别名
+alias cdlog=&quot;cd /data/log&quot;
+# 让配置文件生效
+source ~/.bashrc 
+</code></pre><h4 id="nohup和后台运行">nohup和&amp;(后台运行)</h4>
+<ul>
+<li>nohup</li>
+</ul>
+<p>用途：不挂断地运行命令。</p>
+<pre><code>语法：nohup Command [ Arg … ] [　&amp; ]
+
+无论是否将 nohup 命令的输出重定向到终端，输出都将附加到当前目录的 nohup.out 文件中。
+如果当前目录的 nohup.out 文件不可写，输出重定向到 $HOME/nohup.out 文件中。
+如果没有文件能创建或打开以用于追加，那么 Command 参数指定的命令不可调用。
+退出状态：该命令返回下列出口值： 　　
+　　126 可以查找但不能调用 Command 参数指定的命令。 　　
+　　127 nohup 命令发生错误或不能查找由 Command 参数指定的命令。 　　
+　　否则，nohup 命令的退出状态是 Command 参数指定命令的退出状态。
+</code></pre><ul>
+<li>&amp;</li>
+</ul>
+<p>用途：在后台运行,一般和nohup两个一起用，nohup command &amp;</p>
+<ul>
+<li>SpringBoot例子</li>
+</ul>
+<pre><code>nohup java -jar xxx.jar &gt;bootstrap.log&amp;
+</code></pre><h4 id="trap">trap</h4>
+<p>trap作用是捕捉信号和其他事件并执行命令。</p>
+<ul>
+<li>命令格式</li>
+</ul>
+<pre><code>trap [-lp] [[arg] signal_spec ...]
+</code></pre><ul>
+<li>命令参数</li>
+</ul>
+<pre><code>-l    打印信号名称以及信号名称对应的数字。
+-p    显示与每个信号关联的trap命令。
+</code></pre><ul>
+<li>常用命令</li>
+</ul>
+<pre><code># 当shell收到 HUP INT PIPE QUIT TERM 这几个命令时，当前执行的程序会执行 exit 1
+trap &quot;exit 1&quot; HUP INT PIPE QUIT TERM
+# 捕获Kill信号(SIGTERM 15)，执行方法_kill
+trap _kill SIGTERM
+</code></pre><h4 id="xargs">xargs</h4>
+<p><code>xargs</code>命令的作用，是将标准输入转为命令行参数。</p>
+<ul>
+<li>命令格式</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"> xargs <span style="color:#f92672">[</span>-options<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>command<span style="color:#f92672">]</span> 
+</code></pre></div><ul>
+<li>命令参数</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">-d 更改分隔符,如：
+$ echo -e <span style="color:#e6db74">&#34;a\tb\tc&#34;</span> | xargs -d <span style="color:#e6db74">&#34;\t&#34;</span> echo
+a b c
+
+-p 打印出要执行的命令，询问用户是否要执行
+-t 打印出最终要执行的命令
+-L 指定多少行作为一个命令行参数
+-n 指定每次将多少项，作为命令行参数
+echo <span style="color:#f92672">{</span>0..9<span style="color:#f92672">}</span> | xargs -n <span style="color:#ae81ff">2</span> echo
+<span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span>
+<span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span>
+<span style="color:#ae81ff">6</span> <span style="color:#ae81ff">7</span>
+<span style="color:#ae81ff">8</span> <span style="color:#ae81ff">9</span>
+
+--max-procs xargs默认只用一个进程执行命令。如果命令要执行多次，必须等上一次执行完，才能执行下一次。--max-procs参数指定同时用多少个进程并行执行命令
+</code></pre></div><ul>
+<li>常用命令</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 配合find使用</span>
+find . -name <span style="color:#e6db74">&#39;datasource.properties&#39;</span> |xargs -t cat
+</code></pre></div><h4 id="dig">dig</h4>
+<p><code>dig</code> 命令代表Domain Information Groper，它用于检索有关DNS Name Server信息。</p>
+<ul>
+<li>命令格式</li>
+</ul>
+<pre><code>dig [server] [name] [type]
+</code></pre><ul>
+<li>dig输出</li>
+</ul>
+<pre><code>❯ dig baidu.com
+# 显示dig版本信息基于本次查询信息
+; &lt;&lt;&gt;&gt; DiG 9.16.1-Ubuntu &lt;&lt;&gt;&gt; baidu.com
+# 全局设置，默认情况为cmd
+;; global options: +cmd
+# Got Answer应答包括从请求授权后来自DNS服务器应答的详细信息:opcode（操作码），status（操作状态），
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 63113
+;; flags: qr rd ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 0
+;; WARNING: recursion requested but not available
+
+# QUESTION 显示我们的查询QUESTION的部分。默认情况下，dig会请求A记录，可以使用+noquestion选项禁用此部分。
+;; QUESTION SECTION:
+;baidu.com.                     IN      A
+
+# ANSWER 查询结果
+;; ANSWER SECTION:
+baidu.com.              0       IN      A       110.242.68.66
+baidu.com.              0       IN      A       39.156.66.10
+
+# 查询统计信息，如用时，使用的DNS Server...
+;; Query time: 20 msec
+;; SERVER: 172.23.16.1#53(172.23.16.1)
+;; WHEN: Mon Nov 21 15:48:08 CST 2022
+;; MSG SIZE  rcvd: 68
+</code></pre><ul>
+<li>示例</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 仅输出简短结果</span>
+&gt; dig baidu.com +short
+39.156.66.10
+110.242.68.66
+
+<span style="color:#75715e"># 关闭其他，仅输出详细的应答ANSWER</span>
+&gt; dig baidu.com +noall +answer
+baidu.com.              <span style="color:#ae81ff">0</span>       IN      A       39.156.66.10
+baidu.com.              <span style="color:#ae81ff">0</span>       IN      A       110.242.68.66
+
+<span style="color:#75715e"># 指定域名服务器查询</span>
+&gt; dig @8.8.8.8 baidu.com +noall +answer
+baidu.com.              <span style="color:#ae81ff">328</span>     IN      A       39.156.66.10
+baidu.com.              <span style="color:#ae81ff">328</span>     IN      A       110.242.68.66
+
+<span style="color:#75715e"># 查询CNAME记录，可以使用相同方式查询A/TXT/MX记录</span>
+&gt; dig mail.163.com cname +nocmd +noall +answer
+mail.163.com.           <span style="color:#ae81ff">0</span>       IN      CNAME   ntes53.mail.163.com.
+
+<span style="color:#75715e"># 使用ANY 查询所有DNS记录信息</span>
+&gt; dig @8.8.8.8 baidu.com +nocmd +noall +answer ANY
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      SOA     dns.baidu.com. sa.baidu.com. <span style="color:#ae81ff">2012145947</span> <span style="color:#ae81ff">300</span> <span style="color:#ae81ff">300</span> <span style="color:#ae81ff">2592000</span> <span style="color:#ae81ff">7200</span>
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      TXT     <span style="color:#e6db74">&#34;v=spf1 include:spf1.baidu.com include:spf2.baidu.com include:spf3.baidu.com include:spf4.baidu.com a mx ptr -all&#34;</span>
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      TXT     <span style="color:#e6db74">&#34;google-site-verification=GHb98-6msqyx_qqjGl5eRatD3QTHyVB6-xQ3gJB5UwM&#34;</span>
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      TXT     <span style="color:#e6db74">&#34;_globalsign-domain-verification=qjb28W2jJSrWj04NHpB0CvgK9tle5JkOq-EcyWBgnE&#34;</span>
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      MX      <span style="color:#ae81ff">20</span> usmx01.baidu.com.
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      MX      <span style="color:#ae81ff">20</span> mx1.baidu.com.
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      MX      <span style="color:#ae81ff">10</span> mx.maillb.baidu.com.
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      MX      <span style="color:#ae81ff">15</span> mx.n.shifen.com.
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      MX      <span style="color:#ae81ff">20</span> jpmx.baidu.com.
+baidu.com.              <span style="color:#ae81ff">6979</span>    IN      MX      <span style="color:#ae81ff">20</span> mx50.baidu.com.
+baidu.com.              <span style="color:#ae81ff">379</span>     IN      A       39.156.66.10
+baidu.com.              <span style="color:#ae81ff">379</span>     IN      A       110.242.68.66
+baidu.com.              <span style="color:#ae81ff">21379</span>   IN      NS      ns2.baidu.com.
+baidu.com.              <span style="color:#ae81ff">21379</span>   IN      NS      dns.baidu.com.
+baidu.com.              <span style="color:#ae81ff">21379</span>   IN      NS      ns4.baidu.com.
+baidu.com.              <span style="color:#ae81ff">21379</span>   IN      NS      ns3.baidu.com.
+baidu.com.              <span style="color:#ae81ff">21379</span>   IN      NS      ns7.baidu.com.
+
+<span style="color:#75715e"># 使用trace 跟踪DNS查找路径。行迭代查询，将查询从根开始的名称服务器，然后沿途使用引用之后的迭代查询向下遍历命名空间树。</span>
+&gt; dig @8.8.8.8 baidu.com +nocmd +noall +answer +trace
+...
+
+<span style="color:#75715e"># 反向DNS，使用-x 查询与指定IP地址关联的主机名</span>
+&gt; dig -x 8.8.8.8 +noall +answer
+8.8.8.8.in-addr.arpa.   <span style="color:#ae81ff">0</span>       IN      PTR     dns.google.
+</code></pre></div><h3 id="处理数据相关">处理数据相关</h3>
+<h4 id="排序sort">排序(sort)</h4>
+<ul>
+<li>命令格式</li>
+</ul>
+<pre><code>sort[选项][参数]
+
+-b：忽略每行前面开始出的空格字符；
+-c：检查文件是否已经按照顺序排序；
+-d：排序时，处理英文字母、数字及空格字符外，忽略其他的字符；
+-f：排序时，将小写字母视为大写字母；
+-i：排序时，除了040至176之间的ASCII字符外，忽略其他的字符；
+-m：将几个排序号的文件进行合并；
+-M：将前面3个字母依照月份的缩写进行排序；
+-n：依照数值的大小排序；
+-o&lt;输出文件&gt;：将排序后的结果存入制定的文件；
+-r：以相反的顺序来排序；
+-t&lt;分隔字符&gt;：指定排序时所用的栏位分隔字符；
++&lt;起始栏位&gt;-&lt;结束栏位&gt;：以指定的栏位来排序，范围由起始栏位到结束栏位的前一栏位。
+</code></pre><ul>
+<li>示例</li>
+</ul>
+<pre><code># 统计当前文件夹(目录)大小，并按文件大小降序排序
+du -sh * |sort -nr
+</code></pre><h4 id="搜索数据grep">搜索数据(grep)</h4>
+<p>文本搜索工具，用于过滤/搜索的特定字符,它能使用正则表达式搜索文本，并把匹配的行打印出来。</p>
+<ul>
+<li>命令格式</li>
+</ul>
+<pre><code>grep [option] pattern file
+
+参数
+
+-a   --text   #不要忽略二进制的数据。   
+-A&lt;显示行数&gt;   --after-context=&lt;显示行数&gt;   #除了显示符合范本样式的那一列之外，并显示该行之后的内容。 
+-b   --byte-offset   #在显示符合样式的那一行之前，标示出该行第一个字符的编号。 
+-B&lt;显示行数&gt;   --before-context=&lt;显示行数&gt;   #除了显示符合样式的那一行之外，并显示该行之前的内容。   
+-c    --count   #计算符合样式的列数。   
+-C&lt;显示行数&gt;    --context=&lt;显示行数&gt;或-&lt;显示行数&gt;   #除了显示符合样式的那一行之外，并显示该行之前后的内容。   
+-d &lt;动作&gt;      --directories=&lt;动作&gt;   #当指定要查找的是目录而非文件时，必须使用这项参数，否则grep指令将回报信息并停止动作。   
+-e&lt;范本样式&gt;  --regexp=&lt;范本样式&gt;   #指定字符串做为查找文件内容的样式。   
+-E      --extended-regexp   #将样式为延伸的普通表示法来使用。   
+-f&lt;规则文件&gt;  --file=&lt;规则文件&gt;   #指定规则文件，其内容含有一个或多个规则样式，让grep查找符合规则条件的文件内容，格式为每行一个规则样式。   
+-F   --fixed-regexp   #将样式视为固定字符串的列表。   
+-G   --basic-regexp   #将样式视为普通的表示法来使用。   
+-h   --no-filename   #在显示符合样式的那一行之前，不标示该行所属的文件名称。   
+-H   --with-filename   #在显示符合样式的那一行之前，表示该行所属的文件名称。   
+-i    --ignore-case   #忽略字符大小写的差别。   
+-l    --file-with-matches   #列出文件内容符合指定的样式的文件名称。   
+-L   --files-without-match   #列出文件内容不符合指定的样式的文件名称。   
+-n   --line-number   #在显示符合样式的那一行之前，标示出该行的列数编号。   
+-q   --quiet或--silent   #不显示任何信息。   
+-r   --recursive   #此参数的效果和指定“-d recurse”参数相同。   
+-s   --no-messages   #不显示错误信息。   
+-v   --revert-match   #显示不包含匹配文本的所有行。   
+-V   --version   #显示版本信息。   
+-w   --word-regexp   #只显示全字符合的列。   
+-x    --line-regexp   #只显示全列符合的列。   
+-y   #此参数的效果和指定“-i”参数相同。
+
+规则表达式
+
+^  #锚定行的开始 如：'^grep'匹配所有以grep开头的行。    
+$  #锚定行的结束 如：'grep$'匹配所有以grep结尾的行。    
+.  #匹配一个非换行符的字符 如：'gr.p'匹配gr后接一个任意字符，然后是p。    
+*  #匹配零个或多个先前字符 如：'*grep'匹配所有一个或多个空格后紧跟grep的行。    
+.*   #一起用代表任意字符。   
+[]   #匹配一个指定范围内的字符，如'[Gg]rep'匹配Grep和grep。    
+[^]  #匹配一个不在指定范围内的字符，如：'[^A-FH-Z]rep'匹配不包含A-R和T-Z的一个字母开头，紧跟rep的行。    
+\(..\)  #标记匹配字符，如'\(love\)'，love被标记为1。    
+\&lt;      #锚定单词的开始，如:'\&lt;grep'匹配包含以grep开头的单词的行。    
+\&gt;      #锚定单词的结束，如'grep\&gt;'匹配包含以grep结尾的单词的行。    
+x\{m\}  #重复字符x，m次，如：'0\{5\}'匹配包含5个o的行。   
+x\{m,\}  #重复字符x,至少m次，如：'o\{5,\}'匹配至少有5个o的行。    
+x\{m,n\}  #重复字符x，至少m次，不多于n次，如：'o\{5,10\}'匹配5--10个o的行。   
+\w    #匹配文字和数字字符，也就是[A-Za-z0-9]，如：'G\w*p'匹配以G后跟零个或多个文字或数字字符，然后是p。   
+\W    #\w的反置形式，匹配一个或多个非单词字符，如点号句号等。   
+\b    #单词锁定符，如: '\bgrep\b'只匹配grep。  
+</code></pre><ul>
+<li>常用案例</li>
+</ul>
+<pre><code># 文件关键字提取查找(info日志查询mongo)
+cat info.log | grep -f mongo
+
+# 查找指定进程
+ps -ef|grep git
+
+# 查找指定进程(不显示本身grep进程)
+ps -ef | grep java | grep -v &quot;grep&quot;
+
+# 从多个文件中查找关键字
+grep 'mongodb' info1.log info2.log
+
+# 找出mongo开头的行内容
+cat info.log |grep ^mongo
+
+# 找出mongo结尾的行内容
+cat info.log |grep mongo$
+
+# 显示包含api1或者cms1字符的内容行
+cat info.log |grep -E &quot;api1|cms1&quot;
+</code></pre><h4 id="压缩数据gzip">压缩数据(gzip)</h4>
+<p>gzip是GNU压缩工具，用Lempel-Ziv编码压缩程序，压缩后使用&rdquo;.gz&quot;的扩展名</p>
+<ul>
+<li>命令格式</li>
+</ul>
+<pre><code>gzip[参数][文件或者目录]
+
+参数
+
+-a或--ascii 　使用ASCII文字模式。 
+-c或--stdout或--to-stdout 　把压缩后的文件输出到标准输出设备，不去更动原始文件。 
+-d或--decompress或----uncompress 　解开压缩文件。 
+-f或--force 　强行压缩文件。不理会文件名称或硬连接是否存在以及该文件是否为符号连接。 
+-h或--help 　在线帮助。 
+-l或--list 　列出压缩文件的相关信息。 
+-L或--license 　显示版本与版权信息。 
+-n或--no-name 　压缩文件时，不保存原来的文件名称及时间戳记。 
+-N或--name 　压缩文件时，保存原来的文件名称及时间戳记。 
+-q或--quiet 　不显示警告信息。 
+-r或--recursive 　递归处理，将指定目录下的所有文件及子目录一并处理。 
+-S&lt;压缩字尾字符串&gt;或----suffix&lt;压缩字尾字符串&gt; 　更改压缩字尾字符串。 
+-t或--test 　测试压缩文件是否正确无误。 
+-v或--verbose 　显示指令执行过程。 
+-V或--version 　显示版本信息。 
+-num 用指定的数字num调整压缩的速度，-1或--fast表示最快压缩方法（低压缩比），-9或--best表示最慢压缩方法（高压缩比）。系统缺省值为6。 
+</code></pre><ul>
+<li>示例</li>
+</ul>
+<pre><code># 压缩文件
+gzip info.log
+# 解压目录
+gzip -d info.log
+# 递归压缩目录
+gzip -rv api
+# 递归解压目录
+gzip -dr api
+</code></pre><h4 id="归档数据tar">归档数据(tar)</h4>
+<p>打包是指将一大堆文件或目录变成一个总的文件；压缩则是将一个大的文件通过一些压缩算法变成一个小文件。
+由于Linux中很多压缩程序只能针对一个文件进行压缩，这样当你想要压缩一大堆文件时，你得先将这一大堆文件先打成一个包（tar命令），
+然后再用压缩程序进行压缩（gzip命令）。</p>
+<ul>
+<li>命令格式</li>
+</ul>
+<pre><code>tar[必要参数][选择参数][文件] 
+
+-A 新增压缩文件到已存在的压缩
+-B 设置区块大小
+-c 建立新的压缩文件
+-d 记录文件的差别
+-r 添加文件到已经压缩的文件
+-u 添加改变了和现有的文件到已经存在的压缩文件
+-x 从压缩的文件中提取文件
+-t 显示压缩文件的内容
+-z 支持gzip解压文件
+-j 支持bzip2解压文件
+-Z 支持compress解压文件
+-v 显示操作过程
+-l 文件系统边界设置
+-k 保留原有文件不覆盖
+-m 保留文件不被覆盖
+-W 确认压缩文件的正确性
+
+可选参数如下：
+
+-b dir 设置区块数目
+-C 切换到指定目录
+-f file 指定压缩文件
+--help 显示帮助信息
+--version 显示版本信息
+
+常见解压/压缩命令：
+
+tar 
+解包：tar xvf FileName.tar
+打包：tar cvf FileName.tar DirName
+（注：tar是打包）
+
+
+.gz
+解压1：gunzip FileName.gz
+解压2：gzip -d FileName.gz
+压缩：gzip FileName
+
+.tar.gz 和 .tgz
+解压：tar zxvf FileName.tar.gz
+压缩：tar zcvf FileName.tar.gz DirName
+
+.bz2
+解压1：bzip2 -d FileName.bz2
+解压2：bunzip2 FileName.bz2
+压缩： bzip2 -z FileName
+
+.tar.bz2
+解压：tar jxvf FileName.tar.bz2
+压缩：tar jcvf FileName.tar.bz2 DirName
+
+.bz
+解压1：bzip2 -d FileName.bz
+解压2：bunzip2 FileName.bz
+压缩：未知
+
+.tar.bz
+解压：tar jxvf FileName.tar.bz
+压缩：未知
+
+.Z
+解压：uncompress FileName.Z
+压缩：compress FileName
+
+.tar.Z
+解压：tar Zxvf FileName.tar.Z
+压缩：tar Zcvf FileName.tar.Z DirName
+
+.zip
+解压：unzip FileName.zip
+压缩：zip FileName.zip DirName
+
+.rar
+解压：rar x FileName.rar
+压缩：rar a FileName.rar DirName 
+</code></pre><ul>
+<li>示例</li>
+</ul>
+<pre><code># 打包api1 api2目录
+tar -cvf api.tar api1/ api2/
+# 列除tar文件api.tar的内容，但不提取文件
+tar -xvf api.tar
+# 打包后，以 gzip 压缩 
+tar -zcvf info.tar.gz info.log
+# 查阅压缩后的tar包内有哪些文件
+tar -ztvf log.tar.gz
+# 解压缩tar包
+tar -zxvf log.tar.gz
+# 排除文件夹不进行打包 
+tar --exclude api/service -zcvf api.tar.gz api/* 
+</code></pre><h3 id="链接">链接</h3>
+<p><a href="https://www.cnblogs.com/peida/tag/%E6%AF%8F%E6%97%A5%E4%B8%80linux%E5%91%BD%E4%BB%A4/">每日一linux命令</a></p>
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#日常操作">日常操作</a>
+              <ul>
+                <li><a href="#find">find</a></li>
+                <li><a href="#which">which</a></li>
+                <li><a href="#whereis">whereis</a></li>
+                <li><a href="#ps">ps</a></li>
+                <li><a href="#tail">tail</a></li>
+                <li><a href="#head">head</a></li>
+                <li><a href="#moreless">more|less</a></li>
+                <li><a href="#scp">scp</a></li>
+                <li><a href="#crontab">crontab</a></li>
+                <li><a href="#netstat">netstat</a></li>
+                <li><a href="#telnet">telnet</a></li>
+                <li><a href="#du">du</a></li>
+                <li><a href="#ln">ln</a></li>
+                <li><a href="#kill">kill</a></li>
+                <li><a href="#watch">watch</a></li>
+                <li><a href="#alias">alias</a></li>
+                <li><a href="#nohup和后台运行">nohup和&amp;(后台运行)</a></li>
+                <li><a href="#trap">trap</a></li>
+                <li><a href="#xargs">xargs</a></li>
+                <li><a href="#dig">dig</a></li>
+              </ul>
+            </li>
+            <li><a href="#处理数据相关">处理数据相关</a>
+              <ul>
+                <li><a href="#排序sort">排序(sort)</a></li>
+                <li><a href="#搜索数据grep">搜索数据(grep)</a></li>
+                <li><a href="#压缩数据gzip">压缩数据(gzip)</a></li>
+                <li><a href="#归档数据tar">归档数据(tar)</a></li>
+              </ul>
+            </li>
+            <li><a href="#链接">链接</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

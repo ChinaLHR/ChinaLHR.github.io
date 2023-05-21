@@ -19,7 +19,7 @@
     
     <title>Web-接口幂等性保证机制</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, 接口幂等性'>
+    <meta name="keywords" content='blog, chinalhr, lhr, system design'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/interface-idempotent/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E6%80%A7">接口幂等性</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/system-design">system design</a></li>
         
         </ul>
     </div>
@@ -202,43 +206,50 @@ request methods are idempotent.</p>
 <p>如果对服务器的多个相同请求的预期效果与单个此类请求的效果相同，则请求方法被视为“幂等”。规范定义的请求方法中，PUT，DELETE和安全请求方法应该是具有幂等性的。</p>
 <h3 id="分布式系统中接口幂等性问题">分布式系统中接口幂等性问题</h3>
 <ul>
-<li>一个订单流程可能会遇到的问题</li>
+<li>
+<p>一个订单流程可能会遇到的问题</p>
+<ul>
+<li>订单创建接口，第一次调用响应超时了，然后调用方进行了重试。</li>
+<li>用户对订单进行了支付，服务端发生了扣钱操作，但是接口响应超时了，然后调用方进行了重试。</li>
+<li>用户对订单进行了充值，第三方服务回调服务器，但因为第三方服务不稳定，并发调用了多次。</li>
+<li>订单状态更新接口，调用方连续发送了两个消息，一个是已创建，一个是已付款。但是你先接收到已付款，然后又接收到了已创建。</li>
+<li>订单完成之后，需要发送一条短信，当一台机器接收到短信发送的消息之后，处理较慢。消息中间件又把消息投递给另外一台机器处理。</li>
 </ul>
-<pre><code>订单创建接口，第一次调用响应超时了，然后调用方进行了重试。
-用户对订单进行了支付，服务端发生了扣钱操作，但是接口响应超时了，然后调用方进行了重试。
-用户对订单进行了充值，第三方服务回调服务器，但因为第三方服务不稳定，并发调用了多次。
-订单状态更新接口，调用方连续发送了两个消息，一个是已创建，一个是已付款。但是你先接收到已付款，然后又接收到了已创建。
-订单完成之后，需要发送一条短信，当一台机器接收到短信发送的消息之后，处理较慢。消息中间件又把消息投递给另外一台机器处理。
-</code></pre><ul>
-<li>解决之道</li>
+</li>
+<li>
+<p>解决之道</p>
+<ul>
+<li>保证接口幂等性，接口可重复调用，在调用方多次调用的情况下，接口最终得到的结果是一致的。</li>
+<li>需要保证幂等性的接口：增加、更新、删除类型。</li>
+<li>天然幂等的接口：查询一次和多次，对于系统来说，没有任何影响，查出的结果也是一样。</li>
 </ul>
-<p>保证接口幂等性，接口可重复调用，在调用方多次调用的情况下，接口最终得到的结果是一致的。</p>
-<p>需要保证幂等性的接口：增加、更新、删除类型。</p>
-<p>天然幂等的接口：查询一次和多次，对于系统来说，没有任何影响，查出的结果也是一样。</p>
+</li>
+</ul>
 <h3 id="分布式系统中接口幂等性保证">分布式系统中接口幂等性保证</h3>
 <ul>
 <li>全局唯一ID</li>
 </ul>
-<pre><code>根据业务的操作和内容生成一个全局ID，在执行操作前先根据这个全局唯一ID是否存在，来判断这个操作是否已经执行。如果不存在则把全局ID，存储到存储系统中，比如数据库、redis等。如果存在则表示该方法已经执行，保证幂等性。
-</code></pre><ul>
+<p>根据业务的操作和内容生成一个全局ID，在执行操作前先根据这个全局唯一ID是否存在，来判断这个操作是否已经执行。如果不存在则把全局ID，存储到存储系统中，比如数据库、redis等。如果存在则表示该方法已经执行，保证幂等性。</p>
+<ul>
 <li>使用去重表约束操作</li>
 </ul>
-<pre><code>适用于在业务中有唯一标识的场景。在支付的流程中，因为一个订单只会支付一次，订单ID为唯一标识。新建一张去重表，用于记录已支付订单，并把订单ID作为唯一索引，把支付成功与写入去重表放在一个事务中，利用数据库的UNIQUE KEY 进行约束保证幂等性。
-</code></pre><ul>
+<p>适用于在业务中有唯一标识的场景。在支付的流程中，因为一个订单只会支付一次，订单ID为唯一标识。新建一张去重表，用于记录已支付订单，并把订单ID作为唯一索引，把支付成功与写入去重表放在一个事务中，利用数据库的UNIQUE KEY 进行约束保证幂等性。</p>
+<ul>
 <li>多版本控制</li>
 </ul>
-<pre><code>适合于需要多次更新的场景，如商品信息，可以在更新的接口中增加一个版本号，每次请求携带新的版本号，避免重复提交带来的问题，保证幂等性。
-
-update commodity set name=#{newName},version=#{version} where id=#{id} and version&lt;${version}
-</code></pre><ul>
+<p>适合于需要多次更新的场景，如商品信息，可以在更新的接口中增加一个版本号，每次请求携带新的版本号，避免重复提交带来的问题，保证幂等性。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">update</span> commodity <span style="color:#66d9ef">set</span> name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;newName&#39;</span>,<span style="color:#66d9ef">version</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;version&#39;</span> <span style="color:#66d9ef">where</span> id<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;id&#39;</span> <span style="color:#66d9ef">and</span> <span style="color:#66d9ef">version</span><span style="color:#f92672">&lt;</span><span style="color:#e6db74">&#39;version&#39;</span>
+</code></pre></div><ul>
 <li>状态机控制</li>
 </ul>
-<pre><code>适合在有状态机流转的情况下,如订单的状态迁移，通过表字段paystatus表示订单的状态，如UNPAID(待支付) SUCCESS(成功) FAIL(失败)，利用订单的状态迁移与单条UPDATE语句的原子性保证幂等性,通过SQL执行的成功与失败来进行下一步操作。
-
-update recharge_order set  paystatus = SUCCESS where orderId= 'orderid' and paystatus = UNPAID
-
-
-</code></pre><p><img src="https://user-images.githubusercontent.com/19829495/60823431-1643df00-a1da-11e9-83ac-162c78f87f0e.png" alt="image"></p>
+<p>适合在有状态机流转的情况下,如订单的状态迁移，通过表字段paystatus表示订单的状态，如UNPAID(待支付) SUCCESS(成功) FAIL(失败)，利用订单的状态迁移与单条UPDATE语句的原子性保证幂等性,通过SQL执行的成功与失败来进行下一步操作。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">update</span> recharge_order <span style="color:#66d9ef">set</span>  paystatus <span style="color:#f92672">=</span> SUCCESS <span style="color:#66d9ef">where</span> orderId<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;orderid&#39;</span> <span style="color:#66d9ef">and</span> paystatus <span style="color:#f92672">=</span> UNPAID
+</code></pre></div><p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/60823431-1643df00-a1da-11e9-83ac-162c78f87f0e.png">
+    <img src="https://user-images.githubusercontent.com/19829495/60823431-1643df00-a1da-11e9-83ac-162c78f87f0e.png" alt="image"  />
+    </a>
+</div></p>
         </p>
     </div>
 </div>

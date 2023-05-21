@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -316,31 +320,31 @@
 <ul>
 <li>命令行配置</li>
 </ul>
-<pre><code># –D 参数
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># –D 参数</span>
 是Java自带，功能是通过命令行设置一个Java系统属性，Maven简单地重用了该参数。
 
-# maven-surefire-plugin
+<span style="color:#75715e"># maven-surefire-plugin</span>
 maven-surefire-plugin 提供一个 maven.test.skip 参数，当其值为 true的时候，就会跳过执行测试。
-</code></pre><ul>
+</code></pre></div><ul>
 <li>pom 中插件全局配置</li>
 </ul>
 <p>如指定jdk编译版本</p>
-<pre><code>&lt;build&gt;
-	&lt;plugins&gt;
-		&lt;plugin&gt;
-			&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
-			&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
-			&lt;version&gt;3.1&lt;/version&gt;
-			&lt;configuration&gt;
-				&lt;source&gt;1.8&lt;/source&gt;
-				&lt;target&gt;1.8&lt;/target&gt;
-			&lt;/configuration&gt;
-		&lt;/plugin&gt;
-	&lt;/plugins&gt;
-&lt;/build&gt;
-</code></pre><h3 id="其他插件">其他插件</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;build&gt;</span>
+	<span style="color:#f92672">&lt;plugins&gt;</span>
+		<span style="color:#f92672">&lt;plugin&gt;</span>
+			<span style="color:#f92672">&lt;groupId&gt;</span>org.apache.maven.plugins<span style="color:#f92672">&lt;/groupId&gt;</span>
+			<span style="color:#f92672">&lt;artifactId&gt;</span>maven-compiler-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
+			<span style="color:#f92672">&lt;version&gt;</span>3.1<span style="color:#f92672">&lt;/version&gt;</span>
+			<span style="color:#f92672">&lt;configuration&gt;</span>
+				<span style="color:#f92672">&lt;source&gt;</span>1.8<span style="color:#f92672">&lt;/source&gt;</span>
+				<span style="color:#f92672">&lt;target&gt;</span>1.8<span style="color:#f92672">&lt;/target&gt;</span>
+			<span style="color:#f92672">&lt;/configuration&gt;</span>
+		<span style="color:#f92672">&lt;/plugin&gt;</span>
+	<span style="color:#f92672">&lt;/plugins&gt;</span>
+<span style="color:#f92672">&lt;/build&gt;</span>
+</code></pre></div><h3 id="其他插件">其他插件</h3>
 <h4 id="maven-release-plugin">maven-release-plugin</h4>
-<pre><code># 版本管理
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"># 版本管理
 # 功能:
 
 SNAPSHOT快照版本，RELEASE正式版本
@@ -353,80 +357,80 @@ SNAPSHOT快照版本，RELEASE正式版本
 4. 更新trunk从1.0到1.1-SNAPSHOT
 
 
-&lt;plugin&gt;
-      &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
-      &lt;artifactId&gt;maven-release-plugin&lt;/artifactId&gt;
-      &lt;version&gt;2.5.3&lt;/version&gt;
-      &lt;configuration&gt;
-        &lt;autoVersionSubmodules&gt;true&lt;/autoVersionSubmodules&gt;
-        &lt;tagNameFormat&gt;v@{project.version}&lt;/tagNameFormat&gt;
-        &lt;generateReleasePoms&gt;false&lt;/generateReleasePoms&gt;
-        &lt;arguments&gt;-DskipTests&lt;/arguments&gt;
+<span style="color:#f92672">&lt;plugin&gt;</span>
+      <span style="color:#f92672">&lt;groupId&gt;</span>org.apache.maven.plugins<span style="color:#f92672">&lt;/groupId&gt;</span>
+      <span style="color:#f92672">&lt;artifactId&gt;</span>maven-release-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
+      <span style="color:#f92672">&lt;version&gt;</span>2.5.3<span style="color:#f92672">&lt;/version&gt;</span>
+      <span style="color:#f92672">&lt;configuration&gt;</span>
+        <span style="color:#f92672">&lt;autoVersionSubmodules&gt;</span>true<span style="color:#f92672">&lt;/autoVersionSubmodules&gt;</span>
+        <span style="color:#f92672">&lt;tagNameFormat&gt;</span>v@{project.version}<span style="color:#f92672">&lt;/tagNameFormat&gt;</span>
+        <span style="color:#f92672">&lt;generateReleasePoms&gt;</span>false<span style="color:#f92672">&lt;/generateReleasePoms&gt;</span>
+        <span style="color:#f92672">&lt;arguments&gt;</span>-DskipTests<span style="color:#f92672">&lt;/arguments&gt;</span>
         ...
-      &lt;/configuration&gt;
-&lt;/plugin&gt;
+      <span style="color:#f92672">&lt;/configuration&gt;</span>
+<span style="color:#f92672">&lt;/plugin&gt;</span>
 
-&lt;scm&gt;
-  &lt;developerConnection&gt;scm:git:xxx&lt;/developerConnection&gt;
-&lt;/scm&gt;
+<span style="color:#f92672">&lt;scm&gt;</span>
+  <span style="color:#f92672">&lt;developerConnection&gt;</span>scm:git:xxx<span style="color:#f92672">&lt;/developerConnection&gt;</span>
+<span style="color:#f92672">&lt;/scm&gt;</span>
 
 命令:
 mvn release:prepare release版本打tag,snapshot版本自动迭代 
 mvn release:perform release版本打包，分发到远程Maven仓库中
 
 maven版本规则
-&lt;主版本&gt;.&lt;次版本&gt;.&lt;增量版本&gt;
-</code></pre><h4 id="maven-checkstyle-plugin">maven-checkstyle-plugin</h4>
-<pre><code># 代码风格检查
+<span style="color:#f92672">&lt;主版本&gt;</span>.<span style="color:#f92672">&lt;次版本&gt;</span>.<span style="color:#f92672">&lt;增量版本&gt;</span>
+</code></pre></div><h4 id="maven-checkstyle-plugin">maven-checkstyle-plugin</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"># 代码风格检查
 
 添加checkstyle配置文件
-&lt;checkstyle.config.location&gt;checkstyle.xml&lt;/checkstyle.config.location&gt;
+<span style="color:#f92672">&lt;checkstyle.config.location&gt;</span>checkstyle.xml<span style="color:#f92672">&lt;/checkstyle.config.location&gt;</span>
 
 
-       &lt;plugin&gt;  
-          &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;  
-          &lt;artifactId&gt;maven-checkstyle-plugin&lt;/artifactId&gt;  
-          &lt;version&gt;2.9.1&lt;/version&gt;  
-       &lt;/plugin&gt;  
+       <span style="color:#f92672">&lt;plugin&gt;</span>  
+          <span style="color:#f92672">&lt;groupId&gt;</span>org.apache.maven.plugins<span style="color:#f92672">&lt;/groupId&gt;</span>  
+          <span style="color:#f92672">&lt;artifactId&gt;</span>maven-checkstyle-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>  
+          <span style="color:#f92672">&lt;version&gt;</span>2.9.1<span style="color:#f92672">&lt;/version&gt;</span>  
+       <span style="color:#f92672">&lt;/plugin&gt;</span>  
   
-       &lt;plugin&gt;  
-          &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;  
-          &lt;artifactId&gt;maven-jxr-plugin&lt;/artifactId&gt;  
-          &lt;version&gt;2.3&lt;/version&gt;  
-       &lt;/plugin&gt; 
+       <span style="color:#f92672">&lt;plugin&gt;</span>  
+          <span style="color:#f92672">&lt;groupId&gt;</span>org.apache.maven.plugins<span style="color:#f92672">&lt;/groupId&gt;</span>  
+          <span style="color:#f92672">&lt;artifactId&gt;</span>maven-jxr-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>  
+          <span style="color:#f92672">&lt;version&gt;</span>2.3<span style="color:#f92672">&lt;/version&gt;</span>  
+       <span style="color:#f92672">&lt;/plugin&gt;</span> 
        
 mvn命令检测代码
 mvn checkstyle:checkstyle 检查工程是否满足checkstyle
 mvn jxr:jxr 命令可以查看有错的对应代码
-</code></pre><h4 id="maven-shade-plugin">maven-shade-plugin</h4>
+</code></pre></div><h4 id="maven-shade-plugin">maven-shade-plugin</h4>
 <pre><code># 绑定package生命周期目标,用户项目打可执行包，包含依赖，以及对依赖进行取舍过滤
 </code></pre><h4 id="maven-resources-plugin">maven-resources-plugin</h4>
-<pre><code># Maven中的资源文件默认存在于src/main/resources,resources用于提供自定义资源打包功能
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"># Maven中的资源文件默认存在于src/main/resources,resources用于提供自定义资源打包功能
 
- &lt;plugin&gt;
-                    &lt;artifactId&gt;maven-resources-plugin&lt;/artifactId&gt;
-                    &lt;version&gt;${maven-resources-plugin.version}&lt;/version&gt;
-                    &lt;executions&gt;
-                        &lt;execution&gt;
-                            &lt;id&gt;copy-resources&lt;/id&gt;
-                            &lt;phase&gt;package&lt;/phase&gt;
-                            &lt;goals&gt;
-                                &lt;goal&gt;copy-resources&lt;/goal&gt;
-                            &lt;/goals&gt;
-                            &lt;configuration&gt;
+ <span style="color:#f92672">&lt;plugin&gt;</span>
+                    <span style="color:#f92672">&lt;artifactId&gt;</span>maven-resources-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
+                    <span style="color:#f92672">&lt;version&gt;</span>${maven-resources-plugin.version}<span style="color:#f92672">&lt;/version&gt;</span>
+                    <span style="color:#f92672">&lt;executions&gt;</span>
+                        <span style="color:#f92672">&lt;execution&gt;</span>
+                            <span style="color:#f92672">&lt;id&gt;</span>copy-resources<span style="color:#f92672">&lt;/id&gt;</span>
+                            <span style="color:#f92672">&lt;phase&gt;</span>package<span style="color:#f92672">&lt;/phase&gt;</span>
+                            <span style="color:#f92672">&lt;goals&gt;</span>
+                                <span style="color:#f92672">&lt;goal&gt;</span>copy-resources<span style="color:#f92672">&lt;/goal&gt;</span>
+                            <span style="color:#f92672">&lt;/goals&gt;</span>
+                            <span style="color:#f92672">&lt;configuration&gt;</span>
                                 //自定义输出目录，将resource/conf下的配置打包到输出目录/conf
-                                &lt;outputDirectory&gt;${build.path}/conf&lt;/outputDirectory&gt;
-                                &lt;resources&gt;
-                                    &lt;resource&gt;
-                                        &lt;directory&gt;../conf/&lt;/directory&gt;
-                                        &lt;filtering&gt;true&lt;/filtering&gt;
-                                    &lt;/resource&gt;
-                                &lt;/resources&gt;
-                            &lt;/configuration&gt;
-                        &lt;/execution&gt;
-                    &lt;/executions&gt;
-                &lt;/plugin&gt;
-</code></pre><h4 id="maven-source-plugin">maven-source-plugin</h4>
+                                <span style="color:#f92672">&lt;outputDirectory&gt;</span>${build.path}/conf<span style="color:#f92672">&lt;/outputDirectory&gt;</span>
+                                <span style="color:#f92672">&lt;resources&gt;</span>
+                                    <span style="color:#f92672">&lt;resource&gt;</span>
+                                        <span style="color:#f92672">&lt;directory&gt;</span>../conf/<span style="color:#f92672">&lt;/directory&gt;</span>
+                                        <span style="color:#f92672">&lt;filtering&gt;</span>true<span style="color:#f92672">&lt;/filtering&gt;</span>
+                                    <span style="color:#f92672">&lt;/resource&gt;</span>
+                                <span style="color:#f92672">&lt;/resources&gt;</span>
+                            <span style="color:#f92672">&lt;/configuration&gt;</span>
+                        <span style="color:#f92672">&lt;/execution&gt;</span>
+                    <span style="color:#f92672">&lt;/executions&gt;</span>
+                <span style="color:#f92672">&lt;/plugin&gt;</span>
+</code></pre></div><h4 id="maven-source-plugin">maven-source-plugin</h4>
 <pre><code># 自动将源码打包并发布的功能,
 mvn install:将source install到repository
 mvn deploy:将source deploy到remote-repository

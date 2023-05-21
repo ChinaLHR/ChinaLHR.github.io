@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>distributed systems on LHR</title>
+    <link>https://chinalhr.github.io/tags/distributed-systems/</link>
+    <description>Recent content in distributed systems on LHR</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 11 Mar 2021 23:41:59 +0800</lastBuildDate>
+    
+	<atom:link href="https://chinalhr.github.io/tags/distributed-systems/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>分布式系统的一致性与共识算法-Paxos</title>
+      <link>https://chinalhr.github.io/post/distributed-systems-consensus-algorithm-paxos/</link>
+      <pubDate>Thu, 11 Mar 2021 23:41:59 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/distributed-systems-consensus-algorithm-paxos/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;本文讨论共识算法：Paxos&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>分布式系统的一致性与共识算法-基础理论</title>
+      <link>https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/</link>
+      <pubDate>Mon, 25 Jan 2021 00:20:07 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/distributed-systems-consistency-consensus-algorithm/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;记录分布式系统的一些基础理论&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

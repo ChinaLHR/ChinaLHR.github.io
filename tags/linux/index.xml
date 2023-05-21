@@ -1,48 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Linux on LHR</title>
+    <title>linux on LHR</title>
     <link>https://chinalhr.github.io/tags/linux/</link>
-    <description>Recent content in Linux on LHR</description>
+    <description>Recent content in linux on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 31 Jan 2020 13:55:12 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 24 Jul 2019 22:22:03 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Linux-logrotate详解</title>
-      <link>https://chinalhr.github.io/post/linux-logrotate/</link>
-      <pubDate>Fri, 31 Jan 2020 13:55:12 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/linux-logrotate/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;logrotate学习记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Linux用户-权限</title>
-      <link>https://chinalhr.github.io/post/linux-security-permission/</link>
-      <pubDate>Wed, 23 Oct 2019 22:09:54 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/linux-security-permission/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;读《Linux命令行与shell脚本编程大全》记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Linux Zero-copy(零拷贝)机制</title>
-      <link>https://chinalhr.github.io/post/linux-zerocopy/</link>
-      <pubDate>Fri, 23 Aug 2019 12:26:11 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/linux-zerocopy/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Linux Zero-copy机制与Java NIO对Zero-copy应用&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
     
     <item>
       <title>Linux IO多路复用实现：select、poll与epoll</title>
@@ -52,17 +19,6 @@
       <guid>https://chinalhr.github.io/post/linux-io-multiplexing/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Unix IO模型, Linux IO多路复用 select poll epoll机制整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Linux命令记录</title>
-      <link>https://chinalhr.github.io/post/linux-operating-record/</link>
-      <pubDate>Fri, 19 Apr 2019 22:59:11 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/linux-operating-record/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;日常Linux命令记录&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

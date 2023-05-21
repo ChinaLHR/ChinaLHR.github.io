@@ -19,7 +19,7 @@
     
     <title>计算机的心智-线程</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, 操作系统'>
+    <meta name="keywords" content='blog, chinalhr, lhr, operating system'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/os-heart-thread/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/operating-system">operating system</a></li>
         
         </ul>
     </div>
@@ -212,7 +216,12 @@
 <p><strong>内核级线程实现方式(1:1线程模型)</strong>：</p>
 <p>内核线程建立和销毁都是由操作系统负责、通过系统调用完成的。线程管理的所有工作由内核完成，应用程序没有进行线程管理的代码，只有一个到内核级线程的编程接口.内核为进程及其内部的每个线程维护上下文信息(线程表)，调度也是在内核基于线程架构的基础上完成。</p>
 <p>一对一线程映射:内核线程驻留在内核空间，它们是内核对象。有了内核线程，每个用户线程被映射或绑定到一个内核线程。用户线程在其生命期内都会绑定到该内核线程。一旦用户线程终止，两个线程都将离开系统。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/49329730-7a585200-f5be-11e8-98f6-49854ab8776f.png" alt=""></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/49329730-7a585200-f5be-11e8-98f6-49854ab8776f.png">
+    <img src="https://user-images.githubusercontent.com/19829495/49329730-7a585200-f5be-11e8-98f6-49854ab8776f.png" alt=""  />
+    </a>
+</div></p>
 <p>特点：当某个线程希望创建一个新线程或撤销一个已有线程时，它进行一个系统调用</p>
 <p>优势：</p>
 <ol>
@@ -231,7 +240,12 @@
 <p>用户级线程仅存在于用户空间中，此类线程的创建、撤销、线程之间的同步与通信功能，都无须利用系统调用来实现。用户进程利用线程库来控制用户线程。由于线程在进程内切换的规则远比进程调度和切换的规则简单，不需要用户态/核心态切换，所以切换速度快。多见于一些历史悠久的操作系统。</p>
 <p>用户级线程对于操作系统是不可见的，因此无法被调度到处理器内核。任意给定时刻每个进程只能够有一个线程在运行，而且只有一个处理器内核会被分配给该进程。</p>
 <p>库调度器从进程的多个线程中选择一个线程，然后该线程和该进程允许的一个内核线程关联起来。内核线程将被操作系统调度器指派到处理器内核。用户级线程是一种”多对一”的线程映射。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/49336547-0f9b2b00-f63f-11e8-9191-a8ecc403354b.png" alt=""></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/49336547-0f9b2b00-f63f-11e8-9191-a8ecc403354b.png">
+    <img src="https://user-images.githubusercontent.com/19829495/49336547-0f9b2b00-f63f-11e8-9191-a8ecc403354b.png" alt=""  />
+    </a>
+</div></p>
 <p>特点：内核对线程包一无所知。从内核角度考虑，就是按正常的方式管理，即单线程进程（存在运行时系统）</p>
 <p>优点：</p>
 <ol>
@@ -248,7 +262,12 @@
 </ol>
 <p><strong>混合型线程(n:m线程模型)</strong>：</p>
 <p>用户态的执行系统负责进程内部的线程在非阻塞时的切换；内核态的操作系统负责阻塞线程的切换，同时实现内核态和用户态线程管理。(用户态线程被多路复用到内核态线程上)</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/49337447-a2db5d00-f64d-11e8-9900-851e263e4fd3.png" alt=""></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/49337447-a2db5d00-f64d-11e8-9900-851e263e4fd3.png">
+    <img src="https://user-images.githubusercontent.com/19829495/49337447-a2db5d00-f64d-11e8-9900-851e263e4fd3.png" alt=""  />
+    </a>
+</div></p>
 <h3 id="java线程模型">Java线程模型</h3>
 <p><strong>Java线程的实现</strong></p>
 <p>Java中最常用的JVM是Oracle/Sun研发的HotSpot VM。在这个JVM的较新版本所支持的所有平台上，它都是使用内核级线程模型。</p>
@@ -287,7 +306,12 @@
 </ol>
 <p>5.阻塞（Blocked）：线程被阻塞了，“阻塞状态”与“等待状态”的区别是：“阻塞状态”在等待着获取到一个排他锁，这个事件将在另外一个线程放弃这个锁的时候发生；而“等待状态”则是在等待一段时间，或者唤醒动作的发生。在程序等待进入同步区域的时候，线程将进入这种状态。</p>
 <p>6.结束（Terminated）：已终止线程的线程状态，线程已经结束执行。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/49560041-e71b7580-f94b-11e8-8875-1499f63c0276.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/49560041-e71b7580-f94b-11e8-8875-1499f63c0276.png">
+    <img src="https://user-images.githubusercontent.com/19829495/49560041-e71b7580-f94b-11e8-8875-1499f63c0276.png" alt="image"  />
+    </a>
+</div></p>
 <hr>
 <h3 id="线程同步">线程同步</h3>
 <p><strong>线程同步的目的</strong>：不管多线程之间的执行如何穿插，运行结果都是正确的。(保证多线程执行下结果的确定性)</p>

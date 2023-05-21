@@ -17,18 +17,18 @@
     
 
     
-    <title>Redis 持久化 RDB-AOF</title>
+    <title>Redis 持久化机制 RDB与AOF</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, Redis'>
+    <meta name="keywords" content='blog, chinalhr, lhr, redis'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/redis-rdb-aof/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Redis 持久化 RDB-AOF">
+    <meta property="og:title" content="Redis 持久化机制 RDB与AOF">
     <meta property="og:description" content="keep curious 😼">
     <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Redis 持久化 RDB-AOF">
+    <meta name="twitter:title" content="Redis 持久化机制 RDB与AOF">
     <meta name="twitter:description" content="keep curious 😼">
     <meta property="twitter:domain" content="https://chinalhr.github.io/post/redis-rdb-aof/">
     <meta property="twitter:url" content="https://chinalhr.github.io/post/redis-rdb-aof/">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -170,7 +174,7 @@
 <main id="content">
     <div class="post container">
     <div class="post-header-section">
-        <h1>Redis 持久化 RDB-AOF</h1>
+        <h1>Redis 持久化机制 RDB与AOF</h1>
         <small role="doc-subtitle"></small>
         <p class="post-date">
             September 6, 2019
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/redis">Redis</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/redis">redis</a></li>
         
         </ul>
     </div>
@@ -197,12 +201,22 @@
 <li>save命令</li>
 </ul>
 <p>同步Redis数据到磁盘上，当客户端向服务器发送save命令请求进行持久化时，服务器会阻塞save命令之后的其他客户端的请求，直到数据同步完成。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/64329200-6f28cb80-d001-11e9-9fea-0d23c541a030.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/64329200-6f28cb80-d001-11e9-9fea-0d23c541a030.png">
+    <img src="https://user-images.githubusercontent.com/19829495/64329200-6f28cb80-d001-11e9-9fea-0d23c541a030.png" alt="image"  />
+    </a>
+</div></p>
 <ul>
 <li>bgsave命令</li>
 </ul>
 <p>异步保存数据集到磁盘上，当客户端发服务发出bgsave命令时，Redis服务器主进程会forks一个子进程来数据同步问题，在将数据保存到rdb文件之后，子进程会退出。子进程进行IO写入操作时，主进程仍然可以接收其他请求（但forks子进程是同步的，所以forks子进程时会阻塞其他客户端请求）。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/64330106-f3c81980-d002-11e9-8988-ee167ba341a7.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/64330106-f3c81980-d002-11e9-8988-ee167ba341a7.png">
+    <img src="https://user-images.githubusercontent.com/19829495/64330106-f3c81980-d002-11e9-8988-ee167ba341a7.png" alt="image"  />
+    </a>
+</div></p>
 <ul>
 <li>配置触发</li>
 </ul>
@@ -238,7 +252,12 @@ save 60 10000
 </ul>
 <h3 id="aof">AOF</h3>
 <p>AOF(Append-only file)，AOF持久化方式会记录客户端对服务器的每一次写操作命令，并将这些写操作以Redis协议追加保存到以后缀为aof文件末尾，在Redis服务器重启时，会加载并运行aof文件的命令，以达到恢复数据的目的。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/64349166-06554980-d029-11e9-9690-476a7d8f0523.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/64349166-06554980-d029-11e9-9690-476a7d8f0523.png">
+    <img src="https://user-images.githubusercontent.com/19829495/64349166-06554980-d029-11e9-9690-476a7d8f0523.png" alt="image"  />
+    </a>
+</div></p>
 <h4 id="配置">配置</h4>
 <pre><code># 开启aof机制
 appendonly yes

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Java on LHR</title>
+    <title>java on LHR</title>
     <link>https://chinalhr.github.io/tags/java/</link>
-    <description>Recent content in Java on LHR</description>
+    <description>Recent content in java on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Fri, 03 Apr 2020 19:45:19 +0800</lastBuildDate>
@@ -29,23 +29,12 @@
       
       <guid>https://chinalhr.github.io/post/spring-webflux-principle/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;Spring WebFlux源码分析与适用场景&lt;/p&gt;
+&lt;p&gt;Spring WebFlux 源码分析与适用场景&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
     <item>
-      <title>Linux Zero-copy(零拷贝)机制</title>
-      <link>https://chinalhr.github.io/post/linux-zerocopy/</link>
-      <pubDate>Fri, 23 Aug 2019 12:26:11 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/linux-zerocopy/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Linux Zero-copy机制与Java NIO对Zero-copy应用&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title> javassist实现Aspect动态Pointcut</title>
+      <title>Aspect动态Pointcut实现方案</title>
       <link>https://chinalhr.github.io/post/aspect-dynamic/</link>
       <pubDate>Thu, 18 Apr 2019 22:15:07 +0800</pubDate>
       
@@ -56,13 +45,24 @@
     </item>
     
     <item>
-      <title>Spring Aop分析</title>
-      <link>https://chinalhr.github.io/post/spring-aop/</link>
-      <pubDate>Mon, 24 Sep 2018 15:56:35 +0800</pubDate>
+      <title>Mybatis自定义分表Plug</title>
+      <link>https://chinalhr.github.io/post/mybatis-shard-plugin/</link>
+      <pubDate>Mon, 12 Nov 2018 22:51:04 +0800</pubDate>
       
-      <guid>https://chinalhr.github.io/post/spring-aop/</guid>
+      <guid>https://chinalhr.github.io/post/mybatis-shard-plugin/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;Spring Aop源码分析&lt;/p&gt;
+&lt;p&gt;工作中需要用到MyBatis进行分表操作，简单记录实现过程&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Apache HttpClient 高并发场景优化</title>
+      <link>https://chinalhr.github.io/post/optimize-httpclient/</link>
+      <pubDate>Wed, 17 Oct 2018 22:48:08 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/optimize-httpclient/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;对Apache HttpClient的优化，基于HttpClient4.4+的连接池(PoolingHttpClientConnectionManager)，结合RestTemplate 使其在高QPS，并发请求下提高效率。&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

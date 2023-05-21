@@ -19,7 +19,7 @@
     
     <title>Java技术域中的异步编程</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, Java, 异步编程'>
+    <meta name="keywords" content='blog, chinalhr, lhr, java'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/java-asyncprogram/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,9 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/java">Java</a></li>
-        
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B">异步编程</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/java">java</a></li>
         
         </ul>
     </div>
@@ -236,7 +238,12 @@
 </code></pre></div><h4 id="核心理念">核心理念</h4>
 <p>使用线程来进行异步执行，避免阻塞当前线程，利用线程池来实现线程的复用。</p>
 <h4 id="线程池构造">线程池构造</h4>
-<p><img src="https://user-images.githubusercontent.com/19829495/77933072-fc56a900-72e0-11ea-9d2f-737766995464.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/77933072-fc56a900-72e0-11ea-9d2f-737766995464.png">
+    <img src="https://user-images.githubusercontent.com/19829495/77933072-fc56a900-72e0-11ea-9d2f-737766995464.png" alt="图片"  />
+    </a>
+</div></p>
 <ul>
 <li>ctl：是Integer的原子变量，同时记录线程池状态和线程池中线程个数</li>
 </ul>
@@ -262,7 +269,12 @@ TERMINATED：终止状态。terminated方法调用完成以后的状态
 <li>keeyAliveTime：存活时间。如果当前线程池中的线程数量比核心线程数量要多，并且是闲置状态的话，这些闲置的线程能存活的最大时间。</li>
 </ul>
 <h4 id="线程池投递任务原理简述">线程池投递任务原理简述</h4>
-<p><img src="https://user-images.githubusercontent.com/19829495/77933986-075e0900-72e2-11ea-9a19-fa34e0ac544e.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/77933986-075e0900-72e2-11ea-9a19-fa34e0ac544e.png">
+    <img src="https://user-images.githubusercontent.com/19829495/77933986-075e0900-72e2-11ea-9a19-fa34e0ac544e.png" alt="图片"  />
+    </a>
+</div></p>
 <ul>
 <li>execute</li>
 </ul>
@@ -310,12 +322,22 @@ TERMINATED：终止状态。terminated方法调用完成以后的状态
 </span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
 </code></pre></div><p>worker的runWorker方法会获取线程进行任务执行，并且会执行调用前后的钩子方法。</p>
 <h4 id="线程池关闭">线程池关闭</h4>
-<p><img src="https://user-images.githubusercontent.com/19829495/77934977-696b3e00-72e3-11ea-8eb7-62f4dfc0a0c1.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/77934977-696b3e00-72e3-11ea-8eb7-62f4dfc0a0c1.png">
+    <img src="https://user-images.githubusercontent.com/19829495/77934977-696b3e00-72e3-11ea-8eb7-62f4dfc0a0c1.png" alt="图片"  />
+    </a>
+</div></p>
 <h4 id="总结">总结</h4>
 <p>虽然线程池方式提供了线程复用可以获取任务返回值，但是获取返回值时还是需要阻塞调用线程的。</p>
 <h3 id="jdk的future">JDK的Future</h3>
-<p>JUC包中Future可以用于异步计算，Future中提供了一系列方法用来检查计算结果是否已经完成，同步等待任务执行完成，获取计算结果。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/77935728-6ae93600-72e4-11ea-95f2-5745d38d29cc.png" alt="图片"></p>
+<p>JUC包中Future可以用于异步计算，Future中提供了一系列方法用来检查计算结果是否已经完成、同步等待任务执行完成、获取计算结果。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/77935728-6ae93600-72e4-11ea-95f2-5745d38d29cc.png">
+    <img src="https://user-images.githubusercontent.com/19829495/77935728-6ae93600-72e4-11ea-95f2-5745d38d29cc.png" alt="图片"  />
+    </a>
+</div></p>
 <h4 id="futuretask">FutureTask</h4>
 <p>FutureTask实现了Future接口，接受的任务可以是Callable类型，也可以是Runnable类型，一般被提交到线程池中进行异步执行，最后调用get系列方法阻塞获取。具体使用方式如下代码所示：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"> 		<span style="color:#75715e">//异步执行task1
@@ -327,7 +349,12 @@ TERMINATED：终止状态。terminated方法调用完成以后的状态
         <span style="color:#75715e">//同步等待task1
 </span><span style="color:#75715e"></span>        String result1 <span style="color:#f92672">=</span> task<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">();</span>
 </code></pre></div><h4 id="futuretask构造">FutureTask构造</h4>
-<p><img src="https://user-images.githubusercontent.com/19829495/78034971-0d63f080-739b-11ea-86b0-49026627bea0.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78034971-0d63f080-739b-11ea-86b0-49026627bea0.png">
+    <img src="https://user-images.githubusercontent.com/19829495/78034971-0d63f080-739b-11ea-86b0-49026627bea0.png" alt="图片"  />
+    </a>
+</div></p>
 <ul>
 <li>state：用来记录任务的状态</li>
 </ul>
@@ -347,17 +374,88 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断
 </code></pre><ul>
 <li>outcome：任务运行的结果</li>
 <li>runner：记录运行该任务的线程</li>
-<li>waiters：链表，记录等待任务结果的线程</li>
+<li>waiters：链表结构，记录等待任务结果的线程</li>
 </ul>
 <h4 id="futuretask执行与获取">FutureTask执行与获取</h4>
 <ul>
-<li>run</li>
+<li>run（Runnable接口实现）</li>
 </ul>
-<p>当创建一个FutureTask时，其任务状态初始化为NEW，提交到线程或者线程池后，会有一个线程来执行该FutureTask任务，通过调用FutureTask的run()执行。run()方法判断并且设置state状态，调用call执行任务，当任务执行完毕后会把结果或者异常信息设置到outcome变量，最后遍历激活waiters链表中所有由于等待获取结果而被阻塞的线程（LockSupport.unpark()），并从waiters链表中移除它们。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>state <span style="color:#f92672">!=</span> NEW <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>UNSAFE<span style="color:#f92672">.</span><span style="color:#a6e22e">compareAndSwapObject</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">,</span> runnerOffset<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">()))</span>
+        <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+        Callable<span style="color:#f92672">&lt;</span>V<span style="color:#f92672">&gt;</span> c <span style="color:#f92672">=</span> callable<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>c <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> state <span style="color:#f92672">==</span> NEW<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            V result<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">boolean</span> ran<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                result <span style="color:#f92672">=</span> c<span style="color:#f92672">.</span><span style="color:#a6e22e">call</span><span style="color:#f92672">();</span>
+                ran <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Throwable ex<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                result <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+                ran <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+                setException<span style="color:#f92672">(</span>ex<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>ran<span style="color:#f92672">)</span>
+                set<span style="color:#f92672">(</span>result<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span> <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// runner must be non-null until state is settled to
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// prevent concurrent calls to run()
+</span><span style="color:#75715e"></span>        runner <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#75715e">// state must be re-read after nulling runner to prevent
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// leaked interrupts
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> s <span style="color:#f92672">=</span> state<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>s <span style="color:#f92672">&gt;=</span> INTERRUPTING<span style="color:#f92672">)</span>
+            handlePossibleCancellationInterrupt<span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>当创建一个FutureTask时，其任务状态初始化为NEW，提交到线程或者线程池后，会有一个线程来执行该FutureTask任务，通过调用FutureTask的run()执行。run()方法判断并且设置state状态，调用call() 执行任务，当任务执行完毕后会把结果或者异常信息设置到outcome变量，最后调用LockSupport.unpark()唤醒waiters链表中所有由于等待获取结果而被阻塞的线程，并从waiters链表中移除它们。</p>
 <ul>
 <li>get</li>
 </ul>
-<p>在其他线程调用FutureTask的get()方法来等待获取结果，get()方法会判断任务状态是否小于等于COMPLETING，是则阻塞线程循环等待任务完成，加入waiters链表，调用LockSupport.park()挂起线程，如果任务状态为COMPLETING（正在执行），调用Thread.yield()进行线程让步。当线程被激活时，会去获取outcome变量拿到结果。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> V <span style="color:#a6e22e">get</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> InterruptedException<span style="color:#f92672">,</span> ExecutionException <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">int</span> s <span style="color:#f92672">=</span> state<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>s <span style="color:#f92672">&lt;=</span> COMPLETING<span style="color:#f92672">)</span>
+        s <span style="color:#f92672">=</span> awaitDone<span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> 0L<span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">return</span> report<span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">awaitDone</span><span style="color:#f92672">(</span><span style="color:#66d9ef">boolean</span> timed<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> nanos<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> InterruptedException <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">long</span> deadline <span style="color:#f92672">=</span> timed <span style="color:#f92672">?</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">nanoTime</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> nanos <span style="color:#f92672">:</span> 0L<span style="color:#f92672">;</span>
+    WaitNode q <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">boolean</span> queued <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#f92672">(;;)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">interrupted</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+            removeWaiter<span style="color:#f92672">(</span>q<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> InterruptedException<span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">int</span> s <span style="color:#f92672">=</span> state<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>s <span style="color:#f92672">&gt;</span> COMPLETING<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>q <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+                q<span style="color:#f92672">.</span><span style="color:#a6e22e">thread</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">return</span> s<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>s <span style="color:#f92672">==</span> COMPLETING<span style="color:#f92672">)</span> <span style="color:#75715e">// cannot time out yet
+</span><span style="color:#75715e"></span>            Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">yield</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>q <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+            q <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> WaitNode<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>queued<span style="color:#f92672">)</span>
+            queued <span style="color:#f92672">=</span> UNSAFE<span style="color:#f92672">.</span><span style="color:#a6e22e">compareAndSwapObject</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">,</span> waitersOffset<span style="color:#f92672">,</span>
+                                                 q<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span> <span style="color:#f92672">=</span> waiters<span style="color:#f92672">,</span> q<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>timed<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            nanos <span style="color:#f92672">=</span> deadline <span style="color:#f92672">-</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">nanoTime</span><span style="color:#f92672">();</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>nanos <span style="color:#f92672">&lt;=</span> 0L<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                removeWaiter<span style="color:#f92672">(</span>q<span style="color:#f92672">);</span>
+                <span style="color:#66d9ef">return</span> state<span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+            LockSupport<span style="color:#f92672">.</span><span style="color:#a6e22e">parkNanos</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">,</span> nanos<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">else</span>
+            LockSupport<span style="color:#f92672">.</span><span style="color:#a6e22e">park</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>在其他线程调用FutureTask的get()方法来等待获取结果，get()方法会判断任务状态是否小于等于COMPLETING，是则阻塞线程循环等待任务完成，加入waiters链表，调用LockSupport.park()挂起线程，如果任务状态为COMPLETING（正在执行），调用Thread.yield()进行线程让步。当线程被激活时，会去获取outcome变量拿到结果。</p>
 <h4 id="总结-1">总结</h4>
 <p>FutureTask虽然提供了用来检查任务是否执行完成、等待任务执行结果、获取任务执行结果的方法，但是它并不能清楚地表达多个FutureTask之间的关系。而且从Future获取结果需要调用get()方法，该方法会在任务执行完毕前阻塞调用线程。</p>
 <h3 id="jdk的completablefuture">JDK的CompletableFuture</h3>
@@ -385,9 +483,10 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断
 </code></pre></div><p><strong>thenAcceptAsync</strong>：执行完成任务后，激活其他任务（其他任务可以拿到之前任务的返回值）</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">CompletableFuture<span style="color:#f92672">&lt;</span>Void<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">thenAcceptAsync</span><span style="color:#f92672">(</span>Consumer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> T<span style="color:#f92672">&gt;</span> action<span style="color:#f92672">,</span>Executor executor<span style="color:#f92672">)</span>
 <span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;</span> CompletableFuture<span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">thenApplyAsync</span><span style="color:#f92672">(</span>Function<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> T<span style="color:#f92672">,?</span> <span style="color:#66d9ef">extends</span> U<span style="color:#f92672">&gt;</span> fn<span style="color:#f92672">,</span> Executor executor<span style="color:#f92672">)</span>
- <span style="color:#75715e">//example
-</span><span style="color:#75715e"></span>        CompletableFuture<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> future <span style="color:#f92672">=</span> CompletableFuture<span style="color:#f92672">.</span><span style="color:#a6e22e">supplyAsync</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> doSomeThing<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;task from thenRun1&#34;</span><span style="color:#f92672">),</span>POOL_EXECUTOR<span style="color:#f92672">);</span>
-        CompletableFuture<span style="color:#f92672">&lt;</span>Void<span style="color:#f92672">&gt;</span> thenRunFuture <span style="color:#f92672">=</span> future<span style="color:#f92672">.</span><span style="color:#a6e22e">thenRunAsync</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> doSomeThing<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;task from thenRun2&#34;</span><span style="color:#f92672">),</span>POOL_EXECUTOR<span style="color:#f92672">);</span>
+
+<span style="color:#75715e">//example
+</span><span style="color:#75715e"></span>CompletableFuture<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> future <span style="color:#f92672">=</span> CompletableFuture<span style="color:#f92672">.</span><span style="color:#a6e22e">supplyAsync</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> doSomeThing<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;task from thenRun1&#34;</span><span style="color:#f92672">),</span>POOL_EXECUTOR<span style="color:#f92672">);</span>
+CompletableFuture<span style="color:#f92672">&lt;</span>Void<span style="color:#f92672">&gt;</span> thenRunFuture <span style="color:#f92672">=</span> future<span style="color:#f92672">.</span><span style="color:#a6e22e">thenRunAsync</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> doSomeThing<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;task from thenRun2&#34;</span><span style="color:#f92672">),</span>POOL_EXECUTOR<span style="color:#f92672">);</span>
 
 </code></pre></div><p><strong>whenCompleteAsync</strong>：设置回调函数，通过回调的方式，不会阻塞调用线程</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">CompletableFuture<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> future <span style="color:#f92672">=</span> CompletableFuture<span style="color:#f92672">.</span><span style="color:#a6e22e">supplyAsync</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> doSomeThing<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;task from supplyAsync&#34;</span><span style="color:#f92672">),</span> POOL_EXECUTOR<span style="color:#f92672">);</span>
@@ -404,6 +503,7 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">&lt;</span>U<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> CompletableFuture<span style="color:#f92672">&lt;</span>V<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">thenCombineAsync</span><span style="color:#f92672">(</span>
         CompletionStage<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> U<span style="color:#f92672">&gt;</span> other<span style="color:#f92672">,</span>
         BiFunction<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> T<span style="color:#f92672">,?</span> <span style="color:#66d9ef">super</span> U<span style="color:#f92672">,?</span> <span style="color:#66d9ef">extends</span> V<span style="color:#f92672">&gt;</span> fn<span style="color:#f92672">)</span> 
+
 <span style="color:#75715e">//example
 </span><span style="color:#75715e"></span> CompletableFuture<span style="color:#f92672">.</span><span style="color:#a6e22e">supplyAsync</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> doSomeThing<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;task from supplyAsync1&#34;</span><span style="color:#f92672">),</span> POOL_EXECUTOR<span style="color:#f92672">)</span>
                 <span style="color:#f92672">.</span><span style="color:#a6e22e">thenCombineAsync</span><span style="color:#f92672">(</span>CompletableFuture
@@ -417,6 +517,7 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断
 
 </code></pre></div><p><strong>allOf</strong>：等待多个并发运行的CompletableFuture任务执行完毕</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"> <span style="color:#66d9ef">static</span> CompletableFuture<span style="color:#f92672">&lt;</span>Void<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">allOf</span><span style="color:#f92672">(</span>CompletableFuture<span style="color:#f92672">&lt;?&gt;...</span> cfs<span style="color:#f92672">)</span> 
+
  <span style="color:#75715e">//example
 </span><span style="color:#75715e"></span>ArrayList<span style="color:#f92672">&lt;</span>CompletableFuture<span style="color:#f92672">&gt;</span> futures <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;();</span>
         futures<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>CompletableFuture<span style="color:#f92672">.</span><span style="color:#a6e22e">supplyAsync</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> doSomeThing<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;task from supplyAsync1&#34;</span><span style="color:#f92672">),</span> POOL_EXECUTOR<span style="color:#f92672">));</span>
@@ -447,10 +548,16 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断
 <p>响应式编程（Reactive Programming）是一种涉及数据流和变化传播的异步编程范式，可以通过所采用的编程语言轻松地表达静态（例如阵列）或动态（例如事件发射器）数据流。RxJava与Reactor都是对响应式编程理念实现，基于Reactive Streams标准，遵循了同一个规范，可以很轻易地从一方切换到另一方 。</p>
 <p><strong>对比Java的异步编程模型</strong></p>
 <p>Java提供了两种异步编程模型</p>
-<p>CallBacks：异步方法没有返回值，绑定回调函数在结果可用时调用。</p>
-<p>Futures：异步方法立即返回Future，异步线程计算任务，并当结果计算出来后设置到Future。</p>
+<ul>
+<li>
+<p><strong>CallBacks</strong>：异步方法没有返回值，采用 callback 作为参数（lambda 或匿名类），当结果出来后回调 callback。如CompletableFuture.whenCompleteAsync、EventListener。</p>
+</li>
+<li>
+<p><strong>Futures</strong>：异步方法立即返回Future<!-- raw HTML omitted -->，异步线程计算任务，并当结果T计算出来后设置到Future中。如ExecutorService执行Callable<!-- raw HTML omitted --> 任务后返回Future对象。</p>
+</li>
+</ul>
 <p><strong>CallBacks与Futures局限性</strong>：</p>
-<p>多个Callback组合在一起后，容易形成回调地狱（Callback Hell）；多个Future难以编排，尽管是改进后的CompletableFuture，也存在不支持延迟计算和高级错误处理的缺陷。</p>
+<p>多个Callback组合在一起后，容易形成回调地狱（Callback Hell）；多个Future难以编排，尽管使用改进后的CompletableFuture，也存在不支持延迟计算和高级错误处理的缺陷。</p>
 <p>响应式编程库基于声明式编程，比较Callbacks更通俗易懂，同时自带很多操作符，提供高级特性，简化处理。</p>
 <p>参考对比：<a href="https://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html#_%E5%BC%82%E6%AD%A5%E5%8F%AF%E4%BB%A5%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98%E5%90%97">Reactor 3 参考文档</a></p>
 <p><strong>响应式编程库通过如下几点弥补Java异步编程模型的不足</strong></p>
@@ -507,7 +614,7 @@ NEW→INTERRUPTING→INTERRUPTED：任务被中断
                                 <span style="color:#75715e">//执行rpc调用转换成Response
 </span><span style="color:#75715e"></span>                                <span style="color:#f92672">.</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">::</span>getRpcResponse<span style="color:#f92672">))</span>
                 <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>response <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
-                    log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;get rpc response :{}&#34;</span><span style="color:#f92672">,</span> response<span style="color:#f92672">);</span>
+                    log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;get Rpc Response :{}&#34;</span><span style="color:#f92672">,</span> response<span style="color:#f92672">);</span>
                 <span style="color:#f92672">});</span>
                 
 Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromArray</span><span style="color:#f92672">(</span>generateRequests<span style="color:#f92672">())</span>
@@ -569,35 +676,33 @@ Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromArray</s
 </ol>
 <h4 id="async注解执行原理">@Async注解执行原理</h4>
 <p>@EnableAsync开启后会把ProxyAsyncConfiguration的实例注入Spring容器。默认情况下，Spring框架是使用Cglib对标注@Async注解的方法进行代理的，具体拦截器是AnnotationAsyncExecutionInterceptor作为切面逻辑，当我们调用含有@Async注解的Bean的方法时候，实际调用的是被代理后的Bean，AnnotationAsyncExecutionInterceptor的invoke方法如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">        <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span><span style="color:#66d9ef">final</span> MethodInvocation invocation<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Throwable <span style="color:#f92672">{</span>
-            <span style="color:#75715e">//1．被代理的目标对象
-</span><span style="color:#75715e"></span>            Class<span style="color:#f92672">&lt;?</span> <span style="color:#f92672">&gt;</span> targetClass <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>invocation<span style="color:#f92672">.</span><span style="color:#a6e22e">getThis</span><span style="color:#f92672">()</span> <span style="color:#f92672">!</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">?</span> AopUtils<span style="color:#f92672">.</span>
-        <span style="color:#a6e22e">getTargetClass</span><span style="color:#f92672">(</span>invocation<span style="color:#f92672">.</span><span style="color:#a6e22e">getThis</span><span style="color:#f92672">())</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span><span style="color:#66d9ef">final</span> MethodInvocation invocation<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Throwable <span style="color:#f92672">{</span>
+        <span style="color:#75715e">//1．被代理的目标对象
+</span><span style="color:#75715e"></span>        Class<span style="color:#f92672">&lt;?&gt;</span> targetClass <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>invocation<span style="color:#f92672">.</span><span style="color:#a6e22e">getThis</span><span style="color:#f92672">()</span> <span style="color:#f92672">!</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">?</span> AopUtils<span style="color:#f92672">.</span>
+                <span style="color:#a6e22e">getTargetClass</span><span style="color:#f92672">(</span>invocation<span style="color:#f92672">.</span><span style="color:#a6e22e">getThis</span><span style="color:#f92672">())</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
         <span style="color:#75715e">//2. 获取被代理的方法
 </span><span style="color:#75715e"></span>        Method specificMethod <span style="color:#f92672">=</span> ClassUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">getMostSpecificMethod</span><span style="color:#f92672">(</span>invocation<span style="color:#f92672">.</span>
-    <span style="color:#a6e22e">getMethod</span><span style="color:#f92672">(),</span> targetClass<span style="color:#f92672">);</span>
+                <span style="color:#a6e22e">getMethod</span><span style="color:#f92672">(),</span> targetClass<span style="color:#f92672">);</span>
         <span style="color:#66d9ef">final</span> Method userDeclaredMethod <span style="color:#f92672">=</span> BridgeMethodResolver<span style="color:#f92672">.</span><span style="color:#a6e22e">findBridgedMethod</span><span style="color:#f92672">(</span>
-    specificMethod<span style="color:#f92672">);</span>
+                specificMethod<span style="color:#f92672">);</span>
         <span style="color:#75715e">//3. 判断使用哪个执行器执行被代理的方法
 </span><span style="color:#75715e"></span>        AsyncTaskExecutor executor <span style="color:#f92672">=</span> determineAsyncExecutor<span style="color:#f92672">(</span>userDeclaredMethod<span style="color:#f92672">);</span>
         <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>executor <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
             <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalStateException<span style="color:#f92672">(</span>
                     <span style="color:#e6db74">&#34;No executor specified and no default executor set on
-</span><span style="color:#e6db74">    AsyncExecutionInterceptor either&#34;</span><span style="color:#f92672">);</span>
+</span><span style="color:#e6db74">                    AsyncExecutionInterceptor either&#34;</span><span style="color:#f92672">);</span>
         <span style="color:#f92672">}</span>
         <span style="color:#75715e">//4. 使用Callable包装要执行的方法
 </span><span style="color:#75715e"></span>        Callable<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> task <span style="color:#f92672">=</span> <span style="color:#f92672">()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
             <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
                 Object result <span style="color:#f92672">=</span> invocation<span style="color:#f92672">.</span><span style="color:#a6e22e">proceed</span><span style="color:#f92672">();</span>
                 <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>result <span style="color:#66d9ef">instanceof</span> Future<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-                    <span style="color:#66d9ef">return</span> <span style="color:#f92672">((</span>Future<span style="color:#f92672">&lt;?</span> <span style="color:#f92672">&gt;)</span> result<span style="color:#f92672">).</span><span style="color:#a6e22e">get</span><span style="color:#f92672">();</span>
+                    <span style="color:#66d9ef">return</span> <span style="color:#f92672">((</span>Future<span style="color:#f92672">&lt;?&gt;)</span> result<span style="color:#f92672">).</span><span style="color:#a6e22e">get</span><span style="color:#f92672">();</span>
                 <span style="color:#f92672">}</span>
-            <span style="color:#f92672">}</span>
-            <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>ExecutionException ex<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-                      handleError<span style="color:#f92672">(</span>ex<span style="color:#f92672">.</span><span style="color:#a6e22e">getCause</span><span style="color:#f92672">(),</span>  userDeclaredMethod<span style="color:#f92672">,</span>  invocation<span style="color:#f92672">.</span>
-    <span style="color:#a6e22e">getArguments</span><span style="color:#f92672">());</span>
-            <span style="color:#f92672">}</span>
-            <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Throwable ex<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>ExecutionException ex<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                handleError<span style="color:#f92672">(</span>ex<span style="color:#f92672">.</span><span style="color:#a6e22e">getCause</span><span style="color:#f92672">(),</span> userDeclaredMethod<span style="color:#f92672">,</span> invocation<span style="color:#f92672">.</span>
+                        <span style="color:#a6e22e">getArguments</span><span style="color:#f92672">());</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Throwable ex<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
                 handleError<span style="color:#f92672">(</span>ex<span style="color:#f92672">,</span> userDeclaredMethod<span style="color:#f92672">,</span> invocation<span style="color:#f92672">.</span><span style="color:#a6e22e">getArguments</span><span style="color:#f92672">());</span>
             <span style="color:#f92672">}</span>
             <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
@@ -605,44 +710,51 @@ Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromArray</s
         <span style="color:#75715e">//5. 提交包装的Callable任务到指定执行器执行
 </span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> doSubmit<span style="color:#f92672">(</span>task<span style="color:#f92672">,</span> executor<span style="color:#f92672">,</span> invocation<span style="color:#f92672">.</span><span style="color:#a6e22e">getMethod</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getReturnType</span><span style="color:#f92672">());</span>
     <span style="color:#f92672">}</span>
-
 </code></pre></div><p>doSubmit会判断方法的返回值类型进行包装，然后提交到线程池中运行。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">        <span style="color:#66d9ef">protected</span>  Object  <span style="color:#a6e22e">doSubmit</span><span style="color:#f92672">(</span>Callable<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span>  task<span style="color:#f92672">,</span>  AsyncTaskExecutor  executor<span style="color:#f92672">,</span>
-        Class<span style="color:#f92672">&lt;?</span> <span style="color:#f92672">&gt;</span> returnType<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            <span style="color:#75715e">//5.1判断方法返回值是否为CompletableFuture类型或者是其子类
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>CompletableFuture<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">isAssignableFrom</span><span style="color:#f92672">(</span>returnType<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
-                <span style="color:#66d9ef">return</span> CompletableFuture<span style="color:#f92672">.</span><span style="color:#a6e22e">supplyAsync</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
-                    <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-                        <span style="color:#66d9ef">return</span> task<span style="color:#f92672">.</span><span style="color:#a6e22e">call</span><span style="color:#f92672">();</span>
-                    <span style="color:#f92672">}</span>
-                    <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Throwable ex<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-                        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> CompletionException<span style="color:#f92672">(</span>ex<span style="color:#f92672">);</span>
-                    <span style="color:#f92672">}</span>
-                <span style="color:#f92672">},</span> executor<span style="color:#f92672">);</span>
-            <span style="color:#f92672">}</span>
-            <span style="color:#75715e">//5.2判断返回值类型是否为ListenableFuture类型或者是其子类
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>ListenableFuture<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">isAssignableFrom</span><span style="color:#f92672">(</span>returnType<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
-                <span style="color:#66d9ef">return</span> <span style="color:#f92672">((</span>AsyncListenableTaskExecutor<span style="color:#f92672">)</span> executor<span style="color:#f92672">).</span>
-        submitListenable<span style="color:#f92672">(</span>task<span style="color:#f92672">);</span>
-            <span style="color:#f92672">}</span>
-            <span style="color:#75715e">//5.3判断返回值类型是否为ListenableFuture类型或者是其子类
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>Future<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">isAssignableFrom</span><span style="color:#f92672">(</span>returnType<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
-                <span style="color:#66d9ef">return</span> executor<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span>task<span style="color:#f92672">);</span>
-            <span style="color:#f92672">}</span>
-            <span style="color:#75715e">//5.4其他情况下没有返回值
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
-                executor<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span>task<span style="color:#f92672">);</span>
-                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
-            <span style="color:#f92672">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#66d9ef">protected</span> Object <span style="color:#a6e22e">doSubmit</span><span style="color:#f92672">(</span>Callable<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> task<span style="color:#f92672">,</span> AsyncTaskExecutor executor<span style="color:#f92672">,</span>
+                              Class<span style="color:#f92672">&lt;?&gt;</span> returnType<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">//5.1判断方法返回值是否为CompletableFuture类型或者是其子类
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>CompletableFuture<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">isAssignableFrom</span><span style="color:#f92672">(</span>returnType<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> CompletableFuture<span style="color:#f92672">.</span><span style="color:#a6e22e">supplyAsync</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                    <span style="color:#66d9ef">return</span> task<span style="color:#f92672">.</span><span style="color:#a6e22e">call</span><span style="color:#f92672">();</span>
+                <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Throwable ex<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> CompletionException<span style="color:#f92672">(</span>ex<span style="color:#f92672">);</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">},</span> executor<span style="color:#f92672">);</span>
         <span style="color:#f92672">}</span>
-
-</code></pre></div><h3 id="servlet异步编程">Servlet异步编程</h3>
+        <span style="color:#75715e">//5.2判断返回值类型是否为ListenableFuture类型或者是其子类
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>ListenableFuture<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">isAssignableFrom</span><span style="color:#f92672">(</span>returnType<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#f92672">((</span>AsyncListenableTaskExecutor<span style="color:#f92672">)</span> executor<span style="color:#f92672">).</span>
+                    submitListenable<span style="color:#f92672">(</span>task<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">//5.3判断返回值类型是否为ListenableFuture类型或者是其子类
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>Future<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">isAssignableFrom</span><span style="color:#f92672">(</span>returnType<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> executor<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span>task<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">//5.4其他情况下没有返回值
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+            executor<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span>task<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><h3 id="java-servlet异步编程">Java Servlet异步编程</h3>
 <p>Servlet3.0规范前，Servlet容器的线程模型如下：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/78469509-7a3d0900-7754-11ea-9e39-92d28ccfa1f4.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78469509-7a3d0900-7754-11ea-9e39-92d28ccfa1f4.png">
+    <img src="https://user-images.githubusercontent.com/19829495/78469509-7a3d0900-7754-11ea-9e39-92d28ccfa1f4.png" alt="图片"  />
+    </a>
+</div></p>
 <p>每个请求对应一个线程这种1 : 1的模式进行处理的同步线程模型，线程数是有限的，当线程池资源耗尽后就不能接收处理新的请求了，限制了服务器的并发请求数。</p>
 <h4 id="servlet30-提供的异步处理">Servlet3.0 提供的异步处理</h4>
 <p>Servlet 3.0规范中引入了异步处理请求的能力，相对3.0之前的同步线程模型，Servlet内开启异步处理后会立刻释放Servlet容器线程，具体对请求进行处理与响应的是业务线程池中的线程。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/78469647-d3596c80-7755-11ea-967e-f820e665c938.png" alt="图片"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78469647-d3596c80-7755-11ea-967e-f820e665c938.png">
+    <img src="https://user-images.githubusercontent.com/19829495/78469647-d3596c80-7755-11ea-967e-f820e665c938.png" alt="图片"  />
+    </a>
+</div></p>
 <p>官方例子：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@WebServlet</span><span style="color:#f92672">(</span>urlPatterns<span style="color:#f92672">={</span><span style="color:#e6db74">&#34;/asyncservlet&#34;</span><span style="color:#f92672">},</span> asyncSupported<span style="color:#f92672">=</span><span style="color:#66d9ef">true</span><span style="color:#f92672">)</span>
 <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AsyncServlet</span> <span style="color:#66d9ef">extends</span> HttpServlet <span style="color:#f92672">{</span>
@@ -666,41 +778,50 @@ Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromArray</s
 <span style="color:#f92672">}</span>
 </code></pre></div><h4 id="servlet31-提供的非阻塞io处理">Servlet3.1 提供的非阻塞IO处理</h4>
 <p>Servlet 3.0规范让Servlet的执行变为了异步，但是其IO还是阻塞式的（从ServletInputStream中读取请求体时是阻塞的）。</p>
-<p>在Servlet3.1规范中提供了非阻塞IO处理方式，（当内核支持）Servlet3.1允许我们在ServletInputStream上通过函数setReadListener注册一个监听器，该监听器在发现内核有数据时才会进行回调处理函数。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/78470533-e9b6f680-775c-11ea-90fb-237d03f65eda.png" alt="图片"></p>
+<p>为此在Servlet3.1规范中提供了非阻塞IO处理方式，（当内核支持）Servlet3.1允许我们在ServletInputStream上通过函数setReadListener注册一个监听器，该监听器在发现内核有数据时才会进行回调处理函数。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78470533-e9b6f680-775c-11ea-90fb-237d03f65eda.png">
+    <img src="https://user-images.githubusercontent.com/19829495/78470533-e9b6f680-775c-11ea-90fb-237d03f65eda.png" alt="图片"  />
+    </a>
+</div></p>
 <p>示例：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">				<span style="color:#66d9ef">final</span> AsyncContext asyncContext <span style="color:#f92672">=</span> req<span style="color:#f92672">.</span><span style="color:#a6e22e">startAsync</span><span style="color:#f92672">();</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#66d9ef">final</span> AsyncContext asyncContext <span style="color:#f92672">=</span> req<span style="color:#f92672">.</span><span style="color:#a6e22e">startAsync</span><span style="color:#f92672">();</span>
 
-                <span style="color:#75715e">//设置数据就绪监听器
-</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">final</span> ServletInputStream inputStream <span style="color:#f92672">=</span> req<span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
-                inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">setReadListener</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> ReadListener<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">//设置数据就绪监听器
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">final</span> ServletInputStream inputStream <span style="color:#f92672">=</span> req<span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
+    inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">setReadListener</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> ReadListener<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
 
-                    <span style="color:#a6e22e">@Override</span>
-                    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onError</span><span style="color:#f92672">(</span>Throwable throwable<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-                      <span style="color:#75715e">//异常处理
-</span><span style="color:#75715e"></span>                    <span style="color:#f92672">}</span>
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onError</span> <span style="color:#f92672">(</span>Throwable throwable<span style="color:#f92672">){</span>
+            <span style="color:#75715e">//异常处理
+</span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
 
-                    <span style="color:#a6e22e">@Override</span>
-                    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onDataAvailable</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-                      <span style="color:#75715e">//数据就绪时回调，获取数据流
-</span><span style="color:#75715e"></span>                            <span style="color:#66d9ef">final</span> ServletInputStream inputStream <span style="color:#f92672">=</span> asyncContext<span style="color:#f92672">.</span>
-    <span style="color:#a6e22e">getRequest</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
-                <span style="color:#f92672">}</span>
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onDataAvailable</span> <span style="color:#f92672">()</span><span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+            <span style="color:#75715e">//数据就绪时回调，获取数据流
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">final</span> ServletInputStream inputStream <span style="color:#f92672">=</span> asyncContext<span style="color:#f92672">.</span>
+                    <span style="color:#a6e22e">getRequest</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
 
-                <span style="color:#a6e22e">@Override</span>
-                <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onAllDataRead</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-                <span style="color:#75715e">//请求体的数据全部被读取完毕后，进行业务处理
-</span><span style="color:#75715e"></span>                  <span style="color:#f92672">}</span>
-              <span style="color:#f92672">}</span>
-
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onAllDataRead</span> <span style="color:#f92672">()</span><span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+            <span style="color:#75715e">//请求体的数据全部被读取完毕后，进行业务处理
+</span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
 </code></pre></div><h3 id="netty">Netty</h3>
-<p>Netty是一个异步、基于事件驱动的网络应用程序框架，其对Java NIO进行了封装，简化了TCP或者UDP服务器的网络编程开发。</p>
+<p>Netty是一个异步、基于事件驱动的网络应用程序框架，其对Java NIO进行了封装，简化了TCP/UDP服务器的网络编程开发。</p>
 <p>Netty框架将网络编程逻辑与业务逻辑处理分离开来，其内部会自动处理好网络与异步处理逻辑，使用者只需要关注逻辑处理。Netty的异步非阻塞能力与CompletableFuture结合可以让我们轻松实现网络请求的异步调用。</p>
 <p>很多现代化，高性能的Web框架，RPC框架底层都是用来Netty来实现，例如WebFlux，Vert.x，Dubbo，RocketMq&hellip;。</p>
 <h4 id="线程模型">线程模型</h4>
-<p><img src="https://user-images.githubusercontent.com/19829495/78472669-589c4b80-776d-11ea-8e26-d2fcadc94b57.png" alt="图片"></p>
-<p>以Netty Server端为例子，NettyServer启动时会创建两个NioEventLoop Group线程池组，其中boss组用来接收客户端发来的连接，worker组则负责对完成TCP三次握手的连接进行处理；图中每个NioEventLoopGroup里面包含了多个Nio EventLoop，每个NioEventLoop中包含了一个NIO Selector、一个队列、一个线程；其中线程用来做轮询注册到Selector上的Channel的读写事件和对投递到队列里面的事件进行处理。</p>
-<p>当客户端发来一个连接请求时，boss线程池组中注册了监听套接字的NioEventLoop中的Selector会读取TCP三次握手的请求，然后创建对应的连接套接字通道NioSocketChannel，接着把其注册到worker线程池组的某一个NioEventLoop中管理的一个NIO Selector上，该连接套接字通道NioSocketChannel上的所有读写事件都由该NioEventLoop管理。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78472669-589c4b80-776d-11ea-8e26-d2fcadc94b57.png">
+    <img src="https://user-images.githubusercontent.com/19829495/78472669-589c4b80-776d-11ea-8e26-d2fcadc94b57.png" alt="图片"  />
+    </a>
+</div></p>
+<p>以Netty Server端为例子，NettyServer启动时会创建两个NioEventLoop Group线程池组，其中Boss Group用来接收客户端发来的连接，Worker Group 则负责对完成TCP三次握手的连接进行处理。图中每个NioEventLoopGroup里面包含了多个Nio EventLoop，每个NioEventLoop中包含了一个NIO Selector、一个队列、一个线程；其中线程用来做轮询注册到Selector上的Channel的读写事件和对投递到队列里面的事件进行处理。</p>
+<p>当客户端发来一个连接请求时，Boss线程池组中注册了监听套接字的NioEventLoop中的Selector会读取TCP三次握手的请求，然后创建对应的连接套接字通道NioSocketChannel，接着把其注册到Worker线程池组的某一个NioEventLoop中管理的一个NIO Selector上，该连接套接字通道NioSocketChannel上的所有读写事件都由该NioEventLoop管理。</p>
 <ul>
 <li>非阻塞write</li>
 </ul>
@@ -781,7 +902,7 @@ Flux<span style="color:#f92672">.</span><span style="color:#a6e22e">fromArray</s
                 <li><a href="#async注解执行原理">@Async注解执行原理</a></li>
               </ul>
             </li>
-            <li><a href="#servlet异步编程">Servlet异步编程</a>
+            <li><a href="#java-servlet异步编程">Java Servlet异步编程</a>
               <ul>
                 <li><a href="#servlet30-提供的异步处理">Servlet3.0 提供的异步处理</a></li>
                 <li><a href="#servlet31-提供的非阻塞io处理">Servlet3.1 提供的非阻塞IO处理</a></li>

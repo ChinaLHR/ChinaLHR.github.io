@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>基于frp的NAT穿透实践</title>
+    <meta name="description" content="keep curious 😼">
+    <meta name="keywords" content='blog, chinalhr, lhr, nat traversal'>
+
+    <meta property="og:url" content="https://chinalhr.github.io/post/frp-nat-traversal/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="基于frp的NAT穿透实践">
+    <meta property="og:description" content="keep curious 😼">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="基于frp的NAT穿透实践">
+    <meta name="twitter:description" content="keep curious 😼">
+    <meta property="twitter:domain" content="https://chinalhr.github.io/post/frp-nat-traversal/">
+    <meta property="twitter:url" content="https://chinalhr.github.io/post/frp-nat-traversal/">
+    <meta name="twitter:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
+
+    
+    <link rel="canonical" href="https://chinalhr.github.io/post/frp-nat-traversal/" />
+
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://chinalhr.github.io//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://chinalhr.github.io//css/dark.css">
+
+    <script src="https://chinalhr.github.io//js/svg-injector.min.js"></script>
+    <script src="https://chinalhr.github.io//js/feather-icons.min.js"></script>
+    <script src="https://chinalhr.github.io//js/main.js"></script>
+
+    
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLJBQBW5WM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JLJBQBW5WM');
+</script>
+  
+    
+    
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://chinalhr.github.io/">
+                <img src="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://chinalhr.github.io/">LHR</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/post/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/projects/"><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/about/"><span data-feather='user'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/chinalhr"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://chinalhr.github.io/index.xml"><span data-feather='rss'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>基于frp的NAT穿透实践</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            November 10, 2020
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/nat-traversal">nat traversal</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <blockquote>
+<p>FRP进行NAT穿透实践</p>
+</blockquote>
+<h2 id="什么是nat穿透">什么是NAT穿透</h2>
+<p>NAT穿透涉及TCP/IP网络中的一个常见问题，即在处于使用了NAT设备的私有TCP/IP网络中的主机之间创建连接的问题。大多数NAT穿透技术都要求有一台拥有公网IP的公共服务器，通过这个公共服务器进行数据中继，这也会引入带宽开销的问题。</p>
+<p>简单的说NAT穿透就是实现不同局域网内的主机之间通过互联网进行通信的技术。</p>
+<h3 id="nat网络地址转换">NAT网络地址转换</h3>
+<p>NAT（Network Address Translation，又称网络地址转换）是一种在IP数据包通过路由器或防火墙时重写来源IP地址或目的IP地址的技术。这种技术被普遍使用在有多台主机但只通过一个公有IP地址访问互联网的私有网络中。NAT通常部署在一个组织的网络出口位置，通过将内部网络IP地址替换为出口的IP地址提供公网可达性和上层协议的连接能力。</p>
+<p>早期，NAT作为一种解决IPv4地址短缺的方案而流行被广泛使用，后续NAT就成了家庭和小型办公室网络连接上的路由器的一个标准特征。</p>
+<p>一般来说一个本地网络使用一个专有网络的指定子网（比如192.168.x.x或10.x.x.x）和连在这个网络上的一个路由器。这个路由器占有这个网络地址空间的一个专有地址（比如192.168.0.1），同时它还通过一个或多个因特网服务提供商提供的公有的IP地址（过载NAT）连接到因特网上。当信息由本地网络向因特网传递时，源地址从专有地址转换为公用地址。由路由器跟踪每个连接上的基本数据，主要是目的地址和端口。当有回复返回路由器时，它通过输出阶段记录的连接跟踪数据来决定该转发给内部网的哪个主机；</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/154808972-7370ceae-a5c2-4ac6-90cb-537ffb4ed8e4.jpg">
+    <img src="https://user-images.githubusercontent.com/19829495/154808972-7370ceae-a5c2-4ac6-90cb-537ffb4ed8e4.jpg" alt="104127213-c8de9a00-539b-11eb-82b0-c0759af77705"  />
+    </a>
+</div></p>
+<p><strong>基本NAT和端口号转换</strong></p>
+<ul>
+<li><strong>基本网络地址转换（Basic NAT）：</strong></li>
+</ul>
+<p>也称静态NAT，仅支持地址转换，不支持端口映射。维护一个公网的地址池，将内部网络的私有IP地址转换为公有IP地址，IP地址对是一一对应的。由于改变了IP源地址，在重新封装数据包时候必须重新计算校验和，网络层以上的只要涉及到IP地址的头部校验和都要重新计算。</p>
+<p>Basic NAT要维护一个无端口号NAT表。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/104128170-f2e68b00-53a0-11eb-9f0d-a3ebfa77d5e7.png">
+    <img src="https://user-images.githubusercontent.com/19829495/104128170-f2e68b00-53a0-11eb-9f0d-a3ebfa77d5e7.png" alt="图片"  />
+    </a>
+</div></p>
+<ul>
+<li><strong>网络地址端口转换（NAPT）：</strong></li>
+</ul>
+<p>支持端口的映射，采用端口多路复用的方式，并允许多台主机共享一个公网IP地址。分两种类型：源地址转换与目的地址转换。</p>
+<ul>
+<li>源地址转换发起连接的计算机的IP地址将会被重写，使得内网主机发出的数据包能够到达外网主机。</li>
+<li>目的地址转换被连接计算机的IP地址将被重写，使得外网主机发出的数据包能够到达内网主机。</li>
+</ul>
+<p>一般会一起使用以支持双向通信。NAPT维护一个带有IP以及端口号的NAT表。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/104128178-fe39b680-53a0-11eb-9bce-d72e03a96303.png">
+    <img src="https://user-images.githubusercontent.com/19829495/104128178-fe39b680-53a0-11eb-9bce-d72e03a96303.png" alt="图片"  />
+    </a>
+</div></p>
+<h3 id="ddns">DDNS</h3>
+<p>DDNS（Dynamic DNS，动态DNS，动态域名服务）是将用户的动态IP地址映射到一个固定的域名解析服务上，用户每次连接网络的时候客户端程序就会通过信息传递把该主机的动态IP地址传送给位于服务商主机上的服务器程序，服务器程序负责提供DNS服务并实现动态域名解析。</p>
+<p>DDNS捕获用户每次变化的IP地址，然后将其与域名相对应，这样其他上网用户就可以通过域名来进行交流。</p>
+<h3 id="nat穿透的障碍">NAT穿透的障碍</h3>
+<ol>
+<li>位于局域网内的主机有两个IP 地址，一个是内部网络私有 IP，一个是经过NAT转换后的外网 IP 地址，用于与外网程序进行通信。</li>
+<li>局域网内除非主机主动向外部发送连接请求，当路由设备接收到外部数据包时，如果查询不到对应的记录，这些数据包将会被丢弃。</li>
+</ol>
+<h3 id="nat穿透的常见方案">NAT穿透的常见方案</h3>
+<ul>
+<li>DDNS解析：<a href="https://hsk.oray.com/">花生壳</a>、<a href="https://github.com/NewFuture/DDNS">DDNS</a></li>
+<li>反向代理：<a href="https://github.com/fatedier/frp">frp</a>、<a href="https://ngrok.com/">ngrok</a></li>
+</ul>
+<h2 id="基于frp的nat穿透原理">基于frp的NAT穿透原理</h2>
+<p>frp分为服务端frps与客户端frpc，frps运行在拥有公网IP的服务器上，frpc运行在局域网内的设备上，服务端默认会先开放 7000 端口，然后与客户端相连，进行网络桥接。</p>
+<p>同时frpc可以开启某个端口与服务端的某个端口做映射，如22（ssh）、5901（vnc）、3389（rdp）；这样我们访问frps部署的服务端的端口时，会自动转发到安装了frpc客户端去。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/104184939-37306480-544f-11eb-85ce-7ea49ec3a78e.png">
+    <img src="https://user-images.githubusercontent.com/19829495/104184939-37306480-544f-11eb-85ce-7ea49ec3a78e.png" alt="图片"  />
+    </a>
+</div></p>
+<h2 id="frp实践">FRP实践</h2>
+<h3 id="服务器部署frps">服务器部署frps</h3>
+<ol>
+<li>下载frp程序</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/fatedier/frp/releases/download/v0.34.3/frp_0.34.3_linux_amd64.tar.gz
+tar -zxvf frp_0.34.3_linux_amd64.tar.gz
+</code></pre></div><ol start="2">
+<li>程序相关文件</li>
+</ol>
+<pre><code>frpc          # frp client
+frpc_full.ini # 完整frp client 配置文件
+frpc.ini      # frp client 配置文件
+frps          # frp server
+frps_full.ini # 完整frp server 配置文件
+frps.ini      # frp server 配置文件
+</code></pre><ol start="3">
+<li>配置frps.ini</li>
+</ol>
+<p>基本配置如下所示，具体详细配置参考官方文档</p>
+<pre><code>bind_port = 80077 					# frps监听端口
+kcp_bind_port = 80077				# frps kcp监听端口
+dashboard_port = 80075				# dashboard 监听端口
+token = ** 							# 鉴权使用的 token 值，和frpc配置一致
+dashboard_user = admin				# dashboard用户名
+dashboard_pwd = ***					# dashboard密码
+</code></pre><ol start="4">
+<li>启动frps</li>
+</ol>
+<p>这里使用简单的shell脚本进行frps 启动、关闭操作。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#! /bin/bash
+</span><span style="color:#75715e"></span>
+FRP_DIR<span style="color:#f92672">=</span>/home/frp
+
+d_echo<span style="color:#f92672">(){</span>
+  echo <span style="color:#f92672">[</span>auto-robot<span style="color:#f92672">]</span> <span style="color:#e6db74">`</span>date +%F<span style="color:#ae81ff">\ </span>%T<span style="color:#e6db74">`</span> $1
+<span style="color:#f92672">}</span>
+
+frp_start<span style="color:#f92672">(){</span>
+    d_echo <span style="color:#e6db74">&#34;start up frp server&#34;</span>
+    nohup <span style="color:#e6db74">${</span>FRP_DIR<span style="color:#e6db74">}</span>/frps -c <span style="color:#e6db74">${</span>FRP_DIR<span style="color:#e6db74">}</span>/frps.ini &amp;
+    d_echo <span style="color:#e6db74">&#34;start up frp server done&#34;</span>
+<span style="color:#f92672">}</span>
+
+frp_close<span style="color:#f92672">(){</span>
+    d_echo <span style="color:#e6db74">&#34;close frp server&#34;</span>
+    FRP_PID<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>ps -ef|grep <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>FRP_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">/frps&#34;</span>|grep -v grep|awk <span style="color:#e6db74">&#39;{print $2}&#39;</span><span style="color:#e6db74">`</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> <span style="color:#e6db74">${</span>FRP_PID<span style="color:#e6db74">}</span> <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+        d_echo <span style="color:#e6db74">&#34;try kill </span><span style="color:#e6db74">${</span>FRP_PID<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+        kill -9 <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>FRP_PID<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+        d_echo <span style="color:#e6db74">&#34;close frp server successful&#34;</span>
+    <span style="color:#66d9ef">else</span>
+        d_echo <span style="color:#e6db74">&#34;close frp server failure&#34;</span>
+    <span style="color:#66d9ef">fi</span>
+<span style="color:#f92672">}</span>
+
+frp_restart<span style="color:#f92672">(){</span>
+frp_close
+sleep <span style="color:#ae81ff">5</span>
+frp_start
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">case</span> $1 in
+   start<span style="color:#f92672">)</span> frp_start
+   ;;
+   close<span style="color:#f92672">)</span> frp_close
+   ;;
+   restart<span style="color:#f92672">)</span> frp_restart
+   ;;
+<span style="color:#66d9ef">esac</span>
+</code></pre></div><h3 id="内网设备安装frpc">内网设备安装frpc</h3>
+<ol>
+<li>下载frpc程序</li>
+<li>配置frpc.ini</li>
+</ol>
+<pre><code>[common]
+server_addr = 服务器公网地址
+server_port = 80077
+token = **
+
+# 配置rdp端口映射，本地3389映射到服务器的3389
+[rdp]
+type = tcp
+local_ip = 127.0.0.1
+local_port = 3389
+remote_port = 3389
+</code></pre><ol start="3">
+<li>启动frpc程序</li>
+</ol>
+<pre><code>frpc -c frpc.ini
+</code></pre><h2 id="参考">参考</h2>
+<p><a href="https://gofrp.org/docs/">https://gofrp.org/docs/</a></p>
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#什么是nat穿透">什么是NAT穿透</a>
+          <ul>
+            <li><a href="#nat网络地址转换">NAT网络地址转换</a></li>
+            <li><a href="#ddns">DDNS</a></li>
+            <li><a href="#nat穿透的障碍">NAT穿透的障碍</a></li>
+            <li><a href="#nat穿透的常见方案">NAT穿透的常见方案</a></li>
+          </ul>
+        </li>
+        <li><a href="#基于frp的nat穿透原理">基于frp的NAT穿透原理</a></li>
+        <li><a href="#frp实践">FRP实践</a>
+          <ul>
+            <li><a href="#服务器部署frps">服务器部署frps</a></li>
+            <li><a href="#内网设备安装frpc">内网设备安装frpc</a></li>
+          </ul>
+        </li>
+        <li><a href="#参考">参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 hanrong.li</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

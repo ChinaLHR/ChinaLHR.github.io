@@ -84,12 +84,12 @@
       
       <guid>https://chinalhr.github.io/post/nginx-cross/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;Nginx相关资料阅读整理&lt;/p&gt;
+&lt;p&gt;浏览器同源策略及跨域解决方案梳理&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
     <item>
-      <title> javassist实现Aspect动态Pointcut</title>
+      <title>Aspect动态Pointcut实现方案</title>
       <link>https://chinalhr.github.io/post/aspect-dynamic/</link>
       <pubDate>Thu, 18 Apr 2019 22:15:07 +0800</pubDate>
       
@@ -107,28 +107,6 @@
       <guid>https://chinalhr.github.io/post/maven-plugs-record/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Maven Plugin使用记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Vert.x基础：Web模块</title>
-      <link>https://chinalhr.github.io/post/vertx-record-2/</link>
-      <pubDate>Sat, 06 Apr 2019 23:56:26 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/vertx-record-2/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Vert.x 官方文档阅读&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Vert.x基础：Core模块</title>
-      <link>https://chinalhr.github.io/post/vertx-record-1/</link>
-      <pubDate>Tue, 02 Apr 2019 22:01:56 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/vertx-record-1/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Vert.x 官方文档阅读&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -188,17 +166,6 @@
     </item>
     
     <item>
-      <title>Spring Aop分析</title>
-      <link>https://chinalhr.github.io/post/spring-aop/</link>
-      <pubDate>Mon, 24 Sep 2018 15:56:35 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/spring-aop/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Spring Aop源码分析&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
       <title>Shrio导致SpringCache缓存失效原因分析</title>
       <link>https://chinalhr.github.io/post/spring-cache-shrio-bug/</link>
       <pubDate>Sat, 22 Sep 2018 23:10:00 +0800</pubDate>
@@ -216,7 +183,7 @@
       
       <guid>https://chinalhr.github.io/post/java-practice/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;仅记录一个多月野蛮生长过程的个人编码规范&lt;/p&gt;
+&lt;p&gt;仅记录一个多月实习过程的个人编码规范&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

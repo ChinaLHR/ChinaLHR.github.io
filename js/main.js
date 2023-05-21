@@ -20,6 +20,10 @@ const HEADING_TO_TOC_CLASS = {
 }
 
 function ready() {
+    Fancybox.bind('[data-fancybox="gallery"]', {
+        // Custom Options
+    });  
+
     feather.replace({ 'stroke-width': 1, width: 20, height: 20 });
     setThemeByUserPref();
 

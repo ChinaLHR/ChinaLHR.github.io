@@ -19,7 +19,7 @@
     
     <title>Kubernetes渐进式交付实践，基于Argo Rollouts</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, Progressive Delivery, Kubernetes, Argo Rollouts'>
+    <meta name="keywords" content='blog, chinalhr, lhr, progressive delivery, kubernetes, argo rollouts'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/progressive-delivery-argo-rollouts/">
     <meta property="og:type" content="website">
@@ -62,6 +62,10 @@
     
     <script async src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -181,11 +185,11 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/progressive-delivery">Progressive Delivery</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/progressive-delivery">progressive delivery</a></li>
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubernetes">Kubernetes</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubernetes">kubernetes</a></li>
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/argo-rollouts">Argo Rollouts</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/argo-rollouts">argo rollouts</a></li>
         
         </ul>
     </div>
@@ -206,7 +210,7 @@
 <li>应用与流量双维度的灰度：如Canary Releases（金丝雀发布）、A/B Testing、Blue-green Deployments（蓝绿部署）。</li>
 <li>部署阶段可验证性：发布的每个批次，可以验证发布的正确性以及是否符合发布预期。</li>
 </ul>
-<p><strong>Blue-green Deployments（蓝绿部署）</strong></p>
+<h4 id="blue-green-deployments蓝绿部署">Blue-green Deployments（蓝绿部署）</h4>
 <p>使用Blue-green Deployments，在只存在旧版本应用程序的情况下,对新版本应用程序进行部署,此时生产环境存在新旧两个版本的应用程序,此期间，只有旧版本的应用程序会收到生产流量，允许开发人员在将实时流量切换到新版本之前针对新版本应用程序进行测试与度量指标分析，并根据测试结果决定是否进行版本的切换。</p>
 <ul>
 <li>Phase 1</li>
@@ -250,7 +254,7 @@ flowchart LR
     Loadbalancer --> |Network Traffic|Application-Version-2
 
 </div>
-<p><strong>Canary Releases（金丝雀发布）</strong></p>
+<h4 id="canary-releases金丝雀发布">Canary Releases（金丝雀发布）</h4>
 <p>使用Canary Releases，在只存在旧版本应用程序的情况下,对新版本应用程序进行部署，会将一部分流量路由给新版本应用程序，同时将其余流量提供给旧版本应用程序；当新版本应用程序验证无误后，则新版本应用程序以逐步取代旧版本。一般来说，LoadBalancer可以为Canary Releases提供更多的流量路由策略。</p>
 <ul>
 <li>Phase 1</li>
@@ -294,8 +298,8 @@ flowchart LR
     Loadbalancer --> |"Network Traffic(100%)"|Application-Version-2
 
 </div>
-<p><strong>A/B Testing</strong>
-A/B Testing一般是用于比较、评估某一功能不同版本以确定哪个版本的表现、效果更好。A/B Testing一般基于LoadBalancer的Dynamic Routing进行实现，将用户分为A/B两组，A（control group）为控制组继续使用旧版本功能，B（treatment group）为治疗组，根据特定的用户标签进行路由，使用新版本功能。</p>
+<h4 id="ab-testing">A/B Testing</h4>
+<p>A/B Testing一般是用于比较、评估某一功能不同版本以确定哪个版本的表现、效果更好。A/B Testing一般基于LoadBalancer的Dynamic Routing进行实现，将用户分为A/B两组，A（control group）为控制组继续使用旧版本功能，B（treatment group）为治疗组，根据特定的用户标签进行路由，使用新版本功能。</p>
 <div class="mermaid">
     
 flowchart LR
@@ -311,54 +315,28 @@ flowchart LR
 <li>Deployment滚动升级策略：提供了maxUnavailable（发布过程最大不可用数量）和maxSurge（发布过程可超过replicas的最大弹性数量）参数进行滚动升级的控制。</li>
 <li>StatefulSet滚动升级策略：提供了partition参数控制需要更新的Pod（ordinal&gt;=partition）和maxUnavailable（发布过程中最大不可用数量）参数进行滚动升级的控制。</li>
 </ul>
-<p>可以看到，Kubernetes提供的Workloads功能类似于流式全量发布、流式分批发布，对渐进式交付的支持不足，缺少了流量发布、进度管控的功能，这也衍生了一些支持渐进式交付的Kubernetes Controller，如Argo Rollouts、Flagger。Argo Rollouts于Flagger也代表了主流的两种Kubernetes渐进式交付控制器的实现方式：</p>
+<p>可以看到，Kubernetes提供的Workloads功能类似于流式全量发布、流式分批发布，对渐进式交付的支持不足，缺少了流量发布、进度管控的功能，这也衍生了一些支持渐进式交付的Kubernetes Controller，如Argo Rollouts、Flagger。Argo Rollouts与Flagger也代表了主流的两种Kubernetes渐进式交付控制器的实现方式：</p>
 <ul>
-<li>Argo Rollouts：Argo Rollouts 设计了CRD Rollout 与 Rollout Controller, 重写了原有Deployment的功能并实现对Rollout功能进行了扩展。</li>
+<li>Argo Rollouts：Argo Rollouts 设计了CRD Rollout 与 Rollout Controller，通过重写了原有Deployment的功能实现对Rollout功能进行了扩展。</li>
 </ul>
-<pre><code>+--------------------------------------------------+
-|                                                  |
-|                 Argo Rollouts                    |
-|                                                  |
-|  +---------------+         +------------------+  |
-|  |               |         |                  |  |
-|  | Kubernetes    |         |  Traffic Control |  |
-|  | Workloads     |         |  Schedule Control|  |
-|  | (Deployment..)|         |                  |  |
-|  |               |         |                  |  |
-|  +---------------+         +------------------+  |
-+----------------------+---+-----------------------+
-                       |   |
-                       |   |
-+--------------------+ |   |  +--------------------+
-|    ReplicaSet-A    &lt;-+   +--&gt;   ReplicaSet-B     |
-|                    |        |                    |
-+--------------------+        +--------------------+
-</code></pre><ul>
+<!-- raw HTML omitted -->
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://github.com/ChinaLHR/ChinaLHR.github.io/assets/19829495/582b1e5b-61dc-4f97-a161-b8bb24624334">
+    <img src="https://github.com/ChinaLHR/ChinaLHR.github.io/assets/19829495/582b1e5b-61dc-4f97-a161-b8bb24624334" alt="image"  />
+    </a>
+</div></p>
+<ul>
 <li>Flagger：Flagger 则是在现有的Deployment上进行扩展，设计了CRD Rollout 与 Rollout Controller，在Kubernetes Deployment部署时进行功能的增强。</li>
 </ul>
-<pre><code>+-------------------------------------------+
-|                                           |
-|                 Flagger                   |
-|  +--------------------------------------+ |
-|  | Batch Release/Traffic Control        | |
-|  |                                      | |
-|  +--------------------------------------+ |
-+-------------------------------------------+
-           |                      |
-           |                      |
-+----------v---------+ +----------v----------+
-|                    | |                     |
-| Kubernetes         | | Primary             |
-| Workloads          | | Workloads           |
-| (Deployment..)     | | (Primary Deployment)|
-|                    | |                     |
-+----------+---------+ +----------+----------+
-           |                      |
-+----------v---------+ +----------v----------+
-|  ReplicaSet-A      | |  ReplicaSet-B       |
-|                    | |                     |
-+--------------------+ +---------------------+
-</code></pre><p>Argo Rollouts的优势是Workloads已经内置了Rollouts的能力，配置与实现简单，定制化能力强；缺点是对于一些社区方案，基于标准Kubernetes Workloads与系统存量的Deployment需要进行改造适配。
+<!-- raw HTML omitted -->
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://github.com/ChinaLHR/ChinaLHR.github.io/assets/19829495/1f671e1c-b80a-43aa-915c-8e7831a29e7d">
+    <img src="https://github.com/ChinaLHR/ChinaLHR.github.io/assets/19829495/1f671e1c-b80a-43aa-915c-8e7831a29e7d" alt="image"  />
+    </a>
+</div></p>
+<p>Argo Rollouts的优势是Workloads已经内置了Rollouts的能力，配置与实现简单，定制化能力强；缺点是对于一些社区方案，基于标准Kubernetes Workloads与系统存量的Deployment需要进行改造适配。
 Flagger 的优势是支持标准Kubernetes Workloads，与社区方案兼容性强，缺点是发布过程中存在Double Workloads 资源的问题，发布会先升级用户部署的 Workloads，再升级 Primary（实际运行的），在这过程中需要准备双倍Pod资源的消耗。</p>
 <h2 id="argo-rollouts">Argo Rollouts</h2>
 <h3 id="argo-rollouts概述">Argo Rollouts概述</h3>
@@ -376,7 +354,12 @@ Flagger 的优势是支持标准Kubernetes Workloads，与社区方案兼容性�
 <p>当<code>spec.template</code>更改时，会向Argo Rollouts Controller发出信号通知，告知将引入新的 ReplicaSet。Argo Rollouts Controller将使用该<code>spec.strategy</code>字段中定义的策略来确定旧ReplicaSet到新ReplicaSet的发布方式。一旦新的ReplicaSet被放大（可选择通过Analysis进行控制），控制器会将其标记为“稳定”。</p>
 <p>如果在<code>spec.template</code>从稳定的ReplicaSet过渡到新的ReplicaSet的过程中发生了变化（发布过程中更改了应用版本信息），那么新ReplicaSet将被缩小，Argo Rollouts Controller会尝试反映更新spec.template字段的ReplicaSet。</p>
 <h3 id="argo-rollouts-架构">Argo Rollouts 架构</h3>
-<p><img src="https://user-images.githubusercontent.com/19829495/196354253-d3b751c4-0d9d-4d76-9666-3921e62d1af2.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/196354253-d3b751c4-0d9d-4d76-9666-3921e62d1af2.png">
+    <img src="https://user-images.githubusercontent.com/19829495/196354253-d3b751c4-0d9d-4d76-9666-3921e62d1af2.png" alt="image"  />
+    </a>
+</div></p>
 <ul>
 <li>Rollout Controller</li>
 </ul>
@@ -389,7 +372,7 @@ Flagger 的优势是支持标准Kubernetes Workloads，与社区方案兼容性�
 <ul>
 <li>Ingress/Service</li>
 </ul>
-<p>Argo Rollouts可以进行灵活的网络配置，在rollouts期间拥有不同的Service（仅适用于新版本、仅适用于旧版本、新旧版本结合）。专门针对Canary部署，Argo Rollouts支持多种服务网格和入口解决方案，例如用于以特定百分比拆分流量，而不是基于pod数量的简单平衡。</p>
+<p>Argo Rollouts可以进行灵活的网络配置，在rollouts期间拥有不同的Service（如仅适用于新版本、仅适用于旧版本、新旧版本结合类型的Service）。专门针对Canary部署，Argo Rollouts支持多种服务网格和入口解决方案，例如用于以特定百分比拆分流量，而不是基于pod数量的简单平衡。</p>
 <ul>
 <li>Analysis/AnalysisRun</li>
 </ul>
@@ -494,14 +477,24 @@ kubectl argo rollouts version
 <p>通过如下命令进行部署，注意所有的Rollout的初始创建，因为没用任何升级，所以会立即将副本扩展到100%（跳过canary、analyse等）。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -k .kubernetes/overlays/manual
 kubectl argo rollouts get rollout saken-manual -n staging --watch
-</code></pre></div><p><img src="https://user-images.githubusercontent.com/19829495/196662807-1d629fc7-7bbc-456a-ae23-4d66d7c54bcf.png" alt="image"></p>
+</code></pre></div><p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/196662807-1d629fc7-7bbc-456a-ae23-4d66d7c54bcf.png">
+    <img src="https://user-images.githubusercontent.com/19829495/196662807-1d629fc7-7bbc-456a-ae23-4d66d7c54bcf.png" alt="image"  />
+    </a>
+</div></p>
 <ul>
 <li>更新Rollout</li>
 </ul>
 <p>使用<code>kustomize edit</code>命令更新或者对kustomization文件进行更新，通过如下命令进行部署，可以看到canary部署策略已经生效了,此时已经将20%的流量部署到cancary，并进入了Paused状态。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -k .kubernetes/overlays/manual
 kubectl argo rollouts get rollout saken-manual -n staging --watch
-</code></pre></div><p><img src="https://user-images.githubusercontent.com/19829495/196663846-ec72a898-73df-4822-ac94-586e5c2453dc.png" alt="image"></p>
+</code></pre></div><p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/196663846-ec72a898-73df-4822-ac94-586e5c2453dc.png">
+    <img src="https://user-images.githubusercontent.com/19829495/196663846-ec72a898-73df-4822-ac94-586e5c2453dc.png" alt="image"  />
+    </a>
+</div></p>
 <ul>
 <li>Promote/Abort Rollout</li>
 </ul>
@@ -511,7 +504,12 @@ kubectl argo rollouts promote saken-manual -n staging
 <span style="color:#75715e"># Aborting a Rollout</span>
 <span style="color:#75715e"># kubectl argo rollouts abort saken-manual -n staging</span>
 kubectl argo rollouts get rollout saken-manual -n staging --watch
-</code></pre></div><p><img src="https://user-images.githubusercontent.com/19829495/196665933-348293e8-bc91-449c-8645-a97833136b56.png" alt="image"></p>
+</code></pre></div><p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/196665933-348293e8-bc91-449c-8645-a97833136b56.png">
+    <img src="https://user-images.githubusercontent.com/19829495/196665933-348293e8-bc91-449c-8645-a97833136b56.png" alt="image"  />
+    </a>
+</div></p>
 <h3 id="argo-rollout-analysis">Argo Rollout Analysis</h3>
 <p>Argo Rollouts 提供了多种执行分析(Analysis)的方法来推动渐进式交付，为此也定义了如下CRD:</p>
 <table>
@@ -780,7 +778,7 @@ kubectl argo rollouts get rollout saken-manual -n staging --watch
 <p>可以在Github上获取到此项目的源码：<a href="https://github.com/ChinaLHR/shovel-progressive-delivery-argo-rollouts">https://github.com/ChinaLHR/shovel-progressive-delivery-argo-rollouts</a></p>
 <h2 id="参考">参考</h2>
 <ul>
-<li><a href="https://argoproj.github.io/argo-rollouts/">Argo Rollouts - Kubernetes Progressive Delivery Controller</a></li>
+<li><a href="https://argoproj.github.io/argo-rollouts/">https://argoproj.github.io/argo-rollouts/</a></li>
 <li><a href="https://github.com/argoproj/rollouts-demo">https://github.com/argoproj/rollouts-demo</a></li>
 <li><a href="https://kubernetes.io/zh-cn/docs/concepts/workloads/">https://kubernetes.io/zh-cn/docs/concepts/workloads/</a></li>
 </ul>
@@ -797,7 +795,13 @@ kubectl argo rollouts get rollout saken-manual -n staging --watch
         <li><a href="#关于渐进式交付">关于渐进式交付</a>
           <ul>
             <li><a href="#什么是渐进式交付">什么是渐进式交付</a></li>
-            <li><a href="#渐进式交付部署策略">渐进式交付部署策略</a></li>
+            <li><a href="#渐进式交付部署策略">渐进式交付部署策略</a>
+              <ul>
+                <li><a href="#blue-green-deployments蓝绿部署">Blue-green Deployments（蓝绿部署）</a></li>
+                <li><a href="#canary-releases金丝雀发布">Canary Releases（金丝雀发布）</a></li>
+                <li><a href="#ab-testing">A/B Testing</a></li>
+              </ul>
+            </li>
           </ul>
         </li>
         <li><a href="#渐进式交付与kubernetes-workloads">渐进式交付与Kubernetes Workloads</a></li>

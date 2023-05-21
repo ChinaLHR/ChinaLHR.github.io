@@ -19,7 +19,7 @@
     
     <title>Kotlin基础：泛型、注解、DSL</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, Kotlin'>
+    <meta name="keywords" content='blog, chinalhr, lhr, kotlin'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/kotlin-learn03/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kotlin">Kotlin</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kotlin">kotlin</a></li>
         
         </ul>
     </div>
@@ -242,7 +246,12 @@
 invariance（不型变）：也就是说，Crate&lt;Orange&gt; 和 Crate&lt;Fruit&gt; 之间没有关系
 covariance（协变）：也就是说，Crate&lt;Orange&gt; 是 Crate&lt;Fruit&gt; 的子类型[Java Crate&lt;Orange&gt; 是 Crate&lt;? extends Fruit&gt; 的子类型]
 contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Orange&gt; 的子类型。[Crate&lt;Fruit&gt; 是 Crate&lt;? super Orange&gt; 的子类型]
-</code></pre><p><img src="https://user-images.githubusercontent.com/19829495/54437743-415c7b80-4770-11e9-9d1a-752a81c0c794.png" alt="image"></p>
+</code></pre><p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/54437743-415c7b80-4770-11e9-9d1a-752a81c0c794.png">
+    <img src="https://user-images.githubusercontent.com/19829495/54437743-415c7b80-4770-11e9-9d1a-752a81c0c794.png" alt="image"  />
+    </a>
+</div></p>
 <h4 id="java">Java</h4>
 <p>Java处理型变的做法概括起来是：Java中的泛型类在正常使用时是不型变的，要想型变必须在使用处通过通配符进行（称为使用处型变）。</p>
 <p><strong>协变</strong></p>
@@ -253,9 +262,9 @@ contravariance（逆变）：也就是说，Crate&lt;Fruit&gt; 是 Crate&lt;Oran
 </span><span style="color:#75715e">//fruits.add(new Object());
 </span><span style="color:#75715e">//我们知道，返回值肯定是Fruit
 </span><span style="color:#75715e"></span>Fruit f = fruits.<span style="color:#66d9ef">get</span>(<span style="color:#ae81ff">0</span>);
-</code></pre></div><p>fruits的类型是List&lt;? extends Fruit&gt;，代表Fruit类型或者从Fruit继承的类型的List，fruits可以引用诸如Fruit或Orange这样类型的List，然后向上转型为了List&lt;? extends Fruit&gt;。我们并不关心fruits具体引用的是<code>ArrayList&lt;Orange&gt;()</code>，还是<code>ArrayList&lt;Fruit&gt;()</code>，对于类型 List&lt;? extends Fruit&gt; 我们所能知道的就是：调用一个返回Fruit的方法是安全的，因为你知道，这个List中的任何对象至少具有Fruit类型。</p>
-<p>我们之所以可以安全地将 ArrayList<!-- raw HTML omitted --> 向上转型为 List&lt;? extends Fruit&gt;，是因为编译器限制了我们对于 List&lt;? extends Fruit&gt; 类型部分方法的调用。例如void add(T t)方法，以及一切参数中含有 T 的方法（称为消费者方法）。因为这些方法可能会破坏类型安全，只要限制这些方法的调用，就可以安全地将 ArrayList<!-- raw HTML omitted --> 转型为 List&lt;? extends Fruit&gt;。</p>
-<p>协变：通过限制对于消费者方法的调用，使得像 List&lt;? extends Fruit&gt; 这样的类型成为单纯的“生产者”，以保证运行时的类型安全</p>
+</code></pre></div><p>fruits的类型是<code>List&lt;? extends Fruit&gt;</code>，代表Fruit类型或者从Fruit继承的类型的List，fruits可以引用诸如Fruit或Orange这样类型的List，然后向上转型为了<code>List&lt;? extends Fruit&gt;</code>。我们并不关心fruits具体引用的是<code>ArrayList&lt;Orange&gt;()</code>，还是<code>ArrayList&lt;Fruit&gt;()</code>，对于类型 <code>List&lt;? extends Fruit&gt;</code> 我们所能知道的就是：调用一个返回Fruit的方法是安全的，因为你知道，这个List中的任何对象至少具有Fruit类型。</p>
+<p>我们之所以可以安全地将 <code>ArrayList&lt;Orange&gt;</code> 向上转型为 <code>List&lt;? extends Fruit&gt;</code>，是因为编译器限制了我们对于 <code>List&lt;? extends Fruit&gt;</code> 类型部分方法的调用。例如<code>void add(T t)</code>方法，以及一切参数中含有 T 的方法（称为消费者方法）。因为这些方法可能会破坏类型安全，只要限制这些方法的调用，就可以安全地将 <code>ArrayList&lt;Orange&gt;</code> 转型为 <code>List&lt;? extends Fruit&gt;</code>。</p>
+<p>协变：通过限制对于消费者方法的调用，使得像 <code>List&lt;? extends Fruit&gt;</code> 这样的类型成为单纯的“生产者”，以保证运行时的类型安全</p>
 <p><strong>逆变</strong></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">List&lt;Object&gt; objs = new ArrayList&lt;&gt;();
 objs.add(new Object());
@@ -269,8 +278,8 @@ canContainFruits.add(new Fruit());
 </span><span style="color:#75715e"></span>
 <span style="color:#75715e">//总是可以读取为Object，然而这并没有太多意义
 </span><span style="color:#75715e"></span>Object o = canContainFruits.<span style="color:#66d9ef">get</span>(<span style="color:#ae81ff">1</span>);
-</code></pre></div><p>canContainFruits的类型是List&lt;? super Fruit&gt;，代表Fruit类型或者Fruit基类型的List，canContainFruits可以引用诸如Fruit或Object这样类型的List，然后向上转型为了List&lt;? super Fruit&gt;。对于List中的 T get(int pos) 方法，当指定类型是 “？ super Fruit”  时，get方法的返回类型就变成了 “？ super Fruit”，也就是说，返回类型可能是Fruit或者任意Fruit的基类型，我们不能确定，因此编译器拒绝调用任何返回类型为 T 的方法（除非我们只是读取为Object类）</p>
-<p>逆变：编译器限制了我们对于 List&lt;? super Fruit&gt; 类型部分方法的调用。例如T get(int  pos)方法，以及一切返回类型为 T 的方法（称为生产者方法），因为我们不能确定这些方法的返回类型，只要限制这些方法的调用，就可以安全地将 ArrayList<!-- raw HTML omitted --> 转型为 List&lt;? super Fruit&gt;。这就是所谓的逆变，通过限制对于生产者方法的调用，使得像 List&lt;? super Fruit&gt; 这样的类型成为单纯的“消费者”。</p>
+</code></pre></div><p>canContainFruits的类型是<code>List&lt;? super Fruit&gt;</code>，代表Fruit类型或者Fruit基类型的List，canContainFruits可以引用诸如Fruit或Object这样类型的List，然后向上转型为了<code>List&lt;? super Fruit&gt;</code>。对于List中的 <code>T get(int pos)</code> 方法，当指定类型是 “？ super Fruit”  时，get方法的返回类型就变成了 “？ super Fruit”，也就是说，返回类型可能是Fruit或者任意Fruit的基类型，我们不能确定，因此编译器拒绝调用任何返回类型为 T 的方法（除非我们只是读取为Object类）</p>
+<p>逆变：编译器限制了我们对于 <code>List&lt;? super Fruit&gt;</code> 类型部分方法的调用。例如<code>T get(int  pos)</code>方法，以及一切返回类型为 T 的方法（称为生产者方法），因为我们不能确定这些方法的返回类型，只要限制这些方法的调用，就可以安全地将 <code>ArrayList&lt;Object&gt;</code> 转型为 <code>List&lt;? super Fruit&gt;</code>。这就是所谓的逆变，通过限制对于生产者方法的调用，使得像 <code>List&lt;? super Fruit&gt;</code> 这样的类型成为单纯的“消费者”。</p>
 <p><strong>总结</strong></p>
 <p>extends限定了通配符类型的上界，所以我们可以安全地从其中读取；而super限定了通配符类型的下界，所以我们可以安全地向其中写入。</p>
 <h4 id="kotlin">Kotlin</h4>
@@ -316,14 +325,12 @@ canContainFruits.add(new Fruit());
 </span><span style="color:#75715e"></span>@Strictfp
 <span style="color:#75715e">//改变由 Kotlin 生成的 Java 方法或字段的名称 
 </span><span style="color:#75715e"></span>@JvmName 
-<span style="color:#75715e">//能被用在对象声明或者伴生对象的方法上，把它们暴露成
-</span><span style="color:#75715e"></span>Java <span style="color:#960050;background-color:#1e0010">的静态方法</span>
-@JvmStatic
+<span style="color:#75715e">//能被用在对象声明或者伴生对象的方法上，把它们暴露成Java 的静态方法
+</span><span style="color:#75715e"></span>@JvmStatic
 <span style="color:#75715e">//指导 Kotlin 编译器为带默认参数值的函数生成多个重载
 </span><span style="color:#75715e"></span>@JvmOverloads
-<span style="color:#75715e">//应用于一个属性，把这个属性暴露成一个没有访问器的
-</span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">公有</span> Java <span style="color:#960050;background-color:#1e0010">字段。</span>
-@JvmField 
+<span style="color:#75715e">//应用于一个属性，把这个属性暴露成一个没有访问器的公有 Java 字段。
+</span><span style="color:#75715e"></span>@JvmField 
 </code></pre></div><ul>
 <li>注解使用</li>
 </ul>
@@ -334,26 +341,24 @@ canContainFruits.add(new Fruit());
 </code></pre></div><h3 id="dsl">DSL</h3>
 <h4 id="关于dsl">关于DSL</h4>
 <ul>
-<li>
-<p>DSL
-DSL 也就是 Domain Specific Language 的简称，是指为某些特定领域（domain）设计的专用语言。最常见的 DSL 就是 SQL和正则表达式。和通用编程语言相反，DSL大部分是声明式的(声明式语言描述了想要的结果并将执行细节留给了解释它的引擎)。</p>
-</li>
-<li>
-<p>内部DSL
-与有着自己独立语法的外部 DSL 不同，内部 DSL是用通用编程语言编写的程序的一部分，使用了和通用编程语言完全一致的语法。实际上，内部 DSL 不是完全独立的语言，而是使用主要语言的特定方式，同时保留具有独立语法的 DSL 的主要优点。
+<li>DSL</li>
+</ul>
+<p>DSL 也就是 Domain Specific Language 的简称，是指为某些特定领域（domain）设计的专用语言。最常见的 DSL 就是 SQL和正则表达式。和通用编程语言相反，DSL大部分是声明式的(声明式语言描述了想要的结果并将执行细节留给了解释它的引擎)。</p>
+<ul>
+<li>内部DSL</li>
+</ul>
+<p>与有着自己独立语法的外部 DSL 不同，内部 DSL是用通用编程语言编写的程序的一部分，使用了和通用编程语言完全一致的语法。实际上，内部 DSL 不是完全独立的语言，而是使用主要语言的特定方式，同时保留具有独立语法的 DSL 的主要优点。
 [使用Kotlin 语言开发的，解决特定领域问题，具备独特代码结构的 API]</p>
-</li>
-<li>
-<p>DSL结构
-DSL 通常会依赖在其他上下文中也会广泛使用的语言特性，比如说中缀调用和运算符重载。DSL与API不同的显著特征是结构/文法。
+<ul>
+<li>DSL结构</li>
+</ul>
+<p>DSL 通常会依赖在其他上下文中也会广泛使用的语言特性，比如说中缀调用和运算符重载。DSL与API不同的显著特征是结构/文法。
 与API的命令查询不同, DSL 的方法调用存在于由 DSL 文法定义的
 更大的结构中。</p>
-</li>
-<li>
-<p>Kotlin DSL
-Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好的 IDE 支持]。</p>
-</li>
+<ul>
+<li>Kotlin DSL</li>
 </ul>
+<p>Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好的 IDE 支持]。</p>
 <h4 id="kotlin-dsl使用">Kotlin DSL使用</h4>
 <p><strong>利用带接收者的lambda和扩展函数实现HTML Table Sample DSL</strong></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">open</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Tag</span>(<span style="color:#66d9ef">val</span> name: String) {
@@ -431,7 +436,7 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
 
 <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">main</span>(args: Array&lt;String&gt;) {
     <span style="color:#66d9ef">val</span> person = Person(<span style="color:#e6db74">&#34;lhr&#34;</span>)
-    person(<span style="color:#e6db74">&#34;cp272727&#34;</span>)<span style="color:#75715e">//实际上调用的是person.invoke
+    person(<span style="color:#e6db74">&#34;test&#34;</span>)<span style="color:#75715e">//实际上调用的是person.invoke
 </span><span style="color:#75715e"></span>
 }
 
@@ -464,8 +469,7 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
     <span style="color:#75715e">//获取一天前日期
 </span><span style="color:#75715e"></span>    println(<span style="color:#ae81ff">1.</span>days.ago)
 }
-</code></pre></div><h3 id="协程相关">协程相关</h3>
-<p>参考: <a href="http://johnnyshieh.me/categories/kotlin/">http://johnnyshieh.me/categories/kotlin/</a></p>
+</code></pre></div>
         </p>
     </div>
 </div>
@@ -493,7 +497,6 @@ Kotiin 的 DSL 是完全静态类型的[编译时错误的检测，以及更好�
                 <li><a href="#kotlin-dsl使用">Kotlin DSL使用</a></li>
               </ul>
             </li>
-            <li><a href="#协程相关">协程相关</a></li>
           </ul>
         </li>
       </ul>

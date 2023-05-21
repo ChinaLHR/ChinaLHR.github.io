@@ -19,7 +19,7 @@
     
     <title>Kubernetes-Operator：扩展Kubernetes API Resource与Custom Controller (上)</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, Kubernetes'>
+    <meta name="keywords" content='blog, chinalhr, lhr, kubernetes'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/kubernetes-crd-operator-1/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubernetes">Kubernetes</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/kubernetes">kubernetes</a></li>
         
         </ul>
     </div>
@@ -214,7 +218,12 @@
 </ul>
 </li>
 </ul>
-<p><img src="https://user-images.githubusercontent.com/19829495/150094235-b247a307-e460-4918-a435-324c7b4f0dc7.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/150094235-b247a307-e460-4918-a435-324c7b4f0dc7.png">
+    <img src="https://user-images.githubusercontent.com/19829495/150094235-b247a307-e460-4918-a435-324c7b4f0dc7.png" alt="image"  />
+    </a>
+</div></p>
 <h3 id="kubernetes扩展性">kubernetes扩展性</h3>
 <blockquote>
 <p>参考：<a href="https://kubernetes.io/zh/docs/concepts/extend-kubernetes/">https://kubernetes.io/zh/docs/concepts/extend-kubernetes/</a></p>
@@ -222,21 +231,26 @@
 <p>Kubernetes的架构设计是高度可配置、可扩展的，这里主要关注Kubernetes自身的扩展性，即扩充 Kubernetes 的能力并深度集成软件组件。</p>
 <p><strong>扩展模式：</strong></p>
 <ul>
-<li>控制器模式：编写Kubernetes 的客户端程序的一种特定模式，控制器通常读取一个对象的 <code>spec</code> 字段，可能做出一些处理，然后更新对象的 <code>status</code> 字段。</li>
+<li>控制器模式：编写Kubernetes 的客户端程序的一种特定模式，控制器通常读取一个对象的 <code>spec</code> 字段，做出对应的处理，然后更新对象的 <code>status</code> 字段。</li>
 <li>Webhook模式：Kubernetes作为客户端调用远程服务的模式。</li>
 <li>Binary Plugin模式：Kubernetes作为客户端执行一个二进制插件程序。</li>
 </ul>
-<p><img src="https://user-images.githubusercontent.com/19829495/154810184-8d438a95-5c45-4e7e-b73a-25dd257cd92d.jpg" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/154810184-8d438a95-5c45-4e7e-b73a-25dd257cd92d.jpg">
+    <img src="https://user-images.githubusercontent.com/19829495/154810184-8d438a95-5c45-4e7e-b73a-25dd257cd92d.jpg" alt="image"  />
+    </a>
+</div></p>
 <p><strong>扩展kubernetes的核心组件：</strong></p>
 <ul>
 <li>kube-controller-manager与API Resource扩展：通过使用crd与custom controller、operator framework实现，本文主要讲解这方面的扩展实现。</li>
 <li>kube-apiserver扩展：通过使用API Aggregation layer在不修改 Kubernetes 核心代码的同时扩展 Kubernetes api-server，即将第三方服务注册成Kubernetes api-server提供服务。</li>
-<li>kube-scheduler扩展：通过Kubernetes Scheduling Framework扩展调度机制。</li>
+<li>kube-scheduler扩展：通过Kubernetes Scheduling Framework扩展Kubernetes调度机制。</li>
 </ul>
 <h2 id="扩展kubernetes-api-resource相关概念">扩展Kubernetes API Resource相关概念</h2>
 <p><strong>资源（Resource）：</strong> Resource是 Kubernetes API中的一个端点，用于存储某个类别的API对象的一个集合；如YAML中的kind：Pod、CronJob&hellip;</p>
-<p><strong>定制资源（Custom Resource）：</strong> 自定义 API 资源，Custom Resource是对 Kubernetes API 的扩展，定制资源所代表的是对特定Kubernetes安装的一种定制。</p>
-<p><strong>定制控制器（Custom Controller）：</strong> Custom Resource本身只能用来存取结构化的数据，需要将Custom Resource与Custom Controller结合，Custom Controller负责监控Customer Resource的变化（创建、删除&hellip;）并执行具体的动作。</p>
+<p><strong>定制资源（Custom Resource）：</strong> 自定义 API 资源，Custom Resource是对 Kubernetes API 的扩展，定制资源所代表的是对特定Kubernetes API的一种定制。</p>
+<p><strong>定制控制器（Custom Controller）：</strong> Custom Resource本身只能用来存取结构化的数据，需要将Custom Resource与Custom Controller结合，Custom Controller负责监控Custom Resource的变化（创建、删除&hellip;）并执行具体的动作。</p>
 <p><strong>CRD（CustomResourceDefinitions）：</strong> Custom Resource的定义，Kubernetes CustomResourceDefinition API资源允许自定义Custom Resource。 定义CRD对象的操作会使用你所设定的名字和模式定义（Schema）创建一个新的Custom Resource，Kubernetes API 会为Custom Resource提供存储和访问服务。</p>
 <p>简单的说，可以通过CRD定制自定义API资源即Custom Resource，动态注册到Kubernetes集群中；注册完成后用户可以通过 kubectl 来创建访问自定义API资源对象，类似于操作 Pod 一样。CRD 仅仅只是做资源的定义，需要配合控制器即Custom Controller 去监听Custom Resource的事件触发执行对应的处理逻辑。</p>
 <h2 id="kubernetes-的-resource-设计概念">Kubernetes 的 Resource 设计概念</h2>
@@ -245,7 +259,12 @@
 </blockquote>
 <h3 id="groupversionresource">Group/Version/Resource</h3>
 <p>kubernetes在资源的概念上进行了分组与版本化，，一个 API对象在Etcd 里的完整资源路径，是由：Group（API 组）、Version（API 版本）和 Resource（API 资源类型）三个部分组成，如下图所示。
-<img src="https://user-images.githubusercontent.com/19829495/154810231-9fb55531-0cee-4534-8a67-1c40fad7a7ca.jpg" alt="image"></p>
+
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/154810231-9fb55531-0cee-4534-8a67-1c40fad7a7ca.jpg">
+    <img src="https://user-images.githubusercontent.com/19829495/154810231-9fb55531-0cee-4534-8a67-1c40fad7a7ca.jpg" alt="image"  />
+    </a>
+</div></p>
 <p><strong>资源间的关系如下：</strong></p>
 <ul>
 <li>Kubernetes支持多个 Group（资源组）</li>
@@ -363,7 +382,7 @@ apps/v1, Kind<span style="color:#f92672">=</span>Deployment
     <span style="color:#66d9ef">shortNames</span>:
     - ct
 </code></pre></div><p>如上CRD所示， 指定group为<code>stable.example.com</code>，version为<code>v1</code>，CustomResource为CronTab，scope为Namespaced（CronTab属于Namespace的对象）,然后需要设置CustomResource的对象描述，包括：Spec、Status &hellip;;</p>
-<p>通过以下命令创建CRD后，会创建一个新的 namespace 级别的 RESTful API 就会被创建：<code>/apis/stable.example.com/v1/namespaces/*/crontabs/...</code>，用以创建和管理CustomResource CronTab。在创建CRD时，Kubernetes 会对我们提交的声明文件进行校验（基于 OpenAPI v3 schem 进行规范）。如果想要更加复杂的校验，需要通过 Kubernetes 的 admission webhook 进行实现。</p>
+<p>通过以下命令创建CRD后，会创建一个新的 namespace 级别的 RESTful API 就会被创建：<code>/apis/stable.example.com/v1/namespaces/*/crontabs/...</code>，用以创建和管理CustomResource <code>CronTab</code>。在创建CRD时，Kubernetes 会对我们提交的声明文件进行校验（基于 OpenAPI v3 schem 进行规范）。如果想要更加复杂的校验，需要通过 Kubernetes 的 admission webhook 进行实现。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f crd.yaml
 </code></pre></div><p>创建完CRD后，可以通过如下方式定义一个CronTab资源对象</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: <span style="color:#e6db74">&#34;stable.example.com/v1&#34;</span>
@@ -399,57 +418,66 @@ $ kubectl get crontab -o yaml
 <p>示例控制器基于<a href="https://github.com/kubernetes/client-go/tree/master/tools/cache">client-go 库</a> 进行Controller开发；该项目的tools/cache目录下包含了开发Custom Controller 使用的各种工具、机制。</p>
 <h3 id="client-go-client对象">client-go client对象</h3>
 <ul>
-<li>RESTClient：client-go 中最基础的客户端，其它 client 都基于 RESTClient 实现，RESTClient 实现了 RESTful 风格的 API 请求封装，可以实现对任意 Kubernetes 资源（包括内置资源及 CRDs）的 RESTful 风格交互，如 Post() / Delete() / Put() / Get()，同时支持 Json 和 protobuf；</li>
-<li>ClientSet：与 Kubernetes 内置资源对象交互最常用的 Client，强调，只能处理 Kubernetes 内置资源，不包括 CRD 自定义资源，使用时需要指定 Group、指定 Version，然后根据 Resource 获取。ClientSet 的操作代码是通过 client-gen 代码生成器自动生成的；</li>
-<li>DynamicClient：DynamicClient 能处理包括 CRD 自定义资源在内的任意 kubernetes 资源。如果一个 Controller 中需要控制所有的 API，可以使用Dynamic Client，DynamicClient 只支持JSON；</li>
-<li>DiscoveryClient：用于发现 kube-apiserver 支持的 Group / Version / Resource 信息；</li>
+<li><strong>RESTClient</strong>：client-go 中最基础的客户端，其它 client 都基于 RESTClient 实现，RESTClient 实现了 RESTful 风格的 API 请求封装，可以实现对任意 Kubernetes 资源（包括内置资源及 CRDs）的 RESTful 风格交互，如 Post() / Delete() / Put() / Get()，同时支持 Json 和 protobuf；</li>
+<li><strong>ClientSet</strong>：与 Kubernetes 内置资源对象交互最常用的 Client，强调只能处理 Kubernetes 内置资源，不包括 CRD 自定义资源，使用时需要指定 Group、指定 Version，然后根据 Resource 获取。ClientSet 的操作代码是通过 client-gen 代码生成器自动生成的；</li>
+<li><strong>DynamicClient</strong>：DynamicClient 能处理包括 CRD 自定义资源在内的任意 kubernetes 资源。如果一个 Controller 中需要控制所有的 API，可以使用Dynamic Client，DynamicClient 只支持JSON；</li>
+<li><strong>DiscoveryClient</strong>：用于发现 kube-apiserver 支持的 Group / Version / Resource 信息；</li>
 </ul>
 <h3 id="client-go-组件工作流程与以及与custom-controller的交互点">client-go 组件工作流程与以及与Custom Controller的交互点</h3>
-<p><img src="https://user-images.githubusercontent.com/19829495/149323333-f6c3d54c-e20f-4461-85c7-635e34cb821e.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/149323333-f6c3d54c-e20f-4461-85c7-635e34cb821e.png">
+    <img src="https://user-images.githubusercontent.com/19829495/149323333-f6c3d54c-e20f-4461-85c7-635e34cb821e.png" alt="image"  />
+    </a>
+</div></p>
 <p><strong>client-go组件：</strong></p>
 <ul>
-<li>Reflector：通过 Kubernetes API 监控 Kubernetes 的资源类型，通过List/Watch 机制, 获取&amp;监听资源对象实例的变化，添加 object 对象到 FIFO 队列，后续Informer 会从队列中进行数据获取。</li>
-<li>Informer：controller 机制的基础，控制循环（Control Loop）处理，从队列中取出数据，添加到 Indexer 进行数据缓存，提供对象监听事件回调处理的 handler 接口，通过 给Informer 添加 ResourceEventHandler 实例的回调函数，通过实现OnAdd(obj interface{})、 OnUpdate(oldObj, newObj interface{}) 和 OnDelete(obj interface{}) 方法处理资源的创建、更新和删除操作。</li>
-<li>Indexer：提供 object 对象的索引，缓存对象信息，indexer是线程安全的存储。</li>
+<li><strong>Reflector</strong>：通过 Kubernetes API 监控 Kubernetes 的资源类型，通过List/Watch 机制, 获取&amp;监听资源对象实例的变化，添加 object 对象到 FIFO 队列，后续Informer 会从队列中进行数据获取。</li>
+<li><strong>Informer</strong>：controller 机制的基础，控制循环（Control Loop）处理，从队列中取出数据，添加到 Indexer 进行数据缓存，提供对象监听事件回调处理的 handler 接口，通过 给Informer 添加 ResourceEventHandler 实例的回调函数，通过实现OnAdd(obj interface{})、 OnUpdate(oldObj, newObj interface{}) 和 OnDelete(obj interface{}) 方法处理资源的创建、更新和删除操作。</li>
+<li><strong>Indexer</strong>：提供 object 对象的索引，缓存对象信息，indexer是线程安全的存储。</li>
 </ul>
 <p><strong>Custom Controller组件：</strong></p>
 <ul>
-<li>Informer与Indexer的reference，通过client-go 提供的<code>NewIndexerInformer</code>函数进行创建。</li>
-<li>Resource Event Handlers：Informer在要将object 对象传递给Custom Controller 时将调用的回调函数，Resource Event Handlers 被回调后会将Object Key写入到Work queue中。</li>
-<li>Process Item：从Work queue中取出Object key（事件通知） 进行后续处理。</li>
+<li><strong>Informer与Indexer的reference</strong>： 通过client-go 提供的<code>NewIndexerInformer</code>函数进行创建。</li>
+<li><strong>Resource Event Handlers</strong>：Informer在要将object 对象传递给Custom Controller 时将调用的回调函数，Resource Event Handlers 被回调后会将Object Key写入到Work queue中。</li>
+<li><strong>Process Item</strong>：从Work queue中取出Object key（事件通知） 进行后续处理。</li>
 </ul>
 <h3 id="simaple-controller核心逻辑">simaple-controller核心逻辑</h3>
 <ul>
 <li>项目结构</li>
 </ul>
 <pre><code>└── sample-controller
-    ├── artifacts 						# yaml示例，如crd.yaml、example-foo.yaml
+    ├── artifacts 				# yaml示例，如crd.yaml、example-foo.yaml
     │   └── examples
     ├── code-of-conduct.md
     ├── CONTRIBUTING.md
-    ├── controller.go					# custom controller实现，核心逻辑
+    ├── controller.go			# custom controller实现，核心逻辑
     ├── controller_test.go
     ├── docs
     │   ├── controller-client-go.md
     │   └── images
     ├── go.mod
     ├── go.sum
-    ├── hack							# code generation 工具类
+    ├── hack					# code generation 工具类
     │   ├── boilerplate.go.txt
     │   ├── custom-boilerplate.go.txt
     │   ├── tools.go
     │   ├── update-codegen.sh
     │   └── verify-codegen.sh
     ├── LICENSE
-    ├── main.go							# 启动函数，参数配置与初始化逻辑
+    ├── main.go					# 启动函数，参数配置与初始化逻辑
     ├── OWNERS
-    ├── pkg								# 资源定义文件与自动生成的代码
+    ├── pkg						# 资源定义文件与自动生成的代码
     │   ├── apis
     │   ├── generated
     │   └── signals
     ├── README.md
     └── SECURITY_CONTACTS
 </code></pre><ul>
+<li>功能</li>
+</ul>
+<p>使用 Custom Resource <code>Foo</code> 的deploymentName、replicas 属性与Custom Resource Controller 创建、更新 Deployment。</p>
+<ul>
 <li>代码生成</li>
 </ul>
 <p>此项目利用<a href="https://github.com/kubernetes/code-generator">k8s.io/code-generator</a>中的生成器 来生成typed client、informers、listers 和deep-copy functions。自动生成了如下文件与目录</p>
@@ -562,7 +590,7 @@ $ kubectl get crontab -o yaml
 </span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">workers</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
 		<span style="color:#66d9ef">go</span> <span style="color:#a6e22e">wait</span>.<span style="color:#a6e22e">Until</span>(<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">runWorker</span>, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>, <span style="color:#a6e22e">stopCh</span>)
 	}
-	<span style="color:#75715e">// 无限循环，不断的调用 processNextWorkItem 处理下一个对象
+	<span style="color:#75715e">// 不断的调用 processNextWorkItem 处理下一个对象
 </span><span style="color:#75715e"></span>	<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Controller</span>) <span style="color:#a6e22e">runWorker</span>() {
 		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">processNextWorkItem</span>() {
 		}
@@ -576,7 +604,7 @@ $ kubectl get crontab -o yaml
 		}
 		<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">obj</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">error</span> {
 			<span style="color:#75715e">// 调用 workqueue.Done(obj) 方法告诉 workqueue 当前项已经处理完毕，
-</span><span style="color:#75715e"></span>			<span style="color:#75715e">// 如果我们不想让当前项重新入队，一定要调用 workqueue.Forget(obj)。
+</span><span style="color:#75715e"></span>			<span style="color:#75715e">// 如果我们不想让当前项重新入队，就需要调用 workqueue.Forget(obj)。
 </span><span style="color:#75715e"></span>			<span style="color:#75715e">// 当我们没有调用Forget时，当前项会重新入队 workqueue 并在一段时间后重新被获取。
 </span><span style="color:#75715e"></span>			<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">workqueue</span>.<span style="color:#a6e22e">Done</span>(<span style="color:#a6e22e">obj</span>)
 			<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">key</span> <span style="color:#66d9ef">string</span>
@@ -652,15 +680,25 @@ kubectl create -f artifacts/examples/example-foo.yaml
 kubectl get deployments
 </code></pre></div><h2 id="kubernetes-controller-间通讯方式">Kubernetes Controller 间通讯方式</h2>
 <p>Kubernetes 三大核心组建之一的kube-controller-manager，是运行Controller组建进程的控制平面组件，包含了如下Controller集合</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/149661545-d3c90a66-a426-4044-b7b9-6d9e8a32f094.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/149661545-d3c90a66-a426-4044-b7b9-6d9e8a32f094.png">
+    <img src="https://user-images.githubusercontent.com/19829495/149661545-d3c90a66-a426-4044-b7b9-6d9e8a32f094.png" alt="image"  />
+    </a>
+</div></p>
 <p>Kubernetes中不同的Controller间也会进行通讯，以Deployment Controller为例子：</p>
 <ol>
 <li>用户通过 Kubectl 创建 Deployment，APIServer接收到请求后会对该请求进行权限、准入校验，鉴权通过后将 Deployment 的资源信息存储到 Etcd中。</li>
 <li>Deployment Controller 基于List/Watch机制，收到Deployment资源的Add事件并处理，为该 Deployment 创建 Replicaset。</li>
 <li>APIServer 接收到 Replicaset创建请求后，Replicaset的Add事件将被发布，随后ReplicaSet Controller接收到该事件，进行对应的处理逻辑：创建 Pod。</li>
 </ol>
-<p><img src="https://user-images.githubusercontent.com/19829495/149661548-73d1a0c0-2d30-46d3-b80d-ddfb79e4e03a.png" alt="image"></p>
-<p>可以看到，Kubernetes Controller基于事件订阅-分发的工作方式，进行Controller间的通信、协调操作；也得其开放的工作机制，让我们可以自由的定制、开发自己的Custom Controller。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/149661548-73d1a0c0-2d30-46d3-b80d-ddfb79e4e03a.png">
+    <img src="https://user-images.githubusercontent.com/19829495/149661548-73d1a0c0-2d30-46d3-b80d-ddfb79e4e03a.png" alt="image"  />
+    </a>
+</div></p>
+<p>可以看到，Kubernetes Controller基于事件订阅-分发的工作方式，进行Controller间的通信、协调操作；也因为其开放的工作机制，让我们可以自由的定制、开发自己的Custom Controller。</p>
         </p>
     </div>
 </div>

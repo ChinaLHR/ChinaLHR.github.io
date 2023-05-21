@@ -19,7 +19,7 @@
     
     <title>SEO-前端优化实践</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, SEO优化'>
+    <meta name="keywords" content='blog, chinalhr, lhr, seo'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/seo-frontend/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/seo%E4%BC%98%E5%8C%96">SEO优化</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/seo">seo</a></li>
         
         </ul>
     </div>
@@ -236,12 +240,11 @@ Disallow: /abc/
 后面有“/”表示abc目录不被蜘蛛抓取，但不包括子目录。
 
 Robot.txt文件最后可以写上站点地图的地址，方便蜘蛛更全更快的索引你的站点。
-</code></pre><p><a href="http://tools.jb51.net/aideddesign/createrobots">robot.txt在线生成</a></p>
+</code></pre><p>可以通过robots-txt在线生成网站进行自动生成：<a href="https://www.seoptimer.com/robots-txt-generator">https://www.seoptimer.com/robots-txt-generator</a></p>
 <h3 id="站点地图site-map">站点地图site map</h3>
 <p>Sitemap 可方便网站管理员通知搜索引擎他们网站上有哪些可供抓取的网页。最简单的 Sitemap 形式，就是XML 文件，在其中列出网站中的网址以及关于每个网址的其他元数据（上次更新的时间、更改的频率以及相对于网站上其他网址的重要程度为何等），以便搜索引擎可以更加智能地抓取网站。</p>
-<p>Sitemap分为三种格式：txt文本格式、xml格式、Sitemap索引格式。</p>
-<p><a href="https://baike.baidu.com/item/sitemap/6241567">Sitemap格式参考</a>
-<a href="http://tools.bugscaner.com/sitemapspider">Sitemap在线生成</a></p>
+<p>Sitemap分为三种格式：txt文本格式、xml格式、Sitemap索引格式；具体格式可以参考：<a href="https://baike.baidu.com/item/sitemap/6241567">https://baike.baidu.com/item/sitemap/6241567</a></p>
+<p>可以通过sitemaps在线生成网站进行自动生成： <a href="https://www.xml-sitemaps.com/">https://www.xml-sitemaps.com/</a></p>
 <h3 id="外链">外链</h3>
 <p>外链全称外部链接，需要运用互联网上在别的网站平台发布自己的网站链接，目的就是提高内页的权重。</p>
 <p>类型包括：纯文本URL/带超链接的URL/锚文本URL(关键字加链接)</p>
@@ -255,7 +258,12 @@ Robot.txt文件最后可以写上站点地图的地址，方便蜘蛛更全更�
 <p>扁平化的目录层次。尽量让Spider跳转3次就可以到达网站的任意一个内页。</p>
 </li>
 </ol>
-<p><img src="https://user-images.githubusercontent.com/19829495/66446894-e5946f80-ea7e-11e9-9c57-2cfeb063983f.png" alt="image"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/66446894-e5946f80-ea7e-11e9-9c57-2cfeb063983f.png">
+    <img src="https://user-images.githubusercontent.com/19829495/66446894-e5946f80-ea7e-11e9-9c57-2cfeb063983f.png" alt="image"  />
+    </a>
+</div></p>
 <ol start="3">
 <li>导航SEO优化。导航可以分为主导航和父导航。导航应该使用文字，如果为了用户体验采用图片导航，则应该为图片设置必要的alt和title属性。</li>
 </ol>

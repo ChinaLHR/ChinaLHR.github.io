@@ -19,7 +19,7 @@
     
     <title>Mysql死锁排查记录</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, MySql'>
+    <meta name="keywords" content='blog, chinalhr, lhr, mysql'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/mysql-deadlock-record/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/mysql">MySql</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/mysql">mysql</a></li>
         
         </ul>
     </div>
@@ -188,9 +192,9 @@
             <blockquote>
 <p>记一次MySql死锁排查</p>
 </blockquote>
-<h3 id="情况uniq-duplicate-key检查">情况(uniq duplicate key检查)</h3>
+<h3 id="排查记录">排查记录</h3>
 <h4 id="业务">业务</h4>
-<p>用户通过访问他人的个人主页删除访问用户-被访用户记录，并重新插入。(为什么删除再插入而不是update,由于另一套库里的访客不存在 customerId, targetCustomerId 的唯一索引, 所以肯定会有脏数据. 这里直接删掉规避更新异常)</p>
+<p>用户通过访问他人的个人主页删除访问用户-被访用户记录，并重新插入。(为什么删除再插入而不是update,由于此系统的另一套数据库里的访客不存在 customerId, targetCustomerId 的唯一索引, 所以肯定会有脏数据. 为了兼容，这里直接删掉规避更新异常)</p>
 <ul>
 <li>伪代码</li>
 </ul>
@@ -214,67 +218,67 @@
 ) ENGINE<span style="color:#f92672">=</span>InnoDB <span style="color:#66d9ef">DEFAULT</span> CHARSET<span style="color:#f92672">=</span>utf8mb4 <span style="color:#66d9ef">COMMENT</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;访客记录&#39;</span>;
 </code></pre></div><h4 id="分析死锁原因">分析死锁原因</h4>
 <p>通过<code>show engine innodb status</code>查看最近一次的死锁日志</p>
-<pre><code>------------------------
-LATEST DETECTED DEADLOCK
-------------------------
-2019-04-08 22:58:23 7f8d2fbff700
-//事务1 编号694322167 活跃0.005s 事务状态:根据索引读取数据
-*** (1) TRANSACTION: 
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">------------------------
+</span><span style="color:#75715e"></span>LATEST DETECTED DEADLOCK
+<span style="color:#75715e">------------------------
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">2019</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">08</span> <span style="color:#ae81ff">22</span>:<span style="color:#ae81ff">58</span>:<span style="color:#ae81ff">23</span> <span style="color:#ae81ff">7</span>f8d2fbff700
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">事务</span><span style="color:#ae81ff">1</span> <span style="color:#960050;background-color:#1e0010">编号</span><span style="color:#ae81ff">694322167</span> <span style="color:#960050;background-color:#1e0010">活跃</span><span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">005</span>s <span style="color:#960050;background-color:#1e0010">事务状态</span>:<span style="color:#960050;background-color:#1e0010">根据索引读取数据</span>
+<span style="color:#f92672">***</span> (<span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">TRANSACTION</span>: 
 
-TRANSACTION 694322167, ACTIVE 0.005 sec starting index read
-//事务1使用一个表 表锁1
-mysql tables in use 1, locked 1
-//等待锁链表的长度为2 当前事务持有的行记录锁/gap(间隙锁)锁1
-LOCK WAIT 2 lock struct(s), heap size 360, 1 row lock(s)
-LOCK BLOCKING MySQL thread id: 5828505 block 5835430
-MySQL thread id 5835430, OS thread handle 0x7f8d6afff700, query id 4891428548 192.168.0.47 web_user updating
-//事务1正在等待锁的sql
-DELETE FROM customer_visit
-        where
-        customer_id = 735***68
-        and
-        visit_customer_id =624***90
-*** (1) WAITING FOR THIS LOCK TO BE GRANTED:
-//事务1 正在等待表customer_visit上索引uniq_customer_id_visit_customer_id的X锁(排他锁)-记录锁 
-RECORD LOCKS space id 47 page no 25368 n bits 616 index `uniq_customer_id_visit_customer_id` of table `huayan`.`customer_visit` trx id 694322167 lock_mode X locks rec but not gap waiting
-Record lock, heap no 502 PHYSICAL RECORD: n_fields 3; compact format; info bits 32
- 0: len 8; hex 800000000462ed68; asc      b h;;
- 1: len 8; hex 8000000003b97a96; asc       z ;;
- 2: len 8; hex 8000000000eb5fb1; asc       _ ;;
+<span style="color:#66d9ef">TRANSACTION</span> <span style="color:#ae81ff">694322167</span>, ACTIVE <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">005</span> sec starting <span style="color:#66d9ef">index</span> <span style="color:#66d9ef">read</span>
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">事务</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">使用一个表</span> <span style="color:#960050;background-color:#1e0010">表锁</span><span style="color:#ae81ff">1</span>
+mysql tables <span style="color:#66d9ef">in</span> use <span style="color:#ae81ff">1</span>, locked <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">等待锁链表的长度为</span><span style="color:#ae81ff">2</span> <span style="color:#960050;background-color:#1e0010">当前事务持有的行记录锁</span><span style="color:#f92672">/</span>gap(<span style="color:#960050;background-color:#1e0010">间隙锁</span>)<span style="color:#960050;background-color:#1e0010">锁</span><span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">LOCK</span> WAIT <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">lock</span> struct(s), heap <span style="color:#66d9ef">size</span> <span style="color:#ae81ff">360</span>, <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">row</span> <span style="color:#66d9ef">lock</span>(s)
+<span style="color:#66d9ef">LOCK</span> BLOCKING MySQL thread id: <span style="color:#ae81ff">5828505</span> block <span style="color:#ae81ff">5835430</span>
+MySQL thread id <span style="color:#ae81ff">5835430</span>, OS thread handle <span style="color:#ae81ff">0</span>x7f8d6afff700, query id <span style="color:#ae81ff">4891428548</span> <span style="color:#ae81ff">192</span>.<span style="color:#ae81ff">168</span>.<span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">47</span> web_user updating
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">事务</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">正在等待锁的</span><span style="color:#66d9ef">sql</span>
+<span style="color:#66d9ef">DELETE</span> <span style="color:#66d9ef">FROM</span> customer_visit
+        <span style="color:#66d9ef">where</span>
+        customer_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">735</span><span style="color:#f92672">***</span><span style="color:#ae81ff">68</span>
+        <span style="color:#66d9ef">and</span>
+        visit_customer_id <span style="color:#f92672">=</span><span style="color:#ae81ff">624</span><span style="color:#f92672">***</span><span style="color:#ae81ff">90</span>
+<span style="color:#f92672">***</span> (<span style="color:#ae81ff">1</span>) WAITING <span style="color:#66d9ef">FOR</span> THIS <span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TO</span> BE <span style="color:#66d9ef">GRANTED</span>:
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">事务</span><span style="color:#ae81ff">1</span> <span style="color:#960050;background-color:#1e0010">正在等待表</span>customer_visit上索引uniq_customer_id_visit_customer_id的X锁(<span style="color:#960050;background-color:#1e0010">排他锁</span>)<span style="color:#f92672">-</span><span style="color:#960050;background-color:#1e0010">记录锁</span> 
+RECORD LOCKS <span style="color:#66d9ef">space</span> id <span style="color:#ae81ff">47</span> page <span style="color:#66d9ef">no</span> <span style="color:#ae81ff">25368</span> n bits <span style="color:#ae81ff">616</span> <span style="color:#66d9ef">index</span> <span style="color:#f92672">`</span>uniq_customer_id_visit_customer_id<span style="color:#f92672">`</span> <span style="color:#66d9ef">of</span> <span style="color:#66d9ef">table</span> <span style="color:#f92672">`</span>huayan<span style="color:#f92672">`</span>.<span style="color:#f92672">`</span>customer_visit<span style="color:#f92672">`</span> trx id <span style="color:#ae81ff">694322167</span> lock_mode X locks rec but <span style="color:#66d9ef">not</span> gap waiting
+Record <span style="color:#66d9ef">lock</span>, heap <span style="color:#66d9ef">no</span> <span style="color:#ae81ff">502</span> PHYSICAL RECORD: n_fields <span style="color:#ae81ff">3</span>; compact format; info bits <span style="color:#ae81ff">32</span>
+ <span style="color:#ae81ff">0</span>: len <span style="color:#ae81ff">8</span>; hex <span style="color:#ae81ff">800000000462</span>ed68; <span style="color:#66d9ef">asc</span>      b h;;
+ <span style="color:#ae81ff">1</span>: len <span style="color:#ae81ff">8</span>; hex <span style="color:#ae81ff">8000000003</span>b97a96; <span style="color:#66d9ef">asc</span>       z ;;
+ <span style="color:#ae81ff">2</span>: len <span style="color:#ae81ff">8</span>; hex <span style="color:#ae81ff">8000000000</span>eb5fb1; <span style="color:#66d9ef">asc</span>       _ ;;
  
 
-//事务2 编号694322166 活跃0.005s 事务状态:插入数据
-*** (2) TRANSACTION:
-TRANSACTION 694322166, ACTIVE 0.005 sec inserting
-//事务2使用一个表 表锁1
-mysql tables in use 1, locked 1
-4 lock struct(s), heap size 1184, 3 row lock(s), undo log entries 2
-MySQL thread id 5828505, OS thread handle 0x7f8d2fbff700, query id 4891428551 192.168.0.48 web_user update
-insert customer_visit(customer_id,visit_customer_id)
-      values (735***68,624***90)
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">事务</span><span style="color:#ae81ff">2</span> <span style="color:#960050;background-color:#1e0010">编号</span><span style="color:#ae81ff">694322166</span> <span style="color:#960050;background-color:#1e0010">活跃</span><span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">005</span>s <span style="color:#960050;background-color:#1e0010">事务状态</span>:<span style="color:#960050;background-color:#1e0010">插入数据</span>
+<span style="color:#f92672">***</span> (<span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">TRANSACTION</span>:
+<span style="color:#66d9ef">TRANSACTION</span> <span style="color:#ae81ff">694322166</span>, ACTIVE <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">005</span> sec inserting
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">事务</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">使用一个表</span> <span style="color:#960050;background-color:#1e0010">表锁</span><span style="color:#ae81ff">1</span>
+mysql tables <span style="color:#66d9ef">in</span> use <span style="color:#ae81ff">1</span>, locked <span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">4</span> <span style="color:#66d9ef">lock</span> struct(s), heap <span style="color:#66d9ef">size</span> <span style="color:#ae81ff">1184</span>, <span style="color:#ae81ff">3</span> <span style="color:#66d9ef">row</span> <span style="color:#66d9ef">lock</span>(s), undo log entries <span style="color:#ae81ff">2</span>
+MySQL thread id <span style="color:#ae81ff">5828505</span>, OS thread handle <span style="color:#ae81ff">0</span>x7f8d2fbff700, query id <span style="color:#ae81ff">4891428551</span> <span style="color:#ae81ff">192</span>.<span style="color:#ae81ff">168</span>.<span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">48</span> web_user <span style="color:#66d9ef">update</span>
+<span style="color:#66d9ef">insert</span> customer_visit(customer_id,visit_customer_id)
+      <span style="color:#66d9ef">values</span> (<span style="color:#ae81ff">735</span><span style="color:#f92672">***</span><span style="color:#ae81ff">68</span>,<span style="color:#ae81ff">624</span><span style="color:#f92672">***</span><span style="color:#ae81ff">90</span>)
 
-//事务2 持有表customer_visit上索引uniq_customer_id_visit_customer_id的X锁 记录锁
-//由于是RC隔离模式下的基于唯一索引的等值查询，会申请一个记录锁
-//此处是事务2通过delete fromcustomer_visit where customer_id = 735***68 and visit_customer_id =624***90申请的锁
-*** (2) HOLDS THE LOCK(S):
-RECORD LOCKS space id 47 page no 25368 n bits 616 index `uniq_customer_id_visit_customer_id` of table `huayan`.`customer_visit` trx id 694322166 lock_mode X locks rec but not gap
-Record lock, heap no 502 PHYSICAL RECORD: n_fields 3; compact format; info bits 32
- 0: len 8; hex 800000000462ed68; asc      b h;;
- 1: len 8; hex 8000000003b97a96; asc       z ;;
- 2: len 8; hex 8000000000eb5fb1; asc       _ ;;
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">事务</span><span style="color:#ae81ff">2</span> <span style="color:#960050;background-color:#1e0010">持有表</span>customer_visit上索引uniq_customer_id_visit_customer_id的X锁 <span style="color:#960050;background-color:#1e0010">记录锁</span>
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">由于是</span>RC隔离模式下的基于唯一索引的等值查询<span style="color:#960050;background-color:#1e0010">，会申请一个记录锁</span>
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">此处是事务</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">通过</span><span style="color:#66d9ef">delete</span> fromcustomer_visit <span style="color:#66d9ef">where</span> customer_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">735</span><span style="color:#f92672">***</span><span style="color:#ae81ff">68</span> <span style="color:#66d9ef">and</span> visit_customer_id <span style="color:#f92672">=</span><span style="color:#ae81ff">624</span><span style="color:#f92672">***</span><span style="color:#ae81ff">90</span><span style="color:#960050;background-color:#1e0010">申请的锁</span>
+<span style="color:#f92672">***</span> (<span style="color:#ae81ff">2</span>) HOLDS THE <span style="color:#66d9ef">LOCK</span>(S):
+RECORD LOCKS <span style="color:#66d9ef">space</span> id <span style="color:#ae81ff">47</span> page <span style="color:#66d9ef">no</span> <span style="color:#ae81ff">25368</span> n bits <span style="color:#ae81ff">616</span> <span style="color:#66d9ef">index</span> <span style="color:#f92672">`</span>uniq_customer_id_visit_customer_id<span style="color:#f92672">`</span> <span style="color:#66d9ef">of</span> <span style="color:#66d9ef">table</span> <span style="color:#f92672">`</span>huayan<span style="color:#f92672">`</span>.<span style="color:#f92672">`</span>customer_visit<span style="color:#f92672">`</span> trx id <span style="color:#ae81ff">694322166</span> lock_mode X locks rec but <span style="color:#66d9ef">not</span> gap
+Record <span style="color:#66d9ef">lock</span>, heap <span style="color:#66d9ef">no</span> <span style="color:#ae81ff">502</span> PHYSICAL RECORD: n_fields <span style="color:#ae81ff">3</span>; compact format; info bits <span style="color:#ae81ff">32</span>
+ <span style="color:#ae81ff">0</span>: len <span style="color:#ae81ff">8</span>; hex <span style="color:#ae81ff">800000000462</span>ed68; <span style="color:#66d9ef">asc</span>      b h;;
+ <span style="color:#ae81ff">1</span>: len <span style="color:#ae81ff">8</span>; hex <span style="color:#ae81ff">8000000003</span>b97a96; <span style="color:#66d9ef">asc</span>       z ;;
+ <span style="color:#ae81ff">2</span>: len <span style="color:#ae81ff">8</span>; hex <span style="color:#ae81ff">8000000000</span>eb5fb1; <span style="color:#66d9ef">asc</span>       _ ;;
  
-//事务2 正在申请S锁(共享锁) 
-//此处是事务2通过insert customer_visit(customer_id,visit_customer_id) values (735***68,624***90) 申请的
-//insert语句在普通情况下是会申请排他锁，也就是X锁，但是这里出现了S锁。这是因为a字段是一个唯一索引，
-//所以insert语句会在插入前进行一次duplicate key的检查，为了使这次检查成功，需要申请S锁防止其他事务对a字段进行修改。
-*** (2) WAITING FOR THIS LOCK TO BE GRANTED:
-RECORD LOCKS space id 47 page no 25368 n bits 616 index `uniq_customer_id_visit_customer_id` of table `huayan`.`customer_visit` trx id 694322166 lock mode S waiting
-Record lock, heap no 502 PHYSICAL RECORD: n_fields 3; compact format; info bits 32
- 0: len 8; hex 800000000462ed68; asc      b h;;
- 1: len 8; hex 8000000003b97a96; asc       z ;;
- 2: len 8; hex 8000000000eb5fb1; asc       _ ;;
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">事务</span><span style="color:#ae81ff">2</span> <span style="color:#960050;background-color:#1e0010">正在申请</span>S锁(<span style="color:#960050;background-color:#1e0010">共享锁</span>) 
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">此处是事务</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">通过</span><span style="color:#66d9ef">insert</span> customer_visit(customer_id,visit_customer_id) <span style="color:#66d9ef">values</span> (<span style="color:#ae81ff">735</span><span style="color:#f92672">***</span><span style="color:#ae81ff">68</span>,<span style="color:#ae81ff">624</span><span style="color:#f92672">***</span><span style="color:#ae81ff">90</span>) <span style="color:#960050;background-color:#1e0010">申请的</span>
+<span style="color:#f92672">//</span>insert语句在普通情况下是会申请排他锁<span style="color:#960050;background-color:#1e0010">，也就是</span>X锁<span style="color:#960050;background-color:#1e0010">，但是这里出现了</span>S锁<span style="color:#960050;background-color:#1e0010">。这是因为</span>a字段是一个唯一索引<span style="color:#960050;background-color:#1e0010">，</span>
+<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">所以</span>insert语句会在插入前进行一次duplicate key的检查<span style="color:#960050;background-color:#1e0010">，为了使这次检查成功，需要申请</span>S锁防止其他事务对a字段进行修改<span style="color:#960050;background-color:#1e0010">。</span>
+<span style="color:#f92672">***</span> (<span style="color:#ae81ff">2</span>) WAITING <span style="color:#66d9ef">FOR</span> THIS <span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TO</span> BE <span style="color:#66d9ef">GRANTED</span>:
+RECORD LOCKS <span style="color:#66d9ef">space</span> id <span style="color:#ae81ff">47</span> page <span style="color:#66d9ef">no</span> <span style="color:#ae81ff">25368</span> n bits <span style="color:#ae81ff">616</span> <span style="color:#66d9ef">index</span> <span style="color:#f92672">`</span>uniq_customer_id_visit_customer_id<span style="color:#f92672">`</span> <span style="color:#66d9ef">of</span> <span style="color:#66d9ef">table</span> <span style="color:#f92672">`</span>huayan<span style="color:#f92672">`</span>.<span style="color:#f92672">`</span>customer_visit<span style="color:#f92672">`</span> trx id <span style="color:#ae81ff">694322166</span> <span style="color:#66d9ef">lock</span> <span style="color:#66d9ef">mode</span> S waiting
+Record <span style="color:#66d9ef">lock</span>, heap <span style="color:#66d9ef">no</span> <span style="color:#ae81ff">502</span> PHYSICAL RECORD: n_fields <span style="color:#ae81ff">3</span>; compact format; info bits <span style="color:#ae81ff">32</span>
+ <span style="color:#ae81ff">0</span>: len <span style="color:#ae81ff">8</span>; hex <span style="color:#ae81ff">800000000462</span>ed68; <span style="color:#66d9ef">asc</span>      b h;;
+ <span style="color:#ae81ff">1</span>: len <span style="color:#ae81ff">8</span>; hex <span style="color:#ae81ff">8000000003</span>b97a96; <span style="color:#66d9ef">asc</span>       z ;;
+ <span style="color:#ae81ff">2</span>: len <span style="color:#ae81ff">8</span>; hex <span style="color:#ae81ff">8000000000</span>eb5fb1; <span style="color:#66d9ef">asc</span>       _ ;;
 
-</code></pre><p>综上，推测出死锁原因:对于同一个的字段的锁申请是需要排队的，针对uniq_customer_id_visit_customer_id索引,T2 insert申请的S锁之前,T1的delete在申请X锁,而T1的X锁又在等待T2 Delete申请的X锁释放，T2的S锁在等待T1的X锁申请，形成循环等待，导致死锁。</p>
+</code></pre></div><p>综上，推测出MySQL死锁原因: 对于同一个的字段的锁申请是需要排队的，针对uniq_customer_id_visit_customer_id索引,T2 insert申请的S锁之前,T1的delete在申请X锁,而T1的X锁又在等待T2 Delete申请的X锁释放，T2的S锁在等待T1的X锁申请，形成循环等待，导致死锁。</p>
 <h4 id="并发的情况下发生死锁情况">并发的情况下，发生死锁情况</h4>
 <table>
 <thead>
@@ -367,7 +371,7 @@ Record lock, heap no 502 PHYSICAL RECORD: n_fields 3; compact format; info bits 
       <ul>
         <li>
           <ul>
-            <li><a href="#情况uniq-duplicate-key检查">情况(uniq duplicate key检查)</a>
+            <li><a href="#排查记录">排查记录</a>
               <ul>
                 <li><a href="#业务">业务</a></li>
                 <li><a href="#伪表结构">(伪)表结构</a></li>

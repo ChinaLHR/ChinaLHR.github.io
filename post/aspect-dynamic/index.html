@@ -17,18 +17,18 @@
     
 
     
-    <title> javassist实现Aspect动态Pointcut</title>
+    <title>Aspect动态Pointcut实现方案</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, Java, Spring'>
+    <meta name="keywords" content='blog, chinalhr, lhr, java, spring framework'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/aspect-dynamic/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content=" javassist实现Aspect动态Pointcut">
+    <meta property="og:title" content="Aspect动态Pointcut实现方案">
     <meta property="og:description" content="keep curious 😼">
     <meta property="og:image" content="https://user-images.githubusercontent.com/19829495/188320707-5b468cc9-bea4-486c-b591-57ff8324e41c.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content=" javassist实现Aspect动态Pointcut">
+    <meta name="twitter:title" content="Aspect动态Pointcut实现方案">
     <meta name="twitter:description" content="keep curious 😼">
     <meta property="twitter:domain" content="https://chinalhr.github.io/post/aspect-dynamic/">
     <meta property="twitter:url" content="https://chinalhr.github.io/post/aspect-dynamic/">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -170,7 +174,7 @@
 <main id="content">
     <div class="post container">
     <div class="post-header-section">
-        <h1> javassist实现Aspect动态Pointcut</h1>
+        <h1>Aspect动态Pointcut实现方案</h1>
         <small role="doc-subtitle"></small>
         <p class="post-date">
             April 18, 2019
@@ -178,9 +182,9 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/java">Java</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/java">java</a></li>
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/spring">Spring</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/spring-framework">spring framework</a></li>
         
         </ul>
     </div>
@@ -219,7 +223,7 @@
 @Pointcut(&quot;execution(* com.savage.aop.MessageSender.*(..))&quot;)
 //Point签名
 private void log(){} 
-</code></pre><h4 id="动态pointcut">动态Pointcut</h4>
+</code></pre><h4 id="javassist实现动态pointcut">javassist实现动态Pointcut</h4>
 <ul>
 <li>关于SpringAop</li>
 </ul>
@@ -355,7 +359,7 @@ private void log(){}
               <ul>
                 <li><a href="#为什么需要aspectj中具有动态值的pointcut">为什么需要AspectJ中具有动态值的Pointcut</a></li>
                 <li><a href="#pointcut的用法">@Pointcut的用法</a></li>
-                <li><a href="#动态pointcut">动态Pointcut</a></li>
+                <li><a href="#javassist实现动态pointcut">javassist实现动态Pointcut</a></li>
                 <li><a href="#编程式aop实现动态pointcut">编程式AOP实现动态PointCut</a></li>
               </ul>
             </li>

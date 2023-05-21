@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nat traversal on LHR</title>
+    <link>https://chinalhr.github.io/tags/nat-traversal/</link>
+    <description>Recent content in nat traversal on LHR</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 10 Nov 2020 16:41:13 +0800</lastBuildDate>
+    
+	<atom:link href="https://chinalhr.github.io/tags/nat-traversal/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>基于frp的NAT穿透实践</title>
+      <link>https://chinalhr.github.io/post/frp-nat-traversal/</link>
+      <pubDate>Tue, 10 Nov 2020 16:41:13 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/frp-nat-traversal/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;FRP进行NAT穿透实践&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

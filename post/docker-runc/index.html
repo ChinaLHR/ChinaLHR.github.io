@@ -19,7 +19,7 @@
     
     <title>Docker容器运行时引擎-runC分析</title>
     <meta name="description" content="keep curious 😼">
-    <meta name="keywords" content='blog, chinalhr, lhr, Docker'>
+    <meta name="keywords" content='blog, chinalhr, lhr, docker'>
 
     <meta property="og:url" content="https://chinalhr.github.io/post/docker-runc/">
     <meta property="og:type" content="website">
@@ -59,6 +59,10 @@
     
     
     
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
         <script type="text/javascript">
@@ -178,7 +182,7 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://chinalhr.github.io/tags/docker">Docker</a></li>
+            <li class="post-tag"><a href="https://chinalhr.github.io/tags/docker">docker</a></li>
         
         </ul>
     </div>
@@ -195,28 +199,43 @@
 <blockquote>
 <p>可以参考Docker相关的FAQ：<a href="https://docs.docker.com/engine/faq/#what-does-docker-technology-add-to-just-plain-lxc">https://docs.docker.com/engine/faq</a></p>
 </blockquote>
-<p>在2014年开源了基于Golang开发的libcontainer，越过LXC直接操作系统内核模块，不必依赖LXC来提供容器化隔离能力了，自身架构也不断发展拆分成了如下几个模块：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/118020412-a0d46700-b38c-11eb-8dad-3be7e8c0bb71.png" alt="DeepinScreenshot_select-area_20210513013836"></p>
-<p>2015年，Docker联合多家公司制定了开放容器交互标准（Open Container Initiative），即OCI；制定了关于容器相关的规范，包含运行时标准（<a href="https://github.com/opencontainers/runtime-spec/blob/master/spec.md">runtime-spec</a><a href="https://github.com/opencontainers/runtime-spec/blob/master/spec.md"> </a> ）、容器镜像标准（<a href="https://github.com/opencontainers/image-spec/blob/master/spec.md">image-spec</a><a href="https://github.com/opencontainers/image-spec/blob/master/spec.md"> </a>）和镜像分发标准（<a href="https://github.com/opencontainers/distribution-spec/blob/master/spec.md">distribution-spec</a><a href="https://github.com/opencontainers/distribution-spec/blob/master/spec.md"> </a>）。</p>
-<p>2016年，Docker为了符合OCI标准，将原本libcontainer模块独立出来，封装重构成<a href="https://github.com/opencontainers/runc">runC项目</a><a href="https://github.com/opencontainers/runc"> </a>，捐献给了Linux基金会管理，而后为了能够兼容所有符合标准的OCI Runtime实现，Docker重构了Docker Daemon子系统，将其中与运行时交互的部分抽象为<a href="https://containerd.io/">containerd项目</a><a href="https://containerd.io/"> </a> 捐献给了CNCF基金会管理，内部为每个容器运行时创建一个containerd-shim适配进程，与runC搭配工作。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/118022236-b8145400-b38e-11eb-942c-57e68e255ae7.png" alt="图片"></p>
+<p>在2014年开源了基于Golang开发的libcontainer，越过LXC直接操作系统 namespaces 和 cgroups 的核心模块，不必依赖LXC来提供容器化隔离能力了，自身架构也不断发展拆分成了如下几个模块：</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/118020412-a0d46700-b38c-11eb-8dad-3be7e8c0bb71.png">
+    <img src="https://user-images.githubusercontent.com/19829495/118020412-a0d46700-b38c-11eb-8dad-3be7e8c0bb71.png" alt="DeepinScreenshot_select-area_20210513013836"  />
+    </a>
+</div></p>
+<p>2015年，Docker联合多家公司制定了开放容器交互标准（Open Container Initiative），即OCI；制定了关于容器相关的规范，包含运行时标准（<a href="https://github.com/opencontainers/runtime-spec/blob/main/spec.md">runtime-spec</a>）、容器镜像标准（<a href="https://github.com/opencontainers/image-spec/blob/main/spec.md">image-spec</a>）和镜像分发标准（<a href="https://github.com/opencontainers/distribution-spec/blob/main/spec.md">distribution-spec</a>）。运行时标准定义了应该如何运行一个容器、如何管理容器的状态和生命周期、如何使用操作系统的底层特性（namespaces、cgroup、pivot_root等）；容器镜像标准规定了容器镜像的格式、配置、元数据的格式；镜像分发标准则规定了镜像推送和拉取的网络交互过程。</p>
+<p>之后，Docker为了符合OCI标准，将原本libcontainer模块独立出来，封装重构成 <a href="https://github.com/opencontainers/runc">runC</a> 项目，捐献给了Linux基金会管理，而后为了能够兼容所有符合标准的OCI Runtime实现，Docker重构了Docker Daemon子系统，将其中与运行时交互的部分抽象为 <a href="https://containerd.io/">containerd</a> 项目 捐献给了CNCF基金会管理，containerd 负责管理容器执行、分发、监控、网络、构建、日志等功能的核心模块，内部为每个容器运行时创建一个containerd-shim适配进程，与runC搭配工作。</p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/118022236-b8145400-b38e-11eb-942c-57e68e255ae7.png">
+    <img src="https://user-images.githubusercontent.com/19829495/118022236-b8145400-b38e-11eb-942c-57e68e255ae7.png" alt="图片"  />
+    </a>
+</div></p>
 <h3 id="docker-daemoncontainerd与runc">Docker Daemon、containerd与runC</h3>
 <p>containerd提供了镜像管理（镜像、元信息等）、容器运行（调用最终运行时组件执行）的功能，向上为 Docker Daemon 提供了 gRPC 接口，使得 Docker Daemon  屏蔽下面的结构变化，确保原有接口向下兼容；向下运行容器由符合OCI规范的容器支持，如runC，使得引擎可以独立升级。</p>
 <h3 id="kubernetes与docker">Kubernetes与Docker</h3>
 <p>Kubernetes 是一个自动化部署，缩放，以及容器化管理应用程序的开源系统，前身是Google内部运行多年的集群管理系统Borg。</p>
 <p>2014年Google使用Golang完全重写后开源，诞生后备受云计算相关的业界巨头追捧，成为云原生时代的操作系统，让复杂软件在云计算下获得韧性（Resilience）、弹性（Elasticity）、可观测性（Observability）的最佳路径。</p>
-<p>2015年Kubernetes发布了第一个正式版本，Google宣布与Linux基金会共同筹建<a href="https://www.cncf.io/">云原生基金会</a><a href="https://www.cncf.io/"> </a>（Cloud Native Computing Foundation，CNCF），并且将Kubernetes托管到CNCF，成为其第一个项目。</p>
+<p>2015年Kubernetes发布了第一个正式版本1.0版，并且Google宣布与Linux基金会共同筹建<a href="https://www.cncf.io/">云原生基金会</a>（Cloud Native Computing Foundation，CNCF），并且将Kubernetes托管到CNCF，成为其第一个项目。</p>
 <p>随着Kubernetes的火速流行，自身的架构也在渐进演化，演进路线如下：</p>
-<p>Kubernetes 1.5之前与Docker是强绑定的关系，Kubernetes 管理容器的方式都是通过内部的DockerManager向Docker Engine发送指令（HTTP方式），通过Docker来操作镜像；调用链路如下所示</p>
+<p>Kubernetes 1.5版本之前与Docker是强绑定的关系，Kubernetes 管理容器的方式都是通过内部的DockerManager向Docker Engine发送指令（HTTP方式），通过Docker来操作镜像；调用链路如下所示</p>
 <pre><code>    Kubernetes Master → kubelet → DockerManager → Docker Engine → containerd → runC
 </code></pre><p>Kubernetes 1.5版本开始引入容器运行时接口（Container Runtime Interface，CRI），CRI为定义容器运行时应该如何接入到kubelet的规范标准，内部的DockerManager也被KubeGenericRuntimeManager替代，已提供更通用的实现；kubelet与KubeGenericRuntimeManager之间通过gRPC协议通信。由于Docker不能直接支持CRI，所以Kubernetes提供了DockerShim服务作为Docker与CRI的适配层，实现了DockerManager的功能，<strong>演化到这里Docker Engine对Kubernetes来说只是一项默认依赖</strong>；调用链路如下所示：</p>
 <pre><code>    Kubernetes Master → kubelet → KubeGenericRuntimeManager → DockerShim → Docker Engine → containerd → runC
-</code></pre><p>2017年，由Google、RedHat、Intel、SUSE、IBM联合发起的<a href="https://github.com/cri-o/cri-o">CRI-O</a><a href="https://github.com/cri-o/cri-o"> </a>（Container Runtime Interface  Orchestrator）项目发布了首个正式版本。CRI-O是完全遵循CRI规范进行实现的，而且可以支持所有符合OCI运行时标准的容器引擎，默认使用runC搭配工作也可换成其他OCI运行时。此时Kubernetes可以选择使用CRI-O、cri-containerd、DockerShim作为CRI实现，<strong>演化到这里Docker Engine对Kubernetes来说只是一个可选项</strong>；调用链路如下所示：</p>
-<pre><code>    Kubernetes Master → kubelet → KubeGenericRuntimeManager → CRI-O→ runC
+</code></pre><p>2017年，由Google、RedHat、Intel、SUSE、IBM联合发起的<a href="https://github.com/cri-o/cri-o">CRI-O</a>（Container Runtime Interface  Orchestrator）项目发布了首个正式版本。CRI-O是完全遵循CRI规范进行实现的，而且可以支持所有符合OCI运行时标准的容器引擎，默认使用runC搭配工作也可换成其他OCI运行时。此时Kubernetes可以选择使用CRI-O、cri-containerd、DockerShim作为CRI实现，<strong>演化到这里Docker Engine对Kubernetes来说只是一个可选项</strong>；调用链路如下所示：</p>
+<pre><code>    Kubernetes Master → kubelet → KubeGenericRuntimeManager → CRI-O → runC
 </code></pre><p>2018年，由Docker捐献给CNCF的containerd发布了1.1版，与1.0的区别是完全支持CRI标准，意味着原本用作CRI适配器的cri-containerd不再需要了，Kubernetes也在1.10版本宣布开始支持containerd 1.1，<strong>演化到这里Kubernetes已经可以完全脱开Docker Engine</strong>；调用链路如下所示：</p>
 <pre><code>    Kubernetes Master → kubelet → KubeGenericRuntimeManager → containerd → runC
 </code></pre><p>2020年，Kubernetes官方宣布从1.20版本起放弃对Docker的支持，即不在维护DockerShim这一Docker与CRI的适配层；往后CRI适配器可以选择CRI-O或者containerd。</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/154808848-2c154bed-128d-4a7b-85ca-5ee48b5cd672.jpg" alt="118159973-47ce0700-b450-11eb-84aa-a54af0d9adb2"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/154808848-2c154bed-128d-4a7b-85ca-5ee48b5cd672.jpg">
+    <img src="https://user-images.githubusercontent.com/19829495/154808848-2c154bed-128d-4a7b-85ca-5ee48b5cd672.jpg" alt="118159973-47ce0700-b450-11eb-84aa-a54af0d9adb2"  />
+    </a>
+</div></p>
 <h2 id="容器运行时-runc分析">容器运行时-runC分析</h2>
 <p>runc是一个CLI工具，用于根据OCI规范生成和运行容器，这里会通过runC源码简单分析其运行原理与流程。runC可以说是Docker容器中最为核心的部分，容器的创建，运行，销毁等等操作最终都将通过调用runC完成。</p>
 <h3 id="oci标准">OCI标准</h3>
@@ -226,7 +245,7 @@
 <li>config.json：包含容器必需的元信息</li>
 <li>rootfs：容器root文件系统，保存在一个文件夹里</li>
 </ol>
-<p>config.json包含的元素如下所示，具体可以参考<a href="https://github.com/opencontainers/runtime-spec/blob/master/config.md">runtime-spec相关文档</a></p>
+<p>config.json包含的元素如下所示，具体可以参考<a href="https://github.com/opencontainers/runtime-spec/blob/main/config.md">runtime-spec相关文档</a></p>
 <pre><code>ociVersion：指定OCI容器的版本号
 root：配置容器的root文件系统
 process：配置容器进程信息
@@ -235,7 +254,12 @@ mounts：配置额外的挂载点
 hook：配置容器生命周期触发钩子
 </code></pre><p><strong>runtime spec</strong></p>
 <p>OCI 容器运行时标准主要是指定容器的运行状态，和 runtime 需要提供的命令，如下状态流转图所示：</p>
-<p><img src="https://user-images.githubusercontent.com/19829495/118305620-cd1dee00-b51a-11eb-8fa5-814f86ca0f42.png" alt="DeepinScreenshot_select-area_20210515011303"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/118305620-cd1dee00-b51a-11eb-8fa5-814f86ca0f42.png">
+    <img src="https://user-images.githubusercontent.com/19829495/118305620-cd1dee00-b51a-11eb-8fa5-814f86ca0f42.png" alt="DeepinScreenshot_select-area_20210515011303"  />
+    </a>
+</div></p>
 <p><strong>基于busybox创建OCI runtime bundle相关文件</strong></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker pull busybox
 mkdir mycontainer <span style="color:#f92672">&amp;&amp;</span> cd mycontainer
@@ -298,7 +322,7 @@ sudo runc delete mycontainer
 <span style="color:#75715e"># 7. runc run组合命令，组合了runc create创建，runc start启动以及在退出之后runc delete的删除命令</span>
 sudo runc run mycontainer
 </code></pre></div><h3 id="runc-run">runC-run</h3>
-<p>runC源码在github <a href="https://github.com/opencontainers/runc">runc项目</a>可以获取到，项目结构如下所示，其中如<code>create.go</code>、<code>delete.go</code>等文件为runC命令的实现；<code>libcontainer</code>目录为核心包（参考上文runC的由来），可见runC本质上是对<code>libcontainer</code>的一层封装，在<code>libcontainer</code>上加了一层OCI的适配操作与hook；<code>main.go</code>是入口文件，使用 <code>github.com/urfave/cli</code> 库进行命令行解析与执行函数：</p>
+<p>runC源码在github <a href="https://github.com/opencontainers/runc">runc</a> 项目可以获取到，项目结构如下所示，其中如<code>create.go</code>、<code>delete.go</code>等文件为runC命令的实现；<code>libcontainer</code>目录为核心包（参考上文runC的由来），可见runC本质上是对<code>libcontainer</code>的一层封装，在<code>libcontainer</code>上加了一层OCI的适配操作与hook；<code>main.go</code>是入口文件，使用 <code>github.com/urfave/cli</code> 库进行命令行解析与执行函数：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tree -L <span style="color:#ae81ff">1</span> -F --dirsfirst
 .
 ├── contrib/
@@ -406,7 +430,7 @@ sudo runc run mycontainer
 </code></pre></div><ol>
 <li>通过<code>specconv.CreateLibcontainerConfig</code>把spec转换成libcontainer内部config对象</li>
 <li>通过factory 模式获取对应平台的factory实现（目前仅linux平台支持）,如<code>libcontainer/factory_linux.go</code>，并调用其Create方法构建返回<code>libcontainer.Container</code> 对象（包含容器命令的实现，如Run、Start、State&hellip;）</li>
-<li>注意<code>libcontainer/factory_linux.go</code>New方法的InitPath为<code>/proc/self/exe</code>,InitArgs为init</li>
+<li>注意<code>libcontainer/factory_linux.go</code>New方法的InitPath为<code>/proc/self/exe</code>，InitArgs为init</li>
 </ol>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">l</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LinuxFactory</span>) <span style="color:#a6e22e">Create</span>(<span style="color:#a6e22e">id</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">config</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">configs</span>.<span style="color:#a6e22e">Config</span>) (<span style="color:#a6e22e">Container</span>, <span style="color:#66d9ef">error</span>) {
 	<span style="color:#f92672">...</span>
@@ -620,9 +644,23 @@ sudo runc run mycontainer
 <p>最后，在Init执行之前，会被<code>/runc/libcontainer/nsenter</code>劫持，在Go的runtime之前执行对应的C代码，从init管道中读取容器的配置，设置namespace，调用<code>setns</code>系统调用，将容器init进程加入到对应的namespace中。</p>
 <h3 id="runc-run-init-运行流程">runC-run-init-运行流程</h3>
 <p><strong>runC-run运行流程</strong></p>
-<p><img src="https://user-images.githubusercontent.com/19829495/118503688-6f2d1880-b75d-11eb-9942-6e277f249012.jpg" alt="runc-run"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/118503688-6f2d1880-b75d-11eb-9942-6e277f249012.jpg">
+    <img src="https://user-images.githubusercontent.com/19829495/118503688-6f2d1880-b75d-11eb-9942-6e277f249012.jpg" alt="runc-run"  />
+    </a>
+</div></p>
 <p><strong>runC-init运行流程</strong></p>
-<p><img src="https://user-images.githubusercontent.com/19829495/118503773-81a75200-b75d-11eb-8d0d-85b912864e9b.jpg" alt="runc-init"></p>
+<p>
+<div class="post-img-view">
+    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/118503773-81a75200-b75d-11eb-8d0d-85b912864e9b.jpg">
+    <img src="https://user-images.githubusercontent.com/19829495/118503773-81a75200-b75d-11eb-8d0d-85b912864e9b.jpg" alt="runc-init"  />
+    </a>
+</div></p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://icyfenix.cn/immutable-infrastructure/container/history.html">https://icyfenix.cn/immutable-infrastructure/container/history.html</a></li>
+</ul>
         </p>
     </div>
 </div>
@@ -649,6 +687,7 @@ sudo runc run mycontainer
             <li><a href="#runc-run-init-运行流程">runC-run-init-运行流程</a></li>
           </ul>
         </li>
+        <li><a href="#参考">参考</a></li>
       </ul>
     </li>
   </ul>
