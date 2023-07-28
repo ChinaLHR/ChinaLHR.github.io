@@ -40,7 +40,7 @@
       
       <guid>https://chinalhr.github.io/post/api-auth-program/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;Api认证授权方案总结&lt;/p&gt;
+&lt;p&gt;Api认证授权方案总结：HTTP Basic Authentication、HMAC、OAuth2、JWT。&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
