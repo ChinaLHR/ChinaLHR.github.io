@@ -200,7 +200,7 @@
 <li>cp or rsync</li>
 </ul>
 <p>官方参考文档：<a href="https://docs.mongodb.com/manual/core/backups/">https://docs.mongodb.com/manual/core/backups/</a></p>
-<h3 id="mongodump命令">mongodump命令</h3>
+<h3 id="mongodump命令">Mongodump命令</h3>
 <p>在Mongodb中可以使用<code>mongodump</code>命令来备份MongoDB数据，<code>mongodump</code>命令可以从 MongoDB 数据库读取数据，并生成 BSON 文件，<code>mongodump</code> 适合用于备份和恢复数据量较小的 MongoDB 数据库，不适用于大数据量备份。</p>
 <p><strong>mongodump 仅备份数据库中的文档，不备份索引，所以还原数据后需要重新生成索引。</strong></p>
 <p><code>mongodump</code> 备份过程中会对 mongod 服务的性能产生影响，建议在业务低峰期进行操作。</p>
@@ -247,10 +247,10 @@ mongodump &lt;options&gt;
 </code></pre></div><p>可以通过mongodump &ndash;help查看options</p>
 <h3 id="系统快照">系统快照</h3>
 <p>如果MongoDB是部署在阿里云ECS之类的云服务器，可以利用系统快照与生成策略进行定时备份。</p>
-<h3 id="cp-or-rsync">cp or rsync</h3>
+<h3 id="cp-or-rsync">Cp or Rsync</h3>
 <p>直接使用cp或者rsync等工具进行mongodb的data文件复制，自复制多个文件不是一个原子操作,所以在复制前必须停止对 MongoDB 的操作。 否则复制的文件会处于无效状态。</p>
 <h2 id="还原">还原</h2>
-<h3 id="mongorestore">mongorestore</h3>
+<h3 id="mongorestore">Mongorestore</h3>
 <p>在Mongodb中可以使用mongorestore 命令来恢复备份的数据。</p>
 <p>mongorestore可以创建新的数据库或将数据添加到现有的数据库，但是 <strong>mongorestore 仅仅执行insert操作，不执行update操作</strong>。这就意味着如果将文档还原到现有的数据库，现有的数据库中的文档的_id的值和要还原的文档中的_id 值是一样的，是不会将数据库原有的值覆盖的。</p>
 <ul>
@@ -354,14 +354,14 @@ tar -zcvPf <span style="color:#e6db74">${</span>TAR_DIR<span style="color:#e6db7
         <li><a href="#备份">备份</a>
           <ul>
             <li><a href="#mongodb数据备份的几种方式">MongoDB数据备份的几种方式</a></li>
-            <li><a href="#mongodump命令">mongodump命令</a></li>
+            <li><a href="#mongodump命令">Mongodump命令</a></li>
             <li><a href="#系统快照">系统快照</a></li>
-            <li><a href="#cp-or-rsync">cp or rsync</a></li>
+            <li><a href="#cp-or-rsync">Cp or Rsync</a></li>
           </ul>
         </li>
         <li><a href="#还原">还原</a>
           <ul>
-            <li><a href="#mongorestore">mongorestore</a></li>
+            <li><a href="#mongorestore">Mongorestore</a></li>
           </ul>
         </li>
         <li><a href="#mongodb定时备份shell脚本实现">MongoDB定时备份Shell脚本实现</a></li>

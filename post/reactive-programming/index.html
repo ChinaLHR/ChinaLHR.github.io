@@ -195,17 +195,15 @@
 <h3 id="关于响应式编程">关于响应式编程</h3>
 <p>响应式编程是一种关注于数据流（datastreams）和变化传递（propagation of change）的异步编程方式。可以用既有的编程语言表达静态（如数组）或动态（如事件源）的数据流。</p>
 <p>响应式编程通常作为面向对象编程中的“观察者模式”（Observer design pattern）的一种扩展。</p>
-<h4 id="reactive-streams-与-iterator-design-pattern-关系">reactive streams 与 Iterator design pattern 关系</h4>
+<h4 id="reactive-streams-与-iterator-design-pattern-关系">Reactive Streams 与 Iterator Design Pattern 关系</h4>
 <ul>
-<li>
-<p>Iterator:</p>
+<li>Iterator:
 <ul>
 <li>基于Pull模式(拉取)，Iterable角色 提供访问元素的方法，但是什么时候执行next()获取元素取决于开发者。</li>
 <li>命令式编程，详细的命令机器怎么（How）去处理数据以达到你想要的结果（What）。</li>
 </ul>
 </li>
-<li>
-<p>Reactive:</p>
+<li>Reactive:
 <ul>
 <li>基于Push模式(推送)，Publisher(发布者)-Subscriber(订阅者)角色提供获取元素的方法。当有新的值到来的时候，Publisher通知Subscriber。</li>
 <li>声明式编程，开发者通过描述“控制流程”来定义对数据流的处理逻辑。</li>
@@ -225,20 +223,15 @@
 </ul>
 <h4 id="阻塞与异步">阻塞与异步</h4>
 <ul>
-<li>
-<p>阻塞式（blocking）编码造成浪费资源，当一个程序面临延迟（通常是I/O方面， 比如数据库读写请求或网络调用），所在线程需要进入 idle 状态等待数据，从而浪费资源。</p>
-</li>
-<li>
-<p>异步非阻塞编码， （任务发起异步调用后）执行过程会切换到另一个 使用同样底层资源 的活跃任务，然后等异步调用返回结果再去处理，避免资源浪费。</p>
-</li>
-<li>
-<p>Java的异步</p>
+<li>阻塞式（blocking）编码造成浪费资源，当一个程序面临延迟（通常是I/O方面， 比如数据库读写请求或网络调用），所在线程需要进入 idle 状态等待数据，从而浪费资源。</li>
+<li>异步非阻塞编码， （任务发起异步调用后）执行过程会切换到另一个 使用同样底层资源 的活跃任务，然后等异步调用返回结果再去处理，避免资源浪费。</li>
+<li>Java的异步
 <ul>
 <li>
 <p>Callback：类似于观察者模式，异步方法没有返回值，而是采用一个 callback 作为参数，当结果出来后回调这个 callback。</p>
 </li>
 <li>
-<p>Futures:异步方法 立即 返回一个Future<!-- raw HTML omitted -->，该异步方法要返回结果的是 T 类型,线程实际处理结束时可以拿到结果。</p>
+<p>Futures:异步方法 立即 返回一个<code>Future&lt;T&gt;</code>，该异步方法要返回结果的是 T 类型,线程实际处理结束时可以拿到结果。</p>
 </li>
 <li>
 <p>缺陷：容易写出回调地狱（Callback Hell）</p>
@@ -259,12 +252,12 @@
 <ul>
 <li>回弹性
 <ul>
-<li>系统在出现失败时依然保持即时响应性。 失败的扩散被遏制在了每个组件内部，与其他组件相互隔离， 从而确保系统某部分的失败不会危及整个系统，并能独立恢复。每个组件的恢复都被委托给了另一个（外部的）组件。[如熔断器组件]</li>
+<li>系统在出现失败时依然保持即时响应性。 失败的扩散被遏制在了每个组件内部，与其他组件相互隔离， 从而确保系统某部分的失败不会危及整个系统，并能独立恢复。每个组件的恢复都被委托给了另一个（外部的）组件。<code>[如熔断器组件]</code></li>
 </ul>
 </li>
 <li>弹性
 <ul>
-<li>系统在不断变化的工作负载之下依然保持即时响应性。响应式系统可以对输入（负载）的速率变化做出反应，比如通过增加或者减少被分配用于服务这些输入（负载）的资源。[如DevOps,云原生&hellip;]</li>
+<li>系统在不断变化的工作负载之下依然保持即时响应性。响应式系统可以对输入（负载）的速率变化做出反应，比如通过增加或者减少被分配用于服务这些输入（负载）的资源。<code>[如DevOps,云原生...] </code></li>
 </ul>
 </li>
 <li>消息驱动
@@ -275,8 +268,8 @@
 </ul>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50694763-bbd49500-1075-11e9-9be4-b0e88578fabc.png">
-    <img src="https://user-images.githubusercontent.com/19829495/50694763-bbd49500-1075-11e9-9be4-b0e88578fabc.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/18ca3850b316e14068efea67e31cace9_MD5.png">
+    <img src="/_attachment/18ca3850b316e14068efea67e31cace9_MD5.png" alt="image"  />
     </a>
 </div></p>
 <h3 id="响应式编程与响应式系统">响应式编程与响应式系统</h3>
@@ -304,7 +297,7 @@
           <ul>
             <li><a href="#关于响应式编程">关于响应式编程</a>
               <ul>
-                <li><a href="#reactive-streams-与-iterator-design-pattern-关系">reactive streams 与 Iterator design pattern 关系</a></li>
+                <li><a href="#reactive-streams-与-iterator-design-pattern-关系">Reactive Streams 与 Iterator Design Pattern 关系</a></li>
                 <li><a href="#特性">特性</a></li>
                 <li><a href="#阻塞与异步">阻塞与异步</a></li>
               </ul>

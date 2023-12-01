@@ -221,17 +221,6 @@
     </item>
     
     <item>
-      <title>Linux-logrotate详解</title>
-      <link>https://chinalhr.github.io/backup/linux-logrotate/</link>
-      <pubDate>Fri, 31 Jan 2020 13:55:12 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/linux-logrotate/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;logrotate学习记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
       <title>敏捷开发与DevOps实践</title>
       <link>https://chinalhr.github.io/post/agile-devops/</link>
       <pubDate>Mon, 13 Jan 2020 23:04:37 +0800</pubDate>
@@ -254,17 +243,6 @@
     </item>
     
     <item>
-      <title>Python-Logging</title>
-      <link>https://chinalhr.github.io/backup/python-logging/</link>
-      <pubDate>Sat, 30 Nov 2019 14:09:28 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/python-logging/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Python Logging模块&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
       <title>Git“原理”、实用技巧与Git Flow</title>
       <link>https://chinalhr.github.io/post/git-principle-flow/</link>
       <pubDate>Tue, 26 Nov 2019 23:57:12 +0800</pubDate>
@@ -272,61 +250,6 @@
       <guid>https://chinalhr.github.io/post/git-principle-flow/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Git原理简单分析、一些实用技巧与Git Flow介绍。&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Python-Requests</title>
-      <link>https://chinalhr.github.io/backup/python-requests/</link>
-      <pubDate>Tue, 26 Nov 2019 23:54:39 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/python-requests/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Python Requests模块&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>PHP-Composer</title>
-      <link>https://chinalhr.github.io/backup/php-composer/</link>
-      <pubDate>Mon, 25 Nov 2019 22:46:32 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/php-composer/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;依赖管理工具Composer记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Linux用户-权限</title>
-      <link>https://chinalhr.github.io/backup/linux-security-permission/</link>
-      <pubDate>Wed, 23 Oct 2019 22:09:54 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/linux-security-permission/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;读《Linux命令行与shell脚本编程大全》记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>MongoDB用户-权限</title>
-      <link>https://chinalhr.github.io/backup/mongodb-user-auth/</link>
-      <pubDate>Fri, 18 Oct 2019 23:06:48 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/mongodb-user-auth/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;MongoDB用户/权限相关知识点整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>MongoDB配置相关</title>
-      <link>https://chinalhr.github.io/backup/mongodb-conf/</link>
-      <pubDate>Wed, 16 Oct 2019 22:36:58 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/mongodb-conf/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;MongoDB配置相关知识点整理&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -360,28 +283,6 @@
       <guid>https://chinalhr.github.io/post/redis-transaction/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Redis事务与Watch机制相关知识点整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>MongoDB分页-排序-索引</title>
-      <link>https://chinalhr.github.io/backup/mongo-limit-sort-index/</link>
-      <pubDate>Mon, 02 Sep 2019 20:33:31 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/mongo-limit-sort-index/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;MongoDB分页/排序/索引相关知识点整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Linux 零拷贝技术详解</title>
-      <link>https://chinalhr.github.io/backup/linux-zero-copy/</link>
-      <pubDate>Fri, 23 Aug 2019 12:26:11 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/linux-zero-copy/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Linux Zero-copy机制详解以及如何在Java中应用Zero-copy&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -430,28 +331,6 @@
     </item>
     
     <item>
-      <title>Nginx Http Module</title>
-      <link>https://chinalhr.github.io/backup/nginx-http/</link>
-      <pubDate>Tue, 25 Jun 2019 20:37:07 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/nginx-http/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Nginx相关资料阅读整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Nginx Base</title>
-      <link>https://chinalhr.github.io/backup/nginx-base/</link>
-      <pubDate>Tue, 18 Jun 2019 22:01:04 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/nginx-base/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Nginx相关资料阅读整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
       <title>跨域问题与解决方式</title>
       <link>https://chinalhr.github.io/post/nginx-cross/</link>
       <pubDate>Tue, 18 Jun 2019 21:55:57 +0800</pubDate>
@@ -459,39 +338,6 @@
       <guid>https://chinalhr.github.io/post/nginx-cross/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;浏览器同源策略及跨域解决方案梳理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Linux Out-Of-Memory killer</title>
-      <link>https://chinalhr.github.io/backup/linux-oom/</link>
-      <pubDate>Mon, 03 Jun 2019 22:48:25 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/linux-oom/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Linux OOM Killer排查记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Vertx Kotlin协程</title>
-      <link>https://chinalhr.github.io/backup/vertx-kotlin-coroutine/</link>
-      <pubDate>Thu, 23 May 2019 21:59:46 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/vertx-kotlin-coroutine/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Vert.x 利用 Kotlin协程特性优雅编写异步逻辑&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Linux命令记录</title>
-      <link>https://chinalhr.github.io/backup/linux-operating-record/</link>
-      <pubDate>Fri, 19 Apr 2019 22:59:11 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/linux-operating-record/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;日常Linux命令记录&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -525,28 +371,6 @@
       <guid>https://chinalhr.github.io/post/mysql-deadlock-record/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记一次MySql死锁排查&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Vert.x基础：Web模块</title>
-      <link>https://chinalhr.github.io/backup/vertx-record-2/</link>
-      <pubDate>Sat, 06 Apr 2019 23:56:26 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/vertx-record-2/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Vert.x 官方文档阅读&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Vert.x基础：Core模块</title>
-      <link>https://chinalhr.github.io/backup/vertx-record-1/</link>
-      <pubDate>Tue, 02 Apr 2019 22:01:56 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/vertx-record-1/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Vert.x 官方文档阅读&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -694,28 +518,6 @@
     </item>
     
     <item>
-      <title>Mybatis动态表名：# 与 $ 区别</title>
-      <link>https://chinalhr.github.io/backup/mybatis-sql-precompile/</link>
-      <pubDate>Mon, 12 Nov 2018 21:30:50 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/mybatis-sql-precompile/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;学习Mybatis# 与 $ 机制&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>编码技巧：防御性编程|表驱动法</title>
-      <link>https://chinalhr.github.io/backup/code-optimize/</link>
-      <pubDate>Sat, 03 Nov 2018 21:44:31 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/code-optimize/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;读&amp;lt;代码大全&amp;gt;&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
       <title>缓存更新策略</title>
       <link>https://chinalhr.github.io/post/java-cache-strategy/</link>
       <pubDate>Thu, 01 Nov 2018 23:20:52 +0800</pubDate>
@@ -738,17 +540,6 @@
     </item>
     
     <item>
-      <title>Joda DateTime记录</title>
-      <link>https://chinalhr.github.io/backup/joda-datetime-record/</link>
-      <pubDate>Thu, 04 Oct 2018 23:40:13 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/joda-datetime-record/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;用来记录joda DateTime工具类使用&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
       <title>Shrio导致SpringCache缓存失效原因分析</title>
       <link>https://chinalhr.github.io/post/spring-cache-shrio-bug/</link>
       <pubDate>Sat, 22 Sep 2018 23:10:00 +0800</pubDate>
@@ -756,17 +547,6 @@
       <guid>https://chinalhr.github.io/post/spring-cache-shrio-bug/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记录Shrio与SpringCache使用过程遇到的问题&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>使用Apache ab进行压力测试</title>
-      <link>https://chinalhr.github.io/backup/test-apache-ab/</link>
-      <pubDate>Sun, 16 Sep 2018 23:07:30 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/test-apache-ab/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;学习Apache ab进行压力测试&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -782,61 +562,6 @@
     </item>
     
     <item>
-      <title>Java在Stream中异常处理问题</title>
-      <link>https://chinalhr.github.io/backup/java-lambda-exception/</link>
-      <pubDate>Wed, 25 Jul 2018 23:20:01 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/java-lambda-exception/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Java Lamdba Api缺陷&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>MySql大数据量表分页</title>
-      <link>https://chinalhr.github.io/backup/mysql-paging/</link>
-      <pubDate>Thu, 19 Jul 2018 23:37:55 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/mysql-paging/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;MySql分页相关技巧整理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>RedisTemplate问题</title>
-      <link>https://chinalhr.github.io/backup/redis-template_problem/</link>
-      <pubDate>Fri, 13 Jul 2018 22:17:22 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/redis-template_problem/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;记录RedisTemplate使用过程的问题&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>函数式接口-Supplier|Predicate|Consumer|Function</title>
-      <link>https://chinalhr.github.io/backup/java-supplier-predicate-consumer/</link>
-      <pubDate>Wed, 11 Jul 2018 21:19:59 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/java-supplier-predicate-consumer/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Java函数式接口相关记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>消息队列QPS优化(使用Redis做MQ的Buff)</title>
-      <link>https://chinalhr.github.io/backup/redis-do-mqbuff/</link>
-      <pubDate>Tue, 10 Jul 2018 22:01:41 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/redis-do-mqbuff/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;使用Redis做阿里MQ发送的缓存，一种控制MQ发送QPS的方案&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
       <title>Mysql对存有大数据表进行结构修改需要注意的问题</title>
       <link>https://chinalhr.github.io/post/mysql-alter/</link>
       <pubDate>Sun, 08 Jul 2018 17:56:21 +0800</pubDate>
@@ -848,50 +573,6 @@
     </item>
     
     <item>
-      <title>Git记录</title>
-      <link>https://chinalhr.github.io/backup/git-basic/</link>
-      <pubDate>Sun, 08 Jul 2018 15:49:09 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/git-basic/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;记录Git操作&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Mysql主从复制-读写分离</title>
-      <link>https://chinalhr.github.io/backup/mysql-proxy/</link>
-      <pubDate>Wed, 27 Jun 2018 15:54:50 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/mysql-proxy/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Mysql主从复制，读写分离相关资料整理记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Java项目中的系统结构分层</title>
-      <link>https://chinalhr.github.io/backup/java-system-structure/</link>
-      <pubDate>Mon, 25 Jun 2018 12:07:03 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/java-system-structure/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;公司Java项目中的系统结构分层&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Spring Boot组件-Retry|Scheduled</title>
-      <link>https://chinalhr.github.io/backup/java-springboot-component/</link>
-      <pubDate>Sun, 24 Jun 2018 20:53:59 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/java-springboot-component/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Spring Retry与Scheduled使用记录&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
       <title>基于SSM项目的个人编码规范</title>
       <link>https://chinalhr.github.io/post/java-practice/</link>
       <pubDate>Mon, 19 Feb 2018 14:31:45 +0800</pubDate>
@@ -899,17 +580,6 @@
       <guid>https://chinalhr.github.io/post/java-practice/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;仅记录一个多月实习过程的个人编码规范&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>书单</title>
-      <link>https://chinalhr.github.io/backup/books/</link>
-      <pubDate>Fri, 25 Nov 2016 23:28:15 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/backup/books/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;仅用来记录阅读过的技术书单&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

@@ -195,7 +195,7 @@
 <p>工作中需要用到MyBatis进行分表操作，简单记录实现过程</p>
 </blockquote>
 <h2 id="mybatis-interceptor">MyBatis Interceptor</h2>
-<h3 id="mybatis-允许你在已映射语句执行过程中的某一点使用插件来拦截包括">MyBatis 允许你在已映射语句执行过程中的某一点使用插件来拦截,包括：</h3>
+<h3 id="mybatis-允许你在已映射语句执行过程中的某一点使用插件来拦截包括">MyBatis 允许你在已映射语句执行过程中的某一点使用插件来拦截,包括</h3>
 <pre><code>Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)[拦截执行器的方法]
 ParameterHandler (getParameterObject, setParameters)[拦截参数的处理]
 ResultSetHandler (handleResultSets, handleOutputParameters)[拦截结果集的处理]
@@ -221,15 +221,15 @@ StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法�
        <span style="color:#a6e22e">@Signature</span><span style="color:#f92672">(</span>method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;prepare&#34;</span><span style="color:#f92672">,</span> type <span style="color:#f92672">=</span> StatementHandler<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> args <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span> <span style="color:#f92672">})</span> <span style="color:#f92672">})</span>  
 </code></pre></div><p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/48355299-a2931600-e6ce-11e8-8a6f-540c9cd5f3f8.png">
-    <img src="https://user-images.githubusercontent.com/19829495/48355299-a2931600-e6ce-11e8-8a6f-540c9cd5f3f8.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/fdc1fcfb38789cd0214975771468f30e_MD5.png">
+    <img src="/_attachment/fdc1fcfb38789cd0214975771468f30e_MD5.png" alt="image"  />
     </a>
 </div></p>
 <h2 id="利用interceptor实现自定义分表原理">利用Interceptor实现自定义分表原理</h2>
 <p>利用JDBC对数据库进行操作就必须要有一个对应的Statement对象，Mybatis在执行Sql语句前也会产生一个包含Sql语句的Statement对象，Sql语句生成的时机是在Statement之前的，利用Interceptor可以在Sql语句成为Statement之前对Sql语句进行修改。</p>
 <p>Mybatis中Statement语句是通过RoutingStatementHandler对象的 prepare方法生成的。使用Interceptor对StatementHandler的prepare方法进行拦截即可获得原始Sql。</p>
 <p>获取原始Sql后，可以解析出根表名，再通过一系列的策略获取到实际的分表表名，对其原始Sql进行表名替换。</p>
-<h2 id="示例">示例:</h2>
+<h2 id="示例">示例</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Intercepts</span><span style="color:#f92672">({</span><span style="color:#a6e22e">@Signature</span><span style="color:#f92672">(</span>type <span style="color:#f92672">=</span> StatementHandler<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;prepare&#34;</span><span style="color:#f92672">,</span> args <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">})})</span>
 <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomerIdShardInterceptor</span> <span style="color:#66d9ef">implements</span> Interceptor <span style="color:#f92672">{</span>
 	    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> ObjectFactory DEFAULT_OBJECT_FACTORY <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DefaultObjectFactory<span style="color:#f92672">();</span>
@@ -313,10 +313,11 @@ StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法�
     <span style="color:#f92672">}</span>
 </code></pre></div><h2 id="关于分表策略">关于分表策略</h2>
 <h3 id="取模">取模</h3>
-<pre><code>1.可以维护一个根symbols表用来存储插入表的自增的id代表固定业务id，使用id取模进行分表(存储分表table_suffix = table_(id%i),i的大小取决于数据量的大小),由此策略可分table_0~table_i-1个分表进行数据存储。
-2.插入时根据symbols表的自增业务id进行取模对对应表进行插入。
-3.查询时从symbols对查询业务id进行取模,决定去哪个分表查询
-</code></pre>
+<ol>
+<li>可以维护一个根symbols表用来存储插入表的自增的id代表固定业务id，使用id取模进行分表(存储分表table_suffix = table_(id%i),i的大小取决于数据量的大小),由此策略可分table_0~table_i-1个分表进行数据存储。</li>
+<li>插入时根据symbols表的自增业务id进行取模对对应表进行插入。</li>
+<li>查询时从symbols对查询业务id进行取模,决定去哪个分表查询</li>
+</ol>
 <h2 id="参考">参考</h2>
 <ul>
 <li><a href="http://elim.iteye.com/blog/1851081">http://elim.iteye.com/blog/1851081</a></li>
@@ -334,13 +335,13 @@ StatementHandler (prepare, parameterize, batch, update, query)[拦截Sql语法�
       <ul>
         <li><a href="#mybatis-interceptor">MyBatis Interceptor</a>
           <ul>
-            <li><a href="#mybatis-允许你在已映射语句执行过程中的某一点使用插件来拦截包括">MyBatis 允许你在已映射语句执行过程中的某一点使用插件来拦截,包括：</a></li>
+            <li><a href="#mybatis-允许你在已映射语句执行过程中的某一点使用插件来拦截包括">MyBatis 允许你在已映射语句执行过程中的某一点使用插件来拦截,包括</a></li>
             <li><a href="#interceptor接口">Interceptor接口</a></li>
             <li><a href="#intercepts">@Intercepts</a></li>
           </ul>
         </li>
         <li><a href="#利用interceptor实现自定义分表原理">利用Interceptor实现自定义分表原理</a></li>
-        <li><a href="#示例">示例:</a></li>
+        <li><a href="#示例">示例</a></li>
         <li><a href="#关于分表策略">关于分表策略</a>
           <ul>
             <li><a href="#取模">取模</a></li>

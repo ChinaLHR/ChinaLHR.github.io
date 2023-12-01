@@ -230,8 +230,8 @@ redis&gt; EXEC
 <p><code>MULTI</code>命令会将客户端的 REDIS_MULTI 选项打开， 让客户端从非事务状态切换到事务状态。Redis的事务是不可嵌套的，所以当客户端已经处于事务状态再向服务器发送 <code>MULTI</code>命令，服务器会向客户端发送一个错误后继续等待其他命令的入队。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232694608-be13eb53-eb4d-4f28-ba98-a40b9985603b.png">
-    <img src="https://user-images.githubusercontent.com/19829495/232694608-be13eb53-eb4d-4f28-ba98-a40b9985603b.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/87ca10bda03a8ced7fe6ac4ff6c3e7eb_MD5.png">
+    <img src="/_attachment/87ca10bda03a8ced7fe6ac4ff6c3e7eb_MD5.png" alt="image"  />
     </a>
 </div></p>
 <h3 id="offercommand-to-queue">OFFER(COMMAND) TO QUEUE</h3>
@@ -302,8 +302,8 @@ redis&gt; EXEC
 <p>执行流程如下所示：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/232699238-feebb36e-31cc-4759-970b-af5ac733f449.png">
-    <img src="https://user-images.githubusercontent.com/19829495/232699238-feebb36e-31cc-4759-970b-af5ac733f449.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/48fc9b41b1c73c1ced2ca6f05e989d87_MD5.png">
+    <img src="/_attachment/48fc9b41b1c73c1ced2ca6f05e989d87_MD5.png" alt="image"  />
     </a>
 </div></p>
 <h3 id="discard">DISCARD</h3>
@@ -316,8 +316,8 @@ redis&gt; EXEC
 <p>在每个代表数据库的 redis.h/redisDb 结构类型中， 都保存了一个 <code>watched_keys</code> 字典， 字典的键是这个数据库被监视的键， 而字典的值则是一个链表， 链表中保存了所有监视这个键的客户端。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/64306279-d07e7980-cfc4-11e9-9e77-cd4dd66aeccb.png">
-    <img src="https://user-images.githubusercontent.com/19829495/64306279-d07e7980-cfc4-11e9-9e77-cd4dd66aeccb.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/4cf5379b0da79d933f0c0f63ea7341ea_MD5.png">
+    <img src="/_attachment/4cf5379b0da79d933f0c0f63ea7341ea_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p><code>WATCH</code>命令的作用， 就是将当前客户端和要监视的键在 <code>watched_keys</code> 中进行关联。</p>
@@ -328,8 +328,8 @@ redis&gt; EXEC
 <p>在任何对数据库键空间（key space）进行修改的命令成功执行之后 （比如 <code>FLUSHDB</code> 、 <code>SET</code> 、 <code>DEL</code> 、 <code>LPUSH</code> 、 <code>SADD</code> 、 <code>ZREM</code>&hellip;）， <code>multi.c/touchWatchedKey</code> 函数都会被调用，它检查数据库的 <code>watched_keys</code> 字典， 检查是否有客户端在监视已经被命令修改的键， 如果有的话， 程序将所有监视这些被修改键的客户端的 <code>REDIS_DIRTY_CAS</code> 选项打开：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/64306899-dd9c6800-cfc6-11e9-92f9-782a0ac91c4b.png">
-    <img src="https://user-images.githubusercontent.com/19829495/64306899-dd9c6800-cfc6-11e9-92f9-782a0ac91c4b.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/9060648786733eb03a622e5165217fb4_MD5.png">
+    <img src="/_attachment/9060648786733eb03a622e5165217fb4_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>之后当客户端发送 <code>EXEC</code> 命令触发事务执行时， 服务器会对客户端的状态进行检查：</p>

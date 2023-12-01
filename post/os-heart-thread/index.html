@@ -218,8 +218,8 @@
 <p>一对一线程映射:内核线程驻留在内核空间，它们是内核对象。有了内核线程，每个用户线程被映射或绑定到一个内核线程。用户线程在其生命期内都会绑定到该内核线程。一旦用户线程终止，两个线程都将离开系统。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/49329730-7a585200-f5be-11e8-98f6-49854ab8776f.png">
-    <img src="https://user-images.githubusercontent.com/19829495/49329730-7a585200-f5be-11e8-98f6-49854ab8776f.png" alt=""  />
+    <a data-fancybox="gallery" data-src="/_attachment/e27510434bcc235c314ee19e54935ce1_MD5.png">
+    <img src="/_attachment/e27510434bcc235c314ee19e54935ce1_MD5.png" alt=""  />
     </a>
 </div></p>
 <p>特点：当某个线程希望创建一个新线程或撤销一个已有线程时，它进行一个系统调用</p>
@@ -242,8 +242,8 @@
 <p>库调度器从进程的多个线程中选择一个线程，然后该线程和该进程允许的一个内核线程关联起来。内核线程将被操作系统调度器指派到处理器内核。用户级线程是一种”多对一”的线程映射。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/49336547-0f9b2b00-f63f-11e8-9191-a8ecc403354b.png">
-    <img src="https://user-images.githubusercontent.com/19829495/49336547-0f9b2b00-f63f-11e8-9191-a8ecc403354b.png" alt=""  />
+    <a data-fancybox="gallery" data-src="/_attachment/19658bdda7e59d455f9775c6ef71b288_MD5.png">
+    <img src="/_attachment/19658bdda7e59d455f9775c6ef71b288_MD5.png" alt=""  />
     </a>
 </div></p>
 <p>特点：内核对线程包一无所知。从内核角度考虑，就是按正常的方式管理，即单线程进程（存在运行时系统）</p>
@@ -264,8 +264,8 @@
 <p>用户态的执行系统负责进程内部的线程在非阻塞时的切换；内核态的操作系统负责阻塞线程的切换，同时实现内核态和用户态线程管理。(用户态线程被多路复用到内核态线程上)</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/49337447-a2db5d00-f64d-11e8-9900-851e263e4fd3.png">
-    <img src="https://user-images.githubusercontent.com/19829495/49337447-a2db5d00-f64d-11e8-9900-851e263e4fd3.png" alt=""  />
+    <a data-fancybox="gallery" data-src="/_attachment/a63e80cdad9315632247bd84d859eaeb_MD5.png">
+    <img src="/_attachment/a63e80cdad9315632247bd84d859eaeb_MD5.png" alt=""  />
     </a>
 </div></p>
 <h3 id="java线程模型">Java线程模型</h3>
@@ -281,35 +281,27 @@
 优先级不一定和Java的会一一对应(Linux 1~99,Window 7种)，导致Java线程优先级不一定可靠。</p>
 <p><strong>Java线程状态转换</strong></p>
 <ol>
-<li>
-<p>新建（New）：创建后尚未启动的线程处于这种状态。</p>
-</li>
-<li>
-<p>运行（Runable）：Runable包括了操作系统线程状态中的Running和Ready，也就是处于此状态的线程有可能正在执行，也有可能正在等待着CPU为它分配执行时间。</p>
-</li>
-<li>
-<p>无限期等待（Waiting）：处于这种状态的线程不会被分配CPU执行时间，它们要等待被其他线程显式地唤醒。以下方法会让线程陷入无限期的等待状态：</p>
-<pre><code> 没有设置Timeout参数的Object.wait（）方法。
- 没有设置Timeout参数的Thread.join（）方法。
- LockSupport.park（）方法。
-</code></pre>
-</li>
-<li>
-<p>限期等待（Timed Waiting）：处于这种状态的线程也不会被分配CPU执行时间，不过无须等待被其他线程显式地唤醒，在一定时间之后它们会由系统自动唤            醒。以下方法会让线程进入限期等待状态：</p>
-<pre><code> Thread.sleep（）方法。
- 设置了Timeout参数的Object.wait（）方法。
- 设置了Timeout参数的Thread.join（）方法。
- LockSupport.parkNanos（）方法。
- LockSupport.parkUntil（）方法。
-</code></pre>
-</li>
+<li>新建（New）：创建后尚未启动的线程处于这种状态。</li>
+<li>运行（Runable）：Runable包括了操作系统线程状态中的Running和Ready，也就是处于此状态的线程有可能正在执行，也有可能正在等待着CPU为它分配执行时间。</li>
+<li>无限期等待（Waiting）：处于这种状态的线程不会被分配CPU执行时间，它们要等待被其他线程显式地唤醒。以下方法会让线程陷入无限期的等待状态：</li>
 </ol>
-<p>5.阻塞（Blocked）：线程被阻塞了，“阻塞状态”与“等待状态”的区别是：“阻塞状态”在等待着获取到一个排他锁，这个事件将在另外一个线程放弃这个锁的时候发生；而“等待状态”则是在等待一段时间，或者唤醒动作的发生。在程序等待进入同步区域的时候，线程将进入这种状态。</p>
+<pre><code>		没有设置Timeout参数的Object.wait（）方法。
+		没有设置Timeout参数的Thread.join（）方法。
+		LockSupport.park（）方法。
+</code></pre><ol start="4">
+<li>限期等待（Timed Waiting）：处于这种状态的线程也不会被分配CPU执行时间，不过无须等待被其他线程显式地唤醒，在一定时间之后它们会由系统自动唤            醒。以下方法会让线程进入限期等待状态：</li>
+</ol>
+<pre><code>		Thread.sleep（）方法。
+		设置了Timeout参数的Object.wait（）方法。
+		设置了Timeout参数的Thread.join（）方法。
+		LockSupport.parkNanos（）方法。
+		LockSupport.parkUntil（）方法。
+</code></pre><p>5.阻塞（Blocked）：线程被阻塞了，“阻塞状态”与“等待状态”的区别是：“阻塞状态”在等待着获取到一个排他锁，这个事件将在另外一个线程放弃这个锁的时候发生；而“等待状态”则是在等待一段时间，或者唤醒动作的发生。在程序等待进入同步区域的时候，线程将进入这种状态。</p>
 <p>6.结束（Terminated）：已终止线程的线程状态，线程已经结束执行。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/49560041-e71b7580-f94b-11e8-8875-1499f63c0276.png">
-    <img src="https://user-images.githubusercontent.com/19829495/49560041-e71b7580-f94b-11e8-8875-1499f63c0276.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/f67d2e94cd48cc1733ae4af9784874db_MD5.png">
+    <img src="/_attachment/f67d2e94cd48cc1733ae4af9784874db_MD5.png" alt="image"  />
     </a>
 </div></p>
 <hr>
@@ -330,27 +322,26 @@
 <p>sleep原语：进入睡眠，释放CPU
 wakeup原语:发送信号给指定进程</p>
 <p>伪代码：</p>
-<pre><code>define N 100
-int count = 0;
-void producer(void){
-   while(true){
-    if(count==N) sleep();
-    //生产商品
-    count = count + 1;
-    if(count == 1)wakeup(consumer);
-    }
-}
-    
-void consumer(void){
-    while(true){
-        if(count==0) sleep();
-        //获取商品
-        count = count - 1;
-        if(count == N -1 ) wakeup(producer);
-    }
-}
-</code></pre>
-<p>缺陷：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    define N 100
+    <span style="color:#66d9ef">int</span> count <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">producer</span><span style="color:#f92672">(</span><span style="color:#66d9ef">void</span><span style="color:#f92672">){</span>
+       <span style="color:#66d9ef">while</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>count<span style="color:#f92672">==</span>N<span style="color:#f92672">)</span> sleep<span style="color:#f92672">();</span>
+        <span style="color:#75715e">//生产商品
+</span><span style="color:#75715e"></span>        count <span style="color:#f92672">=</span> count <span style="color:#f92672">+</span> 1<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>count <span style="color:#f92672">==</span> 1<span style="color:#f92672">)</span>wakeup<span style="color:#f92672">(</span>consumer<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+        
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">consumer</span><span style="color:#f92672">(</span><span style="color:#66d9ef">void</span><span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">while</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">){</span>
+            <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>count<span style="color:#f92672">==</span>0<span style="color:#f92672">)</span> sleep<span style="color:#f92672">();</span>
+            <span style="color:#75715e">//获取商品
+</span><span style="color:#75715e"></span>            count <span style="color:#f92672">=</span> count <span style="color:#f92672">-</span> 1<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>count <span style="color:#f92672">==</span> N <span style="color:#f92672">-</span>1 <span style="color:#f92672">)</span> wakeup<span style="color:#f92672">(</span>producer<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><p>缺陷：</p>
 <ol>
 <li>如果消费者先获取商品，获取不到sleep，但是在sleep语句之前CPU切换，生产者生产商品，发送wakeup给消费者(此时消费者还没进入sleep）,当生产者生产完成，进入sleep之后，CPU切换为消费者，此时消费者继续进程Sleep，导致死锁。</li>
 </ol>
@@ -376,38 +367,36 @@ void consumer(void){
 </ul>
 <p>如果将信号量的取值限制为0和1，等效于锁。因为二元信号量是原子的，等效于锁+Wait-Notify</p>
 <p>例子(进程B执行完再执行进程A)：</p>
-<pre><code>    - 进程A         进程B
-    - down()        doSomeThing
-    - doSomeThing   up()
-</code></pre>
-<p>伪代码：</p>
-<pre><code>define N 100
-typedef int semphore;//定义信号量类型
-semphore mutex = 1;//互斥信号量
-semphore empty = N;//缓存区计数信号量,空位数量
-semphore full = 0;//缓存区计数信号量,商品数量
-
-void producer(void){
-   while(true){
-    down(empty);
-    down(mutex);
-    //生产商品
-    up(mutex);
-    up(full);
-    }
-}
-    
-void consumer(void){
-    while(true){
-        down(full);
-        down(mutex);
-        //获取商品
-        up(mutex);
-        up(empty);
-    }
-}
-</code></pre>
-<p>缺陷：程序效率低下</p>
+<pre><code>        - 进程A         进程B
+        - down()        doSomeThing
+        - doSomeThing   up()
+</code></pre><p>伪代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    define N 100
+    typedef <span style="color:#66d9ef">int</span> semphore<span style="color:#f92672">;</span><span style="color:#75715e">//定义信号量类型
+</span><span style="color:#75715e"></span>    semphore mutex <span style="color:#f92672">=</span> 1<span style="color:#f92672">;</span><span style="color:#75715e">//互斥信号量
+</span><span style="color:#75715e"></span>    semphore empty <span style="color:#f92672">=</span> N<span style="color:#f92672">;</span><span style="color:#75715e">//缓存区计数信号量,空位数量
+</span><span style="color:#75715e"></span>    semphore full <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span><span style="color:#75715e">//缓存区计数信号量,商品数量
+</span><span style="color:#75715e"></span>    
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">producer</span><span style="color:#f92672">(</span><span style="color:#66d9ef">void</span><span style="color:#f92672">){</span>
+       <span style="color:#66d9ef">while</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">){</span>
+        down<span style="color:#f92672">(</span>empty<span style="color:#f92672">);</span>
+        down<span style="color:#f92672">(</span>mutex<span style="color:#f92672">);</span>
+        <span style="color:#75715e">//生产商品
+</span><span style="color:#75715e"></span>        up<span style="color:#f92672">(</span>mutex<span style="color:#f92672">);</span>
+        up<span style="color:#f92672">(</span>full<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+        
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">consumer</span><span style="color:#f92672">(</span><span style="color:#66d9ef">void</span><span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">while</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">){</span>
+            down<span style="color:#f92672">(</span>full<span style="color:#f92672">);</span>
+            down<span style="color:#f92672">(</span>mutex<span style="color:#f92672">);</span>
+            <span style="color:#75715e">//获取商品
+</span><span style="color:#75715e"></span>            up<span style="color:#f92672">(</span>mutex<span style="color:#f92672">);</span>
+            up<span style="color:#f92672">(</span>empty<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><p>缺陷：程序效率低下</p>
 <p><strong>管程monitor(监视器)</strong></p>
 <p>管程是一个程序语言级别的构造，它的正确运行由编译器保证。（Java Synchronized）</p>
 <p>把需要同步的代码使用管程的构造框起来，即将需要保护的代码置于begin monitor 和 end monitor之间。编译器在识别到monitor包裹的代码块时，在翻译成低级代码时就会将需要的操作系统原语添加上去，
@@ -424,29 +413,28 @@ void consumer(void){
 </ol>
 <p>操作系统主要通过周期性时钟中断来获得CPU控制权。要想让一组操作变成原子操作，可以通过禁止中断，并且不自动调用yield之类让出CPU，防止进行切换，将一组操作变为原子操作。</p>
 <p><strong>unlock实现</strong></p>
-<pre><code>unlock(){
-    disable interrupts;//启用中断
-    value = FREE;//value设置为FREE
-    enable interrupts;//禁止中断
-}
-</code></pre>
-<h4 id="测试与设置指令来实现锁繁忙等待">测试与设置指令来实现锁(繁忙等待)</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    unlock<span style="color:#f92672">(){</span>
+        disable interrupts<span style="color:#f92672">;</span><span style="color:#75715e">//启用中断
+</span><span style="color:#75715e"></span>        value <span style="color:#f92672">=</span> FREE<span style="color:#f92672">;</span><span style="color:#75715e">//value设置为FREE
+</span><span style="color:#75715e"></span>        enable interrupts<span style="color:#f92672">;</span><span style="color:#75715e">//禁止中断
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+</code></pre></div><h4 id="测试与设置指令来实现锁繁忙等待">测试与设置指令来实现锁(繁忙等待)</h4>
 <p><strong>测试与设置(test&amp;set)指令 &ldquo;读——修改——写&rdquo;</strong></p>
 <ol>
 <li>设置操作：将x写入指定内存单元</li>
 <li>读取操作：返回指定内存单元原来的值(写入x之前的值)</li>
 </ol>
 <p><strong>lock/unlock实现</strong></p>
-<pre><code>//value原始值=0
-lock(){
-    while(test_and_set(value) == 1){
-    }
-}
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#75715e">//value原始值=0
+</span><span style="color:#75715e"></span>    lock<span style="color:#f92672">(){</span>
+        <span style="color:#66d9ef">while</span><span style="color:#f92672">(</span>test_and_set<span style="color:#f92672">(</span>value<span style="color:#f92672">)</span> <span style="color:#f92672">==</span> 1<span style="color:#f92672">){</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
 
-unlock(){
-    value = 0    
-}
-</code></pre>
+    unlock<span style="color:#f92672">(){</span>
+        value <span style="color:#f92672">=</span> 0    
+    <span style="color:#f92672">}</span>
+</code></pre></div>
         </p>
     </div>
 </div>

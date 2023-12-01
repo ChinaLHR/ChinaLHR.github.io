@@ -316,16 +316,16 @@ Record <span style="color:#66d9ef">lock</span>, heap <span style="color:#66d9ef"
 <h4 id="业务-1">业务</h4>
 <p>数据库表相比情况一缺少了uniq_customer_id_visit_customer_id这个唯一索引(主要是历史问题导致的,一开始就没有唯一索引，后续已经产生了很多脏数据不好添加索引)，业务逻辑是相同的。</p>
 <h4 id="非主键索引行锁相关">非主键索引行锁相关</h4>
-<p><strong>关于MySql行锁</strong>：<!-- raw HTML omitted -->
-行级锁并不是直接锁记录，而是锁索引，如果一条SQL语句用到了主键索引，mysql会锁住主键索引；如果一条语句操作了非主键索引，mysql会先锁住非主键索引，再锁定主键索引。</p>
-<p><strong>依据索引执行DELETE/UPDATE的执行步骤</strong>：<!-- raw HTML omitted --></p>
+<p><strong>关于MySql行锁</strong>：</p>
+<p>行级锁并不是直接锁记录，而是锁索引，如果一条SQL语句用到了主键索引，mysql会锁住主键索引；如果一条语句操作了非主键索引，mysql会先锁住非主键索引，再锁定主键索引。</p>
+<p><strong>依据索引执行DELETE/UPDATE的执行步骤</strong>：</p>
 <ol>
 <li>由于用到了非主键索引，首先需要获取index_customer_id|index_visit_customer_id上的行级锁(锁非聚簇索引)</li>
 <li>根据主键进行更新，所以需要获取主键上的行级锁(锁聚簇索引)</li>
 <li>更新完毕，提交并释放所有的锁</li>
 </ol>
-<p><strong>语句分析EXPLAIN</strong>
-发现执行的时候使用的type是index merge。在mysql5.0之前，一个表仅仅能使用一个索引，从5.1开始，引入了 index merge 优化技术，对同一个表可以使用多个索引分别进行条件扫描。
+<p><strong>语句分析EXPLAIN</strong></p>
+<p>发现执行的时候使用的type是index merge。在mysql5.0之前，一个表仅仅能使用一个索引，从5.1开始，引入了 index merge 优化技术，对同一个表可以使用多个索引分别进行条件扫描。
 使用index merge的情况下 ，update/delete 需要对多个非主键索引相继获取锁，再获取主键上的锁。</p>
 <h4 id="并发情况下死锁发生">并发情况下,死锁发生</h4>
 <p>在并发情况下，可能会出现</p>

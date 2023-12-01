@@ -206,8 +206,7 @@ request methods are idempotent.</p>
 <p>如果对服务器的多个相同请求的预期效果与单个此类请求的效果相同，则请求方法被视为“幂等”。规范定义的请求方法中，PUT，DELETE和安全请求方法应该是具有幂等性的。</p>
 <h3 id="分布式系统中接口幂等性问题">分布式系统中接口幂等性问题</h3>
 <ul>
-<li>
-<p>一个订单流程可能会遇到的问题</p>
+<li>一个订单流程可能会遇到的问题
 <ul>
 <li>订单创建接口，第一次调用响应超时了，然后调用方进行了重试。</li>
 <li>用户对订单进行了支付，服务端发生了扣钱操作，但是接口响应超时了，然后调用方进行了重试。</li>
@@ -216,8 +215,7 @@ request methods are idempotent.</p>
 <li>订单完成之后，需要发送一条短信，当一台机器接收到短信发送的消息之后，处理较慢。消息中间件又把消息投递给另外一台机器处理。</li>
 </ul>
 </li>
-<li>
-<p>解决之道</p>
+<li>解决之道
 <ul>
 <li>保证接口幂等性，接口可重复调用，在调用方多次调用的情况下，接口最终得到的结果是一致的。</li>
 <li>需要保证幂等性的接口：增加、更新、删除类型。</li>
@@ -246,8 +244,8 @@ request methods are idempotent.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">update</span> recharge_order <span style="color:#66d9ef">set</span>  paystatus <span style="color:#f92672">=</span> SUCCESS <span style="color:#66d9ef">where</span> orderId<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;orderid&#39;</span> <span style="color:#66d9ef">and</span> paystatus <span style="color:#f92672">=</span> UNPAID
 </code></pre></div><p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/60823431-1643df00-a1da-11e9-83ac-162c78f87f0e.png">
-    <img src="https://user-images.githubusercontent.com/19829495/60823431-1643df00-a1da-11e9-83ac-162c78f87f0e.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/a1ad9cec4fef09030b8f80f716d695b2_MD5.png">
+    <img src="/_attachment/a1ad9cec4fef09030b8f80f716d695b2_MD5.png" alt="image"  />
     </a>
 </div></p>
         </p>

@@ -195,8 +195,8 @@
 <h1 id="关于认证授权与凭证">关于认证，授权与凭证</h1>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76158479-1fae8e00-6151-11ea-9ab1-ab98f4207862.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76158479-1fae8e00-6151-11ea-9ab1-ab98f4207862.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/11c1f6aa672a26a9fc9c2c2afd7e3b5f_MD5.png">
+    <img src="/_attachment/11c1f6aa672a26a9fc9c2c2afd7e3b5f_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <ul>
@@ -223,8 +223,8 @@
 </ol>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76158487-30f79a80-6151-11ea-96a4-f8d282cc6d67.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76158487-30f79a80-6151-11ea-96a4-f8d282cc6d67.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/f20b8fa647022f747649ab9611182f12_MD5.png">
+    <img src="/_attachment/f20b8fa647022f747649ab9611182f12_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p>API 也可以提供 HTTP Basic Authentication 认证方式，那么客户端可以很简单通过 Base64 传输用户名和密码即可。</p>
@@ -235,8 +235,8 @@
 <p>基本过程如下：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76158499-479df180-6151-11ea-8990-7f75f26bc0fb.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76158499-479df180-6151-11ea-8990-7f75f26bc0fb.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/d1a5d752e770420119debce5913f62fc_MD5.png">
+    <img src="/_attachment/d1a5d752e770420119debce5913f62fc_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h3 id="签名生成">签名生成</h3>
@@ -244,15 +244,9 @@
 <h3 id="鉴权">鉴权</h3>
 <p>分解请求参数得出：timestamp,AK,请求PATH,请求参数。</p>
 <ol>
-<li>
-<p>是对timestamp进行临界值判断（例如过滤掉5分钟之前的请求，规避重放攻击）。</p>
-</li>
-<li>
-<p>是对当前请求的PATH进行权限判断，判断用户AK是否有当前PATH的请求权限。</p>
-</li>
-<li>
-<p>是根据AK在服务端（如数据库）获取到用户的SK，对参数timestamp,AK,请求PATH,请求参数进行key自然排序，然后进行字段与字段值拼接最后再拼接上SK，MD5加密生成Sign与传递过来的Sign进行对比鉴权。</p>
-</li>
+<li>是对timestamp进行临界值判断（例如过滤掉5分钟之前的请求，规避重放攻击）。</li>
+<li>是对当前请求的PATH进行权限判断，判断用户AK是否有当前PATH的请求权限。</li>
+<li>是根据AK在服务端（如数据库）获取到用户的SK，对参数timestamp,AK,请求PATH,请求参数进行key自然排序，然后进行字段与字段值拼接最后再拼接上SK，MD5加密生成Sign与传递过来的Sign进行对比鉴权。</li>
 </ol>
 <h3 id="质疑应答算法">质疑/应答算法</h3>
 <p>基于时间的一次性密码认证并不能严格避免重放攻击，质疑/应答算法需要客户端先请求一次服务器，获得一个 401 未认证的返回，并得到一个随机字符串（nonce）。将 nonce
@@ -260,8 +254,8 @@
 在服务器只会被使用一次，因此可以提供唯一的摘要。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76158506-54bae080-6151-11ea-9fcf-1173850a18ce.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76158506-54bae080-6151-11ea-9fcf-1173850a18ce.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/17f9d31e14474ba397013b397f5c6efe_MD5.png">
+    <img src="/_attachment/17f9d31e14474ba397013b397f5c6efe_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h2 id="oauth2">OAuth2</h2>
@@ -298,8 +292,8 @@
 <h3 id="oauth2授权流程">OAuth2授权流程</h3>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76158510-64d2c000-6151-11ea-9d57-429acf9a8a14.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76158510-64d2c000-6151-11ea-9d57-429acf9a8a14.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/696bbe5ee924f7b6f0c7f9c33bc8bb83_MD5.png">
+    <img src="/_attachment/696bbe5ee924f7b6f0c7f9c33bc8bb83_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <ul>
@@ -325,8 +319,8 @@
 <p>OAuth2最常用的一种授权许可类型，要求Client具有可公开访问的Server服务器来接受Authorization Code，具体的流程如下：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76158549-e4f92580-6151-11ea-9d02-5e188b39c04d.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76158549-e4f92580-6151-11ea-9d02-5e188b39c04d.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/1b6ed570bf2c26a0811882ee5f938c72_MD5.png">
+    <img src="/_attachment/1b6ed570bf2c26a0811882ee5f938c72_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <ul>
@@ -395,12 +389,12 @@ Content-Type: application/json;charset=UTF-8
 }
 </code></pre><h4 id="implicit隐式许可模式">Implicit（隐式许可模式）</h4>
 <p>Implicit是Authorization Code的简化版本。其中省略掉了颁发授权码（Authorization Code）给Client的过程，而是直接返回访问令牌和可选的刷新令牌。这种授权模式不通过第三方应用的后台服务器，直接在浏览器中向认证服务器申请令牌。</p>
-<p>与Authorzation Code类型区别：省略了<strong>Authorization  Response</strong>和<strong>Access Token Request</strong>，而是直接由<strong>Authorization Request</strong>返回<strong>Access Token  Response</strong>信息。</p>
+<p>与Authorzation Code类型区别：省略了<strong>Authorization Response</strong>和<strong>Access Token Request</strong>，而是直接由<strong>Authorization Request</strong>返回<strong>Access Token Response</strong>信息。</p>
 <p>具体的流程如下：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/74159778-47e0c500-4c57-11ea-8d10-c49b0e774cb5.png">
-    <img src="https://user-images.githubusercontent.com/19829495/74159778-47e0c500-4c57-11ea-8d10-c49b0e774cb5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/d12bacfef27550f008c459883eb13011_MD5.png">
+    <img src="/_attachment/d12bacfef27550f008c459883eb13011_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <ul>
@@ -417,12 +411,8 @@ Content-Type: application/json;charset=UTF-8
 GET /authorize?response_type=token&amp;client_id=1&amp;state=xyz&amp;redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Foauth2&amp;scope=user,photo HTTP/1.1
 Host: server.example.com
 </code></pre><ul>
-<li>
-<p>（B）<strong>Authorization server</strong>验证后提供一个页面供<strong>Resource owner</strong>登录进行身份认证，认证成功后选择<strong>Client</strong>可以访问<strong>Resource server</strong>的哪些资源以及读写权限。</p>
-</li>
-<li>
-<p>（C）<strong>Authorization server</strong>在（B）流程后返回<strong>访问令牌access_token Hash值</strong>，通过重定向的方式给到<strong>Client</strong>。</p>
-</li>
+<li>（B）<strong>Authorization server</strong>验证后提供一个页面供<strong>Resource owner</strong>登录进行身份认证，认证成功后选择<strong>Client</strong>可以访问<strong>Resource server</strong>的哪些资源以及读写权限。</li>
+<li>（C）<strong>Authorization server</strong>在（B）流程后返回<strong>访问令牌access_token Hash值</strong>，通过重定向的方式给到<strong>Client</strong>。</li>
 </ul>
 <pre><code>Access Token Response
 
@@ -484,16 +474,16 @@ Content-Type: application/json;charset=UTF-8
 }
 </code></pre><p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/74160981-37c9e500-4c59-11ea-98c4-58db53fe8387.png">
-    <img src="https://user-images.githubusercontent.com/19829495/74160981-37c9e500-4c59-11ea-98c4-58db53fe8387.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/41e996e64440c56e63bae71dcfed5606_MD5.png">
+    <img src="/_attachment/41e996e64440c56e63bae71dcfed5606_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h4 id="client-credentials客户端模式">Client Credentials（客户端模式）</h4>
 <p>Client直接已自己的名义而不是Resource owner的名义去要求访问Resource server的一些受保护资源。这种授权模式一般应用在 B2B 的服务授权场景，属于企业间数据授权和交互的范畴。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/234077245-74862099-54fb-4ced-847e-ced5a2668731.png">
-    <img src="https://user-images.githubusercontent.com/19829495/234077245-74862099-54fb-4ced-847e-ced5a2668731.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/a47acaba98bbcde5957e88398d416f76_MD5.png">
+    <img src="/_attachment/a47acaba98bbcde5957e88398d416f76_MD5.png" alt="image"  />
     </a>
 </div></p>
 <ul>
@@ -545,7 +535,7 @@ Host: server.example.com
 Host: server.example.com
 Authorization: Bearer 2YotnFZFEjr1zCsicMWpAA
 </code></pre><h4 id="form-encoded-body-parameter">Form-Encoded Body Parameter</h4>
-<p>在HTTP请求中使用Request Body传递access_token，Request  Header的<code>Content-Type</code>固定的<code>application/x-www-form-urlencoded</code>。</p>
+<p>在HTTP请求中使用Request Body传递access_token，Request Header的<code>Content-Type</code>固定的<code>application/x-www-form-urlencoded</code>。</p>
 <pre><code>POST /resource HTTP/1.1
 Host: server.example.com
 Content-Type: application/x-www-form-urlencoded
@@ -558,8 +548,8 @@ access_token=2YotnFZFEjr1zCsicMWpAA
 <h3 id="jwt工作流程">JWT工作流程</h3>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/74165543-3b149f00-4c60-11ea-9b8d-d3e41a1e0b6e.png">
-    <img src="https://user-images.githubusercontent.com/19829495/74165543-3b149f00-4c60-11ea-9b8d-d3e41a1e0b6e.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/5bd0fb2679cc0008b1b7f103760f68a2_MD5.png">
+    <img src="/_attachment/5bd0fb2679cc0008b1b7f103760f68a2_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <ul>
@@ -594,15 +584,9 @@ access_token=2YotnFZFEjr1zCsicMWpAA
 </span><span style="color:#75715e">//JWT = Base64(Header) + &#34;.&#34; + Base64(Payload) + &#34;.&#34; + $Signature
 </span></code></pre></div><p><strong>JWT三部分组成：</strong></p>
 <ol>
-<li>
-<p>经过 Base64 编码的Header。Header是一个JSON对象，对象里有一个值为“JWT” 的 typ 属性，以及 alg 属性，值为 HS256，表明最终使用的加密算法是 HS256。</p>
-</li>
-<li>
-<p>经过 Base64 编码 Payload。Payload被定义为实体的状态，像token自身附加元数据一样，claim 包含我们想要传输的信息，以及用于服务器验证的信息，一般有 reserved/public/private 三类。</p>
-</li>
-<li>
-<p>Signature由Header指定的算法（如HS256） 加密产生。该算法有两个参数，第一个参数是经过Base64分别编码的Header及Payload通过 . 连接组成的字符串，第二个参数是Secret Key，由生成Token的服务器持有。</p>
-</li>
+<li>经过 Base64 编码的Header。Header是一个JSON对象，对象里有一个值为“JWT” 的 typ 属性，以及 alg 属性，值为 HS256，表明最终使用的加密算法是 HS256。</li>
+<li>经过 Base64 编码 Payload。Payload被定义为实体的状态，像token自身附加元数据一样，claim 包含我们想要传输的信息，以及用于服务器验证的信息，一般有 reserved/public/private 三类。</li>
+<li>Signature由Header指定的算法（如HS256） 加密产生。该算法有两个参数，第一个参数是经过Base64分别编码的Header及Payload通过 . 连接组成的字符串，第二个参数是Secret Key，由生成Token的服务器持有。</li>
 </ol>
 <p>JWT 仅仅是对 Payload 做了简单的 Encode 处理，并未被加密，并不能保证数据的安全性。</p>
 <h3 id="服务端验证">服务端验证</h3>

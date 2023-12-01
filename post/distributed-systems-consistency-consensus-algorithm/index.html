@@ -262,8 +262,8 @@
 </ul>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/108621402-60400e00-746d-11eb-8356-b715eb7d4494.png">
-    <img src="https://user-images.githubusercontent.com/19829495/108621402-60400e00-746d-11eb-8356-b715eb7d4494.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/8311955763f46820c7886b8e69f4dbf8_MD5.png">
+    <img src="/_attachment/8311955763f46820c7886b8e69f4dbf8_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p><strong>CAP理论证明</strong>：</p>
@@ -305,8 +305,8 @@
 </ul>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/108691607-a57c4280-7536-11eb-8976-c97bdff45a50.png">
-    <img src="https://user-images.githubusercontent.com/19829495/108691607-a57c4280-7536-11eb-8976-c97bdff45a50.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/c36b0ef704d89268992750e72ecb0a07_MD5.png">
+    <img src="/_attachment/c36b0ef704d89268992750e72ecb0a07_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p><strong>为什么核心问题是复制</strong>：分布式存储相关的系统都必须用某种冗余的方式在廉价硬件的基础上搭建高可靠的存储，而冗余的基础就是复制（多副本策略）, 一份数据存多份. 多副本保证了可靠性, 而副本之间的一致, 就需要各种分布式共识算法来保证.</p>
@@ -318,7 +318,7 @@
 </ul>
 <h2 id="基本复制算法">基本复制算法</h2>
 <p>基本复制算法大致可以分为两类：Replication methods that prevent divergence (single copy systems) 防止差异的复制方式（单拷贝系统）与Replication methods that risk divergence (multi-master systems) 有差异风险的复制方式（多主系统）</p>
-<h3 id="replication-methods-that-prevent-divergence-single-copy-systems">Replication methods that prevent divergence (single copy systems)</h3>
+<h3 id="replication-methods-that-prevent-divergence-single-copy-systems">Replication Methods that Prevent Divergence (single Copy systems)</h3>
 <blockquote>
 <p>防止差异的复制方式（单拷贝系统）</p>
 </blockquote>
@@ -330,8 +330,8 @@
 <p>同步复制: 直到数据真的安全的复制到全部的机器上之后, master才告知客户端数据已经完成同步</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://github.com/ChinaLHR/Gungnir/assets/19829495/743382f4-50d4-41a6-9ab0-3b07dd37d892">
-    <img src="https://github.com/ChinaLHR/Gungnir/assets/19829495/743382f4-50d4-41a6-9ab0-3b07dd37d892" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/bbc18660dac576b06b99dc0fc13ded8f_MD5.png">
+    <img src="/_attachment/bbc18660dac576b06b99dc0fc13ded8f_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>问题：强一致性持久化保证，但是系统响应慢，对网络延迟的变化非常敏感；并且系统的可用性随着副本数量指数降低，任何一个机器的宕机都会影响到整个系统的写入。</p>
@@ -340,8 +340,8 @@
 <p>异步复制: master将更新存储在本地后立即向客户端发回响应，master在之后才进行异步复制到全部的机器上。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://github.com/ChinaLHR/Gungnir/assets/19829495/ca9b6402-a9b0-45ca-91a7-e4020cf87cd2">
-    <img src="https://github.com/ChinaLHR/Gungnir/assets/19829495/ca9b6402-a9b0-45ca-91a7-e4020cf87cd2" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/c5807e8ee0565c259a9d525df73c06c0_MD5.png">
+    <img src="/_attachment/c5807e8ee0565c259a9d525df73c06c0_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>问题：性能高，但是为弱一致性持久化保证，数据存在丢失风险，会造成数据不一致的情况。</p>
@@ -392,7 +392,7 @@ nodeC: a=y 1577851230000
 </ul>
 <p><strong>结论</strong></p>
 <p>Quorum机制无法保证强一致性，即无法实现任何时刻任何用户或节点都可以读到最近一次成功提交的副本数据；后续Paxos对Quorum机制进行了改进，通过2次多数派读写, 实现了严谨的强一致共识算法。</p>
-<h3 id="replication-methods-that-risk-divergence-multi-master-systems">Replication methods that risk divergence (multi-master systems)</h3>
+<h3 id="replication-methods-that-risk-divergence-multi-master-systems">Replication Methods that risk Divergence (multi-master systems)</h3>
 <blockquote>
 <p>有差异风险的复制方式（多主系统）</p>
 </blockquote>
@@ -407,17 +407,19 @@ nodeC: a=y 1577851230000
 </ol>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/108829989-cc547a80-7603-11eb-8da1-ab3dd2afc612.png">
-    <img src="https://user-images.githubusercontent.com/19829495/108829989-cc547a80-7603-11eb-8da1-ab3dd2afc612.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/29c4dbf98502c1e297c1fe9c200c0ea3_MD5.png">
+    <img src="/_attachment/29c4dbf98502c1e297c1fe9c200c0ea3_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>上图从一致性、延迟、吞吐量、数据丢失和故障转移对比了各个类型共识算法实现。</p>
 <h2 id="参考">参考</h2>
-<p><a href="https://zh.wikipedia.org/wiki/%E6%8B%9C%E5%8D%A0%E5%BA%AD%E5%B0%86%E5%86%9B%E9%97%AE%E9%A2%98">https://zh.wikipedia.org/wiki/拜占庭将军问题</a></p>
-<p><a href="https://www.iminho.me/wiki/docs/blockchain_guide/distribute_system-intro.md">https://www.iminho.me/wiki/docs/blockchain_guide/distribute_system-intro.md</a></p>
-<p><a href="http://book.mixu.net/distsys/single-page.html">http://book.mixu.net/distsys/single-page.html</a></p>
-<p><a href="https://zh.wikipedia.org/wiki/Quorum_(%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F)">https://zh.wikipedia.org/wiki/Quorum_(分布式系统)</a></p>
-<p><a href="https://en.wikipedia.org/wiki/Gossip_protocol">https://en.wikipedia.org/wiki/Gossip_protocol</a></p>
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/%E6%8B%9C%E5%8D%A0%E5%BA%AD%E5%B0%86%E5%86%9B%E9%97%AE%E9%A2%98">https://zh.wikipedia.org/wiki/拜占庭将军问题</a></li>
+<li><a href="https://www.iminho.me/wiki/docs/blockchain_guide/distribute_system-intro.md">https://www.iminho.me/wiki/docs/blockchain_guide/distribute_system-intro.md</a></li>
+<li><a href="http://book.mixu.net/distsys/single-page.html">http://book.mixu.net/distsys/single-page.html</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/Quorum_(%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F)">https://zh.wikipedia.org/wiki/Quorum_(分布式系统)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Gossip_protocol">https://en.wikipedia.org/wiki/Gossip_protocol</a></li>
+</ul>
         </p>
     </div>
 </div>
@@ -449,14 +451,14 @@ nodeC: a=y 1577851230000
         <li><a href="#基本复制方式">基本复制方式</a></li>
         <li><a href="#基本复制算法">基本复制算法</a>
           <ul>
-            <li><a href="#replication-methods-that-prevent-divergence-single-copy-systems">Replication methods that prevent divergence (single copy systems)</a>
+            <li><a href="#replication-methods-that-prevent-divergence-single-copy-systems">Replication Methods that Prevent Divergence (single Copy systems)</a>
               <ul>
                 <li><a href="#masterslave主从复制">Master/Slave（主从复制）</a></li>
                 <li><a href="#2-phase-commit两阶段提交">2-phase commit（两阶段提交）</a></li>
                 <li><a href="#quorum机制多数派">Quorum机制（多数派）</a></li>
               </ul>
             </li>
-            <li><a href="#replication-methods-that-risk-divergence-multi-master-systems">Replication methods that risk divergence (multi-master systems)</a>
+            <li><a href="#replication-methods-that-risk-divergence-multi-master-systems">Replication Methods that risk Divergence (multi-master systems)</a>
               <ul>
                 <li><a href="#gossip算法">Gossip算法</a></li>
               </ul>

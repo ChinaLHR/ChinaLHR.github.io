@@ -217,15 +217,15 @@
 <p><strong>关注点分离，<strong>每一层只会处理本层的逻辑，每一层都是封闭的，层层传递，这是分层架构最重要的特点。很容易做到</strong>层隔离</strong>，某一层的改变不会影响到其他层。应用更容易开发，重构，测试，管理与维护。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76158080-dc522080-614c-11ea-83f5-9d69e9d1968c.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76158080-dc522080-614c-11ea-83f5-9d69e9d1968c.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/eafcb4640074e5eff142fbb54ef39ee1_MD5.png">
+    <img src="/_attachment/eafcb4640074e5eff142fbb54ef39ee1_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p>基本请求流程：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76158093-f986ef00-614c-11ea-973d-88a7c035c1ce.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76158093-f986ef00-614c-11ea-973d-88a7c035c1ce.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/6e261a610755414584d131085d18f38c_MD5.png">
+    <img src="/_attachment/6e261a610755414584d131085d18f38c_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h4 id="污水池反模式architecture-sinkhole-anti-pattern">污水池反模式（architecture sinkhole anti-pattern）</h4>
@@ -292,8 +292,8 @@
 <p>客户端将一个事件发送到某个事件队列中，消息队列将其运输给事件中介进行处理和分发。事件中介接收到事件消息后进行分配、协调，通过将额外的异步事件发送给事件通道，事件处理器监听事件通道消息，对其进行消费处理。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76160398-0283ba80-6165-11ea-8cc6-b8df6ed5bc5e.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76160398-0283ba80-6165-11ea-8cc6-b8df6ed5bc5e.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/361d6346a0078ffc72b0064145aa805c_MD5.png">
+    <img src="/_attachment/361d6346a0078ffc72b0064145aa805c_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p>事件驱动架构模式中主要有两种事件：初始事件（中介所接收到的最原始的事件）待处理事件（由事件中介生成，由事件处理器接收的事件）。事件中介负责分配、协调初始事件中的各个待执行步骤，为每一个初始事件中的步骤发送一个特定的待处理事件到事件通道中，触发事件处理器接收和处理该待处理事件。</p>
@@ -313,8 +313,8 @@
 <p>代理拓扑结构大致如下图，包含两个组件代理（broker）和 事件处理器（event processor）。其中没有一个核心的事件中介组件控制和分发初始事件；相反，每一个事件处理器只负责处理一个事件，并向外发送一个事件，以标明其刚刚执行的动作。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76222284-5a015380-6255-11ea-8097-5fd95c6ada6a.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76222284-5a015380-6255-11ea-8097-5fd95c6ada6a.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/d7876d8e4e4e00b02687137a9a391d3a_MD5.png">
+    <img src="/_attachment/d7876d8e4e4e00b02687137a9a391d3a_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h3 id="特点-1">特点</h3>
@@ -367,8 +367,8 @@
 <p>如下图所示，微内核架构的核心系统一般情况下只包含一个能够使系统运作起来的最小化模块。核心系统通常是为特定的使用场景、规则、或者复杂条件处理定义了通用的业务逻辑，而插件模块根据这些规则实现了具体的业务逻辑。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76321351-e0349d00-631c-11ea-9b33-a2479b2ed352.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76321351-e0349d00-631c-11ea-9b33-a2479b2ed352.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/bd970dd37e0944e58f9b986f57ba1b0a_MD5.png">
+    <img src="/_attachment/bd970dd37e0944e58f9b986f57ba1b0a_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p><strong>核心模块</strong>：了解插件模块的可用性与获取插件的方式。可以通过插件注册表的方式维护插件的信息（名称，数据规约，访问协议&hellip;）。</p>
@@ -426,8 +426,8 @@
 </ul>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76429304-d2991900-63e9-11ea-9b7f-171ad7f7cf71.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76429304-d2991900-63e9-11ea-9b7f-171ad7f7cf71.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/68af2c5433f3239065e8e32587c7b44e_MD5.png">
+    <img src="/_attachment/68af2c5433f3239065e8e32587c7b44e_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p>如图所示，每一个微服务的组件都被分隔成一个独立的单元。服务组件（service component）从粒度上讲它可以是单一的模块或者多个模块组成的应用程序，代表单一功能。</p>
@@ -436,16 +436,16 @@
 <p>基于REST的API拓扑通过某些API（application programming interface）对外提供小型的、自包含的服务，由粒度非常细的服务组件组成，这些服务组件包含一个或两个模块并独立于其他服务来执行特定业务功能。这些细粒度的服务组件通常被REST-based的接口访问，而这个接口是通过一个单独部署的web API层实现的。常见于基于云的RESTful web service。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76432650-3de4ea00-63ee-11ea-8ce2-3ce52fe11695.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76432650-3de4ea00-63ee-11ea-8ce2-3ce52fe11695.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/e46c3c860984f1d1c3faa17bb9753e13_MD5.png">
+    <img src="/_attachment/e46c3c860984f1d1c3faa17bb9753e13_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h4 id="applicaiton-rest-based拓扑结构">Applicaiton REST-based拓扑结构</h4>
 <p>Applicaiton REST-based不同于上面的架构，客户端看到的是web界面或者富客户端程序，而不是调用API层。应用的用户接口层（user interface layer）是一个web应用，可以通过简单的REST-based接口访问单独部署的服务组件（业务功能）。与API REST-based拓扑结构不同，服务组件往往会更大、粒度更粗、代表整个业务应用程序的一小部分，而不是细粒度的、单一操作的服务。常见于Saas类的企业应用。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76433132-ded3a500-63ee-11ea-8c8c-320a5fbd99a9.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76433132-ded3a500-63ee-11ea-8c8c-320a5fbd99a9.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/969d5565a013ec1682bcce559bbdbfca_MD5.png">
+    <img src="/_attachment/969d5565a013ec1682bcce559bbdbfca_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h4 id="集中式消息拓扑结构">集中式消息拓扑结构</h4>
@@ -453,8 +453,8 @@
 <p>集中式消息拓扑结构通常应用在较大的业务应用程序中，具有排队机制、异步消息传递、监控、错误处理和更好的负载均衡和可扩展性。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76433589-7c2ed900-63ef-11ea-940a-695b0750ace7.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76433589-7c2ed900-63ef-11ea-940a-695b0750ace7.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/63f900e59ed12c87c4d2f0eb82f2a0ad_MD5.png">
+    <img src="/_attachment/63f900e59ed12c87c4d2f0eb82f2a0ad_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h3 id="服务组件间通信">服务组件间通信</h3>
@@ -510,8 +510,8 @@
 <p>处理单元中包含着应用模块、内存中数据框架、处理异步数据恢复的组件和复制引擎的处理单元架构。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76535402-c24e7000-64b5-11ea-815d-2cc8533f0462.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76535402-c24e7000-64b5-11ea-815d-2cc8533f0462.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/177136246db6dd0b16804f49dcd23f33_MD5.png">
+    <img src="/_attachment/177136246db6dd0b16804f49dcd23f33_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <ul>
@@ -520,8 +520,8 @@
 <p>虚拟化中间件负责保护自身以及通信。它包含用于数据同步和处理请求的模块，以及通信框架，数据框架，处理框架和部署管理器。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/76527663-924d9f80-64aa-11ea-9c76-ae4a5325d698.png">
-    <img src="https://user-images.githubusercontent.com/19829495/76527663-924d9f80-64aa-11ea-9c76-ae4a5325d698.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/324b1197c6c133a1b9ba4ce34be6d912_MD5.png">
+    <img src="/_attachment/324b1197c6c133a1b9ba4ce34be6d912_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h4 id="模块间合作虚拟化中间件组件">模块间合作（虚拟化中间件组件）</h4>

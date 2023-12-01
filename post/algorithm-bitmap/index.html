@@ -192,20 +192,20 @@
             <blockquote>
 <p>Bit-map算法学习</p>
 </blockquote>
-<h4 id="little-endian和big-endian">little-endian和big-endian</h4>
+<h4 id="little-endian和big-endian">Little-endian和big-endian</h4>
 <p>Big endian 认为第一个字节是最高位字节（按照从低地址到高地址的顺序存放数据的高位字节到低位字节）；而 Little endian 则相反，它认为第一个字节是最低位字节（按照从低地址到高地址的顺序存放据的低位字节到高位字节）。</p>
 <h4 id="关于bit-map">关于Bit-map</h4>
 <p>用一个bit位来标记某个元素对应的Value， key0|1表示该元素是否存在(类似于桶排序算法)，由于采用了Bit为单位来存储数据，因此在存储空间方面，可以大大节省。</p>
 <p>假设我们要对0-7内的6个不重复元素排序，开辟一个8个Bit(1Bytes)的内存空间，此时所有的bit位为0，遍历6个元素，将对应下标的bit位置为1 (采用big-endian)。处理完所有元素后，对Bytes区域进行遍历，将该位是一的位的编号输出，达到排序的目的。对于更多的元素排序，可以扩展为Bytes数组进行存储排序。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/52029742-8bd2c180-254f-11e9-9311-e17415452373.png">
-    <img src="https://user-images.githubusercontent.com/19829495/52029742-8bd2c180-254f-11e9-9311-e17415452373.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/5ed0313383254bcbbdfec8ef0b63bac9_MD5.png">
+    <img src="/_attachment/5ed0313383254bcbbdfec8ef0b63bac9_MD5.png" alt="image"  />
     </a>
 </div></p>
 <h4 id="思想">思想</h4>
 <p>使用bit数组来表示某些元素是否存在，达到节省空间的目的。</p>
-<h4 id="算法实现java">算法实现[Java]</h4>
+<h4 id="算法实现-java">算法实现-Java</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BitmapTest</span> <span style="color:#f92672">{</span>
 
     <span style="color:#75715e">//保存数据的
@@ -257,19 +257,16 @@
     <span style="color:#f92672">}</span>
 
 <span style="color:#f92672">}</span>
-</code></pre></div><h4 id="常见实例">常见实例😮</h4>
+</code></pre></div><h4 id="常见实例">常见实例</h4>
 <ol>
-<li>
-<p>给40亿个不重复的unsigned int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？</p>
-<pre><code> Bitmap的方法，申请512M的内存，一个bit位代表一个unsigned int值。读入40亿个数，设置相应的bit位，读入要查询的数，查看相应bit位是否为1，为1表示存在，为0表示不存在。
-</code></pre>
-</li>
-<li>
-<p>在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数</p>
-<pre><code> 采用2-Bitmap（每个数分配2bit，00表示不存在，01表示出现一次，10表示多次，11无意义）进行，共需内存2^32 * 2 bit=1 GB内存。扫描这2.5亿个整数，查看Bitmap中相对应位，如果是00变01，01变10，10保持不变。所描完事后，查看bitmap，把对应位是01的整数输出即可。
-</code></pre>
-</li>
+<li>给40亿个不重复的unsigned int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？</li>
 </ol>
+<pre><code>Bitmap的方法，申请512M的内存，一个bit位代表一个unsigned int值。读入40亿个数，设置相应的bit位，读入要查询的数，查看相应bit位是否为1，为1表示存在，为0表示不存在。
+</code></pre><ol start="2">
+<li>在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数</li>
+</ol>
+<pre><code>采用2-Bitmap（每个数分配2bit，00表示不存在，01表示出现一次，10表示多次，11无意义）进行，共需内存2^32 * 2 bit=1 GB内存。扫描这2.5亿个整数，查看Bitmap中相对应位，如果是00变01，01变10，10保持不变。所描完事后，查看bitmap，把对应位是01的整数输出即可。
+</code></pre>
         </p>
     </div>
 </div>
@@ -284,11 +281,11 @@
           <ul>
             <li>
               <ul>
-                <li><a href="#little-endian和big-endian">little-endian和big-endian</a></li>
+                <li><a href="#little-endian和big-endian">Little-endian和big-endian</a></li>
                 <li><a href="#关于bit-map">关于Bit-map</a></li>
                 <li><a href="#思想">思想</a></li>
-                <li><a href="#算法实现java">算法实现[Java]</a></li>
-                <li><a href="#常见实例">常见实例😮</a></li>
+                <li><a href="#算法实现-java">算法实现-Java</a></li>
+                <li><a href="#常见实例">常见实例</a></li>
               </ul>
             </li>
           </ul>

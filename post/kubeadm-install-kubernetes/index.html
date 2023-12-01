@@ -194,7 +194,7 @@
             <blockquote>
 <p>使用kubeadm部署Kubernetes 1.18.0 集群实践记录</p>
 </blockquote>
-<h2 id="kubeadm">kubeadm</h2>
+<h2 id="kubeadm">Kubeadm</h2>
 <p>Kubeadm是一种工具，旨在为创建Kubernetes集群提供最佳实践的“快速路径”，它以用户友好的方式执行必要的操作，以使可以最低限度的可行，安全的启动并运行群集。只需将<code>kubeadm</code>,<code>kubelet</code>，<code>kubectl</code>安装到服务器，其他核心组件以容器化方式快速部署。</p>
 <p>kubeadm地址：<a href="https://github.com/kubernetes/kubeadm">https://github.com/kubernetes/kubeadm</a></p>
 <p>参考文档地址：<a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/">https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/</a></p>
@@ -379,7 +379,7 @@ swapoff -a
 <span style="color:#75715e"># 调整 swappiness 参数</span>
 vim /etc/sysctl.conf <span style="color:#75715e"># 永久生效</span>
 <span style="color:#75715e"># 修改 vm.swappiness 的修改为 0</span>
-</code></pre></div><h3 id="kube-proxy开启ipvs设置">kube-proxy开启ipvs设置</h3>
+</code></pre></div><h3 id="kube-proxy开启ipvs设置">Kube-proxy开启ipvs设置</h3>
 <p>为kube-proxy开启ipvs的前提需要加载以下的内核模块：</p>
 <pre><code>ip_vs
 ip_vs_rr
@@ -472,8 +472,8 @@ yum install -y kubelet-1.18.0 kubeadm-1.18.0 kubectl-1.18.0
 </code></pre></div><pre><code>kubeadm：用于初始化 Kubernetes 集群
 kubectl：Kubernetes 的命令行工具，主要作用是部署和管理应用，查看各种资源，创建，删除和更新组件
 kubelet：主要负责启动 Pod 和容器
-</code></pre><h2 id="kubeadm部署kubernetes集群">kubeadm部署kubernetes集群</h2>
-<h3 id="kubeadm-init-配置kubernetes-master节点">kubeadm init 配置kubernetes master节点</h3>
+</code></pre><h2 id="kubeadm部署kubernetes集群">Kubeadm部署kubernetes集群</h2>
+<h3 id="kubeadm-init-配置kubernetes-master节点">Kubeadm Init 配置kubernetes Master节点</h3>
 <ul>
 <li>设置开机启动kubelet服务</li>
 </ul>
@@ -656,7 +656,7 @@ chown <span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</s
 <span style="color:#75715e"># 结果</span>
 NAME                    STATUS     ROLES    AGE   VERSION
 kubernetes-master   	NotReady   master   92m   v1.18.0
-</code></pre></div><h3 id="kubeadm-join-配置kubernetes-slave节点">kubeadm join 配置kubernetes slave节点</h3>
+</code></pre></div><h3 id="kubeadm-join-配置kubernetes-slave节点">Kubeadm Join 配置kubernetes Slave节点</h3>
 <p>将 slave 节点加入到集群中，只需要在 slave 服务器上安装 kubeadm，kubectl，kubelet 三个工具，然后使用 <code>kubeadm join</code> 命令加入</p>
 <ul>
 <li>配置kubernetes slave节点</li>
@@ -742,7 +742,7 @@ serviceaccount/calico-kube-controllers created
 <li>验证</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">watch kubectl get pods --all-namespaces
-</code></pre></div><h3 id="kube-proxy开启ipvs">kube-proxy开启ipvs</h3>
+</code></pre></div><h3 id="kube-proxy开启ipvs">Kube-proxy开启ipvs</h3>
 <ul>
 <li>修改配置文件</li>
 </ul>
@@ -756,7 +756,7 @@ serviceaccount/calico-kube-controllers created
 <li>验证</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl logs kube-proxy- -n kube-system
-</code></pre></div><h3 id="kubectl-部署nginx">kubectl 部署Nginx</h3>
+</code></pre></div><h3 id="kubectl-部署nginx">Kubectl 部署Nginx</h3>
 <ul>
 <li>检测组件运行状态</li>
 </ul>
@@ -849,18 +849,10 @@ nginx-deployment   LoadBalancer   10.103.3.26   &lt;pending&gt;     80:30626/TCP
 <li>
 <p>Helm与chart作用</p>
 <ol>
-<li>
-<p>应用程序封装</p>
-</li>
-<li>
-<p>版本管理</p>
-</li>
-<li>
-<p>依赖检查</p>
-</li>
-<li>
-<p>便于应用程序分发</p>
-</li>
+<li>应用程序封装</li>
+<li>版本管理</li>
+<li>依赖检查</li>
+<li>便于应用程序分发</li>
 </ol>
 </li>
 <li>
@@ -1173,14 +1165,14 @@ kubernetes-slave    194m         19%    746Mi           42%
 </ul>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/86820664-f29cc880-c0bb-11ea-91af-ee96b94999fd.png">
-    <img src="https://user-images.githubusercontent.com/19829495/86820664-f29cc880-c0bb-11ea-91af-ee96b94999fd.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/5b3964630d4aa7fa6be1c5e9686d537a_MD5.png">
+    <img src="/_attachment/5b3964630d4aa7fa6be1c5e9686d537a_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/86820749-0ba57980-c0bc-11ea-911d-5596941741e0.png">
-    <img src="https://user-images.githubusercontent.com/19829495/86820749-0ba57980-c0bc-11ea-911d-5596941741e0.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/3c26367e143d2a6a0a8a6dfc9b0a4ca1_MD5.png">
+    <img src="/_attachment/3c26367e143d2a6a0a8a6dfc9b0a4ca1_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h2 id="faq">FAQ</h2>
@@ -1335,22 +1327,22 @@ kubeadm join 192.168.1.120:6443 --token abcdef.0123456789abcdef <span style="col
   <ul>
     <li>
       <ul>
-        <li><a href="#kubeadm">kubeadm</a></li>
+        <li><a href="#kubeadm">Kubeadm</a></li>
         <li><a href="#前置准备">前置准备</a>
           <ul>
             <li><a href="#系统准备">系统准备</a></li>
-            <li><a href="#kube-proxy开启ipvs设置">kube-proxy开启ipvs设置</a></li>
+            <li><a href="#kube-proxy开启ipvs设置">Kube-proxy开启ipvs设置</a></li>
             <li><a href="#安装并设置docker">安装并设置docker</a></li>
             <li><a href="#安装kubeadmkubectl和kubelet">安装kubeadm,kubectl和kubelet</a></li>
           </ul>
         </li>
-        <li><a href="#kubeadm部署kubernetes集群">kubeadm部署kubernetes集群</a>
+        <li><a href="#kubeadm部署kubernetes集群">Kubeadm部署kubernetes集群</a>
           <ul>
-            <li><a href="#kubeadm-init-配置kubernetes-master节点">kubeadm init 配置kubernetes master节点</a></li>
-            <li><a href="#kubeadm-join-配置kubernetes-slave节点">kubeadm join 配置kubernetes slave节点</a></li>
+            <li><a href="#kubeadm-init-配置kubernetes-master节点">Kubeadm Init 配置kubernetes Master节点</a></li>
+            <li><a href="#kubeadm-join-配置kubernetes-slave节点">Kubeadm Join 配置kubernetes Slave节点</a></li>
             <li><a href="#配置网络插件">配置网络插件</a></li>
-            <li><a href="#kube-proxy开启ipvs">kube-proxy开启ipvs</a></li>
-            <li><a href="#kubectl-部署nginx">kubectl 部署Nginx</a></li>
+            <li><a href="#kube-proxy开启ipvs">Kube-proxy开启ipvs</a></li>
+            <li><a href="#kubectl-部署nginx">Kubectl 部署Nginx</a></li>
           </ul>
         </li>
         <li><a href="#kubernetes常用组件部署">Kubernetes常用组件部署</a>

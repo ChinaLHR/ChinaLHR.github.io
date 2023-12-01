@@ -197,12 +197,8 @@
 <p>例如String类型的变量可以持有两种值，分别是String的实例和 null，但两种值完全不一样(instanceof 运算符null不是String)。类型系统的缺陷导致即使变量拥有声明的类型 String你依然无法知道能对该变量的值做些什么，除非做额外的检查。</p>
 <p>Kotlin解决NullPointerException之道：把运行时的错误转变成编译期的错误</p>
 <ul>
-<li>
-<p>编译器强制检测变量实参,所有常见类型默认都是非空的,可以在任何类型的后面加?来表示这个类型的变量可以存储 null 引用。<strong>但是对可null参数进行的操作也会受到限制，需要对可null参数进行null处理(判断，安全符&hellip;)才可以编译通过。</strong></p>
-</li>
-<li>
-<p>Java 中的类型在Kotlin中被解释成平台类型，允许开发者把它们当作可空或非空来对待。</p>
-</li>
+<li>编译器强制检测变量实参,所有常见类型默认都是非空的,可以在任何类型的后面加?来表示这个类型的变量可以存储 null 引用。<strong>但是对可null参数进行的操作也会受到限制，需要对可null参数进行null处理(判断，安全符&hellip;)才可以编译通过。</strong></li>
+<li>Java 中的类型在Kotlin中被解释成平台类型，允许开发者把它们当作可空或非空来对待。</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">strLen</span>(s: String?) = s<span style="color:#f92672">?.</span>length
 </code></pre></div><ul>
@@ -273,7 +269,7 @@ Java 的类型系统是不支持可空性的</li>
 <ul>
 <li>对比Java</li>
 </ul>
-<p>整数类型 Byte  Short Int Long
+<p>整数类型 Byte Short Int Long
 浮点数类型 Float Double
 字符类型 Char
 布尔类型 Boolean</p>
@@ -307,9 +303,9 @@ Unit是Kotlin 的 &lsquo;void&rsquo; ，区别是Unit是一个完备的类型，
 <li>集合数组</li>
 </ul>
 <p><strong>集合</strong></p>
-<p>List&lt;Int?&gt; : 列表中的单个值是可Null的 <!-- raw HTML omitted -->
-List<!-- raw HTML omitted -->? : 集合本身是可Null的,但列表中的元素保证是非空的 <!-- raw HTML omitted -->
-List&lt;Int?&gt;? :集合本身是可Null的,列表中的单个值是可Null的</p>
+<p><code>List&lt;Int?&gt; </code>: 列表中的单个值是可Null的 <!-- raw HTML omitted -->
+<code>List&lt;Int&gt;?</code> : 集合本身是可Null的,但列表中的元素保证是非空的 <!-- raw HTML omitted -->
+<code>List&lt;Int?&gt;?</code> :集合本身是可Null的,列表中的单个值是可Null的</p>
 <p>可以使用filterNotNull()函数过滤集合</p>
 <p><strong>只读集合，可变集合</strong></p>
 <p>对比Java,Kotlin把访问集合数据的接口和修改集合数据的接口分开了。Collection接口(读)，MutableCollection接口(写)</p>
@@ -407,7 +403,7 @@ List&lt;Int?&gt;? :集合本身是可Null的,列表中的单个值是可Null的<
 </table>
 <ul>
 <li>比较运算符重载
-如果在 Kotiin 中使用＝＝(!=)运算符，它将被转换成 equals(!equals) 方法的调用。===恒等于等效于Java的==。</li>
+如果在 Kotiin 中使用＝＝(!=)运算符，它将被转换成 equals(!equals) 方法的调用。<code>===</code>恒等于等效于Java的<code>==</code>。</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Point</span>(<span style="color:#66d9ef">val</span> x: Int, <span style="color:#66d9ef">val</span> y: Int){
     <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">equals</span>(obj: Any?): Boolean {
@@ -478,7 +474,7 @@ List&lt;Int?&gt;? :集合本身是可Null的,列表中的单个值是可Null的<
 }
 </code></pre></div><ul>
 <li>惰性初始化
-相比java的if(obj==null){//初始化并返回}else{//直接返回}，Kotlin可以更简单做到</li>
+相比java的if<code>(obj==null){//初始化并返回}else{//直接返回}</code>，Kotlin可以更简单做到</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">
 <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span>(<span style="color:#66d9ef">val</span> name:String){

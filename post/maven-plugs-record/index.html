@@ -343,7 +343,7 @@ maven-surefire-plugin 提供一个 maven.test.skip 参数，当其值为 true的
 	<span style="color:#f92672">&lt;/plugins&gt;</span>
 <span style="color:#f92672">&lt;/build&gt;</span>
 </code></pre></div><h3 id="其他插件">其他插件</h3>
-<h4 id="maven-release-plugin">maven-release-plugin</h4>
+<h4 id="maven-release-plugin">Maven-release-plugin</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"># 版本管理
 # 功能:
 
@@ -380,7 +380,7 @@ mvn release:perform release版本打包，分发到远程Maven仓库中
 
 maven版本规则
 <span style="color:#f92672">&lt;主版本&gt;</span>.<span style="color:#f92672">&lt;次版本&gt;</span>.<span style="color:#f92672">&lt;增量版本&gt;</span>
-</code></pre></div><h4 id="maven-checkstyle-plugin">maven-checkstyle-plugin</h4>
+</code></pre></div><h4 id="maven-checkstyle-plugin">Maven-checkstyle-plugin</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"># 代码风格检查
 
 添加checkstyle配置文件
@@ -402,9 +402,9 @@ maven版本规则
 mvn命令检测代码
 mvn checkstyle:checkstyle 检查工程是否满足checkstyle
 mvn jxr:jxr 命令可以查看有错的对应代码
-</code></pre></div><h4 id="maven-shade-plugin">maven-shade-plugin</h4>
+</code></pre></div><h4 id="maven-shade-plugin">Maven-shade-plugin</h4>
 <pre><code># 绑定package生命周期目标,用户项目打可执行包，包含依赖，以及对依赖进行取舍过滤
-</code></pre><h4 id="maven-resources-plugin">maven-resources-plugin</h4>
+</code></pre><h4 id="maven-resources-plugin">Maven-resources-plugin</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"># Maven中的资源文件默认存在于src/main/resources,resources用于提供自定义资源打包功能
 
  <span style="color:#f92672">&lt;plugin&gt;</span>
@@ -430,7 +430,7 @@ mvn jxr:jxr 命令可以查看有错的对应代码
                         <span style="color:#f92672">&lt;/execution&gt;</span>
                     <span style="color:#f92672">&lt;/executions&gt;</span>
                 <span style="color:#f92672">&lt;/plugin&gt;</span>
-</code></pre></div><h4 id="maven-source-plugin">maven-source-plugin</h4>
+</code></pre></div><h4 id="maven-source-plugin">Maven-source-plugin</h4>
 <pre><code># 自动将源码打包并发布的功能,
 mvn install:将source install到repository
 mvn deploy:将source deploy到remote-repository
@@ -458,11 +458,11 @@ mvn source:jar:单独打包源码
             </li>
             <li><a href="#其他插件">其他插件</a>
               <ul>
-                <li><a href="#maven-release-plugin">maven-release-plugin</a></li>
-                <li><a href="#maven-checkstyle-plugin">maven-checkstyle-plugin</a></li>
-                <li><a href="#maven-shade-plugin">maven-shade-plugin</a></li>
-                <li><a href="#maven-resources-plugin">maven-resources-plugin</a></li>
-                <li><a href="#maven-source-plugin">maven-source-plugin</a></li>
+                <li><a href="#maven-release-plugin">Maven-release-plugin</a></li>
+                <li><a href="#maven-checkstyle-plugin">Maven-checkstyle-plugin</a></li>
+                <li><a href="#maven-shade-plugin">Maven-shade-plugin</a></li>
+                <li><a href="#maven-resources-plugin">Maven-resources-plugin</a></li>
+                <li><a href="#maven-source-plugin">Maven-source-plugin</a></li>
               </ul>
             </li>
             <li><a href="#参考">参考</a></li>

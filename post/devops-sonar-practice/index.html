@@ -201,8 +201,8 @@
 <p><strong>DevOps生命周期</strong>： 版本控制、持续集成、持续部署和持续监控贯穿于软件开发的整个生命周期。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78233656-a2d0c300-7508-11ea-837c-ad99c780a7cf.png">
-    <img src="https://user-images.githubusercontent.com/19829495/78233656-a2d0c300-7508-11ea-837c-ad99c780a7cf.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/a09a701bf630610e2dc156d5dbe7592a_MD5.png">
+    <img src="/_attachment/a09a701bf630610e2dc156d5dbe7592a_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p><strong>持续集成</strong>： 将所有软件工程师对于软件的工作副本持续集成到共享主线（mainline）的一种举措，例如将git的特性分支合并到主分支。持续集成的宗旨是避免集成问题， 组织在运用持续性集成(CI)一般会建立CI服务器来维护持续性并提供质量控制程序，一般包括自动化单元测试，自动化静态代码扫描，自动化代码风格检测&hellip;.，意在提升软件质量以及减少交付的时间。</p>
@@ -242,8 +242,8 @@
 <h3 id="架构">架构</h3>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78547295-716e3500-7831-11ea-9dd2-87cca4c1c4f6.png">
-    <img src="https://user-images.githubusercontent.com/19829495/78547295-716e3500-7831-11ea-9dd2-87cca4c1c4f6.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/307630b1028c5ff7b2511a7b48ca2a82_MD5.png">
+    <img src="/_attachment/307630b1028c5ff7b2511a7b48ca2a82_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>SonarQube平台由4个组件组成：</p>
@@ -262,8 +262,8 @@
 <h3 id="工作流程">工作流程</h3>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/236616475-fde0a6a8-538d-44e0-8a34-acab4c4a88a2.png">
-    <img src="https://user-images.githubusercontent.com/19829495/236616475-fde0a6a8-538d-44e0-8a34-acab4c4a88a2.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/f721268d3b6d3c5bc37978e1388d34c9_MD5.png">
+    <img src="/_attachment/f721268d3b6d3c5bc37978e1388d34c9_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>上图可以看出SonarQube各组件的工作流程：</p>
@@ -338,17 +338,13 @@ docker-compose -f sonar-docker-compose.yml up -d
 <h3 id="静态代码分析">静态代码分析</h3>
 <h4 id="前置准备">前置准备</h4>
 <ul>
-<li>
-<p>Jenkins安装插件：SonarQube Scanner for Jenkins</p>
-</li>
-<li>
-<p>系统设置—&gt;配置—&gt;SonarQube servers中对SonarQube server进行配置</p>
-</li>
+<li>Jenkins安装插件：SonarQube Scanner for Jenkins</li>
+<li>系统设置—&gt;配置—&gt;SonarQube servers中对SonarQube server进行配置</li>
 </ul>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78802952-fd7a8b00-79f0-11ea-9bf9-172da4429214.png">
-    <img src="https://user-images.githubusercontent.com/19829495/78802952-fd7a8b00-79f0-11ea-9bf9-172da4429214.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/3054f7f1620de17238a974dd3de3e014_MD5.png">
+    <img src="/_attachment/3054f7f1620de17238a974dd3de3e014_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p>注意：server authentication token为SonarQube用户生成的token，类型为Secret text。</p>
@@ -357,8 +353,8 @@ docker-compose -f sonar-docker-compose.yml up -d
 </ul>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78691524-4b2cc000-792b-11ea-929b-18df5d3b136e.png">
-    <img src="https://user-images.githubusercontent.com/19829495/78691524-4b2cc000-792b-11ea-929b-18df5d3b136e.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/263a2371a990c02e4388d6c147f62442_MD5.png">
+    <img src="/_attachment/263a2371a990c02e4388d6c147f62442_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <ul>
@@ -396,8 +392,8 @@ stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;静态
 </code></pre></div><p>构建成功，SonarQube Scanner扫描完成后可以在SonarQube服务器看见对应项目的报表如下：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78804531-d3c26380-79f2-11ea-96b0-0941b89bc778.png">
-    <img src="https://user-images.githubusercontent.com/19829495/78804531-d3c26380-79f2-11ea-96b0-0941b89bc778.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/9ff33251be2ad556d921115847b51546_MD5.png">
+    <img src="/_attachment/9ff33251be2ad556d921115847b51546_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h3 id="测试覆盖率控制">测试覆盖率控制</h3>
@@ -415,12 +411,8 @@ stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;静态
 </ul>
 <h4 id="前置准备-1">前置准备</h4>
 <ul>
-<li>
-<p>Jenkins安装插件JaCoCo plugin。</p>
-</li>
-<li>
-<p>maven配置jacoco插件</p>
-</li>
+<li>Jenkins安装插件JaCoCo plugin。</li>
+<li>maven配置jacoco插件</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;plugin&gt;</span>
                 <span style="color:#f92672">&lt;groupId&gt;</span>org.jacoco<span style="color:#f92672">&lt;/groupId&gt;</span>
@@ -454,7 +446,7 @@ stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;静态
                 <span style="color:#f92672">&lt;/executions&gt;</span>
             <span style="color:#f92672">&lt;/plugin&gt;</span>
 </code></pre></div><p>该配置会在当前目录下的target目录产生一个jacoco.exec文件，该文件就是覆盖率的文件，相关的报表输出文件为当前目录下的target/jacoco目录。由于绑定了maven test生命周期，可以执行如下命令进行覆盖率文件与报表生成：<code> mvn clean test -Dmaven.test.failure.ignore=true</code></p>
-<h4 id="pipeline配置-1">pipeline配置</h4>
+<h4 id="pipeline配置-1">Pipeline配置</h4>
 <p>pipeline脚本如下所示，其中jacoco对覆盖率指标进行阈值设置，可参考pipeline-syntax进行配置，由于我们使用了SonarQube作为质量管理系统，对于覆盖率指标的把控也可以使用SonarQube的质量阈进行控制。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;代码覆盖率分析&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
          steps <span style="color:#f92672">{</span>
@@ -485,8 +477,8 @@ stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;静态
 </code></pre></div><p>运行后在Jenkins上的Coverage Report可以查看到对应的覆盖率报告：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/78918015-4f3f1600-7ac2-11ea-9a91-8c23c1dde294.png">
-    <img src="https://user-images.githubusercontent.com/19829495/78918015-4f3f1600-7ac2-11ea-9a91-8c23c1dde294.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/67d32a9c3d4744ebdc4bb39e53e652b0_MD5.png">
+    <img src="/_attachment/67d32a9c3d4744ebdc4bb39e53e652b0_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h4 id="单元测试覆盖率统计数据上报sonarqube">单元测试覆盖率统计数据上报SonarQube</h4>
@@ -504,8 +496,8 @@ sonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco.xml
 <p>最终效果如下：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/79045392-70784180-7c3d-11ea-940b-393671068f34.png">
-    <img src="https://user-images.githubusercontent.com/19829495/79045392-70784180-7c3d-11ea-940b-393671068f34.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/4236ffc7d62ab369eacbbe51c30eb300_MD5.png">
+    <img src="/_attachment/4236ffc7d62ab369eacbbe51c30eb300_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h2 id="sonarqube推动代码质量持续优化">SonarQube推动代码质量持续优化</h2>
@@ -513,8 +505,8 @@ sonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco.xml
 <h4 id="具体流程">具体流程</h4>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/79062858-43c13a00-7cd0-11ea-9266-2f6535620c1f.png">
-    <img src="https://user-images.githubusercontent.com/19829495/79062858-43c13a00-7cd0-11ea-9266-2f6535620c1f.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/699766c2cf09b6a58559db121a478a2a_MD5.png">
+    <img src="/_attachment/699766c2cf09b6a58559db121a478a2a_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <ol>
@@ -535,15 +527,15 @@ sonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco.xml
 <p>job勾选构建触发器Generic Webhook Trigger选项，设置token，如图所示：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/79059727-0ea4ef80-7cb0-11ea-9fdf-89aa11d80983.png">
-    <img src="https://user-images.githubusercontent.com/19829495/79059727-0ea4ef80-7cb0-11ea-9fdf-89aa11d80983.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/91f0ea25812c2e206a1a9ceab763b609_MD5.png">
+    <img src="/_attachment/91f0ea25812c2e206a1a9ceab763b609_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p>以Gitlab，Gitee或者Github的代码仓库WebHooks配置Jenkins Generic Webhook Trigger的回调地址 （http://[JenkinsIP]/generic-webhook-trigger/invoke?token=gitee-leaf-sonar-token)。以码云为例子，可以选择如下几个触发事件，当事件触发时回调我们的Jenkins 地址，触发job执行。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/79060087-a7893a00-7cb3-11ea-9cce-72181fb9d373.png">
-    <img src="https://user-images.githubusercontent.com/19829495/79060087-a7893a00-7cb3-11ea-9cce-72181fb9d373.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/4a01323d04ef8970658e338ed8d440bb_MD5.png">
+    <img src="/_attachment/4a01323d04ef8970658e338ed8d440bb_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p>参考文档：<a href="https://plugins.jenkins.io/generic-webhook-trigger/">https://plugins.jenkins.io/generic-webhook-trigger/</a></p>
@@ -554,15 +546,15 @@ sonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco.xml
 <p>以Gitee为例子，触发事件发送请求，请求的body里包含了本次提交的一些信息，其中<code> &quot;ref&quot;: &quot;refs/heads/test&quot;</code>,表示本次提交的分支。有了这个信息，可以通过Generic Webhook Trigger的Post content parameters将请求体中的ref内容提取出来通过表达式<code>Expression</code>赋给$ref。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/79060459-beca2680-7cb7-11ea-86ce-bb9bcc65462e.png">
-    <img src="https://user-images.githubusercontent.com/19829495/79060459-beca2680-7cb7-11ea-86ce-bb9bcc65462e.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/1d4453cdd01aba32bfd8f1d7c66e43b9_MD5.png">
+    <img src="/_attachment/1d4453cdd01aba32bfd8f1d7c66e43b9_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p>在Optional filter中 Expression 填写正则，Text 填写我们刚刚设置的变量 $ref进行匹配，如下所示对test分支进行了匹配，实现指定分支触发job的目的。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/79060490-27190800-7cb8-11ea-962b-368493256be7.png">
-    <img src="https://user-images.githubusercontent.com/19829495/79060490-27190800-7cb8-11ea-962b-368493256be7.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/2debae2e3335e3335947877b9fda2d48_MD5.png">
+    <img src="/_attachment/2debae2e3335e3335947877b9fda2d48_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <ul>
@@ -571,8 +563,8 @@ sonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco.xml
 <p>这里用于在Sonarqube完成扫描后，通知Jenkins扫描结果，参考文档：<a href="https://docs.sonarqube.org/latest/project-administration/webhooks/">https://docs.sonarqube.org/latest/project-administration/webhooks/</a></p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/79046553-3e1e1280-7c44-11ea-8005-38d36fd0fe37.png">
-    <img src="https://user-images.githubusercontent.com/19829495/79046553-3e1e1280-7c44-11ea-8005-38d36fd0fe37.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/8555ffddcaca25e7aa22ba04b98c4e06_MD5.png">
+    <img src="/_attachment/8555ffddcaca25e7aa22ba04b98c4e06_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <ul>
@@ -581,8 +573,8 @@ sonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco.xml
 <p>Jenkins安装Sonar Quality Gates 插件，通过此插件可以让Jenkins等待SonarQube分析完成并返回质量阈状态 。当返回为Fail时，我们可以aborted 对应的job并进行通知操作。在 Jenkins的Manage Jenkins -&gt; Configure System -&gt; Quality Gates - Sonarqube，对其进行设置。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/79047205-cf42b880-7c47-11ea-87e5-48cbb20a6d22.png">
-    <img src="https://user-images.githubusercontent.com/19829495/79047205-cf42b880-7c47-11ea-87e5-48cbb20a6d22.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/_attachment/fae574eda1bb749c2b24d011aaec3859_MD5.png">
+    <img src="/_attachment/fae574eda1bb749c2b24d011aaec3859_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <ul>
@@ -680,7 +672,7 @@ sonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco.xml
               <ul>
                 <li><a href="#关于jacoco">关于Jacoco</a></li>
                 <li><a href="#前置准备-1">前置准备</a></li>
-                <li><a href="#pipeline配置-1">pipeline配置</a></li>
+                <li><a href="#pipeline配置-1">Pipeline配置</a></li>
                 <li><a href="#单元测试覆盖率统计数据上报sonarqube">单元测试覆盖率统计数据上报SonarQube</a></li>
               </ul>
             </li>

@@ -199,8 +199,8 @@
 <p>一条总线上挂载多个CPU。CPU角色功能平等，没有主从，称为对称结构。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50348717-95dacb00-0574-11e9-9ff8-cd225b7a5e8b.png">
-    <img src="https://user-images.githubusercontent.com/19829495/50348717-95dacb00-0574-11e9-9ff8-cd225b7a5e8b.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/30830500f481aa00ee86dc1b9fc4aa2e_MD5.png">
+    <img src="/_attachment/30830500f481aa00ee86dc1b9fc4aa2e_MD5.png" alt="image"  />
     </a>
 </div></p>
 <ul>
@@ -210,8 +210,8 @@
 <p>如下，4 个物理 CPU ，而每个CPU又因超线程技术分解为两个逻辑 CPU 。每个逻辑 CPU 可以执行一个线程序列。这样一个物理 CPU 可以同时执行两个线程。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50382995-4f0ce280-06e6-11e9-94a0-eaf434da9ac6.png">
-    <img src="https://user-images.githubusercontent.com/19829495/50382995-4f0ce280-06e6-11e9-94a0-eaf434da9ac6.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/4024696a943b9daf3b4a6ec7339a5453_MD5.png">
+    <img src="/_attachment/4024696a943b9daf3b4a6ec7339a5453_MD5.png" alt="image"  />
     </a>
 </div></p>
 <ul>
@@ -248,8 +248,8 @@
 <p>使用CPU之间中断的机制就是高级可编程中断控制器(APIC)。在此种规范下,每个CPU内部必须内置APIC单元(成为那个CPU的本地APIC)。CPU通过彼此发送中断(IPI,即处理器间中断)来完成它们之间的通信。通过给中断附加动作,不同的CPU可以在某种程度上彼此进行控制。除了每个CPU自己本地的APC外,所有CPU通常还共享一个IO APIC来处理由LO设备引起的中断,这个IO APIC是安装在主板上的。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50383873-538dc700-06f7-11e9-8587-fc84bc218099.png">
-    <img src="https://user-images.githubusercontent.com/19829495/50383873-538dc700-06f7-11e9-8587-fc84bc218099.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/cecb51008610b73b00a1e2d31e300e69_MD5.png">
+    <img src="/_attachment/cecb51008610b73b00a1e2d31e300e69_MD5.png" alt="image"  />
     </a>
 </div></p>
 <h4 id="对称多处理器smp的缓存一致性">对称多处理器(SMP)的缓存一致性</h4>
@@ -276,8 +276,8 @@
 </ul>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50384014-4245ba00-06f9-11e9-94fc-dcae7ea621bf.png">
-    <img src="https://user-images.githubusercontent.com/19829495/50384014-4245ba00-06f9-11e9-94fc-dcae7ea621bf.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/db6e5721944f40a0d1b550e8e7d3a3a7_MD5.png">
+    <img src="/_attachment/db6e5721944f40a0d1b550e8e7d3a3a7_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>触发事件：</p>
@@ -301,15 +301,13 @@
 <li>软件同步原语</li>
 </ul>
 <p>Linux内核提供的原子操作:</p>
-<pre><code>    总线锁:置换、比较与置换、原子递增操作。
-    原子算术操作:原子读、设置、加、减、递增、递减、递减与测试。
-    原子位操作:位设置、位清除;位测试与设置、位测试与清除、位测试与改变。
-</code></pre>
-<p>Windows内核提供的原子:</p>
-<pre><code>    互锁操作( interlocked operation)
-    执行体互锁操作( executive interlocked operations
-</code></pre>
-<ul>
+<pre><code>总线锁:置换、比较与置换、原子递增操作。
+原子算术操作:原子读、设置、加、减、递增、递减、递减与测试。
+原子位操作:位设置、位清除;位测试与设置、位测试与清除、位测试与改变。
+</code></pre><p>Windows内核提供的原子:</p>
+<pre><code>互锁操作( interlocked operation)
+执行体互锁操作( executive interlocked operations
+</code></pre><ul>
 <li>旋锁</li>
 </ul>
 <p>多核操作系统提供的CPU互斥机制。旋锁通常用于保护某个全局的数据结构,如 Windows里面的DPC(延迟过程调用)队列。这里的互斥指的是多个处理器或执行核之间的互斥,即两个处理器或核不能(物理上)同时访问同一个数据结构。</p>
@@ -328,8 +326,8 @@
 <p>Linux就绪队列：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50384852-e3d30880-0705-11e9-95f1-6ae9a448c48b.png">
-    <img src="https://user-images.githubusercontent.com/19829495/50384852-e3d30880-0705-11e9-95f1-6ae9a448c48b.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/5ec9630b39a378bb165bc92b5dee4f84_MD5.png">
+    <img src="/_attachment/5ec9630b39a378bb165bc92b5dee4f84_MD5.png" alt="image"  />
     </a>
 </div></p>
 <ul>

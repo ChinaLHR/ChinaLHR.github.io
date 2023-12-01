@@ -195,30 +195,22 @@
 <h3 id="优化现有mysql">优化现有MySql</h3>
 <h4 id="表设计">表设计</h4>
 <ul>
-<li>
-<p>表字段避免null值出现，null值很难查询优化，占用额外的索引空</p>
-</li>
-<li>
-<p>如果非负则加上UNSIGNED</p>
-</li>
-<li>
-<p>尽量使用TIMESTAMP而非DATETIME</p>
-<pre><code>  TIMESTAMP:它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。
-  DATETIME:不做任何改变，基本上是原样输入和输出。
-</code></pre>
-</li>
-<li>
-<p>索引建立</p>
-<pre><code>  在WHERE和ORDER BY命令上涉及的列建立索引,利用最左前缀原则：
-  值分布很稀少的字段不适合建索引
-  字符字段只建前缀索引
-  多个单列索引在多条件查询时只会生效第一个索引,所以多条件联合查询时最好建联合索引
-  离散度大（不同的值多）的列，放在联合索引前面。
-  ...
-</code></pre>
-</li>
+<li>表字段避免null值出现，null值很难查询优化，占用额外的索引空</li>
+<li>如果非负则加上UNSIGNED</li>
+<li>尽量使用TIMESTAMP而非DATETIME</li>
 </ul>
-<h4 id="外层优化">外层优化</h4>
+<pre><code>TIMESTAMP:它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。
+DATETIME:不做任何改变，基本上是原样输入和输出。
+</code></pre><ul>
+<li>索引建立</li>
+</ul>
+<pre><code>在WHERE和ORDER BY命令上涉及的列建立索引,利用最左前缀原则：
+值分布很稀少的字段不适合建索引
+字符字段只建前缀索引
+多个单列索引在多条件查询时只会生效第一个索引,所以多条件联合查询时最好建联合索引
+离散度大（不同的值多）的列，放在联合索引前面。
+...
+</code></pre><h4 id="外层优化">外层优化</h4>
 <ul>
 <li>通过Redis进行热点缓存</li>
 <li>通过Elasticsearch进行api对外查询的读写分离</li>
@@ -239,54 +231,49 @@
 <li>
 <p>分区类型</p>
 <ul>
-<li>
-<p>范围分区（RANGE）</p>
-<pre><code>  允许将数据划分不同范围(从属于一个连续区间值的集合)[非null列]
-        
-  PARTITION BY RANGE(YEAR(separated))(
-      PARTITION p0 VALUES LESS THAN(1995),
-      PARTITION p1 VALUES LESS THAN(2000),
-      PARTITION p2 VALUES LESS THAN(2005)
-  );
-</code></pre>
-</li>
-<li>
-<p>列表分区（LIST）</p>
-<pre><code>  允许将数据划分不同范围(从属于一个枚举列表值的集合)[非null列]
-  LIST分区只支持整形，非整形字段需要通过函数转换成整形.
-  PARTITION BY LIST(category)(
-      PARTITION P0 VALUES IN (3,5),
-      PARTITION P1 VALUES IN (1,10),
-      PARTITION P2 VALUES IN (4,9),
-      PARTITION P3 VALUES IN (2),
-      PARTITION P4 VALUES IN (6)
-  );
-</code></pre>
-</li>
-<li>
-<p>哈希分区（HASH）</p>
-<pre><code>  基于给定的分区个数，将数据散列到不同的分区(HASH分区的底层实现基于MOD取余函数)
-  只能针对整数进行HASH，对于非整形的字段只能通过表达式将其转换成整数
-		
-  PARTITION BY HASH(id)
-  PARTITIONS 4; -- 分区数
-</code></pre>
-</li>
-<li>
-<p>哈希分区（LINEAR HASH）</p>
-<pre><code>  HASH分区的特殊类型，基于Power-of-Two算法...
-</code></pre>
-</li>
-<li>
-<p>KEY分区</p>
-<pre><code>  基于给定的分区个数，将数据散列到不同的分区(KEY分区的底层实现基于列的MD5算法)
-  KEY分区对象必须为列，
-  PARTITION BY KEY(id)
-  PARTITIONS 2;
-</code></pre>
-</li>
+<li>范围分区（RANGE）</li>
 </ul>
-</li>
+<pre><code>允许将数据划分不同范围(从属于一个连续区间值的集合)[非null列]
+  
+PARTITION BY RANGE(YEAR(separated))(
+    PARTITION p0 VALUES LESS THAN(1995),
+    PARTITION p1 VALUES LESS THAN(2000),
+    PARTITION p2 VALUES LESS THAN(2005)
+);
+</code></pre><pre><code>
+ - 列表分区（LIST）  
+
+</code></pre><pre><code> 允许将数据划分不同范围(从属于一个枚举列表值的集合)[非null列]
+ LIST分区只支持整形，非整形字段需要通过函数转换成整形.
+ PARTITION BY LIST(category)(
+     PARTITION P0 VALUES IN (3,5),
+     PARTITION P1 VALUES IN (1,10),
+     PARTITION P2 VALUES IN (4,9),
+     PARTITION P3 VALUES IN (2),
+     PARTITION P4 VALUES IN (6)
+ );
+</code></pre><pre><code>
+ - 哈希分区（HASH）
+
+</code></pre><pre><code>     基于给定的分区个数，将数据散列到不同的分区(HASH分区的底层实现基于MOD取余函数)
+     只能针对整数进行HASH，对于非整形的字段只能通过表达式将其转换成整数
+       
+     PARTITION BY HASH(id)
+     PARTITIONS 4; -- 分区数
+</code></pre><pre><code>
+ - 哈希分区（LINEAR HASH）
+
+</code></pre><pre><code> HASH分区的特殊类型，基于Power-of-Two算法...
+</code></pre><pre><code>
+ - KEY分区
+
+</code></pre></li>
+</ul>
+<pre><code>	基于给定的分区个数，将数据散列到不同的分区(KEY分区的底层实现基于列的MD5算法)
+	KEY分区对象必须为列，
+	PARTITION BY KEY(id)
+	PARTITIONS 2;
+</code></pre><ul>
 <li>
 <p>分区的缺陷</p>
 <ul>
@@ -307,56 +294,46 @@
 </ul>
 <h4 id="分库分表业务层改动实施">分库分表[业务层改动实施]</h4>
 <ul>
-<li>
-<p>垂直拆分表
-垂直拆分是指数据表列的拆分，把一张列比较多的表拆分为多张表，建议在数据表设计之初就执行垂直拆分</p>
-<pre><code>  把不常用的字段单独放在一张表;
-  把text，blob等大字段拆分出来放在附表中;
-  经常组合查询的列放在一张表中;
-</code></pre>
-</li>
+<li>垂直拆分表
+垂直拆分是指数据表列的拆分，把一张列比较多的表拆分为多张表，建议在数据表设计之初就执行垂直拆分</li>
 </ul>
-<p>
+<pre><code>把不常用的字段单独放在一张表;
+把text，blob等大字段拆分出来放在附表中;
+经常组合查询的列放在一张表中;
+</code></pre><p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/51801801-6444d600-227d-11e9-9c24-cb5a31e13b72.png">
-    <img src="https://user-images.githubusercontent.com/19829495/51801801-6444d600-227d-11e9-9c24-cb5a31e13b72.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/9809ce0aa6e21b0750397409859b8737_MD5.png">
+    <img src="/_attachment/9809ce0aa6e21b0750397409859b8737_MD5.png" alt="image"  />
     </a>
 </div></p>
 <ul>
-<li>
-<p>水平拆分表
-水平拆分是指数据表行的拆分，把一张的表的数据拆成多张表来存放。</p>
-<pre><code>  通常情况下，我们使用取模的方式来进行表的拆分，在insert时还需要一张临时表uid_temp来提供自增的ID,该表的唯一用处就是提供自增的ID;
-</code></pre>
-</li>
+<li>水平拆分表
+水平拆分是指数据表行的拆分，把一张的表的数据拆成多张表来存放。</li>
 </ul>
-<p>
+<pre><code>通常情况下，我们使用取模的方式来进行表的拆分，在insert时还需要一张临时表uid_temp来提供自增的ID,该表的唯一用处就是提供自增的ID;
+</code></pre><p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/51801833-e3d2a500-227d-11e9-91e1-9f77733df944.png">
-    <img src="https://user-images.githubusercontent.com/19829495/51801833-e3d2a500-227d-11e9-91e1-9f77733df944.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/498334e71341bd575ace729dea630e1c_MD5.png">
+    <img src="/_attachment/498334e71341bd575ace729dea630e1c_MD5.png" alt="image"  />
     </a>
 </div></p>
 <ul>
 <li>client模式和proxy模式
 <ul>
-<li>
-<p>client模式
+<li>client模式
 
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/51801960-95bea100-227f-11e9-844a-efb957ac1ee1.png">
-    <img src="https://user-images.githubusercontent.com/19829495/51801960-95bea100-227f-11e9-844a-efb957ac1ee1.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/d8c702d4a67023e6fca429d40a821a1c_MD5.png">
+    <img src="/_attachment/d8c702d4a67023e6fca429d40a821a1c_MD5.png" alt="image"  />
     </a>
-</div></p>
-</li>
-<li>
-<p>proxy模式
+</div></li>
+<li>proxy模式
 
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/51801968-aff87f00-227f-11e9-8694-879bfc4355a8.png">
-    <img src="https://user-images.githubusercontent.com/19829495/51801968-aff87f00-227f-11e9-8694-879bfc4355a8.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/8a261d9f3453f15142ec039122b4198f_MD5.png">
+    <img src="/_attachment/8a261d9f3453f15142ec039122b4198f_MD5.png" alt="image"  />
     </a>
-</div></p>
-</li>
+</div></li>
 </ul>
 </li>
 </ul>

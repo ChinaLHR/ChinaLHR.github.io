@@ -203,11 +203,11 @@
 <p>内容寻址：通过内容寻址存储系统查找</p>
 <p>文件内容组织：关系导向型组织与非关系导向型组织</p>
 <p>文件类型：目录|一般文件|块文件(关于输入输出的文件)</p>
-<p>文件格式：例如Unix下的可执行文件，归档文件
-
+<p>文件格式：例如Unix下的可执行文件，归档文件</p>
+<p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50162077-662f8700-0318-11e9-84b4-166f2a646871.png">
-    <img src="https://user-images.githubusercontent.com/19829495/50162077-662f8700-0318-11e9-84b4-166f2a646871.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/7b03cd8cfa78d3ff602bec5f7f62a238_MD5.png">
+    <img src="/_attachment/7b03cd8cfa78d3ff602bec5f7f62a238_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>文件访问：随机访问(任意顺序读取数据记录)</p>
@@ -233,8 +233,8 @@ Shell的ls与Window的dir：读取文件夹的内容(数组)展示。</p>
 <p>原理：把需要访问的文件映射到一个进程的虚拟地址，访问虚拟地址就相当于访问文件。把磁盘访问变成内存访问，不需要系统调用来访问。映射到多个进程上可以实现文件共享。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50224939-1f09ca80-03da-11e9-9332-f70894f255c0.png">
-    <img src="https://user-images.githubusercontent.com/19829495/50224939-1f09ca80-03da-11e9-9332-f70894f255c0.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/3cadd6343cf1161598a5b00d1b1b5540_MD5.png">
+    <img src="/_attachment/3cadd6343cf1161598a5b00d1b1b5540_MD5.png" alt="image"  />
     </a>
 </div></p>
 <hr>
@@ -247,8 +247,8 @@ Shell的ls与Window的dir：读取文件夹的内容(数组)展示。</p>
 </ul>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50346533-a2a7f080-056d-11e9-9147-7cde996478ac.png">
-    <img src="https://user-images.githubusercontent.com/19829495/50346533-a2a7f080-056d-11e9-9147-7cde996478ac.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/a93ee605cad9e11cf2b10aec2c880272_MD5.png">
+    <img src="/_attachment/a93ee605cad9e11cf2b10aec2c880272_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>结构简单，顺序访问速度快，但不能动态增长，外存容易存在碎片。</p>
@@ -258,8 +258,8 @@ Shell的ls与Window的dir：读取文件夹的内容(数组)展示。</p>
 <p>链结构将逻辑上连续的文件信息分散存放在若干不连续的物理块中，其中每个物理块设有一个指针，指向其后续连接的另一个物理块。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50346688-15b16700-056e-11e9-9bd5-6bb8fa163aab.png">
-    <img src="https://user-images.githubusercontent.com/19829495/50346688-15b16700-056e-11e9-9bd5-6bb8fa163aab.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/73f25b631d836029ded08b23443b6f67_MD5.png">
+    <img src="/_attachment/73f25b631d836029ded08b23443b6f67_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>提高了磁盘空间利用率，解决了磁盘碎片问题，便于文件的插入和删除操作与动态增长,但不适宜随机存取访问</p>
@@ -296,28 +296,25 @@ Shell的ls与Window的dir：读取文件夹的内容(数组)展示。</p>
 <p>是一种专为磁盘存取设计的文件组织方法，采用静态索引结构。 由于磁盘是以盘组、柱面和磁道三级地址存取的设备，ISAM对磁盘上的数据文件建立盘组、柱面和磁道三级索引。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50347532-cfa9d280-0570-11e9-8d30-e53e67251a02.png">
-    <img src="https://user-images.githubusercontent.com/19829495/50347532-cfa9d280-0570-11e9-8d30-e53e67251a02.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/0e4494bdf777455e6a615a0a57b1bf79_MD5.png">
+    <img src="/_attachment/0e4494bdf777455e6a615a0a57b1bf79_MD5.png" alt="image"  />
     </a>
 </div></p>
 <ul>
-<li>
-<p>检索过程</p>
+<li>检索过程</li>
+</ul>
 <pre><code>1.从主索引出发，找到相应的柱面索引；
 2.从柱面索引找到记录所在柱面的磁道索引；
 3.从磁道索引找到记录所在磁道的起始地址，由此出发在该磁道上进行顺序查找，直到找到为止。
-</code></pre>
-</li>
-<li>
-<p>VSAM文件
-基于B+树,文件是利用操作系统中提供的虚拟存储器的功能组织的文件，免除了用户为读/写记录时直接对外存进行的操作，对用户而言，文件只有控制区间和控制区域等逻辑存储单位。</p>
-</li>
+</code></pre><ul>
+<li>VSAM文件
+基于B+树,文件是利用操作系统中提供的虚拟存储器的功能组织的文件，免除了用户为读/写记录时直接对外存进行的操作，对用户而言，文件只有控制区间和控制区域等逻辑存储单位。</li>
 </ul>
 <p>VSAM文件的结构由三部分组成:索引集，顺序集，数据集</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50347725-9756c400-0571-11e9-8d1a-b5de501fac0b.png">
-    <img src="https://user-images.githubusercontent.com/19829495/50347725-9756c400-0571-11e9-8d1a-b5de501fac0b.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/ed6cdf3b720dab705c1a0f8da731624f_MD5.png">
+    <img src="/_attachment/ed6cdf3b720dab705c1a0f8da731624f_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>VSAM的优势是能保持较高的查找效率，查找一个后插入记录和查找一个原有记录具有相同的速度；动态地分配和释放存储空间，可以保持平均75％的存储利用率；而且永远不必对文件进行再组织。</p>
@@ -355,8 +352,8 @@ Shell的ls与Window的dir：读取文件夹的内容(数组)展示。</p>
 单级I-NODE用于索引小文件(因为小文件使用的数据块不会超过I-NODE指针数，避免浪费I-NODE空间，降低访问磁盘次数)</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50289941-31046f80-04a5-11e9-9cb3-d81dadfe5c92.png">
-    <img src="https://user-images.githubusercontent.com/19829495/50289941-31046f80-04a5-11e9-9cb3-d81dadfe5c92.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/6a109bc3d31981e4183623270d2664cf_MD5.png">
+    <img src="/_attachment/6a109bc3d31981e4183623270d2664cf_MD5.png" alt="image"  />
     </a>
 </div></p>
 <h4 id="文件夹目录实现">文件夹(目录)实现</h4>
@@ -368,8 +365,8 @@ Shell的ls与Window的dir：读取文件夹的内容(数组)展示。</p>
 <p>硬链接：在某个文件夹Link调用创建目标文件链接时，该文件夹会增加目标文件到文件地址的映射。删除的时候(逻辑或者物理删除)，如果链接数不为0只是将文件对应I-NODE里面的链接计数减一，如果链接数为0则删除。会存在文件创建者删除文件，但因为被链接而没有被物理删除的问题。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/50291007-4c24ae80-04a8-11e9-9896-d7259b3c4bde.png">
-    <img src="https://user-images.githubusercontent.com/19829495/50291007-4c24ae80-04a8-11e9-9896-d7259b3c4bde.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/9bfc08d14e2b10f6af8ec21c5f4d9437_MD5.png">
+    <img src="/_attachment/9bfc08d14e2b10f6af8ec21c5f4d9437_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>软链接：在某个文件夹Link调用创建目标文件链接时，该文件夹会增加目标文件的路径名。从链接访问文件需要从原始路径访问。原始文件删除后链接断开无法访问文件。(WINDOW快捷方式)</p>

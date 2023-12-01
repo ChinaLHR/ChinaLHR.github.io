@@ -195,7 +195,7 @@
 <h3 id="fisheryates-shuffle算法">Fisher–Yates Shuffle算法</h3>
 <ul>
 <li>思想:算法思想就是从原始数组中随机抽取一个新的数字到新数组中</li>
-<li>复杂度:O(n2)</li>
+<li>复杂度:<code>O(n^2)</code></li>
 <li>实现</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> shuffledNums <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[]{...};</span>
@@ -226,8 +226,8 @@
     <span style="color:#f92672">}</span>
 </code></pre></div><h3 id="knuth-durstenfeld-shuffle算法">Knuth-Durstenfeld Shuffle算法</h3>
 <ul>
-<li>思想:Fisher–Yates Shuffle的改进,每次从未处理的数据中随机取出一个数字，然后把该数字放在数组的尾部，即数组尾部存放的是已经处理过的数字。在原始数组上对数字进行交互，省去了额外O(n)的空间。</li>
-<li>复杂度:O(n)</li>
+<li>思想:Fisher–Yates Shuffle的改进,每次从未处理的数据中随机取出一个数字，然后把该数字放在数组的尾部，即数组尾部存放的是已经处理过的数字。在原始数组上对数字进行交互，省去了额外<code>O(n)</code>的空间。</li>
+<li>复杂度:<code>O(n)</code></li>
 <li>实现</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> shuffledNums <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[]{...};</span>

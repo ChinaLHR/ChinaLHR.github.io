@@ -195,15 +195,15 @@
 <h3 id="关于进程">关于进程</h3>
 <p>进展中的程序，一个程序被加载到内存后就变成进程。对于操作系统，进程是其提供的一种抽象，目的是通过并发提高系统CPU利用率，缩短响应时间。</p>
 <ul>
-<li>
-<p>进程的三种典型状态
-
+<li>进程的三种典型状态</li>
+</ul>
+<p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/48848073-0c51a500-edde-11e8-9779-6f82ec240dfd.png">
-    <img src="https://user-images.githubusercontent.com/19829495/48848073-0c51a500-edde-11e8-9779-6f82ec240dfd.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/323d3535b368c6c20fffb2fc11e37d40_MD5.png">
+    <img src="/_attachment/323d3535b368c6c20fffb2fc11e37d40_MD5.png" alt="image"  />
     </a>
 </div></p>
-</li>
+<ul>
 <li>
 <p>进程的创建过程</p>
 <ol>
@@ -216,8 +216,8 @@
 </ol>
 </li>
 </ul>
-<p>UNIX 创建进程:1.fork[创建一个与自己完全一样的新进程] 2.exec[新进程的地址空间用另一个程序覆盖，跳转到新进程的起始地址完成启动]</p>
-<p>Window CreateProcess函数:CreateProcess[传递进来新的程序名称，创建新的页表]</p>
+<p>UNIX 创建进程:1.fork<code>[创建一个与自己完全一样的新进程]</code> 2.exec<code>[新进程的地址空间用另一个程序覆盖，跳转到新进程的起始地址完成启动] </code></p>
+<p>Window CreateProcess函数:CreateProcess<code>[传递进来新的程序名称，创建新的页表]</code></p>
 <hr>
 <h3 id="进程调度">进程调度</h3>
 <ul>
@@ -276,7 +276,7 @@
 <h3 id="进程通信ipc">进程通信(IPC)</h3>
 <ul>
 <li>管道通信(类UNIX下)
-通过Shell的 | :sort &lt; file |grep li [在排序sort与查找grep之间建立管道。数据从sort流向grep，作用是对file进行排序，排序结果作为grep程序的输入，在结果中找出包括li的文本行]</li>
+通过Shell的 | :sort &lt; file |grep li <code>[在排序sort与查找grep之间建立管道。数据从sort流向grep，作用是对file进行排序，排序结果作为grep程序的输入，在结果中找出包括li的文本行]</code></li>
 </ul>
 <p>通过pipe函数</p>
 <p>管道：用于管道的读与写。半双工的，具有固定的读端和写端(他只能用于具有亲缘关系的进程之间的通信)。可以看成是一种特殊的文件，对于它的读写也可以使用普通的read、write 等函数。但是它不是普通的文件，并不属于其他任何文件系统，并且只存在于内存中。</p>
@@ -309,8 +309,8 @@ FIFO可以在无关的进程之间交换数据，与无名管道不同。</li>
 </ul>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="https://user-images.githubusercontent.com/19829495/49161049-0b32f180-f363-11e8-9da0-536211ebae9a.png">
-    <img src="https://user-images.githubusercontent.com/19829495/49161049-0b32f180-f363-11e8-9da0-536211ebae9a.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/_attachment/0c9192d3f1345a453439a6a45d431f53_MD5.png">
+    <img src="/_attachment/0c9192d3f1345a453439a6a45d431f53_MD5.png" alt="image"  />
     </a>
 </div></p>
 <ul>

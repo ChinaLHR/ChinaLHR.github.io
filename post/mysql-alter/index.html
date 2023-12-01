@@ -206,11 +206,13 @@
 </ul>
 </li>
 </ul>
-<p>详细参见：<!-- raw HTML omitted -->
-<a href="https://www.cnblogs.com/mysql-dba/p/6192897.html">https://www.cnblogs.com/mysql-dba/p/6192897.html</a><!-- raw HTML omitted -->
-<a href="http://www.cnblogs.com/cchust/p/4639397.html">http://www.cnblogs.com/cchust/p/4639397.html</a></p>
+<p>详细参见：</p>
+<ul>
+<li><a href="https://www.cnblogs.com/mysql-dba/p/6192897.html">https://www.cnblogs.com/mysql-dba/p/6192897.html</a></li>
+<li><a href="http://www.cnblogs.com/cchust/p/4639397.html">http://www.cnblogs.com/cchust/p/4639397.html</a></li>
+</ul>
 <h2 id="方案1创建新表进行alter并复制数据">方案1：创建新表进行alter并复制数据</h2>
-<p>[选择在凌晨3-4时更新]</p>
+<p><code>[选择在凌晨3-4时更新]</code></p>
 <ol>
 <li>首先创建新的临时表，表结构通过命令ALTAR TABLE新定义的结构,索引</li>
 <li>然后把原表中数据导入到临时表
@@ -223,115 +225,107 @@
 <li>删除原表</li>
 <li>最后把临时表重命名为原来的表名</li>
 </ol>
-<h3 id="实践代码">实践代码：</h3>
-<pre><code>-- 1. 要修改结构的大数据表
-DROP TABLE
-IF EXISTS USER;
-
-CREATE TABLE `user` (
-    `id` INT (11) NOT NULL AUTO_INCREMENT,
-    `username` VARCHAR (32) NOT NULL DEFAULT '',
-    `age` INT (11) NOT NULL DEFAULT '-1',
-    PRIMARY KEY (`id`)
-) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '用户表';
-
--- 2. 新表结构
-DROP TABLE
-IF EXISTS user_tmp;
-
-CREATE TABLE `user_tmp` (
-    `id` INT (11) NOT NULL AUTO_INCREMENT,
-    `username` VARCHAR (32) NOT NULL DEFAULT '',
-    `age` INT (11) NOT NULL DEFAULT '-1',
-    PRIMARY KEY (`id`),
-    INDEX `index_username_age` (`username`, `age`)
-) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '用户表';
-
--- 3.创建存储过程 max_id为 去最近更新的一条数据的id 11265265
-DELIMITER $$
-
-
-DROP PROCEDURE
-IF EXISTS copy_data ; CREATE PROCEDURE copy_data ()
-BEGIN
-
-DECLARE limitSize BIGINT ;
-DECLARE beginId BIGINT ;
-DECLARE endId BIGINT ;
-DECLARE maxId BIGINT ;
-SET limitSize = 5000 ;
-SET beginId = 0 ;
-SET endId = limitSize ;
-SET maxId = 11265265 ;
-WHILE beginId &lt; maxId DO
-
-IF endId &gt; maxId THEN
-
-SET endId = maxId ;
-END
-IF ; INSERT INTO user_tmp (`id`, `username`, `age`) SELECT
-    `id`,
-    `username`,
-    `age`
-FROM
-    USER
-WHERE
-    id &gt;= beginId
-AND id &lt; endId ;
-SET beginId = endId ;
-SET endId = endId + limitSize ;
-END
-WHILE ;
-END ;$$
- 
-DELIMITER ;
-
-
--- 4.执行存储过程
-CALL copy_data ();
-
--- 5. 同步剩下的数据，并修改表名称，将临时表修改为新表
-START TRANSACTION;
-
-INSERT INTO user_tmp (`id`, `username`, `age`) SELECT
-    `id`,
-    `username`,
-    `age`
-FROM
-    USER
-WHERE
-    id &gt;= 1265265;
-
-ALTER TABLE USER RENAME user_old;
-
-ALTER TABLE user_tmp RENAME USER;
-
-COMMIT;
-</code></pre>
-<h2 id="方案2新建一个表与旧表进行字段关联">方案2：新建一个表与旧表进行字段关联</h2>
+<h3 id="实践代码">实践代码</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">	<span style="color:#75715e">-- 1. 要修改结构的大数据表
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span>
+	<span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> <span style="color:#66d9ef">USER</span>;
+	
+	<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span><span style="color:#66d9ef">user</span><span style="color:#f92672">`</span> (
+		<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span> INT (<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> AUTO_INCREMENT,
+		<span style="color:#f92672">`</span>username<span style="color:#f92672">`</span> VARCHAR (<span style="color:#ae81ff">32</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#e6db74">&#39;&#39;</span>,
+		<span style="color:#f92672">`</span>age<span style="color:#f92672">`</span> INT (<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#e6db74">&#39;-1&#39;</span>,
+		<span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>)
+	) ENGINE <span style="color:#f92672">=</span> INNODB <span style="color:#66d9ef">DEFAULT</span> CHARSET <span style="color:#f92672">=</span> utf8mb4 <span style="color:#66d9ef">COMMENT</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;用户表&#39;</span>;
+	
+	<span style="color:#75715e">-- 2. 新表结构
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span>
+	<span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> user_tmp;
+	
+	<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span>user_tmp<span style="color:#f92672">`</span> (
+		<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span> INT (<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> AUTO_INCREMENT,
+		<span style="color:#f92672">`</span>username<span style="color:#f92672">`</span> VARCHAR (<span style="color:#ae81ff">32</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#e6db74">&#39;&#39;</span>,
+		<span style="color:#f92672">`</span>age<span style="color:#f92672">`</span> INT (<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#e6db74">&#39;-1&#39;</span>,
+		<span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>),
+		<span style="color:#66d9ef">INDEX</span> <span style="color:#f92672">`</span>index_username_age<span style="color:#f92672">`</span> (<span style="color:#f92672">`</span>username<span style="color:#f92672">`</span>, <span style="color:#f92672">`</span>age<span style="color:#f92672">`</span>)
+	) ENGINE <span style="color:#f92672">=</span> INNODB <span style="color:#66d9ef">DEFAULT</span> CHARSET <span style="color:#f92672">=</span> utf8mb4 <span style="color:#66d9ef">COMMENT</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;用户表&#39;</span>;
+	
+	<span style="color:#75715e">-- 3.创建存储过程 max_id为 去最近更新的一条数据的id 11265265
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">DELIMITER</span> <span style="color:#960050;background-color:#1e0010">$$</span>
+	
+	
+	<span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">PROCEDURE</span>
+	<span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> copy_data ; <span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">PROCEDURE</span> copy_data ()
+	<span style="color:#66d9ef">BEGIN</span>
+	
+	<span style="color:#66d9ef">DECLARE</span> limitSize BIGINT ;
+	<span style="color:#66d9ef">DECLARE</span> beginId BIGINT ;
+	<span style="color:#66d9ef">DECLARE</span> endId BIGINT ;
+	<span style="color:#66d9ef">DECLARE</span> maxId BIGINT ;
+	<span style="color:#66d9ef">SET</span> limitSize <span style="color:#f92672">=</span> <span style="color:#ae81ff">5000</span> ;
+	<span style="color:#66d9ef">SET</span> beginId <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> ;
+	<span style="color:#66d9ef">SET</span> endId <span style="color:#f92672">=</span> limitSize ;
+	<span style="color:#66d9ef">SET</span> maxId <span style="color:#f92672">=</span> <span style="color:#ae81ff">11265265</span> ;
+	WHILE beginId <span style="color:#f92672">&lt;</span> maxId <span style="color:#66d9ef">DO</span>
+	
+	<span style="color:#66d9ef">IF</span> endId <span style="color:#f92672">&gt;</span> maxId <span style="color:#66d9ef">THEN</span>
+	
+	<span style="color:#66d9ef">SET</span> endId <span style="color:#f92672">=</span> maxId ;
+	<span style="color:#66d9ef">END</span>
+	<span style="color:#66d9ef">IF</span> ; <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> user_tmp (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>, <span style="color:#f92672">`</span>username<span style="color:#f92672">`</span>, <span style="color:#f92672">`</span>age<span style="color:#f92672">`</span>) <span style="color:#66d9ef">SELECT</span>
+		<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>,
+		<span style="color:#f92672">`</span>username<span style="color:#f92672">`</span>,
+		<span style="color:#f92672">`</span>age<span style="color:#f92672">`</span>
+	<span style="color:#66d9ef">FROM</span>
+		<span style="color:#66d9ef">USER</span>
+	<span style="color:#66d9ef">WHERE</span>
+		id <span style="color:#f92672">&gt;=</span> beginId
+	<span style="color:#66d9ef">AND</span> id <span style="color:#f92672">&lt;</span> endId ;
+	<span style="color:#66d9ef">SET</span> beginId <span style="color:#f92672">=</span> endId ;
+	<span style="color:#66d9ef">SET</span> endId <span style="color:#f92672">=</span> endId <span style="color:#f92672">+</span> limitSize ;
+	<span style="color:#66d9ef">END</span>
+	WHILE ;
+	<span style="color:#66d9ef">END</span> ;<span style="color:#960050;background-color:#1e0010">$$</span>
+	 
+	<span style="color:#66d9ef">DELIMITER</span> ;
+	
+	
+	<span style="color:#75715e">-- 4.执行存储过程
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">CALL</span> copy_data ();
+	
+	<span style="color:#75715e">-- 5. 同步剩下的数据，并修改表名称，将临时表修改为新表
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">START</span> <span style="color:#66d9ef">TRANSACTION</span>;
+	
+	<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> user_tmp (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>, <span style="color:#f92672">`</span>username<span style="color:#f92672">`</span>, <span style="color:#f92672">`</span>age<span style="color:#f92672">`</span>) <span style="color:#66d9ef">SELECT</span>
+		<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>,
+		<span style="color:#f92672">`</span>username<span style="color:#f92672">`</span>,
+		<span style="color:#f92672">`</span>age<span style="color:#f92672">`</span>
+	<span style="color:#66d9ef">FROM</span>
+		<span style="color:#66d9ef">USER</span>
+	<span style="color:#66d9ef">WHERE</span>
+		id <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1265265</span>;
+	
+	<span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">USER</span> <span style="color:#66d9ef">RENAME</span> user_old;
+	
+	<span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> user_tmp <span style="color:#66d9ef">RENAME</span> <span style="color:#66d9ef">USER</span>;
+	
+	<span style="color:#66d9ef">COMMIT</span>;
+</code></pre></div><h2 id="方案2新建一个表与旧表进行字段关联">方案2：新建一个表与旧表进行字段关联</h2>
 <p>略&hellip;</p>
 <h2 id="注意点">注意点</h2>
 <p>如果项目使用了Hibernate，需要关闭hibernate ddl(删掉hibernate.hbm2ddl.auto)。hibernate.cfg.xml 中hibernate.hbm2ddl.auto配置节点：</p>
 <pre><code>&lt;property name=&quot;hibernate.hbm2ddl.auto&quot; value=&quot;create&quot; /&gt;
 </code></pre><ul>
-<li>
-<p>hibernate.hbm2ddl.auto参数的作用主要用于：自动创建|更新|验证数据库表结构</p>
+<li>hibernate.hbm2ddl.auto参数的作用主要用于：自动创建|更新|验证数据库表结构
 <ul>
-<li>create</li>
+<li>create
+每次加载hibernate时都会删除上一次的生成的表，然后根据你的model类再重新来生成新表</li>
+<li>create-drop
+每次加载hibernate时根据model类生成表，但是sessionFactory一关闭,表就自动删除。</li>
+<li>update
+第一次加载hibernate时根据model类会自动建立起表的结构（前提是先建立好数据库），以后加载hibernate时根据 model类自动更新表结构，即使表结构改变了但表中的行仍然存在不会删除以前的行。</li>
+<li>validate
+每次加载hibernate时，验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，但是会插入新值。</li>
 </ul>
-<p>每次加载hibernate时都会删除上一次的生成的表，然后根据你的model类再重新来生成新表</p>
-<ul>
-<li>create-drop</li>
-</ul>
-<p>每次加载hibernate时根据model类生成表，但是sessionFactory一关闭,表就自动删除。</p>
-<ul>
-<li>update</li>
-</ul>
-<p>第一次加载hibernate时根据model类会自动建立起表的结构（前提是先建立好数据库），以后加载hibernate时根据 model类自动更新表结构，即使表结构改变了但表中的行仍然存在不会删除以前的行。</p>
-<ul>
-<li>validate</li>
-</ul>
-<p>每次加载hibernate时，验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，但是会插入新值。</p>
 </li>
 </ul>
         </p>
@@ -351,7 +345,7 @@ COMMIT;
         </li>
         <li><a href="#方案1创建新表进行alter并复制数据">方案1：创建新表进行alter并复制数据</a>
           <ul>
-            <li><a href="#实践代码">实践代码：</a></li>
+            <li><a href="#实践代码">实践代码</a></li>
           </ul>
         </li>
         <li><a href="#方案2新建一个表与旧表进行字段关联">方案2：新建一个表与旧表进行字段关联</a></li>
