@@ -352,8 +352,8 @@ set @@auto_increment_increment = 2;  -- 步长
 <p>UidGenerator生成的ID默认结构如下：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/b5f7047648f4f555ae3f554aa07b2dae_MD5.png">
-    <img src="/_attachment/b5f7047648f4f555ae3f554aa07b2dae_MD5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/attachment/b5f7047648f4f555ae3f554aa07b2dae_MD5.png">
+    <img src="/attachment/b5f7047648f4f555ae3f554aa07b2dae_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <ul>
@@ -452,8 +452,8 @@ CREATED <span style="color:#66d9ef">TIMESTAMP</span> <span style="color:#66d9ef"
 <p>RingBuffer本质上是一个数组，数组中每个项被称为slot。UidGenerator设计了两个RingBuffer，一个保存唯一ID，一个保存flag。RingBuffer的尺寸是2^n。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/dca4d6e8366da762e01c825896296a0a_MD5.png">
-    <img src="/_attachment/dca4d6e8366da762e01c825896296a0a_MD5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/attachment/dca4d6e8366da762e01c825896296a0a_MD5.png">
+    <img src="/attachment/dca4d6e8366da762e01c825896296a0a_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h4 id="ringbuffer-of-uid">RingBuffer Of UID</h4>
@@ -513,8 +513,8 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
 <span style="color:#f92672">}</span>
 </code></pre></div><p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/d86ddc78429931b7f1e4eafae714053a_MD5.png">
-    <img src="/_attachment/d86ddc78429931b7f1e4eafae714053a_MD5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/attachment/d86ddc78429931b7f1e4eafae714053a_MD5.png">
+    <img src="/attachment/d86ddc78429931b7f1e4eafae714053a_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <ul>
@@ -539,8 +539,8 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
 <p>CachedUidGenerator生成UID的方式主要是通过paddingBuffer方法实现的，生成流程如下图所示，主要关注点是在满足填充新的唯一ID条件时，通过时间值递增得到新的时间值（lastSecond.incrementAndGet()），而不是System.currentTimeMillis()这种方式，解决了运行时时间回拨问题。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/c70d430cc536b8f1149fde40b30f456c_MD5.png">
-    <img src="/_attachment/c70d430cc536b8f1149fde40b30f456c_MD5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/attachment/c70d430cc536b8f1149fde40b30f456c_MD5.png">
+    <img src="/attachment/c70d430cc536b8f1149fde40b30f456c_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">paddingBuffer</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
@@ -619,8 +619,8 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
 <p>CachedUidGenerator获取UID通过RingBuffer.take()方法直接从RingBuffer中取出，获取流程如下图所示</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/4b173ef54f5acf0b64bb4d47c2c5632f_MD5.png">
-    <img src="/_attachment/4b173ef54f5acf0b64bb4d47c2c5632f_MD5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/attachment/4b173ef54f5acf0b64bb4d47c2c5632f_MD5.png">
+    <img src="/attachment/4b173ef54f5acf0b64bb4d47c2c5632f_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">take</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
@@ -780,8 +780,8 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
 <span style="color:#f92672">}</span>
 </code></pre></div><p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/c6fa202832c2295aac89314b5399da01_MD5.png">
-    <img src="/_attachment/c6fa202832c2295aac89314b5399da01_MD5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/attachment/c6fa202832c2295aac89314b5399da01_MD5.png">
+    <img src="/attachment/c6fa202832c2295aac89314b5399da01_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <ul>
@@ -874,8 +874,8 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
 </code></pre></div><p>最后的getIdFromSegmentBuffer方法会调用segment.getValue().getAndIncrement()从segment中获取value得到当前的UID返回并进行自增，这里在获取之前会判断当前Segment已经使用超过10%，如果超过会异步准备双buffer的另一个Segment。如果当前号段已经用完，切换另一个Segment号段使用。流程图如下图所示：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/820c17fba250c97da0ffaa5757ca2d56_MD5.png">
-    <img src="/_attachment/820c17fba250c97da0ffaa5757ca2d56_MD5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/attachment/820c17fba250c97da0ffaa5757ca2d56_MD5.png">
+    <img src="/attachment/820c17fba250c97da0ffaa5757ca2d56_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h3 id="leaf-snowflake模式">Leaf-snowflake模式</h3>
@@ -893,8 +893,8 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
 </ol>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/a52bac90feadcfbd3982003454898ff0_MD5.png">
-    <img src="/_attachment/a52bac90feadcfbd3982003454898ff0_MD5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/attachment/a52bac90feadcfbd3982003454898ff0_MD5.png">
+    <img src="/attachment/a52bac90feadcfbd3982003454898ff0_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p>弱化对Zookeeper的依赖：Leaf-snowflake除了每次会去ZooKeeper拿数据以外，也会在本机文件系统上缓存一个workerID文件。当ZooKeeper出现问题，而且机器需要重启，能保证服务能够正常启动，做到了对三方组件的弱依赖。一定程度上提高了SLA。</p>
@@ -904,8 +904,8 @@ Line（其中Java对象还有8byte的对象头），这种方式称之为CacheLi
 <p>为了解决Snowflake的时间回拨问题，leaf主要从两个地方进行优化，一个是启动时对自身系统时间做校验，主要比较对象为系统节点历史记录的时间与其余节点的系统时间。启动流程如下：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/e28e42c503c09247631c9b6a1e4e6979_MD5.png">
-    <img src="/_attachment/e28e42c503c09247631c9b6a1e4e6979_MD5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/attachment/e28e42c503c09247631c9b6a1e4e6979_MD5.png">
+    <img src="/attachment/e28e42c503c09247631c9b6a1e4e6979_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p>服务启动时首先检查自己是否写过ZooKeeper leaf_forever节点：</p>

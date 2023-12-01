@@ -203,8 +203,8 @@
 <p>同步Redis数据到磁盘上，当客户端向服务器发送save命令请求进行持久化时，服务器会阻塞save命令之后的其他客户端的请求，直到数据同步完成。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/e9cfa430cf1c1ec88e248a70c36a46a8_MD5.png">
-    <img src="/_attachment/e9cfa430cf1c1ec88e248a70c36a46a8_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/e9cfa430cf1c1ec88e248a70c36a46a8_MD5.png">
+    <img src="/attachment/e9cfa430cf1c1ec88e248a70c36a46a8_MD5.png" alt="image"  />
     </a>
 </div></p>
 <ul>
@@ -213,8 +213,8 @@
 <p>异步保存数据集到磁盘上，当客户端发服务发出bgsave命令时，Redis服务器主进程会forks一个子进程来数据同步问题，在将数据保存到rdb文件之后，子进程会退出。子进程进行IO写入操作时，主进程仍然可以接收其他请求（但forks子进程是同步的，所以forks子进程时会阻塞其他客户端请求）。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/d92da7085d87ae491e8365224f02ca1e_MD5.png">
-    <img src="/_attachment/d92da7085d87ae491e8365224f02ca1e_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/d92da7085d87ae491e8365224f02ca1e_MD5.png">
+    <img src="/attachment/d92da7085d87ae491e8365224f02ca1e_MD5.png" alt="image"  />
     </a>
 </div></p>
 <ul>
@@ -254,8 +254,8 @@ save 60 10000
 <p>AOF(Append-only file)，AOF持久化方式会记录客户端对服务器的每一次写操作命令，并将这些写操作以Redis协议追加保存到以后缀为aof文件末尾，在Redis服务器重启时，会加载并运行aof文件的命令，以达到恢复数据的目的。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/920e03bc73c337af4ff218605d12c3f3_MD5.png">
-    <img src="/_attachment/920e03bc73c337af4ff218605d12c3f3_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/920e03bc73c337af4ff218605d12c3f3_MD5.png">
+    <img src="/attachment/920e03bc73c337af4ff218605d12c3f3_MD5.png" alt="image"  />
     </a>
 </div></p>
 <h4 id="配置">配置</h4>

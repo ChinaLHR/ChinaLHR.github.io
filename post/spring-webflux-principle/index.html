@@ -200,8 +200,8 @@
 <p>Spring Framework 5提供了完整的端到端响应式编程的支持。这是一种不同于Servlet的全新的编程范式和技术栈，它基于异步非阻塞的特性，能够借助EventLoop以少量线程应对高并发的访问，提高服务的吞吐量。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/18bde082a3099b033eb17621ae81ddab_MD5.png">
-    <img src="/_attachment/18bde082a3099b033eb17621ae81ddab_MD5.png" alt=""  />
+    <a data-fancybox="gallery" data-src="/attachment/18bde082a3099b033eb17621ae81ddab_MD5.png">
+    <img src="/attachment/18bde082a3099b033eb17621ae81ddab_MD5.png" alt=""  />
     </a>
 </div></p>
 <p>对Spring 5的Spring Boot 2.0来说，新加入的响应式技术栈是其主打核心特性。具体来说，Spring Boot 2支持的响应式技术栈包括如下：</p>
@@ -217,8 +217,8 @@
 <p>servlet由servlet container进行生命周期管理。container启动时构造servlet对象并调用servlet init()进行初始化；container关闭时调用servlet destory()销毁servlet；container运行时接受请求，并为每个请求分配一个线程（一般从线程池中获取空闲线程）然后调用service()。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/eb113813f4c8ddb2af4491d28805d3e1_MD5.png">
-    <img src="/_attachment/eb113813f4c8ddb2af4491d28805d3e1_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/eb113813f4c8ddb2af4491d28805d3e1_MD5.png">
+    <img src="/attachment/eb113813f4c8ddb2af4491d28805d3e1_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>处理请求的时候同步操作，一个请求对应一个线程来处理，并发上升，线程数量就会上涨（上线文切换，内存消耗大）影响请求的处理时间。现代系统多数都是IO密集的，同步处理让线程大部分时间都浪费在了IO等待上面。虽然Servlet3.0后提供了异步请求处理与非阻塞IO支持，但是使用它会远离Servlet API的其余部分，比如其规范是同步的（Filter, Servlet）或阻塞的（getParameter, getPart），而且其对Response的写入仍然是阻塞的。</p>
@@ -226,8 +226,8 @@
 <p>WebFlux模型主要依赖响应式编程库Reactor，Reactor 有两种模型 Flux 和 Mono，提供了非阻塞、支持回压机制的异步流处理能力。WebFlux API接收普通Publisher作为输入，在内部使其适配Reactor类型，使用它并返回Flux或Mono作为输出。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/4181ab68fdb864d34bbfd371f43b4ddc_MD5.png">
-    <img src="/_attachment/4181ab68fdb864d34bbfd371f43b4ddc_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/4181ab68fdb864d34bbfd371f43b4ddc_MD5.png">
+    <img src="/attachment/4181ab68fdb864d34bbfd371f43b4ddc_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>WebFlux 使用Netty作为默认的web服务器，其依赖于非阻塞IO，并且每次写入都不需要额外的线程进行支持。</p>
@@ -235,8 +235,8 @@
 <p>当WebFlux运行在Netty服务器上，其线程模型如下：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/9a3744a11866e5fd8ddd8be69a7e2d23_MD5.png">
-    <img src="/_attachment/9a3744a11866e5fd8ddd8be69a7e2d23_MD5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/attachment/9a3744a11866e5fd8ddd8be69a7e2d23_MD5.png">
+    <img src="/attachment/9a3744a11866e5fd8ddd8be69a7e2d23_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p>NettyServer的Boss Group线程池内的事件循环会接收这个请求，然后把完成TCP三次握手的连接channel交给Worker Group中的某一个事件循环线程来进行处理（该事件处理线程会调用对应的controller进行处理）。所以WebFlux的handler执行是使用Netty的IO线程进行执行的，所以需要注意如果handler的执行比较耗时，会把IO线程耗尽导致不能再处理其他请求，可以通过Reactor的publishOn操作符切换到其他线程池中执行。</p>
@@ -247,21 +247,21 @@
 <p>对比SpringMVC使用的Servlet模型，增加Servlet容器处理请求的线程数量可以缓解这一问题，但是增加线程是有成本的，JVM中默认情况下在创建新线程时会分配大小为1M的线程栈，所以更多的线程意味着需要更多的内存；更多的线程会带来更多的线程上下文切换成本。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/b35d77fd5ec7cf11fdf87a836f9b5351_MD5.png">
-    <img src="/_attachment/b35d77fd5ec7cf11fdf87a836f9b5351_MD5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/attachment/b35d77fd5ec7cf11fdf87a836f9b5351_MD5.png">
+    <img src="/attachment/b35d77fd5ec7cf11fdf87a836f9b5351_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h3 id="webflux对比springmvc的性能测试">webflux对比SpringMVC的性能测试</h3>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/829f959bdf8044390edb15b0249132de_MD5.png">
-    <img src="/_attachment/829f959bdf8044390edb15b0249132de_MD5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/attachment/829f959bdf8044390edb15b0249132de_MD5.png">
+    <img src="/attachment/829f959bdf8044390edb15b0249132de_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/fded737d7639c66b24f1b10c071a44b0_MD5.png">
-    <img src="/_attachment/fded737d7639c66b24f1b10c071a44b0_MD5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/attachment/fded737d7639c66b24f1b10c071a44b0_MD5.png">
+    <img src="/attachment/fded737d7639c66b24f1b10c071a44b0_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <p>对于运行在异步IO的之上的WebFlux应用来说，其工作线程数量始终维持在一个固定的数量上，通常这个固定的数量等于CPU核数。从测试图中可以看到，随着用户数的增多，webflux吞吐量基本呈线性增多的趋势，95%的响应都在100ms+的可控范围内返回了，并未出现延时的情况。而SpringMVC线程数达到200/400前，95%的请求响应时长是正常的，之后呈直线上升的态势；</p>
@@ -276,8 +276,8 @@
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#f92672">&lt;</span>V<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>V<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">map</span><span style="color:#f92672">(</span>Function<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> T<span style="color:#f92672">,?</span> <span style="color:#66d9ef">extends</span> V<span style="color:#f92672">&gt;</span> mapper<span style="color:#f92672">)</span>
 </code></pre></div><p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/a5ff0619426b7675fc06b1e209512101_MD5.png">
-    <img src="/_attachment/a5ff0619426b7675fc06b1e209512101_MD5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/attachment/a5ff0619426b7675fc06b1e209512101_MD5.png">
+    <img src="/attachment/a5ff0619426b7675fc06b1e209512101_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#75715e">//同步执行乘法操作
@@ -299,8 +299,8 @@
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#f92672">&lt;</span>R<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>R<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">flatMap</span><span style="color:#f92672">(</span>Function<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> T<span style="color:#f92672">,?</span> <span style="color:#66d9ef">extends</span> Publisher<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> R<span style="color:#f92672">&gt;&gt;</span> mapper<span style="color:#f92672">)</span>
 </code></pre></div><p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/7eb2c8f08b09709590cf114289faeb58_MD5.png">
-    <img src="/_attachment/7eb2c8f08b09709590cf114289faeb58_MD5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/attachment/7eb2c8f08b09709590cf114289faeb58_MD5.png">
+    <img src="/attachment/7eb2c8f08b09709590cf114289faeb58_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//异步执行乘法
@@ -315,8 +315,8 @@
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#f92672">&lt;</span>V<span style="color:#f92672">&gt;</span> Flux<span style="color:#f92672">&lt;</span>V<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">concatMap</span><span style="color:#f92672">(</span>Function<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> T<span style="color:#f92672">,?</span> <span style="color:#66d9ef">extends</span> Publisher<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> V<span style="color:#f92672">&gt;&gt;</span> mapper<span style="color:#f92672">)</span>
 </code></pre></div><p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/28c6f8253d949ff56e846eeaaae2dedf_MD5.png">
-    <img src="/_attachment/28c6f8253d949ff56e846eeaaae2dedf_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/28c6f8253d949ff56e846eeaaae2dedf_MD5.png">
+    <img src="/attachment/28c6f8253d949ff56e846eeaaae2dedf_MD5.png" alt="image"  />
     </a>
 </div></p>
 <h3 id="webflux-的dispatcherhandler">WebFlux 的DispatcherHandler</h3>

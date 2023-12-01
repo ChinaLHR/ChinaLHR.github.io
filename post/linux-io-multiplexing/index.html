@@ -217,16 +217,16 @@ asynchronous IO - 异步IO
 <h4 id="blocking-io---阻塞io">Blocking IO - 阻塞IO</h4>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/4973f5a151e3c42f7a0d3b3d4c44b060_MD5.png">
-    <img src="/_attachment/4973f5a151e3c42f7a0d3b3d4c44b060_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/4973f5a151e3c42f7a0d3b3d4c44b060_MD5.png">
+    <img src="/attachment/4973f5a151e3c42f7a0d3b3d4c44b060_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>wait for data阶段与copy data from kernel to user阶段都是阻塞的。</p>
 <h4 id="noneblockingio---非阻塞io">NoneBlockingIO - 非阻塞IO</h4>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/99a3ff1874582f7786dacc3d86d9e842_MD5.png">
-    <img src="/_attachment/99a3ff1874582f7786dacc3d86d9e842_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/99a3ff1874582f7786dacc3d86d9e842_MD5.png">
+    <img src="/attachment/99a3ff1874582f7786dacc3d86d9e842_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>wait for data阶段非阻塞，用户进程发出recvfrom系统调用后，kernel中的数据如果没准备好，立即返回一个error。采用循环check的方式，每隔一段时间再次发送recvfrom。</p>
@@ -234,8 +234,8 @@ asynchronous IO - 异步IO
 <h4 id="io-multiplexing---io多路复用select为例子">IO multiplexing - IO多路复用(select为例子)</h4>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/b6c2ed3980aefeb820d516c109e3b2f7_MD5.png">
-    <img src="/_attachment/b6c2ed3980aefeb820d516c109e3b2f7_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/b6c2ed3980aefeb820d516c109e3b2f7_MD5.png">
+    <img src="/attachment/b6c2ed3980aefeb820d516c109e3b2f7_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>与blocking I/O相似度很高，但是可以等待多个数据报就绪（datagram ready），单个process可以同时处理多个连接。核空间内select会监听指定的多个datagram (如socket连接)，如果其中任意一个数据就绪了就返回。此时程序再进行数据读取操作，将数据拷贝至当前进程内。</p>
@@ -245,16 +245,16 @@ asynchronous IO - 异步IO
 <h4 id="asynchronous-io---异步io">asynchronous IO - 异步IO</h4>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/16faa6e98e09005c7c9962f54beabd69_MD5.png">
-    <img src="/_attachment/16faa6e98e09005c7c9962f54beabd69_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/16faa6e98e09005c7c9962f54beabd69_MD5.png">
+    <img src="/attachment/16faa6e98e09005c7c9962f54beabd69_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>aio_read(读取操作)会通知内核进行读取操作并将数据拷贝至进程中，该操作会立刻返回，程序可以进行其它的操作，所有的读取、拷贝工作都由内核去做，做完以后通知进程，进程调用绑定的回调函数来处理数据。</p>
 <h4 id="对比">对比</h4>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/ac3286e1cc8747c1f890a1b30ddc8513_MD5.png">
-    <img src="/_attachment/ac3286e1cc8747c1f890a1b30ddc8513_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/ac3286e1cc8747c1f890a1b30ddc8513_MD5.png">
+    <img src="/attachment/ac3286e1cc8747c1f890a1b30ddc8513_MD5.png" alt="image"  />
     </a>
 </div></p>
 <h3 id="同步-异步-阻塞-非阻塞">同步-异步-阻塞-非阻塞</h3>
@@ -373,8 +373,8 @@ int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout
 <h4 id="selectpollepoll对比">select·poll·epoll对比</h4>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/658857a690c63719f95f73cf02595185_MD5.png">
-    <img src="/_attachment/658857a690c63719f95f73cf02595185_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/658857a690c63719f95f73cf02595185_MD5.png">
+    <img src="/attachment/658857a690c63719f95f73cf02595185_MD5.png" alt="image"  />
     </a>
 </div></p>
 <ul>

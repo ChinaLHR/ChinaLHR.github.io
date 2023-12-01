@@ -239,8 +239,8 @@ GitOps的核心是将应用的声明性基础架构描述、应用源码与自�
 </ul>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/e6d64cf38f3719fe721213756e0ef8ab_MD5.png">
-    <img src="/_attachment/e6d64cf38f3719fe721213756e0ef8ab_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/e6d64cf38f3719fe721213756e0ef8ab_MD5.png">
+    <img src="/attachment/e6d64cf38f3719fe721213756e0ef8ab_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>GitOps大都基于Pull模式去工作，开发人员推送应用代码到应用仓库后，经过Pull Request合并到目标分支后，触发CI Pipeline，构建推送应用容器镜像与推送更新环境配置仓库；在CD阶段，通过引入Operator，不断观察环境配置库的声明信息并与当前集群的应用环境进行Diff，当存在差异时进行集群应用环境的部署、更新或者还原。</p>
@@ -249,8 +249,8 @@ GitOps的核心是将应用的声明性基础架构描述、应用源码与自�
 </ul>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/ecbd3fe62c464544e22c09db1c68ce49_MD5.png">
-    <img src="/_attachment/ecbd3fe62c464544e22c09db1c68ce49_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/ecbd3fe62c464544e22c09db1c68ce49_MD5.png">
+    <img src="/attachment/ecbd3fe62c464544e22c09db1c68ce49_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>GitOps也可以基于Push模式去工作，对比基于Pull的工作模式，Push模式在CI Pipeline完成阶段会去通知Operator进行环境配置信息的拉取与部署、更新。Push模式有着传统CI/CD流程的直观性，对比Pull模式有着更好的实时性与性能，但却缺少了对
@@ -288,8 +288,8 @@ GitOps的核心是将应用的声明性基础架构描述、应用源码与自�
 <p>Argo CD主要由API Server、Repository Server、Application Controller组成。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/ca36ce5482f3f8404a128029472763a4_MD5.png">
-    <img src="/_attachment/ca36ce5482f3f8404a128029472763a4_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/ca36ce5482f3f8404a128029472763a4_MD5.png">
+    <img src="/attachment/ca36ce5482f3f8404a128029472763a4_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p><strong>API Server</strong>
@@ -334,8 +334,8 @@ Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、C
 <p>kustomize提供以下功能特性定制/管理Kubernetes应用配置文件</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/f37330337605e7e1f846b3d8797dcf50_MD5.png">
-    <img src="/_attachment/f37330337605e7e1f846b3d8797dcf50_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/f37330337605e7e1f846b3d8797dcf50_MD5.png">
+    <img src="/attachment/f37330337605e7e1f846b3d8797dcf50_MD5.png" alt="image"  />
     </a>
 </div></p>
 <ul>
@@ -447,8 +447,8 @@ Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、C
 基准与覆盖是多对多的关系，覆盖可以引用多个基准，基准也可以被多个覆盖引用，提高了kustomize的高度定制性。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/bfa93e9949e28c9dd8ffd38385b78fdf_MD5.png">
-    <img src="/_attachment/bfa93e9949e28c9dd8ffd38385b78fdf_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/bfa93e9949e28c9dd8ffd38385b78fdf_MD5.png">
+    <img src="/attachment/bfa93e9949e28c9dd8ffd38385b78fdf_MD5.png" alt="image"  />
     </a>
 </div></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">├── base
@@ -536,8 +536,8 @@ Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、C
 <p>这里我们选择基于pull的工作模式去实现GitOps，具体流程如下所示：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/a0bc74573a4d33903d86e5bddd51db7e_MD5.png">
-    <img src="/_attachment/a0bc74573a4d33903d86e5bddd51db7e_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/a0bc74573a4d33903d86e5bddd51db7e_MD5.png">
+    <img src="/attachment/a0bc74573a4d33903d86e5bddd51db7e_MD5.png" alt="image"  />
     </a>
 </div></p>
 <h3 id="项目结构">项目结构</h3>
@@ -807,28 +807,28 @@ Examples:
 <p>通过Web UI创建Application可以通过NEW APP进行创建，如下所示：
 
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/c1ffb6b4bc3a840ad18053f4b102ebfd_MD5.png">
-    <img src="/_attachment/c1ffb6b4bc3a840ad18053f4b102ebfd_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/c1ffb6b4bc3a840ad18053f4b102ebfd_MD5.png">
+    <img src="/attachment/c1ffb6b4bc3a840ad18053f4b102ebfd_MD5.png" alt="image"  />
     </a>
 </div>
 
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/0f1182a39ee98b11b62f8c7958abe64b_MD5.png">
-    <img src="/_attachment/0f1182a39ee98b11b62f8c7958abe64b_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/0f1182a39ee98b11b62f8c7958abe64b_MD5.png">
+    <img src="/attachment/0f1182a39ee98b11b62f8c7958abe64b_MD5.png" alt="image"  />
     </a>
 </div></p>
 <p>创建完成后，如果选择的同步策略为automated，Argo CD会自动同步项目的manifest部署到对应的集群中，也可以在WEB UI通过SYNC或者CLI通过<code>argocd app sync shovel-gitops-production</code>进步手动同步。</p>
 <p>同步完成后可以在WEB UI上看到对应应用的同步状态，如下所示：
 
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/9a6ed6e70efdf3bc6a82a7adebf40357_MD5.png">
-    <img src="/_attachment/9a6ed6e70efdf3bc6a82a7adebf40357_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/9a6ed6e70efdf3bc6a82a7adebf40357_MD5.png">
+    <img src="/attachment/9a6ed6e70efdf3bc6a82a7adebf40357_MD5.png" alt="image"  />
     </a>
 </div>
 
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/104ae6f22daf2bfaaaf199ddb24b1b6f_MD5.png">
-    <img src="/_attachment/104ae6f22daf2bfaaaf199ddb24b1b6f_MD5.png" alt="image"  />
+    <a data-fancybox="gallery" data-src="/attachment/104ae6f22daf2bfaaaf199ddb24b1b6f_MD5.png">
+    <img src="/attachment/104ae6f22daf2bfaaaf199ddb24b1b6f_MD5.png" alt="image"  />
     </a>
 </div></p>
 <ul>

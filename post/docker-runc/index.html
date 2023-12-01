@@ -202,16 +202,16 @@
 <p>在2014年开源了基于Golang开发的libcontainer，越过LXC直接操作系统 namespaces 和 cgroups 的核心模块，不必依赖LXC来提供容器化隔离能力了，自身架构也不断发展拆分成了如下几个模块：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/95df5b9d119a77f69adae153d9905e4b_MD5.png">
-    <img src="/_attachment/95df5b9d119a77f69adae153d9905e4b_MD5.png" alt="DeepinScreenshot_select-area_20210513013836"  />
+    <a data-fancybox="gallery" data-src="/attachment/95df5b9d119a77f69adae153d9905e4b_MD5.png">
+    <img src="/attachment/95df5b9d119a77f69adae153d9905e4b_MD5.png" alt="DeepinScreenshot_select-area_20210513013836"  />
     </a>
 </div></p>
 <p>2015年，Docker联合多家公司制定了开放容器交互标准（Open Container Initiative），即OCI；制定了关于容器相关的规范，包含运行时标准（<a href="https://github.com/opencontainers/runtime-spec/blob/main/spec.md">runtime-spec</a>）、容器镜像标准（<a href="https://github.com/opencontainers/image-spec/blob/main/spec.md">image-spec</a>）和镜像分发标准（<a href="https://github.com/opencontainers/distribution-spec/blob/main/spec.md">distribution-spec</a>）。运行时标准定义了应该如何运行一个容器、如何管理容器的状态和生命周期、如何使用操作系统的底层特性（namespaces、cgroup、pivot_root等）；容器镜像标准规定了容器镜像的格式、配置、元数据的格式；镜像分发标准则规定了镜像推送和拉取的网络交互过程。</p>
 <p>之后，Docker为了符合OCI标准，将原本libcontainer模块独立出来，封装重构成 <a href="https://github.com/opencontainers/runc">runC</a> 项目，捐献给了Linux基金会管理，而后为了能够兼容所有符合标准的OCI Runtime实现，Docker重构了Docker Daemon子系统，将其中与运行时交互的部分抽象为 <a href="https://containerd.io/">containerd</a> 项目 捐献给了CNCF基金会管理，containerd 负责管理容器执行、分发、监控、网络、构建、日志等功能的核心模块，内部为每个容器运行时创建一个containerd-shim适配进程，与runC搭配工作。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/f5176928200eda1c4c4ed530e002a8c0_MD5.png">
-    <img src="/_attachment/f5176928200eda1c4c4ed530e002a8c0_MD5.png" alt="图片"  />
+    <a data-fancybox="gallery" data-src="/attachment/f5176928200eda1c4c4ed530e002a8c0_MD5.png">
+    <img src="/attachment/f5176928200eda1c4c4ed530e002a8c0_MD5.png" alt="图片"  />
     </a>
 </div></p>
 <h3 id="docker-daemoncontainerd与runc">Docker Daemon、containerd与runC</h3>
@@ -232,8 +232,8 @@
 </code></pre><p>2020年，Kubernetes官方宣布从1.20版本起放弃对Docker的支持，即不在维护DockerShim这一Docker与CRI的适配层；往后CRI适配器可以选择CRI-O或者containerd。</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/f15a7e4b71ed3360e073253add7f84d7_MD5.jpg">
-    <img src="/_attachment/f15a7e4b71ed3360e073253add7f84d7_MD5.jpg" alt="118159973-47ce0700-b450-11eb-84aa-a54af0d9adb2"  />
+    <a data-fancybox="gallery" data-src="/attachment/f15a7e4b71ed3360e073253add7f84d7_MD5.jpg">
+    <img src="/attachment/f15a7e4b71ed3360e073253add7f84d7_MD5.jpg" alt="118159973-47ce0700-b450-11eb-84aa-a54af0d9adb2"  />
     </a>
 </div></p>
 <h2 id="容器运行时-runc分析">容器运行时-runC分析</h2>
@@ -256,8 +256,8 @@ hook：配置容器生命周期触发钩子
 <p>OCI 容器运行时标准主要是指定容器的运行状态，和 runtime 需要提供的命令，如下状态流转图所示：</p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/59ef0b0ea17cde25e5a24ee2f097518e_MD5.png">
-    <img src="/_attachment/59ef0b0ea17cde25e5a24ee2f097518e_MD5.png" alt="DeepinScreenshot_select-area_20210515011303"  />
+    <a data-fancybox="gallery" data-src="/attachment/59ef0b0ea17cde25e5a24ee2f097518e_MD5.png">
+    <img src="/attachment/59ef0b0ea17cde25e5a24ee2f097518e_MD5.png" alt="DeepinScreenshot_select-area_20210515011303"  />
     </a>
 </div></p>
 <p><strong>基于busybox创建OCI runtime bundle相关文件</strong></p>
@@ -646,15 +646,15 @@ sudo runc run mycontainer
 <p><strong>runC-run运行流程</strong></p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/56f17756d8af6c9711fc0458de01f5da_MD5.jpg">
-    <img src="/_attachment/56f17756d8af6c9711fc0458de01f5da_MD5.jpg" alt="runc-run"  />
+    <a data-fancybox="gallery" data-src="/attachment/56f17756d8af6c9711fc0458de01f5da_MD5.jpg">
+    <img src="/attachment/56f17756d8af6c9711fc0458de01f5da_MD5.jpg" alt="runc-run"  />
     </a>
 </div></p>
 <p><strong>runC-init运行流程</strong></p>
 <p>
 <div class="post-img-view">
-    <a data-fancybox="gallery" data-src="/_attachment/5035b8ddd054e2cced409119d7994c60_MD5.jpg">
-    <img src="/_attachment/5035b8ddd054e2cced409119d7994c60_MD5.jpg" alt="runc-init"  />
+    <a data-fancybox="gallery" data-src="/attachment/5035b8ddd054e2cced409119d7994c60_MD5.jpg">
+    <img src="/attachment/5035b8ddd054e2cced409119d7994c60_MD5.jpg" alt="runc-init"  />
     </a>
 </div></p>
 <h2 id="参考">参考</h2>
