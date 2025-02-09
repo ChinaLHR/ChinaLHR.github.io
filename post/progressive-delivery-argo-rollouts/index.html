@@ -399,16 +399,16 @@ kubectl argo rollouts version
 <ul>
 <li>Rollout部署</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># rollouts</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># rollouts</span>
 <span style="color:#66d9ef">apiVersion</span>: argoproj.io/v1alpha1
 <span style="color:#66d9ef">kind</span>: Rollout
-<span style="color:#66d9ef">metadata</span>:
+metadata:
   <span style="color:#66d9ef">name</span>: saken-manual
-<span style="color:#66d9ef">spec</span>:
+spec:
   <span style="color:#66d9ef">replicas</span>: <span style="color:#ae81ff">5</span>
-  <span style="color:#66d9ef">strategy</span>:
-    <span style="color:#66d9ef">canary</span>:
-      <span style="color:#66d9ef">steps</span>:
+  strategy:
+    canary:
+      steps:
       - <span style="color:#66d9ef">setWeight</span>: <span style="color:#ae81ff">20</span>
       - <span style="color:#66d9ef">pause</span>: {}
       - <span style="color:#66d9ef">setWeight</span>: <span style="color:#ae81ff">40</span>
@@ -418,56 +418,56 @@ kubectl argo rollouts version
       - <span style="color:#66d9ef">setWeight</span>: <span style="color:#ae81ff">80</span>
       - <span style="color:#66d9ef">pause</span>: {<span style="color:#66d9ef">duration</span>: <span style="color:#ae81ff">10</span>}
   <span style="color:#66d9ef">revisionHistoryLimit</span>: <span style="color:#ae81ff">2</span>
-  <span style="color:#66d9ef">selector</span>:
-    <span style="color:#66d9ef">matchLabels</span>:
+  selector:
+    matchLabels:
       <span style="color:#66d9ef">app</span>: saken-manual
-  <span style="color:#66d9ef">template</span>:
-    <span style="color:#66d9ef">metadata</span>:
-      <span style="color:#66d9ef">labels</span>:
+  template:
+    metadata:
+      labels:
         <span style="color:#66d9ef">app</span>:  saken-manual
-    <span style="color:#66d9ef">spec</span>:
-      <span style="color:#66d9ef">containers</span>:
+    spec:
+      containers:
       - <span style="color:#66d9ef">name</span>:  saken-manual
         <span style="color:#66d9ef">image</span>:  ccr.ccs.tencentyun.com/shovel/shovel-rollouts:<span style="color:#ae81ff">0.0.2</span>
-        <span style="color:#66d9ef">resources</span>:
-          <span style="color:#66d9ef">requests</span>:
+        resources:
+          requests:
             <span style="color:#66d9ef">cpu</span>: 10m
             <span style="color:#66d9ef">memory</span>: 32Mi
-        <span style="color:#66d9ef">ports</span>:
+        ports:
         - <span style="color:#66d9ef">containerPort</span>:  <span style="color:#ae81ff">9099</span>
           <span style="color:#66d9ef">name</span>:  saken-manual
-<span style="color:#75715e"># service</span>
+<span style="color:#75715e"># service</span>
 <span style="color:#66d9ef">apiVersion</span>: v1
 <span style="color:#66d9ef">kind</span>: Service
-<span style="color:#66d9ef">metadata</span>:
+metadata:
   <span style="color:#66d9ef">name</span>: saken-manual-lb
   <span style="color:#66d9ef">namespace</span>: default
-  <span style="color:#66d9ef">annotations</span>:
+  annotations:
     <span style="color:#66d9ef">prometheus.io/path</span>: /metrics
     <span style="color:#66d9ef">prometheus.io/scrape</span>: <span style="color:#e6db74">&#34;true&#34;</span>
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">selector</span>:
+spec:
+  selector:
     <span style="color:#66d9ef">app</span>: saken-manual
   <span style="color:#66d9ef">type</span>: ClusterIP
   <span style="color:#66d9ef">sessionAffinity</span>: None
-  <span style="color:#66d9ef">sessionAffinityConfig</span>:
-    <span style="color:#66d9ef">clientIP</span>:
+  sessionAffinityConfig:
+    clientIP:
       <span style="color:#66d9ef">timeoutSeconds</span>: <span style="color:#ae81ff">10800</span>
-  <span style="color:#66d9ef">ports</span>:
+  ports:
   - <span style="color:#66d9ef">name</span>: saken-manual
     <span style="color:#66d9ef">protocol</span>: TCP
     <span style="color:#66d9ef">port</span>: <span style="color:#ae81ff">80</span>
     <span style="color:#66d9ef">targetPort</span>: <span style="color:#ae81ff">9099</span>
-<span style="color:#75715e"># kustomization</span>
+<span style="color:#75715e"># kustomization</span>
 <span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Kustomization
-<span style="color:#66d9ef">resources</span>:
+resources:
 - ../../base
 <span style="color:#66d9ef">namespace</span>: staging
-<span style="color:#66d9ef">resources</span>:
+resources:
 - base-rollout.yaml
 - base-service.yaml
-<span style="color:#66d9ef">images</span>:
+images:
 - <span style="color:#66d9ef">name</span>: ccr.ccs.tencentyun.com/shovel/shovel-rollouts
   <span style="color:#66d9ef">newTag</span>: <span style="color:#ae81ff">0.0.3</span>         
 </code></pre></div><p>这里我们kustomization配置了一个Rollout与对应的Service，Rollout使用Canary部署策略，将20%的流量部署到Canary后，Rollout进入Paused状态，
@@ -553,23 +553,23 @@ kubectl argo rollouts get rollout saken-manual -n staging --watch
 <li>如果Rollout完成其所有Canary步骤，则认为Rollout成功部署，控制器将停止运行分析。</li>
 <li>这里使用了Rollout的analysis-startingStep配置为2，即会延迟执行AnalysisRun，直到Canary达到40%。</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># Rollout</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># Rollout</span>
 <span style="color:#66d9ef">apiVersion</span>: argoproj.io/v1alpha1
 <span style="color:#66d9ef">kind</span>: Rollout
-<span style="color:#66d9ef">metadata</span>:
+metadata:
   <span style="color:#66d9ef">name</span>: saken-canary
-<span style="color:#66d9ef">spec</span>:
+spec:
   <span style="color:#66d9ef">replicas</span>: <span style="color:#ae81ff">5</span>
-  <span style="color:#66d9ef">strategy</span>:
-    <span style="color:#66d9ef">canary</span>:
-      <span style="color:#66d9ef">analysis</span>:
-        <span style="color:#66d9ef">templates</span>:
+  strategy:
+    canary:
+      analysis:
+        templates:
         - <span style="color:#66d9ef">templateName</span>: canary-success-rate
         <span style="color:#66d9ef">startingStep</span>: <span style="color:#ae81ff">2</span>
-        <span style="color:#66d9ef">args</span>:
+        args:
         - <span style="color:#66d9ef">name</span>: service-name
           <span style="color:#66d9ef">value</span>: saken-canary-lb
-      <span style="color:#66d9ef">steps</span>:
+      steps:
       - <span style="color:#66d9ef">setWeight</span>: <span style="color:#ae81ff">20</span>
       - <span style="color:#66d9ef">pause</span>: {<span style="color:#66d9ef">duration</span>: 10m}
       - <span style="color:#66d9ef">setWeight</span>: <span style="color:#ae81ff">40</span>
@@ -579,189 +579,189 @@ kubectl argo rollouts get rollout saken-manual -n staging --watch
       - <span style="color:#66d9ef">setWeight</span>: <span style="color:#ae81ff">80</span>
       - <span style="color:#66d9ef">pause</span>: {<span style="color:#66d9ef">duration</span>: 10m}
   <span style="color:#66d9ef">revisionHistoryLimit</span>: <span style="color:#ae81ff">2</span>
-  <span style="color:#66d9ef">selector</span>:
-    <span style="color:#66d9ef">matchLabels</span>:
+  selector:
+    matchLabels:
       <span style="color:#66d9ef">app</span>: saken-canary
-  <span style="color:#66d9ef">template</span>:
-    <span style="color:#66d9ef">metadata</span>:
-      <span style="color:#66d9ef">labels</span>:
+  template:
+    metadata:
+      labels:
         <span style="color:#66d9ef">app</span>:  saken-canary
-    <span style="color:#66d9ef">spec</span>:
-      <span style="color:#66d9ef">containers</span>:
+    spec:
+      containers:
       - <span style="color:#66d9ef">name</span>:  saken-canary
         <span style="color:#66d9ef">image</span>:  ccr.ccs.tencentyun.com/shovel/shovel-rollouts:<span style="color:#ae81ff">0.0.2</span>
-        <span style="color:#66d9ef">resources</span>:
-          <span style="color:#66d9ef">requests</span>:
+        resources:
+          requests:
             <span style="color:#66d9ef">cpu</span>: 10m
             <span style="color:#66d9ef">memory</span>: 32Mi
-        <span style="color:#66d9ef">ports</span>:
+        ports:
         - <span style="color:#66d9ef">containerPort</span>:  <span style="color:#ae81ff">9099</span>
           <span style="color:#66d9ef">name</span>:  saken-canary
-<span style="color:#75715e"># Service</span>
+<span style="color:#75715e"># Service</span>
 <span style="color:#66d9ef">apiVersion</span>: v1
 <span style="color:#66d9ef">kind</span>: Service
-<span style="color:#66d9ef">metadata</span>:
+metadata:
   <span style="color:#66d9ef">name</span>: saken-canary-lb
   <span style="color:#66d9ef">namespace</span>: default
-  <span style="color:#66d9ef">annotations</span>:
+  annotations:
     <span style="color:#66d9ef">prometheus.io/path</span>: /metrics
     <span style="color:#66d9ef">prometheus.io/scrape</span>: <span style="color:#e6db74">&#34;true&#34;</span>
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">selector</span>:
+spec:
+  selector:
     <span style="color:#66d9ef">app</span>: saken-canary
   <span style="color:#66d9ef">type</span>: ClusterIP
   <span style="color:#66d9ef">sessionAffinity</span>: None
-  <span style="color:#66d9ef">sessionAffinityConfig</span>:
-    <span style="color:#66d9ef">clientIP</span>:
+  sessionAffinityConfig:
+    clientIP:
       <span style="color:#66d9ef">timeoutSeconds</span>: <span style="color:#ae81ff">10800</span>
-  <span style="color:#66d9ef">ports</span>:
+  ports:
   - <span style="color:#66d9ef">name</span>: saken-canary
     <span style="color:#66d9ef">protocol</span>: TCP
     <span style="color:#66d9ef">port</span>: <span style="color:#ae81ff">80</span>
     <span style="color:#66d9ef">targetPort</span>: <span style="color:#ae81ff">9099</span>
-<span style="color:#75715e"># AnalysisTemplate</span>
+<span style="color:#75715e"># AnalysisTemplate</span>
 <span style="color:#66d9ef">apiVersion</span>: argoproj.io/v1alpha1
 <span style="color:#66d9ef">kind</span>: AnalysisTemplate
-<span style="color:#66d9ef">metadata</span>:
+metadata:
   <span style="color:#66d9ef">name</span>: canary-success-rate
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">args</span>:
+spec:
+  args:
   - <span style="color:#66d9ef">name</span>: service-name
-  <span style="color:#66d9ef">metrics</span>:
+  metrics:
   - <span style="color:#66d9ef">name</span>: canary-success-rate
     <span style="color:#66d9ef">interval</span>: 5m
     <span style="color:#66d9ef">successCondition</span>: result[<span style="color:#ae81ff">0</span>] &gt;= <span style="color:#ae81ff">0.9</span>
     <span style="color:#66d9ef">failureLimit</span>: <span style="color:#ae81ff">2</span>
-    <span style="color:#66d9ef">provider</span>:
-      <span style="color:#66d9ef">prometheus</span>:
+    provider:
+      prometheus:
         <span style="color:#66d9ef">address</span>: http://prometheus.kube-ops.svc.cluster.local
         <span style="color:#66d9ef">query</span>: <span style="color:#e6db74">|
-</span><span style="color:#e6db74">          sum(irate(gin_metric_handler_http_responses_status_total{code = &#34;200&#34;,kubernetes_name = &#34;{{args.service-name}}&#34;}[5m])) /</span>
+</span><span style="color:#e6db74">          sum(irate(gin_metric_handler_http_responses_status_total{code = &#34;200&#34;,kubernetes_name = &#34;{{args.service-name}}&#34;}[5m])) /</span>
           sum(irate(gin_metric_handler_http_responses_status_total{kubernetes_name = <span style="color:#e6db74">&#34;{{args.service-name}}&#34;</span>}[5m]))
-<span style="color:#75715e"># Kustomization</span>
+<span style="color:#75715e"># Kustomization</span>
 <span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Kustomization
-<span style="color:#66d9ef">resources</span>:
+resources:
 - ../../base
 - canary-rollout.yaml
 - canary-service.yaml
 - canary-success-rate.yaml
 
 <span style="color:#66d9ef">namespace</span>: staging
-<span style="color:#66d9ef">images</span>:
+images:
 - <span style="color:#66d9ef">name</span>: ccr.ccs.tencentyun.com/shovel/shovel-rollouts
   <span style="color:#66d9ef">newTag</span>: <span style="color:#ae81ff">0.0.2</span>
 </code></pre></div><h3 id="blue-green-analysis蓝绿分析">Blue-Green-Analysis(蓝绿分析)</h3>
 <p>这里我们使用BlueGreen Pre Promotion结合BlueGreen部署，如下所示，配置了一个Rollout，与对应的AnalysisTemplate，Service与Preview-Service。Rollout对新版本应用进行BlueGreen部署时，会创建一个新的ReplicaSet部署新版本应用，并修改Preview-Service使其selector的目标为我们创建的新版本应用。此时，AnalysisRun基于AnalysisTemplate，对Preview-Service进行冒烟测试并阻塞Blue-Green切换，直到AnalysisRun完成测试，AnalysisRun的测试结果决定了Rollout 是切换流量或者还是完全中止Rollout。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># Rollout</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># Rollout</span>
 <span style="color:#66d9ef">apiVersion</span>: argoproj.io/v1alpha1
 <span style="color:#66d9ef">kind</span>: Rollout
-<span style="color:#66d9ef">metadata</span>:
+metadata:
   <span style="color:#66d9ef">name</span>: saken-bluegreen
-<span style="color:#66d9ef">spec</span>:
+spec:
   <span style="color:#66d9ef">replicas</span>: <span style="color:#ae81ff">3</span>
   <span style="color:#66d9ef">revisionHistoryLimit</span>: <span style="color:#ae81ff">1</span>
-  <span style="color:#66d9ef">strategy</span>:
-    <span style="color:#66d9ef">blueGreen</span>:
+  strategy:
+    blueGreen:
       <span style="color:#66d9ef">activeService</span>: saken-bluegreen-lb
       <span style="color:#66d9ef">previewService</span>: saken-bluegreen-preview-lb
-      <span style="color:#66d9ef">prePromotionAnalysis</span>:
-        <span style="color:#66d9ef">templates</span>:
+      prePromotionAnalysis:
+        templates:
         - <span style="color:#66d9ef">templateName</span>: bluegreen-smoke-test
-        <span style="color:#66d9ef">args</span>:
+        args:
         - <span style="color:#66d9ef">name</span>: service-name
           <span style="color:#66d9ef">value</span>: saken-bluegreen-preview-lb
-  <span style="color:#66d9ef">selector</span>:
-    <span style="color:#66d9ef">matchLabels</span>:
+  selector:
+    matchLabels:
       <span style="color:#66d9ef">app</span>: saken-bluegreen
-  <span style="color:#66d9ef">template</span>:
-    <span style="color:#66d9ef">metadata</span>:
-      <span style="color:#66d9ef">labels</span>:
+  template:
+    metadata:
+      labels:
         <span style="color:#66d9ef">app</span>:  saken-bluegreen
-    <span style="color:#66d9ef">spec</span>:
-      <span style="color:#66d9ef">containers</span>:
+    spec:
+      containers:
       - <span style="color:#66d9ef">name</span>:  saken-bluegreen
         <span style="color:#66d9ef">image</span>:  ccr.ccs.tencentyun.com/shovel/shovel-rollouts:<span style="color:#ae81ff">0.0.2</span>
-        <span style="color:#66d9ef">resources</span>:
-          <span style="color:#66d9ef">requests</span>:
+        resources:
+          requests:
             <span style="color:#66d9ef">cpu</span>: 10m
             <span style="color:#66d9ef">memory</span>: 32Mi
-        <span style="color:#66d9ef">ports</span>:
+        ports:
         - <span style="color:#66d9ef">containerPort</span>:  <span style="color:#ae81ff">9099</span>
           <span style="color:#66d9ef">name</span>:  saken-bluegreen
-<span style="color:#75715e"># Service</span>
+<span style="color:#75715e"># Service</span>
 <span style="color:#66d9ef">apiVersion</span>: v1
 <span style="color:#66d9ef">kind</span>: Service
-<span style="color:#66d9ef">metadata</span>:
+metadata:
   <span style="color:#66d9ef">name</span>: saken-bluegreen-lb
   <span style="color:#66d9ef">namespace</span>: default
-  <span style="color:#66d9ef">annotations</span>:
+  annotations:
     <span style="color:#66d9ef">prometheus.io/path</span>: /metrics
     <span style="color:#66d9ef">prometheus.io/scrape</span>: <span style="color:#e6db74">&#34;true&#34;</span>
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">selector</span>:
+spec:
+  selector:
     <span style="color:#66d9ef">app</span>: saken-bluegreen
   <span style="color:#66d9ef">type</span>: ClusterIP
   <span style="color:#66d9ef">sessionAffinity</span>: None
-  <span style="color:#66d9ef">sessionAffinityConfig</span>:
-    <span style="color:#66d9ef">clientIP</span>:
+  sessionAffinityConfig:
+    clientIP:
       <span style="color:#66d9ef">timeoutSeconds</span>: <span style="color:#ae81ff">10800</span>
-  <span style="color:#66d9ef">ports</span>:
+  ports:
   - <span style="color:#66d9ef">name</span>: saken-bluegreen
     <span style="color:#66d9ef">protocol</span>: TCP
     <span style="color:#66d9ef">port</span>: <span style="color:#ae81ff">80</span>
     <span style="color:#66d9ef">targetPort</span>: <span style="color:#ae81ff">9099</span>
-<span style="color:#75715e"># Preview-Service</span>
+<span style="color:#75715e"># Preview-Service</span>
 <span style="color:#66d9ef">apiVersion</span>: v1
 <span style="color:#66d9ef">kind</span>: Service
-<span style="color:#66d9ef">metadata</span>:
+metadata:
   <span style="color:#66d9ef">name</span>: saken-bluegreen-preview-lb
   <span style="color:#66d9ef">namespace</span>: default
-  <span style="color:#66d9ef">annotations</span>:
+  annotations:
     <span style="color:#66d9ef">prometheus.io/path</span>: /metrics
     <span style="color:#66d9ef">prometheus.io/scrape</span>: <span style="color:#e6db74">&#34;true&#34;</span>
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">selector</span>:
+spec:
+  selector:
     <span style="color:#66d9ef">app</span>: saken-bluegreen
   <span style="color:#66d9ef">type</span>: ClusterIP
   <span style="color:#66d9ef">sessionAffinity</span>: None
-  <span style="color:#66d9ef">sessionAffinityConfig</span>:
-    <span style="color:#66d9ef">clientIP</span>:
+  sessionAffinityConfig:
+    clientIP:
       <span style="color:#66d9ef">timeoutSeconds</span>: <span style="color:#ae81ff">10800</span>
-  <span style="color:#66d9ef">ports</span>:
+  ports:
   - <span style="color:#66d9ef">name</span>: saken-bluegreen
     <span style="color:#66d9ef">protocol</span>: TCP
     <span style="color:#66d9ef">port</span>: <span style="color:#ae81ff">80</span>
     <span style="color:#66d9ef">targetPort</span>: <span style="color:#ae81ff">9099</span>
-<span style="color:#75715e"># AnalysisTemplate</span>
+<span style="color:#75715e"># AnalysisTemplate</span>
 <span style="color:#66d9ef">apiVersion</span>: argoproj.io/v1alpha1
 <span style="color:#66d9ef">kind</span>: AnalysisTemplate
-<span style="color:#66d9ef">metadata</span>:
+metadata:
   <span style="color:#66d9ef">name</span>: bluegreen-smoke-test
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">args</span>:
+spec:
+  args:
   - <span style="color:#66d9ef">name</span>: service-name
-  <span style="color:#66d9ef">metrics</span>:
+  metrics:
   - <span style="color:#66d9ef">name</span>: bluegreen-smoke-test
-    <span style="color:#66d9ef">provider</span>:
-      <span style="color:#66d9ef">job</span>:
-        <span style="color:#66d9ef">spec</span>:
+    provider:
+      job:
+        spec:
           <span style="color:#66d9ef">backoffLimit</span>: <span style="color:#ae81ff">1</span>
-          <span style="color:#66d9ef">template</span>:
-            <span style="color:#66d9ef">spec</span>:
-              <span style="color:#66d9ef">containers</span>:
+          template:
+            spec:
+              containers:
               - <span style="color:#66d9ef">name</span>: bluegreen-smoke-test
                 <span style="color:#66d9ef">image</span>: alpine
                 <span style="color:#66d9ef">command</span>: 
                 - /bin/sh
                 - -c
                 - <span style="color:#e6db74">|
-</span><span style="color:#e6db74">                - echo &#34;mock smoke test to serivce ...&#34;</span>
+</span><span style="color:#e6db74">                - echo &#34;mock smoke test to serivce ...&#34;</span>
               <span style="color:#66d9ef">restartPolicy</span>: Never
-<span style="color:#75715e"># Kustomization</span>
+<span style="color:#75715e"># Kustomization</span>
 <span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Kustomization
-<span style="color:#66d9ef">resources</span>:
+resources:
 - ../../base
 - bluegreen-rollout.yaml
 - bluegreen-service.yaml
@@ -769,7 +769,7 @@ kubectl argo rollouts get rollout saken-manual -n staging --watch
 - bluegreen-smoke-test.yaml
 
 <span style="color:#66d9ef">namespace</span>: staging
-<span style="color:#66d9ef">images</span>:
+images:
 - <span style="color:#66d9ef">name</span>: ccr.ccs.tencentyun.com/shovel/shovel-rollouts
   <span style="color:#66d9ef">newTag</span>: <span style="color:#ae81ff">0.0.2</span>
 </code></pre></div><h3 id="项目源码">项目源码</h3>
@@ -832,7 +832,7 @@ kubectl argo rollouts get rollout saken-manual -n staging --watch
     
 
         </main><footer class="footer">
-    <span>&copy; 2024 hanrong.li</span>
+    <span>&copy; 2025 hanrong.li</span>
     <span>
         Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
     </span>

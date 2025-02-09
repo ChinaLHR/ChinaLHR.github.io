@@ -327,43 +327,43 @@ apps/v1, Kind<span style="color:#f92672">=</span>Deployment
 </blockquote>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: apiextensions.k8s.io/v1
 <span style="color:#66d9ef">kind</span>: CustomResourceDefinition
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#75715e"># 名字必需与下面的 spec 字段匹配，并且格式为 &#39;&lt;名称的复数形式&gt;.&lt;组名&gt;&#39;</span>
+metadata:
+  <span style="color:#75715e"># 名字必需与下面的 spec 字段匹配，并且格式为 &#39;&lt;名称的复数形式&gt;.&lt;组名&gt;&#39;</span>
   <span style="color:#66d9ef">name</span>: crontabs.stable.example.com
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#75715e"># 组名称，用于 REST API: /apis/&lt;组&gt;/&lt;版本&gt;</span>
+spec:
+  <span style="color:#75715e"># 组名称，用于 REST API: /apis/&lt;组&gt;/&lt;版本&gt;</span>
   <span style="color:#66d9ef">group</span>: stable.example.com
-  <span style="color:#75715e"># 列举此 CustomResourceDefinition 所支持的版本</span>
-  <span style="color:#66d9ef">versions</span>:
+  <span style="color:#75715e"># 列举此 CustomResourceDefinition 所支持的版本</span>
+  versions:
     - <span style="color:#66d9ef">name</span>: v1
-      <span style="color:#75715e"># 每个版本都可以通过 served 标志来独立启用或禁止</span>
+      <span style="color:#75715e"># 每个版本都可以通过 served 标志来独立启用或禁止</span>
       <span style="color:#66d9ef">served</span>: <span style="color:#66d9ef">true</span>
-      <span style="color:#75715e"># 其中一个且只有一个版本必需被标记为存储版本</span>
+      <span style="color:#75715e"># 其中一个且只有一个版本必需被标记为存储版本</span>
       <span style="color:#66d9ef">storage</span>: <span style="color:#66d9ef">true</span>
-      <span style="color:#66d9ef">schema</span>:
-        <span style="color:#66d9ef">openAPIV3Schema</span>:
+      schema:
+        openAPIV3Schema:
           <span style="color:#66d9ef">type</span>: object
-          <span style="color:#66d9ef">properties</span>:
-            <span style="color:#66d9ef">spec</span>:
+          properties:
+            spec:
               <span style="color:#66d9ef">type</span>: object
-              <span style="color:#66d9ef">properties</span>:
-                <span style="color:#66d9ef">cronSpec</span>:
+              properties:
+                cronSpec:
                   <span style="color:#66d9ef">type</span>: string
-                <span style="color:#66d9ef">image</span>:
+                image:
                   <span style="color:#66d9ef">type</span>: string
-                <span style="color:#66d9ef">replicas</span>:
+                replicas:
                   <span style="color:#66d9ef">type</span>: integer
-  <span style="color:#75715e"># 可以是 Namespaced 或 Cluster</span>
+  <span style="color:#75715e"># 可以是 Namespaced 或 Cluster</span>
   <span style="color:#66d9ef">scope</span>: Namespaced
-  <span style="color:#66d9ef">names</span>:
-    <span style="color:#75715e"># 名称的复数形式，用于 URL：/apis/&lt;组&gt;/&lt;版本&gt;/&lt;名称的复数形式&gt;</span>
+  names:
+    <span style="color:#75715e"># 名称的复数形式，用于 URL：/apis/&lt;组&gt;/&lt;版本&gt;/&lt;名称的复数形式&gt;</span>
     <span style="color:#66d9ef">plural</span>: crontabs
-    <span style="color:#75715e"># 名称的单数形式，作为命令行使用时和显示时的别名</span>
+    <span style="color:#75715e"># 名称的单数形式，作为命令行使用时和显示时的别名</span>
     <span style="color:#66d9ef">singular</span>: crontab
-    <span style="color:#75715e"># kind 通常是单数形式的帕斯卡编码（PascalCased）形式。你的资源清单会使用这一形式。</span>
+    <span style="color:#75715e"># kind 通常是单数形式的帕斯卡编码（PascalCased）形式。你的资源清单会使用这一形式。</span>
     <span style="color:#66d9ef">kind</span>: CronTab
-    <span style="color:#75715e"># shortNames 允许你在命令行使用较短的字符串来匹配资源</span>
-    <span style="color:#66d9ef">shortNames</span>:
+    <span style="color:#75715e"># shortNames 允许你在命令行使用较短的字符串来匹配资源</span>
+    shortNames:
     - ct
 </code></pre></div><p>如上CRD所示， 指定group为<code>stable.example.com</code>，version为<code>v1</code>，CustomResource为CronTab，scope为Namespaced（CronTab属于Namespace的对象）,然后需要设置CustomResource的对象描述，包括：Spec、Status &hellip;;</p>
 <p>通过以下命令创建CRD后，会创建一个新的 namespace 级别的 RESTful API 就会被创建：<code>/apis/stable.example.com/v1/namespaces/*/crontabs/...</code>，用以创建和管理CustomResource <code>CronTab</code>。在创建CRD时，Kubernetes 会对我们提交的声明文件进行校验（基于 OpenAPI v3 schem 进行规范）。如果想要更加复杂的校验，需要通过 Kubernetes 的 admission webhook 进行实现。</p>
@@ -371,9 +371,9 @@ apps/v1, Kind<span style="color:#f92672">=</span>Deployment
 </code></pre></div><p>创建完CRD后，可以通过如下方式定义一个CronTab资源对象</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: <span style="color:#e6db74">&#34;stable.example.com/v1&#34;</span>
 <span style="color:#66d9ef">kind</span>: CronTab
-<span style="color:#66d9ef">metadata</span>:
+metadata:
   <span style="color:#66d9ef">name</span>: my-cron-object
-<span style="color:#66d9ef">spec</span>:
+spec:
   <span style="color:#66d9ef">cronSpec</span>: <span style="color:#e6db74">&#34;* * * * */5&#34;</span>
   <span style="color:#66d9ef">image</span>: my-image
 </code></pre></div><p>创建完CronTab资源对象后，就可以通过kubectl来管理自定义资源对象</p>
@@ -724,7 +724,7 @@ kubectl get deployments
     
 
         </main><footer class="footer">
-    <span>&copy; 2024 hanrong.li</span>
+    <span>&copy; 2025 hanrong.li</span>
     <span>
         Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
     </span>

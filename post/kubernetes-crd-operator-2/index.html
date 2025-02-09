@@ -316,7 +316,7 @@ mkdir -p sidecar-operator <span style="color:#f92672">&amp;&amp;</span> cd sidec
 operator-sdk init --domain chinalhr.github.io --repo github.com/ChinaLHR/sidecar-operator
  
 <span style="color:#75715e"># 查看项目结构</span>
-tree -L <span style="color:#ae81ff">2</span>
+tree -L 2
 .
 ├── Dockerfile
 ├── LICENSE
@@ -747,16 +747,16 @@ make manifests
 </code></pre></div><p><code>cert-manager</code>的CA injector组件会将 CA 包注入到 Mutating|ValidatingWebhookConfiguration 中，operator-sdk已经为我们生成了对应的kustomize patch文件在<code>config/default/webhookcainjection_patch.yaml</code>。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: admissionregistration.k8s.io/v1
 <span style="color:#66d9ef">kind</span>: MutatingWebhookConfiguration
-<span style="color:#66d9ef">metadata</span>:
+metadata:
   <span style="color:#66d9ef">name</span>: mutating-webhook-configuration
-  <span style="color:#66d9ef">annotations</span>:
+  annotations:
     <span style="color:#66d9ef">cert-manager.io/inject-ca-from</span>: $(CERTIFICATE_NAMESPACE)/$(CERTIFICATE_NAME)
 ---
 <span style="color:#66d9ef">apiVersion</span>: admissionregistration.k8s.io/v1
 <span style="color:#66d9ef">kind</span>: ValidatingWebhookConfiguration
-<span style="color:#66d9ef">metadata</span>:
+metadata:
   <span style="color:#66d9ef">name</span>: validating-webhook-configuration
-  <span style="color:#66d9ef">annotations</span>:
+  annotations:
     <span style="color:#66d9ef">cert-manager.io/inject-ca-from</span>: $(CERTIFICATE_NAMESPACE)/$(CERTIFICATE_NAME)
 </code></pre></div><ul>
 <li>通过 kustomize 启用 webhook 和 cert-manager 配置config/default/kustomization.yaml与config/crd/kustomization.yaml，根据注释进行配置</li>
@@ -822,7 +822,7 @@ make deploy IMG<span style="color:#f92672">=</span>ccr.ccs.tencentyun.com/open-o
     
 
         </main><footer class="footer">
-    <span>&copy; 2024 hanrong.li</span>
+    <span>&copy; 2025 hanrong.li</span>
     <span>
         Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
     </span>

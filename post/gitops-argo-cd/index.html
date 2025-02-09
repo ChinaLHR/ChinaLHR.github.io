@@ -344,11 +344,11 @@ Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、C
 <p>Kustomize提供<code>secretGenerator</code>和<code>configMapGenerator</code>，可以基于文件或字面值来生成Secret和ConfigMap。如下，从.env文件生成ConfigMap。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Kustomization
-<span style="color:#66d9ef">resources</span>:
+resources:
 - deployment.yaml
 - service.yaml
-<span style="color:#66d9ef">configMapGenerator</span>:
-- <span style="color:#66d9ef">envs</span>:
+configMapGenerator:
+- envs:
   - .env
   <span style="color:#66d9ef">name</span>: echo-config
 </code></pre></div><ul>
@@ -357,17 +357,17 @@ Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、C
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Kustomization
-<span style="color:#66d9ef">resources</span>:
+resources:
 - deployment.yaml
 - service.yaml
 <span style="color:#66d9ef">namespace</span>: dev
-<span style="color:#66d9ef">namePrefix</span>: dev-
-<span style="color:#66d9ef">nameSuffix</span>: <span style="color:#e6db74">&#34;-test&#34;</span>
-<span style="color:#66d9ef">commonLabels</span>:
+<span style="color:#66d9ef">namePrefix</span>: dev<span style="color:#e6db74">-
+</span><span style="color:#e6db74">nameSuffix: &#34;-test&#34;</span>
+commonLabels:
   <span style="color:#66d9ef">app</span>: echo
-<span style="color:#66d9ef">commonAnnotations</span>:
+commonAnnotations:
   <span style="color:#66d9ef">sidecar</span>: monitoring
-<span style="color:#66d9ef">resources</span>:
+resources:
 - deployment.yaml
 - service.yaml
 </code></pre></div><ul>
@@ -377,56 +377,56 @@ Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、C
 <p>kustomization.yaml文件的<code>resources</code>字段定义配置中要包含的资源列表，达到资源的组织。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Kustomization
-<span style="color:#66d9ef">resources</span>:
+resources:
 - deployment.yaml
 - service.yaml
 </code></pre></div><p>补丁文件（Patches）可以用来对资源执行不同的定制。Kustomize通过<code>patchesStrategicMerge</code>和<code>patchesJson6902</code>支持不同的打补丁机制。
 <code>patchesStrategicMerge</code>的内容是一个文件路径的列表，其中每个文件都应可解析为策略性合并补丁（Strategic Merge Patch）。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># deployment replace patch file </span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># deployment replace patch file </span>
 <span style="color:#66d9ef">apiVersion</span>: apps/v1
 <span style="color:#66d9ef">kind</span>: Deployment
-<span style="color:#66d9ef">metadata</span>:
+metadata:
   <span style="color:#66d9ef">name</span>: echo
-<span style="color:#66d9ef">spec</span>:
+spec:
   <span style="color:#66d9ef">replicas</span>: <span style="color:#ae81ff">3</span>
 
-<span style="color:#75715e"># deployment memory patch file</span>
+<span style="color:#75715e"># deployment memory patch file</span>
 <span style="color:#66d9ef">apiVersion</span>: apps/v1
 <span style="color:#66d9ef">kind</span>: Deployment
-<span style="color:#66d9ef">metadata</span>:
+metadata:
   <span style="color:#66d9ef">name</span>: echo
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">template</span>:
-    <span style="color:#66d9ef">spec</span>:
-      <span style="color:#66d9ef">containers</span>:
+spec:
+  template:
+    spec:
+      containers:
       - <span style="color:#66d9ef">name</span>: echo
-        <span style="color:#66d9ef">resources</span>:
-          <span style="color:#66d9ef">limits</span>:
+        resources:
+          limits:
             <span style="color:#66d9ef">memory</span>: 512Mi
 
-<span style="color:#75715e"># kustomization file</span>
+<span style="color:#75715e"># kustomization file</span>
 <span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Kustomization
-<span style="color:#66d9ef">resources</span>:
+resources:
 - deployment.yaml
 - service.yaml
-<span style="color:#66d9ef">patchesStrategicMerge</span>:
+patchesStrategicMerge:
 - deployment_replicas_patch.yaml
 - deployment_memory_patch.yaml
 </code></pre></div><p>也可以通过<code>patchesJson6902</code>来使用JSON补丁的能力，对比<code>patchesStrategicMerge</code>的合并机制，<code>patchesJson6902</code>支持对任何资源的任何字段进行修改。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># deployment replace patch file </span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># deployment replace patch file </span>
 - <span style="color:#66d9ef">op</span>: replace
   <span style="color:#66d9ef">path</span>: /spec/replicas
   <span style="color:#66d9ef">value</span>: <span style="color:#ae81ff">3</span>
 
-<span style="color:#75715e"># kustomization file</span>
+<span style="color:#75715e"># kustomization file</span>
 <span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Kustomization
-<span style="color:#66d9ef">resources</span>:
+resources:
 - deployment.yaml
 - service.yaml
-<span style="color:#66d9ef">patchesJson6902</span>:
-- <span style="color:#66d9ef">target</span>:
+patchesJson6902:
+- target:
     <span style="color:#66d9ef">group</span>: apps
     <span style="color:#66d9ef">version</span>: v1
     <span style="color:#66d9ef">kind</span>: Deployment
@@ -435,10 +435,10 @@ Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、C
 </code></pre></div><p>kustomize也提供了对象字段值注入的功能，例如通过images字段设置新的镜像。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Kustomization
-<span style="color:#66d9ef">resources</span>:
+resources:
 - deployment.yaml
 - service.yaml
-<span style="color:#66d9ef">images</span>:
+images:
 - <span style="color:#66d9ef">name</span>: echo
   <span style="color:#66d9ef">newName</span>: my.image.registry/echo
   <span style="color:#66d9ef">newTag</span>: <span style="color:#ae81ff">1.1.0</span>
@@ -575,11 +575,11 @@ Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、C
 <p>使用makefile定义了三个phony target ，配合Dockerfile实现Docker镜像构建、镜像远程仓库登录与上传镜像</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile"><span style="color:#a6e22e">.PHONY</span><span style="color:#f92672">:</span> build-release-image
 <span style="color:#a6e22e">build-release-image</span><span style="color:#f92672">:</span>
-	docker build . <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>		--no-cache <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>		--force-rm <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>		-t <span style="color:#66d9ef">$(</span>release-image<span style="color:#66d9ef">)</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>		-f Dockerfile
+	docker build . <span style="color:#ae81ff">\</span>
+		--no-cache <span style="color:#ae81ff">\</span>
+		--force-rm <span style="color:#ae81ff">\</span>
+		-t <span style="color:#66d9ef">$(</span>release-image<span style="color:#66d9ef">)</span> <span style="color:#ae81ff">\</span>
+		-f Dockerfile
 
 <span style="color:#a6e22e">.PHONY</span><span style="color:#f92672">:</span> login-docker-registry
 <span style="color:#a6e22e">login-docker-registry</span><span style="color:#f92672">:</span>
@@ -588,23 +588,23 @@ Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、C
 <span style="color:#a6e22e">.PHONY</span><span style="color:#f92672">:</span> push-release-image
 <span style="color:#a6e22e">push-release-image</span><span style="color:#f92672">:</span>
 	docker push <span style="color:#66d9ef">$(</span>release-image<span style="color:#66d9ef">)</span>
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> golang:1.18 as build</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> golang:1.18 as build</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> GO111MODULE<span style="color:#f92672">=</span>on
-<span style="color:#66d9ef">ENV</span> GOPROXY<span style="color:#f92672">=</span>https://goproxy.cn,direct<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /go/release</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ADD</span> . .<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> GOOS<span style="color:#f92672">=</span>linux CGO_ENABLED<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> GOARCH<span style="color:#f92672">=</span>amd64 go build -ldflags<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-s -w&#34;</span> -installsuffix cgo -o app main.go<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> scratch as prod</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>build /usr/share/zoneinfo/Asia/Shanghai /etc/localtime<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>build /go/release/app /<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;/app&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+<span style="color:#66d9ef">ENV</span> GOPROXY<span style="color:#f92672">=</span>https://goproxy.cn,direct<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /go/release</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ADD</span> . .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> GOOS<span style="color:#f92672">=</span>linux CGO_ENABLED<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> GOARCH<span style="color:#f92672">=</span>amd64 go build -ldflags<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-s -w&#34;</span> -installsuffix cgo -o app main.go<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> scratch as prod</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>build /usr/share/zoneinfo/Asia/Shanghai /etc/localtime<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>build /go/release/app /<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;/app&#34;</span>]<span style="color:#960050;background-color:#1e0010">
 </span></code></pre></div><h4 id="kustomize定制声明式kubernetes资源对象">Kustomize定制声明式Kubernetes资源对象</h4>
 <p>这里使用Kustomize Base/Overlay来管理Kubernetes多环境资源配置与使用Patches特性来进行迭代更新;</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">│   ├── base
@@ -620,32 +620,32 @@ Argo CD的 API Server是一个gRPC/REST服务，它公开了Argo CD的Web UI、C
 │           ├── deployment_patch.yaml
 │           ├── .env
 │           └── kustomization.yaml
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># base kustomization.yaml 定制应用的基础kubernetes资源</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># base kustomization.yaml 定制应用的基础kubernetes资源</span>
 <span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Kustomization
-<span style="color:#66d9ef">commonLabels</span>:
+commonLabels:
   <span style="color:#66d9ef">app</span>: saken
 <span style="color:#66d9ef">namespace</span>: default
-<span style="color:#66d9ef">resources</span>:
+resources:
 - deployment.yaml
 - service.yaml
-<span style="color:#75715e"># overlay kustomization.yaml 定制应用不同环境（staging/production/...）特定kubernetes资源属性，</span>
-<span style="color:#75715e"># 基于configMapGenerator从不同环境的env文件生成不同资源的configMap</span>
-<span style="color:#75715e"># 基于patchesStrategicMerge对不同环境的deployment-pod资源进行控制</span>
-<span style="color:#75715e"># 基于Cross-Cutting对不同环境的namespace、name-prefix进行定制</span>
+<span style="color:#75715e"># overlay kustomization.yaml 定制应用不同环境（staging/production/...）特定kubernetes资源属性，</span>
+<span style="color:#75715e"># 基于configMapGenerator从不同环境的env文件生成不同资源的configMap</span>
+<span style="color:#75715e"># 基于patchesStrategicMerge对不同环境的deployment-pod资源进行控制</span>
+<span style="color:#75715e"># 基于Cross-Cutting对不同环境的namespace、name-prefix进行定制</span>
 <span style="color:#66d9ef">apiVersion</span>: kustomize.config.k8s.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Kustomization
-<span style="color:#66d9ef">resources</span>:
+resources:
 - ../../base
-<span style="color:#66d9ef">namePrefix</span>: production-
-<span style="color:#66d9ef">namespace</span>: production
-<span style="color:#66d9ef">configMapGenerator</span>:
-- <span style="color:#66d9ef">envs</span>:
+<span style="color:#66d9ef">namePrefix</span>: production<span style="color:#e6db74">-
+</span><span style="color:#e6db74">namespace: production</span>
+configMapGenerator:
+- envs:
   - .env
   <span style="color:#66d9ef">name</span>: saken-config
-<span style="color:#66d9ef">patchesStrategicMerge</span>:
+patchesStrategicMerge:
 - deployment_patch.yaml
-<span style="color:#66d9ef">images</span>:
+images:
 - <span style="color:#66d9ef">name</span>: my-registry.com/shovel/shovel-gitops
   <span style="color:#66d9ef">newTag</span>: 940638fd88cf1c030e3c02b21f2df738db8544f3
 </code></pre></div><p>通过kustomize edit 命令，支持我们在CI阶段对基础配置仓库的kustomization文件进行命令式的编辑。</p>
@@ -664,37 +664,37 @@ GITLAB_USERNAME
 <li>build-publish-image：Docker镜像构建并推送到远程仓库</li>
 <li>update-kustomize：更新对应分支的kustomize overlay下kustomization文件，并推送到环境配置仓库</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#66d9ef">stages</span>:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml">stages:
   - build-publish-image
   - update-kustomize
 
-<span style="color:#66d9ef">build-publish-image</span>:
+build-publish-image:
   <span style="color:#66d9ef">image</span>: ccr.ccs.tencentyun.com/shovel/ci-base:<span style="color:#ae81ff">0.0.7</span>
   <span style="color:#66d9ef">stage</span>: build-publish-image
-  <span style="color:#66d9ef">tags</span>:
+  tags:
     - docker-runner
-  <span style="color:#66d9ef">only</span>:
+  only:
     - staging
     - main
-  <span style="color:#66d9ef">services</span>:
+  services:
     - <span style="color:#66d9ef">name</span>: docker:<span style="color:#ae81ff">20</span>-dind
-  <span style="color:#66d9ef">before_script</span>:
+  before_script:
     - make login-docker-registry registry-user=$DOCKER_REGISTRY_USER registry-password=$DOCKER_REGISTRY_PWD registry-host=$DOCKER_REGISTRY_HOST
-  <span style="color:#66d9ef">script</span>:
+  script:
     - make build-release-image release-image=$DOCKER_REGISTRY_HOST/$DOCKER_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - make push-release-image release-image=$DOCKER_REGISTRY_HOST/$DOCKER_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
-<span style="color:#66d9ef">update-kustomize</span>:
+update-kustomize:
   <span style="color:#66d9ef">image</span>: ccr.ccs.tencentyun.com/shovel/ci-base:<span style="color:#ae81ff">0.0.7</span>
   <span style="color:#66d9ef">stage</span>: update-kustomize
-  <span style="color:#66d9ef">tags</span>:
+  tags:
     - docker-runner
-  <span style="color:#66d9ef">only</span>:
+  only:
     - staging
     - main
-  <span style="color:#66d9ef">services</span>:
+  services:
     - <span style="color:#66d9ef">name</span>: docker:<span style="color:#ae81ff">20</span>-dind
-  <span style="color:#66d9ef">before_script</span>:
+  before_script:
     - eval $(ssh-agent -s)
     - echo <span style="color:#e6db74">&#34;${GITLAB_ID_RSA}&#34;</span> | tr -d <span style="color:#e6db74">&#39;\r&#39;</span> | ssh-add - &gt; /dev/<span style="color:#66d9ef">null</span>
     - mkdir -p ~/.ssh
@@ -704,7 +704,7 @@ GITLAB_USERNAME
     - git config --global user.name $GITLAB_USERNAME
     - if [ <span style="color:#e6db74">&#34;$CI_COMMIT_BRANCH&#34;</span> == <span style="color:#e6db74">&#34;main&#34;</span> ]; then KUSTOMIZE_OVERLAY=<span style="color:#e6db74">&#34;production&#34;</span>; fi
     - if [ <span style="color:#e6db74">&#34;$CI_COMMIT_BRANCH&#34;</span> == <span style="color:#e6db74">&#34;staging&#34;</span> ]; then KUSTOMIZE_OVERLAY=<span style="color:#e6db74">&#34;staging&#34;</span>; fi
-  <span style="color:#66d9ef">script</span>:
+  script:
     - git checkout -B ${CI_COMMIT_BRANCH}
     - cd .kubernetes/overlays/${KUSTOMIZE_OVERLAY}
     - kustomize edit set image $DOCKER_REGISTRY_HOST/$DOCKER_REGISTRY_IMAGE:$CI_COMMIT_SHA
@@ -749,17 +749,17 @@ argocd login my.argocd.k8s.com
 <li>创建Projects</li>
 </ul>
 <p>Projects提供了应用程序的逻辑分组，一般为公司内部的多个团队、多个项目组做区分与提供资源限制。Projects对应的CRD是<code>appprojects.argoproj.io </code>,对应的spec规范了资源限制条件，定义项目角色以提供应用程序RBAC，如下是默认default projects；</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#66d9ef">spec</span>:
-<span style="color:#75715e"># 限制可以部署的Git源存储库</span>
-  <span style="color:#66d9ef">sourceRepos</span>:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml">spec:
+<span style="color:#75715e"># 限制可以部署的Git源存储库</span>
+  sourceRepos:
   - <span style="color:#e6db74">&#39;*&#39;</span>
-  <span style="color:#66d9ef">destinations</span>:
-  <span style="color:#75715e"># 制应用程序可以部署的目标集群和命名空间</span>
+  destinations:
+  <span style="color:#75715e"># 制应用程序可以部署的目标集群和命名空间</span>
   - <span style="color:#66d9ef">namespce</span>: <span style="color:#e6db74">&#39;*&#39;</span>
-    <span style="color:#75715e"># 如果应用程序清单于私有存储库中，则必须配置存储库凭据。Argo CD 支持 HTTPS 和 SSH Git 凭证。</span>
+    <span style="color:#75715e"># 如果应用程序清单于私有存储库中，则必须配置存储库凭据。Argo CD 支持 HTTPS 和 SSH Git 凭证。</span>
     <span style="color:#66d9ef">server</span>: <span style="color:#e6db74">&#39;*&#39;</span>
-  <span style="color:#75715e"># 限制可以部署或不可以部署的Kubernetes资源类型(Deployment,DaemonSets...)</span>
-  <span style="color:#66d9ef">clusterResourceWhitelist</span>:
+  <span style="color:#75715e"># 限制可以部署或不可以部署的Kubernetes资源类型(Deployment,DaemonSets...)</span>
+  clusterResourceWhitelist:
   - <span style="color:#66d9ef">group</span>: <span style="color:#e6db74">&#39;*&#39;</span>
     <span style="color:#66d9ef">kind</span>: <span style="color:#e6db74">&#39;*&#39;</span>
 </code></pre></div><p>通过CLI配置Projects可以使用如下命令</p>
@@ -915,7 +915,7 @@ Examples:
     
 
         </main><footer class="footer">
-    <span>&copy; 2024 hanrong.li</span>
+    <span>&copy; 2025 hanrong.li</span>
     <span>
         Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
     </span>

@@ -6,10 +6,21 @@
     <description>Recent content in software development on LHR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 29 Sep 2022 22:39:09 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 18 Nov 2023 22:32:47 +0800</lastBuildDate>
     
 	<atom:link href="https://chinalhr.github.io/categories/software-development/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>使用DAD(Dagster、Airbyte、dbt) 构建现代数据栈</title>
+      <link>https://chinalhr.github.io/post/modern-data-stack/</link>
+      <pubDate>Sat, 18 Nov 2023 22:32:47 +0800</pubDate>
+      
+      <guid>https://chinalhr.github.io/post/modern-data-stack/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;现代数据栈介绍以及使用DAD(dbt-Airbyte-Dagster)构建现代数据栈实践。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Kubernetes渐进式交付实践，基于Argo Rollouts</title>
@@ -206,17 +217,6 @@
       <guid>https://chinalhr.github.io/post/api-auth-program/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Api认证授权方案总结：HTTP Basic Authentication、HMAC、OAuth2、JWT。&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>MongoDB备份与还原</title>
-      <link>https://chinalhr.github.io/post/mongo-back/</link>
-      <pubDate>Sat, 08 Feb 2020 23:33:14 +0800</pubDate>
-      
-      <guid>https://chinalhr.github.io/post/mongo-back/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;记录MongoDB备份与还原知识点与个人站点的MongoDB备份脚本&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

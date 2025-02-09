@@ -241,31 +241,31 @@ PARTITION BY RANGE(YEAR(separated))(
     PARTITION p2 VALUES LESS THAN(2005)
 );
 </code></pre><pre><code>
- - 列表分区（LIST）  
+  - 列表分区（LIST）  
 
-</code></pre><pre><code> 允许将数据划分不同范围(从属于一个枚举列表值的集合)[非null列]
- LIST分区只支持整形，非整形字段需要通过函数转换成整形.
- PARTITION BY LIST(category)(
-     PARTITION P0 VALUES IN (3,5),
-     PARTITION P1 VALUES IN (1,10),
-     PARTITION P2 VALUES IN (4,9),
-     PARTITION P3 VALUES IN (2),
-     PARTITION P4 VALUES IN (6)
- );
+</code></pre><pre><code>  允许将数据划分不同范围(从属于一个枚举列表值的集合)[非null列]
+  LIST分区只支持整形，非整形字段需要通过函数转换成整形.
+  PARTITION BY LIST(category)(
+      PARTITION P0 VALUES IN (3,5),
+      PARTITION P1 VALUES IN (1,10),
+      PARTITION P2 VALUES IN (4,9),
+      PARTITION P3 VALUES IN (2),
+      PARTITION P4 VALUES IN (6)
+  );
 </code></pre><pre><code>
- - 哈希分区（HASH）
+  - 哈希分区（HASH）
 
-</code></pre><pre><code>     基于给定的分区个数，将数据散列到不同的分区(HASH分区的底层实现基于MOD取余函数)
-     只能针对整数进行HASH，对于非整形的字段只能通过表达式将其转换成整数
-       
-     PARTITION BY HASH(id)
-     PARTITIONS 4; -- 分区数
+</code></pre><pre><code>      基于给定的分区个数，将数据散列到不同的分区(HASH分区的底层实现基于MOD取余函数)
+      只能针对整数进行HASH，对于非整形的字段只能通过表达式将其转换成整数
+		
+      PARTITION BY HASH(id)
+      PARTITIONS 4; -- 分区数
 </code></pre><pre><code>
- - 哈希分区（LINEAR HASH）
+  - 哈希分区（LINEAR HASH）
 
-</code></pre><pre><code> HASH分区的特殊类型，基于Power-of-Two算法...
+</code></pre><pre><code>  HASH分区的特殊类型，基于Power-of-Two算法...
 </code></pre><pre><code>
- - KEY分区
+  - KEY分区
 
 </code></pre></li>
 </ul>
@@ -391,7 +391,7 @@ PARTITION BY RANGE(YEAR(separated))(
     
 
         </main><footer class="footer">
-    <span>&copy; 2024 hanrong.li</span>
+    <span>&copy; 2025 hanrong.li</span>
     <span>
         Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
     </span>

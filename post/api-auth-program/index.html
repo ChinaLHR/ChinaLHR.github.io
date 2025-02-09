@@ -249,8 +249,8 @@
 <li>是根据AK在服务端（如数据库）获取到用户的SK，对参数timestamp,AK,请求PATH,请求参数进行key自然排序，然后进行字段与字段值拼接最后再拼接上SK，MD5加密生成Sign与传递过来的Sign进行对比鉴权。</li>
 </ol>
 <h3 id="质疑应答算法">质疑/应答算法</h3>
-<p>基于时间的一次性密码认证并不能严格避免重放攻击，质疑/应答算法需要客户端先请求一次服务器，获得一个 401 未认证的返回，并得到一个随机字符串（nonce）。将 nonce
-附加到按照上面说到的方法进行 HMAC 签名，服务器使用预先分配的 nonce 同样进行签名校验，这个 nonce
+<p>基于时间的一次性密码认证并不能严格避免重放攻击，质疑/应答算法需要客户端先请求一次服务器，获得一个 401 未认证的返回，并得到一个随机字符串（nonce）。将 nonce 
+附加到按照上面说到的方法进行 HMAC 签名，服务器使用预先分配的 nonce 同样进行签名校验，这个 nonce 
 在服务器只会被使用一次，因此可以提供唯一的摘要。</p>
 <p>
 <div class="post-img-view">
@@ -658,7 +658,7 @@ access_token=2YotnFZFEjr1zCsicMWpAA
     
 
         </main><footer class="footer">
-    <span>&copy; 2024 hanrong.li</span>
+    <span>&copy; 2025 hanrong.li</span>
     <span>
         Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
     </span>

@@ -222,12 +222,12 @@
 docker pull jenkins/jenkins
 
 <span style="color:#75715e"># 启动Jenkins</span>
-docker run -u root -itd --name jenkins <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>-p 10080:8080 <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>-v <span style="color:#66d9ef">$(</span>which docker<span style="color:#66d9ef">)</span>:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>-e TZ<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Asia/Shanghai&#34;</span> -v /etc/localtime:/etc/localtime <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>-e JAVA_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;-Xms1024m -Xmx1024m -XX:NewSize=512m&#39;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>-v /volume1/docker/jenkins:/var/jenkins_home jenkins/jenkins
+docker run -u root -itd --name jenkins <span style="color:#ae81ff">\</span>
+-p 10080:8080 <span style="color:#ae81ff">\</span>
+-v <span style="color:#66d9ef">$(</span>which docker<span style="color:#66d9ef">)</span>:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock <span style="color:#ae81ff">\</span>
+-e TZ<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Asia/Shanghai&#34;</span> -v /etc/localtime:/etc/localtime <span style="color:#ae81ff">\</span>
+-e JAVA_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;-Xms1024m -Xmx1024m -XX:NewSize=512m&#39;</span> <span style="color:#ae81ff">\</span>
+-v /volume1/docker/jenkins:/var/jenkins_home jenkins/jenkins
 
 <span style="color:#75715e"># -p 10080:8080 映射容器的8080端口到外部主机的10080端口</span>
 <span style="color:#75715e"># -v $(which docker):/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock 使jenkins内部可以使用docker命令</span>
@@ -438,11 +438,11 @@ docker run -u root -itd --name jenkins <span style="color:#ae81ff">\
 <ul>
 <li>编写Dockerfile</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> openjdk:8u212-jdk</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /dev/* /build/conf/dev/<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /production/* /build/conf/production/<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> api-1.0.0-fat.jar /build/api.jar<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;java&#34;</span>, <span style="color:#e6db74">&#34;-jar&#34;</span>,<span style="color:#e6db74">&#34;/build/api.jar&#34;</span>,<span style="color:#e6db74">&#34;--vertx-id=&#39;bfreeman-api&#39;&#34;</span>,<span style="color:#e6db74">&#34;--java-opts=&#39;-Xms512m -Xmx512m -XX:NewSize=256m&#39;&#34;</span>,<span style="color:#e6db74">&#34;-conf /build/conf/production/conf.json&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> openjdk:8u212-jdk</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /dev/* /build/conf/dev/<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /production/* /build/conf/production/<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> api-1.0.0-fat.jar /build/api.jar<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;java&#34;</span>, <span style="color:#e6db74">&#34;-jar&#34;</span>,<span style="color:#e6db74">&#34;/build/api.jar&#34;</span>,<span style="color:#e6db74">&#34;--vertx-id=&#39;bfreeman-api&#39;&#34;</span>,<span style="color:#e6db74">&#34;--java-opts=&#39;-Xms512m -Xmx512m -XX:NewSize=256m&#39;&#34;</span>,<span style="color:#e6db74">&#34;-conf /build/conf/production/conf.json&#34;</span>]<span style="color:#960050;background-color:#1e0010">
 </span></code></pre></div><p>大致为COPY jar和配置文件到指定目录，ENTRYPOINT指定JVM参数和vertx参数</p>
 <ul>
 <li>执行docker build相关Shell脚本</li>
@@ -501,10 +501,10 @@ TAG<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1.0.0&#3
 
 docker stop bfreeman-api
 docker container rm bfreeman-api
-docker run -u root -d --name bfreeman-api <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>-p 10010:10010  <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>-p 10030:10030  <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>-v /volume1/docker/java:/data registry.cn-hangzhou.aliyuncs.com/<span style="color:#e6db74">${</span>REPOSITORY<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>TAG<span style="color:#e6db74">}</span>
+docker run -u root -d --name bfreeman-api <span style="color:#ae81ff">\</span>
+-p 10010:10010  <span style="color:#ae81ff">\</span>
+-p 10030:10030  <span style="color:#ae81ff">\</span>
+-v /volume1/docker/java:/data registry.cn-hangzhou.aliyuncs.com/<span style="color:#e6db74">${</span>REPOSITORY<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>TAG<span style="color:#e6db74">}</span>
 
 </code></pre></div><p>此处可以基于k8s进行改造，实现jenkins部署到k8s集群。</p>
 <h4 id="相关pipeline">相关pipeline</h4>
@@ -676,7 +676,7 @@ docker run -u root -d --name bfreeman-api <span style="color:#ae81ff">\
     
 
         </main><footer class="footer">
-    <span>&copy; 2024 hanrong.li</span>
+    <span>&copy; 2025 hanrong.li</span>
     <span>
         Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
     </span>
